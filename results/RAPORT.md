@@ -427,6 +427,23 @@ Karty miast DG REGIO (przypis 15 pracy) nie zostały sprawdzone; mogą podawać 
 
 ## 12. Decyzje dla Bartora
 
+### 12.0 Decyzje podjęte 2026-11-23
+
+| Nr | Sprawa | Decyzja |
+|---|---|---|
+| 1 | Granica GZM | wariant (a): suma czterech FUA (PL010F, PL055F, PL061F, PL070F) |
+| 2 | Centra i węzły | sześć punktów przesuniętych na pozycję z OSM (węzeł Kraków Główny, Gdynia Główna, Bytom Rynek, Zabrze, Dąbrowa Górnicza, Kielce Rynek); Tychy i Ruda Śląska bez zmian; węzeł Warszawy to Metro Centrum |
+| 3 | Dzień referencyjny | środa 2026-11-25 i sobota 2026-11-28, na feedach pobranych 2026-11-23; duplikaty kursów GZM usuwane regułą |
+| 4 | Próg zabudowy | bez decyzji: faza 1 liczy indeks Bertauda dla progów 10, 20, 30 i 50 % i pokazuje wrażliwość; wybór po obejrzeniu wyników |
+| 7 | Warstwa 6b (GTFS-RT) | odłożona: rozkłady przyjęte jako wystarczające przybliżenie; kolektor nie działa |
+| 10 | Trójmiasto | suma dwóch FUA (PL006F + PL053F), rdzeń Gdańsk + Gdynia + Sopot |
+| 12 | Feedy podmiejskie | przed fazą 2 poszukać i dodać GTFS największych brakujących przewoźników (sekcja 6.4), każdy po walidacji i teście dublowania, potem powtórzyć kontrolę pokrycia |
+| – | Brief w repo | opublikowany (`zwartosc-miast-brief.md`) |
+
+Otwarte pozostają: 5 (integracja taryfowa), 6 (linkowanie mapy), 8, 9 (podkład i domena), 11 (odświeżenie GZM: przy wybranym dniu referencyjnym niepotrzebne), 13 (reguła deduplikacji kolei) i 14 (okno ITDP). Dla 13 i 14 fazy 2–3 przyjmą rekomendacje z listy poniżej jako założenie robocze, opisane przy wynikach, do czasu potwierdzenia.
+
+### 12.1 Lista pytań z fazy 0 (stan sprzed decyzji)
+
 Numeracja zgodna z briefem §12; punkty 10–14 to nowe pytania z fazy 0. Rekomendacje są oznaczone wyraźnie i są propozycjami agenta, nie ustaleniami.
 
 1. **Granica GZM.** Warianty (a) suma czterech FUA (2 592 km², 39 gmin, NSP 2 057 054), (a′) z Rybnikiem (nie rekomendowany: ślad 0,1 km² to artefakt), (b) 41 gmin (2 551 km², NSP 2 129 249). Kompromisy w sekcji 3.1. Rekomendacja: brak jednoznacznej; (a) wybrać, jeśli priorytetem jest porównywalność z pozostałymi aglomeracjami, (b), jeśli odbiorcą ma być region i dane gminne. Do czasu decyzji wyniki tymczasowe używają (a) i są tak oznaczone.

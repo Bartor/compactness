@@ -4,7 +4,7 @@ Compactness and public-transport potential of Polish agglomerations: population-
 density, density profiles, people near frequent transport, *transport performance*
 (DG REGIO method) and scheduled tram speeds, per functional urban area (FUA) and core.
 
-Method, scope and rules follow the project brief (Polish); the report cites its sections as "brief §N".
+The method, scope and rules are in [zwartosc-miast-brief.md](zwartosc-miast-brief.md) (Polish).
 What has been computed, with which data and what was rejected: [results/RAPORT.md](results/RAPORT.md) (Polish).
 
 ## How it is built

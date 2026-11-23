@@ -45,7 +45,7 @@
    ],
    "id": "gzm",
    "name": "GZM",
-   "note": "Konurbacja policentryczna (Eurostat: kilka FUA), więc miary względem jednego centrum wymagają zastrzeżenia. Granica jest tymczasowa: pokazano sumę FUA przecinających Metropolię GZM; wariant docelowy (suma FUA czy 41 gmin Metropolii) czeka na decyzję.",
+   "note": "Konurbacja policentryczna (Eurostat: kilka FUA), więc miary względem jednego centrum wymagają zastrzeżenia. Granica to suma czterech FUA przecinających Metropolię GZM (Katowice, Gliwice/Zabrze, Tychy, Dąbrowa Górnicza), nie 41 gmin Metropolii.",
    "phase": 1
   },
   {
@@ -56,8 +56,8 @@
     51.06664
    ],
    "centre": [
-    20.6335,
-    50.8703
+    20.6321,
+    50.8716
    ],
    "id": "kielce",
    "name": "Kielce",
@@ -215,7 +215,7 @@
    "attribution": "© EuroGeographics / Eurostat GISCO, Urban Audit 2021",
    "id": "fua",
    "kind": "boundary",
-   "note": "Granice uproszczone (tolerancja ok. 100 m). GZM: wariant tymczasowy (suma FUA).",
+   "note": "Granice uproszczone (tolerancja ok. 100 m). GZM: suma czterech FUA; Trójmiasto: suma dwóch FUA.",
    "population_date": null,
    "status": "ready",
    "timetable_date": null,

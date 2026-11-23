@@ -1,7 +1,7 @@
 {
- "duration_s": 15.6,
- "git_sha": "",
- "gzm_variant_used": "fua_union (provisional)",
+ "duration_s": 9.4,
+ "git_sha": "8eae6cddd0f13da186f81410595c41cb66368c0c",
+ "gzm_variant_used": "fua_union",
  "inputs": {
   "lau_2021_01m": {
    "data_date": "2021",
@@ -21,6 +21,6 @@
  },
  "min_fua_share_gzm": 0.05,
  "missing_inputs": [],
- "run_at": "2026-11-23T18:25:08+01:00",
+ "run_at": "2026-11-23T19:22:12+01:00",
  "step": "phase0_boundaries"
 }

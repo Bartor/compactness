@@ -164,8 +164,8 @@ def write_table_md(df: pd.DataFrame) -> None:
     txt = f"""# Faza 0: aglomeracje, granice i ludność (tabela wstępna)
 
 Wygenerowano: {dt.date.today().isoformat()} (`python -m pipeline.phase0_boundaries`). Granice: Eurostat GISCO Urban Audit 2021
-(skala 100K) i LAU 2021; GZM w **wariancie tymczasowym (a)**: suma FUA przecinających się z Metropolią GZM
-(decyzja właściciela w toku, patrz `gzm_variants.md`).
+(skala 100K) i LAU 2021; GZM w **wariancie (a)**: suma FUA przecinających się z Metropolią GZM
+(decyzja właściciela z 2026-11-23, patrz `gzm_variants.md`).
 
 ## Granice
 
@@ -288,8 +288,8 @@ def write_gzm_md(r: dict) -> None:
 
     txt = f"""# GZM: dwa warianty granicy (decyzja właściciela, brief §2 i §12.1)
 
-Stan na {dt.date.today().isoformat()}. **Nie wybrano wariantu.** Do wyników tymczasowych użyto wariantu (a) i oznaczono je jako tymczasowe
-(`config.yaml`: `gzm.boundary_variant: null`, w kodzie traktowane jak `fua_union`).
+Stan na {dt.date.today().isoformat()}. **Decyzja właściciela z 2026-11-23: wariant (a), suma czterech FUA**
+(`config.yaml`: `gzm.boundary_variant: fua_union`). Wariant (b) zostaje poniżej jako punkt odniesienia.
 
 ## Jak Eurostat dzieli konurbację (URAU 2021)
 
@@ -358,7 +358,7 @@ NOTES = {
     "trojmiasto": ("Miasto liniowe i nadmorskie (Gdańsk, Sopot, Gdynia): miary względem jednego centrum wymagają zastrzeżenia. "
                    "Eurostat wydziela dwie FUA (Gdańsk z Sopotem oraz Gdynia); granica to ich suma, rdzeń to trzy miasta."),
     "gzm": ("Konurbacja policentryczna (Eurostat: kilka FUA), więc miary względem jednego centrum wymagają zastrzeżenia. "
-            "Granica jest tymczasowa: pokazano sumę FUA przecinających Metropolię GZM; wariant docelowy (suma FUA czy 41 gmin Metropolii) czeka na decyzję."),
+            "Granica to suma czterech FUA przecinających Metropolię GZM (Katowice, Gliwice/Zabrze, Tychy, Dąbrowa Górnicza), nie 41 gmin Metropolii."),
     "bydgoszcz_torun": "Dwa ośrodki: granica to suma FUA Bydgoszczy i Torunia.",
 }
 
@@ -401,7 +401,7 @@ def write_web() -> None:
     layers = [{"id": "fua", "title": "Granice FUA i rdzeni", "type": "geojson", "url": "data/fua.geojson", "kind": "boundary",
                "status": "ready", "attribution": "© EuroGeographics / Eurostat GISCO, Urban Audit 2021",
                "population_date": None, "timetable_date": None,
-               "note": "Granice uproszczone (tolerancja ok. 100 m). GZM: wariant tymczasowy (suma FUA)."}]
+               "note": "Granice uproszczone (tolerancja ok. 100 m). GZM: suma czterech FUA; Trójmiasto: suma dwóch FUA."}]
     for lid, title, kind in planned:
         layers.append({"id": lid, "title": title, "type": "pmtiles", "url": None, "kind": kind, "status": "planned",
                        "attribution": "", "population_date": None, "timetable_date": None, "note": ""})
@@ -420,7 +420,7 @@ def main() -> None:
     gzm_map(A, G, fuas)
     write_gzm_md(res)
     write_web()
-    extra = {"gzm_variant_used": "fua_union (provisional)", "min_fua_share_gzm": GZM_MIN_FUA_SHARE}
+    extra = {"gzm_variant_used": "fua_union", "min_fua_share_gzm": GZM_MIN_FUA_SHARE}
     write_meta(QA, "phase0_boundaries", inputs=INPUT_IDS, started=t0, extra=extra)
     write_meta(WEB, "phase0_boundaries_web", inputs=INPUT_IDS[:2], started=t0, extra=extra)
     print(df.drop(columns=["fua_names", "core_names"]).to_string())

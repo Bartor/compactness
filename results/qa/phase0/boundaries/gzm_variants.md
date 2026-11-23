@@ -1,7 +1,7 @@
 # GZM: dwa warianty granicy (decyzja właściciela, brief §2 i §12,1)
 
-Stan na 2026-11-23. **Nie wybrano wariantu.** Do wyników tymczasowych użyto wariantu (a) i oznaczono je jako tymczasowe
-(`config.yaml`: `gzm.boundary_variant: null`, w kodzie traktowane jak `fua_union`).
+Stan na 2026-11-23. **Decyzja właściciela z 2026-11-23: wariant (a), suma czterech FUA**
+(`config.yaml`: `gzm.boundary_variant: fua_union`). Wariant (b) zostaje poniżej jako punkt odniesienia.
 
 ## Jak Eurostat dzieli konurbację (URAU 2021)
 

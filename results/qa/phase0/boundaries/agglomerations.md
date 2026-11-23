@@ -1,8 +1,8 @@
 # Faza 0: aglomeracje, granice i ludność (tabela wstępna)
 
 Wygenerowano: 2026-11-23 (`python -m pipeline.phase0_boundaries`). Granice: Eurostat GISCO Urban Audit 2021
-(skala 100K) i LAU 2021; GZM w **wariancie tymczasowym (a)**: suma FUA przecinających się z Metropolią GZM
-(decyzja właściciela w toku, patrz `gzm_variants.md`).
+(skala 100K) i LAU 2021; GZM w **wariancie (a)**: suma FUA przecinających się z Metropolią GZM
+(decyzja właściciela z 2026-11-23, patrz `gzm_variants.md`).
 
 ## Granice
 
