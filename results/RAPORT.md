@@ -1,4 +1,4 @@
-# Zwartość i potencjał transportowy polskich aglomeracji: raport (fazy 0–1)
+# Zwartość i potencjał transportowy polskich aglomeracji: raport (fazy 0–2)
 
 Stan na 2026-11-23. Raport zbiera wyniki fazy 0 i wskazuje decyzje, które muszą zapaść przed fazą 1. Nie zawiera żadnego wyniku gęstościowego ani transportowego: takie wyniki jeszcze nie istnieją. Wszystkie liczby poniżej są liczbami inwentaryzacyjnymi, przepisanymi z plików w `results/qa/phase0/`, `data/manifest.csv` i `config.yaml`; przy każdej podano plik źródłowy. Gdzie czegoś nie sprawdzono, stoi „nie zweryfikowano”; gdzie danych nie ma, „brak danych”.
 
@@ -12,7 +12,7 @@ Faza 0 jest zakończona. Zgodnie z briefem (§9) potok zatrzymuje się tutaj i c
 |---|---|---|
 | 0. Inwentaryzacja | pobranie źródeł, tabele feedów, warianty GZM, dzień referencyjny, zasięg miejsc pracy, integracja taryfowa | wykonana; STOP, czeka na decyzje (sekcja 12); pokrycie GTFS: sekcja 6 |
 | 1. Gęstość | §4.1–4.4 briefu, kontrola GHSL vs NSP (§7.1) | wykonana 2026-11-23 dla 13 aglomeracji; sekcja 14 |
-| 2. Częsta komunikacja i podaż | §4.5, §4.7 | nie rozpoczęta |
+| 2. Częsta komunikacja i podaż | §4.5, §4.7 | wykonana 2026-11-24 dla 7 aglomeracji fazy 1; sekcja 15 |
 | 3. Dostępność | §4.6 | nie rozpoczęta |
 | 4. Mapa | §8 | nie rozpoczęta |
 | 5. Faza 2 miast | §4.1–4.3 dla Szczecina, Bydgoszczy–Torunia, Lublina, Rzeszowa, Kielc, Białegostoku | nie rozpoczęta |
@@ -520,7 +520,7 @@ Surowych feedów nie redystrybuujemy; w repo trafiają wyniki zagregowane (brief
 
 ## 14. Faza 1: gęstość (2026-11-23)
 
-Pełny opis metody (każda reguła, którą trzeba było doprecyzować), wszystkie tabele, kontrola §7.1, ograniczenia i lista zaskoczeń: [`qa/density/density.md`](qa/density/density.md). Liczby: [`metrics/metrics.csv`](metrics/metrics.csv) i `metrics.json` (765 wierszy; kolumna `tier` mówi, czy liczba może iść na grafikę: `main`, tylko do tabeli: `table`, czy jest wyłącznie kontrolna: `qa`). Dane pod wykresy: [`charts/pwd.json`](charts/pwd.json), [`charts/profile_cumulative_monocentric.json`](charts/profile_cumulative_monocentric.json), [`charts/profile_cumulative_polycentric.json`](charts/profile_cumulative_polycentric.json). Szkice kontrolne: `qa/density/*.png`. Kod: `pipeline/grid250.py`, `density.py`, `density_control.py`, `density_qa.py`. Dwa pełne przebiegi dały pliki identyczne co do bajta (poza `_meta.json` z czasem uruchomienia). Policzono wszystkie 13 aglomeracji (dla sześciu miast fazy 2 to ten sam kod), FUA i rdzeń.
+Pełny opis metody (każda reguła, którą trzeba było doprecyzować), wszystkie tabele, kontrola §7.1, ograniczenia i lista zaskoczeń: [`qa/density/density.md`](qa/density/density.md). Liczby: [`metrics/metrics_density.csv`](metrics/metrics_density.csv) (765 wierszy; od fazy 2 tabela zbiorcza [`metrics/metrics.csv`](metrics/metrics.csv) łączy wszystkie kroki; kolumna `tier` mówi, czy liczba może iść na grafikę: `main`, tylko do tabeli: `table`, czy jest wyłącznie kontrolna: `qa`). Dane pod wykresy: [`charts/pwdens.json`](charts/pwdens.json), [`charts/profile_cumulative_monocentric.json`](charts/profile_cumulative_monocentric.json), [`charts/profile_cumulative_polycentric.json`](charts/profile_cumulative_polycentric.json). Szkice kontrolne: `qa/density/*.png`. Kod: `pipeline/grid250.py`, `density.py`, `density_control.py`, `density_qa.py`. Dwa pełne przebiegi dały pliki identyczne co do bajta (poza `_meta.json` z czasem uruchomienia). Policzono wszystkie 13 aglomeracji (dla sześciu miast fazy 2 to ten sam kod), FUA i rdzeń.
 
 ### 14.1 Gęstość ważona populacją (§4.1)
 
@@ -542,11 +542,11 @@ Siatka spisowa 1 km, NSP 2021 (ludność rezydująca, 31.03.2021), os./km². Gwi
 | Kielce | 3 140 | 6 397 | 166 | 1 635 |
 | Białystok | 4 733 | 6 999 | 116 | 2 760 |
 
-![PWD i gęstość brutto](qa/density/summary_pwd.png)
+![PWD i gęstość brutto](qa/density/summary_pwdens.png)
 
 - Gęstość komórki liczona z jej własnej powierzchni, przypisanie do obszaru centroidem. Wariant z nominalnym 1 km² albo z ważeniem komórek brzegowych zmienia PWD najwyżej o 0,65 %.
 - Najwyższe PWD w FUA ma Szczecin (6 506). Sprawdzono: najgęstsza komórka spisowa w Polsce leży w centrum Szczecina (26 043 os./km²), a GHSL daje dla niej 22 411, więc to nie artefakt spisu. Wynik zostaje.
-- Liczb z siatki 1 km nie wolno porównywać z PWD z GHSL 250 m (w `metrics.csv` jako `pwd_ghsl_250m`, poziom `table`).
+- Liczb z siatki 1 km nie wolno porównywać z PWD z GHSL 250 m (w `metrics.csv` jako `pwdens_ghsl_250m`, poziom `table`).
 
 ### 14.2 Profil skumulowany (§4.2)
 
@@ -596,3 +596,130 @@ Brief przewiduje GHSL (100 m i 250 m) jako siatkę ludności dla częstej komuni
 ### 14.6 Nie zweryfikowano
 
 Danych wejściowych JRC dla Polski; nazw miejsc przy największych różnicach komórek; błędu próbkowania η (próba 4 000 komórek); wrażliwości miar na dokładne współrzędne centrów.
+
+## 15. Faza 2: częsta komunikacja i podaż (2026-11-24)
+
+Opisy metody, wszystkie tabele, kontrole i ograniczenia: [`qa/transit/frequent.md`](qa/transit/frequent.md) (§4.5 briefu) i [`qa/transit/supply.md`](qa/transit/supply.md) (§4.7, warstwa kursów, test anomalii, przystanki o największej liczbie odjazdów). Liczby: [`metrics/metrics_frequent.csv`](metrics/metrics_frequent.csv) (4 508 wierszy) i [`metrics/metrics_supply.csv`](metrics/metrics_supply.csv) (760 wierszy), scalone w [`metrics/metrics.csv`](metrics/metrics.csv). Dane pod wykresy: `charts/frequent_curve.json`, `charts/frequent_rail.json`, `charts/tram_speed.json`, `charts/supply_vkm.json`. Warstwy pod mapę: `layers/frequent_cells.parquet`, `layers/gtfs_coverage_mask.parquet`, `layers/frequent_stop_clusters.parquet`. Kod: `pipeline/gtfs_service.py`, `supply.py`, `tram_speed.py`, `top_stops.py`, `popgrid.py`, `walk_network.py`, `frequent.py`.
+
+Daty: ludność NSP 2021 (31.03.2021) w układzie GHSL 2020; rozkłady: środa 2026-11-25 (pobrane 2026-11-23); OSM 2026-11-22. Każdy wynik policzono w dwóch wariantach feedów (oficjalne i wszystkie) i na dwóch siatkach ludności (GHSL przeskalowany do spisu i surowy GHSL), zgodnie z decyzjami z sekcji 12.0. Każdy krok uruchomiono dwukrotnie; wyniki są identyczne co do bajta poza plikami `_meta`.
+
+### 15.1 Które kursy się liczą (warstwa wspólna)
+
+Jedno miejsce w kodzie (`pipeline/gtfs_service.py`) rozstrzyga, które kursy wchodzą do miar; korzystają z niego oba kroki fazy 2.
+
+1. Filtry z `config.yaml` (`drop_routes`): linie 6 i 61 MUK Zgierz, 148 kursów (dubel z MPK Łódź).
+2. Z feedu kolejowego usunięta agencja `SKM` (SKM Warszawa: 284 kursy, zgodne w 100 % z feedem `warsaw_ztm`). SKM Trójmiasto zostaje.
+3. Feed kolejowy przycięty do kursów z co najmniej jednym przystankiem w FUA + 15 km.
+4. Duplikaty wewnątrz feedu: identyczna linia, kierunek, brygada, odjazd, przystanki (porównywane po położeniu z dokładnością do 1 m) i czasy. W GZM usuwa to 7 783 kursy dokładnie zdublowane i 242 z przesuniętymi przystankami, razem 26,3 % feedu w środę. W sobotę duplikatów nie ma; przyczyny nie ustalono.
+5. Duplikaty między feedami (linia + pierwszy przystanek + minuta odjazdu, próg 90 % i co najmniej 3 kursy): nie znaleziono żadnych; test wykrywa sztucznie zdublowane linie w 220 przypadkach na 220.
+6. Autobusowa komunikacja zastępcza kolei jest oznaczona i wyłączona z miar kolejowych.
+
+Kursy w środę 2026-11-25, wariant „wszystkie feedy”, przed regułami → po: Warszawa 47 662 → 41 671, Kraków 25 777 → 18 915, Wrocław 20 581 → 13 909, Poznań 19 527 → 12 687, Łódź 19 462 → 12 319, Trójmiasto 20 090 → 13 461, GZM 38 014 → 23 631 (większość różnicy to przycięcie feedu ogólnopolskiego). Tabela per feed i sobota: [`qa/transit/service_summary.csv`](qa/transit/service_summary.csv).
+
+Błąd danych wykryty przy okazji: w feedzie `lodz` przystanki 3876 i 3877 (pl. Niepodległości) mają współrzędne (0, 0), co zawyżało wozokilometry Łodzi 15-krotnie. Są teraz traktowane jako bez położenia: 387 zdarzeń (240 odjazdów w oknie 6–20) nie wchodzi do kroków przestrzennych; główny klaster pl. Niepodległości (5 słupków, 642 odjazdy) jest nienaruszony.
+
+Test anomalii (§5) na kursach po deduplikacji: odchylenie dnia referencyjnego od mediany dni roboczych od −0,86 % do +1,75 % (sobota od −1,16 % do +0,99 %); żaden feed nie przekracza 5 %. Test jest słaby dla feedów o krótkiej ważności, bo mediana pochodzi z tego samego okna 2–3 tygodni.
+
+### 15.2 Ludność przy częstej komunikacji (§4.5)
+
+**Definicja wyniku głównego (konfiguracja rekomendowana przez agenta).** Dojście 500 m po sieci pieszej OSM. Przystanki łączone w klastry: słupki wspólnej stacji nadrzędnej, potem grupowanie do 100 m (żaden klaster nie jest szerszy niż 100 m, nie powstają łańcuchy wzdłuż ulicy). Okno 6:00–20:00, środa 2026-11-25; odstęp = 840 min / liczba odjazdów. Wymagana obsługa w obu kierunkach, przy czym kierunek wynika z geometrii trasy, nie z pola `direction_id` (wiele dodanych feedów go nie ma). Częstotliwość liczona dla **najbardziej obciążonego odcinka do następnego klastra**: linie jadące wspólnym odcinkiem do następnego przystanku sumują się, linie rozchodzące się zaraz za przystankiem liczą się osobno. Wszystkie feedy; siatka przeskalowana do spisu. Do porównań między miastami służą „obszar pokryty” i „rdzeń”.
+
+Odsetek ludności w zasięgu, %:
+
+| Aglomeracja | Obszar | ≤ 5 min | ≤ 10 min | ≤ 15 min | ≤ 20 min | ≤ 30 min | Ludność FUA w obszarze pokrytym |
+|---|---|---|---|---|---|---|---|
+| Warszawa | pokryty | 38,5 | 55,2 | 63,0 | 66,8 | 71,5 | 82,5 % (niepełne) |
+| | rdzeń | 58,8 | 80,4 | 87,5 | 89,5 | 90,6 | |
+| Kraków | pokryty | 30,0 | 46,6 | 51,5 | 60,0 | 63,9 | 78,8 % (niepełne) |
+| | rdzeń | 44,0 | 66,1 | 72,4 | 83,1 | 85,0 | |
+| Wrocław | pokryty | 42,7 | 62,8 | 67,7 | 69,8 | 72,5 | 79,6 % (niepełne) |
+| | rdzeń | 51,4 | 75,9 | 81,1 | 83,2 | 86,0 | |
+| Poznań | pokryty | 22,3 | 42,5 | 52,2 | 60,1 | 66,7 | 85,5 % |
+| | rdzeń | 34,8 | 66,0 | 75,2 | 82,6 | 85,9 | |
+| Łódź | pokryty | 24,7 | 51,8 | 55,9 | 64,2 | 71,3 | 89,2 % |
+| | rdzeń | 35,0 | 69,6 | 73,0 | 82,2 | 87,5 | |
+| Trójmiasto | pokryty | 20,7 | 48,7 | 63,1 | 72,6 | 77,5 | 83,2 % (niepełne) |
+| | rdzeń | 25,3 | 59,2 | 71,7 | 79,5 | 81,6 | |
+| GZM | pokryty | 8,5 | 40,0 | 53,0 | 62,0 | 69,9 | 95,1 % |
+| | rdzeń | 10,1 | 45,6 | 59,2 | 67,7 | 75,4 | |
+
+Wartości dla całego FUA są w `metrics_frequent.csv`; dla Warszawy, Krakowa, Wrocławia i Trójmiasta noszą oznaczenie „niepełne pokrycie GTFS” i nie służą do porównań.
+
+**Ile zależy od każdego wyboru** (próg ≤ 10 min, obszar pokryty, w pkt proc. względem wyniku głównego):
+
+| Wybór | Zmiana wyniku |
+|---|---|
+| Surowy GHSL zamiast siatki przeskalowanej do spisu | −1,3 do −7,2 (w rdzeniach do −9,4 w Łodzi, −8,2 w Trójmieście, −7,8 w Poznaniu) |
+| Tylko feedy oficjalne, ten sam obszar | 0 do −2,8 (przy ≤ 30 min do −5,1 w Warszawie i Łodzi) |
+| Suma wszystkich linii w klastrze na kierunek (wariant i) | +2,2 do +10,8 (najwięcej w GZM i Trójmieście) |
+| Bez wymogu obu kierunków | +7,6 do +25,8 |
+| Bez łączenia przystanków przeciwnych kierunków w pary | −5,1 do −12,2 |
+| Bufor w linii prostej zamiast sieci pieszej | +9 do +14 |
+| Replika sposobu liczenia ITDP zamiast naszej definicji | +4 do +13 |
+| Środek komórki zamiast 9 punktów próbkowania | −0,2 do +1,3 |
+
+- **Siatka ludności ma znaczenie.** To pierwsza miara, w której wybór siatki zmienia wynik: surowy GHSL zaniża go w każdym mieście, bo spis przenosi ludność z terenów przemysłowych na duże, dobrze obsługiwane osiedla. Przeskalowanie wykonano na pikselach 100 m: suma w każdej komórce spisowej równa się spisowi; z komórek, w których spis nie ma nikogo, usunięto 738 tys. osób z GHSL. Po agregacji do 250 m 4,1 % ludności leży po niewłaściwej stronie krawędzi komórek spisowych (wobec 19,7 % niepodobieństwa surowego GHSL). Sumy per FUA zgadzają się ze spisem do 0,15 % (Trójmiasto 0,65 %, komórki nadbrzeżne). Ograniczenie: korekta naprawia poziom w skali 1 km, nie rozkład wewnątrz komórki.
+- **Feedy nieoficjalne** zmieniają wynik na tym samym obszarze o 0 do −5 pkt proc., ale znacznie powiększają obszar pokryty: w Warszawie z 69,1 do 82,5 % ludności FUA, w Łodzi z 70,9 do 89,2 %. Wynik na samych feedach oficjalnych i ich własnej masce wychodzi wyższy o 8–10 pkt proc. tylko dlatego, że ta maska obejmuje mniejszy, bardziej miejski obszar; tych liczb nie wolno zestawiać.
+- **Reguła par przystanków.** Klaster z odjazdami w jednym kierunku bierze kierunek przeciwny z klastra w promieniu 300 m obsługującego tę samą linię (dotyczy 22–42 % klastrów). Sprawdzono: mediana odległości w parze ok. 135 m, 83 % par w Warszawie ma tę samą nazwę bazową. Reguła przesuwa wynik o ok. 10 pkt proc., więc jest opisana jawnie.
+- **Replika ITDP** (okno 7:00–21:00, średni odstęp między kolejnymi odjazdami, bez podziału na kierunki, per `stop_id`, ≤ 10 min) daje wynik wyższy o 4–13 pkt proc. (rdzenie: Warszawa 84,5 wobec 80,4; GZM 58,3 wobec 45,6). W danych ma identyfikatory `itdp_style_*` i nie jest wskaźnikiem ITDP. Wartości z Atlasu ITDP dla polskich miast nadal nie uzyskano, więc walidacja zewnętrzna z §7.2 pozostaje niewykonana.
+- **GZM ma najniższy wynik przy ≤ 5 i ≤ 10 min mimo najlepszego pokrycia danymi.** Sprawdzono: linie rozchodzą się tam na węzłach, dlatego wariant sumujący wszystkie linie dodaje w GZM najwięcej. Wynik zostaje.
+- Pojedyncza linia prawie nigdzie nie kursuje co 10 minut lub częściej (najczęstsza linia na największych węzłach: co 10–15 min); liczenie „najczęstszej pojedynczej linii” dałoby we Wrocławiu i Poznaniu ok. 0 % przy ≤ 10 min. Stąd wybór odcinka wspólnego.
+
+**Wariant kolejowy** (wzorowany na klasach DG REGIO; stacje kolei i metra, dojście 1 km po sieci, okno 6:00–20:00, bez komunikacji zastępczej; obszar pokryty; % ludności):
+
+| Aglomeracja | ≥ 4 odjazdy/h | w tym > 10/h | stacja z < 4/h | brak stacji w 1 km |
+|---|---|---|---|---|
+| Warszawa | 31,4 | 25,6 | 1,7 | 66,9 |
+| Trójmiasto | 26,6 | 17,0 | 1,6 | 71,8 |
+| Łódź | 10,6 | 1,6 | 5,2 | 84,2 |
+| GZM | 9,1 | 0,8 | 5,3 | 85,5 |
+| Wrocław | 8,0 | 2,1 | 9,1 | 82,8 |
+| Kraków | 6,3 | 1,5 | 2,9 | 90,8 |
+| Poznań | 4,7 | 1,6 | 6,2 | 89,1 |
+
+Niski wynik Krakowa (6,3 %) sprawdzono: Kraków Główny ma 19,5 odjazdu/h, ale w pobliżu miejsc zamieszkania jest mało stacji. Wariant „tylko szynowe” (tramwaj + metro + kolej, ≤ 10 min, 500 m) ma identyfikatory `freq_railbound_*`, wynosi od 8,8 % (GZM) do 39,1 % (Wrocław) i **nie jest wskaźnikiem ITDP PNRT**.
+
+**Maska pokrycia (§6).** Jednostką jest komórka 250 m: brane są przystanki OSM w promieniu 1 km od jej środka, słupki w promieniu 100 m liczone jako jedno miejsce. Miejsce „ma dane”, jeśli jest dopasowane do GTFS albo występuje w feedzie, choć w dniu referencyjnym nie ma kursów. Komórka należy do maski, gdy średni udział miejsc z danymi wynosi co najmniej 0,85 albo gdy w promieniu 1 km nie ma żadnego przystanku OSM (0,4–4,9 % ludności; liczone osobno). Poza maską wynik to brak danych, nigdy 0. Maska jest liczona osobno dla każdego wariantu feedów. W raporcie szczegółowym są tabela wrażliwości na próg (0,5 / 0,7 / 0,85 / 0,95) i alternatywa gminna. Pierwsza wersja reguły wykluczyła okolice Gdańska Głównego (9 nieobsługiwanych stanowisk dworca autobusowego); po poprawce rdzeń Poznania wzrósł z 89 do 95,5 %.
+
+**Kontrole.** Znane miejsca (Marszałkowska w dwóch punktach, rynki we Wrocławiu, Krakowie i Poznaniu, Piotrkowska, Gdańsk Główny, Katowice Rynek) trafiają do klasy ≤ 5 min; 14 automatycznie wybranych przystanków z 1–6 odjazdami dziennie wypada jako „> 30 min” albo poza maską. Sieć piesza: największa składowa spójna ma ok. 99 % długości sieci; nie udało się przypiąć 0–5 przystanków na FUA i punktów reprezentujących nie więcej niż 0,07 % ludności.
+
+### 15.3 Podaż i prędkość tramwajów (§4.7)
+
+**Rozkładowa prędkość eksploatacyjna tramwajów (z postojami na przystankach)**, środa 2026-11-25, km/h. To prędkość z rozkładu, nie rzeczywista i nie prędkość jazdy między przystankami.
+
+| Miasto | Mediana po kursach | Mediana ważona wozokilometrami | Kwartyle | Zakres median linii |
+|---|---|---|---|---|
+| Kraków | 19,8 | 20,0 | 18,9–21,0 | 15,9–23,3 |
+| Poznań | 19,5 | 20,1 | 17,7–22,9 | 15,9–27,1 |
+| Warszawa | 18,6 | 18,6 | 17,7–19,5 | 15,3–25,0 |
+| Gdańsk | 18,0 | 18,0 | 17,5–18,4 | 17,0–19,7 |
+| GZM | 17,2 | 18,2 | 15,9–20,0 | 13,9–23,3 |
+| Łódź | 16,9 | 17,2 | 15,6–18,8 | 14,8–22,9 |
+| Wrocław | 16,3 | 16,6 | 15,4–17,6 | 13,3–19,1 |
+
+Długość kursu z `shapes`; gdy różni się od sumy odległości między przystankami o więcej niż 15 % albo jej brak, użyto odległości między przystankami. Pominięto kursy krótsze niż 1 km, krótsze niż 5 min, z mniej niż 3 przystankami i poza zakresem 5–60 km/h. Postoje dłuższe niż 2 min wewnątrz kursu występują w mniej niż 0,1 % kursów. Wariant feedów nie zmienia wyniku (tramwaje są tylko w feedach oficjalnych). W Krakowie linie 62 i 69 nie mają kursów w dniu referencyjnym. Feedy nie pokazują przystanków tramwajowych bez obsługi: luka z sekcji 6.3 to przystanki tramwajowe z OSM bez przystanku tramwajowego w GTFS w promieniu 75 m (44 w Krakowie, 66 w Łodzi); linie autobusowe przejeżdżające przez najwięcej z nich podano w `supply.md` wyłącznie jako kandydatów na komunikację zastępczą.
+
+**Wozokilometry na mieszkańca na dobę** (środa; ludność NSP 2021):
+
+| Aglomeracja | Rdzeń, feedy oficjalne | Rdzeń, wszystkie | FUA, oficjalne | FUA, wszystkie |
+|---|---|---|---|---|
+| Warszawa | 0,249 | 0,250 | 0,169 | 0,193 |
+| Kraków | 0,243 | 0,243 | 0,184 | 0,188 |
+| Wrocław | 0,249 | 0,250 | 0,193 | 0,200 |
+| Poznań | 0,209 | 0,209 | 0,177 | 0,177 |
+| Łódź | 0,206 | 0,209 | 0,150 | 0,171 |
+| Trójmiasto | 0,202 | 0,202 | 0,164 | 0,164 |
+| GZM | 0,196 | 0,196 | 0,190 | 0,190 |
+
+Liczona jest tylko część kursu wewnątrz obszaru (odcinki przecinające granicę proporcjonalnie). Wartości dla FUA Warszawy, Krakowa, Wrocławia, Łodzi i Trójmiasta mają oznaczenie „niepełne pokrycie GTFS”. W Łodzi 525 kursów ma `shapes` krótsze niż 80 % łańcucha przystanków; użyto tam odległości między przystankami, więc wozokilometry Łodzi są lekko zaniżone. **Miejscokilometrów nie policzono:** GTFS nie podaje typu pojazdu, a źródła pojemności taboru nie było; do decyzji, czy przyjąć tabelę założeń.
+
+**Przystanki o największej liczbie odjazdów (§7.3).** Klastry do 100 m niezależnie od feedu i stacji nadrzędnej, więc metro i kolej łączą się z przystankami naziemnymi tego samego węzła (Ratusz Arsenał: 608 odjazdów metra; Warszawa Centralna i Katowice Dworzec: kolej z autobusami). Maksimum 173 odjazdy/h w Warszawie, 116–167/h w pierwszym klastrze pozostałych miast; wszystkie listy to wiarygodne węzły. Po poprawce klucza porównania (linie ALD nie mają `direction_id`) podejrzenie duplikatów zostaje tylko na dwóch przystankach w Katowicach (Sądowa 3,4 %, Chorzowska 4,2 %), poniżej progu 5 %; nie wyjaśniono.
+
+### 15.4 Nie zweryfikowano i ograniczenia
+
+- Zgodności 28 nieoficjalnych feedów z oficjalnymi rozkładami.
+- Wartości z Atlasu ITDP (brak danych do porównania) i wyników dla dni innych niż środa referencyjna.
+- Barier pieszych nieodwzorowanych w OSM.
+- Pokrycia dla wariantu „feedy oficjalne” w tabelach podaży tam, gdzie lista feedów różni się od wariantu „wszystkie” (Warszawa, Kraków, Wrocław, Łódź): pole puste z oznaczeniem.
+- Dlaczego sobotni feed GZM nie ma duplikatów; dwóch przystanków w Katowicach z 3–4 % podejrzanych odjazdów; rozbieżności liczby kursów `warsaw_otwock` między kontrolą z fazy 0 (197) a feedem (138).
+- Parametry dobrane w tej fazie (promień par 300 m, limity przypinania do sieci, reguły maski) są stałymi w kodzie; propozycje kluczy do `config.yaml` są w `frequent.md` §7 i `supply.md`.

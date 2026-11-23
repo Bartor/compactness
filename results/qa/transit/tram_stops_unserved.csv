@@ -1,0 +1,8 @@
+city,feed,tram_stops_all_dates,tram_stops_on_day,tram_stops_unserved_on_day,examples
+Warszawa,warsaw_ztm,637,630,7,Metro Wierzbno; Metro Wilanowska; Os. Górczewska; Pl. Narutowicza; Wyścigi
+Kraków,krakow_tram,353,353,0,
+Wrocław,wroclaw,447,447,0,
+Poznań,poznan,304,304,0,
+Łódź,lodz,465,465,0,
+Gdańsk,gdansk,248,248,0,
+GZM,gzm,717,717,0,

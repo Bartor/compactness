@@ -1,0 +1,23 @@
+aglomeracja,miejsce,oczekiwane,klasa komórki,udział punktów ≤5 min,najlepszy zespół ≤ 600 m,wynik
+Warszawa,Marszałkowska / Świętokrzyska,≤ 5,5,100 %,"Centrum (ii) 1,6 min, (i) 1,6 min",OK
+Warszawa,Marszałkowska / pl. Konstytucji,≤ 5,5,100 %,"Pl. Konstytucji (ii) 2,0 min, (i) 2,0 min",OK
+Wrocław,Rynek,≤ 5,5,100 %,"Pl. Nowy Targ (ii) 2,6 min, (i) 2,6 min",OK
+Kraków,Rynek Główny,≤ 5,5,100 %,"Poczta Główna (ii) 2,3 min, (i) 1,5 min",OK
+Poznań,Stary Rynek,≤ 5,5,100 %,"Aleje Marcinkowskiego (ii) 1,7 min, (i) 1,7 min",OK
+Łódź,Piotrkowska Centrum,≤ 5,5,100 %,"Piłsudskiego-Sienkiewicza (ii) 1,9 min, (i) 1,9 min",OK
+Trójmiasto,Gdańsk Główny,≤ 5,5,100 %,"Dworzec Główny 01 (ii) 1,8 min, (i) 0,8 min",OK
+GZM,Katowice Rynek,≤ 5,5,100 %,"Katowice Plac Wolności (ii) 1,5 min, (i) 1,3 min",OK
+Warszawa,"Otwock Szpital Powiatowy (rzadki przystanek, 3 odj./dobę, ≥ 1,5 km od częstego)",> 30 lub brak danych,,–,,OK
+Warszawa,"Nasielsk Rynek (rzadki przystanek, 3 odj./dobę, ≥ 1,5 km od częstego)",> 30 lub brak danych,,–,,OK
+Kraków,"Krzeszowice Most Kościuszki (rzadki przystanek, 6 odj./dobę, ≥ 1,5 km od częstego)",> 30 lub brak danych,,–,,OK
+Kraków,"Przebieczany Kaplica (rzadki przystanek, 6 odj./dobę, ≥ 1,5 km od częstego)",> 30 lub brak danych,,–,,OK
+Wrocław,"Oborniki Śląskie Parkowa (rzadki przystanek, 5 odj./dobę, ≥ 1,5 km od częstego)",> 30 lub brak danych,>30,–,,OK
+Wrocław,"Sobótka - Św. Anny (rzadki przystanek, 4 odj./dobę, ≥ 1,5 km od częstego)",> 30 lub brak danych,,–,,OK
+Poznań,"Mosina/Krosińska/Sosnowa (rzadki przystanek, 6 odj./dobę, ≥ 1,5 km od częstego)",> 30 lub brak danych,>30,–,,OK
+Poznań,"Jerzykowo/pl. Piastowski (rzadki przystanek, 6 odj./dobę, ≥ 1,5 km od częstego)",> 30 lub brak danych,,–,,OK
+Łódź,"Stryków ul. Żeromskiego (szkoła) (rzadki przystanek, 1 odj./dobę, ≥ 1,5 km od częstego)",> 30 lub brak danych,>30,–,,OK
+Łódź,"Dłutów Pabianicka / Polna (rzadki przystanek, 6 odj./dobę, ≥ 1,5 km od częstego)",> 30 lub brak danych,>30,–,,OK
+Trójmiasto,"Kielno Rondo 11 (rzadki przystanek, 6 odj./dobę, ≥ 1,5 km od częstego)",> 30 lub brak danych,,–,,OK
+Trójmiasto,"Kielno Sikorskiego 22 (rzadki przystanek, 6 odj./dobę, ≥ 1,5 km od częstego)",> 30 lub brak danych,,–,,OK
+GZM,"Maczki Skwerowa (rzadki przystanek, 4 odj./dobę, ≥ 1,5 km od częstego)",> 30 lub brak danych,>30,–,,OK
+GZM,"Kozłów Szkoła (rzadki przystanek, 6 odj./dobę, ≥ 1,5 km od częstego)",> 30 lub brak danych,>30,–,,OK

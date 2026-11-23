@@ -1,60 +1,28 @@
 {
- "circle_km": 10,
- "duration_s": 104.2,
- "eta_sample": 4000,
- "gap_cells": 3,
- "git_sha": "58b40601c5b93eba660fb706b7531dd69415aa85",
- "inputs": {
-  "ghs_built_s_2020_R3_C20": {
-   "data_date": "2020",
-   "downloaded_at": "2026-11-23T18:17:08+01:00",
-   "sha256": "b155a9a69e1fa2ec243a5f9cdbc1a2dd981052310acdf876582021011611ae2c"
-  },
-  "ghs_built_s_2020_R4_C20": {
-   "data_date": "2020",
-   "downloaded_at": "2026-11-23T18:17:10+01:00",
-   "sha256": "be8b88ffb1547118750bad7b441ba7c50ddc5634cb60b4854d807e104bb19570"
-  },
-  "ghs_pop_2020_R3_C20": {
-   "data_date": "2020",
-   "downloaded_at": "2026-11-23T18:17:03+01:00",
-   "sha256": "1d9fb8c2e9576bec25fb18fab847901dc2f3b416377493b7920f83f0801c52c9"
-  },
-  "ghs_pop_2020_R4_C20": {
-   "data_date": "2020",
-   "downloaded_at": "2026-11-23T18:17:06+01:00",
-   "sha256": "200057fa8efc334e633a94971192c97b2318996b35a84cfe8fe652cdb170ba7a"
-  },
-  "lau_2021_01m": {
-   "data_date": "2021",
-   "downloaded_at": "2026-11-23T18:15:37+01:00",
-   "sha256": "3d7199c0b88040785d609dcf69ade80cf0843941b6deff4aa714a442c72f2dd6"
-  },
-  "nsp2021_grid_1km_shp": {
-   "data_date": "2021-03-31",
-   "downloaded_at": "2026-11-23T18:16:58+01:00",
-   "sha256": "815deb0fb369df11de0ff150dd14ce87fd875acf3d542da8d2db1dafc0791680"
-  },
-  "urau_2021_100k_all": {
-   "data_date": "2021",
-   "downloaded_at": "2026-11-23T18:15:32+01:00",
-   "sha256": "9f64bf0689875be1f64ecb742e370dd7987804ddbb63df5ac6e8860516ef7de3"
-  }
- },
- "min_mask_pop_share": 0.05,
+ "duration_s": 0.2,
+ "git_sha": "8cf4e384d18721538870005637014f36b73c37dc",
+ "inputs": {},
  "missing_inputs": [],
- "population_dates": {
-  "census": "2021-03-31",
-  "ghsl": "2020"
- },
- "run_at": "2026-11-23T20:14:16+01:00",
- "seed_radius_m": 1000,
- "step": "density",
- "thresholds": [
-  0.1,
-  0.2,
-  0.3,
-  0.5
+ "outputs": [
+  "metrics.csv",
+  "metrics.json",
+  "../web/metrics.json"
  ],
- "working_threshold": 0.2
+ "rows": {
+  "density": 765,
+  "frequent": 4508,
+  "supply": 760
+ },
+ "rows_panel": 267,
+ "rows_total": 6033,
+ "run_at": "2026-11-23T22:01:10+01:00",
+ "step": "merge_metrics",
+ "step_files": {
+  "metrics_density.csv": "62aff33922c3319263d8c0fe33d807ad66880dbe70e13e8080fb4634331c98ec",
+  "metrics_density.json": "527138412e0956e026a4b3ae2e4b3ef620a1a547b5b184cc553b7caab4a33367",
+  "metrics_frequent.csv": "7740baefe80031518f2913c953d5b10a2510b790f5ebc9a06c4c1d16fcfef176",
+  "metrics_frequent.json": "bae46bc5a1c1a3ec044483a98c0b04cc59391dc9b640ed2ef71269680221e828",
+  "metrics_supply.csv": "526d6c476f44e40c62de6c3e42154492c633e601679f746eda6f70cb809c7219",
+  "metrics_supply.json": "8d6085befc948e5e5b32d4656401bf581316bd70893e30ead68500b6b0e2a9cd"
+ }
 }

@@ -1,0 +1,7212 @@
+{
+ "caveats": [
+  "Prędkość z rozkładu jazdy, nie rzeczywista (warstwa 6b odłożona).",
+  "Zawiera postoje na przystankach i ewentualne postoje wyrównawcze wewnątrz kursu; wersja bez postojów > 120 s w CSV.",
+  "Różne definicje kursu (dłuższe lub krótsze relacje) wpływają na porównania między miastami.",
+  "Miasto = sieć tramwajowa feedu (Trójmiasto: tylko Gdańsk; GZM: cała sieć Tramwajów Śląskich w feedzie GZM)."
+ ],
+ "definition": "długość kursu (kształt trasy; odległość między przystankami, gdy brak kształtu lub niezgodność > 15 %) / (ostatni przyjazd - pierwszy odjazd), kursy dnia referencyjnego, bez kursów zjazdowych/krótkich i o prędkości poza 5-60 km/h",
+ "population_date": null,
+ "series": {
+  "all/saturday": {
+   "GZM": {
+    "hourly_median_kmh": {
+     "2": {
+      "median_kmh": 18.46,
+      "n_trips": 9
+     },
+     "3": {
+      "median_kmh": 21.31,
+      "n_trips": 49
+     },
+     "4": {
+      "median_kmh": 19.64,
+      "n_trips": 122
+     },
+     "5": {
+      "median_kmh": 16.89,
+      "n_trips": 96
+     },
+     "6": {
+      "median_kmh": 16.79,
+      "n_trips": 99
+     },
+     "7": {
+      "median_kmh": 16.79,
+      "n_trips": 99
+     },
+     "8": {
+      "median_kmh": 17.13,
+      "n_trips": 124
+     },
+     "9": {
+      "median_kmh": 17.13,
+      "n_trips": 139
+     },
+     "10": {
+      "median_kmh": 17.02,
+      "n_trips": 134
+     },
+     "11": {
+      "median_kmh": 17.02,
+      "n_trips": 136
+     },
+     "12": {
+      "median_kmh": 17.02,
+      "n_trips": 137
+     },
+     "13": {
+      "median_kmh": 16.99,
+      "n_trips": 136
+     },
+     "14": {
+      "median_kmh": 17.02,
+      "n_trips": 137
+     },
+     "15": {
+      "median_kmh": 17.02,
+      "n_trips": 136
+     },
+     "16": {
+      "median_kmh": 16.99,
+      "n_trips": 134
+     },
+     "17": {
+      "median_kmh": 17.13,
+      "n_trips": 125
+     },
+     "18": {
+      "median_kmh": 16.95,
+      "n_trips": 121
+     },
+     "19": {
+      "median_kmh": 16.95,
+      "n_trips": 105
+     },
+     "20": {
+      "median_kmh": 16.83,
+      "n_trips": 105
+     },
+     "21": {
+      "median_kmh": 16.79,
+      "n_trips": 97
+     },
+     "22": {
+      "median_kmh": 17.87,
+      "n_trips": 107
+     },
+     "23": {
+      "median_kmh": 20.72,
+      "n_trips": 74
+     },
+     "24": {
+      "median_kmh": 20.4,
+      "n_trips": 26
+     },
+     "25": {
+      "median_kmh": 19.18,
+      "n_trips": 8
+     }
+    },
+    "lines": {
+     "T1": {
+      "length_km_total": 823.1,
+      "median_kmh": 20.13,
+      "n_trips": 66,
+      "q1_kmh": 19.09,
+      "q3_kmh": 20.13
+     },
+     "T11": {
+      "length_km_total": 2464.0,
+      "median_kmh": 16.95,
+      "n_trips": 142,
+      "q1_kmh": 16.79,
+      "q3_kmh": 16.95
+     },
+     "T13": {
+      "length_km_total": 491.1,
+      "median_kmh": 15.86,
+      "n_trips": 82,
+      "q1_kmh": 15.5,
+      "q3_kmh": 15.86
+     },
+     "T15": {
+      "length_km_total": 1104.0,
+      "median_kmh": 21.93,
+      "n_trips": 134,
+      "q1_kmh": 19.61,
+      "q3_kmh": 26.04
+     },
+     "T16": {
+      "length_km_total": 1444.0,
+      "median_kmh": 16.08,
+      "n_trips": 180,
+      "q1_kmh": 15.92,
+      "q3_kmh": 16.08
+     },
+     "T17": {
+      "length_km_total": 1008.0,
+      "median_kmh": 17.18,
+      "n_trips": 83,
+      "q1_kmh": 17.13,
+      "q3_kmh": 17.18
+     },
+     "T2": {
+      "length_km_total": 1386.0,
+      "median_kmh": 19.36,
+      "n_trips": 84,
+      "q1_kmh": 19.28,
+      "q3_kmh": 19.36
+     },
+     "T20": {
+      "length_km_total": 1431.0,
+      "median_kmh": 15.04,
+      "n_trips": 97,
+      "q1_kmh": 14.79,
+      "q3_kmh": 15.49
+     },
+     "T21": {
+      "length_km_total": 2433.0,
+      "median_kmh": 22.28,
+      "n_trips": 124,
+      "q1_kmh": 22.19,
+      "q3_kmh": 22.33
+     },
+     "T22": {
+      "length_km_total": 1521.0,
+      "median_kmh": 23.33,
+      "n_trips": 109,
+      "q1_kmh": 23.21,
+      "q3_kmh": 23.74
+     },
+     "T23": {
+      "length_km_total": 548.0,
+      "median_kmh": 16.44,
+      "n_trips": 48,
+      "q1_kmh": 15.98,
+      "q3_kmh": 16.44
+     },
+     "T24": {
+      "length_km_total": 400.7,
+      "median_kmh": 17.14,
+      "n_trips": 80,
+      "q1_kmh": 16.52,
+      "q3_kmh": 17.14
+     },
+     "T26": {
+      "length_km_total": 1353.0,
+      "median_kmh": 20.53,
+      "n_trips": 100,
+      "q1_kmh": 19.87,
+      "q3_kmh": 20.53
+     },
+     "T27": {
+      "length_km_total": 1525.0,
+      "median_kmh": 18.65,
+      "n_trips": 94,
+      "q1_kmh": 18.2,
+      "q3_kmh": 19.97
+     },
+     "T3": {
+      "length_km_total": 897.4,
+      "median_kmh": 18.21,
+      "n_trips": 82,
+      "q1_kmh": 16.83,
+      "q3_kmh": 18.27
+     },
+     "T31": {
+      "length_km_total": 607.2,
+      "median_kmh": 15.47,
+      "n_trips": 154,
+      "q1_kmh": 15.02,
+      "q3_kmh": 15.47
+     },
+     "T33": {
+      "length_km_total": 352.7,
+      "median_kmh": 18.74,
+      "n_trips": 60,
+      "q1_kmh": 18.36,
+      "q3_kmh": 19.1
+     },
+     "T34": {
+      "length_km_total": 202.7,
+      "median_kmh": 16.51,
+      "n_trips": 81,
+      "q1_kmh": 15.05,
+      "q3_kmh": 16.51
+     },
+     "T38": {
+      "length_km_total": 194.9,
+      "median_kmh": 13.92,
+      "n_trips": 100,
+      "q1_kmh": 10.74,
+      "q3_kmh": 13.92
+     },
+     "T4": {
+      "length_km_total": 389.6,
+      "median_kmh": 18.89,
+      "n_trips": 50,
+      "q1_kmh": 17.02,
+      "q3_kmh": 18.89
+     },
+     "T41": {
+      "length_km_total": 179.8,
+      "median_kmh": 15.34,
+      "n_trips": 74,
+      "q1_kmh": 14.8,
+      "q3_kmh": 15.34
+     },
+     "T5": {
+      "length_km_total": 778.7,
+      "median_kmh": 20.07,
+      "n_trips": 52,
+      "q1_kmh": 19.86,
+      "q3_kmh": 20.07
+     },
+     "T6": {
+      "length_km_total": 3656.0,
+      "median_kmh": 19.64,
+      "n_trips": 168,
+      "q1_kmh": 19.64,
+      "q3_kmh": 19.9
+     },
+     "T7": {
+      "length_km_total": 1976.0,
+      "median_kmh": 16.6,
+      "n_trips": 96,
+      "q1_kmh": 16.25,
+      "q3_kmh": 17.18
+     },
+     "T9": {
+      "length_km_total": 1939.0,
+      "median_kmh": 15.34,
+      "n_trips": 115,
+      "q1_kmh": 15.32,
+      "q3_kmh": 15.34
+     }
+    },
+    "median_kmh": 17.18,
+    "n_excluded": 1,
+    "n_lines": 25,
+    "n_trips": 2455,
+    "q1_kmh": 15.92,
+    "q3_kmh": 19.87,
+    "wmedian_vkm_kmh": 19.05
+   },
+   "Gdańsk": {
+    "hourly_median_kmh": {
+     "3": {
+      "median_kmh": 17.72,
+      "n_trips": 7
+     },
+     "4": {
+      "median_kmh": 17.81,
+      "n_trips": 31
+     },
+     "5": {
+      "median_kmh": 17.81,
+      "n_trips": 41
+     },
+     "6": {
+      "median_kmh": 17.97,
+      "n_trips": 55
+     },
+     "7": {
+      "median_kmh": 17.97,
+      "n_trips": 56
+     },
+     "8": {
+      "median_kmh": 17.97,
+      "n_trips": 54
+     },
+     "9": {
+      "median_kmh": 17.96,
+      "n_trips": 57
+     },
+     "10": {
+      "median_kmh": 17.96,
+      "n_trips": 62
+     },
+     "11": {
+      "median_kmh": 17.97,
+      "n_trips": 63
+     },
+     "12": {
+      "median_kmh": 17.97,
+      "n_trips": 66
+     },
+     "13": {
+      "median_kmh": 17.97,
+      "n_trips": 67
+     },
+     "14": {
+      "median_kmh": 17.97,
+      "n_trips": 66
+     },
+     "15": {
+      "median_kmh": 17.97,
+      "n_trips": 67
+     },
+     "16": {
+      "median_kmh": 17.97,
+      "n_trips": 66
+     },
+     "17": {
+      "median_kmh": 17.97,
+      "n_trips": 66
+     },
+     "18": {
+      "median_kmh": 17.97,
+      "n_trips": 66
+     },
+     "19": {
+      "median_kmh": 17.97,
+      "n_trips": 59
+     },
+     "20": {
+      "median_kmh": 18.01,
+      "n_trips": 47
+     },
+     "21": {
+      "median_kmh": 17.97,
+      "n_trips": 37
+     },
+     "22": {
+      "median_kmh": 18.54,
+      "n_trips": 31
+     },
+     "23": {
+      "median_kmh": 19.45,
+      "n_trips": 16
+     }
+    },
+    "lines": {
+     "10": {
+      "length_km_total": 2454.0,
+      "median_kmh": 18.01,
+      "n_trips": 170,
+      "q1_kmh": 17.81,
+      "q3_kmh": 18.01
+     },
+     "12": {
+      "length_km_total": 2384.0,
+      "median_kmh": 17.81,
+      "n_trips": 116,
+      "q1_kmh": 17.46,
+      "q3_kmh": 18.45
+     },
+     "2": {
+      "length_km_total": 3596.0,
+      "median_kmh": 18.02,
+      "n_trips": 203,
+      "q1_kmh": 17.97,
+      "q3_kmh": 18.02
+     },
+     "3": {
+      "length_km_total": 1596.0,
+      "median_kmh": 18.85,
+      "n_trips": 108,
+      "q1_kmh": 18.21,
+      "q3_kmh": 18.85
+     },
+     "5": {
+      "length_km_total": 1645.0,
+      "median_kmh": 16.97,
+      "n_trips": 104,
+      "q1_kmh": 16.9,
+      "q3_kmh": 18.54
+     },
+     "6": {
+      "length_km_total": 2932.0,
+      "median_kmh": 17.72,
+      "n_trips": 171,
+      "q1_kmh": 17.71,
+      "q3_kmh": 18.09
+     },
+     "8": {
+      "length_km_total": 1400.0,
+      "median_kmh": 17.03,
+      "n_trips": 105,
+      "q1_kmh": 16.74,
+      "q3_kmh": 17.09
+     },
+     "9": {
+      "length_km_total": 1029.0,
+      "median_kmh": 16.99,
+      "n_trips": 103,
+      "q1_kmh": 16.38,
+      "q3_kmh": 17.46
+     }
+    },
+    "median_kmh": 17.97,
+    "n_excluded": 0,
+    "n_lines": 8,
+    "n_trips": 1080,
+    "q1_kmh": 17.46,
+    "q3_kmh": 18.09,
+    "wmedian_vkm_kmh": 17.97
+   },
+   "Kraków": {
+    "hourly_median_kmh": {
+     "4": {
+      "median_kmh": 20.25,
+      "n_trips": 44
+     },
+     "5": {
+      "median_kmh": 20.15,
+      "n_trips": 107
+     },
+     "6": {
+      "median_kmh": 20.15,
+      "n_trips": 108
+     },
+     "7": {
+      "median_kmh": 20.09,
+      "n_trips": 114
+     },
+     "8": {
+      "median_kmh": 19.86,
+      "n_trips": 118
+     },
+     "9": {
+      "median_kmh": 19.91,
+      "n_trips": 126
+     },
+     "10": {
+      "median_kmh": 19.91,
+      "n_trips": 126
+     },
+     "11": {
+      "median_kmh": 19.91,
+      "n_trips": 126
+     },
+     "12": {
+      "median_kmh": 19.91,
+      "n_trips": 126
+     },
+     "13": {
+      "median_kmh": 19.91,
+      "n_trips": 126
+     },
+     "14": {
+      "median_kmh": 19.91,
+      "n_trips": 126
+     },
+     "15": {
+      "median_kmh": 19.91,
+      "n_trips": 126
+     },
+     "16": {
+      "median_kmh": 19.91,
+      "n_trips": 126
+     },
+     "17": {
+      "median_kmh": 19.85,
+      "n_trips": 120
+     },
+     "18": {
+      "median_kmh": 19.85,
+      "n_trips": 120
+     },
+     "19": {
+      "median_kmh": 20.05,
+      "n_trips": 119
+     },
+     "20": {
+      "median_kmh": 20.13,
+      "n_trips": 113
+     },
+     "21": {
+      "median_kmh": 20.13,
+      "n_trips": 107
+     },
+     "22": {
+      "median_kmh": 19.95,
+      "n_trips": 93
+     },
+     "23": {
+      "median_kmh": 19.32,
+      "n_trips": 15
+     },
+     "24": {
+      "median_kmh": 18.41,
+      "n_trips": 8
+     },
+     "25": {
+      "median_kmh": 18.41,
+      "n_trips": 8
+     },
+     "26": {
+      "median_kmh": 18.41,
+      "n_trips": 8
+     },
+     "27": {
+      "median_kmh": 18.41,
+      "n_trips": 8
+     },
+     "28": {
+      "median_kmh": 18.47,
+      "n_trips": 3
+     }
+    },
+    "lines": {
+     "1": {
+      "length_km_total": 1418.0,
+      "median_kmh": 18.57,
+      "n_trips": 108,
+      "q1_kmh": 17.69,
+      "q3_kmh": 18.95
+     },
+     "11": {
+      "length_km_total": 802.9,
+      "median_kmh": 21.71,
+      "n_trips": 60,
+      "q1_kmh": 21.18,
+      "q3_kmh": 22.25
+     },
+     "12": {
+      "length_km_total": 3216.0,
+      "median_kmh": 19.82,
+      "n_trips": 182,
+      "q1_kmh": 19.24,
+      "q3_kmh": 20.05
+     },
+     "13": {
+      "length_km_total": 1255.0,
+      "median_kmh": 18.6,
+      "n_trips": 108,
+      "q1_kmh": 18.47,
+      "q3_kmh": 18.73
+     },
+     "14": {
+      "length_km_total": 1635.0,
+      "median_kmh": 18.98,
+      "n_trips": 110,
+      "q1_kmh": 18.31,
+      "q3_kmh": 19.27
+     },
+     "15": {
+      "length_km_total": 1394.0,
+      "median_kmh": 20.71,
+      "n_trips": 110,
+      "q1_kmh": 20.4,
+      "q3_kmh": 20.71
+     },
+     "16": {
+      "length_km_total": 2118.0,
+      "median_kmh": 23.29,
+      "n_trips": 113,
+      "q1_kmh": 21.93,
+      "q3_kmh": 23.39
+     },
+     "17": {
+      "length_km_total": 1349.0,
+      "median_kmh": 19.37,
+      "n_trips": 110,
+      "q1_kmh": 18.82,
+      "q3_kmh": 19.41
+     },
+     "18": {
+      "length_km_total": 1852.0,
+      "median_kmh": 19.84,
+      "n_trips": 112,
+      "q1_kmh": 19.46,
+      "q3_kmh": 19.85
+     },
+     "22": {
+      "length_km_total": 1944.0,
+      "median_kmh": 19.95,
+      "n_trips": 112,
+      "q1_kmh": 19.75,
+      "q3_kmh": 19.95
+     },
+     "3": {
+      "length_km_total": 1391.0,
+      "median_kmh": 19.43,
+      "n_trips": 111,
+      "q1_kmh": 18.95,
+      "q3_kmh": 19.61
+     },
+     "5": {
+      "length_km_total": 1931.0,
+      "median_kmh": 20.4,
+      "n_trips": 110,
+      "q1_kmh": 20.11,
+      "q3_kmh": 20.8
+     },
+     "62": {
+      "length_km_total": 328.8,
+      "median_kmh": 18.44,
+      "n_trips": 20,
+      "q1_kmh": 18.41,
+      "q3_kmh": 18.47
+     },
+     "69": {
+      "length_km_total": 347.9,
+      "median_kmh": 18.15,
+      "n_trips": 20,
+      "q1_kmh": 17.9,
+      "q3_kmh": 18.41
+     },
+     "7": {
+      "length_km_total": 3391.0,
+      "median_kmh": 22.72,
+      "n_trips": 181,
+      "q1_kmh": 22.08,
+      "q3_kmh": 23.51
+     },
+     "70": {
+      "length_km_total": 2242.0,
+      "median_kmh": 21.41,
+      "n_trips": 112,
+      "q1_kmh": 21.41,
+      "q3_kmh": 21.57
+     },
+     "72": {
+      "length_km_total": 528.3,
+      "median_kmh": 16.31,
+      "n_trips": 108,
+      "q1_kmh": 16.28,
+      "q3_kmh": 16.33
+     },
+     "74": {
+      "length_km_total": 2467.0,
+      "median_kmh": 19.86,
+      "n_trips": 112,
+      "q1_kmh": 19.76,
+      "q3_kmh": 20.06
+     },
+     "76": {
+      "length_km_total": 735.7,
+      "median_kmh": 22.03,
+      "n_trips": 102,
+      "q1_kmh": 21.25,
+      "q3_kmh": 22.03
+     },
+     "78": {
+      "length_km_total": 1601.0,
+      "median_kmh": 18.26,
+      "n_trips": 112,
+      "q1_kmh": 18.06,
+      "q3_kmh": 18.44
+     },
+     "9": {
+      "length_km_total": 1736.0,
+      "median_kmh": 22.19,
+      "n_trips": 108,
+      "q1_kmh": 21.69,
+      "q3_kmh": 22.7
+     }
+    },
+    "median_kmh": 19.95,
+    "n_excluded": 0,
+    "n_lines": 21,
+    "n_trips": 2221,
+    "q1_kmh": 18.95,
+    "q3_kmh": 21.41,
+    "wmedian_vkm_kmh": 20.05
+   },
+   "Poznań": {
+    "hourly_median_kmh": {
+     "4": {
+      "median_kmh": 21.36,
+      "n_trips": 102
+     },
+     "5": {
+      "median_kmh": 20.19,
+      "n_trips": 121
+     },
+     "6": {
+      "median_kmh": 20.18,
+      "n_trips": 115
+     },
+     "7": {
+      "median_kmh": 20.18,
+      "n_trips": 115
+     },
+     "8": {
+      "median_kmh": 20.18,
+      "n_trips": 114
+     },
+     "9": {
+      "median_kmh": 20.18,
+      "n_trips": 114
+     },
+     "10": {
+      "median_kmh": 20.18,
+      "n_trips": 116
+     },
+     "11": {
+      "median_kmh": 19.92,
+      "n_trips": 145
+     },
+     "12": {
+      "median_kmh": 18.64,
+      "n_trips": 155
+     },
+     "13": {
+      "median_kmh": 18.62,
+      "n_trips": 153
+     },
+     "14": {
+      "median_kmh": 18.64,
+      "n_trips": 155
+     },
+     "15": {
+      "median_kmh": 18.62,
+      "n_trips": 156
+     },
+     "16": {
+      "median_kmh": 18.63,
+      "n_trips": 152
+     },
+     "17": {
+      "median_kmh": 18.63,
+      "n_trips": 152
+     },
+     "18": {
+      "median_kmh": 18.63,
+      "n_trips": 152
+     },
+     "19": {
+      "median_kmh": 19.55,
+      "n_trips": 152
+     },
+     "20": {
+      "median_kmh": 20.19,
+      "n_trips": 136
+     },
+     "21": {
+      "median_kmh": 20.18,
+      "n_trips": 120
+     },
+     "22": {
+      "median_kmh": 20.58,
+      "n_trips": 125
+     },
+     "23": {
+      "median_kmh": 23.08,
+      "n_trips": 32
+     },
+     "24": {
+      "median_kmh": 24.78,
+      "n_trips": 8
+     },
+     "25": {
+      "median_kmh": 24.78,
+      "n_trips": 8
+     },
+     "26": {
+      "median_kmh": 24.78,
+      "n_trips": 4
+     },
+     "27": {
+      "median_kmh": 24.78,
+      "n_trips": 4
+     },
+     "28": {
+      "median_kmh": 24.7,
+      "n_trips": 5
+     },
+     "29": {
+      "median_kmh": 24.75,
+      "n_trips": 4
+     }
+    },
+    "lines": {
+     "1": {
+      "length_km_total": 1933.0,
+      "median_kmh": 22.87,
+      "n_trips": 131,
+      "q1_kmh": 22.3,
+      "q3_kmh": 22.87
+     },
+     "10": {
+      "length_km_total": 1701.0,
+      "median_kmh": 19.01,
+      "n_trips": 141,
+      "q1_kmh": 18.36,
+      "q3_kmh": 19.81
+     },
+     "11": {
+      "length_km_total": 1628.0,
+      "median_kmh": 20.18,
+      "n_trips": 141,
+      "q1_kmh": 18.64,
+      "q3_kmh": 20.19
+     },
+     "12": {
+      "length_km_total": 1881.0,
+      "median_kmh": 23.54,
+      "n_trips": 137,
+      "q1_kmh": 22.89,
+      "q3_kmh": 24.93
+     },
+     "13": {
+      "length_km_total": 1699.0,
+      "median_kmh": 18.15,
+      "n_trips": 130,
+      "q1_kmh": 17.91,
+      "q3_kmh": 19.51
+     },
+     "14": {
+      "length_km_total": 1384.0,
+      "median_kmh": 27.1,
+      "n_trips": 131,
+      "q1_kmh": 26.03,
+      "q3_kmh": 28.4
+     },
+     "15": {
+      "length_km_total": 1694.0,
+      "median_kmh": 25.16,
+      "n_trips": 136,
+      "q1_kmh": 25.15,
+      "q3_kmh": 26.6
+     },
+     "16": {
+      "length_km_total": 1723.0,
+      "median_kmh": 25.24,
+      "n_trips": 128,
+      "q1_kmh": 24.34,
+      "q3_kmh": 25.91
+     },
+     "17": {
+      "length_km_total": 798.4,
+      "median_kmh": 16.62,
+      "n_trips": 134,
+      "q1_kmh": 15.88,
+      "q3_kmh": 16.64
+     },
+     "18": {
+      "length_km_total": 1377.0,
+      "median_kmh": 18.24,
+      "n_trips": 132,
+      "q1_kmh": 17.55,
+      "q3_kmh": 18.62
+     },
+     "201": {
+      "length_km_total": 464.7,
+      "median_kmh": 24.7,
+      "n_trips": 31,
+      "q1_kmh": 24.7,
+      "q3_kmh": 24.87
+     },
+     "202": {
+      "length_km_total": 175.1,
+      "median_kmh": 25.1,
+      "n_trips": 13,
+      "q1_kmh": 24.61,
+      "q3_kmh": 25.1
+     },
+     "3": {
+      "length_km_total": 1955.0,
+      "median_kmh": 20.29,
+      "n_trips": 140,
+      "q1_kmh": 19.92,
+      "q3_kmh": 20.68
+     },
+     "4": {
+      "length_km_total": 764.1,
+      "median_kmh": 18.37,
+      "n_trips": 131,
+      "q1_kmh": 17.98,
+      "q3_kmh": 18.37
+     },
+     "5": {
+      "length_km_total": 1125.0,
+      "median_kmh": 17.59,
+      "n_trips": 131,
+      "q1_kmh": 17.21,
+      "q3_kmh": 18.44
+     },
+     "6": {
+      "length_km_total": 1905.0,
+      "median_kmh": 20.54,
+      "n_trips": 138,
+      "q1_kmh": 20.09,
+      "q3_kmh": 20.58
+     },
+     "7": {
+      "length_km_total": 1912.0,
+      "median_kmh": 20.5,
+      "n_trips": 143,
+      "q1_kmh": 20.5,
+      "q3_kmh": 21.0
+     },
+     "8": {
+      "length_km_total": 1322.0,
+      "median_kmh": 18.91,
+      "n_trips": 138,
+      "q1_kmh": 18.17,
+      "q3_kmh": 19.38
+     },
+     "9": {
+      "length_km_total": 1775.0,
+      "median_kmh": 16.88,
+      "n_trips": 141,
+      "q1_kmh": 16.67,
+      "q3_kmh": 17.04
+     },
+     "92": {
+      "length_km_total": 1352.0,
+      "median_kmh": 17.42,
+      "n_trips": 136,
+      "q1_kmh": 16.47,
+      "q3_kmh": 17.92
+     },
+     "97": {
+      "length_km_total": 1123.0,
+      "median_kmh": 22.51,
+      "n_trips": 132,
+      "q1_kmh": 21.47,
+      "q3_kmh": 23.54
+     }
+    },
+    "median_kmh": 19.99,
+    "n_excluded": 10,
+    "n_lines": 21,
+    "n_trips": 2615,
+    "q1_kmh": 17.92,
+    "q3_kmh": 22.87,
+    "wmedian_vkm_kmh": 20.21
+   },
+   "Warszawa": {
+    "hourly_median_kmh": {
+     "3": {
+      "median_kmh": 17.83,
+      "n_trips": 12
+     },
+     "4": {
+      "median_kmh": 18.89,
+      "n_trips": 190
+     },
+     "5": {
+      "median_kmh": 18.95,
+      "n_trips": 184
+     },
+     "6": {
+      "median_kmh": 18.92,
+      "n_trips": 191
+     },
+     "7": {
+      "median_kmh": 18.92,
+      "n_trips": 229
+     },
+     "8": {
+      "median_kmh": 18.92,
+      "n_trips": 231
+     },
+     "9": {
+      "median_kmh": 18.92,
+      "n_trips": 233
+     },
+     "10": {
+      "median_kmh": 18.92,
+      "n_trips": 232
+     },
+     "11": {
+      "median_kmh": 18.92,
+      "n_trips": 232
+     },
+     "12": {
+      "median_kmh": 18.92,
+      "n_trips": 232
+     },
+     "13": {
+      "median_kmh": 18.92,
+      "n_trips": 232
+     },
+     "14": {
+      "median_kmh": 18.92,
+      "n_trips": 232
+     },
+     "15": {
+      "median_kmh": 18.92,
+      "n_trips": 232
+     },
+     "16": {
+      "median_kmh": 18.92,
+      "n_trips": 232
+     },
+     "17": {
+      "median_kmh": 18.92,
+      "n_trips": 233
+     },
+     "18": {
+      "median_kmh": 18.94,
+      "n_trips": 234
+     },
+     "19": {
+      "median_kmh": 18.97,
+      "n_trips": 218
+     },
+     "20": {
+      "median_kmh": 18.98,
+      "n_trips": 177
+     },
+     "21": {
+      "median_kmh": 18.98,
+      "n_trips": 171
+     },
+     "22": {
+      "median_kmh": 19.2,
+      "n_trips": 175
+     },
+     "23": {
+      "median_kmh": 19.19,
+      "n_trips": 129
+     },
+     "24": {
+      "median_kmh": 19.11,
+      "n_trips": 19
+     }
+    },
+    "lines": {
+     "1": {
+      "length_km_total": 4673.0,
+      "median_kmh": 18.68,
+      "n_trips": 293,
+      "q1_kmh": 17.83,
+      "q3_kmh": 19.13
+     },
+     "10": {
+      "length_km_total": 2461.0,
+      "median_kmh": 17.33,
+      "n_trips": 157,
+      "q1_kmh": 16.79,
+      "q3_kmh": 18.77
+     },
+     "11": {
+      "length_km_total": 1504.0,
+      "median_kmh": 18.34,
+      "n_trips": 148,
+      "q1_kmh": 18.34,
+      "q3_kmh": 18.71
+     },
+     "13": {
+      "length_km_total": 1045.0,
+      "median_kmh": 19.32,
+      "n_trips": 101,
+      "q1_kmh": 19.27,
+      "q3_kmh": 19.32
+     },
+     "14": {
+      "length_km_total": 1764.0,
+      "median_kmh": 18.88,
+      "n_trips": 147,
+      "q1_kmh": 17.96,
+      "q3_kmh": 18.95
+     },
+     "15": {
+      "length_km_total": 2158.0,
+      "median_kmh": 18.05,
+      "n_trips": 143,
+      "q1_kmh": 17.31,
+      "q3_kmh": 18.05
+     },
+     "16": {
+      "length_km_total": 4411.0,
+      "median_kmh": 18.81,
+      "n_trips": 293,
+      "q1_kmh": 18.28,
+      "q3_kmh": 19.5
+     },
+     "17": {
+      "length_km_total": 5209.0,
+      "median_kmh": 19.16,
+      "n_trips": 297,
+      "q1_kmh": 18.12,
+      "q3_kmh": 21.19
+     },
+     "18": {
+      "length_km_total": 2439.0,
+      "median_kmh": 18.12,
+      "n_trips": 152,
+      "q1_kmh": 16.67,
+      "q3_kmh": 18.12
+     },
+     "19": {
+      "length_km_total": 2621.0,
+      "median_kmh": 19.0,
+      "n_trips": 156,
+      "q1_kmh": 18.34,
+      "q3_kmh": 19.54
+     },
+     "2": {
+      "length_km_total": 2432.0,
+      "median_kmh": 25.19,
+      "n_trips": 290,
+      "q1_kmh": 24.96,
+      "q3_kmh": 27.4
+     },
+     "20": {
+      "length_km_total": 2554.0,
+      "median_kmh": 21.2,
+      "n_trips": 152,
+      "q1_kmh": 20.58,
+      "q3_kmh": 21.42
+     },
+     "22": {
+      "length_km_total": 2151.0,
+      "median_kmh": 18.37,
+      "n_trips": 140,
+      "q1_kmh": 18.37,
+      "q3_kmh": 19.2
+     },
+     "23": {
+      "length_km_total": 1785.0,
+      "median_kmh": 19.51,
+      "n_trips": 143,
+      "q1_kmh": 19.25,
+      "q3_kmh": 19.51
+     },
+     "24": {
+      "length_km_total": 2564.0,
+      "median_kmh": 18.91,
+      "n_trips": 153,
+      "q1_kmh": 18.91,
+      "q3_kmh": 19.31
+     },
+     "26": {
+      "length_km_total": 3314.0,
+      "median_kmh": 19.44,
+      "n_trips": 155,
+      "q1_kmh": 18.79,
+      "q3_kmh": 19.44
+     },
+     "27": {
+      "length_km_total": 1115.0,
+      "median_kmh": 19.52,
+      "n_trips": 143,
+      "q1_kmh": 18.68,
+      "q3_kmh": 20.96
+     },
+     "28": {
+      "length_km_total": 2283.0,
+      "median_kmh": 18.79,
+      "n_trips": 149,
+      "q1_kmh": 17.89,
+      "q3_kmh": 19.32
+     },
+     "3": {
+      "length_km_total": 1759.0,
+      "median_kmh": 19.43,
+      "n_trips": 144,
+      "q1_kmh": 18.98,
+      "q3_kmh": 19.91
+     },
+     "33": {
+      "length_km_total": 1884.0,
+      "median_kmh": 18.16,
+      "n_trips": 144,
+      "q1_kmh": 17.39,
+      "q3_kmh": 18.92
+     },
+     "4": {
+      "length_km_total": 2763.0,
+      "median_kmh": 19.6,
+      "n_trips": 157,
+      "q1_kmh": 17.47,
+      "q3_kmh": 20.25
+     },
+     "6": {
+      "length_km_total": 2552.0,
+      "median_kmh": 19.31,
+      "n_trips": 147,
+      "q1_kmh": 18.92,
+      "q3_kmh": 19.31
+     },
+     "7": {
+      "length_km_total": 1408.0,
+      "median_kmh": 16.61,
+      "n_trips": 142,
+      "q1_kmh": 16.52,
+      "q3_kmh": 16.61
+     },
+     "9": {
+      "length_km_total": 4283.0,
+      "median_kmh": 18.94,
+      "n_trips": 304,
+      "q1_kmh": 18.47,
+      "q3_kmh": 20.04
+     }
+    },
+    "median_kmh": 18.94,
+    "n_excluded": 2,
+    "n_lines": 24,
+    "n_trips": 4250,
+    "q1_kmh": 18.28,
+    "q3_kmh": 19.77,
+    "wmedian_vkm_kmh": 18.94
+   },
+   "Wrocław": {
+    "hourly_median_kmh": {
+     "3": {
+      "median_kmh": 20.67,
+      "n_trips": 1
+     },
+     "4": {
+      "median_kmh": 16.81,
+      "n_trips": 100
+     },
+     "5": {
+      "median_kmh": 17.82,
+      "n_trips": 163
+     },
+     "6": {
+      "median_kmh": 17.52,
+      "n_trips": 147
+     },
+     "7": {
+      "median_kmh": 17.52,
+      "n_trips": 147
+     },
+     "8": {
+      "median_kmh": 17.52,
+      "n_trips": 144
+     },
+     "9": {
+      "median_kmh": 17.31,
+      "n_trips": 145
+     },
+     "10": {
+      "median_kmh": 17.32,
+      "n_trips": 144
+     },
+     "11": {
+      "median_kmh": 17.31,
+      "n_trips": 147
+     },
+     "12": {
+      "median_kmh": 17.31,
+      "n_trips": 149
+     },
+     "13": {
+      "median_kmh": 17.29,
+      "n_trips": 150
+     },
+     "14": {
+      "median_kmh": 17.29,
+      "n_trips": 150
+     },
+     "15": {
+      "median_kmh": 17.29,
+      "n_trips": 150
+     },
+     "16": {
+      "median_kmh": 17.26,
+      "n_trips": 151
+     },
+     "17": {
+      "median_kmh": 17.29,
+      "n_trips": 150
+     },
+     "18": {
+      "median_kmh": 17.29,
+      "n_trips": 150
+     },
+     "19": {
+      "median_kmh": 17.32,
+      "n_trips": 151
+     },
+     "20": {
+      "median_kmh": 17.52,
+      "n_trips": 151
+     },
+     "21": {
+      "median_kmh": 17.72,
+      "n_trips": 151
+     },
+     "22": {
+      "median_kmh": 17.71,
+      "n_trips": 148
+     },
+     "23": {
+      "median_kmh": 18.49,
+      "n_trips": 107
+     },
+     "24": {
+      "median_kmh": 18.11,
+      "n_trips": 4
+     }
+    },
+    "lines": {
+     "0": {
+      "length_km_total": 290.7,
+      "median_kmh": 13.03,
+      "n_trips": 59,
+      "q1_kmh": 12.9,
+      "q3_kmh": 15.27
+     },
+     "1": {
+      "length_km_total": 1073.0,
+      "median_kmh": 17.26,
+      "n_trips": 113,
+      "q1_kmh": 17.26,
+      "q3_kmh": 17.32
+     },
+     "10": {
+      "length_km_total": 2224.0,
+      "median_kmh": 20.32,
+      "n_trips": 123,
+      "q1_kmh": 20.18,
+      "q3_kmh": 20.61
+     },
+     "11": {
+      "length_km_total": 1099.0,
+      "median_kmh": 16.76,
+      "n_trips": 119,
+      "q1_kmh": 16.35,
+      "q3_kmh": 16.83
+     },
+     "12": {
+      "length_km_total": 1262.0,
+      "median_kmh": 18.0,
+      "n_trips": 114,
+      "q1_kmh": 17.78,
+      "q3_kmh": 18.26
+     },
+     "13": {
+      "length_km_total": 1393.0,
+      "median_kmh": 17.67,
+      "n_trips": 118,
+      "q1_kmh": 17.34,
+      "q3_kmh": 18.11
+     },
+     "14": {
+      "length_km_total": 1409.0,
+      "median_kmh": 17.88,
+      "n_trips": 109,
+      "q1_kmh": 17.76,
+      "q3_kmh": 17.88
+     },
+     "15": {
+      "length_km_total": 1183.0,
+      "median_kmh": 17.03,
+      "n_trips": 120,
+      "q1_kmh": 16.98,
+      "q3_kmh": 17.47
+     },
+     "16": {
+      "length_km_total": 1407.0,
+      "median_kmh": 16.34,
+      "n_trips": 117,
+      "q1_kmh": 15.53,
+      "q3_kmh": 16.7
+     },
+     "17": {
+      "length_km_total": 1373.0,
+      "median_kmh": 14.89,
+      "n_trips": 122,
+      "q1_kmh": 14.87,
+      "q3_kmh": 15.19
+     },
+     "18": {
+      "length_km_total": 1532.0,
+      "median_kmh": 16.73,
+      "n_trips": 113,
+      "q1_kmh": 16.65,
+      "q3_kmh": 16.73
+     },
+     "19": {
+      "length_km_total": 1350.0,
+      "median_kmh": 17.18,
+      "n_trips": 116,
+      "q1_kmh": 16.27,
+      "q3_kmh": 17.82
+     },
+     "2": {
+      "length_km_total": 1243.0,
+      "median_kmh": 17.05,
+      "n_trips": 120,
+      "q1_kmh": 16.09,
+      "q3_kmh": 17.05
+     },
+     "20": {
+      "length_km_total": 2153.0,
+      "median_kmh": 20.56,
+      "n_trips": 122,
+      "q1_kmh": 20.25,
+      "q3_kmh": 20.61
+     },
+     "21": {
+      "length_km_total": 1607.0,
+      "median_kmh": 18.91,
+      "n_trips": 132,
+      "q1_kmh": 18.5,
+      "q3_kmh": 18.91
+     },
+     "22": {
+      "length_km_total": 1296.0,
+      "median_kmh": 17.94,
+      "n_trips": 114,
+      "q1_kmh": 17.92,
+      "q3_kmh": 17.94
+     },
+     "23": {
+      "length_km_total": 1794.0,
+      "median_kmh": 19.16,
+      "n_trips": 122,
+      "q1_kmh": 18.61,
+      "q3_kmh": 19.16
+     },
+     "24": {
+      "length_km_total": 1453.0,
+      "median_kmh": 19.55,
+      "n_trips": 112,
+      "q1_kmh": 18.62,
+      "q3_kmh": 19.67
+     },
+     "3": {
+      "length_km_total": 2080.0,
+      "median_kmh": 20.77,
+      "n_trips": 123,
+      "q1_kmh": 20.62,
+      "q3_kmh": 21.19
+     },
+     "4": {
+      "length_km_total": 1430.0,
+      "median_kmh": 17.72,
+      "n_trips": 124,
+      "q1_kmh": 17.1,
+      "q3_kmh": 17.72
+     },
+     "5": {
+      "length_km_total": 1185.0,
+      "median_kmh": 17.81,
+      "n_trips": 117,
+      "q1_kmh": 17.31,
+      "q3_kmh": 18.05
+     },
+     "6": {
+      "length_km_total": 901.6,
+      "median_kmh": 15.21,
+      "n_trips": 105,
+      "q1_kmh": 15.16,
+      "q3_kmh": 15.21
+     },
+     "7": {
+      "length_km_total": 1416.0,
+      "median_kmh": 15.45,
+      "n_trips": 128,
+      "q1_kmh": 14.98,
+      "q3_kmh": 15.45
+     },
+     "8": {
+      "length_km_total": 1038.0,
+      "median_kmh": 14.8,
+      "n_trips": 123,
+      "q1_kmh": 13.85,
+      "q3_kmh": 15.11
+     },
+     "9": {
+      "length_km_total": 1052.0,
+      "median_kmh": 16.5,
+      "n_trips": 115,
+      "q1_kmh": 16.5,
+      "q3_kmh": 16.95
+     }
+    },
+    "median_kmh": 17.47,
+    "n_excluded": 2,
+    "n_lines": 25,
+    "n_trips": 2900,
+    "q1_kmh": 16.35,
+    "q3_kmh": 18.58,
+    "wmedian_vkm_kmh": 17.76
+   },
+   "Łódź": {
+    "hourly_median_kmh": {
+     "2": {
+      "median_kmh": 18.25,
+      "n_trips": 1
+     },
+     "3": {
+      "median_kmh": 17.83,
+      "n_trips": 20
+     },
+     "4": {
+      "median_kmh": 16.68,
+      "n_trips": 114
+     },
+     "5": {
+      "median_kmh": 17.2,
+      "n_trips": 125
+     },
+     "6": {
+      "median_kmh": 16.96,
+      "n_trips": 117
+     },
+     "7": {
+      "median_kmh": 16.96,
+      "n_trips": 120
+     },
+     "8": {
+      "median_kmh": 16.97,
+      "n_trips": 117
+     },
+     "9": {
+      "median_kmh": 16.97,
+      "n_trips": 116
+     },
+     "10": {
+      "median_kmh": 16.97,
+      "n_trips": 116
+     },
+     "11": {
+      "median_kmh": 16.97,
+      "n_trips": 116
+     },
+     "12": {
+      "median_kmh": 16.97,
+      "n_trips": 116
+     },
+     "13": {
+      "median_kmh": 16.97,
+      "n_trips": 116
+     },
+     "14": {
+      "median_kmh": 17.09,
+      "n_trips": 116
+     },
+     "15": {
+      "median_kmh": 17.2,
+      "n_trips": 116
+     },
+     "16": {
+      "median_kmh": 17.2,
+      "n_trips": 116
+     },
+     "17": {
+      "median_kmh": 17.2,
+      "n_trips": 116
+     },
+     "18": {
+      "median_kmh": 17.2,
+      "n_trips": 116
+     },
+     "19": {
+      "median_kmh": 17.2,
+      "n_trips": 118
+     },
+     "20": {
+      "median_kmh": 16.97,
+      "n_trips": 119
+     },
+     "21": {
+      "median_kmh": 16.97,
+      "n_trips": 118
+     },
+     "22": {
+      "median_kmh": 18.02,
+      "n_trips": 129
+     },
+     "23": {
+      "median_kmh": 18.68,
+      "n_trips": 48
+     },
+     "24": {
+      "median_kmh": 22.5,
+      "n_trips": 2
+     },
+     "26": {
+      "median_kmh": 23.45,
+      "n_trips": 1
+     },
+     "27": {
+      "median_kmh": 23.06,
+      "n_trips": 2
+     },
+     "28": {
+      "median_kmh": 23.69,
+      "n_trips": 1
+     }
+    },
+    "lines": {
+     "1": {
+      "length_km_total": 423.0,
+      "median_kmh": 15.65,
+      "n_trips": 111,
+      "q1_kmh": 13.06,
+      "q3_kmh": 17.24
+     },
+     "10B": {
+      "length_km_total": 2083.0,
+      "median_kmh": 20.98,
+      "n_trips": 124,
+      "q1_kmh": 20.57,
+      "q3_kmh": 21.43
+     },
+     "11": {
+      "length_km_total": 2141.0,
+      "median_kmh": 16.94,
+      "n_trips": 116,
+      "q1_kmh": 16.31,
+      "q3_kmh": 17.2
+     },
+     "12": {
+      "length_km_total": 1506.0,
+      "median_kmh": 16.96,
+      "n_trips": 119,
+      "q1_kmh": 16.96,
+      "q3_kmh": 16.97
+     },
+     "13": {
+      "length_km_total": 1823.0,
+      "median_kmh": 18.68,
+      "n_trips": 122,
+      "q1_kmh": 17.68,
+      "q3_kmh": 19.11
+     },
+     "14": {
+      "length_km_total": 1408.0,
+      "median_kmh": 18.31,
+      "n_trips": 119,
+      "q1_kmh": 17.2,
+      "q3_kmh": 19.43
+     },
+     "15": {
+      "length_km_total": 1796.0,
+      "median_kmh": 16.11,
+      "n_trips": 123,
+      "q1_kmh": 15.13,
+      "q3_kmh": 16.11
+     },
+     "16": {
+      "length_km_total": 1899.0,
+      "median_kmh": 18.4,
+      "n_trips": 120,
+      "q1_kmh": 18.23,
+      "q3_kmh": 18.4
+     },
+     "17": {
+      "length_km_total": 164.3,
+      "median_kmh": 16.18,
+      "n_trips": 16,
+      "q1_kmh": 15.9,
+      "q3_kmh": 16.61
+     },
+     "2": {
+      "length_km_total": 1931.0,
+      "median_kmh": 16.28,
+      "n_trips": 126,
+      "q1_kmh": 16.16,
+      "q3_kmh": 16.28
+     },
+     "3": {
+      "length_km_total": 1640.0,
+      "median_kmh": 15.07,
+      "n_trips": 122,
+      "q1_kmh": 14.37,
+      "q3_kmh": 15.63
+     },
+     "4": {
+      "length_km_total": 818.5,
+      "median_kmh": 15.0,
+      "n_trips": 122,
+      "q1_kmh": 15.0,
+      "q3_kmh": 17.64
+     },
+     "41": {
+      "length_km_total": 1152.0,
+      "median_kmh": 21.83,
+      "n_trips": 80,
+      "q1_kmh": 20.87,
+      "q3_kmh": 21.83
+     },
+     "43": {
+      "length_km_total": 594.5,
+      "median_kmh": 18.76,
+      "n_trips": 70,
+      "q1_kmh": 18.31,
+      "q3_kmh": 18.76
+     },
+     "45": {
+      "length_km_total": 1933.0,
+      "median_kmh": 18.13,
+      "n_trips": 100,
+      "q1_kmh": 18.0,
+      "q3_kmh": 18.13
+     },
+     "5": {
+      "length_km_total": 1089.0,
+      "median_kmh": 16.12,
+      "n_trips": 116,
+      "q1_kmh": 15.65,
+      "q3_kmh": 16.6
+     },
+     "6": {
+      "length_km_total": 1880.0,
+      "median_kmh": 15.8,
+      "n_trips": 123,
+      "q1_kmh": 15.65,
+      "q3_kmh": 16.06
+     },
+     "7": {
+      "length_km_total": 1126.0,
+      "median_kmh": 14.8,
+      "n_trips": 119,
+      "q1_kmh": 13.95,
+      "q3_kmh": 15.2
+     },
+     "8": {
+      "length_km_total": 2069.0,
+      "median_kmh": 18.1,
+      "n_trips": 124,
+      "q1_kmh": 17.83,
+      "q3_kmh": 19.5
+     },
+     "9": {
+      "length_km_total": 1327.0,
+      "median_kmh": 19.64,
+      "n_trips": 114,
+      "q1_kmh": 19.64,
+      "q3_kmh": 21.01
+     },
+     "P1": {
+      "length_km_total": 73.56,
+      "median_kmh": 23.09,
+      "n_trips": 8,
+      "q1_kmh": 22.72,
+      "q3_kmh": 23.51
+     },
+     "Z1": {
+      "length_km_total": 873.5,
+      "median_kmh": 16.56,
+      "n_trips": 118,
+      "q1_kmh": 15.75,
+      "q3_kmh": 16.56
+     }
+    },
+    "median_kmh": 17.2,
+    "n_excluded": 18,
+    "n_lines": 22,
+    "n_trips": 2312,
+    "q1_kmh": 15.75,
+    "q3_kmh": 18.63,
+    "wmedian_vkm_kmh": 17.38
+   }
+  },
+  "all/weekday": {
+   "GZM": {
+    "hourly_median_kmh": {
+     "2": {
+      "median_kmh": 18.46,
+      "n_trips": 9
+     },
+     "3": {
+      "median_kmh": 21.65,
+      "n_trips": 70
+     },
+     "4": {
+      "median_kmh": 19.59,
+      "n_trips": 181
+     },
+     "5": {
+      "median_kmh": 16.95,
+      "n_trips": 166
+     },
+     "6": {
+      "median_kmh": 16.95,
+      "n_trips": 168
+     },
+     "7": {
+      "median_kmh": 16.95,
+      "n_trips": 165
+     },
+     "8": {
+      "median_kmh": 16.95,
+      "n_trips": 159
+     },
+     "9": {
+      "median_kmh": 16.95,
+      "n_trips": 164
+     },
+     "10": {
+      "median_kmh": 16.95,
+      "n_trips": 163
+     },
+     "11": {
+      "median_kmh": 16.99,
+      "n_trips": 162
+     },
+     "12": {
+      "median_kmh": 16.95,
+      "n_trips": 167
+     },
+     "13": {
+      "median_kmh": 16.95,
+      "n_trips": 165
+     },
+     "14": {
+      "median_kmh": 16.95,
+      "n_trips": 166
+     },
+     "15": {
+      "median_kmh": 16.99,
+      "n_trips": 166
+     },
+     "16": {
+      "median_kmh": 16.95,
+      "n_trips": 161
+     },
+     "17": {
+      "median_kmh": 16.95,
+      "n_trips": 153
+     },
+     "18": {
+      "median_kmh": 17.02,
+      "n_trips": 135
+     },
+     "19": {
+      "median_kmh": 17.14,
+      "n_trips": 114
+     },
+     "20": {
+      "median_kmh": 16.81,
+      "n_trips": 106
+     },
+     "21": {
+      "median_kmh": 16.79,
+      "n_trips": 98
+     },
+     "22": {
+      "median_kmh": 17.87,
+      "n_trips": 108
+     },
+     "23": {
+      "median_kmh": 20.72,
+      "n_trips": 79
+     },
+     "24": {
+      "median_kmh": 20.4,
+      "n_trips": 26
+     },
+     "25": {
+      "median_kmh": 19.18,
+      "n_trips": 8
+     }
+    },
+    "lines": {
+     "T1": {
+      "length_km_total": 891.7,
+      "median_kmh": 20.23,
+      "n_trips": 74,
+      "q1_kmh": 17.31,
+      "q3_kmh": 20.23
+     },
+     "T11": {
+      "length_km_total": 2748.0,
+      "median_kmh": 16.95,
+      "n_trips": 159,
+      "q1_kmh": 16.79,
+      "q3_kmh": 16.95
+     },
+     "T13": {
+      "length_km_total": 798.0,
+      "median_kmh": 15.86,
+      "n_trips": 133,
+      "q1_kmh": 15.5,
+      "q3_kmh": 15.86
+     },
+     "T15": {
+      "length_km_total": 1252.0,
+      "median_kmh": 21.93,
+      "n_trips": 152,
+      "q1_kmh": 19.61,
+      "q3_kmh": 26.04
+     },
+     "T16": {
+      "length_km_total": 1444.0,
+      "median_kmh": 16.08,
+      "n_trips": 180,
+      "q1_kmh": 15.92,
+      "q3_kmh": 16.08
+     },
+     "T17": {
+      "length_km_total": 1736.0,
+      "median_kmh": 17.18,
+      "n_trips": 142,
+      "q1_kmh": 16.73,
+      "q3_kmh": 17.18
+     },
+     "T2": {
+      "length_km_total": 1383.0,
+      "median_kmh": 19.36,
+      "n_trips": 84,
+      "q1_kmh": 19.28,
+      "q3_kmh": 19.36
+     },
+     "T20": {
+      "length_km_total": 2320.0,
+      "median_kmh": 15.04,
+      "n_trips": 155,
+      "q1_kmh": 14.8,
+      "q3_kmh": 15.04
+     },
+     "T21": {
+      "length_km_total": 2590.0,
+      "median_kmh": 22.24,
+      "n_trips": 131,
+      "q1_kmh": 22.19,
+      "q3_kmh": 22.33
+     },
+     "T22": {
+      "length_km_total": 1695.0,
+      "median_kmh": 23.33,
+      "n_trips": 119,
+      "q1_kmh": 23.21,
+      "q3_kmh": 23.74
+     },
+     "T24": {
+      "length_km_total": 490.2,
+      "median_kmh": 17.14,
+      "n_trips": 96,
+      "q1_kmh": 16.52,
+      "q3_kmh": 17.14
+     },
+     "T26": {
+      "length_km_total": 1849.0,
+      "median_kmh": 20.53,
+      "n_trips": 136,
+      "q1_kmh": 19.87,
+      "q3_kmh": 20.53
+     },
+     "T27": {
+      "length_km_total": 1735.0,
+      "median_kmh": 18.65,
+      "n_trips": 102,
+      "q1_kmh": 18.2,
+      "q3_kmh": 20.01
+     },
+     "T28": {
+      "length_km_total": 450.2,
+      "median_kmh": 22.71,
+      "n_trips": 44,
+      "q1_kmh": 22.21,
+      "q3_kmh": 23.97
+     },
+     "T3": {
+      "length_km_total": 1163.0,
+      "median_kmh": 18.21,
+      "n_trips": 108,
+      "q1_kmh": 17.25,
+      "q3_kmh": 18.27
+     },
+     "T30": {
+      "length_km_total": 145.8,
+      "median_kmh": 17.44,
+      "n_trips": 18,
+      "q1_kmh": 17.44,
+      "q3_kmh": 17.44
+     },
+     "T31": {
+      "length_km_total": 599.6,
+      "median_kmh": 15.47,
+      "n_trips": 152,
+      "q1_kmh": 15.02,
+      "q3_kmh": 15.47
+     },
+     "T33": {
+      "length_km_total": 393.5,
+      "median_kmh": 19.1,
+      "n_trips": 66,
+      "q1_kmh": 18.36,
+      "q3_kmh": 19.1
+     },
+     "T34": {
+      "length_km_total": 181.6,
+      "median_kmh": 16.51,
+      "n_trips": 71,
+      "q1_kmh": 15.05,
+      "q3_kmh": 16.51
+     },
+     "T36": {
+      "length_km_total": 918.8,
+      "median_kmh": 16.3,
+      "n_trips": 112,
+      "q1_kmh": 15.7,
+      "q3_kmh": 16.3
+     },
+     "T38": {
+      "length_km_total": 225.6,
+      "median_kmh": 13.92,
+      "n_trips": 118,
+      "q1_kmh": 10.74,
+      "q3_kmh": 13.92
+     },
+     "T4": {
+      "length_km_total": 482.7,
+      "median_kmh": 18.89,
+      "n_trips": 62,
+      "q1_kmh": 17.02,
+      "q3_kmh": 18.89
+     },
+     "T41": {
+      "length_km_total": 51.79,
+      "median_kmh": 15.34,
+      "n_trips": 21,
+      "q1_kmh": 14.8,
+      "q3_kmh": 15.34
+     },
+     "T5": {
+      "length_km_total": 1010.0,
+      "median_kmh": 20.07,
+      "n_trips": 67,
+      "q1_kmh": 19.86,
+      "q3_kmh": 20.07
+     },
+     "T6": {
+      "length_km_total": 4600.0,
+      "median_kmh": 19.64,
+      "n_trips": 246,
+      "q1_kmh": 17.85,
+      "q3_kmh": 20.17
+     },
+     "T7": {
+      "length_km_total": 3507.0,
+      "median_kmh": 16.61,
+      "n_trips": 172,
+      "q1_kmh": 16.25,
+      "q3_kmh": 17.06
+     },
+     "T9": {
+      "length_km_total": 2339.0,
+      "median_kmh": 15.34,
+      "n_trips": 139,
+      "q1_kmh": 15.32,
+      "q3_kmh": 15.69
+     }
+    },
+    "median_kmh": 17.23,
+    "n_excluded": 0,
+    "n_lines": 27,
+    "n_trips": 3059,
+    "q1_kmh": 15.92,
+    "q3_kmh": 20.01,
+    "wmedian_vkm_kmh": 18.22
+   },
+   "Gdańsk": {
+    "hourly_median_kmh": {
+     "3": {
+      "median_kmh": 17.72,
+      "n_trips": 9
+     },
+     "4": {
+      "median_kmh": 17.81,
+      "n_trips": 61
+     },
+     "5": {
+      "median_kmh": 18.01,
+      "n_trips": 91
+     },
+     "6": {
+      "median_kmh": 18.01,
+      "n_trips": 107
+     },
+     "7": {
+      "median_kmh": 18.02,
+      "n_trips": 107
+     },
+     "8": {
+      "median_kmh": 17.97,
+      "n_trips": 94
+     },
+     "9": {
+      "median_kmh": 17.81,
+      "n_trips": 77
+     },
+     "10": {
+      "median_kmh": 17.91,
+      "n_trips": 75
+     },
+     "11": {
+      "median_kmh": 17.96,
+      "n_trips": 74
+     },
+     "12": {
+      "median_kmh": 17.96,
+      "n_trips": 78
+     },
+     "13": {
+      "median_kmh": 17.97,
+      "n_trips": 90
+     },
+     "14": {
+      "median_kmh": 18.01,
+      "n_trips": 112
+     },
+     "15": {
+      "median_kmh": 18.02,
+      "n_trips": 112
+     },
+     "16": {
+      "median_kmh": 18.02,
+      "n_trips": 111
+     },
+     "17": {
+      "median_kmh": 18.01,
+      "n_trips": 92
+     },
+     "18": {
+      "median_kmh": 17.97,
+      "n_trips": 67
+     },
+     "19": {
+      "median_kmh": 17.97,
+      "n_trips": 56
+     },
+     "20": {
+      "median_kmh": 17.97,
+      "n_trips": 46
+     },
+     "21": {
+      "median_kmh": 17.97,
+      "n_trips": 36
+     },
+     "22": {
+      "median_kmh": 18.54,
+      "n_trips": 31
+     },
+     "23": {
+      "median_kmh": 19.45,
+      "n_trips": 16
+     }
+    },
+    "lines": {
+     "10": {
+      "length_km_total": 2599.0,
+      "median_kmh": 18.01,
+      "n_trips": 180,
+      "q1_kmh": 17.81,
+      "q3_kmh": 18.01
+     },
+     "11": {
+      "length_km_total": 1691.0,
+      "median_kmh": 18.3,
+      "n_trips": 122,
+      "q1_kmh": 18.13,
+      "q3_kmh": 18.87
+     },
+     "12": {
+      "length_km_total": 3982.0,
+      "median_kmh": 18.08,
+      "n_trips": 200,
+      "q1_kmh": 17.46,
+      "q3_kmh": 18.45
+     },
+     "2": {
+      "length_km_total": 3340.0,
+      "median_kmh": 18.02,
+      "n_trips": 186,
+      "q1_kmh": 17.97,
+      "q3_kmh": 18.02
+     },
+     "3": {
+      "length_km_total": 2284.0,
+      "median_kmh": 18.85,
+      "n_trips": 150,
+      "q1_kmh": 18.21,
+      "q3_kmh": 18.85
+     },
+     "5": {
+      "length_km_total": 1735.0,
+      "median_kmh": 17.03,
+      "n_trips": 111,
+      "q1_kmh": 16.9,
+      "q3_kmh": 18.54
+     },
+     "6": {
+      "length_km_total": 2923.0,
+      "median_kmh": 17.71,
+      "n_trips": 182,
+      "q1_kmh": 17.71,
+      "q3_kmh": 18.09
+     },
+     "7": {
+      "length_km_total": 1270.0,
+      "median_kmh": 19.7,
+      "n_trips": 86,
+      "q1_kmh": 19.57,
+      "q3_kmh": 19.83
+     },
+     "8": {
+      "length_km_total": 2404.0,
+      "median_kmh": 17.03,
+      "n_trips": 174,
+      "q1_kmh": 16.74,
+      "q3_kmh": 17.09
+     },
+     "9": {
+      "length_km_total": 1491.0,
+      "median_kmh": 17.4,
+      "n_trips": 151,
+      "q1_kmh": 16.38,
+      "q3_kmh": 17.46
+     }
+    },
+    "median_kmh": 18.01,
+    "n_excluded": 0,
+    "n_lines": 10,
+    "n_trips": 1542,
+    "q1_kmh": 17.46,
+    "q3_kmh": 18.45,
+    "wmedian_vkm_kmh": 18.01
+   },
+   "Kraków": {
+    "hourly_median_kmh": {
+     "4": {
+      "median_kmh": 20.05,
+      "n_trips": 56
+     },
+     "5": {
+      "median_kmh": 19.84,
+      "n_trips": 157
+     },
+     "6": {
+      "median_kmh": 19.86,
+      "n_trips": 231
+     },
+     "7": {
+      "median_kmh": 19.86,
+      "n_trips": 239
+     },
+     "8": {
+      "median_kmh": 19.85,
+      "n_trips": 236
+     },
+     "9": {
+      "median_kmh": 19.79,
+      "n_trips": 216
+     },
+     "10": {
+      "median_kmh": 19.75,
+      "n_trips": 217
+     },
+     "11": {
+      "median_kmh": 19.79,
+      "n_trips": 216
+     },
+     "12": {
+      "median_kmh": 19.75,
+      "n_trips": 218
+     },
+     "13": {
+      "median_kmh": 19.67,
+      "n_trips": 225
+     },
+     "14": {
+      "median_kmh": 19.73,
+      "n_trips": 234
+     },
+     "15": {
+      "median_kmh": 19.74,
+      "n_trips": 240
+     },
+     "16": {
+      "median_kmh": 19.74,
+      "n_trips": 240
+     },
+     "17": {
+      "median_kmh": 19.75,
+      "n_trips": 233
+     },
+     "18": {
+      "median_kmh": 19.73,
+      "n_trips": 206
+     },
+     "19": {
+      "median_kmh": 19.84,
+      "n_trips": 172
+     },
+     "20": {
+      "median_kmh": 19.86,
+      "n_trips": 141
+     },
+     "21": {
+      "median_kmh": 19.79,
+      "n_trips": 122
+     },
+     "22": {
+      "median_kmh": 19.84,
+      "n_trips": 98
+     },
+     "23": {
+      "median_kmh": 19.85,
+      "n_trips": 13
+     }
+    },
+    "lines": {
+     "1": {
+      "length_km_total": 1878.0,
+      "median_kmh": 18.57,
+      "n_trips": 143,
+      "q1_kmh": 17.69,
+      "q3_kmh": 18.57
+     },
+     "11": {
+      "length_km_total": 1646.0,
+      "median_kmh": 21.08,
+      "n_trips": 123,
+      "q1_kmh": 20.12,
+      "q3_kmh": 21.08
+     },
+     "12": {
+      "length_km_total": 4595.0,
+      "median_kmh": 19.82,
+      "n_trips": 260,
+      "q1_kmh": 19.24,
+      "q3_kmh": 20.05
+     },
+     "13": {
+      "length_km_total": 2336.0,
+      "median_kmh": 18.73,
+      "n_trips": 201,
+      "q1_kmh": 18.47,
+      "q3_kmh": 18.73
+     },
+     "14": {
+      "length_km_total": 2096.0,
+      "median_kmh": 18.47,
+      "n_trips": 141,
+      "q1_kmh": 18.31,
+      "q3_kmh": 18.86
+     },
+     "15": {
+      "length_km_total": 3017.0,
+      "median_kmh": 20.4,
+      "n_trips": 238,
+      "q1_kmh": 20.16,
+      "q3_kmh": 20.4
+     },
+     "16": {
+      "length_km_total": 2772.0,
+      "median_kmh": 23.29,
+      "n_trips": 140,
+      "q1_kmh": 23.29,
+      "q3_kmh": 23.39
+     },
+     "17": {
+      "length_km_total": 1680.0,
+      "median_kmh": 19.32,
+      "n_trips": 137,
+      "q1_kmh": 17.9,
+      "q3_kmh": 19.41
+     },
+     "18": {
+      "length_km_total": 2381.0,
+      "median_kmh": 19.84,
+      "n_trips": 144,
+      "q1_kmh": 19.46,
+      "q3_kmh": 19.84
+     },
+     "21": {
+      "length_km_total": 675.7,
+      "median_kmh": 19.34,
+      "n_trips": 107,
+      "q1_kmh": 19.34,
+      "q3_kmh": 19.52
+     },
+     "22": {
+      "length_km_total": 2495.0,
+      "median_kmh": 19.95,
+      "n_trips": 144,
+      "q1_kmh": 19.75,
+      "q3_kmh": 19.95
+     },
+     "3": {
+      "length_km_total": 3107.0,
+      "median_kmh": 19.11,
+      "n_trips": 248,
+      "q1_kmh": 18.95,
+      "q3_kmh": 19.11
+     },
+     "49": {
+      "length_km_total": 570.1,
+      "median_kmh": 22.85,
+      "n_trips": 48,
+      "q1_kmh": 21.85,
+      "q3_kmh": 23.58
+     },
+     "5": {
+      "length_km_total": 2458.0,
+      "median_kmh": 20.01,
+      "n_trips": 140,
+      "q1_kmh": 20.01,
+      "q3_kmh": 20.11
+     },
+     "7": {
+      "length_km_total": 5917.0,
+      "median_kmh": 22.46,
+      "n_trips": 324,
+      "q1_kmh": 21.68,
+      "q3_kmh": 23.59
+     },
+     "70": {
+      "length_km_total": 2889.0,
+      "median_kmh": 21.04,
+      "n_trips": 144,
+      "q1_kmh": 21.04,
+      "q3_kmh": 21.19
+     },
+     "71": {
+      "length_km_total": 1908.0,
+      "median_kmh": 20.26,
+      "n_trips": 108,
+      "q1_kmh": 20.13,
+      "q3_kmh": 20.26
+     },
+     "72": {
+      "length_km_total": 684.9,
+      "median_kmh": 15.88,
+      "n_trips": 140,
+      "q1_kmh": 15.43,
+      "q3_kmh": 16.33
+     },
+     "74": {
+      "length_km_total": 3178.0,
+      "median_kmh": 19.57,
+      "n_trips": 144,
+      "q1_kmh": 18.91,
+      "q3_kmh": 19.86
+     },
+     "75": {
+      "length_km_total": 1094.0,
+      "median_kmh": 19.67,
+      "n_trips": 107,
+      "q1_kmh": 19.29,
+      "q3_kmh": 19.67
+     },
+     "76": {
+      "length_km_total": 1010.0,
+      "median_kmh": 20.24,
+      "n_trips": 140,
+      "q1_kmh": 20.03,
+      "q3_kmh": 21.25
+     },
+     "78": {
+      "length_km_total": 3570.0,
+      "median_kmh": 18.26,
+      "n_trips": 249,
+      "q1_kmh": 17.33,
+      "q3_kmh": 18.26
+     },
+     "9": {
+      "length_km_total": 2251.0,
+      "median_kmh": 21.93,
+      "n_trips": 140,
+      "q1_kmh": 21.69,
+      "q3_kmh": 22.17
+     }
+    },
+    "median_kmh": 19.84,
+    "n_excluded": 0,
+    "n_lines": 23,
+    "n_trips": 3710,
+    "q1_kmh": 18.89,
+    "q3_kmh": 20.98,
+    "wmedian_vkm_kmh": 19.95
+   },
+   "Poznań": {
+    "hourly_median_kmh": {
+     "4": {
+      "median_kmh": 21.05,
+      "n_trips": 139
+     },
+     "5": {
+      "median_kmh": 19.82,
+      "n_trips": 176
+     },
+     "6": {
+      "median_kmh": 18.64,
+      "n_trips": 235
+     },
+     "7": {
+      "median_kmh": 18.65,
+      "n_trips": 228
+     },
+     "8": {
+      "median_kmh": 18.65,
+      "n_trips": 221
+     },
+     "9": {
+      "median_kmh": 19.49,
+      "n_trips": 179
+     },
+     "10": {
+      "median_kmh": 18.65,
+      "n_trips": 152
+     },
+     "11": {
+      "median_kmh": 18.65,
+      "n_trips": 152
+     },
+     "12": {
+      "median_kmh": 18.65,
+      "n_trips": 158
+     },
+     "13": {
+      "median_kmh": 18.65,
+      "n_trips": 231
+     },
+     "14": {
+      "median_kmh": 18.65,
+      "n_trips": 231
+     },
+     "15": {
+      "median_kmh": 18.65,
+      "n_trips": 229
+     },
+     "16": {
+      "median_kmh": 18.65,
+      "n_trips": 228
+     },
+     "17": {
+      "median_kmh": 18.64,
+      "n_trips": 228
+     },
+     "18": {
+      "median_kmh": 19.49,
+      "n_trips": 191
+     },
+     "19": {
+      "median_kmh": 19.58,
+      "n_trips": 151
+     },
+     "20": {
+      "median_kmh": 20.21,
+      "n_trips": 137
+     },
+     "21": {
+      "median_kmh": 20.19,
+      "n_trips": 121
+     },
+     "22": {
+      "median_kmh": 20.58,
+      "n_trips": 121
+     },
+     "23": {
+      "median_kmh": 22.47,
+      "n_trips": 28
+     },
+     "24": {
+      "median_kmh": 24.78,
+      "n_trips": 4
+     },
+     "25": {
+      "median_kmh": 24.78,
+      "n_trips": 4
+     },
+     "26": {
+      "median_kmh": 24.78,
+      "n_trips": 4
+     },
+     "27": {
+      "median_kmh": 24.78,
+      "n_trips": 4
+     },
+     "28": {
+      "median_kmh": 24.81,
+      "n_trips": 5
+     }
+    },
+    "lines": {
+     "1": {
+      "length_km_total": 2598.0,
+      "median_kmh": 22.87,
+      "n_trips": 181,
+      "q1_kmh": 22.3,
+      "q3_kmh": 22.87
+     },
+     "10": {
+      "length_km_total": 2287.0,
+      "median_kmh": 18.36,
+      "n_trips": 192,
+      "q1_kmh": 17.65,
+      "q3_kmh": 18.36
+     },
+     "11": {
+      "length_km_total": 2211.0,
+      "median_kmh": 18.65,
+      "n_trips": 193,
+      "q1_kmh": 18.64,
+      "q3_kmh": 18.65
+     },
+     "12": {
+      "length_km_total": 2563.0,
+      "median_kmh": 23.54,
+      "n_trips": 188,
+      "q1_kmh": 22.89,
+      "q3_kmh": 23.54
+     },
+     "13": {
+      "length_km_total": 2341.0,
+      "median_kmh": 18.15,
+      "n_trips": 182,
+      "q1_kmh": 17.91,
+      "q3_kmh": 18.15
+     },
+     "14": {
+      "length_km_total": 1866.0,
+      "median_kmh": 27.1,
+      "n_trips": 178,
+      "q1_kmh": 26.03,
+      "q3_kmh": 27.1
+     },
+     "15": {
+      "length_km_total": 2373.0,
+      "median_kmh": 25.16,
+      "n_trips": 190,
+      "q1_kmh": 25.15,
+      "q3_kmh": 25.16
+     },
+     "16": {
+      "length_km_total": 2315.0,
+      "median_kmh": 24.34,
+      "n_trips": 172,
+      "q1_kmh": 23.89,
+      "q3_kmh": 24.34
+     },
+     "17": {
+      "length_km_total": 1060.0,
+      "median_kmh": 15.88,
+      "n_trips": 180,
+      "q1_kmh": 15.87,
+      "q3_kmh": 15.88
+     },
+     "18": {
+      "length_km_total": 1857.0,
+      "median_kmh": 17.55,
+      "n_trips": 179,
+      "q1_kmh": 17.11,
+      "q3_kmh": 17.55
+     },
+     "201": {
+      "length_km_total": 421.1,
+      "median_kmh": 24.81,
+      "n_trips": 26,
+      "q1_kmh": 24.7,
+      "q3_kmh": 24.87
+     },
+     "3": {
+      "length_km_total": 2637.0,
+      "median_kmh": 20.21,
+      "n_trips": 190,
+      "q1_kmh": 19.49,
+      "q3_kmh": 20.21
+     },
+     "4": {
+      "length_km_total": 1061.0,
+      "median_kmh": 18.37,
+      "n_trips": 181,
+      "q1_kmh": 17.98,
+      "q3_kmh": 18.37
+     },
+     "5": {
+      "length_km_total": 1563.0,
+      "median_kmh": 17.21,
+      "n_trips": 183,
+      "q1_kmh": 17.02,
+      "q3_kmh": 17.21
+     },
+     "6": {
+      "length_km_total": 2654.0,
+      "median_kmh": 20.09,
+      "n_trips": 196,
+      "q1_kmh": 19.58,
+      "q3_kmh": 20.09
+     },
+     "7": {
+      "length_km_total": 2567.0,
+      "median_kmh": 20.5,
+      "n_trips": 193,
+      "q1_kmh": 20.49,
+      "q3_kmh": 20.5
+     },
+     "8": {
+      "length_km_total": 1775.0,
+      "median_kmh": 18.17,
+      "n_trips": 185,
+      "q1_kmh": 17.9,
+      "q3_kmh": 18.17
+     },
+     "9": {
+      "length_km_total": 2446.0,
+      "median_kmh": 16.68,
+      "n_trips": 196,
+      "q1_kmh": 16.53,
+      "q3_kmh": 16.73
+     },
+     "92": {
+      "length_km_total": 1864.0,
+      "median_kmh": 17.42,
+      "n_trips": 192,
+      "q1_kmh": 16.21,
+      "q3_kmh": 17.42
+     },
+     "97": {
+      "length_km_total": 1530.0,
+      "median_kmh": 22.51,
+      "n_trips": 180,
+      "q1_kmh": 21.47,
+      "q3_kmh": 22.51
+     }
+    },
+    "median_kmh": 19.49,
+    "n_excluded": 12,
+    "n_lines": 20,
+    "n_trips": 3557,
+    "q1_kmh": 17.65,
+    "q3_kmh": 22.87,
+    "wmedian_vkm_kmh": 20.09
+   },
+   "Warszawa": {
+    "hourly_median_kmh": {
+     "3": {
+      "median_kmh": 18.91,
+      "n_trips": 21
+     },
+     "4": {
+      "median_kmh": 18.89,
+      "n_trips": 226
+     },
+     "5": {
+      "median_kmh": 18.96,
+      "n_trips": 325
+     },
+     "6": {
+      "median_kmh": 18.43,
+      "n_trips": 479
+     },
+     "7": {
+      "median_kmh": 18.36,
+      "n_trips": 482
+     },
+     "8": {
+      "median_kmh": 18.54,
+      "n_trips": 469
+     },
+     "9": {
+      "median_kmh": 18.68,
+      "n_trips": 396
+     },
+     "10": {
+      "median_kmh": 18.71,
+      "n_trips": 312
+     },
+     "11": {
+      "median_kmh": 18.73,
+      "n_trips": 310
+     },
+     "12": {
+      "median_kmh": 18.73,
+      "n_trips": 310
+     },
+     "13": {
+      "median_kmh": 18.5,
+      "n_trips": 355
+     },
+     "14": {
+      "median_kmh": 18.23,
+      "n_trips": 482
+     },
+     "15": {
+      "median_kmh": 18.36,
+      "n_trips": 482
+     },
+     "16": {
+      "median_kmh": 18.36,
+      "n_trips": 478
+     },
+     "17": {
+      "median_kmh": 18.54,
+      "n_trips": 477
+     },
+     "18": {
+      "median_kmh": 18.68,
+      "n_trips": 410
+     },
+     "19": {
+      "median_kmh": 18.83,
+      "n_trips": 316
+     },
+     "20": {
+      "median_kmh": 18.94,
+      "n_trips": 281
+     },
+     "21": {
+      "median_kmh": 18.94,
+      "n_trips": 185
+     },
+     "22": {
+      "median_kmh": 19.17,
+      "n_trips": 178
+     },
+     "23": {
+      "median_kmh": 19.13,
+      "n_trips": 130
+     },
+     "24": {
+      "median_kmh": 18.68,
+      "n_trips": 19
+     }
+    },
+    "lines": {
+     "1": {
+      "length_km_total": 7489.0,
+      "median_kmh": 18.66,
+      "n_trips": 467,
+      "q1_kmh": 18.25,
+      "q3_kmh": 19.4
+     },
+     "10": {
+      "length_km_total": 3732.0,
+      "median_kmh": 17.33,
+      "n_trips": 244,
+      "q1_kmh": 16.51,
+      "q3_kmh": 18.09
+     },
+     "11": {
+      "length_km_total": 3421.0,
+      "median_kmh": 18.34,
+      "n_trips": 259,
+      "q1_kmh": 17.81,
+      "q3_kmh": 18.58
+     },
+     "13": {
+      "length_km_total": 1983.0,
+      "median_kmh": 19.27,
+      "n_trips": 191,
+      "q1_kmh": 18.71,
+      "q3_kmh": 19.32
+     },
+     "14": {
+      "length_km_total": 2744.0,
+      "median_kmh": 17.96,
+      "n_trips": 231,
+      "q1_kmh": 17.78,
+      "q3_kmh": 18.48
+     },
+     "15": {
+      "length_km_total": 3406.0,
+      "median_kmh": 17.34,
+      "n_trips": 227,
+      "q1_kmh": 16.67,
+      "q3_kmh": 17.69
+     },
+     "16": {
+      "length_km_total": 6282.0,
+      "median_kmh": 18.48,
+      "n_trips": 411,
+      "q1_kmh": 17.96,
+      "q3_kmh": 19.02
+     },
+     "17": {
+      "length_km_total": 8570.0,
+      "median_kmh": 20.27,
+      "n_trips": 491,
+      "q1_kmh": 17.85,
+      "q3_kmh": 20.57
+     },
+     "18": {
+      "length_km_total": 3895.0,
+      "median_kmh": 17.48,
+      "n_trips": 246,
+      "q1_kmh": 16.67,
+      "q3_kmh": 17.48
+     },
+     "19": {
+      "length_km_total": 4030.0,
+      "median_kmh": 18.34,
+      "n_trips": 234,
+      "q1_kmh": 18.03,
+      "q3_kmh": 18.85
+     },
+     "2": {
+      "length_km_total": 4115.0,
+      "median_kmh": 24.96,
+      "n_trips": 518,
+      "q1_kmh": 23.99,
+      "q3_kmh": 27.4
+     },
+     "20": {
+      "length_km_total": 3900.0,
+      "median_kmh": 20.19,
+      "n_trips": 236,
+      "q1_kmh": 20.19,
+      "q3_kmh": 21.1
+     },
+     "22": {
+      "length_km_total": 3379.0,
+      "median_kmh": 18.31,
+      "n_trips": 222,
+      "q1_kmh": 18.02,
+      "q3_kmh": 18.56
+     },
+     "23": {
+      "length_km_total": 2798.0,
+      "median_kmh": 18.76,
+      "n_trips": 223,
+      "q1_kmh": 18.76,
+      "q3_kmh": 19.51
+     },
+     "24": {
+      "length_km_total": 4026.0,
+      "median_kmh": 18.63,
+      "n_trips": 247,
+      "q1_kmh": 18.07,
+      "q3_kmh": 18.96
+     },
+     "25": {
+      "length_km_total": 2510.0,
+      "median_kmh": 18.99,
+      "n_trips": 186,
+      "q1_kmh": 18.7,
+      "q3_kmh": 19.39
+     },
+     "26": {
+      "length_km_total": 5078.0,
+      "median_kmh": 18.79,
+      "n_trips": 244,
+      "q1_kmh": 18.63,
+      "q3_kmh": 19.16
+     },
+     "27": {
+      "length_km_total": 1665.0,
+      "median_kmh": 19.43,
+      "n_trips": 215,
+      "q1_kmh": 18.44,
+      "q3_kmh": 20.96
+     },
+     "28": {
+      "length_km_total": 3522.0,
+      "median_kmh": 17.89,
+      "n_trips": 229,
+      "q1_kmh": 17.89,
+      "q3_kmh": 18.58
+     },
+     "3": {
+      "length_km_total": 2693.0,
+      "median_kmh": 19.23,
+      "n_trips": 222,
+      "q1_kmh": 18.75,
+      "q3_kmh": 19.91
+     },
+     "31": {
+      "length_km_total": 959.6,
+      "median_kmh": 15.34,
+      "n_trips": 204,
+      "q1_kmh": 15.01,
+      "q3_kmh": 15.34
+     },
+     "33": {
+      "length_km_total": 2787.0,
+      "median_kmh": 17.39,
+      "n_trips": 212,
+      "q1_kmh": 17.36,
+      "q3_kmh": 18.05
+     },
+     "4": {
+      "length_km_total": 4278.0,
+      "median_kmh": 18.04,
+      "n_trips": 249,
+      "q1_kmh": 17.2,
+      "q3_kmh": 19.54
+     },
+     "6": {
+      "length_km_total": 3900.0,
+      "median_kmh": 18.97,
+      "n_trips": 226,
+      "q1_kmh": 18.92,
+      "q3_kmh": 18.97
+     },
+     "7": {
+      "length_km_total": 2177.0,
+      "median_kmh": 16.52,
+      "n_trips": 220,
+      "q1_kmh": 16.04,
+      "q3_kmh": 16.61
+     },
+     "9": {
+      "length_km_total": 6481.0,
+      "median_kmh": 18.94,
+      "n_trips": 469,
+      "q1_kmh": 18.08,
+      "q3_kmh": 19.22
+     }
+    },
+    "median_kmh": 18.6,
+    "n_excluded": 16,
+    "n_lines": 26,
+    "n_trips": 7123,
+    "q1_kmh": 17.73,
+    "q3_kmh": 19.51,
+    "wmedian_vkm_kmh": 18.63
+   },
+   "Wrocław": {
+    "hourly_median_kmh": {
+     "3": {
+      "median_kmh": 18.82,
+      "n_trips": 10
+     },
+     "4": {
+      "median_kmh": 16.26,
+      "n_trips": 175
+     },
+     "5": {
+      "median_kmh": 16.46,
+      "n_trips": 251
+     },
+     "6": {
+      "median_kmh": 15.85,
+      "n_trips": 248
+     },
+     "7": {
+      "median_kmh": 15.78,
+      "n_trips": 240
+     },
+     "8": {
+      "median_kmh": 15.98,
+      "n_trips": 237
+     },
+     "9": {
+      "median_kmh": 16.2,
+      "n_trips": 215
+     },
+     "10": {
+      "median_kmh": 16.24,
+      "n_trips": 202
+     },
+     "11": {
+      "median_kmh": 16.2,
+      "n_trips": 192
+     },
+     "12": {
+      "median_kmh": 16.2,
+      "n_trips": 193
+     },
+     "13": {
+      "median_kmh": 16.05,
+      "n_trips": 218
+     },
+     "14": {
+      "median_kmh": 15.71,
+      "n_trips": 247
+     },
+     "15": {
+      "median_kmh": 15.73,
+      "n_trips": 240
+     },
+     "16": {
+      "median_kmh": 15.73,
+      "n_trips": 240
+     },
+     "17": {
+      "median_kmh": 16.06,
+      "n_trips": 239
+     },
+     "18": {
+      "median_kmh": 16.2,
+      "n_trips": 215
+     },
+     "19": {
+      "median_kmh": 16.64,
+      "n_trips": 199
+     },
+     "20": {
+      "median_kmh": 17.72,
+      "n_trips": 191
+     },
+     "21": {
+      "median_kmh": 17.82,
+      "n_trips": 151
+     },
+     "22": {
+      "median_kmh": 17.72,
+      "n_trips": 149
+     },
+     "23": {
+      "median_kmh": 18.51,
+      "n_trips": 108
+     },
+     "24": {
+      "median_kmh": 18.11,
+      "n_trips": 4
+     }
+    },
+    "lines": {
+     "1": {
+      "length_km_total": 1556.0,
+      "median_kmh": 16.83,
+      "n_trips": 167,
+      "q1_kmh": 16.77,
+      "q3_kmh": 17.29
+     },
+     "10": {
+      "length_km_total": 3223.0,
+      "median_kmh": 19.15,
+      "n_trips": 181,
+      "q1_kmh": 18.95,
+      "q3_kmh": 19.15
+     },
+     "11": {
+      "length_km_total": 1552.0,
+      "median_kmh": 15.06,
+      "n_trips": 172,
+      "q1_kmh": 14.99,
+      "q3_kmh": 15.64
+     },
+     "12": {
+      "length_km_total": 1856.0,
+      "median_kmh": 16.68,
+      "n_trips": 172,
+      "q1_kmh": 16.09,
+      "q3_kmh": 17.54
+     },
+     "13": {
+      "length_km_total": 1972.0,
+      "median_kmh": 16.56,
+      "n_trips": 170,
+      "q1_kmh": 16.1,
+      "q3_kmh": 16.94
+     },
+     "14": {
+      "length_km_total": 2021.0,
+      "median_kmh": 16.74,
+      "n_trips": 160,
+      "q1_kmh": 16.62,
+      "q3_kmh": 16.98
+     },
+     "15": {
+      "length_km_total": 1647.0,
+      "median_kmh": 15.68,
+      "n_trips": 170,
+      "q1_kmh": 15.68,
+      "q3_kmh": 16.57
+     },
+     "16": {
+      "length_km_total": 2011.0,
+      "median_kmh": 14.74,
+      "n_trips": 172,
+      "q1_kmh": 14.45,
+      "q3_kmh": 15.27
+     },
+     "17": {
+      "length_km_total": 1927.0,
+      "median_kmh": 14.28,
+      "n_trips": 172,
+      "q1_kmh": 14.28,
+      "q3_kmh": 14.58
+     },
+     "18": {
+      "length_km_total": 2268.0,
+      "median_kmh": 15.78,
+      "n_trips": 170,
+      "q1_kmh": 15.42,
+      "q3_kmh": 16.01
+     },
+     "19": {
+      "length_km_total": 1987.0,
+      "median_kmh": 16.2,
+      "n_trips": 173,
+      "q1_kmh": 15.56,
+      "q3_kmh": 16.2
+     },
+     "2": {
+      "length_km_total": 1791.0,
+      "median_kmh": 15.77,
+      "n_trips": 176,
+      "q1_kmh": 15.54,
+      "q3_kmh": 16.17
+     },
+     "20": {
+      "length_km_total": 3140.0,
+      "median_kmh": 18.59,
+      "n_trips": 181,
+      "q1_kmh": 18.29,
+      "q3_kmh": 19.19
+     },
+     "21": {
+      "length_km_total": 2333.0,
+      "median_kmh": 17.19,
+      "n_trips": 193,
+      "q1_kmh": 16.86,
+      "q3_kmh": 17.95
+     },
+     "22": {
+      "length_km_total": 1883.0,
+      "median_kmh": 16.27,
+      "n_trips": 169,
+      "q1_kmh": 16.25,
+      "q3_kmh": 16.64
+     },
+     "23": {
+      "length_km_total": 2604.0,
+      "median_kmh": 17.36,
+      "n_trips": 178,
+      "q1_kmh": 17.21,
+      "q3_kmh": 17.88
+     },
+     "24": {
+      "length_km_total": 2149.0,
+      "median_kmh": 18.18,
+      "n_trips": 166,
+      "q1_kmh": 18.18,
+      "q3_kmh": 18.73
+     },
+     "3": {
+      "length_km_total": 3013.0,
+      "median_kmh": 19.15,
+      "n_trips": 177,
+      "q1_kmh": 18.81,
+      "q3_kmh": 19.26
+     },
+     "4": {
+      "length_km_total": 2040.0,
+      "median_kmh": 16.14,
+      "n_trips": 182,
+      "q1_kmh": 15.79,
+      "q3_kmh": 16.52
+     },
+     "5": {
+      "length_km_total": 1714.0,
+      "median_kmh": 15.98,
+      "n_trips": 172,
+      "q1_kmh": 15.8,
+      "q3_kmh": 16.25
+     },
+     "6": {
+      "length_km_total": 1309.0,
+      "median_kmh": 14.29,
+      "n_trips": 159,
+      "q1_kmh": 13.89,
+      "q3_kmh": 14.39
+     },
+     "7": {
+      "length_km_total": 2002.0,
+      "median_kmh": 14.8,
+      "n_trips": 186,
+      "q1_kmh": 14.5,
+      "q3_kmh": 15.45
+     },
+     "8": {
+      "length_km_total": 1459.0,
+      "median_kmh": 13.32,
+      "n_trips": 175,
+      "q1_kmh": 12.86,
+      "q3_kmh": 13.66
+     },
+     "9": {
+      "length_km_total": 1524.0,
+      "median_kmh": 15.54,
+      "n_trips": 171,
+      "q1_kmh": 14.72,
+      "q3_kmh": 15.58
+     }
+    },
+    "median_kmh": 16.27,
+    "n_excluded": 4,
+    "n_lines": 24,
+    "n_trips": 4164,
+    "q1_kmh": 15.4,
+    "q3_kmh": 17.56,
+    "wmedian_vkm_kmh": 16.56
+   },
+   "Łódź": {
+    "hourly_median_kmh": {
+     "2": {
+      "median_kmh": 16.73,
+      "n_trips": 1
+     },
+     "3": {
+      "median_kmh": 18.15,
+      "n_trips": 36
+     },
+     "4": {
+      "median_kmh": 17.33,
+      "n_trips": 143
+     },
+     "5": {
+      "median_kmh": 17.18,
+      "n_trips": 183
+     },
+     "6": {
+      "median_kmh": 16.94,
+      "n_trips": 186
+     },
+     "7": {
+      "median_kmh": 16.6,
+      "n_trips": 181
+     },
+     "8": {
+      "median_kmh": 16.49,
+      "n_trips": 179
+     },
+     "9": {
+      "median_kmh": 16.49,
+      "n_trips": 179
+     },
+     "10": {
+      "median_kmh": 16.49,
+      "n_trips": 179
+     },
+     "11": {
+      "median_kmh": 16.49,
+      "n_trips": 179
+     },
+     "12": {
+      "median_kmh": 16.49,
+      "n_trips": 180
+     },
+     "13": {
+      "median_kmh": 16.49,
+      "n_trips": 180
+     },
+     "14": {
+      "median_kmh": 16.6,
+      "n_trips": 181
+     },
+     "15": {
+      "median_kmh": 16.6,
+      "n_trips": 181
+     },
+     "16": {
+      "median_kmh": 16.6,
+      "n_trips": 181
+     },
+     "17": {
+      "median_kmh": 16.96,
+      "n_trips": 179
+     },
+     "18": {
+      "median_kmh": 17.18,
+      "n_trips": 161
+     },
+     "19": {
+      "median_kmh": 16.97,
+      "n_trips": 137
+     },
+     "20": {
+      "median_kmh": 16.97,
+      "n_trips": 138
+     },
+     "21": {
+      "median_kmh": 17.21,
+      "n_trips": 140
+     },
+     "22": {
+      "median_kmh": 17.88,
+      "n_trips": 141
+     },
+     "23": {
+      "median_kmh": 18.61,
+      "n_trips": 59
+     },
+     "24": {
+      "median_kmh": 21.52,
+      "n_trips": 2
+     },
+     "26": {
+      "median_kmh": 23.45,
+      "n_trips": 3
+     },
+     "27": {
+      "median_kmh": 22.28,
+      "n_trips": 2
+     },
+     "28": {
+      "median_kmh": 23.69,
+      "n_trips": 1
+     }
+    },
+    "lines": {
+     "1": {
+      "length_km_total": 531.1,
+      "median_kmh": 15.65,
+      "n_trips": 139,
+      "q1_kmh": 12.29,
+      "q3_kmh": 16.09
+     },
+     "10A": {
+      "length_km_total": 1203.0,
+      "median_kmh": 19.32,
+      "n_trips": 97,
+      "q1_kmh": 19.32,
+      "q3_kmh": 19.74
+     },
+     "10B": {
+      "length_km_total": 3281.0,
+      "median_kmh": 20.98,
+      "n_trips": 197,
+      "q1_kmh": 20.57,
+      "q3_kmh": 21.43
+     },
+     "11": {
+      "length_km_total": 2586.0,
+      "median_kmh": 16.94,
+      "n_trips": 140,
+      "q1_kmh": 16.31,
+      "q3_kmh": 16.94
+     },
+     "12": {
+      "length_km_total": 1899.0,
+      "median_kmh": 16.96,
+      "n_trips": 150,
+      "q1_kmh": 16.29,
+      "q3_kmh": 16.96
+     },
+     "13": {
+      "length_km_total": 2217.0,
+      "median_kmh": 18.06,
+      "n_trips": 149,
+      "q1_kmh": 17.68,
+      "q3_kmh": 19.11
+     },
+     "14": {
+      "length_km_total": 1361.0,
+      "median_kmh": 16.9,
+      "n_trips": 146,
+      "q1_kmh": 16.05,
+      "q3_kmh": 19.61
+     },
+     "15": {
+      "length_km_total": 2213.0,
+      "median_kmh": 16.11,
+      "n_trips": 152,
+      "q1_kmh": 14.88,
+      "q3_kmh": 16.11
+     },
+     "16": {
+      "length_km_total": 2486.0,
+      "median_kmh": 18.14,
+      "n_trips": 149,
+      "q1_kmh": 17.99,
+      "q3_kmh": 18.14
+     },
+     "17": {
+      "length_km_total": 393.7,
+      "median_kmh": 15.9,
+      "n_trips": 38,
+      "q1_kmh": 15.52,
+      "q3_kmh": 16.18
+     },
+     "18": {
+      "length_km_total": 1578.0,
+      "median_kmh": 17.18,
+      "n_trips": 133,
+      "q1_kmh": 16.49,
+      "q3_kmh": 17.18
+     },
+     "19": {
+      "length_km_total": 2101.0,
+      "median_kmh": 14.98,
+      "n_trips": 142,
+      "q1_kmh": 14.74,
+      "q3_kmh": 15.61
+     },
+     "2": {
+      "length_km_total": 2361.0,
+      "median_kmh": 16.28,
+      "n_trips": 153,
+      "q1_kmh": 15.63,
+      "q3_kmh": 16.28
+     },
+     "3": {
+      "length_km_total": 2004.0,
+      "median_kmh": 14.79,
+      "n_trips": 149,
+      "q1_kmh": 14.37,
+      "q3_kmh": 15.34
+     },
+     "4": {
+      "length_km_total": 1022.0,
+      "median_kmh": 15.49,
+      "n_trips": 150,
+      "q1_kmh": 15.0,
+      "q3_kmh": 16.9
+     },
+     "41": {
+      "length_km_total": 1488.0,
+      "median_kmh": 20.84,
+      "n_trips": 103,
+      "q1_kmh": 20.4,
+      "q3_kmh": 21.33
+     },
+     "43": {
+      "length_km_total": 1019.0,
+      "median_kmh": 18.76,
+      "n_trips": 120,
+      "q1_kmh": 18.31,
+      "q3_kmh": 18.76
+     },
+     "45": {
+      "length_km_total": 2045.0,
+      "median_kmh": 17.85,
+      "n_trips": 106,
+      "q1_kmh": 17.73,
+      "q3_kmh": 17.99
+     },
+     "5": {
+      "length_km_total": 1342.0,
+      "median_kmh": 16.6,
+      "n_trips": 144,
+      "q1_kmh": 15.23,
+      "q3_kmh": 16.6
+     },
+     "6": {
+      "length_km_total": 2331.0,
+      "median_kmh": 15.8,
+      "n_trips": 154,
+      "q1_kmh": 15.65,
+      "q3_kmh": 15.8
+     },
+     "7": {
+      "length_km_total": 1352.0,
+      "median_kmh": 14.8,
+      "n_trips": 143,
+      "q1_kmh": 13.95,
+      "q3_kmh": 14.8
+     },
+     "8": {
+      "length_km_total": 2541.0,
+      "median_kmh": 18.06,
+      "n_trips": 153,
+      "q1_kmh": 17.83,
+      "q3_kmh": 19.5
+     },
+     "9": {
+      "length_km_total": 1748.0,
+      "median_kmh": 19.64,
+      "n_trips": 147,
+      "q1_kmh": 19.64,
+      "q3_kmh": 20.43
+     },
+     "P1": {
+      "length_km_total": 91.97,
+      "median_kmh": 22.86,
+      "n_trips": 10,
+      "q1_kmh": 21.11,
+      "q3_kmh": 23.45
+     },
+     "Z1": {
+      "length_km_total": 1107.0,
+      "median_kmh": 15.93,
+      "n_trips": 148,
+      "q1_kmh": 15.19,
+      "q3_kmh": 15.93
+     }
+    },
+    "median_kmh": 16.92,
+    "n_excluded": 40,
+    "n_lines": 25,
+    "n_trips": 3312,
+    "q1_kmh": 15.65,
+    "q3_kmh": 18.76,
+    "wmedian_vkm_kmh": 17.18
+   }
+  },
+  "official/saturday": {
+   "GZM": {
+    "hourly_median_kmh": {
+     "2": {
+      "median_kmh": 18.46,
+      "n_trips": 9
+     },
+     "3": {
+      "median_kmh": 21.31,
+      "n_trips": 49
+     },
+     "4": {
+      "median_kmh": 19.64,
+      "n_trips": 122
+     },
+     "5": {
+      "median_kmh": 16.89,
+      "n_trips": 96
+     },
+     "6": {
+      "median_kmh": 16.79,
+      "n_trips": 99
+     },
+     "7": {
+      "median_kmh": 16.79,
+      "n_trips": 99
+     },
+     "8": {
+      "median_kmh": 17.13,
+      "n_trips": 124
+     },
+     "9": {
+      "median_kmh": 17.13,
+      "n_trips": 139
+     },
+     "10": {
+      "median_kmh": 17.02,
+      "n_trips": 134
+     },
+     "11": {
+      "median_kmh": 17.02,
+      "n_trips": 136
+     },
+     "12": {
+      "median_kmh": 17.02,
+      "n_trips": 137
+     },
+     "13": {
+      "median_kmh": 16.99,
+      "n_trips": 136
+     },
+     "14": {
+      "median_kmh": 17.02,
+      "n_trips": 137
+     },
+     "15": {
+      "median_kmh": 17.02,
+      "n_trips": 136
+     },
+     "16": {
+      "median_kmh": 16.99,
+      "n_trips": 134
+     },
+     "17": {
+      "median_kmh": 17.13,
+      "n_trips": 125
+     },
+     "18": {
+      "median_kmh": 16.95,
+      "n_trips": 121
+     },
+     "19": {
+      "median_kmh": 16.95,
+      "n_trips": 105
+     },
+     "20": {
+      "median_kmh": 16.83,
+      "n_trips": 105
+     },
+     "21": {
+      "median_kmh": 16.79,
+      "n_trips": 97
+     },
+     "22": {
+      "median_kmh": 17.87,
+      "n_trips": 107
+     },
+     "23": {
+      "median_kmh": 20.72,
+      "n_trips": 74
+     },
+     "24": {
+      "median_kmh": 20.4,
+      "n_trips": 26
+     },
+     "25": {
+      "median_kmh": 19.18,
+      "n_trips": 8
+     }
+    },
+    "lines": {
+     "T1": {
+      "length_km_total": 823.1,
+      "median_kmh": 20.13,
+      "n_trips": 66,
+      "q1_kmh": 19.09,
+      "q3_kmh": 20.13
+     },
+     "T11": {
+      "length_km_total": 2464.0,
+      "median_kmh": 16.95,
+      "n_trips": 142,
+      "q1_kmh": 16.79,
+      "q3_kmh": 16.95
+     },
+     "T13": {
+      "length_km_total": 491.1,
+      "median_kmh": 15.86,
+      "n_trips": 82,
+      "q1_kmh": 15.5,
+      "q3_kmh": 15.86
+     },
+     "T15": {
+      "length_km_total": 1104.0,
+      "median_kmh": 21.93,
+      "n_trips": 134,
+      "q1_kmh": 19.61,
+      "q3_kmh": 26.04
+     },
+     "T16": {
+      "length_km_total": 1444.0,
+      "median_kmh": 16.08,
+      "n_trips": 180,
+      "q1_kmh": 15.92,
+      "q3_kmh": 16.08
+     },
+     "T17": {
+      "length_km_total": 1008.0,
+      "median_kmh": 17.18,
+      "n_trips": 83,
+      "q1_kmh": 17.13,
+      "q3_kmh": 17.18
+     },
+     "T2": {
+      "length_km_total": 1386.0,
+      "median_kmh": 19.36,
+      "n_trips": 84,
+      "q1_kmh": 19.28,
+      "q3_kmh": 19.36
+     },
+     "T20": {
+      "length_km_total": 1431.0,
+      "median_kmh": 15.04,
+      "n_trips": 97,
+      "q1_kmh": 14.79,
+      "q3_kmh": 15.49
+     },
+     "T21": {
+      "length_km_total": 2433.0,
+      "median_kmh": 22.28,
+      "n_trips": 124,
+      "q1_kmh": 22.19,
+      "q3_kmh": 22.33
+     },
+     "T22": {
+      "length_km_total": 1521.0,
+      "median_kmh": 23.33,
+      "n_trips": 109,
+      "q1_kmh": 23.21,
+      "q3_kmh": 23.74
+     },
+     "T23": {
+      "length_km_total": 548.0,
+      "median_kmh": 16.44,
+      "n_trips": 48,
+      "q1_kmh": 15.98,
+      "q3_kmh": 16.44
+     },
+     "T24": {
+      "length_km_total": 400.7,
+      "median_kmh": 17.14,
+      "n_trips": 80,
+      "q1_kmh": 16.52,
+      "q3_kmh": 17.14
+     },
+     "T26": {
+      "length_km_total": 1353.0,
+      "median_kmh": 20.53,
+      "n_trips": 100,
+      "q1_kmh": 19.87,
+      "q3_kmh": 20.53
+     },
+     "T27": {
+      "length_km_total": 1525.0,
+      "median_kmh": 18.65,
+      "n_trips": 94,
+      "q1_kmh": 18.2,
+      "q3_kmh": 19.97
+     },
+     "T3": {
+      "length_km_total": 897.4,
+      "median_kmh": 18.21,
+      "n_trips": 82,
+      "q1_kmh": 16.83,
+      "q3_kmh": 18.27
+     },
+     "T31": {
+      "length_km_total": 607.2,
+      "median_kmh": 15.47,
+      "n_trips": 154,
+      "q1_kmh": 15.02,
+      "q3_kmh": 15.47
+     },
+     "T33": {
+      "length_km_total": 352.7,
+      "median_kmh": 18.74,
+      "n_trips": 60,
+      "q1_kmh": 18.36,
+      "q3_kmh": 19.1
+     },
+     "T34": {
+      "length_km_total": 202.7,
+      "median_kmh": 16.51,
+      "n_trips": 81,
+      "q1_kmh": 15.05,
+      "q3_kmh": 16.51
+     },
+     "T38": {
+      "length_km_total": 194.9,
+      "median_kmh": 13.92,
+      "n_trips": 100,
+      "q1_kmh": 10.74,
+      "q3_kmh": 13.92
+     },
+     "T4": {
+      "length_km_total": 389.6,
+      "median_kmh": 18.89,
+      "n_trips": 50,
+      "q1_kmh": 17.02,
+      "q3_kmh": 18.89
+     },
+     "T41": {
+      "length_km_total": 179.8,
+      "median_kmh": 15.34,
+      "n_trips": 74,
+      "q1_kmh": 14.8,
+      "q3_kmh": 15.34
+     },
+     "T5": {
+      "length_km_total": 778.7,
+      "median_kmh": 20.07,
+      "n_trips": 52,
+      "q1_kmh": 19.86,
+      "q3_kmh": 20.07
+     },
+     "T6": {
+      "length_km_total": 3656.0,
+      "median_kmh": 19.64,
+      "n_trips": 168,
+      "q1_kmh": 19.64,
+      "q3_kmh": 19.9
+     },
+     "T7": {
+      "length_km_total": 1976.0,
+      "median_kmh": 16.6,
+      "n_trips": 96,
+      "q1_kmh": 16.25,
+      "q3_kmh": 17.18
+     },
+     "T9": {
+      "length_km_total": 1939.0,
+      "median_kmh": 15.34,
+      "n_trips": 115,
+      "q1_kmh": 15.32,
+      "q3_kmh": 15.34
+     }
+    },
+    "median_kmh": 17.18,
+    "n_excluded": 1,
+    "n_lines": 25,
+    "n_trips": 2455,
+    "q1_kmh": 15.92,
+    "q3_kmh": 19.87,
+    "wmedian_vkm_kmh": 19.05
+   },
+   "Gdańsk": {
+    "hourly_median_kmh": {
+     "3": {
+      "median_kmh": 17.72,
+      "n_trips": 7
+     },
+     "4": {
+      "median_kmh": 17.81,
+      "n_trips": 31
+     },
+     "5": {
+      "median_kmh": 17.81,
+      "n_trips": 41
+     },
+     "6": {
+      "median_kmh": 17.97,
+      "n_trips": 55
+     },
+     "7": {
+      "median_kmh": 17.97,
+      "n_trips": 56
+     },
+     "8": {
+      "median_kmh": 17.97,
+      "n_trips": 54
+     },
+     "9": {
+      "median_kmh": 17.96,
+      "n_trips": 57
+     },
+     "10": {
+      "median_kmh": 17.96,
+      "n_trips": 62
+     },
+     "11": {
+      "median_kmh": 17.97,
+      "n_trips": 63
+     },
+     "12": {
+      "median_kmh": 17.97,
+      "n_trips": 66
+     },
+     "13": {
+      "median_kmh": 17.97,
+      "n_trips": 67
+     },
+     "14": {
+      "median_kmh": 17.97,
+      "n_trips": 66
+     },
+     "15": {
+      "median_kmh": 17.97,
+      "n_trips": 67
+     },
+     "16": {
+      "median_kmh": 17.97,
+      "n_trips": 66
+     },
+     "17": {
+      "median_kmh": 17.97,
+      "n_trips": 66
+     },
+     "18": {
+      "median_kmh": 17.97,
+      "n_trips": 66
+     },
+     "19": {
+      "median_kmh": 17.97,
+      "n_trips": 59
+     },
+     "20": {
+      "median_kmh": 18.01,
+      "n_trips": 47
+     },
+     "21": {
+      "median_kmh": 17.97,
+      "n_trips": 37
+     },
+     "22": {
+      "median_kmh": 18.54,
+      "n_trips": 31
+     },
+     "23": {
+      "median_kmh": 19.45,
+      "n_trips": 16
+     }
+    },
+    "lines": {
+     "10": {
+      "length_km_total": 2454.0,
+      "median_kmh": 18.01,
+      "n_trips": 170,
+      "q1_kmh": 17.81,
+      "q3_kmh": 18.01
+     },
+     "12": {
+      "length_km_total": 2384.0,
+      "median_kmh": 17.81,
+      "n_trips": 116,
+      "q1_kmh": 17.46,
+      "q3_kmh": 18.45
+     },
+     "2": {
+      "length_km_total": 3596.0,
+      "median_kmh": 18.02,
+      "n_trips": 203,
+      "q1_kmh": 17.97,
+      "q3_kmh": 18.02
+     },
+     "3": {
+      "length_km_total": 1596.0,
+      "median_kmh": 18.85,
+      "n_trips": 108,
+      "q1_kmh": 18.21,
+      "q3_kmh": 18.85
+     },
+     "5": {
+      "length_km_total": 1645.0,
+      "median_kmh": 16.97,
+      "n_trips": 104,
+      "q1_kmh": 16.9,
+      "q3_kmh": 18.54
+     },
+     "6": {
+      "length_km_total": 2932.0,
+      "median_kmh": 17.72,
+      "n_trips": 171,
+      "q1_kmh": 17.71,
+      "q3_kmh": 18.09
+     },
+     "8": {
+      "length_km_total": 1400.0,
+      "median_kmh": 17.03,
+      "n_trips": 105,
+      "q1_kmh": 16.74,
+      "q3_kmh": 17.09
+     },
+     "9": {
+      "length_km_total": 1029.0,
+      "median_kmh": 16.99,
+      "n_trips": 103,
+      "q1_kmh": 16.38,
+      "q3_kmh": 17.46
+     }
+    },
+    "median_kmh": 17.97,
+    "n_excluded": 0,
+    "n_lines": 8,
+    "n_trips": 1080,
+    "q1_kmh": 17.46,
+    "q3_kmh": 18.09,
+    "wmedian_vkm_kmh": 17.97
+   },
+   "Kraków": {
+    "hourly_median_kmh": {
+     "4": {
+      "median_kmh": 20.25,
+      "n_trips": 44
+     },
+     "5": {
+      "median_kmh": 20.15,
+      "n_trips": 107
+     },
+     "6": {
+      "median_kmh": 20.15,
+      "n_trips": 108
+     },
+     "7": {
+      "median_kmh": 20.09,
+      "n_trips": 114
+     },
+     "8": {
+      "median_kmh": 19.86,
+      "n_trips": 118
+     },
+     "9": {
+      "median_kmh": 19.91,
+      "n_trips": 126
+     },
+     "10": {
+      "median_kmh": 19.91,
+      "n_trips": 126
+     },
+     "11": {
+      "median_kmh": 19.91,
+      "n_trips": 126
+     },
+     "12": {
+      "median_kmh": 19.91,
+      "n_trips": 126
+     },
+     "13": {
+      "median_kmh": 19.91,
+      "n_trips": 126
+     },
+     "14": {
+      "median_kmh": 19.91,
+      "n_trips": 126
+     },
+     "15": {
+      "median_kmh": 19.91,
+      "n_trips": 126
+     },
+     "16": {
+      "median_kmh": 19.91,
+      "n_trips": 126
+     },
+     "17": {
+      "median_kmh": 19.85,
+      "n_trips": 120
+     },
+     "18": {
+      "median_kmh": 19.85,
+      "n_trips": 120
+     },
+     "19": {
+      "median_kmh": 20.05,
+      "n_trips": 119
+     },
+     "20": {
+      "median_kmh": 20.13,
+      "n_trips": 113
+     },
+     "21": {
+      "median_kmh": 20.13,
+      "n_trips": 107
+     },
+     "22": {
+      "median_kmh": 19.95,
+      "n_trips": 93
+     },
+     "23": {
+      "median_kmh": 19.32,
+      "n_trips": 15
+     },
+     "24": {
+      "median_kmh": 18.41,
+      "n_trips": 8
+     },
+     "25": {
+      "median_kmh": 18.41,
+      "n_trips": 8
+     },
+     "26": {
+      "median_kmh": 18.41,
+      "n_trips": 8
+     },
+     "27": {
+      "median_kmh": 18.41,
+      "n_trips": 8
+     },
+     "28": {
+      "median_kmh": 18.47,
+      "n_trips": 3
+     }
+    },
+    "lines": {
+     "1": {
+      "length_km_total": 1418.0,
+      "median_kmh": 18.57,
+      "n_trips": 108,
+      "q1_kmh": 17.69,
+      "q3_kmh": 18.95
+     },
+     "11": {
+      "length_km_total": 802.9,
+      "median_kmh": 21.71,
+      "n_trips": 60,
+      "q1_kmh": 21.18,
+      "q3_kmh": 22.25
+     },
+     "12": {
+      "length_km_total": 3216.0,
+      "median_kmh": 19.82,
+      "n_trips": 182,
+      "q1_kmh": 19.24,
+      "q3_kmh": 20.05
+     },
+     "13": {
+      "length_km_total": 1255.0,
+      "median_kmh": 18.6,
+      "n_trips": 108,
+      "q1_kmh": 18.47,
+      "q3_kmh": 18.73
+     },
+     "14": {
+      "length_km_total": 1635.0,
+      "median_kmh": 18.98,
+      "n_trips": 110,
+      "q1_kmh": 18.31,
+      "q3_kmh": 19.27
+     },
+     "15": {
+      "length_km_total": 1394.0,
+      "median_kmh": 20.71,
+      "n_trips": 110,
+      "q1_kmh": 20.4,
+      "q3_kmh": 20.71
+     },
+     "16": {
+      "length_km_total": 2118.0,
+      "median_kmh": 23.29,
+      "n_trips": 113,
+      "q1_kmh": 21.93,
+      "q3_kmh": 23.39
+     },
+     "17": {
+      "length_km_total": 1349.0,
+      "median_kmh": 19.37,
+      "n_trips": 110,
+      "q1_kmh": 18.82,
+      "q3_kmh": 19.41
+     },
+     "18": {
+      "length_km_total": 1852.0,
+      "median_kmh": 19.84,
+      "n_trips": 112,
+      "q1_kmh": 19.46,
+      "q3_kmh": 19.85
+     },
+     "22": {
+      "length_km_total": 1944.0,
+      "median_kmh": 19.95,
+      "n_trips": 112,
+      "q1_kmh": 19.75,
+      "q3_kmh": 19.95
+     },
+     "3": {
+      "length_km_total": 1391.0,
+      "median_kmh": 19.43,
+      "n_trips": 111,
+      "q1_kmh": 18.95,
+      "q3_kmh": 19.61
+     },
+     "5": {
+      "length_km_total": 1931.0,
+      "median_kmh": 20.4,
+      "n_trips": 110,
+      "q1_kmh": 20.11,
+      "q3_kmh": 20.8
+     },
+     "62": {
+      "length_km_total": 328.8,
+      "median_kmh": 18.44,
+      "n_trips": 20,
+      "q1_kmh": 18.41,
+      "q3_kmh": 18.47
+     },
+     "69": {
+      "length_km_total": 347.9,
+      "median_kmh": 18.15,
+      "n_trips": 20,
+      "q1_kmh": 17.9,
+      "q3_kmh": 18.41
+     },
+     "7": {
+      "length_km_total": 3391.0,
+      "median_kmh": 22.72,
+      "n_trips": 181,
+      "q1_kmh": 22.08,
+      "q3_kmh": 23.51
+     },
+     "70": {
+      "length_km_total": 2242.0,
+      "median_kmh": 21.41,
+      "n_trips": 112,
+      "q1_kmh": 21.41,
+      "q3_kmh": 21.57
+     },
+     "72": {
+      "length_km_total": 528.3,
+      "median_kmh": 16.31,
+      "n_trips": 108,
+      "q1_kmh": 16.28,
+      "q3_kmh": 16.33
+     },
+     "74": {
+      "length_km_total": 2467.0,
+      "median_kmh": 19.86,
+      "n_trips": 112,
+      "q1_kmh": 19.76,
+      "q3_kmh": 20.06
+     },
+     "76": {
+      "length_km_total": 735.7,
+      "median_kmh": 22.03,
+      "n_trips": 102,
+      "q1_kmh": 21.25,
+      "q3_kmh": 22.03
+     },
+     "78": {
+      "length_km_total": 1601.0,
+      "median_kmh": 18.26,
+      "n_trips": 112,
+      "q1_kmh": 18.06,
+      "q3_kmh": 18.44
+     },
+     "9": {
+      "length_km_total": 1736.0,
+      "median_kmh": 22.19,
+      "n_trips": 108,
+      "q1_kmh": 21.69,
+      "q3_kmh": 22.7
+     }
+    },
+    "median_kmh": 19.95,
+    "n_excluded": 0,
+    "n_lines": 21,
+    "n_trips": 2221,
+    "q1_kmh": 18.95,
+    "q3_kmh": 21.41,
+    "wmedian_vkm_kmh": 20.05
+   },
+   "Poznań": {
+    "hourly_median_kmh": {
+     "4": {
+      "median_kmh": 21.36,
+      "n_trips": 102
+     },
+     "5": {
+      "median_kmh": 20.19,
+      "n_trips": 121
+     },
+     "6": {
+      "median_kmh": 20.18,
+      "n_trips": 115
+     },
+     "7": {
+      "median_kmh": 20.18,
+      "n_trips": 115
+     },
+     "8": {
+      "median_kmh": 20.18,
+      "n_trips": 114
+     },
+     "9": {
+      "median_kmh": 20.18,
+      "n_trips": 114
+     },
+     "10": {
+      "median_kmh": 20.18,
+      "n_trips": 116
+     },
+     "11": {
+      "median_kmh": 19.92,
+      "n_trips": 145
+     },
+     "12": {
+      "median_kmh": 18.64,
+      "n_trips": 155
+     },
+     "13": {
+      "median_kmh": 18.62,
+      "n_trips": 153
+     },
+     "14": {
+      "median_kmh": 18.64,
+      "n_trips": 155
+     },
+     "15": {
+      "median_kmh": 18.62,
+      "n_trips": 156
+     },
+     "16": {
+      "median_kmh": 18.63,
+      "n_trips": 152
+     },
+     "17": {
+      "median_kmh": 18.63,
+      "n_trips": 152
+     },
+     "18": {
+      "median_kmh": 18.63,
+      "n_trips": 152
+     },
+     "19": {
+      "median_kmh": 19.55,
+      "n_trips": 152
+     },
+     "20": {
+      "median_kmh": 20.19,
+      "n_trips": 136
+     },
+     "21": {
+      "median_kmh": 20.18,
+      "n_trips": 120
+     },
+     "22": {
+      "median_kmh": 20.58,
+      "n_trips": 125
+     },
+     "23": {
+      "median_kmh": 23.08,
+      "n_trips": 32
+     },
+     "24": {
+      "median_kmh": 24.78,
+      "n_trips": 8
+     },
+     "25": {
+      "median_kmh": 24.78,
+      "n_trips": 8
+     },
+     "26": {
+      "median_kmh": 24.78,
+      "n_trips": 4
+     },
+     "27": {
+      "median_kmh": 24.78,
+      "n_trips": 4
+     },
+     "28": {
+      "median_kmh": 24.7,
+      "n_trips": 5
+     },
+     "29": {
+      "median_kmh": 24.75,
+      "n_trips": 4
+     }
+    },
+    "lines": {
+     "1": {
+      "length_km_total": 1933.0,
+      "median_kmh": 22.87,
+      "n_trips": 131,
+      "q1_kmh": 22.3,
+      "q3_kmh": 22.87
+     },
+     "10": {
+      "length_km_total": 1701.0,
+      "median_kmh": 19.01,
+      "n_trips": 141,
+      "q1_kmh": 18.36,
+      "q3_kmh": 19.81
+     },
+     "11": {
+      "length_km_total": 1628.0,
+      "median_kmh": 20.18,
+      "n_trips": 141,
+      "q1_kmh": 18.64,
+      "q3_kmh": 20.19
+     },
+     "12": {
+      "length_km_total": 1881.0,
+      "median_kmh": 23.54,
+      "n_trips": 137,
+      "q1_kmh": 22.89,
+      "q3_kmh": 24.93
+     },
+     "13": {
+      "length_km_total": 1699.0,
+      "median_kmh": 18.15,
+      "n_trips": 130,
+      "q1_kmh": 17.91,
+      "q3_kmh": 19.51
+     },
+     "14": {
+      "length_km_total": 1384.0,
+      "median_kmh": 27.1,
+      "n_trips": 131,
+      "q1_kmh": 26.03,
+      "q3_kmh": 28.4
+     },
+     "15": {
+      "length_km_total": 1694.0,
+      "median_kmh": 25.16,
+      "n_trips": 136,
+      "q1_kmh": 25.15,
+      "q3_kmh": 26.6
+     },
+     "16": {
+      "length_km_total": 1723.0,
+      "median_kmh": 25.24,
+      "n_trips": 128,
+      "q1_kmh": 24.34,
+      "q3_kmh": 25.91
+     },
+     "17": {
+      "length_km_total": 798.4,
+      "median_kmh": 16.62,
+      "n_trips": 134,
+      "q1_kmh": 15.88,
+      "q3_kmh": 16.64
+     },
+     "18": {
+      "length_km_total": 1377.0,
+      "median_kmh": 18.24,
+      "n_trips": 132,
+      "q1_kmh": 17.55,
+      "q3_kmh": 18.62
+     },
+     "201": {
+      "length_km_total": 464.7,
+      "median_kmh": 24.7,
+      "n_trips": 31,
+      "q1_kmh": 24.7,
+      "q3_kmh": 24.87
+     },
+     "202": {
+      "length_km_total": 175.1,
+      "median_kmh": 25.1,
+      "n_trips": 13,
+      "q1_kmh": 24.61,
+      "q3_kmh": 25.1
+     },
+     "3": {
+      "length_km_total": 1955.0,
+      "median_kmh": 20.29,
+      "n_trips": 140,
+      "q1_kmh": 19.92,
+      "q3_kmh": 20.68
+     },
+     "4": {
+      "length_km_total": 764.1,
+      "median_kmh": 18.37,
+      "n_trips": 131,
+      "q1_kmh": 17.98,
+      "q3_kmh": 18.37
+     },
+     "5": {
+      "length_km_total": 1125.0,
+      "median_kmh": 17.59,
+      "n_trips": 131,
+      "q1_kmh": 17.21,
+      "q3_kmh": 18.44
+     },
+     "6": {
+      "length_km_total": 1905.0,
+      "median_kmh": 20.54,
+      "n_trips": 138,
+      "q1_kmh": 20.09,
+      "q3_kmh": 20.58
+     },
+     "7": {
+      "length_km_total": 1912.0,
+      "median_kmh": 20.5,
+      "n_trips": 143,
+      "q1_kmh": 20.5,
+      "q3_kmh": 21.0
+     },
+     "8": {
+      "length_km_total": 1322.0,
+      "median_kmh": 18.91,
+      "n_trips": 138,
+      "q1_kmh": 18.17,
+      "q3_kmh": 19.38
+     },
+     "9": {
+      "length_km_total": 1775.0,
+      "median_kmh": 16.88,
+      "n_trips": 141,
+      "q1_kmh": 16.67,
+      "q3_kmh": 17.04
+     },
+     "92": {
+      "length_km_total": 1352.0,
+      "median_kmh": 17.42,
+      "n_trips": 136,
+      "q1_kmh": 16.47,
+      "q3_kmh": 17.92
+     },
+     "97": {
+      "length_km_total": 1123.0,
+      "median_kmh": 22.51,
+      "n_trips": 132,
+      "q1_kmh": 21.47,
+      "q3_kmh": 23.54
+     }
+    },
+    "median_kmh": 19.99,
+    "n_excluded": 10,
+    "n_lines": 21,
+    "n_trips": 2615,
+    "q1_kmh": 17.92,
+    "q3_kmh": 22.87,
+    "wmedian_vkm_kmh": 20.21
+   },
+   "Warszawa": {
+    "hourly_median_kmh": {
+     "3": {
+      "median_kmh": 17.83,
+      "n_trips": 12
+     },
+     "4": {
+      "median_kmh": 18.89,
+      "n_trips": 190
+     },
+     "5": {
+      "median_kmh": 18.95,
+      "n_trips": 184
+     },
+     "6": {
+      "median_kmh": 18.92,
+      "n_trips": 191
+     },
+     "7": {
+      "median_kmh": 18.92,
+      "n_trips": 229
+     },
+     "8": {
+      "median_kmh": 18.92,
+      "n_trips": 231
+     },
+     "9": {
+      "median_kmh": 18.92,
+      "n_trips": 233
+     },
+     "10": {
+      "median_kmh": 18.92,
+      "n_trips": 232
+     },
+     "11": {
+      "median_kmh": 18.92,
+      "n_trips": 232
+     },
+     "12": {
+      "median_kmh": 18.92,
+      "n_trips": 232
+     },
+     "13": {
+      "median_kmh": 18.92,
+      "n_trips": 232
+     },
+     "14": {
+      "median_kmh": 18.92,
+      "n_trips": 232
+     },
+     "15": {
+      "median_kmh": 18.92,
+      "n_trips": 232
+     },
+     "16": {
+      "median_kmh": 18.92,
+      "n_trips": 232
+     },
+     "17": {
+      "median_kmh": 18.92,
+      "n_trips": 233
+     },
+     "18": {
+      "median_kmh": 18.94,
+      "n_trips": 234
+     },
+     "19": {
+      "median_kmh": 18.97,
+      "n_trips": 218
+     },
+     "20": {
+      "median_kmh": 18.98,
+      "n_trips": 177
+     },
+     "21": {
+      "median_kmh": 18.98,
+      "n_trips": 171
+     },
+     "22": {
+      "median_kmh": 19.2,
+      "n_trips": 175
+     },
+     "23": {
+      "median_kmh": 19.19,
+      "n_trips": 129
+     },
+     "24": {
+      "median_kmh": 19.11,
+      "n_trips": 19
+     }
+    },
+    "lines": {
+     "1": {
+      "length_km_total": 4673.0,
+      "median_kmh": 18.68,
+      "n_trips": 293,
+      "q1_kmh": 17.83,
+      "q3_kmh": 19.13
+     },
+     "10": {
+      "length_km_total": 2461.0,
+      "median_kmh": 17.33,
+      "n_trips": 157,
+      "q1_kmh": 16.79,
+      "q3_kmh": 18.77
+     },
+     "11": {
+      "length_km_total": 1504.0,
+      "median_kmh": 18.34,
+      "n_trips": 148,
+      "q1_kmh": 18.34,
+      "q3_kmh": 18.71
+     },
+     "13": {
+      "length_km_total": 1045.0,
+      "median_kmh": 19.32,
+      "n_trips": 101,
+      "q1_kmh": 19.27,
+      "q3_kmh": 19.32
+     },
+     "14": {
+      "length_km_total": 1764.0,
+      "median_kmh": 18.88,
+      "n_trips": 147,
+      "q1_kmh": 17.96,
+      "q3_kmh": 18.95
+     },
+     "15": {
+      "length_km_total": 2158.0,
+      "median_kmh": 18.05,
+      "n_trips": 143,
+      "q1_kmh": 17.31,
+      "q3_kmh": 18.05
+     },
+     "16": {
+      "length_km_total": 4411.0,
+      "median_kmh": 18.81,
+      "n_trips": 293,
+      "q1_kmh": 18.28,
+      "q3_kmh": 19.5
+     },
+     "17": {
+      "length_km_total": 5209.0,
+      "median_kmh": 19.16,
+      "n_trips": 297,
+      "q1_kmh": 18.12,
+      "q3_kmh": 21.19
+     },
+     "18": {
+      "length_km_total": 2439.0,
+      "median_kmh": 18.12,
+      "n_trips": 152,
+      "q1_kmh": 16.67,
+      "q3_kmh": 18.12
+     },
+     "19": {
+      "length_km_total": 2621.0,
+      "median_kmh": 19.0,
+      "n_trips": 156,
+      "q1_kmh": 18.34,
+      "q3_kmh": 19.54
+     },
+     "2": {
+      "length_km_total": 2432.0,
+      "median_kmh": 25.19,
+      "n_trips": 290,
+      "q1_kmh": 24.96,
+      "q3_kmh": 27.4
+     },
+     "20": {
+      "length_km_total": 2554.0,
+      "median_kmh": 21.2,
+      "n_trips": 152,
+      "q1_kmh": 20.58,
+      "q3_kmh": 21.42
+     },
+     "22": {
+      "length_km_total": 2151.0,
+      "median_kmh": 18.37,
+      "n_trips": 140,
+      "q1_kmh": 18.37,
+      "q3_kmh": 19.2
+     },
+     "23": {
+      "length_km_total": 1785.0,
+      "median_kmh": 19.51,
+      "n_trips": 143,
+      "q1_kmh": 19.25,
+      "q3_kmh": 19.51
+     },
+     "24": {
+      "length_km_total": 2564.0,
+      "median_kmh": 18.91,
+      "n_trips": 153,
+      "q1_kmh": 18.91,
+      "q3_kmh": 19.31
+     },
+     "26": {
+      "length_km_total": 3314.0,
+      "median_kmh": 19.44,
+      "n_trips": 155,
+      "q1_kmh": 18.79,
+      "q3_kmh": 19.44
+     },
+     "27": {
+      "length_km_total": 1115.0,
+      "median_kmh": 19.52,
+      "n_trips": 143,
+      "q1_kmh": 18.68,
+      "q3_kmh": 20.96
+     },
+     "28": {
+      "length_km_total": 2283.0,
+      "median_kmh": 18.79,
+      "n_trips": 149,
+      "q1_kmh": 17.89,
+      "q3_kmh": 19.32
+     },
+     "3": {
+      "length_km_total": 1759.0,
+      "median_kmh": 19.43,
+      "n_trips": 144,
+      "q1_kmh": 18.98,
+      "q3_kmh": 19.91
+     },
+     "33": {
+      "length_km_total": 1884.0,
+      "median_kmh": 18.16,
+      "n_trips": 144,
+      "q1_kmh": 17.39,
+      "q3_kmh": 18.92
+     },
+     "4": {
+      "length_km_total": 2763.0,
+      "median_kmh": 19.6,
+      "n_trips": 157,
+      "q1_kmh": 17.47,
+      "q3_kmh": 20.25
+     },
+     "6": {
+      "length_km_total": 2552.0,
+      "median_kmh": 19.31,
+      "n_trips": 147,
+      "q1_kmh": 18.92,
+      "q3_kmh": 19.31
+     },
+     "7": {
+      "length_km_total": 1408.0,
+      "median_kmh": 16.61,
+      "n_trips": 142,
+      "q1_kmh": 16.52,
+      "q3_kmh": 16.61
+     },
+     "9": {
+      "length_km_total": 4283.0,
+      "median_kmh": 18.94,
+      "n_trips": 304,
+      "q1_kmh": 18.47,
+      "q3_kmh": 20.04
+     }
+    },
+    "median_kmh": 18.94,
+    "n_excluded": 2,
+    "n_lines": 24,
+    "n_trips": 4250,
+    "q1_kmh": 18.28,
+    "q3_kmh": 19.77,
+    "wmedian_vkm_kmh": 18.94
+   },
+   "Wrocław": {
+    "hourly_median_kmh": {
+     "3": {
+      "median_kmh": 20.67,
+      "n_trips": 1
+     },
+     "4": {
+      "median_kmh": 16.81,
+      "n_trips": 100
+     },
+     "5": {
+      "median_kmh": 17.82,
+      "n_trips": 163
+     },
+     "6": {
+      "median_kmh": 17.52,
+      "n_trips": 147
+     },
+     "7": {
+      "median_kmh": 17.52,
+      "n_trips": 147
+     },
+     "8": {
+      "median_kmh": 17.52,
+      "n_trips": 144
+     },
+     "9": {
+      "median_kmh": 17.31,
+      "n_trips": 145
+     },
+     "10": {
+      "median_kmh": 17.32,
+      "n_trips": 144
+     },
+     "11": {
+      "median_kmh": 17.31,
+      "n_trips": 147
+     },
+     "12": {
+      "median_kmh": 17.31,
+      "n_trips": 149
+     },
+     "13": {
+      "median_kmh": 17.29,
+      "n_trips": 150
+     },
+     "14": {
+      "median_kmh": 17.29,
+      "n_trips": 150
+     },
+     "15": {
+      "median_kmh": 17.29,
+      "n_trips": 150
+     },
+     "16": {
+      "median_kmh": 17.26,
+      "n_trips": 151
+     },
+     "17": {
+      "median_kmh": 17.29,
+      "n_trips": 150
+     },
+     "18": {
+      "median_kmh": 17.29,
+      "n_trips": 150
+     },
+     "19": {
+      "median_kmh": 17.32,
+      "n_trips": 151
+     },
+     "20": {
+      "median_kmh": 17.52,
+      "n_trips": 151
+     },
+     "21": {
+      "median_kmh": 17.72,
+      "n_trips": 151
+     },
+     "22": {
+      "median_kmh": 17.71,
+      "n_trips": 148
+     },
+     "23": {
+      "median_kmh": 18.49,
+      "n_trips": 107
+     },
+     "24": {
+      "median_kmh": 18.11,
+      "n_trips": 4
+     }
+    },
+    "lines": {
+     "0": {
+      "length_km_total": 290.7,
+      "median_kmh": 13.03,
+      "n_trips": 59,
+      "q1_kmh": 12.9,
+      "q3_kmh": 15.27
+     },
+     "1": {
+      "length_km_total": 1073.0,
+      "median_kmh": 17.26,
+      "n_trips": 113,
+      "q1_kmh": 17.26,
+      "q3_kmh": 17.32
+     },
+     "10": {
+      "length_km_total": 2224.0,
+      "median_kmh": 20.32,
+      "n_trips": 123,
+      "q1_kmh": 20.18,
+      "q3_kmh": 20.61
+     },
+     "11": {
+      "length_km_total": 1099.0,
+      "median_kmh": 16.76,
+      "n_trips": 119,
+      "q1_kmh": 16.35,
+      "q3_kmh": 16.83
+     },
+     "12": {
+      "length_km_total": 1262.0,
+      "median_kmh": 18.0,
+      "n_trips": 114,
+      "q1_kmh": 17.78,
+      "q3_kmh": 18.26
+     },
+     "13": {
+      "length_km_total": 1393.0,
+      "median_kmh": 17.67,
+      "n_trips": 118,
+      "q1_kmh": 17.34,
+      "q3_kmh": 18.11
+     },
+     "14": {
+      "length_km_total": 1409.0,
+      "median_kmh": 17.88,
+      "n_trips": 109,
+      "q1_kmh": 17.76,
+      "q3_kmh": 17.88
+     },
+     "15": {
+      "length_km_total": 1183.0,
+      "median_kmh": 17.03,
+      "n_trips": 120,
+      "q1_kmh": 16.98,
+      "q3_kmh": 17.47
+     },
+     "16": {
+      "length_km_total": 1407.0,
+      "median_kmh": 16.34,
+      "n_trips": 117,
+      "q1_kmh": 15.53,
+      "q3_kmh": 16.7
+     },
+     "17": {
+      "length_km_total": 1373.0,
+      "median_kmh": 14.89,
+      "n_trips": 122,
+      "q1_kmh": 14.87,
+      "q3_kmh": 15.19
+     },
+     "18": {
+      "length_km_total": 1532.0,
+      "median_kmh": 16.73,
+      "n_trips": 113,
+      "q1_kmh": 16.65,
+      "q3_kmh": 16.73
+     },
+     "19": {
+      "length_km_total": 1350.0,
+      "median_kmh": 17.18,
+      "n_trips": 116,
+      "q1_kmh": 16.27,
+      "q3_kmh": 17.82
+     },
+     "2": {
+      "length_km_total": 1243.0,
+      "median_kmh": 17.05,
+      "n_trips": 120,
+      "q1_kmh": 16.09,
+      "q3_kmh": 17.05
+     },
+     "20": {
+      "length_km_total": 2153.0,
+      "median_kmh": 20.56,
+      "n_trips": 122,
+      "q1_kmh": 20.25,
+      "q3_kmh": 20.61
+     },
+     "21": {
+      "length_km_total": 1607.0,
+      "median_kmh": 18.91,
+      "n_trips": 132,
+      "q1_kmh": 18.5,
+      "q3_kmh": 18.91
+     },
+     "22": {
+      "length_km_total": 1296.0,
+      "median_kmh": 17.94,
+      "n_trips": 114,
+      "q1_kmh": 17.92,
+      "q3_kmh": 17.94
+     },
+     "23": {
+      "length_km_total": 1794.0,
+      "median_kmh": 19.16,
+      "n_trips": 122,
+      "q1_kmh": 18.61,
+      "q3_kmh": 19.16
+     },
+     "24": {
+      "length_km_total": 1453.0,
+      "median_kmh": 19.55,
+      "n_trips": 112,
+      "q1_kmh": 18.62,
+      "q3_kmh": 19.67
+     },
+     "3": {
+      "length_km_total": 2080.0,
+      "median_kmh": 20.77,
+      "n_trips": 123,
+      "q1_kmh": 20.62,
+      "q3_kmh": 21.19
+     },
+     "4": {
+      "length_km_total": 1430.0,
+      "median_kmh": 17.72,
+      "n_trips": 124,
+      "q1_kmh": 17.1,
+      "q3_kmh": 17.72
+     },
+     "5": {
+      "length_km_total": 1185.0,
+      "median_kmh": 17.81,
+      "n_trips": 117,
+      "q1_kmh": 17.31,
+      "q3_kmh": 18.05
+     },
+     "6": {
+      "length_km_total": 901.6,
+      "median_kmh": 15.21,
+      "n_trips": 105,
+      "q1_kmh": 15.16,
+      "q3_kmh": 15.21
+     },
+     "7": {
+      "length_km_total": 1416.0,
+      "median_kmh": 15.45,
+      "n_trips": 128,
+      "q1_kmh": 14.98,
+      "q3_kmh": 15.45
+     },
+     "8": {
+      "length_km_total": 1038.0,
+      "median_kmh": 14.8,
+      "n_trips": 123,
+      "q1_kmh": 13.85,
+      "q3_kmh": 15.11
+     },
+     "9": {
+      "length_km_total": 1052.0,
+      "median_kmh": 16.5,
+      "n_trips": 115,
+      "q1_kmh": 16.5,
+      "q3_kmh": 16.95
+     }
+    },
+    "median_kmh": 17.47,
+    "n_excluded": 2,
+    "n_lines": 25,
+    "n_trips": 2900,
+    "q1_kmh": 16.35,
+    "q3_kmh": 18.58,
+    "wmedian_vkm_kmh": 17.76
+   },
+   "Łódź": {
+    "hourly_median_kmh": {
+     "2": {
+      "median_kmh": 18.25,
+      "n_trips": 1
+     },
+     "3": {
+      "median_kmh": 17.83,
+      "n_trips": 20
+     },
+     "4": {
+      "median_kmh": 16.68,
+      "n_trips": 114
+     },
+     "5": {
+      "median_kmh": 17.2,
+      "n_trips": 125
+     },
+     "6": {
+      "median_kmh": 16.96,
+      "n_trips": 117
+     },
+     "7": {
+      "median_kmh": 16.96,
+      "n_trips": 120
+     },
+     "8": {
+      "median_kmh": 16.97,
+      "n_trips": 117
+     },
+     "9": {
+      "median_kmh": 16.97,
+      "n_trips": 116
+     },
+     "10": {
+      "median_kmh": 16.97,
+      "n_trips": 116
+     },
+     "11": {
+      "median_kmh": 16.97,
+      "n_trips": 116
+     },
+     "12": {
+      "median_kmh": 16.97,
+      "n_trips": 116
+     },
+     "13": {
+      "median_kmh": 16.97,
+      "n_trips": 116
+     },
+     "14": {
+      "median_kmh": 17.09,
+      "n_trips": 116
+     },
+     "15": {
+      "median_kmh": 17.2,
+      "n_trips": 116
+     },
+     "16": {
+      "median_kmh": 17.2,
+      "n_trips": 116
+     },
+     "17": {
+      "median_kmh": 17.2,
+      "n_trips": 116
+     },
+     "18": {
+      "median_kmh": 17.2,
+      "n_trips": 116
+     },
+     "19": {
+      "median_kmh": 17.2,
+      "n_trips": 118
+     },
+     "20": {
+      "median_kmh": 16.97,
+      "n_trips": 119
+     },
+     "21": {
+      "median_kmh": 16.97,
+      "n_trips": 118
+     },
+     "22": {
+      "median_kmh": 18.02,
+      "n_trips": 129
+     },
+     "23": {
+      "median_kmh": 18.68,
+      "n_trips": 48
+     },
+     "24": {
+      "median_kmh": 22.5,
+      "n_trips": 2
+     },
+     "26": {
+      "median_kmh": 23.45,
+      "n_trips": 1
+     },
+     "27": {
+      "median_kmh": 23.06,
+      "n_trips": 2
+     },
+     "28": {
+      "median_kmh": 23.69,
+      "n_trips": 1
+     }
+    },
+    "lines": {
+     "1": {
+      "length_km_total": 423.0,
+      "median_kmh": 15.65,
+      "n_trips": 111,
+      "q1_kmh": 13.06,
+      "q3_kmh": 17.24
+     },
+     "10B": {
+      "length_km_total": 2083.0,
+      "median_kmh": 20.98,
+      "n_trips": 124,
+      "q1_kmh": 20.57,
+      "q3_kmh": 21.43
+     },
+     "11": {
+      "length_km_total": 2141.0,
+      "median_kmh": 16.94,
+      "n_trips": 116,
+      "q1_kmh": 16.31,
+      "q3_kmh": 17.2
+     },
+     "12": {
+      "length_km_total": 1506.0,
+      "median_kmh": 16.96,
+      "n_trips": 119,
+      "q1_kmh": 16.96,
+      "q3_kmh": 16.97
+     },
+     "13": {
+      "length_km_total": 1823.0,
+      "median_kmh": 18.68,
+      "n_trips": 122,
+      "q1_kmh": 17.68,
+      "q3_kmh": 19.11
+     },
+     "14": {
+      "length_km_total": 1408.0,
+      "median_kmh": 18.31,
+      "n_trips": 119,
+      "q1_kmh": 17.2,
+      "q3_kmh": 19.43
+     },
+     "15": {
+      "length_km_total": 1796.0,
+      "median_kmh": 16.11,
+      "n_trips": 123,
+      "q1_kmh": 15.13,
+      "q3_kmh": 16.11
+     },
+     "16": {
+      "length_km_total": 1899.0,
+      "median_kmh": 18.4,
+      "n_trips": 120,
+      "q1_kmh": 18.23,
+      "q3_kmh": 18.4
+     },
+     "17": {
+      "length_km_total": 164.3,
+      "median_kmh": 16.18,
+      "n_trips": 16,
+      "q1_kmh": 15.9,
+      "q3_kmh": 16.61
+     },
+     "2": {
+      "length_km_total": 1931.0,
+      "median_kmh": 16.28,
+      "n_trips": 126,
+      "q1_kmh": 16.16,
+      "q3_kmh": 16.28
+     },
+     "3": {
+      "length_km_total": 1640.0,
+      "median_kmh": 15.07,
+      "n_trips": 122,
+      "q1_kmh": 14.37,
+      "q3_kmh": 15.63
+     },
+     "4": {
+      "length_km_total": 818.5,
+      "median_kmh": 15.0,
+      "n_trips": 122,
+      "q1_kmh": 15.0,
+      "q3_kmh": 17.64
+     },
+     "41": {
+      "length_km_total": 1152.0,
+      "median_kmh": 21.83,
+      "n_trips": 80,
+      "q1_kmh": 20.87,
+      "q3_kmh": 21.83
+     },
+     "43": {
+      "length_km_total": 594.5,
+      "median_kmh": 18.76,
+      "n_trips": 70,
+      "q1_kmh": 18.31,
+      "q3_kmh": 18.76
+     },
+     "45": {
+      "length_km_total": 1933.0,
+      "median_kmh": 18.13,
+      "n_trips": 100,
+      "q1_kmh": 18.0,
+      "q3_kmh": 18.13
+     },
+     "5": {
+      "length_km_total": 1089.0,
+      "median_kmh": 16.12,
+      "n_trips": 116,
+      "q1_kmh": 15.65,
+      "q3_kmh": 16.6
+     },
+     "6": {
+      "length_km_total": 1880.0,
+      "median_kmh": 15.8,
+      "n_trips": 123,
+      "q1_kmh": 15.65,
+      "q3_kmh": 16.06
+     },
+     "7": {
+      "length_km_total": 1126.0,
+      "median_kmh": 14.8,
+      "n_trips": 119,
+      "q1_kmh": 13.95,
+      "q3_kmh": 15.2
+     },
+     "8": {
+      "length_km_total": 2069.0,
+      "median_kmh": 18.1,
+      "n_trips": 124,
+      "q1_kmh": 17.83,
+      "q3_kmh": 19.5
+     },
+     "9": {
+      "length_km_total": 1327.0,
+      "median_kmh": 19.64,
+      "n_trips": 114,
+      "q1_kmh": 19.64,
+      "q3_kmh": 21.01
+     },
+     "P1": {
+      "length_km_total": 73.56,
+      "median_kmh": 23.09,
+      "n_trips": 8,
+      "q1_kmh": 22.72,
+      "q3_kmh": 23.51
+     },
+     "Z1": {
+      "length_km_total": 873.5,
+      "median_kmh": 16.56,
+      "n_trips": 118,
+      "q1_kmh": 15.75,
+      "q3_kmh": 16.56
+     }
+    },
+    "median_kmh": 17.2,
+    "n_excluded": 18,
+    "n_lines": 22,
+    "n_trips": 2312,
+    "q1_kmh": 15.75,
+    "q3_kmh": 18.63,
+    "wmedian_vkm_kmh": 17.38
+   }
+  },
+  "official/weekday": {
+   "GZM": {
+    "hourly_median_kmh": {
+     "2": {
+      "median_kmh": 18.46,
+      "n_trips": 9
+     },
+     "3": {
+      "median_kmh": 21.65,
+      "n_trips": 70
+     },
+     "4": {
+      "median_kmh": 19.59,
+      "n_trips": 181
+     },
+     "5": {
+      "median_kmh": 16.95,
+      "n_trips": 166
+     },
+     "6": {
+      "median_kmh": 16.95,
+      "n_trips": 168
+     },
+     "7": {
+      "median_kmh": 16.95,
+      "n_trips": 165
+     },
+     "8": {
+      "median_kmh": 16.95,
+      "n_trips": 159
+     },
+     "9": {
+      "median_kmh": 16.95,
+      "n_trips": 164
+     },
+     "10": {
+      "median_kmh": 16.95,
+      "n_trips": 163
+     },
+     "11": {
+      "median_kmh": 16.99,
+      "n_trips": 162
+     },
+     "12": {
+      "median_kmh": 16.95,
+      "n_trips": 167
+     },
+     "13": {
+      "median_kmh": 16.95,
+      "n_trips": 165
+     },
+     "14": {
+      "median_kmh": 16.95,
+      "n_trips": 166
+     },
+     "15": {
+      "median_kmh": 16.99,
+      "n_trips": 166
+     },
+     "16": {
+      "median_kmh": 16.95,
+      "n_trips": 161
+     },
+     "17": {
+      "median_kmh": 16.95,
+      "n_trips": 153
+     },
+     "18": {
+      "median_kmh": 17.02,
+      "n_trips": 135
+     },
+     "19": {
+      "median_kmh": 17.14,
+      "n_trips": 114
+     },
+     "20": {
+      "median_kmh": 16.81,
+      "n_trips": 106
+     },
+     "21": {
+      "median_kmh": 16.79,
+      "n_trips": 98
+     },
+     "22": {
+      "median_kmh": 17.87,
+      "n_trips": 108
+     },
+     "23": {
+      "median_kmh": 20.72,
+      "n_trips": 79
+     },
+     "24": {
+      "median_kmh": 20.4,
+      "n_trips": 26
+     },
+     "25": {
+      "median_kmh": 19.18,
+      "n_trips": 8
+     }
+    },
+    "lines": {
+     "T1": {
+      "length_km_total": 891.7,
+      "median_kmh": 20.23,
+      "n_trips": 74,
+      "q1_kmh": 17.31,
+      "q3_kmh": 20.23
+     },
+     "T11": {
+      "length_km_total": 2748.0,
+      "median_kmh": 16.95,
+      "n_trips": 159,
+      "q1_kmh": 16.79,
+      "q3_kmh": 16.95
+     },
+     "T13": {
+      "length_km_total": 798.0,
+      "median_kmh": 15.86,
+      "n_trips": 133,
+      "q1_kmh": 15.5,
+      "q3_kmh": 15.86
+     },
+     "T15": {
+      "length_km_total": 1252.0,
+      "median_kmh": 21.93,
+      "n_trips": 152,
+      "q1_kmh": 19.61,
+      "q3_kmh": 26.04
+     },
+     "T16": {
+      "length_km_total": 1444.0,
+      "median_kmh": 16.08,
+      "n_trips": 180,
+      "q1_kmh": 15.92,
+      "q3_kmh": 16.08
+     },
+     "T17": {
+      "length_km_total": 1736.0,
+      "median_kmh": 17.18,
+      "n_trips": 142,
+      "q1_kmh": 16.73,
+      "q3_kmh": 17.18
+     },
+     "T2": {
+      "length_km_total": 1383.0,
+      "median_kmh": 19.36,
+      "n_trips": 84,
+      "q1_kmh": 19.28,
+      "q3_kmh": 19.36
+     },
+     "T20": {
+      "length_km_total": 2320.0,
+      "median_kmh": 15.04,
+      "n_trips": 155,
+      "q1_kmh": 14.8,
+      "q3_kmh": 15.04
+     },
+     "T21": {
+      "length_km_total": 2590.0,
+      "median_kmh": 22.24,
+      "n_trips": 131,
+      "q1_kmh": 22.19,
+      "q3_kmh": 22.33
+     },
+     "T22": {
+      "length_km_total": 1695.0,
+      "median_kmh": 23.33,
+      "n_trips": 119,
+      "q1_kmh": 23.21,
+      "q3_kmh": 23.74
+     },
+     "T24": {
+      "length_km_total": 490.2,
+      "median_kmh": 17.14,
+      "n_trips": 96,
+      "q1_kmh": 16.52,
+      "q3_kmh": 17.14
+     },
+     "T26": {
+      "length_km_total": 1849.0,
+      "median_kmh": 20.53,
+      "n_trips": 136,
+      "q1_kmh": 19.87,
+      "q3_kmh": 20.53
+     },
+     "T27": {
+      "length_km_total": 1735.0,
+      "median_kmh": 18.65,
+      "n_trips": 102,
+      "q1_kmh": 18.2,
+      "q3_kmh": 20.01
+     },
+     "T28": {
+      "length_km_total": 450.2,
+      "median_kmh": 22.71,
+      "n_trips": 44,
+      "q1_kmh": 22.21,
+      "q3_kmh": 23.97
+     },
+     "T3": {
+      "length_km_total": 1163.0,
+      "median_kmh": 18.21,
+      "n_trips": 108,
+      "q1_kmh": 17.25,
+      "q3_kmh": 18.27
+     },
+     "T30": {
+      "length_km_total": 145.8,
+      "median_kmh": 17.44,
+      "n_trips": 18,
+      "q1_kmh": 17.44,
+      "q3_kmh": 17.44
+     },
+     "T31": {
+      "length_km_total": 599.6,
+      "median_kmh": 15.47,
+      "n_trips": 152,
+      "q1_kmh": 15.02,
+      "q3_kmh": 15.47
+     },
+     "T33": {
+      "length_km_total": 393.5,
+      "median_kmh": 19.1,
+      "n_trips": 66,
+      "q1_kmh": 18.36,
+      "q3_kmh": 19.1
+     },
+     "T34": {
+      "length_km_total": 181.6,
+      "median_kmh": 16.51,
+      "n_trips": 71,
+      "q1_kmh": 15.05,
+      "q3_kmh": 16.51
+     },
+     "T36": {
+      "length_km_total": 918.8,
+      "median_kmh": 16.3,
+      "n_trips": 112,
+      "q1_kmh": 15.7,
+      "q3_kmh": 16.3
+     },
+     "T38": {
+      "length_km_total": 225.6,
+      "median_kmh": 13.92,
+      "n_trips": 118,
+      "q1_kmh": 10.74,
+      "q3_kmh": 13.92
+     },
+     "T4": {
+      "length_km_total": 482.7,
+      "median_kmh": 18.89,
+      "n_trips": 62,
+      "q1_kmh": 17.02,
+      "q3_kmh": 18.89
+     },
+     "T41": {
+      "length_km_total": 51.79,
+      "median_kmh": 15.34,
+      "n_trips": 21,
+      "q1_kmh": 14.8,
+      "q3_kmh": 15.34
+     },
+     "T5": {
+      "length_km_total": 1010.0,
+      "median_kmh": 20.07,
+      "n_trips": 67,
+      "q1_kmh": 19.86,
+      "q3_kmh": 20.07
+     },
+     "T6": {
+      "length_km_total": 4600.0,
+      "median_kmh": 19.64,
+      "n_trips": 246,
+      "q1_kmh": 17.85,
+      "q3_kmh": 20.17
+     },
+     "T7": {
+      "length_km_total": 3507.0,
+      "median_kmh": 16.61,
+      "n_trips": 172,
+      "q1_kmh": 16.25,
+      "q3_kmh": 17.06
+     },
+     "T9": {
+      "length_km_total": 2339.0,
+      "median_kmh": 15.34,
+      "n_trips": 139,
+      "q1_kmh": 15.32,
+      "q3_kmh": 15.69
+     }
+    },
+    "median_kmh": 17.23,
+    "n_excluded": 0,
+    "n_lines": 27,
+    "n_trips": 3059,
+    "q1_kmh": 15.92,
+    "q3_kmh": 20.01,
+    "wmedian_vkm_kmh": 18.22
+   },
+   "Gdańsk": {
+    "hourly_median_kmh": {
+     "3": {
+      "median_kmh": 17.72,
+      "n_trips": 9
+     },
+     "4": {
+      "median_kmh": 17.81,
+      "n_trips": 61
+     },
+     "5": {
+      "median_kmh": 18.01,
+      "n_trips": 91
+     },
+     "6": {
+      "median_kmh": 18.01,
+      "n_trips": 107
+     },
+     "7": {
+      "median_kmh": 18.02,
+      "n_trips": 107
+     },
+     "8": {
+      "median_kmh": 17.97,
+      "n_trips": 94
+     },
+     "9": {
+      "median_kmh": 17.81,
+      "n_trips": 77
+     },
+     "10": {
+      "median_kmh": 17.91,
+      "n_trips": 75
+     },
+     "11": {
+      "median_kmh": 17.96,
+      "n_trips": 74
+     },
+     "12": {
+      "median_kmh": 17.96,
+      "n_trips": 78
+     },
+     "13": {
+      "median_kmh": 17.97,
+      "n_trips": 90
+     },
+     "14": {
+      "median_kmh": 18.01,
+      "n_trips": 112
+     },
+     "15": {
+      "median_kmh": 18.02,
+      "n_trips": 112
+     },
+     "16": {
+      "median_kmh": 18.02,
+      "n_trips": 111
+     },
+     "17": {
+      "median_kmh": 18.01,
+      "n_trips": 92
+     },
+     "18": {
+      "median_kmh": 17.97,
+      "n_trips": 67
+     },
+     "19": {
+      "median_kmh": 17.97,
+      "n_trips": 56
+     },
+     "20": {
+      "median_kmh": 17.97,
+      "n_trips": 46
+     },
+     "21": {
+      "median_kmh": 17.97,
+      "n_trips": 36
+     },
+     "22": {
+      "median_kmh": 18.54,
+      "n_trips": 31
+     },
+     "23": {
+      "median_kmh": 19.45,
+      "n_trips": 16
+     }
+    },
+    "lines": {
+     "10": {
+      "length_km_total": 2599.0,
+      "median_kmh": 18.01,
+      "n_trips": 180,
+      "q1_kmh": 17.81,
+      "q3_kmh": 18.01
+     },
+     "11": {
+      "length_km_total": 1691.0,
+      "median_kmh": 18.3,
+      "n_trips": 122,
+      "q1_kmh": 18.13,
+      "q3_kmh": 18.87
+     },
+     "12": {
+      "length_km_total": 3982.0,
+      "median_kmh": 18.08,
+      "n_trips": 200,
+      "q1_kmh": 17.46,
+      "q3_kmh": 18.45
+     },
+     "2": {
+      "length_km_total": 3340.0,
+      "median_kmh": 18.02,
+      "n_trips": 186,
+      "q1_kmh": 17.97,
+      "q3_kmh": 18.02
+     },
+     "3": {
+      "length_km_total": 2284.0,
+      "median_kmh": 18.85,
+      "n_trips": 150,
+      "q1_kmh": 18.21,
+      "q3_kmh": 18.85
+     },
+     "5": {
+      "length_km_total": 1735.0,
+      "median_kmh": 17.03,
+      "n_trips": 111,
+      "q1_kmh": 16.9,
+      "q3_kmh": 18.54
+     },
+     "6": {
+      "length_km_total": 2923.0,
+      "median_kmh": 17.71,
+      "n_trips": 182,
+      "q1_kmh": 17.71,
+      "q3_kmh": 18.09
+     },
+     "7": {
+      "length_km_total": 1270.0,
+      "median_kmh": 19.7,
+      "n_trips": 86,
+      "q1_kmh": 19.57,
+      "q3_kmh": 19.83
+     },
+     "8": {
+      "length_km_total": 2404.0,
+      "median_kmh": 17.03,
+      "n_trips": 174,
+      "q1_kmh": 16.74,
+      "q3_kmh": 17.09
+     },
+     "9": {
+      "length_km_total": 1491.0,
+      "median_kmh": 17.4,
+      "n_trips": 151,
+      "q1_kmh": 16.38,
+      "q3_kmh": 17.46
+     }
+    },
+    "median_kmh": 18.01,
+    "n_excluded": 0,
+    "n_lines": 10,
+    "n_trips": 1542,
+    "q1_kmh": 17.46,
+    "q3_kmh": 18.45,
+    "wmedian_vkm_kmh": 18.01
+   },
+   "Kraków": {
+    "hourly_median_kmh": {
+     "4": {
+      "median_kmh": 20.05,
+      "n_trips": 56
+     },
+     "5": {
+      "median_kmh": 19.84,
+      "n_trips": 157
+     },
+     "6": {
+      "median_kmh": 19.86,
+      "n_trips": 231
+     },
+     "7": {
+      "median_kmh": 19.86,
+      "n_trips": 239
+     },
+     "8": {
+      "median_kmh": 19.85,
+      "n_trips": 236
+     },
+     "9": {
+      "median_kmh": 19.79,
+      "n_trips": 216
+     },
+     "10": {
+      "median_kmh": 19.75,
+      "n_trips": 217
+     },
+     "11": {
+      "median_kmh": 19.79,
+      "n_trips": 216
+     },
+     "12": {
+      "median_kmh": 19.75,
+      "n_trips": 218
+     },
+     "13": {
+      "median_kmh": 19.67,
+      "n_trips": 225
+     },
+     "14": {
+      "median_kmh": 19.73,
+      "n_trips": 234
+     },
+     "15": {
+      "median_kmh": 19.74,
+      "n_trips": 240
+     },
+     "16": {
+      "median_kmh": 19.74,
+      "n_trips": 240
+     },
+     "17": {
+      "median_kmh": 19.75,
+      "n_trips": 233
+     },
+     "18": {
+      "median_kmh": 19.73,
+      "n_trips": 206
+     },
+     "19": {
+      "median_kmh": 19.84,
+      "n_trips": 172
+     },
+     "20": {
+      "median_kmh": 19.86,
+      "n_trips": 141
+     },
+     "21": {
+      "median_kmh": 19.79,
+      "n_trips": 122
+     },
+     "22": {
+      "median_kmh": 19.84,
+      "n_trips": 98
+     },
+     "23": {
+      "median_kmh": 19.85,
+      "n_trips": 13
+     }
+    },
+    "lines": {
+     "1": {
+      "length_km_total": 1878.0,
+      "median_kmh": 18.57,
+      "n_trips": 143,
+      "q1_kmh": 17.69,
+      "q3_kmh": 18.57
+     },
+     "11": {
+      "length_km_total": 1646.0,
+      "median_kmh": 21.08,
+      "n_trips": 123,
+      "q1_kmh": 20.12,
+      "q3_kmh": 21.08
+     },
+     "12": {
+      "length_km_total": 4595.0,
+      "median_kmh": 19.82,
+      "n_trips": 260,
+      "q1_kmh": 19.24,
+      "q3_kmh": 20.05
+     },
+     "13": {
+      "length_km_total": 2336.0,
+      "median_kmh": 18.73,
+      "n_trips": 201,
+      "q1_kmh": 18.47,
+      "q3_kmh": 18.73
+     },
+     "14": {
+      "length_km_total": 2096.0,
+      "median_kmh": 18.47,
+      "n_trips": 141,
+      "q1_kmh": 18.31,
+      "q3_kmh": 18.86
+     },
+     "15": {
+      "length_km_total": 3017.0,
+      "median_kmh": 20.4,
+      "n_trips": 238,
+      "q1_kmh": 20.16,
+      "q3_kmh": 20.4
+     },
+     "16": {
+      "length_km_total": 2772.0,
+      "median_kmh": 23.29,
+      "n_trips": 140,
+      "q1_kmh": 23.29,
+      "q3_kmh": 23.39
+     },
+     "17": {
+      "length_km_total": 1680.0,
+      "median_kmh": 19.32,
+      "n_trips": 137,
+      "q1_kmh": 17.9,
+      "q3_kmh": 19.41
+     },
+     "18": {
+      "length_km_total": 2381.0,
+      "median_kmh": 19.84,
+      "n_trips": 144,
+      "q1_kmh": 19.46,
+      "q3_kmh": 19.84
+     },
+     "21": {
+      "length_km_total": 675.7,
+      "median_kmh": 19.34,
+      "n_trips": 107,
+      "q1_kmh": 19.34,
+      "q3_kmh": 19.52
+     },
+     "22": {
+      "length_km_total": 2495.0,
+      "median_kmh": 19.95,
+      "n_trips": 144,
+      "q1_kmh": 19.75,
+      "q3_kmh": 19.95
+     },
+     "3": {
+      "length_km_total": 3107.0,
+      "median_kmh": 19.11,
+      "n_trips": 248,
+      "q1_kmh": 18.95,
+      "q3_kmh": 19.11
+     },
+     "49": {
+      "length_km_total": 570.1,
+      "median_kmh": 22.85,
+      "n_trips": 48,
+      "q1_kmh": 21.85,
+      "q3_kmh": 23.58
+     },
+     "5": {
+      "length_km_total": 2458.0,
+      "median_kmh": 20.01,
+      "n_trips": 140,
+      "q1_kmh": 20.01,
+      "q3_kmh": 20.11
+     },
+     "7": {
+      "length_km_total": 5917.0,
+      "median_kmh": 22.46,
+      "n_trips": 324,
+      "q1_kmh": 21.68,
+      "q3_kmh": 23.59
+     },
+     "70": {
+      "length_km_total": 2889.0,
+      "median_kmh": 21.04,
+      "n_trips": 144,
+      "q1_kmh": 21.04,
+      "q3_kmh": 21.19
+     },
+     "71": {
+      "length_km_total": 1908.0,
+      "median_kmh": 20.26,
+      "n_trips": 108,
+      "q1_kmh": 20.13,
+      "q3_kmh": 20.26
+     },
+     "72": {
+      "length_km_total": 684.9,
+      "median_kmh": 15.88,
+      "n_trips": 140,
+      "q1_kmh": 15.43,
+      "q3_kmh": 16.33
+     },
+     "74": {
+      "length_km_total": 3178.0,
+      "median_kmh": 19.57,
+      "n_trips": 144,
+      "q1_kmh": 18.91,
+      "q3_kmh": 19.86
+     },
+     "75": {
+      "length_km_total": 1094.0,
+      "median_kmh": 19.67,
+      "n_trips": 107,
+      "q1_kmh": 19.29,
+      "q3_kmh": 19.67
+     },
+     "76": {
+      "length_km_total": 1010.0,
+      "median_kmh": 20.24,
+      "n_trips": 140,
+      "q1_kmh": 20.03,
+      "q3_kmh": 21.25
+     },
+     "78": {
+      "length_km_total": 3570.0,
+      "median_kmh": 18.26,
+      "n_trips": 249,
+      "q1_kmh": 17.33,
+      "q3_kmh": 18.26
+     },
+     "9": {
+      "length_km_total": 2251.0,
+      "median_kmh": 21.93,
+      "n_trips": 140,
+      "q1_kmh": 21.69,
+      "q3_kmh": 22.17
+     }
+    },
+    "median_kmh": 19.84,
+    "n_excluded": 0,
+    "n_lines": 23,
+    "n_trips": 3710,
+    "q1_kmh": 18.89,
+    "q3_kmh": 20.98,
+    "wmedian_vkm_kmh": 19.95
+   },
+   "Poznań": {
+    "hourly_median_kmh": {
+     "4": {
+      "median_kmh": 21.05,
+      "n_trips": 139
+     },
+     "5": {
+      "median_kmh": 19.82,
+      "n_trips": 176
+     },
+     "6": {
+      "median_kmh": 18.64,
+      "n_trips": 235
+     },
+     "7": {
+      "median_kmh": 18.65,
+      "n_trips": 228
+     },
+     "8": {
+      "median_kmh": 18.65,
+      "n_trips": 221
+     },
+     "9": {
+      "median_kmh": 19.49,
+      "n_trips": 179
+     },
+     "10": {
+      "median_kmh": 18.65,
+      "n_trips": 152
+     },
+     "11": {
+      "median_kmh": 18.65,
+      "n_trips": 152
+     },
+     "12": {
+      "median_kmh": 18.65,
+      "n_trips": 158
+     },
+     "13": {
+      "median_kmh": 18.65,
+      "n_trips": 231
+     },
+     "14": {
+      "median_kmh": 18.65,
+      "n_trips": 231
+     },
+     "15": {
+      "median_kmh": 18.65,
+      "n_trips": 229
+     },
+     "16": {
+      "median_kmh": 18.65,
+      "n_trips": 228
+     },
+     "17": {
+      "median_kmh": 18.64,
+      "n_trips": 228
+     },
+     "18": {
+      "median_kmh": 19.49,
+      "n_trips": 191
+     },
+     "19": {
+      "median_kmh": 19.58,
+      "n_trips": 151
+     },
+     "20": {
+      "median_kmh": 20.21,
+      "n_trips": 137
+     },
+     "21": {
+      "median_kmh": 20.19,
+      "n_trips": 121
+     },
+     "22": {
+      "median_kmh": 20.58,
+      "n_trips": 121
+     },
+     "23": {
+      "median_kmh": 22.47,
+      "n_trips": 28
+     },
+     "24": {
+      "median_kmh": 24.78,
+      "n_trips": 4
+     },
+     "25": {
+      "median_kmh": 24.78,
+      "n_trips": 4
+     },
+     "26": {
+      "median_kmh": 24.78,
+      "n_trips": 4
+     },
+     "27": {
+      "median_kmh": 24.78,
+      "n_trips": 4
+     },
+     "28": {
+      "median_kmh": 24.81,
+      "n_trips": 5
+     }
+    },
+    "lines": {
+     "1": {
+      "length_km_total": 2598.0,
+      "median_kmh": 22.87,
+      "n_trips": 181,
+      "q1_kmh": 22.3,
+      "q3_kmh": 22.87
+     },
+     "10": {
+      "length_km_total": 2287.0,
+      "median_kmh": 18.36,
+      "n_trips": 192,
+      "q1_kmh": 17.65,
+      "q3_kmh": 18.36
+     },
+     "11": {
+      "length_km_total": 2211.0,
+      "median_kmh": 18.65,
+      "n_trips": 193,
+      "q1_kmh": 18.64,
+      "q3_kmh": 18.65
+     },
+     "12": {
+      "length_km_total": 2563.0,
+      "median_kmh": 23.54,
+      "n_trips": 188,
+      "q1_kmh": 22.89,
+      "q3_kmh": 23.54
+     },
+     "13": {
+      "length_km_total": 2341.0,
+      "median_kmh": 18.15,
+      "n_trips": 182,
+      "q1_kmh": 17.91,
+      "q3_kmh": 18.15
+     },
+     "14": {
+      "length_km_total": 1866.0,
+      "median_kmh": 27.1,
+      "n_trips": 178,
+      "q1_kmh": 26.03,
+      "q3_kmh": 27.1
+     },
+     "15": {
+      "length_km_total": 2373.0,
+      "median_kmh": 25.16,
+      "n_trips": 190,
+      "q1_kmh": 25.15,
+      "q3_kmh": 25.16
+     },
+     "16": {
+      "length_km_total": 2315.0,
+      "median_kmh": 24.34,
+      "n_trips": 172,
+      "q1_kmh": 23.89,
+      "q3_kmh": 24.34
+     },
+     "17": {
+      "length_km_total": 1060.0,
+      "median_kmh": 15.88,
+      "n_trips": 180,
+      "q1_kmh": 15.87,
+      "q3_kmh": 15.88
+     },
+     "18": {
+      "length_km_total": 1857.0,
+      "median_kmh": 17.55,
+      "n_trips": 179,
+      "q1_kmh": 17.11,
+      "q3_kmh": 17.55
+     },
+     "201": {
+      "length_km_total": 421.1,
+      "median_kmh": 24.81,
+      "n_trips": 26,
+      "q1_kmh": 24.7,
+      "q3_kmh": 24.87
+     },
+     "3": {
+      "length_km_total": 2637.0,
+      "median_kmh": 20.21,
+      "n_trips": 190,
+      "q1_kmh": 19.49,
+      "q3_kmh": 20.21
+     },
+     "4": {
+      "length_km_total": 1061.0,
+      "median_kmh": 18.37,
+      "n_trips": 181,
+      "q1_kmh": 17.98,
+      "q3_kmh": 18.37
+     },
+     "5": {
+      "length_km_total": 1563.0,
+      "median_kmh": 17.21,
+      "n_trips": 183,
+      "q1_kmh": 17.02,
+      "q3_kmh": 17.21
+     },
+     "6": {
+      "length_km_total": 2654.0,
+      "median_kmh": 20.09,
+      "n_trips": 196,
+      "q1_kmh": 19.58,
+      "q3_kmh": 20.09
+     },
+     "7": {
+      "length_km_total": 2567.0,
+      "median_kmh": 20.5,
+      "n_trips": 193,
+      "q1_kmh": 20.49,
+      "q3_kmh": 20.5
+     },
+     "8": {
+      "length_km_total": 1775.0,
+      "median_kmh": 18.17,
+      "n_trips": 185,
+      "q1_kmh": 17.9,
+      "q3_kmh": 18.17
+     },
+     "9": {
+      "length_km_total": 2446.0,
+      "median_kmh": 16.68,
+      "n_trips": 196,
+      "q1_kmh": 16.53,
+      "q3_kmh": 16.73
+     },
+     "92": {
+      "length_km_total": 1864.0,
+      "median_kmh": 17.42,
+      "n_trips": 192,
+      "q1_kmh": 16.21,
+      "q3_kmh": 17.42
+     },
+     "97": {
+      "length_km_total": 1530.0,
+      "median_kmh": 22.51,
+      "n_trips": 180,
+      "q1_kmh": 21.47,
+      "q3_kmh": 22.51
+     }
+    },
+    "median_kmh": 19.49,
+    "n_excluded": 12,
+    "n_lines": 20,
+    "n_trips": 3557,
+    "q1_kmh": 17.65,
+    "q3_kmh": 22.87,
+    "wmedian_vkm_kmh": 20.09
+   },
+   "Warszawa": {
+    "hourly_median_kmh": {
+     "3": {
+      "median_kmh": 18.91,
+      "n_trips": 21
+     },
+     "4": {
+      "median_kmh": 18.89,
+      "n_trips": 226
+     },
+     "5": {
+      "median_kmh": 18.96,
+      "n_trips": 325
+     },
+     "6": {
+      "median_kmh": 18.43,
+      "n_trips": 479
+     },
+     "7": {
+      "median_kmh": 18.36,
+      "n_trips": 482
+     },
+     "8": {
+      "median_kmh": 18.54,
+      "n_trips": 469
+     },
+     "9": {
+      "median_kmh": 18.68,
+      "n_trips": 396
+     },
+     "10": {
+      "median_kmh": 18.71,
+      "n_trips": 312
+     },
+     "11": {
+      "median_kmh": 18.73,
+      "n_trips": 310
+     },
+     "12": {
+      "median_kmh": 18.73,
+      "n_trips": 310
+     },
+     "13": {
+      "median_kmh": 18.5,
+      "n_trips": 355
+     },
+     "14": {
+      "median_kmh": 18.23,
+      "n_trips": 482
+     },
+     "15": {
+      "median_kmh": 18.36,
+      "n_trips": 482
+     },
+     "16": {
+      "median_kmh": 18.36,
+      "n_trips": 478
+     },
+     "17": {
+      "median_kmh": 18.54,
+      "n_trips": 477
+     },
+     "18": {
+      "median_kmh": 18.68,
+      "n_trips": 410
+     },
+     "19": {
+      "median_kmh": 18.83,
+      "n_trips": 316
+     },
+     "20": {
+      "median_kmh": 18.94,
+      "n_trips": 281
+     },
+     "21": {
+      "median_kmh": 18.94,
+      "n_trips": 185
+     },
+     "22": {
+      "median_kmh": 19.17,
+      "n_trips": 178
+     },
+     "23": {
+      "median_kmh": 19.13,
+      "n_trips": 130
+     },
+     "24": {
+      "median_kmh": 18.68,
+      "n_trips": 19
+     }
+    },
+    "lines": {
+     "1": {
+      "length_km_total": 7489.0,
+      "median_kmh": 18.66,
+      "n_trips": 467,
+      "q1_kmh": 18.25,
+      "q3_kmh": 19.4
+     },
+     "10": {
+      "length_km_total": 3732.0,
+      "median_kmh": 17.33,
+      "n_trips": 244,
+      "q1_kmh": 16.51,
+      "q3_kmh": 18.09
+     },
+     "11": {
+      "length_km_total": 3421.0,
+      "median_kmh": 18.34,
+      "n_trips": 259,
+      "q1_kmh": 17.81,
+      "q3_kmh": 18.58
+     },
+     "13": {
+      "length_km_total": 1983.0,
+      "median_kmh": 19.27,
+      "n_trips": 191,
+      "q1_kmh": 18.71,
+      "q3_kmh": 19.32
+     },
+     "14": {
+      "length_km_total": 2744.0,
+      "median_kmh": 17.96,
+      "n_trips": 231,
+      "q1_kmh": 17.78,
+      "q3_kmh": 18.48
+     },
+     "15": {
+      "length_km_total": 3406.0,
+      "median_kmh": 17.34,
+      "n_trips": 227,
+      "q1_kmh": 16.67,
+      "q3_kmh": 17.69
+     },
+     "16": {
+      "length_km_total": 6282.0,
+      "median_kmh": 18.48,
+      "n_trips": 411,
+      "q1_kmh": 17.96,
+      "q3_kmh": 19.02
+     },
+     "17": {
+      "length_km_total": 8570.0,
+      "median_kmh": 20.27,
+      "n_trips": 491,
+      "q1_kmh": 17.85,
+      "q3_kmh": 20.57
+     },
+     "18": {
+      "length_km_total": 3895.0,
+      "median_kmh": 17.48,
+      "n_trips": 246,
+      "q1_kmh": 16.67,
+      "q3_kmh": 17.48
+     },
+     "19": {
+      "length_km_total": 4030.0,
+      "median_kmh": 18.34,
+      "n_trips": 234,
+      "q1_kmh": 18.03,
+      "q3_kmh": 18.85
+     },
+     "2": {
+      "length_km_total": 4115.0,
+      "median_kmh": 24.96,
+      "n_trips": 518,
+      "q1_kmh": 23.99,
+      "q3_kmh": 27.4
+     },
+     "20": {
+      "length_km_total": 3900.0,
+      "median_kmh": 20.19,
+      "n_trips": 236,
+      "q1_kmh": 20.19,
+      "q3_kmh": 21.1
+     },
+     "22": {
+      "length_km_total": 3379.0,
+      "median_kmh": 18.31,
+      "n_trips": 222,
+      "q1_kmh": 18.02,
+      "q3_kmh": 18.56
+     },
+     "23": {
+      "length_km_total": 2798.0,
+      "median_kmh": 18.76,
+      "n_trips": 223,
+      "q1_kmh": 18.76,
+      "q3_kmh": 19.51
+     },
+     "24": {
+      "length_km_total": 4026.0,
+      "median_kmh": 18.63,
+      "n_trips": 247,
+      "q1_kmh": 18.07,
+      "q3_kmh": 18.96
+     },
+     "25": {
+      "length_km_total": 2510.0,
+      "median_kmh": 18.99,
+      "n_trips": 186,
+      "q1_kmh": 18.7,
+      "q3_kmh": 19.39
+     },
+     "26": {
+      "length_km_total": 5078.0,
+      "median_kmh": 18.79,
+      "n_trips": 244,
+      "q1_kmh": 18.63,
+      "q3_kmh": 19.16
+     },
+     "27": {
+      "length_km_total": 1665.0,
+      "median_kmh": 19.43,
+      "n_trips": 215,
+      "q1_kmh": 18.44,
+      "q3_kmh": 20.96
+     },
+     "28": {
+      "length_km_total": 3522.0,
+      "median_kmh": 17.89,
+      "n_trips": 229,
+      "q1_kmh": 17.89,
+      "q3_kmh": 18.58
+     },
+     "3": {
+      "length_km_total": 2693.0,
+      "median_kmh": 19.23,
+      "n_trips": 222,
+      "q1_kmh": 18.75,
+      "q3_kmh": 19.91
+     },
+     "31": {
+      "length_km_total": 959.6,
+      "median_kmh": 15.34,
+      "n_trips": 204,
+      "q1_kmh": 15.01,
+      "q3_kmh": 15.34
+     },
+     "33": {
+      "length_km_total": 2787.0,
+      "median_kmh": 17.39,
+      "n_trips": 212,
+      "q1_kmh": 17.36,
+      "q3_kmh": 18.05
+     },
+     "4": {
+      "length_km_total": 4278.0,
+      "median_kmh": 18.04,
+      "n_trips": 249,
+      "q1_kmh": 17.2,
+      "q3_kmh": 19.54
+     },
+     "6": {
+      "length_km_total": 3900.0,
+      "median_kmh": 18.97,
+      "n_trips": 226,
+      "q1_kmh": 18.92,
+      "q3_kmh": 18.97
+     },
+     "7": {
+      "length_km_total": 2177.0,
+      "median_kmh": 16.52,
+      "n_trips": 220,
+      "q1_kmh": 16.04,
+      "q3_kmh": 16.61
+     },
+     "9": {
+      "length_km_total": 6481.0,
+      "median_kmh": 18.94,
+      "n_trips": 469,
+      "q1_kmh": 18.08,
+      "q3_kmh": 19.22
+     }
+    },
+    "median_kmh": 18.6,
+    "n_excluded": 16,
+    "n_lines": 26,
+    "n_trips": 7123,
+    "q1_kmh": 17.73,
+    "q3_kmh": 19.51,
+    "wmedian_vkm_kmh": 18.63
+   },
+   "Wrocław": {
+    "hourly_median_kmh": {
+     "3": {
+      "median_kmh": 18.82,
+      "n_trips": 10
+     },
+     "4": {
+      "median_kmh": 16.26,
+      "n_trips": 175
+     },
+     "5": {
+      "median_kmh": 16.46,
+      "n_trips": 251
+     },
+     "6": {
+      "median_kmh": 15.85,
+      "n_trips": 248
+     },
+     "7": {
+      "median_kmh": 15.78,
+      "n_trips": 240
+     },
+     "8": {
+      "median_kmh": 15.98,
+      "n_trips": 237
+     },
+     "9": {
+      "median_kmh": 16.2,
+      "n_trips": 215
+     },
+     "10": {
+      "median_kmh": 16.24,
+      "n_trips": 202
+     },
+     "11": {
+      "median_kmh": 16.2,
+      "n_trips": 192
+     },
+     "12": {
+      "median_kmh": 16.2,
+      "n_trips": 193
+     },
+     "13": {
+      "median_kmh": 16.05,
+      "n_trips": 218
+     },
+     "14": {
+      "median_kmh": 15.71,
+      "n_trips": 247
+     },
+     "15": {
+      "median_kmh": 15.73,
+      "n_trips": 240
+     },
+     "16": {
+      "median_kmh": 15.73,
+      "n_trips": 240
+     },
+     "17": {
+      "median_kmh": 16.06,
+      "n_trips": 239
+     },
+     "18": {
+      "median_kmh": 16.2,
+      "n_trips": 215
+     },
+     "19": {
+      "median_kmh": 16.64,
+      "n_trips": 199
+     },
+     "20": {
+      "median_kmh": 17.72,
+      "n_trips": 191
+     },
+     "21": {
+      "median_kmh": 17.82,
+      "n_trips": 151
+     },
+     "22": {
+      "median_kmh": 17.72,
+      "n_trips": 149
+     },
+     "23": {
+      "median_kmh": 18.51,
+      "n_trips": 108
+     },
+     "24": {
+      "median_kmh": 18.11,
+      "n_trips": 4
+     }
+    },
+    "lines": {
+     "1": {
+      "length_km_total": 1556.0,
+      "median_kmh": 16.83,
+      "n_trips": 167,
+      "q1_kmh": 16.77,
+      "q3_kmh": 17.29
+     },
+     "10": {
+      "length_km_total": 3223.0,
+      "median_kmh": 19.15,
+      "n_trips": 181,
+      "q1_kmh": 18.95,
+      "q3_kmh": 19.15
+     },
+     "11": {
+      "length_km_total": 1552.0,
+      "median_kmh": 15.06,
+      "n_trips": 172,
+      "q1_kmh": 14.99,
+      "q3_kmh": 15.64
+     },
+     "12": {
+      "length_km_total": 1856.0,
+      "median_kmh": 16.68,
+      "n_trips": 172,
+      "q1_kmh": 16.09,
+      "q3_kmh": 17.54
+     },
+     "13": {
+      "length_km_total": 1972.0,
+      "median_kmh": 16.56,
+      "n_trips": 170,
+      "q1_kmh": 16.1,
+      "q3_kmh": 16.94
+     },
+     "14": {
+      "length_km_total": 2021.0,
+      "median_kmh": 16.74,
+      "n_trips": 160,
+      "q1_kmh": 16.62,
+      "q3_kmh": 16.98
+     },
+     "15": {
+      "length_km_total": 1647.0,
+      "median_kmh": 15.68,
+      "n_trips": 170,
+      "q1_kmh": 15.68,
+      "q3_kmh": 16.57
+     },
+     "16": {
+      "length_km_total": 2011.0,
+      "median_kmh": 14.74,
+      "n_trips": 172,
+      "q1_kmh": 14.45,
+      "q3_kmh": 15.27
+     },
+     "17": {
+      "length_km_total": 1927.0,
+      "median_kmh": 14.28,
+      "n_trips": 172,
+      "q1_kmh": 14.28,
+      "q3_kmh": 14.58
+     },
+     "18": {
+      "length_km_total": 2268.0,
+      "median_kmh": 15.78,
+      "n_trips": 170,
+      "q1_kmh": 15.42,
+      "q3_kmh": 16.01
+     },
+     "19": {
+      "length_km_total": 1987.0,
+      "median_kmh": 16.2,
+      "n_trips": 173,
+      "q1_kmh": 15.56,
+      "q3_kmh": 16.2
+     },
+     "2": {
+      "length_km_total": 1791.0,
+      "median_kmh": 15.77,
+      "n_trips": 176,
+      "q1_kmh": 15.54,
+      "q3_kmh": 16.17
+     },
+     "20": {
+      "length_km_total": 3140.0,
+      "median_kmh": 18.59,
+      "n_trips": 181,
+      "q1_kmh": 18.29,
+      "q3_kmh": 19.19
+     },
+     "21": {
+      "length_km_total": 2333.0,
+      "median_kmh": 17.19,
+      "n_trips": 193,
+      "q1_kmh": 16.86,
+      "q3_kmh": 17.95
+     },
+     "22": {
+      "length_km_total": 1883.0,
+      "median_kmh": 16.27,
+      "n_trips": 169,
+      "q1_kmh": 16.25,
+      "q3_kmh": 16.64
+     },
+     "23": {
+      "length_km_total": 2604.0,
+      "median_kmh": 17.36,
+      "n_trips": 178,
+      "q1_kmh": 17.21,
+      "q3_kmh": 17.88
+     },
+     "24": {
+      "length_km_total": 2149.0,
+      "median_kmh": 18.18,
+      "n_trips": 166,
+      "q1_kmh": 18.18,
+      "q3_kmh": 18.73
+     },
+     "3": {
+      "length_km_total": 3013.0,
+      "median_kmh": 19.15,
+      "n_trips": 177,
+      "q1_kmh": 18.81,
+      "q3_kmh": 19.26
+     },
+     "4": {
+      "length_km_total": 2040.0,
+      "median_kmh": 16.14,
+      "n_trips": 182,
+      "q1_kmh": 15.79,
+      "q3_kmh": 16.52
+     },
+     "5": {
+      "length_km_total": 1714.0,
+      "median_kmh": 15.98,
+      "n_trips": 172,
+      "q1_kmh": 15.8,
+      "q3_kmh": 16.25
+     },
+     "6": {
+      "length_km_total": 1309.0,
+      "median_kmh": 14.29,
+      "n_trips": 159,
+      "q1_kmh": 13.89,
+      "q3_kmh": 14.39
+     },
+     "7": {
+      "length_km_total": 2002.0,
+      "median_kmh": 14.8,
+      "n_trips": 186,
+      "q1_kmh": 14.5,
+      "q3_kmh": 15.45
+     },
+     "8": {
+      "length_km_total": 1459.0,
+      "median_kmh": 13.32,
+      "n_trips": 175,
+      "q1_kmh": 12.86,
+      "q3_kmh": 13.66
+     },
+     "9": {
+      "length_km_total": 1524.0,
+      "median_kmh": 15.54,
+      "n_trips": 171,
+      "q1_kmh": 14.72,
+      "q3_kmh": 15.58
+     }
+    },
+    "median_kmh": 16.27,
+    "n_excluded": 4,
+    "n_lines": 24,
+    "n_trips": 4164,
+    "q1_kmh": 15.4,
+    "q3_kmh": 17.56,
+    "wmedian_vkm_kmh": 16.56
+   },
+   "Łódź": {
+    "hourly_median_kmh": {
+     "2": {
+      "median_kmh": 16.73,
+      "n_trips": 1
+     },
+     "3": {
+      "median_kmh": 18.15,
+      "n_trips": 36
+     },
+     "4": {
+      "median_kmh": 17.33,
+      "n_trips": 143
+     },
+     "5": {
+      "median_kmh": 17.18,
+      "n_trips": 183
+     },
+     "6": {
+      "median_kmh": 16.94,
+      "n_trips": 186
+     },
+     "7": {
+      "median_kmh": 16.6,
+      "n_trips": 181
+     },
+     "8": {
+      "median_kmh": 16.49,
+      "n_trips": 179
+     },
+     "9": {
+      "median_kmh": 16.49,
+      "n_trips": 179
+     },
+     "10": {
+      "median_kmh": 16.49,
+      "n_trips": 179
+     },
+     "11": {
+      "median_kmh": 16.49,
+      "n_trips": 179
+     },
+     "12": {
+      "median_kmh": 16.49,
+      "n_trips": 180
+     },
+     "13": {
+      "median_kmh": 16.49,
+      "n_trips": 180
+     },
+     "14": {
+      "median_kmh": 16.6,
+      "n_trips": 181
+     },
+     "15": {
+      "median_kmh": 16.6,
+      "n_trips": 181
+     },
+     "16": {
+      "median_kmh": 16.6,
+      "n_trips": 181
+     },
+     "17": {
+      "median_kmh": 16.96,
+      "n_trips": 179
+     },
+     "18": {
+      "median_kmh": 17.18,
+      "n_trips": 161
+     },
+     "19": {
+      "median_kmh": 16.97,
+      "n_trips": 137
+     },
+     "20": {
+      "median_kmh": 16.97,
+      "n_trips": 138
+     },
+     "21": {
+      "median_kmh": 17.21,
+      "n_trips": 140
+     },
+     "22": {
+      "median_kmh": 17.88,
+      "n_trips": 141
+     },
+     "23": {
+      "median_kmh": 18.61,
+      "n_trips": 59
+     },
+     "24": {
+      "median_kmh": 21.52,
+      "n_trips": 2
+     },
+     "26": {
+      "median_kmh": 23.45,
+      "n_trips": 3
+     },
+     "27": {
+      "median_kmh": 22.28,
+      "n_trips": 2
+     },
+     "28": {
+      "median_kmh": 23.69,
+      "n_trips": 1
+     }
+    },
+    "lines": {
+     "1": {
+      "length_km_total": 531.1,
+      "median_kmh": 15.65,
+      "n_trips": 139,
+      "q1_kmh": 12.29,
+      "q3_kmh": 16.09
+     },
+     "10A": {
+      "length_km_total": 1203.0,
+      "median_kmh": 19.32,
+      "n_trips": 97,
+      "q1_kmh": 19.32,
+      "q3_kmh": 19.74
+     },
+     "10B": {
+      "length_km_total": 3281.0,
+      "median_kmh": 20.98,
+      "n_trips": 197,
+      "q1_kmh": 20.57,
+      "q3_kmh": 21.43
+     },
+     "11": {
+      "length_km_total": 2586.0,
+      "median_kmh": 16.94,
+      "n_trips": 140,
+      "q1_kmh": 16.31,
+      "q3_kmh": 16.94
+     },
+     "12": {
+      "length_km_total": 1899.0,
+      "median_kmh": 16.96,
+      "n_trips": 150,
+      "q1_kmh": 16.29,
+      "q3_kmh": 16.96
+     },
+     "13": {
+      "length_km_total": 2217.0,
+      "median_kmh": 18.06,
+      "n_trips": 149,
+      "q1_kmh": 17.68,
+      "q3_kmh": 19.11
+     },
+     "14": {
+      "length_km_total": 1361.0,
+      "median_kmh": 16.9,
+      "n_trips": 146,
+      "q1_kmh": 16.05,
+      "q3_kmh": 19.61
+     },
+     "15": {
+      "length_km_total": 2213.0,
+      "median_kmh": 16.11,
+      "n_trips": 152,
+      "q1_kmh": 14.88,
+      "q3_kmh": 16.11
+     },
+     "16": {
+      "length_km_total": 2486.0,
+      "median_kmh": 18.14,
+      "n_trips": 149,
+      "q1_kmh": 17.99,
+      "q3_kmh": 18.14
+     },
+     "17": {
+      "length_km_total": 393.7,
+      "median_kmh": 15.9,
+      "n_trips": 38,
+      "q1_kmh": 15.52,
+      "q3_kmh": 16.18
+     },
+     "18": {
+      "length_km_total": 1578.0,
+      "median_kmh": 17.18,
+      "n_trips": 133,
+      "q1_kmh": 16.49,
+      "q3_kmh": 17.18
+     },
+     "19": {
+      "length_km_total": 2101.0,
+      "median_kmh": 14.98,
+      "n_trips": 142,
+      "q1_kmh": 14.74,
+      "q3_kmh": 15.61
+     },
+     "2": {
+      "length_km_total": 2361.0,
+      "median_kmh": 16.28,
+      "n_trips": 153,
+      "q1_kmh": 15.63,
+      "q3_kmh": 16.28
+     },
+     "3": {
+      "length_km_total": 2004.0,
+      "median_kmh": 14.79,
+      "n_trips": 149,
+      "q1_kmh": 14.37,
+      "q3_kmh": 15.34
+     },
+     "4": {
+      "length_km_total": 1022.0,
+      "median_kmh": 15.49,
+      "n_trips": 150,
+      "q1_kmh": 15.0,
+      "q3_kmh": 16.9
+     },
+     "41": {
+      "length_km_total": 1488.0,
+      "median_kmh": 20.84,
+      "n_trips": 103,
+      "q1_kmh": 20.4,
+      "q3_kmh": 21.33
+     },
+     "43": {
+      "length_km_total": 1019.0,
+      "median_kmh": 18.76,
+      "n_trips": 120,
+      "q1_kmh": 18.31,
+      "q3_kmh": 18.76
+     },
+     "45": {
+      "length_km_total": 2045.0,
+      "median_kmh": 17.85,
+      "n_trips": 106,
+      "q1_kmh": 17.73,
+      "q3_kmh": 17.99
+     },
+     "5": {
+      "length_km_total": 1342.0,
+      "median_kmh": 16.6,
+      "n_trips": 144,
+      "q1_kmh": 15.23,
+      "q3_kmh": 16.6
+     },
+     "6": {
+      "length_km_total": 2331.0,
+      "median_kmh": 15.8,
+      "n_trips": 154,
+      "q1_kmh": 15.65,
+      "q3_kmh": 15.8
+     },
+     "7": {
+      "length_km_total": 1352.0,
+      "median_kmh": 14.8,
+      "n_trips": 143,
+      "q1_kmh": 13.95,
+      "q3_kmh": 14.8
+     },
+     "8": {
+      "length_km_total": 2541.0,
+      "median_kmh": 18.06,
+      "n_trips": 153,
+      "q1_kmh": 17.83,
+      "q3_kmh": 19.5
+     },
+     "9": {
+      "length_km_total": 1748.0,
+      "median_kmh": 19.64,
+      "n_trips": 147,
+      "q1_kmh": 19.64,
+      "q3_kmh": 20.43
+     },
+     "P1": {
+      "length_km_total": 91.97,
+      "median_kmh": 22.86,
+      "n_trips": 10,
+      "q1_kmh": 21.11,
+      "q3_kmh": 23.45
+     },
+     "Z1": {
+      "length_km_total": 1107.0,
+      "median_kmh": 15.93,
+      "n_trips": 148,
+      "q1_kmh": 15.19,
+      "q3_kmh": 15.93
+     }
+    },
+    "median_kmh": 16.92,
+    "n_excluded": 40,
+    "n_lines": 25,
+    "n_trips": 3312,
+    "q1_kmh": 15.65,
+    "q3_kmh": 18.76,
+    "wmedian_vkm_kmh": 17.18
+   }
+  }
+ },
+ "timetable_dates": {
+  "saturday": "2026-11-28",
+  "weekday": "2026-11-25"
+ },
+ "title": "Rozkładowa prędkość eksploatacyjna tramwajów (z postojami na przystankach; nie prędkość jazdy ani rzeczywista)",
+ "unit": "km/h"
+}

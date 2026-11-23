@@ -1,6 +1,6 @@
 {
- "duration_s": 42.0,
- "git_sha": "58b40601c5b93eba660fb706b7531dd69415aa85",
+ "duration_s": 37.0,
+ "git_sha": "8cf4e384d18721538870005637014f36b73c37dc",
  "inputs": {
   "bdl_nsp2021_national_gmina": {
    "data_date": "2021-03-31",
@@ -53,7 +53,7 @@
   "census": "2021-03-31",
   "ghsl": "2020"
  },
- "run_at": "2026-11-23T20:15:12+01:00",
+ "run_at": "2026-11-23T22:01:09+01:00",
  "step": "density_qa (+ grid250, density_control plots and tables)",
  "thresholds": [
   0.1,

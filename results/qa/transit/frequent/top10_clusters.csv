@@ -1,0 +1,71 @@
+agglomeration,cluster_id,name,n_stops,departures_06_20,departures_per_h,nA,nB,h_all_min,h_seg_min,h_line_min,rail_dph,dir_status,same_minute_dup_share,modes,feeds
+warszawa,warszawa-03300,Marszałkowska,3,2238,159.9,1423,815,1.031,2.193,7.241,0.0,two_way,0.0004468,bus;tram,warsaw_ztm
+warszawa,warszawa-03030,Dw. Centralny,4,1977,141.2,1125,852,0.9859,1.597,4.773,0.0,two_way,0.0,bus;tram,warsaw_ztm
+warszawa,warszawa-03267,Pl. Na Rozdrożu,3,1915,136.8,815,1100,1.031,1.045,7.434,0.0,two_way,0.0005222,bus,warsaw_ztm
+warszawa,warszawa-02735,Rondo Waszyngtona,5,1896,135.4,979,917,0.916,3.206,4.773,0.0,two_way,0.0,bus;tram,warsaw_ztm
+warszawa,warszawa-03208,Rozbrat,4,1843,131.6,927,916,0.917,2.034,7.434,0.0,two_way,0.0005426,bus,warsaw_ztm
+warszawa,warszawa-03521,Metro Pole Mokotowskie,5,1672,119.4,835,837,1.006,2.754,2.791,43.29,two_way,0.0,bus;metro;tram,warsaw_ztm
+warszawa,warszawa-03140,Pl. Zawiszy,5,1663,118.8,1061,602,1.395,2.414,4.773,10.57,two_way,0.0,bus;rail;tram,warsaw_wkd;warsaw_ztm
+warszawa,warszawa-03304,Dw. Zachodni,2,1553,110.9,783,770,1.091,3.836,7.706,0.0,two_way,0.0,bus,warsaw_ztm
+warszawa,warszawa-02983,Saska,4,1525,108.9,1162,363,2.314,4.158,8.0,0.0,two_way,0.0,bus,warsaw_ztm
+warszawa,warszawa-02826,Metro Świętokrzyska,4,1516,108.3,977,539,1.558,2.791,2.791,75.64,two_way,0.0,bus;metro;tram,warsaw_ztm
+krakow,krakow-01244,Politechnika,10,2254,161.0,1183,1071,0.7843,2.36,5.957,0.0,two_way,0.0,bus;tram,krakow_bus;krakow_mobilis;krakow_tram
+krakow,krakow-01497,Jubilat,4,1863,133.1,932,931,0.9023,1.146,8.66,0.0,two_way,0.0,bus,krakow_ald;krakow_bus
+krakow,krakow-01278,Plac Inwalidów,6,1708,122.0,893,815,1.031,1.83,8.66,0.0,two_way,0.0,bus,krakow_ald;krakow_bus;krakow_mobilis
+krakow,krakow-01538,Konopnickiej,4,1473,105.2,738,735,1.143,1.65,8.66,0.0,two_way,0.0,bus,krakow_ald;krakow_bus
+krakow,krakow-01078,Szpital Narutowicza,6,1397,99.79,698,699,1.203,2.407,6.0,0.0,two_way,0.0,bus;tram,krakow_bus;krakow_mobilis;krakow_tram
+krakow,krakow-00917,Krowodrza Górka P+R,4,1371,97.93,816,555,1.514,2.763,5.957,0.0,two_way,0.0,bus;tram,krakow_bus;krakow_tram
+krakow,krakow-01076,Bronowice SKA,5,1337,95.5,859,478,1.757,2.937,14.74,0.0,two_way,0.0,bus,krakow_bus;krakow_mobilis
+krakow,krakow-01440,Muzeum Narodowe,6,1253,89.5,1186,67,12.54,12.54,36.52,0.0,two_way,0.0,bus;tram,krakow_ald;krakow_bus;krakow_mobilis;krakow_tram
+krakow,krakow-01338,Rondo Mogilskie,7,1210,86.43,574,636,1.463,2.36,7.568,0.0,two_way,0.0,bus;tram,krakow_ald;krakow_bus;krakow_tram
+krakow,krakow-01211,Nowy Kleparz,5,1158,82.71,910,248,3.387,5.06,10.24,0.0,two_way,0.0,bus;tram,krakow_bus;krakow_mobilis;krakow_tram
+wroclaw,wroclaw-01023,PL. GRUNWALDZKI,8,1703,121.6,866,837,1.004,2.121,10.37,0.0,two_way,0.0,bus;tram,wroclaw
+wroclaw,wroclaw-01129,Arkady (Capitol),5,1543,110.2,521,1022,1.612,2.65,12.54,0.0,two_way,0.0,bus;tram,wroclaw
+wroclaw,wroclaw-00838,Kwiska,4,1424,101.7,638,786,1.317,3.17,12.92,0.0,two_way,0.0,bus;tram,wroclaw
+wroclaw,wroclaw-00969,Strzegomska (Krzyżówka),6,1361,97.21,691,670,1.254,1.687,13.33,0.0,two_way,0.0,bus;tram,wroclaw
+wroclaw,wroclaw-01002,PL. JANA PAWŁA II 05,4,1281,91.5,683,598,1.405,3.268,12.92,0.0,two_way,0.0,bus;tram,wroclaw
+wroclaw,wroclaw-01144,DWORZEC GŁÓWNY,5,1268,90.57,531,737,1.582,2.165,12.73,0.0,two_way,0.0,bus;tram,wroclaw
+wroclaw,wroclaw-01063,Pl. Orląt Lwowskich,8,1214,86.71,633,581,1.446,3.146,12.92,0.0,two_way,0.0,bus;tram,wroclaw
+wroclaw,wroclaw-01170,DWORZEC AUTOBUSOWY,4,1118,79.86,562,556,1.511,4.352,12.92,0.0,two_way,0.0,bus;tram,wroclaw
+wroclaw,wroclaw-00963,Kochanowskiego,5,1102,78.71,542,560,1.55,2.289,12.92,0.0,two_way,0.0,bus;tram,wroclaw
+wroclaw,wroclaw-01260,Prudnicka,4,1090,77.86,546,544,1.544,2.407,12.54,0.0,two_way,0.0,bus;tram,wroclaw
+poznan,poznan-00441,Szymanowskiego,5,1263,90.21,634,629,1.335,2.937,11.67,0.0,two_way,0.0007918,bus;tram,poznan
+poznan,poznan-01197,Głogowska/Hetmańska,4,1168,83.43,584,584,1.438,2.283,11.51,0.0,two_way,0.0008562,tram,poznan
+poznan,poznan-00653,Aleje Solidarności,4,1160,82.86,664,496,1.694,2.937,11.67,0.0,two_way,0.0008621,bus;tram,poznan
+poznan,poznan-01088,Kórnicka,4,1036,74.0,517,519,1.625,2.754,11.2,0.0,two_way,0.0,tram,poznan
+poznan,poznan-00999,Pl. Wiosny Ludów,4,1008,72.0,502,506,1.673,2.333,11.51,0.0,two_way,0.0,tram,poznan
+poznan,poznan-00832,Żeromskiego,2,941,67.21,455,486,1.846,3.871,11.51,0.0,two_way,0.0,bus;tram,poznan
+poznan,poznan-01011,Pl. Bernardyński,3,903,64.5,546,357,2.353,2.353,11.67,0.0,two_way,0.0,bus;tram,poznan
+poznan,poznan-01139,Rynek Łazarski,2,887,63.36,444,443,1.896,1.896,11.51,0.0,two_way,0.001127,tram,poznan
+poznan,poznan-01043,Dworzec Zachodni,2,883,63.07,441,442,1.905,2.917,11.51,0.0,two_way,0.0,tram,poznan
+poznan,poznan-00960,Rondo Kaponiera,4,876,62.57,404,472,2.079,5.833,11.51,0.0,two_way,0.001142,bus;tram,poznan
+lodz,lodz-00916,Legionów-Zachodnia,4,978,69.86,327,651,2.569,3.088,15.27,0.0,two_way,0.0,bus;tram,lodz
+lodz,lodz-01161,Włókniarzy-Mickiewicza (Dw. Ł. Kaliska),4,947,67.64,522,425,1.976,4.641,14.74,0.0,two_way,0.0,bus;tram,lodz
+lodz,lodz-01623,Rzgowska-cm. Rzgowska,4,945,67.5,475,470,1.787,3.088,12.54,0.0,two_way,0.0,bus;tram,lodz
+lodz,lodz-01149,Mickiewicza-Żeromskiego,3,921,65.79,543,378,2.222,3.1,12.92,0.0,two_way,0.0,tram,lodz
+lodz,lodz-00866,Zachodnia-Manufaktura,5,888,63.43,472,416,2.019,3.077,10.0,0.0,two_way,0.0,bus;tram,lodz
+lodz,lodz-01122,Piłsudskiego-Sienkiewicza,2,874,62.43,440,434,1.935,1.935,12.92,0.0,two_way,0.0,tram,lodz
+lodz,lodz-01126,Piotrkowska Centrum,3,874,62.43,440,434,1.935,2.222,12.92,0.0,two_way,0.0,tram,lodz
+lodz,lodz-00989,Narutowicza-pl. Dąbrowskiego,2,859,61.36,412,447,2.039,5.122,15.0,0.0,two_way,0.0,bus;tram,lodz
+lodz,lodz-01034,Kopcińskiego-Tuwima,5,854,61.0,388,466,2.165,3.443,10.0,0.0,two_way,0.0,bus;tram,lodz;lodz_suburban_qbx
+lodz,lodz-01594,Rzgowska-Dachowa,6,852,60.86,495,357,2.353,3.544,12.54,0.0,two_way,0.0,bus;tram,lodz;lodz_suburban_qbx
+trojmiasto,trojmiasto-01435,Dworzec Główny 01,10,2119,151.4,1052,1067,0.7985,1.757,10.77,0.0,two_way,0.0,bus;tram,gdansk
+trojmiasto,trojmiasto-01486,Brama Wyżynna 01,5,1656,118.3,839,817,1.028,2.838,11.35,0.0,two_way,0.0,bus;tram,gdansk
+trojmiasto,trojmiasto-00458,Obłuże Centrum 01,3,1245,88.93,633,612,1.373,3.636,9.333,0.0,two_way,0.0,bus;trolleybus,gdynia
+trojmiasto,trojmiasto-00705,Centrum Nauki Experyment 01,3,1153,82.36,599,554,1.516,2.258,13.77,0.0,two_way,0.0,bus;trolleybus,gdynia
+trojmiasto,trojmiasto-00586,Stocznia SKM - Morska 01,2,991,70.79,499,492,1.707,1.883,14.74,0.0,two_way,0.001009,bus;trolleybus,gdynia
+trojmiasto,trojmiasto-00824,Gdynia Karwiny,4,934,66.71,463,471,1.814,3.043,14.0,3.714,two_way,0.0,bus;rail;trolleybus,gdynia;polish_trains
+trojmiasto,trojmiasto-01240,Gdańsk Wrzeszcz,10,927,66.21,517,410,2.049,6.829,9.032,27.64,two_way,0.0,bus;rail,gdansk;polish_trains
+trojmiasto,trojmiasto-00593,Bpa Okoniewskiego 01,2,895,63.93,447,448,1.879,3.544,14.74,0.0,two_way,0.001117,bus;trolleybus,gdynia
+trojmiasto,trojmiasto-01266,Jaśkowa Dolina 01,4,878,62.71,445,433,1.94,2.828,10.91,0.0,two_way,0.0,bus;tram,gdansk
+trojmiasto,trojmiasto-00539,Morska - Estakada 01,2,876,62.57,518,358,2.346,2.346,14.74,0.0,two_way,0.001142,bus;trolleybus,gdynia
+gzm,gzm-02054,Gliwice Centrum Przesiadkowe,14,1749,124.9,864,885,0.9722,2.523,20.49,0.0,two_way,0.0005718,bus,gzm
+gzm,gzm-03011,Katowice Sądowa,4,1629,116.4,1044,585,1.436,1.634,10.77,0.0,two_way,0.01719,bus,gzm
+gzm,gzm-03117,Katowice AWF,2,1431,102.2,725,706,1.19,1.842,10.63,0.0,two_way,0.0,bus,gzm
+gzm,gzm-03018,Katowice Dworzec,6,1359,97.07,760,599,1.402,1.858,10.77,0.0,two_way,0.0,bus,gzm
+gzm,gzm-03375,Brynów Centrum Przesiadkowe,4,1277,91.21,583,694,1.441,3.471,10.24,0.0,two_way,0.0,bus;tram,gzm
+gzm,gzm-01611,Dąbrowa Górnicza Centrum,4,1184,84.57,599,585,1.436,3.5,18.26,0.0,two_way,0.0,bus;tram,gzm
+gzm,gzm-03025,Katowice Św. Jana,2,1160,82.86,579,581,1.451,2.353,7.5,0.0,two_way,0.0,tram,gzm
+gzm,gzm-03058,Katowice Plac Miarki,3,1110,79.29,338,772,2.485,2.593,10.24,0.0,two_way,0.0,bus;tram,gzm
+gzm,gzm-01672,Dąbrowa Górnicza Aleja Róż,4,1105,78.93,555,550,1.527,1.75,18.26,0.0,two_way,0.0,bus;tram,gzm
+gzm,gzm-02639,Sosnowiec Dworzec PKP,5,1096,78.29,476,620,1.765,6.269,15.27,0.0,two_way,0.0,bus;tram,gzm

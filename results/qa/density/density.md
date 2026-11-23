@@ -2,7 +2,7 @@
 
 Wygenerowano: 2026-11-23 (`python -m pipeline.density_qa`; liczby z `pipeline.grid250`, `pipeline.density`,
 `pipeline.density_control`). Wszystkie liczby w tym pliku są przepisywane przez kod z plików pośrednich, więc zgadzają się z
-`results/metrics/metrics.csv`. Daty danych: **ludność NSP 2021 stan na 31.03.2021** (ludność rezydująca), **GHSL epoka 2020**
+`results/metrics/metrics_density.csv` (po scaleniu: `metrics.csv`). Daty danych: **ludność NSP 2021 stan na 31.03.2021** (ludność rezydująca), **GHSL epoka 2020**
 (dane modelowane, nie spisowe). Rozkładów jazdy ta faza nie używa (`timetable_date` = brak). Granice: Eurostat URAU 2021, GZM
 w wariancie (a) (suma czterech FUA), Trójmiasto jako suma dwóch FUA. Aglomeracje oznaczone * są policentryczne lub liniowe
 (GZM, Trójmiasto, Bydgoszcz–Toruń): miary jednocentrowe podajemy dla nich wyłącznie z zastrzeżeniem (brief §11).
@@ -13,7 +13,7 @@ Każdą regułę, której brief nie przesądza, trzeba było doprecyzować. Poni
 
 ### 1.1 Gęstość ważona populacją (PWD, §4.1)
 
-- **Wzór:** PWD = Σ pᵢ·dᵢ / Σ pᵢ, gdzie dᵢ = pᵢ / pole komórki i.
+- **Wzór:** gęstość ważona populacją: Σ pᵢ·dᵢ / Σ pᵢ, gdzie dᵢ = pᵢ / pole komórki i.
 - **Siatka główna:** NSP 2021, siatka 1 km (EU LAEA, EPSG:3035, kody `CRS3035RES1000mN…E…`), pole `RES` (ludność rezydująca).
 - **Przypisanie do domeny (FUA, rdzeń):** komórka należy do obszaru, gdy jej **centroid** (EPSG:2180) leży wewnątrz
   wielokąta, jak w fazie 0.
@@ -111,7 +111,7 @@ Każdą regułę, której brief nie przesądza, trzeba było doprecyzować. Poni
   - η: wzór (6), średnia odległość między hotspotami / średnia odległość między wszystkimi komórkami domeny.
 - **Uproszczenie obliczeniowe:** obie średnie liczymy na stałej próbie losowej (ziarno 0, maks. 4000 komórek),
   żeby uniknąć ~10¹⁰ par.
-- Próg LouBar i rozdzielczość są zapisane przy każdej liczbie (tabela 8, `metrics.csv`, kolumna `flag`).
+- Próg LouBar i rozdzielczość są zapisane przy każdej liczbie (tabela 8, `metrics_density.csv`, kolumna `flag`).
 
 ## 2. Wyniki: gęstość ważona populacją (§4.1)
 
@@ -665,11 +665,11 @@ względnych na aglomerację).
 ## 9. Pliki
 
 - Wyniki:
-  - `results/metrics/metrics.csv` i `.json`: format długi; `tier`: `main` (na grafikę), `table`, `qa`;
-  - `results/charts/pwd.json`;
+  - `results/metrics/metrics_density.csv` i `.json` (scalone z innymi krokami w `metrics.csv`): format długi; `tier`: `main` (na grafikę), `table`, `qa`;
+  - `results/charts/pwdens.json`;
   - `results/charts/profile_cumulative_monocentric.json`, `profile_cumulative_polycentric.json`.
 - QA:
-  - `results/qa/density/{pwd,profile,mask,gini,control}_<aglomeracja>.png`;
+  - `results/qa/density/{pwdens,profile,mask,gini,control}_<aglomeracja>.png`;
   - `summary_*.png`, `grid250_moire_warszawa.png`;
   - `control_*.csv`.
 - Pośrednie: `data/interim/grid250/` (siatka 250 m, maska Polski, `cells_*.parquet`, `qa.json`),

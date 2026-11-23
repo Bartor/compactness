@@ -1,0 +1,618 @@
+{
+ "caveats": [
+  "Ludność: GHSL 2020 przeskalowany do siatki spisowej NSP 2021 (1 km); korekta poziomu na 1 km, nie wewnątrz komórki.",
+  "Rozkłady 2026, ludność 2020–2021: brak migracji po 2021 r. i nowych osiedli.",
+  "Poza maską pokrycia GTFS wynik to 'brak danych'. Wartość dla całej FUA przy pokryciu < 85 % jest zaniżona.",
+  "Feedy nieoficjalne (28 z 30 dodanych podmiejskich) nie były weryfikowane z rozkładami przewoźników.",
+  "Trójmiasto i GZM: układ wielobiegunowy; miara nie zależy od centrum, ale granice FUA są umowne.",
+  "To nie jest wskaźnik ITDP PNFT; replika implementacji ITDP jest w metrics_frequent.csv (itdp_style_*)."
+ ],
+ "cities": {
+  "gzm": {
+   "domains": {
+    "core": {
+     "coverage_share_pct": 97.91,
+     "flag_incomplete": false,
+     "population": 1648000.0,
+     "share_pct": [
+      10.12,
+      45.6,
+      59.16,
+      67.72,
+      75.37
+     ],
+     "share_pct_all_lines_variant": [
+      25.53,
+      56.74,
+      66.14,
+      71.82,
+      77.67
+     ],
+     "share_pct_official_feeds": [
+      10.12,
+      45.6,
+      59.16,
+      67.72,
+      75.37
+     ]
+    },
+    "covered": {
+     "coverage_share_pct": 95.11,
+     "flag_incomplete": false,
+     "population": 1957000.0,
+     "share_pct": [
+      8.527,
+      39.96,
+      53.0,
+      61.98,
+      69.89
+     ],
+     "share_pct_all_lines_variant": [
+      22.22,
+      50.77,
+      60.33,
+      66.45,
+      72.62
+     ],
+     "share_pct_official_feeds": [
+      8.527,
+      39.96,
+      53.0,
+      61.98,
+      69.89
+     ]
+    },
+    "fua": {
+     "coverage_share_pct": 95.11,
+     "flag_incomplete": false,
+     "population": 2057000.0,
+     "share_pct": [
+      8.11,
+      38.57,
+      51.26,
+      60.04,
+      67.94
+     ],
+     "share_pct_all_lines_variant": [
+      21.37,
+      49.14,
+      58.52,
+      64.54,
+      70.63
+     ],
+     "share_pct_official_feeds": [
+      8.11,
+      38.57,
+      51.26,
+      60.04,
+      67.94
+     ]
+    }
+   },
+   "name": "GZM",
+   "polycentric": true
+  },
+  "krakow": {
+   "domains": {
+    "core": {
+     "coverage_share_pct": 96.51,
+     "flag_incomplete": false,
+     "population": 790800.0,
+     "share_pct": [
+      43.95,
+      66.05,
+      72.43,
+      83.08,
+      84.97
+     ],
+     "share_pct_all_lines_variant": [
+      56.06,
+      71.25,
+      76.07,
+      83.39,
+      85.25
+     ],
+     "share_pct_official_feeds": [
+      43.95,
+      66.05,
+      72.43,
+      83.08,
+      84.97
+     ]
+    },
+    "covered": {
+     "coverage_share_pct": 78.76,
+     "flag_incomplete": false,
+     "population": 1112000.0,
+     "share_pct": [
+      30.04,
+      46.61,
+      51.48,
+      59.98,
+      63.87
+     ],
+     "share_pct_all_lines_variant": [
+      39.28,
+      50.57,
+      54.51,
+      61.24,
+      65.66
+     ],
+     "share_pct_official_feeds": [
+      31.42,
+      48.37,
+      53.36,
+      62.24,
+      65.13
+     ]
+    },
+    "fua": {
+     "coverage_share_pct": 78.76,
+     "flag_incomplete": true,
+     "population": 1412000.0,
+     "share_pct": [
+      24.62,
+      38.06,
+      42.26,
+      49.29,
+      52.88
+     ],
+     "share_pct_all_lines_variant": [
+      32.13,
+      41.42,
+      44.76,
+      50.51,
+      54.53
+     ],
+     "share_pct_official_feeds": [
+      24.62,
+      37.99,
+      42.23,
+      49.26,
+      52.16
+     ]
+    }
+   },
+   "name": "Kraków",
+   "polycentric": false
+  },
+  "lodz": {
+   "domains": {
+    "core": {
+     "coverage_share_pct": 96.65,
+     "flag_incomplete": false,
+     "population": 666300.0,
+     "share_pct": [
+      35.03,
+      69.64,
+      72.97,
+      82.23,
+      87.48
+     ],
+     "share_pct_all_lines_variant": [
+      50.93,
+      73.79,
+      76.58,
+      83.09,
+      87.65
+     ],
+     "share_pct_official_feeds": [
+      34.82,
+      69.55,
+      72.9,
+      82.2,
+      87.45
+     ]
+    },
+    "covered": {
+     "coverage_share_pct": 89.18,
+     "flag_incomplete": false,
+     "population": 930000.0,
+     "share_pct": [
+      24.67,
+      51.78,
+      55.9,
+      64.23,
+      71.29
+     ],
+     "share_pct_all_lines_variant": [
+      35.94,
+      56.37,
+      60.49,
+      66.68,
+      72.89
+     ],
+     "share_pct_official_feeds": [
+      30.85,
+      61.58,
+      64.58,
+      73.12,
+      77.86
+     ]
+    },
+    "fua": {
+     "coverage_share_pct": 89.18,
+     "flag_incomplete": false,
+     "population": 1043000.0,
+     "share_pct": [
+      22.38,
+      47.22,
+      51.26,
+      59.6,
+      66.53
+     ],
+     "share_pct_all_lines_variant": [
+      32.85,
+      51.95,
+      55.78,
+      61.92,
+      68.05
+     ],
+     "share_pct_official_feeds": [
+      22.25,
+      44.44,
+      48.01,
+      55.6,
+      61.77
+     ]
+    }
+   },
+   "name": "Łódź",
+   "polycentric": false
+  },
+  "poznan": {
+   "domains": {
+    "core": {
+     "coverage_share_pct": 95.46,
+     "flag_incomplete": false,
+     "population": 544800.0,
+     "share_pct": [
+      34.79,
+      66.02,
+      75.19,
+      82.64,
+      85.87
+     ],
+     "share_pct_all_lines_variant": [
+      45.33,
+      70.66,
+      77.55,
+      83.6,
+      85.96
+     ],
+     "share_pct_official_feeds": [
+      34.79,
+      66.02,
+      75.19,
+      82.64,
+      85.87
+     ]
+    },
+    "covered": {
+     "coverage_share_pct": 85.46,
+     "flag_incomplete": false,
+     "population": 832900.0,
+     "share_pct": [
+      22.27,
+      42.52,
+      52.21,
+      60.12,
+      66.65
+     ],
+     "share_pct_all_lines_variant": [
+      29.1,
+      48.53,
+      56.92,
+      63.05,
+      68.25
+     ],
+     "share_pct_official_feeds": [
+      22.27,
+      42.52,
+      52.21,
+      60.12,
+      66.65
+     ]
+    },
+    "fua": {
+     "coverage_share_pct": 85.46,
+     "flag_incomplete": false,
+     "population": 974600.0,
+     "share_pct": [
+      19.45,
+      37.26,
+      45.94,
+      53.88,
+      60.63
+     ],
+     "share_pct_all_lines_variant": [
+      25.34,
+      42.7,
+      50.38,
+      57.09,
+      62.14
+     ],
+     "share_pct_official_feeds": [
+      19.45,
+      37.26,
+      45.94,
+      53.88,
+      60.63
+     ]
+    }
+   },
+   "name": "Poznań",
+   "polycentric": false
+  },
+  "trojmiasto": {
+   "domains": {
+    "core": {
+     "coverage_share_pct": 95.95,
+     "flag_incomplete": false,
+     "population": 745400.0,
+     "share_pct": [
+      25.26,
+      59.18,
+      71.69,
+      79.54,
+      81.63
+     ],
+     "share_pct_all_lines_variant": [
+      35.51,
+      66.43,
+      75.15,
+      80.5,
+      82.59
+     ],
+     "share_pct_official_feeds": [
+      25.26,
+      59.18,
+      71.69,
+      79.54,
+      81.63
+     ]
+    },
+    "covered": {
+     "coverage_share_pct": 83.23,
+     "flag_incomplete": false,
+     "population": 912100.0,
+     "share_pct": [
+      20.65,
+      48.7,
+      63.05,
+      72.61,
+      77.51
+     ],
+     "share_pct_all_lines_variant": [
+      29.03,
+      56.48,
+      67.23,
+      75.69,
+      78.98
+     ],
+     "share_pct_official_feeds": [
+      20.65,
+      48.7,
+      63.05,
+      72.61,
+      77.51
+     ]
+    },
+    "fua": {
+     "coverage_share_pct": 83.23,
+     "flag_incomplete": true,
+     "population": 1096000.0,
+     "share_pct": [
+      17.18,
+      41.2,
+      53.55,
+      62.51,
+      66.96
+     ],
+     "share_pct_all_lines_variant": [
+      24.16,
+      47.78,
+      57.45,
+      65.76,
+      68.83
+     ],
+     "share_pct_official_feeds": [
+      17.18,
+      41.2,
+      53.55,
+      62.51,
+      66.96
+     ]
+    }
+   },
+   "name": "Trójmiasto",
+   "polycentric": true
+  },
+  "warszawa": {
+   "domains": {
+    "core": {
+     "coverage_share_pct": 98.96,
+     "flag_incomplete": false,
+     "population": 1864000.0,
+     "share_pct": [
+      58.81,
+      80.38,
+      87.53,
+      89.54,
+      90.57
+     ],
+     "share_pct_all_lines_variant": [
+      66.54,
+      83.32,
+      88.06,
+      89.7,
+      90.68
+     ],
+     "share_pct_official_feeds": [
+      58.85,
+      80.4,
+      87.55,
+      89.56,
+      90.6
+     ]
+    },
+    "covered": {
+     "coverage_share_pct": 82.51,
+     "flag_incomplete": false,
+     "population": 2878000.0,
+     "share_pct": [
+      38.47,
+      55.16,
+      62.97,
+      66.75,
+      71.5
+     ],
+     "share_pct_all_lines_variant": [
+      44.42,
+      58.88,
+      64.91,
+      68.41,
+      72.69
+     ],
+     "share_pct_official_feeds": [
+      45.77,
+      63.51,
+      70.49,
+      73.6,
+      76.61
+     ]
+    },
+    "fua": {
+     "coverage_share_pct": 82.51,
+     "flag_incomplete": true,
+     "population": 3488000.0,
+     "share_pct": [
+      31.89,
+      46.25,
+      53.52,
+      57.32,
+      62.21
+     ],
+     "share_pct_all_lines_variant": [
+      36.98,
+      49.86,
+      55.57,
+      59.14,
+      63.61
+     ],
+     "share_pct_official_feeds": [
+      31.82,
+      44.61,
+      50.49,
+      53.5,
+      57.34
+     ]
+    }
+   },
+   "name": "Warszawa",
+   "polycentric": false
+  },
+  "wroclaw": {
+   "domains": {
+    "core": {
+     "coverage_share_pct": 97.87,
+     "flag_incomplete": false,
+     "population": 672100.0,
+     "share_pct": [
+      51.38,
+      75.85,
+      81.07,
+      83.19,
+      85.95
+     ],
+     "share_pct_all_lines_variant": [
+      61.1,
+      78.26,
+      82.17,
+      83.78,
+      86.02
+     ],
+     "share_pct_official_feeds": [
+      51.46,
+      75.85,
+      80.91,
+      83.18,
+      85.95
+     ]
+    },
+    "covered": {
+     "coverage_share_pct": 79.57,
+     "flag_incomplete": false,
+     "population": 804900.0,
+     "share_pct": [
+      42.7,
+      62.76,
+      67.67,
+      69.79,
+      72.53
+     ],
+     "share_pct_all_lines_variant": [
+      50.79,
+      64.97,
+      68.77,
+      70.32,
+      72.98
+     ],
+     "share_pct_official_feeds": [
+      45.02,
+      66.06,
+      70.89,
+      73.44,
+      76.32
+     ]
+    },
+    "fua": {
+     "coverage_share_pct": 79.57,
+     "flag_incomplete": true,
+     "population": 1012000.0,
+     "share_pct": [
+      34.14,
+      50.41,
+      54.39,
+      56.89,
+      60.04
+     ],
+     "share_pct_all_lines_variant": [
+      40.6,
+      52.17,
+      55.98,
+      57.96,
+      60.84
+     ],
+     "share_pct_official_feeds": [
+      34.2,
+      50.42,
+      54.14,
+      56.25,
+      59.0
+     ]
+    }
+   },
+   "name": "Wrocław",
+   "polycentric": false
+  }
+ },
+ "definition": "Odsetek ludności mieszkającej ≤ 500 m pieszo (sieć OSM) od zespołu przystanków (słupki w promieniu 100 m), na którym w dniu roboczym 2026-11-25 średni odstęp 06:00–20:00 na najczęstszym odcinku do następnego przystanku wynosi ≤ T min w obu kierunkach (kierunek z geometrii trasy, nie z direction_id). Średnia z okna = 840 min / liczba odjazdów.",
+ "feed_variant": "all",
+ "osm_date": "2026-11-22",
+ "population_date": "2021-03-31 (NSP 2021, wzór GHSL 2020)",
+ "population_grid": "ghsl_census_scaled",
+ "recommended_domain": "covered",
+ "thresholds_min": [
+  5,
+  10,
+  15,
+  20,
+  30
+ ],
+ "timetable_date": "2026-11-25",
+ "title": "Ludność przy częstej komunikacji: odsetek ludności przy progach odstępu",
+ "variants_in_metrics": "freq_{seg,all,line,nodir}_{net,euc}_le{T}min; feed_variant official/all; population_grid",
+ "walk_m": 500.0,
+ "window": "06:00–20:00"
+}

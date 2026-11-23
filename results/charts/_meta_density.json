@@ -1,9 +1,9 @@
 {
  "circle_km": 10,
- "duration_s": 104.2,
+ "duration_s": 57.5,
  "eta_sample": 4000,
  "gap_cells": 3,
- "git_sha": "58b40601c5b93eba660fb706b7531dd69415aa85",
+ "git_sha": "8cf4e384d18721538870005637014f36b73c37dc",
  "inputs": {
   "ghs_built_s_2020_R3_C20": {
    "data_date": "2020",
@@ -47,7 +47,7 @@
   "census": "2021-03-31",
   "ghsl": "2020"
  },
- "run_at": "2026-11-23T20:14:16+01:00",
+ "run_at": "2026-11-23T22:00:30+01:00",
  "seed_radius_m": 1000,
  "step": "density",
  "thresholds": [

@@ -1,0 +1,6 @@
+agglomeration,feed,line,runs_on_day,stops_all_dates,stops_on_day,stops_lost_on_day,stops_lost_not_served_by_other_tram_line_on_day,city
+warszawa,warsaw_ztm,10,True,92,89,3,3,Warszawa
+warszawa,warsaw_ztm,25,True,105,63,42,1,Warszawa
+warszawa,warsaw_ztm,31,True,32,30,2,2,Warszawa
+warszawa,warsaw_ztm,4,True,92,90,2,1,Warszawa
+warszawa,warsaw_ztm,7,True,89,44,45,1,Warszawa

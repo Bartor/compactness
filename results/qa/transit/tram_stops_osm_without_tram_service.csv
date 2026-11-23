@@ -1,0 +1,195 @@
+agglomeration,name,x,y,city
+warszawa,Metro Marymont 08,634387.0,491440.0,Warszawa
+warszawa,Metro Płocka 08,634386.0,487053.0,Warszawa
+warszawa,Metro Wierzbno 71,638095.0,482303.0,Warszawa
+warszawa,Metro Wierzbno 72,638030.0,482286.0,Warszawa
+warszawa,Miasteczko Wilanów 72,641925.0,478896.0,Warszawa
+warszawa,Mrozy Stadion,691856.0,481081.0,Warszawa
+warszawa,PKP Koło 71,633636.0,488798.0,Warszawa
+warszawa,Ratuszowa-ZOO 05,638488.0,489694.0,Warszawa
+warszawa,Ratuszowa-ZOO 06,638495.0,489674.0,Warszawa
+warszawa,Ratuszowa-ZOO 71,638485.0,489691.0,Warszawa
+warszawa,Rudka Szpital,693234.0,480243.0,Warszawa
+warszawa,Twardowska 73,633283.0,492884.0,Warszawa
+warszawa,Wyścigi 05,637835.0,479904.0,Warszawa
+warszawa,Wyścigi 06,637833.0,479911.0,Warszawa
+warszawa,Wyścigi 07,637831.0,479917.0,Warszawa
+krakow,Biprostal 01,565532.0,245469.0,Kraków
+krakow,Biprostal 02,565459.0,245494.0,Kraków
+krakow,Bronowice,564476.0,245933.0,Kraków
+krakow,Bronowice,564509.0,245928.0,Kraków
+krakow,Bronowice 01,564483.0,245935.0,Kraków
+krakow,Bronowice 01,564505.0,245929.0,Kraków
+krakow,Bronowice 02,564412.0,246004.0,Kraków
+krakow,Bronowice 02,564429.0,245998.0,Kraków
+krakow,Bronowice 03,564414.0,246011.0,Kraków
+krakow,Bronowice 03,564433.0,246003.0,Kraków
+krakow,Bronowice Małe,563162.0,246461.0,Kraków
+krakow,Bronowice Małe 01,563067.0,246417.0,Kraków
+krakow,Bronowice Małe 01,563078.0,246434.0,Kraków
+krakow,Bronowice SKA 01,563634.0,246388.0,Kraków
+krakow,Bronowice SKA 02,563556.0,246408.0,Kraków
+krakow,Cichy Kącik,564742.0,244288.0,Kraków
+krakow,Dąbie 03,570101.0,244298.0,Kraków
+krakow,Dąbie 03,570102.0,244278.0,Kraków
+krakow,Górka Narodowa P+R,568906.0,249048.0,Kraków
+krakow,Głowackiego 01,564866.0,245739.0,Kraków
+krakow,Głowackiego 02,564779.0,245798.0,Kraków
+krakow,Głowackiego 02,564797.0,245797.0,Kraków
+krakow,Muzeum Inżynierii Miejskiej 01,567816.0,242952.0,Kraków
+krakow,Plac Inwalidów 01,566322.0,245012.0,Kraków
+krakow,Plac Inwalidów 02,566218.0,245133.0,Kraków
+krakow,Plac Inwalidów 02,566240.0,245114.0,Kraków
+krakow,Stefana Batorego 01,566493.0,244788.0,Kraków
+krakow,Stefana Batorego 02,566455.0,244832.0,Kraków
+krakow,UKEN 01,565152.0,245604.0,Kraków
+krakow,UKEN 02,565078.0,245617.0,Kraków
+krakow,UKEN 02,565096.0,245619.0,Kraków
+krakow,Urzędnicza 01,565817.0,245351.0,Kraków
+krakow,Urzędnicza 02,565746.0,245370.0,Kraków
+krakow,Urzędnicza 02,565761.0,245372.0,Kraków
+krakow,Wawel 01,567243.0,243444.0,Kraków
+krakow,Wawel 02,567226.0,243428.0,Kraków
+krakow,Wesele,564220.0,246122.0,Kraków
+krakow,Wesele 01,564211.0,246124.0,Kraków
+krakow,Wesele 02,564125.0,246165.0,Kraków
+krakow,Wesele 02,564142.0,246160.0,Kraków
+krakow,św. Gertrudy 01,567328.0,243890.0,Kraków
+krakow,św. Gertrudy 02,567325.0,243890.0,Kraków
+krakow,,568897.0,249071.0,Kraków
+krakow,,570401.0,244431.0,Kraków
+wroclaw,8 Maja,366452.0,362495.0,Wrocław
+wroclaw,Braterska,359775.0,357532.0,Wrocław
+wroclaw,Hutmen,359142.0,360784.0,Wrocław
+wroclaw,Kosmonautów (Szpital),353445.0,365978.0,Wrocław
+wroclaw,Leśnica,351303.0,366385.0,Wrocław
+wroclaw,Paulińska,362529.0,363404.0,Wrocław
+wroclaw,Paulińska,362540.0,363337.0,Wrocław
+wroclaw,Pilczyce,356462.0,365329.0,Wrocław
+wroclaw,Pilczyce,356525.0,365338.0,Wrocław
+wroclaw,Plac Bema,362909.0,363013.0,Wrocław
+wroclaw,Plac Bema,362927.0,363004.0,Wrocław
+wroclaw,Plac Wróblewskiego,363293.0,361732.0,Wrocław
+wroclaw,Wrocławski Park Przemysłowy,359592.0,362556.0,Wrocław
+wroclaw,Wrocławski Park Przemysłowy,359606.0,362572.0,Wrocław
+wroclaw,,363433.0,363699.0,Wrocław
+poznan,Budziszyńska,353600.0,504650.0,Poznań
+poznan,Budziszyńska,353620.0,504682.0,Poznań
+poznan,Katedra,360414.0,506889.0,Poznań
+poznan,Katedra,360437.0,506888.0,Poznań
+poznan,Kosińskiego,358382.0,504627.0,Poznań
+poznan,Kosińskiego,358403.0,504655.0,Poznań
+poznan,Pamiątkowa,358242.0,504392.0,Poznań
+poznan,Pamiątkowa,358252.0,504404.0,Poznań
+poznan,Rondo Śródka,360967.0,506893.0,Poznań
+poznan,Rondo Śródka,360997.0,506882.0,Poznań
+poznan,Rynek Wildecki,358530.0,505019.0,Poznań
+poznan,Rynek Wildecki,358542.0,505028.0,Poznań
+poznan,Stare Zoo,357726.0,506853.0,Poznań
+poznan,Zajezdnia Madalińskiego,358050.0,504330.0,Poznań
+poznan,,358607.0,505829.0,Poznań
+poznan,,358628.0,505828.0,Poznań
+lodz,Broniewskiego - Śmigłego-Rydza,533673.0,429705.0,Łódź
+lodz,Dw. Łódź Chojny,533111.0,429158.0,Łódź
+lodz,Dw. Łódź Chojny,533141.0,429137.0,Łódź
+lodz,Franciszkańska - Północna,531802.0,434950.0,Łódź
+lodz,Kilińskiego - Broniewskiego,533049.0,429761.0,Łódź
+lodz,Kilińskiego - Broniewskiego,533080.0,429505.0,Łódź
+lodz,Kilińskiego - Jaracza,531935.0,434178.0,Łódź
+lodz,Kilińskiego - Narutowicza,531950.0,434014.0,Łódź
+lodz,Kilińskiego - Pomorska,531844.0,434705.0,Łódź
+lodz,Kilińskiego - Pomorska,531869.0,434602.0,Łódź
+lodz,Kilińskiego - Rewolucji 1905 r.,531899.0,434347.0,Łódź
+lodz,Kilińskiego - Rewolucji 1905 r.,531902.0,434404.0,Łódź
+lodz,Koziny,529163.0,434126.0,Łódź
+lodz,Koziny,529190.0,434106.0,Łódź
+lodz,Kościuszki - Zielona,531285.0,433805.0,Łódź
+lodz,Krakowska - Konstantynowska,528121.0,433067.0,Łódź
+lodz,Legionów - Artyleryjska,529779.0,433924.0,Łódź
+lodz,Legionów - Artyleryjska,529818.0,433955.0,Łódź
+lodz,Legionów - Żeligowskiego,530159.0,434142.0,Łódź
+lodz,Legionów - Żeligowskiego,530233.0,434198.0,Łódź
+lodz,Marysin Skrzydlata,532627.0,438021.0,Łódź
+lodz,Marysin Warszawska,533531.0,438656.0,Łódź
+lodz,Narutowicza - Kilińskiego,531897.0,433963.0,Łódź
+lodz,Narutowicza - Piotrkowska,531487.0,433911.0,Łódź
+lodz,Pabianicka - ET-2,529364.0,426984.0,Łódź
+lodz,Piotrkowska - Pl. Niepodległości,531929.0,430579.0,Łódź
+lodz,Pomorska - Kamińskiego,532720.0,434781.0,Łódź
+lodz,Pomorska - Kamińskiego,532776.0,434801.0,Łódź
+lodz,Pomorska - Kilińskiego,531818.0,434650.0,Łódź
+lodz,Pomorska - Kilińskiego,531921.0,434676.0,Łódź
+lodz,Pomorska - Lumumby (kampus UŁ),534134.0,434701.0,Łódź
+lodz,Pomorska - Matejki,533451.0,434804.0,Łódź
+lodz,Pomorska - Matejki,533578.0,434795.0,Łódź
+lodz,Pomorska - Rondo Solidarności,533117.0,434847.0,Łódź
+lodz,Pomorska - Rondo Solidarności,533312.0,434826.0,Łódź
+lodz,Pomorska - Sterlinga,532297.0,434720.0,Łódź
+lodz,Pomorska - Sterlinga,532364.0,434741.0,Łódź
+lodz,Pomorska - Tamka,533733.0,434757.0,Łódź
+lodz,Pomorska - Tamka,533816.0,434756.0,Łódź
+lodz,Pomorska - Wierzbowa,532885.0,434805.0,Łódź
+lodz,Przybyszewskiego - Brzozowa,532489.0,431003.0,Łódź
+lodz,Północna - Kilińskiego,531775.0,434890.0,Łódź
+lodz,Rzgowska - Lecznicza,532510.0,429889.0,Łódź
+lodz,Rzgowska - Lecznicza,532554.0,429849.0,Łódź
+lodz,Rzgowska - Paderewskiego,532717.0,429587.0,Łódź
+lodz,Srebrzyńska - Kasprzaka,529456.0,434193.0,Łódź
+lodz,Srebrzyńska - Kasprzaka,529528.0,434227.0,Łódź
+lodz,Warszawska - Centralna,533098.0,438354.0,Łódź
+lodz,Warszawska - Centralna NŻ,533091.0,438358.0,Łódź
+lodz,Warszawska - Deczyńskiego,532278.0,437771.0,Łódź
+lodz,Warszawska - Irysowa,531927.0,437524.0,Łódź
+lodz,Warszawska - Słowicza,532924.0,438233.0,Łódź
+lodz,Warszawska - Słowicza NŻ,532913.0,438235.0,Łódź
+lodz,Zachodnia - Zielona,531270.0,433912.0,Łódź
+lodz,Zdrowie,528006.0,433236.0,Łódź
+lodz,Zdrowie,528029.0,433269.0,Łódź
+lodz,Zielona - 1 Maja,529737.0,433727.0,Łódź
+lodz,Zielona - 1 Maja,529848.0,433717.0,Łódź
+lodz,Zielona - Kościuszki,531227.0,433861.0,Łódź
+lodz,Zielona - Kościuszki,531334.0,433887.0,Łódź
+lodz,Zielona - Piotrkowska,531430.0,433892.0,Łódź
+lodz,Zielona - Pl. Barlickiego,530729.0,433785.0,Łódź
+lodz,Zielona - Pl. Barlickiego,530804.0,433806.0,Łódź
+lodz,Zielona - Pl. Hallera,530210.0,433695.0,Łódź
+lodz,Zielona - Pl. Hallera,530292.0,433717.0,Łódź
+lodz,Łódzka - Spółdzielcza (Konstantynów),524014.0,431347.0,Łódź
+trojmiasto,,473509.0,728836.0,Gdańsk
+trojmiasto,,475747.0,727249.0,Gdańsk
+trojmiasto,,475814.0,727230.0,Gdańsk
+trojmiasto,,479351.0,721488.0,Gdańsk
+trojmiasto,,479615.0,721541.0,Gdańsk
+trojmiasto,,479650.0,721592.0,Gdańsk
+trojmiasto,,480414.0,722139.0,Gdańsk
+trojmiasto,,480475.0,722165.0,Gdańsk
+trojmiasto,,480759.0,722128.0,Gdańsk
+trojmiasto,,481541.0,722145.0,Gdańsk
+trojmiasto,,482351.0,723262.0,Gdańsk
+gzm,Burowiec,505645.0,266793.0,GZM
+gzm,Burowiec,505691.0,266803.0,GZM
+gzm,Chorzów Muzeum Hutnictwa,496670.0,270674.0,GZM
+gzm,Katowice Dworzec PKP,501249.0,265825.0,GZM
+gzm,Katowice Dworzec PKP,501266.0,265821.0,GZM
+gzm,Katowice Dworzec PKP,501338.0,265822.0,GZM
+gzm,Katowice Dąbrówki,500627.0,266078.0,GZM
+gzm,Katowice Plac Wolności,501052.0,265843.0,GZM
+gzm,Katowice Sobieskiego,500846.0,265906.0,GZM
+gzm,Mysłowice Komenda Policji,509814.0,264126.0,GZM
+gzm,Niwka Kościół,511292.0,263631.0,GZM
+gzm,Piaski Centrum Handlowe,507158.0,272753.0,GZM
+gzm,Sosnowiec Piłsudskiego/Sobieskiego,508495.0,267753.0,GZM
+gzm,Sosnowiec Stawiki,508169.0,267471.0,GZM
+gzm,Szopienice Dolina 5 Stawów,507913.0,266901.0,GZM
+gzm,Szopienice Dolina 5 Stawów,507926.0,266940.0,GZM
+gzm,Szopienice Dwór,507244.0,266097.0,GZM
+gzm,Szopienice Kościół,506745.0,266261.0,GZM
+gzm,Szopienice Kościół,506783.0,266182.0,GZM
+gzm,Szopienice Morawa,507614.0,266241.0,GZM
+gzm,Szopienice Poczta,506403.0,266398.0,GZM
+gzm,Szopienice Poczta,506470.0,266379.0,GZM
+gzm,Szopienice Roździeńska,505102.0,266114.0,GZM
+gzm,Szopienice Roździeńska,505110.0,266128.0,GZM
+gzm,Szopienice Wodociągi,505148.0,266378.0,GZM
+gzm,Szopienice Wodociągi,505165.0,266425.0,GZM
+gzm,,489685.0,273453.0,GZM

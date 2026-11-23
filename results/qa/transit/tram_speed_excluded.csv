@@ -1,0 +1,33 @@
+city,variant,day_type,day,reason,trips
+GZM,all,saturday,2026-11-28,długość < 1 km,1
+Poznań,all,saturday,2026-11-28,czas < 5 min,5
+Poznań,all,saturday,2026-11-28,długość < 1 km,5
+Warszawa,all,saturday,2026-11-28,czas < 5 min,1
+Warszawa,all,saturday,2026-11-28,długość < 1 km,1
+Wrocław,all,saturday,2026-11-28,długość < 1 km,2
+Łódź,all,saturday,2026-11-28,< 3 przystanków,6
+Łódź,all,saturday,2026-11-28,czas < 5 min,12
+GZM,official,saturday,2026-11-28,długość < 1 km,1
+Poznań,official,saturday,2026-11-28,czas < 5 min,5
+Poznań,official,saturday,2026-11-28,długość < 1 km,5
+Warszawa,official,saturday,2026-11-28,czas < 5 min,1
+Warszawa,official,saturday,2026-11-28,długość < 1 km,1
+Wrocław,official,saturday,2026-11-28,długość < 1 km,2
+Łódź,official,saturday,2026-11-28,< 3 przystanków,6
+Łódź,official,saturday,2026-11-28,czas < 5 min,12
+Poznań,all,weekday,2026-11-25,czas < 5 min,5
+Poznań,all,weekday,2026-11-25,długość < 1 km,7
+Warszawa,all,weekday,2026-11-25,czas < 5 min,7
+Warszawa,all,weekday,2026-11-25,długość < 1 km,9
+Wrocław,all,weekday,2026-11-25,długość < 1 km,4
+Łódź,all,weekday,2026-11-25,< 3 przystanków,10
+Łódź,all,weekday,2026-11-25,czas < 5 min,20
+Łódź,all,weekday,2026-11-25,długość < 1 km,10
+Poznań,official,weekday,2026-11-25,czas < 5 min,5
+Poznań,official,weekday,2026-11-25,długość < 1 km,7
+Warszawa,official,weekday,2026-11-25,czas < 5 min,7
+Warszawa,official,weekday,2026-11-25,długość < 1 km,9
+Wrocław,official,weekday,2026-11-25,długość < 1 km,4
+Łódź,official,weekday,2026-11-25,< 3 przystanków,10
+Łódź,official,weekday,2026-11-25,czas < 5 min,20
+Łódź,official,weekday,2026-11-25,długość < 1 km,10
