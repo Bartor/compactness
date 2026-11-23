@@ -699,7 +699,8 @@ def mask_polygons(r: dict) -> gpd.GeoDataFrame:
                         "geometry": shapely.geometry.shape(geom)})
     g = gpd.GeoDataFrame(out, geometry="geometry", crs="EPSG:2180")
     g = g.dissolve(by=["agglomeration", "feed_variant", "status_code", "status"], as_index=False)
-    g["geometry"] = shapely.set_precision(g.geometry.to_crs("EPSG:4326").values, 1e-6)
+    g = g.to_crs("EPSG:4326")          # reproject the frame, so that the CRS label follows the coordinates
+    g["geometry"] = shapely.set_precision(g.geometry.values, 1e-6)
     return g.sort_values(["agglomeration", "feed_variant", "status_code"]).reset_index(drop=True)
 
 
