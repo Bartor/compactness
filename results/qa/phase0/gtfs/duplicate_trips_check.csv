@@ -1,0 +1,13 @@
+feed,trips_on_ref_day,exact_duplicate_trips,dup_pct
+warsaw_ztm,35603,0,0.0
+warsaw_wkd,192,0,0.0
+krakow_bus,10280,0,0.0
+krakow_tram,3710,0,0.0
+krakow_mobilis,2590,0,0.0
+wroclaw,12849,0,0.0
+poznan,12074,0,0.0
+lodz,10229,0,0.0
+gdansk,7049,0,0.0
+gdynia,4911,0,0.0
+gzm,30561,7693,25.17
+polish_trains,7453,0,0.0

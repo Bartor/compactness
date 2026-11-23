@@ -1,0 +1,86 @@
+{
+ "duration_s": 8.1,
+ "feed": "poznan",
+ "gtfs_features": [
+  "Shapes",
+  "Feed Information",
+  "Route Colors",
+  "Headsigns",
+  "Trips Wheelchair Accessibility"
+ ],
+ "input_sha256": "2914536ca1745409a1f2c1b81adff698cf3bb16abb3c15384e8fb64df6b12575",
+ "notice_types": {
+  "ERROR": 0,
+  "INFO": 4,
+  "WARNING": 8
+ },
+ "notices": [
+  {
+   "code": "leading_or_trailing_whitespaces",
+   "count": 2603,
+   "severity": "WARNING"
+  },
+  {
+   "code": "non_ascii_or_non_printable_char",
+   "count": 585,
+   "severity": "WARNING"
+  },
+  {
+   "code": "mixed_case_recommended_field",
+   "count": 220,
+   "severity": "WARNING"
+  },
+  {
+   "code": "stop_too_far_from_shape",
+   "count": 10,
+   "severity": "WARNING"
+  },
+  {
+   "code": "feed_expiration_date30_days",
+   "count": 1,
+   "severity": "WARNING"
+  },
+  {
+   "code": "missing_feed_contact_email_and_url",
+   "count": 1,
+   "severity": "WARNING"
+  },
+  {
+   "code": "missing_recommended_field",
+   "count": 1,
+   "severity": "WARNING"
+  },
+  {
+   "code": "trip_coverage_not_active_for_next7_days",
+   "count": 1,
+   "severity": "WARNING"
+  },
+  {
+   "code": "trip_headsign_matches_intermediate_stop",
+   "count": 1667,
+   "severity": "INFO"
+  },
+  {
+   "code": "future_calendar",
+   "count": 1,
+   "severity": "INFO"
+  },
+  {
+   "code": "future_feed",
+   "count": 1,
+   "severity": "INFO"
+  },
+  {
+   "code": "unknown_column",
+   "count": 1,
+   "severity": "INFO"
+  }
+ ],
+ "totals": {
+  "ERROR": 0,
+  "INFO": 1670,
+  "WARNING": 3422
+ },
+ "validated_at": "2026-11-23T18:20:39+01:00",
+ "validator_version": "8.0.1"
+}

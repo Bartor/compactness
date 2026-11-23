@@ -1,0 +1,64 @@
+{
+ "duration_s": 6.6,
+ "feed": "krakow_mobilis",
+ "gtfs_features": [
+  "Shapes",
+  "Feed Information",
+  "Route Colors",
+  "Headsigns",
+  "Stops Wheelchair Accessibility",
+  "Trips Wheelchair Accessibility",
+  "Bike Allowed",
+  "Location Types"
+ ],
+ "input_sha256": "b06e601f95da7a5490d8b76b2a5bbbd63571de9f5d5e575131cdf31d8c0e8da9",
+ "notice_types": {
+  "ERROR": 0,
+  "INFO": 2,
+  "WARNING": 5
+ },
+ "notices": [
+  {
+   "code": "route_long_name_contains_short_name",
+   "count": 33,
+   "severity": "WARNING"
+  },
+  {
+   "code": "service_has_no_active_day_of_the_week",
+   "count": 8,
+   "severity": "WARNING"
+  },
+  {
+   "code": "stop_too_far_from_shape",
+   "count": 4,
+   "severity": "WARNING"
+  },
+  {
+   "code": "expired_calendar",
+   "count": 3,
+   "severity": "WARNING"
+  },
+  {
+   "code": "mixed_case_recommended_field",
+   "count": 2,
+   "severity": "WARNING"
+  },
+  {
+   "code": "unsorted_stop_times",
+   "count": 12292,
+   "severity": "INFO"
+  },
+  {
+   "code": "trip_headsign_matches_intermediate_stop",
+   "count": 2204,
+   "severity": "INFO"
+  }
+ ],
+ "totals": {
+  "ERROR": 0,
+  "INFO": 14496,
+  "WARNING": 50
+ },
+ "validated_at": "2026-11-23T18:37:09+01:00",
+ "validator_version": "8.0.1"
+}

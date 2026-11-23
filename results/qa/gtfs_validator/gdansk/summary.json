@@ -1,0 +1,56 @@
+{
+ "duration_s": 12.9,
+ "feed": "gdansk",
+ "gtfs_features": [
+  "Shapes",
+  "Feed Information",
+  "Route Colors",
+  "Headsigns",
+  "Trips Wheelchair Accessibility"
+ ],
+ "input_sha256": "3785bc1d9c34a574f6f46c63b78ff99f9800503476b2ddccf3cb09012c097ede",
+ "notice_types": {
+  "ERROR": 0,
+  "INFO": 0,
+  "WARNING": 6
+ },
+ "notices": [
+  {
+   "code": "unexpected_enum_value",
+   "count": 93,
+   "severity": "WARNING"
+  },
+  {
+   "code": "stop_without_stop_time",
+   "count": 5,
+   "severity": "WARNING"
+  },
+  {
+   "code": "missing_recommended_field",
+   "count": 2,
+   "severity": "WARNING"
+  },
+  {
+   "code": "feed_expiration_date30_days",
+   "count": 1,
+   "severity": "WARNING"
+  },
+  {
+   "code": "missing_feed_contact_email_and_url",
+   "count": 1,
+   "severity": "WARNING"
+  },
+  {
+   "code": "missing_feed_info_date",
+   "count": 1,
+   "severity": "WARNING"
+  }
+ ],
+ "totals": {
+  "ERROR": 0,
+  "INFO": 0,
+  "WARNING": 103
+ },
+ "validated_at": "2026-11-23T18:20:59+01:00",
+ "validator_version": "8.0.1"
+}

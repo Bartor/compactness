@@ -1,0 +1,26 @@
+{
+ "duration_s": 15.6,
+ "git_sha": "",
+ "gzm_variant_used": "fua_union (provisional)",
+ "inputs": {
+  "lau_2021_01m": {
+   "data_date": "2021",
+   "downloaded_at": "2026-11-23T18:15:37+01:00",
+   "sha256": "3d7199c0b88040785d609dcf69ade80cf0843941b6deff4aa714a442c72f2dd6"
+  },
+  "nsp2021_grid_1km_shp": {
+   "data_date": "2021-03-31",
+   "downloaded_at": "2026-11-23T18:16:58+01:00",
+   "sha256": "815deb0fb369df11de0ff150dd14ce87fd875acf3d542da8d2db1dafc0791680"
+  },
+  "urau_2021_100k_all": {
+   "data_date": "2021",
+   "downloaded_at": "2026-11-23T18:15:32+01:00",
+   "sha256": "9f64bf0689875be1f64ecb742e370dd7987804ddbb63df5ac6e8860516ef7de3"
+  }
+ },
+ "min_fua_share_gzm": 0.05,
+ "missing_inputs": [],
+ "run_at": "2026-11-23T18:25:08+01:00",
+ "step": "phase0_boundaries"
+}

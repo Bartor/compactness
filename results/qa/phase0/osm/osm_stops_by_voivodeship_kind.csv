@@ -1,0 +1,89 @@
+wojewodztwo_nuts2,rodzaj,n_surowe,n_po_deduplikacji,n_bez_nazwy_po_dedup
+Dolnośląskie,bus,9948,8766,1929
+Dolnośląskie,tram,786,473,2
+Dolnośląskie,rail_station,314,314,0
+Dolnośląskie,rail_platform,536,471,65
+Dolnośląskie,platform_unknown,1269,655,560
+Kujawsko-pomorskie,bus,6477,5625,1010
+Kujawsko-pomorskie,tram,641,392,7
+Kujawsko-pomorskie,rail_station,175,175,0
+Kujawsko-pomorskie,rail_platform,383,301,67
+Kujawsko-pomorskie,platform_unknown,689,461,207
+Lubelskie,bus,8622,8426,3692
+Lubelskie,rail_station,160,160,0
+Lubelskie,rail_platform,234,193,43
+Lubelskie,platform_unknown,716,600,575
+Lubuskie,bus,3626,3006,651
+Lubuskie,tram,136,57,0
+Lubuskie,rail_station,114,114,1
+Lubuskie,rail_platform,220,185,21
+Lubuskie,platform_unknown,254,216,195
+Mazowiecki regionalny,bus,9617,8123,1930
+Mazowiecki regionalny,rail_station,176,176,0
+Mazowiecki regionalny,rail_platform,297,268,29
+Mazowiecki regionalny,platform_unknown,806,219,171
+Małopolskie,bus,15700,14268,2409
+Małopolskie,tram,809,505,7
+Małopolskie,rail_station,236,236,0
+Małopolskie,rail_platform,351,325,62
+Małopolskie,ferry,4,3,0
+Małopolskie,platform_unknown,438,256,201
+Opolskie,bus,3733,3329,807
+Opolskie,rail_station,118,118,0
+Opolskie,rail_platform,200,170,15
+Opolskie,platform_unknown,112,91,81
+Podkarpackie,bus,10349,9852,1678
+Podkarpackie,rail_station,209,209,0
+Podkarpackie,rail_platform,256,224,26
+Podkarpackie,platform_unknown,496,311,286
+Podlaskie,bus,2942,2852,805
+Podlaskie,rail_station,115,115,0
+Podlaskie,rail_platform,144,109,32
+Podlaskie,ferry,1,1,1
+Podlaskie,platform_unknown,109,72,61
+Pomorskie,bus,9847,9072,1332
+Pomorskie,tram,499,351,86
+Pomorskie,rail_station,234,234,0
+Pomorskie,rail_platform,365,303,49
+Pomorskie,platform_unknown,508,322,282
+Warmińsko-mazurskie,bus,4695,4236,1269
+Warmińsko-mazurskie,tram,281,134,5
+Warmińsko-mazurskie,rail_station,149,149,0
+Warmińsko-mazurskie,rail_platform,233,181,48
+Warmińsko-mazurskie,ferry,2,2,2
+Warmińsko-mazurskie,platform_unknown,181,110,86
+Warszawski stołeczny,bus,11516,11038,370
+Warszawski stołeczny,tram,1319,854,6
+Warszawski stołeczny,rail_station,170,170,0
+Warszawski stołeczny,rail_platform,275,248,25
+Warszawski stołeczny,subway,75,47,1
+Warszawski stołeczny,platform_unknown,80,52,25
+Wielkopolskie,bus,15101,10578,2376
+Wielkopolskie,tram,525,344,3
+Wielkopolskie,rail_station,324,324,1
+Wielkopolskie,rail_platform,578,499,91
+Wielkopolskie,platform_unknown,3225,1150,954
+Zachodniopomorskie,bus,6828,6491,2033
+Zachodniopomorskie,tram,417,248,3
+Zachodniopomorskie,rail_station,208,208,0
+Zachodniopomorskie,rail_platform,376,289,62
+Zachodniopomorskie,platform_unknown,428,245,171
+Łódzkie,bus,12097,8735,787
+Łódzkie,tram,1048,566,0
+Łódzkie,rail_station,179,179,0
+Łódzkie,rail_platform,339,299,34
+Łódzkie,platform_unknown,2451,340,154
+Śląskie,bus,15859,12616,336
+Śląskie,tram,1409,623,16
+Śląskie,rail_station,283,281,2
+Śląskie,rail_platform,524,462,95
+Śląskie,platform_unknown,1348,265,172
+Świętokrzyskie,bus,5584,5197,1695
+Świętokrzyskie,rail_station,92,92,1
+Świętokrzyskie,rail_platform,145,116,28
+Świętokrzyskie,platform_unknown,759,700,682
+(poza granicą PL wg NUTS),bus,1197,998,46
+(poza granicą PL wg NUTS),tram,113,59,1
+(poza granicą PL wg NUTS),rail_station,83,83,0
+(poza granicą PL wg NUTS),rail_platform,85,47,28
+(poza granicą PL wg NUTS),platform_unknown,83,69,12

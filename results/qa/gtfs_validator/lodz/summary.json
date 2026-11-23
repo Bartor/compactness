@@ -1,0 +1,78 @@
+{
+ "duration_s": 7.1,
+ "feed": "lodz",
+ "gtfs_features": [
+  "Shapes",
+  "Feed Information",
+  "Headsigns",
+  "Stops Wheelchair Accessibility",
+  "Trips Wheelchair Accessibility",
+  "Bike Allowed",
+  "Location Types"
+ ],
+ "input_sha256": "154ff4694541f86e22bbc73be9e062e5ac123647049af13b1899e566d30e0b87",
+ "notice_types": {
+  "ERROR": 3,
+  "INFO": 1,
+  "WARNING": 6
+ },
+ "notices": [
+  {
+   "code": "foreign_key_violation",
+   "count": 61,
+   "severity": "ERROR"
+  },
+  {
+   "code": "point_near_origin",
+   "count": 2,
+   "severity": "ERROR"
+  },
+  {
+   "code": "block_trips_with_overlapping_stop_times",
+   "count": 1,
+   "severity": "ERROR"
+  },
+  {
+   "code": "mixed_case_recommended_field",
+   "count": 18269,
+   "severity": "WARNING"
+  },
+  {
+   "code": "fast_travel_between_consecutive_stops",
+   "count": 2279,
+   "severity": "WARNING"
+  },
+  {
+   "code": "fast_travel_between_far_stops",
+   "count": 1633,
+   "severity": "WARNING"
+  },
+  {
+   "code": "stop_too_far_from_shape",
+   "count": 499,
+   "severity": "WARNING"
+  },
+  {
+   "code": "stops_match_shape_out_of_order",
+   "count": 15,
+   "severity": "WARNING"
+  },
+  {
+   "code": "service_has_no_active_day_of_the_week",
+   "count": 3,
+   "severity": "WARNING"
+  },
+  {
+   "code": "trip_headsign_matches_intermediate_stop",
+   "count": 130,
+   "severity": "INFO"
+  }
+ ],
+ "totals": {
+  "ERROR": 64,
+  "INFO": 130,
+  "WARNING": 22698
+ },
+ "validated_at": "2026-11-23T18:20:46+01:00",
+ "validator_version": "8.0.1"
+}

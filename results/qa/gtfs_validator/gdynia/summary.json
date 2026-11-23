@@ -1,0 +1,49 @@
+{
+ "duration_s": 9.1,
+ "feed": "gdynia",
+ "gtfs_features": [
+  "Shapes",
+  "Headsigns",
+  "Trips Wheelchair Accessibility"
+ ],
+ "input_sha256": "eed56d66771d771c2f6a7859b9073dfc15cf97972696054cc00102b2b2f2bee3",
+ "notice_types": {
+  "ERROR": 0,
+  "INFO": 1,
+  "WARNING": 4
+ },
+ "notices": [
+  {
+   "code": "unused_shape",
+   "count": 2606,
+   "severity": "WARNING"
+  },
+  {
+   "code": "unexpected_enum_value",
+   "count": 93,
+   "severity": "WARNING"
+  },
+  {
+   "code": "non_ascii_or_non_printable_char",
+   "count": 73,
+   "severity": "WARNING"
+  },
+  {
+   "code": "missing_recommended_file",
+   "count": 1,
+   "severity": "WARNING"
+  },
+  {
+   "code": "unsorted_stop_times",
+   "count": 9555,
+   "severity": "INFO"
+  }
+ ],
+ "totals": {
+  "ERROR": 0,
+  "INFO": 9555,
+  "WARNING": 2773
+ },
+ "validated_at": "2026-11-23T18:21:08+01:00",
+ "validator_version": "8.0.1"
+}

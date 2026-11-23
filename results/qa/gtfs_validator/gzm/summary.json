@@ -1,0 +1,117 @@
+{
+ "duration_s": 14.2,
+ "feed": "gzm",
+ "gtfs_features": [
+  "Shapes",
+  "Feed Information",
+  "Fares V1",
+  "Route Colors",
+  "Headsigns",
+  "Trips Wheelchair Accessibility"
+ ],
+ "input_sha256": "a726687dbdfbf53b1d3595adbadcabf9965755edb054aefaba9aaea5f9ceb884",
+ "notice_types": {
+  "ERROR": 3,
+  "INFO": 4,
+  "WARNING": 11
+ },
+ "notices": [
+  {
+   "code": "block_trips_with_overlapping_stop_times",
+   "count": 20600,
+   "severity": "ERROR"
+  },
+  {
+   "code": "decreasing_or_equal_stop_time_distance",
+   "count": 8353,
+   "severity": "ERROR"
+  },
+  {
+   "code": "duplicate_key",
+   "count": 9,
+   "severity": "ERROR"
+  },
+  {
+   "code": "fast_travel_between_consecutive_stops",
+   "count": 4106,
+   "severity": "WARNING"
+  },
+  {
+   "code": "mixed_case_recommended_field",
+   "count": 512,
+   "severity": "WARNING"
+  },
+  {
+   "code": "fast_travel_between_far_stops",
+   "count": 264,
+   "severity": "WARNING"
+  },
+  {
+   "code": "non_ascii_or_non_printable_char",
+   "count": 239,
+   "severity": "WARNING"
+  },
+  {
+   "code": "route_color_contrast",
+   "count": 122,
+   "severity": "WARNING"
+  },
+  {
+   "code": "stops_match_shape_out_of_order",
+   "count": 95,
+   "severity": "WARNING"
+  },
+  {
+   "code": "stop_too_far_from_shape",
+   "count": 66,
+   "severity": "WARNING"
+  },
+  {
+   "code": "same_name_and_description_for_route",
+   "count": 19,
+   "severity": "WARNING"
+  },
+  {
+   "code": "expired_calendar",
+   "count": 1,
+   "severity": "WARNING"
+  },
+  {
+   "code": "feed_expiration_date7_days",
+   "count": 1,
+   "severity": "WARNING"
+  },
+  {
+   "code": "trip_coverage_not_active_for_next7_days",
+   "count": 1,
+   "severity": "WARNING"
+  },
+  {
+   "code": "trip_with_shape_dist_traveled_but_no_shape_distances",
+   "count": 65209,
+   "severity": "INFO"
+  },
+  {
+   "code": "trip_headsign_matches_intermediate_stop",
+   "count": 1201,
+   "severity": "INFO"
+  },
+  {
+   "code": "unknown_file",
+   "count": 11,
+   "severity": "INFO"
+  },
+  {
+   "code": "service_window_outside_feed_period",
+   "count": 3,
+   "severity": "INFO"
+  }
+ ],
+ "totals": {
+  "ERROR": 28962,
+  "INFO": 66424,
+  "WARNING": 5426
+ },
+ "validated_at": "2026-11-23T18:21:23+01:00",
+ "validator_version": "8.0.1"
+}

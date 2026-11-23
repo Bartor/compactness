@@ -1,0 +1,127 @@
+{
+ "a_all_intersecting": {
+  "area_km2": 2877.0,
+  "ghsl_pop": 2363791,
+  "gminas": 46,
+  "lau_pop_2021": 2368000.0,
+  "nsp_pop": 2258716
+ },
+ "a_minus_b_km2": 403.8,
+ "a_minus_b_nsp": 46187,
+ "a_selected": {
+  "area_km2": 2592.0,
+  "ghsl_pop": 2150295,
+  "gminas": 39,
+  "lau_pop_2021": 2155000.0,
+  "nsp_pop": 2057054
+ },
+ "all_intersecting_codes": [
+  "PL010F",
+  "PL055F",
+  "PL060F",
+  "PL061F",
+  "PL070F"
+ ],
+ "b_metropolis": {
+  "area_km2": 2551.0,
+  "ghsl_pop": 2221625,
+  "gminas": 41,
+  "lau_pop_2021": 2230000.0,
+  "nsp_pop": 2129249
+ },
+ "b_minus_a_km2": 362.9,
+ "b_minus_a_nsp": 118382,
+ "gminas_in_a_not_in_b": [
+  "Miedźna",
+  "Toszek",
+  "Wielowieś",
+  "Łazy"
+ ],
+ "gminas_in_b_not_in_a": [
+  "Mierzęcice",
+  "Ożarowice",
+  "Siewierz",
+  "Tarnowskie Góry",
+  "Łaziska Górne",
+  "Świerklaniec"
+ ],
+ "intersecting_fuas": [
+  {
+   "area_share_inside": 0.9986,
+   "code": "PL010F",
+   "fua_area_km2": 922.1,
+   "ghsl_pop_fua": 1341890,
+   "ghsl_pop_inside": 1341781,
+   "ghsl_share_inside": 0.9999,
+   "inside_area_km2": 920.8,
+   "name": "FUA KATOWICE CHORZÓW MYSŁOWICE SIEMIANOWICE ŚL ŚWIĘTOCHŁOWICE",
+   "nsp_pop_fua": 1289270,
+   "nsp_pop_inside": 1289270,
+   "nsp_share_inside": 1.0,
+   "nsp_share_of_gzm": 0.6055
+  },
+  {
+   "area_share_inside": 0.7874,
+   "code": "PL055F",
+   "fua_area_km2": 1026.0,
+   "ghsl_pop_fua": 474875,
+   "ghsl_pop_inside": 460385,
+   "ghsl_share_inside": 0.9695,
+   "inside_area_km2": 807.7,
+   "name": "FUA Gliwice / Zabrze",
+   "nsp_pop_fua": 446773,
+   "nsp_pop_inside": 432236,
+   "nsp_share_inside": 0.9675,
+   "nsp_share_of_gzm": 0.203
+  },
+  {
+   "area_share_inside": 0.0003356,
+   "code": "PL060F",
+   "fua_area_km2": 284.4,
+   "ghsl_pop_fua": 213496,
+   "ghsl_pop_inside": 1,
+   "ghsl_share_inside": 3.438e-06,
+   "inside_area_km2": 0.09546,
+   "name": "FUA Rybnik",
+   "nsp_pop_fua": 201662,
+   "nsp_pop_inside": 0,
+   "nsp_share_inside": 0.0,
+   "nsp_share_of_gzm": 0.0
+  },
+  {
+   "area_share_inside": 0.8199,
+   "code": "PL061F",
+   "fua_area_km2": 286.6,
+   "ghsl_pop_fua": 191982,
+   "ghsl_pop_inside": 175636,
+   "ghsl_share_inside": 0.9149,
+   "inside_area_km2": 235.0,
+   "name": "FUA Tychy",
+   "nsp_pop_fua": 185333,
+   "nsp_pop_inside": 169560,
+   "nsp_share_inside": 0.9149,
+   "nsp_share_of_gzm": 0.07963
+  },
+  {
+   "area_share_inside": 0.6288,
+   "code": "PL070F",
+   "fua_area_km2": 357.8,
+   "ghsl_pop_fua": 141548,
+   "ghsl_pop_inside": 125926,
+   "ghsl_share_inside": 0.8896,
+   "inside_area_km2": 225.0,
+   "name": "FUA Dąbrowa Górnicza",
+   "nsp_pop_fua": 135678,
+   "nsp_pop_inside": 119801,
+   "nsp_share_inside": 0.883,
+   "nsp_share_of_gzm": 0.05626
+  }
+ ],
+ "min_share": 0.05,
+ "selected_codes": [
+  "PL010F",
+  "PL055F",
+  "PL061F",
+  "PL070F"
+ ]
+}

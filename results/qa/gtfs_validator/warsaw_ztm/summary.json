@@ -1,0 +1,71 @@
+{
+ "duration_s": 37.7,
+ "feed": "warsaw_ztm",
+ "gtfs_features": [
+  "Shapes",
+  "Frequencies",
+  "Feed Information",
+  "Attributions",
+  "Fares V1",
+  "Route Colors",
+  "Headsigns",
+  "Stops Wheelchair Accessibility",
+  "Trips Wheelchair Accessibility",
+  "Location Types"
+ ],
+ "input_sha256": "81ee0321967e6a26886630085a52da24cad30549c419a382fd0eda0901acc7f8",
+ "notice_types": {
+  "ERROR": 2,
+  "INFO": 2,
+  "WARNING": 4
+ },
+ "notices": [
+  {
+   "code": "decreasing_or_equal_stop_time_distance",
+   "count": 163,
+   "severity": "ERROR"
+  },
+  {
+   "code": "block_trips_with_overlapping_stop_times",
+   "count": 126,
+   "severity": "ERROR"
+  },
+  {
+   "code": "equal_shape_distance_same_coordinates",
+   "count": 69,
+   "severity": "WARNING"
+  },
+  {
+   "code": "missing_recommended_field",
+   "count": 2,
+   "severity": "WARNING"
+  },
+  {
+   "code": "stops_match_shape_out_of_order",
+   "count": 2,
+   "severity": "WARNING"
+  },
+  {
+   "code": "missing_feed_contact_email_and_url",
+   "count": 1,
+   "severity": "WARNING"
+  },
+  {
+   "code": "trip_headsign_matches_intermediate_stop",
+   "count": 6742,
+   "severity": "INFO"
+  },
+  {
+   "code": "unknown_column",
+   "count": 8,
+   "severity": "INFO"
+  }
+ ],
+ "totals": {
+  "ERROR": 289,
+  "INFO": 6750,
+  "WARNING": 74
+ },
+ "validated_at": "2026-11-23T18:19:58+01:00",
+ "validator_version": "8.0.1"
+}

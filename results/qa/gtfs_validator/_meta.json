@@ -1,0 +1,70 @@
+{
+ "duration_s": 6.9,
+ "git_sha": "",
+ "inputs": {
+  "gtfs_gdansk": {
+   "data_date": "20261123/20261207",
+   "downloaded_at": "2026-11-23T18:19:06+01:00",
+   "sha256": "3785bc1d9c34a574f6f46c63b78ff99f9800503476b2ddccf3cb09012c097ede"
+  },
+  "gtfs_gdynia": {
+   "data_date": "20261123/20270129",
+   "downloaded_at": "2026-11-23T18:19:08+01:00",
+   "sha256": "eed56d66771d771c2f6a7859b9073dfc15cf97972696054cc00102b2b2f2bee3"
+  },
+  "gtfs_gzm": {
+   "data_date": "20261108/20261128",
+   "downloaded_at": "2026-11-23T18:19:11+01:00",
+   "sha256": "a726687dbdfbf53b1d3595adbadcabf9965755edb054aefaba9aaea5f9ceb884"
+  },
+  "gtfs_krakow_bus": {
+   "data_date": "20261114/20280131",
+   "downloaded_at": "2026-11-23T18:18:57+01:00",
+   "sha256": "c5465c49546f41df7ca2a7d18d613fb531793fbd0c7b0529482305a3dcb03e73"
+  },
+  "gtfs_krakow_mobilis": {
+   "data_date": "20261118/20280131",
+   "downloaded_at": "2026-11-23T18:36:52+01:00",
+   "sha256": "b06e601f95da7a5490d8b76b2a5bbbd63571de9f5d5e575131cdf31d8c0e8da9"
+  },
+  "gtfs_krakow_tram": {
+   "data_date": "20261121/20270219",
+   "downloaded_at": "2026-11-23T18:18:58+01:00",
+   "sha256": "f84c4655e16054b865dc4f3d5e331242ecc0423af5c2fba4ac097ffc6cb0e160"
+  },
+  "gtfs_lodz": {
+   "data_date": "20261122/20261231",
+   "downloaded_at": "2026-11-23T18:19:04+01:00",
+   "sha256": "154ff4694541f86e22bbc73be9e062e5ac123647049af13b1899e566d30e0b87"
+  },
+  "gtfs_polish_trains": {
+   "data_date": "20261121/20261223",
+   "downloaded_at": "2026-11-23T18:19:13+01:00",
+   "sha256": "02e231b63a485494b4af9cad8f1239f485a3a603401f3482bbd4b7876139801a"
+  },
+  "gtfs_poznan": {
+   "data_date": "20261124/20261205",
+   "downloaded_at": "2026-11-23T18:19:02+01:00",
+   "sha256": "2914536ca1745409a1f2c1b81adff698cf3bb16abb3c15384e8fb64df6b12575"
+  },
+  "gtfs_warsaw_wkd": {
+   "data_date": "20251214/20261212",
+   "downloaded_at": "2026-11-23T18:18:55+01:00",
+   "sha256": "28b0de340f083a6535fdf2322088e52c670381a10d89fd2adcef5759130b0264"
+  },
+  "gtfs_warsaw_ztm": {
+   "data_date": "20261123/20261223",
+   "downloaded_at": "2026-11-23T18:18:52+01:00",
+   "sha256": "81ee0321967e6a26886630085a52da24cad30549c419a382fd0eda0901acc7f8"
+  },
+  "gtfs_wroclaw": {
+   "data_date": "20261123/20261206",
+   "downloaded_at": "2026-11-23T18:24:42+01:00",
+   "sha256": "774d854ca158219e04a42c1ed03899884ec96b382763abd273c85b9bde6d34e1"
+  }
+ },
+ "missing_inputs": [],
+ "run_at": "2026-11-23T18:37:09+01:00",
+ "step": "gtfs_validator",
+ "validator_jar": "gtfs-validator-8.0.1-cli.jar"
+}

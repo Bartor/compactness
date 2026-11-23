@@ -1,0 +1,14 @@
+{
+ "common_candidate_days": [
+  "2026-11-24",
+  "2026-11-25"
+ ],
+ "common_candidate_saturdays": [
+  "2026-11-28"
+ ],
+ "common_reference_day": true,
+ "common_reference_saturday": true,
+ "per_feed_fallback": {},
+ "reference_day": "2026-11-25",
+ "reference_saturday": "2026-11-28"
+}

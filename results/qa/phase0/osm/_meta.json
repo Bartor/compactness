@@ -1,0 +1,23 @@
+{
+ "agglomeration_polygons": "wielokąty FUA z URAU 2021 (GISCO, `data/raw/boundaries`), bo `results/web/fua.geojson` jeszcze nie istniało w chwili uruchomienia; zamiast prostokątów użyto więc prawdziwych granic FUA (Trójmiasto = FUA Gdańsk PL006F, GZM = FUA Katowice PL010F; wariant GZM do decyzji)",
+ "dedup_radius_m": 15.0,
+ "duration_s": 5.3,
+ "git_sha": "",
+ "inputs": {
+  "osm_aux_nuts2_2021": {
+   "data_date": "2021",
+   "downloaded_at": "2026-11-23T18:22:49+01:00",
+   "sha256": "eec92d24c062b83b3c0eb8f739f78683013f70bf4a848833ded82102f7a057bd"
+  },
+  "osm_poland_pbf": {
+   "data_date": "2026-11-22T21:20:48Z",
+   "downloaded_at": "2026-11-23T18:50:02+01:00",
+   "sha256": "8c6264a60df1a1a66b4ca3d68dd3f07c3be26237c86b97bff1aa5d3bb566dc1f"
+  }
+ },
+ "missing_inputs": [],
+ "n_dedup": 152028,
+ "n_raw": 184635,
+ "run_at": "2026-11-23T18:53:34+01:00",
+ "step": "osm_stops_report"
+}

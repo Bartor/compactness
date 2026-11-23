@@ -1,0 +1,86 @@
+{
+ "duration_s": 7.7,
+ "feed": "krakow_tram",
+ "gtfs_features": [
+  "Shapes",
+  "Feed Information",
+  "Headsigns",
+  "Trips Wheelchair Accessibility",
+  "Location Types"
+ ],
+ "input_sha256": "f84c4655e16054b865dc4f3d5e331242ecc0423af5c2fba4ac097ffc6cb0e160",
+ "notice_types": {
+  "ERROR": 0,
+  "INFO": 4,
+  "WARNING": 8
+ },
+ "notices": [
+  {
+   "code": "unused_shape",
+   "count": 308,
+   "severity": "WARNING"
+  },
+  {
+   "code": "route_long_name_contains_short_name",
+   "count": 25,
+   "severity": "WARNING"
+  },
+  {
+   "code": "unexpected_enum_value",
+   "count": 25,
+   "severity": "WARNING"
+  },
+  {
+   "code": "service_has_no_active_day_of_the_week",
+   "count": 5,
+   "severity": "WARNING"
+  },
+  {
+   "code": "mixed_case_recommended_field",
+   "count": 4,
+   "severity": "WARNING"
+  },
+  {
+   "code": "missing_recommended_field",
+   "count": 2,
+   "severity": "WARNING"
+  },
+  {
+   "code": "stop_without_stop_time",
+   "count": 2,
+   "severity": "WARNING"
+  },
+  {
+   "code": "missing_feed_contact_email_and_url",
+   "count": 1,
+   "severity": "WARNING"
+  },
+  {
+   "code": "trip_with_shape_dist_traveled_but_no_shape_distances",
+   "count": 15321,
+   "severity": "INFO"
+  },
+  {
+   "code": "trip_headsign_matches_intermediate_stop",
+   "count": 1044,
+   "severity": "INFO"
+  },
+  {
+   "code": "big_gap_in_service",
+   "count": 1,
+   "severity": "INFO"
+  },
+  {
+   "code": "unknown_file",
+   "count": 1,
+   "severity": "INFO"
+  }
+ ],
+ "totals": {
+  "ERROR": 0,
+  "INFO": 16367,
+  "WARNING": 372
+ },
+ "validated_at": "2026-11-23T18:20:22+01:00",
+ "validator_version": "8.0.1"
+}

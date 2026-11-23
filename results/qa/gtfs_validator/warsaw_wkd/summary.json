@@ -1,0 +1,49 @@
+{
+ "duration_s": 3.8,
+ "feed": "warsaw_wkd",
+ "gtfs_features": [
+  "Shapes",
+  "Feed Information",
+  "Fares V1",
+  "Route Colors",
+  "Headsigns",
+  "Stops Wheelchair Accessibility",
+  "Trips Wheelchair Accessibility",
+  "Bike Allowed"
+ ],
+ "input_sha256": "28b0de340f083a6535fdf2322088e52c670381a10d89fd2adcef5759130b0264",
+ "notice_types": {
+  "ERROR": 0,
+  "INFO": 0,
+  "WARNING": 4
+ },
+ "notices": [
+  {
+   "code": "missing_recommended_field",
+   "count": 2,
+   "severity": "WARNING"
+  },
+  {
+   "code": "missing_feed_contact_email_and_url",
+   "count": 1,
+   "severity": "WARNING"
+  },
+  {
+   "code": "mixed_case_recommended_field",
+   "count": 1,
+   "severity": "WARNING"
+  },
+  {
+   "code": "trip_coverage_not_active_for_next7_days",
+   "count": 1,
+   "severity": "WARNING"
+  }
+ ],
+ "totals": {
+  "ERROR": 0,
+  "INFO": 0,
+  "WARNING": 5
+ },
+ "validated_at": "2026-11-23T18:20:02+01:00",
+ "validator_version": "8.0.1"
+}

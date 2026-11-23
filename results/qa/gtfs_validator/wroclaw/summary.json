@@ -1,0 +1,64 @@
+{
+ "duration_s": 9.8,
+ "feed": "wroclaw",
+ "gtfs_features": [
+  "Shapes",
+  "Feed Information",
+  "Headsigns"
+ ],
+ "input_sha256": "774d854ca158219e04a42c1ed03899884ec96b382763abd273c85b9bde6d34e1",
+ "notice_types": {
+  "ERROR": 0,
+  "INFO": 3,
+  "WARNING": 5
+ },
+ "notices": [
+  {
+   "code": "mixed_case_recommended_field",
+   "count": 7339,
+   "severity": "WARNING"
+  },
+  {
+   "code": "leading_or_trailing_whitespaces",
+   "count": 3,
+   "severity": "WARNING"
+  },
+  {
+   "code": "feed_expiration_date30_days",
+   "count": 1,
+   "severity": "WARNING"
+  },
+  {
+   "code": "missing_feed_contact_email_and_url",
+   "count": 1,
+   "severity": "WARNING"
+  },
+  {
+   "code": "missing_recommended_field",
+   "count": 1,
+   "severity": "WARNING"
+  },
+  {
+   "code": "trip_headsign_matches_intermediate_stop",
+   "count": 1107,
+   "severity": "INFO"
+  },
+  {
+   "code": "unknown_column",
+   "count": 6,
+   "severity": "INFO"
+  },
+  {
+   "code": "unknown_file",
+   "count": 5,
+   "severity": "INFO"
+  }
+ ],
+ "totals": {
+  "ERROR": 0,
+  "INFO": 1118,
+  "WARNING": 7345
+ },
+ "validated_at": "2026-11-23T18:24:55+01:00",
+ "validator_version": "8.0.1"
+}

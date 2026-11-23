@@ -1,0 +1,275 @@
+{
+ "agglomerations": [
+  {
+   "bbox": [
+    22.46907,
+    52.89092,
+    23.94627,
+    53.59141
+   ],
+   "centre": [
+    23.1589,
+    53.1325
+   ],
+   "id": "bialystok",
+   "name": "Białystok",
+   "note": "",
+   "phase": 2
+  },
+  {
+   "bbox": [
+    17.50689,
+    52.83046,
+    19.09493,
+    53.47002
+   ],
+   "centre": [
+    18.0003,
+    53.122
+   ],
+   "id": "bydgoszcz_torun",
+   "name": "Bydgoszcz–Toruń",
+   "note": "Dwa ośrodki: granica to suma FUA Bydgoszczy i Torunia.",
+   "phase": 2
+  },
+  {
+   "bbox": [
+    18.35774,
+    49.95093,
+    19.51951,
+    50.55271
+   ],
+   "centre": [
+    19.0216,
+    50.2594
+   ],
+   "id": "gzm",
+   "name": "GZM",
+   "note": "Konurbacja policentryczna (Eurostat: kilka FUA), więc miary względem jednego centrum wymagają zastrzeżenia. Granica jest tymczasowa: pokazano sumę FUA przecinających Metropolię GZM; wariant docelowy (suma FUA czy 41 gmin Metropolii) czeka na decyzję.",
+   "phase": 1
+  },
+  {
+   "bbox": [
+    20.0924,
+    50.55909,
+    21.17404,
+    51.06664
+   ],
+   "centre": [
+    20.6335,
+    50.8703
+   ],
+   "id": "kielce",
+   "name": "Kielce",
+   "note": "",
+   "phase": 2
+  },
+  {
+   "bbox": [
+    19.46185,
+    49.78086,
+    20.68173,
+    50.42753
+   ],
+   "centre": [
+    19.9373,
+    50.0617
+   ],
+   "id": "krakow",
+   "name": "Kraków",
+   "note": "",
+   "phase": 1
+  },
+  {
+   "bbox": [
+    18.99889,
+    51.50771,
+    19.98302,
+    52.03642
+   ],
+   "centre": [
+    19.4547,
+    51.7769
+   ],
+   "id": "lodz",
+   "name": "Łódź",
+   "note": "",
+   "phase": 1
+  },
+  {
+   "bbox": [
+    22.11961,
+    50.75513,
+    23.07109,
+    51.5452
+   ],
+   "centre": [
+    22.56,
+    51.2481
+   ],
+   "id": "lublin",
+   "name": "Lublin",
+   "note": "",
+   "phase": 2
+  },
+  {
+   "bbox": [
+    16.54173,
+    52.15161,
+    17.53323,
+    52.68066
+   ],
+   "centre": [
+    16.9342,
+    52.4083
+   ],
+   "id": "poznan",
+   "name": "Poznań",
+   "note": "",
+   "phase": 1
+  },
+  {
+   "bbox": [
+    21.61251,
+    49.74458,
+    22.38413,
+    50.3009
+   ],
+   "centre": [
+    22.005,
+    50.0375
+   ],
+   "id": "rzeszow",
+   "name": "Rzeszów",
+   "note": "",
+   "phase": 2
+  },
+  {
+   "bbox": [
+    14.29459,
+    53.13464,
+    14.98896,
+    53.67006
+   ],
+   "centre": [
+    14.5494,
+    53.425
+   ],
+   "id": "szczecin",
+   "name": "Szczecin",
+   "note": "",
+   "phase": 2
+  },
+  {
+   "bbox": [
+    18.0948,
+    54.10332,
+    19.21247,
+    54.65538
+   ],
+   "centre": [
+    18.644,
+    54.3556
+   ],
+   "id": "trojmiasto",
+   "name": "Trójmiasto",
+   "note": "Miasto liniowe i nadmorskie (Gdańsk, Sopot, Gdynia): miary względem jednego centrum wymagają zastrzeżenia. Eurostat wydziela dwie FUA (Gdańsk z Sopotem oraz Gdynia); granica to ich suma, rdzeń to trzy miasta.",
+   "phase": 1
+  },
+  {
+   "bbox": [
+    19.97757,
+    51.61205,
+    22.1635,
+    52.83397
+   ],
+   "centre": [
+    21.0118,
+    52.2297
+   ],
+   "id": "warszawa",
+   "name": "Warszawa",
+   "note": "",
+   "phase": 1
+  },
+  {
+   "bbox": [
+    16.56609,
+    50.79394,
+    17.61407,
+    51.58102
+   ],
+   "centre": [
+    17.032,
+    51.11
+   ],
+   "id": "wroclaw",
+   "name": "Wrocław",
+   "note": "",
+   "phase": 1
+  }
+ ],
+ "generated": "2026-11-23",
+ "layers": [
+  {
+   "attribution": "© EuroGeographics / Eurostat GISCO, Urban Audit 2021",
+   "id": "fua",
+   "kind": "boundary",
+   "note": "Granice uproszczone (tolerancja ok. 100 m). GZM: wariant tymczasowy (suma FUA).",
+   "population_date": null,
+   "status": "ready",
+   "timetable_date": null,
+   "title": "Granice FUA i rdzeni",
+   "type": "geojson",
+   "url": "data/fua.geojson"
+  },
+  {
+   "attribution": "",
+   "id": "density_250m",
+   "kind": "density",
+   "note": "",
+   "population_date": null,
+   "status": "planned",
+   "timetable_date": null,
+   "title": "Gęstość zaludnienia 250 m (GHSL 2020)",
+   "type": "pmtiles",
+   "url": null
+  },
+  {
+   "attribution": "",
+   "id": "frequent_transport",
+   "kind": "access",
+   "note": "",
+   "population_date": null,
+   "status": "planned",
+   "timetable_date": null,
+   "title": "Zasięg częstej komunikacji",
+   "type": "pmtiles",
+   "url": null
+  },
+  {
+   "attribution": "",
+   "id": "transport_performance_30",
+   "kind": "access",
+   "note": "",
+   "population_date": null,
+   "status": "planned",
+   "timetable_date": null,
+   "title": "Transport performance 30 min",
+   "type": "pmtiles",
+   "url": null
+  },
+  {
+   "attribution": "",
+   "id": "gtfs_nodata",
+   "kind": "mask",
+   "note": "",
+   "population_date": null,
+   "status": "planned",
+   "timetable_date": null,
+   "title": "Maska braku danych GTFS",
+   "type": "pmtiles",
+   "url": null
+  }
+ ]
+}

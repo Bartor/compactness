@@ -1,0 +1,80 @@
+{
+ "duration_s": 12.9,
+ "feed": "polish_trains",
+ "gtfs_features": [
+  "Transfers",
+  "Shapes",
+  "Feed Information",
+  "Attributions",
+  "Route Colors",
+  "Headsigns",
+  "Stops Wheelchair Accessibility",
+  "Location Types",
+  "Stop Access"
+ ],
+ "input_sha256": "02e231b63a485494b4af9cad8f1239f485a3a603401f3482bbd4b7876139801a",
+ "notice_types": {
+  "ERROR": 1,
+  "INFO": 2,
+  "WARNING": 7
+ },
+ "notices": [
+  {
+   "code": "stop_time_with_arrival_before_previous_departure_time",
+   "count": 1,
+   "severity": "ERROR"
+  },
+  {
+   "code": "stop_without_stop_time",
+   "count": 2526,
+   "severity": "WARNING"
+  },
+  {
+   "code": "mixed_case_recommended_field",
+   "count": 146,
+   "severity": "WARNING"
+  },
+  {
+   "code": "fast_travel_between_consecutive_stops",
+   "count": 74,
+   "severity": "WARNING"
+  },
+  {
+   "code": "fast_travel_between_far_stops",
+   "count": 38,
+   "severity": "WARNING"
+  },
+  {
+   "code": "missing_feed_contact_email_and_url",
+   "count": 1,
+   "severity": "WARNING"
+  },
+  {
+   "code": "route_long_name_contains_short_name",
+   "count": 1,
+   "severity": "WARNING"
+  },
+  {
+   "code": "route_short_name_too_long",
+   "count": 1,
+   "severity": "WARNING"
+  },
+  {
+   "code": "service_window_outside_feed_period",
+   "count": 105,
+   "severity": "INFO"
+  },
+  {
+   "code": "unknown_column",
+   "count": 11,
+   "severity": "INFO"
+  }
+ ],
+ "totals": {
+  "ERROR": 1,
+  "INFO": 116,
+  "WARNING": 2787
+ },
+ "validated_at": "2026-11-23T18:21:35+01:00",
+ "validator_version": "8.0.1"
+}

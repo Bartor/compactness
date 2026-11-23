@@ -1,0 +1,13 @@
+feed,validator_version,errors,warnings,infos,top_error_codes,top_warning_codes
+gdansk,8.0.1,0,103,0,,unexpected_enum_value(93); stop_without_stop_time(5); missing_recommended_field(2)
+gdynia,8.0.1,0,2773,9555,,unused_shape(2606); unexpected_enum_value(93); non_ascii_or_non_printable_char(73)
+gzm,8.0.1,28962,5426,66424,block_trips_with_overlapping_stop_times(20600); decreasing_or_equal_stop_time_distance(8353); duplicate_key(9),fast_travel_between_consecutive_stops(4106); mixed_case_recommended_field(512); fast_travel_between_far_stops(264)
+krakow_bus,8.0.1,0,193,65,,route_long_name_contains_short_name(161); stop_too_far_from_shape(13); service_has_no_active_day_of_the_week(8)
+krakow_mobilis,8.0.1,0,50,14496,,route_long_name_contains_short_name(33); service_has_no_active_day_of_the_week(8); stop_too_far_from_shape(4)
+krakow_tram,8.0.1,0,372,16367,,unused_shape(308); route_long_name_contains_short_name(25); unexpected_enum_value(25)
+lodz,8.0.1,64,22698,130,foreign_key_violation(61); point_near_origin(2); block_trips_with_overlapping_stop_times(1),mixed_case_recommended_field(18269); fast_travel_between_consecutive_stops(2279); fast_travel_between_far_stops(1633)
+polish_trains,8.0.1,1,2787,116,stop_time_with_arrival_before_previous_departure_time(1),stop_without_stop_time(2526); mixed_case_recommended_field(146); fast_travel_between_consecutive_stops(74)
+poznan,8.0.1,0,3422,1670,,leading_or_trailing_whitespaces(2603); non_ascii_or_non_printable_char(585); mixed_case_recommended_field(220)
+warsaw_wkd,8.0.1,0,5,0,,missing_recommended_field(2); missing_feed_contact_email_and_url(1); mixed_case_recommended_field(1)
+warsaw_ztm,8.0.1,289,74,6750,decreasing_or_equal_stop_time_distance(163); block_trips_with_overlapping_stop_times(126),equal_shape_distance_same_coordinates(69); missing_recommended_field(2); stops_match_shape_out_of_order(2)
+wroclaw,8.0.1,0,7345,1118,,mixed_case_recommended_field(7339); leading_or_trailing_whitespaces(3); feed_expiration_date30_days(1)

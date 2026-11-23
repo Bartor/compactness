@@ -1,0 +1,59 @@
+{
+ "duration_s": 12.5,
+ "feed": "krakow_bus",
+ "gtfs_features": [
+  "Shapes",
+  "Feed Information",
+  "Route Colors",
+  "Headsigns",
+  "Stops Wheelchair Accessibility",
+  "Trips Wheelchair Accessibility",
+  "Bike Allowed",
+  "Location Types"
+ ],
+ "input_sha256": "c5465c49546f41df7ca2a7d18d613fb531793fbd0c7b0529482305a3dcb03e73",
+ "notice_types": {
+  "ERROR": 0,
+  "INFO": 1,
+  "WARNING": 5
+ },
+ "notices": [
+  {
+   "code": "route_long_name_contains_short_name",
+   "count": 161,
+   "severity": "WARNING"
+  },
+  {
+   "code": "stop_too_far_from_shape",
+   "count": 13,
+   "severity": "WARNING"
+  },
+  {
+   "code": "service_has_no_active_day_of_the_week",
+   "count": 8,
+   "severity": "WARNING"
+  },
+  {
+   "code": "mixed_case_recommended_field",
+   "count": 6,
+   "severity": "WARNING"
+  },
+  {
+   "code": "expired_calendar",
+   "count": 5,
+   "severity": "WARNING"
+  },
+  {
+   "code": "trip_headsign_matches_intermediate_stop",
+   "count": 65,
+   "severity": "INFO"
+  }
+ ],
+ "totals": {
+  "ERROR": 0,
+  "INFO": 65,
+  "WARNING": 193
+ },
+ "validated_at": "2026-11-23T18:20:15+01:00",
+ "validator_version": "8.0.1"
+}

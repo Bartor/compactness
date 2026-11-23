@@ -1,0 +1,216 @@
+{
+ "duration_s": 34.4,
+ "feeds": {
+  "gzm": [
+   "gzm",
+   "polish_trains"
+  ],
+  "krakow": [
+   "krakow_bus",
+   "krakow_mobilis",
+   "krakow_tram",
+   "polish_trains"
+  ],
+  "lodz": [
+   "lodz",
+   "polish_trains"
+  ],
+  "poznan": [
+   "polish_trains",
+   "poznan"
+  ],
+  "trojmiasto": [
+   "gdansk",
+   "gdynia",
+   "polish_trains"
+  ],
+  "warszawa": [
+   "polish_trains",
+   "warsaw_wkd",
+   "warsaw_ztm"
+  ],
+  "wroclaw": [
+   "polish_trains",
+   "wroclaw"
+  ]
+ },
+ "git_sha": "",
+ "gzm_boundary_variant": "fua_union",
+ "inputs": {
+  "gtfs_gdansk": {
+   "data_date": "20261123/20261207",
+   "downloaded_at": "2026-11-23T18:19:06+01:00",
+   "sha256": "3785bc1d9c34a574f6f46c63b78ff99f9800503476b2ddccf3cb09012c097ede"
+  },
+  "gtfs_gdynia": {
+   "data_date": "20261123/20270129",
+   "downloaded_at": "2026-11-23T18:19:08+01:00",
+   "sha256": "eed56d66771d771c2f6a7859b9073dfc15cf97972696054cc00102b2b2f2bee3"
+  },
+  "gtfs_gzm": {
+   "data_date": "20261108/20261128",
+   "downloaded_at": "2026-11-23T18:19:11+01:00",
+   "sha256": "a726687dbdfbf53b1d3595adbadcabf9965755edb054aefaba9aaea5f9ceb884"
+  },
+  "gtfs_krakow_bus": {
+   "data_date": "20261114/20280131",
+   "downloaded_at": "2026-11-23T18:18:57+01:00",
+   "sha256": "c5465c49546f41df7ca2a7d18d613fb531793fbd0c7b0529482305a3dcb03e73"
+  },
+  "gtfs_krakow_mobilis": {
+   "data_date": "20261118/20280131",
+   "downloaded_at": "2026-11-23T18:36:52+01:00",
+   "sha256": "b06e601f95da7a5490d8b76b2a5bbbd63571de9f5d5e575131cdf31d8c0e8da9"
+  },
+  "gtfs_krakow_tram": {
+   "data_date": "20261121/20270219",
+   "downloaded_at": "2026-11-23T18:18:58+01:00",
+   "sha256": "f84c4655e16054b865dc4f3d5e331242ecc0423af5c2fba4ac097ffc6cb0e160"
+  },
+  "gtfs_lodz": {
+   "data_date": "20261122/20261231",
+   "downloaded_at": "2026-11-23T18:19:04+01:00",
+   "sha256": "154ff4694541f86e22bbc73be9e062e5ac123647049af13b1899e566d30e0b87"
+  },
+  "gtfs_polish_trains": {
+   "data_date": "20261121/20261223",
+   "downloaded_at": "2026-11-23T18:19:13+01:00",
+   "sha256": "02e231b63a485494b4af9cad8f1239f485a3a603401f3482bbd4b7876139801a"
+  },
+  "gtfs_poznan": {
+   "data_date": "20261124/20261205",
+   "downloaded_at": "2026-11-23T18:19:02+01:00",
+   "sha256": "2914536ca1745409a1f2c1b81adff698cf3bb16abb3c15384e8fb64df6b12575"
+  },
+  "gtfs_warsaw_wkd": {
+   "data_date": "20251214/20261212",
+   "downloaded_at": "2026-11-23T18:18:55+01:00",
+   "sha256": "28b0de340f083a6535fdf2322088e52c670381a10d89fd2adcef5759130b0264"
+  },
+  "gtfs_warsaw_ztm": {
+   "data_date": "20261123/20261223",
+   "downloaded_at": "2026-11-23T18:18:52+01:00",
+   "sha256": "81ee0321967e6a26886630085a52da24cad30549c419a382fd0eda0901acc7f8"
+  },
+  "gtfs_wroclaw": {
+   "data_date": "20261123/20261206",
+   "downloaded_at": "2026-11-23T18:24:42+01:00",
+   "sha256": "774d854ca158219e04a42c1ed03899884ec96b382763abd273c85b9bde6d34e1"
+  },
+  "lau_2021_01m": {
+   "data_date": "2021",
+   "downloaded_at": "2026-11-23T18:15:37+01:00",
+   "sha256": "3d7199c0b88040785d609dcf69ade80cf0843941b6deff4aa714a442c72f2dd6"
+  },
+  "nsp2021_grid_1km_shp": {
+   "data_date": "2021-03-31",
+   "downloaded_at": "2026-11-23T18:16:58+01:00",
+   "sha256": "815deb0fb369df11de0ff150dd14ce87fd875acf3d542da8d2db1dafc0791680"
+  },
+  "osm_poland_pbf": {
+   "data_date": "2026-11-22T21:20:48Z",
+   "downloaded_at": "2026-11-23T18:50:02+01:00",
+   "sha256": "8c6264a60df1a1a66b4ca3d68dd3f07c3be26237c86b97bff1aa5d3bb566dc1f"
+  },
+  "urau_2021_100k_all": {
+   "data_date": "2021",
+   "downloaded_at": "2026-11-23T18:15:32+01:00",
+   "sha256": "9f64bf0689875be1f64ecb742e370dd7987804ddbb63df5ac6e8860516ef7de3"
+  }
+ },
+ "missing_inputs": [],
+ "name_radius_m": {
+  "other": 200,
+  "rail": 500
+ },
+ "osm_rail_cleanup": {
+  "gzm": {
+   "rail_heritage_excluded": 3,
+   "rail_heritage_names": [
+    "Bytom Karb Wąskotorowy",
+    "Bytom Wąskotorowy",
+    "Stanica Wąskotorowa"
+   ],
+   "rail_platforms_absorbed": 124,
+   "rail_platforms_orphan_to_unknown": 56
+  },
+  "krakow": {
+   "rail_heritage_excluded": 4,
+   "rail_heritage_names": [
+    "(bez nazwy)",
+    "Nieporaz Oblaszki",
+    "Nieporaz Puszcza Dulowska",
+    "Winnica"
+   ],
+   "rail_platforms_absorbed": 117,
+   "rail_platforms_orphan_to_unknown": 27
+  },
+  "lodz": {
+   "rail_heritage_excluded": 2,
+   "rail_heritage_names": [
+    "Rogów Osobowy Wąskotorowy",
+    "Rogów Towarowy Wąskotorowy"
+   ],
+   "rail_platforms_absorbed": 79,
+   "rail_platforms_orphan_to_unknown": 42
+  },
+  "poznan": {
+   "rail_heritage_excluded": 7,
+   "rail_heritage_names": [
+    "(bez nazwy)",
+    "Balbinka",
+    "Maltanka",
+    "Mosina Pożegowo",
+    "Osowa Góra",
+    "Ptyś",
+    "Zwierzyniec"
+   ],
+   "rail_platforms_absorbed": 96,
+   "rail_platforms_orphan_to_unknown": 24
+  },
+  "trojmiasto": {
+   "rail_heritage_excluded": 16,
+   "rail_heritage_names": [
+    "Jantar",
+    "Jantar Leśniczówka",
+    "Jantar Port",
+    "Mikoszewo",
+    "Popowo",
+    "Prawy Brzeg Wisły",
+    "Rybina",
+    "Stacja dolna",
+    "Stacja górna",
+    "Stegna Gdańska",
+    "Stegna Morska",
+    "Stegna PKS",
+    "Tujsk",
+    "peron 1",
+    "peron 2",
+    "peron 3"
+   ],
+   "rail_platforms_absorbed": 97,
+   "rail_platforms_orphan_to_unknown": 7
+  },
+  "warszawa": {
+   "rail_heritage_excluded": 3,
+   "rail_heritage_names": [
+    "(bez nazwy)",
+    "Piaseczno Miasto Wąskotorowe",
+    "Tarczyn Wąskotorowy"
+   ],
+   "rail_platforms_absorbed": 306,
+   "rail_platforms_orphan_to_unknown": 12
+  },
+  "wroclaw": {
+   "rail_heritage_excluded": 0,
+   "rail_heritage_names": [],
+   "rail_platforms_absorbed": 117,
+   "rail_platforms_orphan_to_unknown": 2
+  }
+ },
+ "radius_bus_m": 50,
+ "radius_rail_m": 200,
+ "reference_day": "2026-11-25",
+ "run_at": "2026-11-23T19:13:02+01:00",
+ "step": "stop_coverage"
+}

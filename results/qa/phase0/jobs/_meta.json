@@ -1,0 +1,42 @@
+{
+ "duration_s": 18.2,
+ "git_sha": "",
+ "grid_check_jobs": {
+  "max_cell_area_m2": 30000.0,
+  "multipart_share": 0.02479,
+  "share_full_cells_10000m2_in_mollweide": 0.8573,
+  "share_partial_cells": 0.1117,
+  "vertices_on_100m_multiples_x": 0.8955,
+  "vertices_on_100m_multiples_y": 0.8759
+ },
+ "grid_check_workers": {
+  "max_cell_area_m2": 50000.0,
+  "multipart_share": 0.02191,
+  "share_full_cells_10000m2_in_mollweide": 0.8345,
+  "share_partial_cells": 0.1283,
+  "vertices_on_100m_multiples_x": 0.8945,
+  "vertices_on_100m_multiples_y": 0.8767
+ },
+ "inputs": {
+  "jobs_Jobs_2025_7_Cities.gpkg": {
+   "data_date": "2026-09-29",
+   "downloaded_at": "2026-11-23T18:15:40+01:00",
+   "sha256": "47988bda976fcc04ef1693f8a21df324f41b2e12d4bdd2e3beb78cc8f862f355"
+  },
+  "jobs_Workers_2025_7_Cities.gpkg": {
+   "data_date": "2026-09-29",
+   "downloaded_at": "2026-11-23T18:15:42+01:00",
+   "sha256": "e40762560c0ed98c14e8927aeb676fc85e94481231d3b1f30e3e50a493063500"
+  },
+  "jobs_dataset_metadata": {
+   "data_date": "2026-09-29",
+   "downloaded_at": "2026-11-23T18:15:42+01:00",
+   "sha256": "abbfa11ac2d01d149b9c3b32a8ef3bbd71c2ac1b1fef086cc7beb4525c58f556"
+  }
+ },
+ "missing_inputs": [],
+ "outside_threshold": 0.1,
+ "reference_polygons": "URAU 2021 (GISCO), pliki w data/raw/boundaries: miasto (C) i FUA (F); results/web/fua.geojson jeszcze nie istnieje",
+ "run_at": "2026-11-23T18:53:54+01:00",
+ "step": "jobs_inventory"
+}
