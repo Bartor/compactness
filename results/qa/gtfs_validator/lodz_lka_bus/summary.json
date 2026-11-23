@@ -1,0 +1,51 @@
+{
+ "duration_s": 2.7,
+ "feed": "lodz_lka_bus",
+ "gtfs_features": [
+  "Feed Information",
+  "Attributions",
+  "Route Colors",
+  "Headsigns",
+  "Location Types"
+ ],
+ "input_sha256": "314fa1a2f90b9dc3debfd70ff1ceb648cfa39ece4af96bd2551da730868660fb",
+ "notice_types": {
+  "ERROR": 0,
+  "INFO": 1,
+  "WARNING": 4
+ },
+ "notices": [
+  {
+   "code": "mixed_case_recommended_field",
+   "count": 16,
+   "severity": "WARNING"
+  },
+  {
+   "code": "missing_recommended_field",
+   "count": 2,
+   "severity": "WARNING"
+  },
+  {
+   "code": "route_color_contrast",
+   "count": 2,
+   "severity": "WARNING"
+  },
+  {
+   "code": "missing_feed_contact_email_and_url",
+   "count": 1,
+   "severity": "WARNING"
+  },
+  {
+   "code": "unknown_column",
+   "count": 1,
+   "severity": "INFO"
+  }
+ ],
+ "totals": {
+  "ERROR": 0,
+  "INFO": 1,
+  "WARNING": 21
+ },
+ "validated_at": "2026-11-23T19:33:39+01:00",
+ "validator_version": "8.0.1"
+}

@@ -1,0 +1,47 @@
+{
+ "duration_s": 2.4,
+ "feed": "warsaw_sulejowek",
+ "gtfs_features": [
+  "Shapes",
+  "Feed Information",
+  "Fare Products",
+  "Headsigns",
+  "Trips Wheelchair Accessibility",
+  "Bike Allowed"
+ ],
+ "input_sha256": "c34d5d077aa0fa0073043a0c2ea8a80ae7b3d557bedf88b16367b02295ab15b6",
+ "notice_types": {
+  "ERROR": 0,
+  "INFO": 1,
+  "WARNING": 3
+ },
+ "notices": [
+  {
+   "code": "feed_expiration_date7_days",
+   "count": 1,
+   "severity": "WARNING"
+  },
+  {
+   "code": "missing_feed_contact_email_and_url",
+   "count": 1,
+   "severity": "WARNING"
+  },
+  {
+   "code": "trip_coverage_not_active_for_next7_days",
+   "count": 1,
+   "severity": "WARNING"
+  },
+  {
+   "code": "unknown_column",
+   "count": 2,
+   "severity": "INFO"
+  }
+ ],
+ "totals": {
+  "ERROR": 0,
+  "INFO": 2,
+  "WARNING": 3
+ },
+ "validated_at": "2026-11-23T19:33:11+01:00",
+ "validator_version": "8.0.1"
+}

@@ -1,0 +1,62 @@
+{
+ "duration_s": 2.7,
+ "feed": "warsaw_otwock",
+ "gtfs_features": [
+  "Shapes",
+  "Feed Information",
+  "Fare Products",
+  "Headsigns",
+  "Trips Wheelchair Accessibility",
+  "Bike Allowed"
+ ],
+ "input_sha256": "87804464923c6c681af5902e5835f937479fff186792637671023988972073ef",
+ "notice_types": {
+  "ERROR": 2,
+  "INFO": 2,
+  "WARNING": 3
+ },
+ "notices": [
+  {
+   "code": "duplicate_key",
+   "count": 2,
+   "severity": "ERROR"
+  },
+  {
+   "code": "invalid_phone_number",
+   "count": 1,
+   "severity": "ERROR"
+  },
+  {
+   "code": "duplicate_route_name",
+   "count": 2,
+   "severity": "WARNING"
+  },
+  {
+   "code": "feed_expiration_date30_days",
+   "count": 1,
+   "severity": "WARNING"
+  },
+  {
+   "code": "missing_feed_contact_email_and_url",
+   "count": 1,
+   "severity": "WARNING"
+  },
+  {
+   "code": "trip_headsign_matches_intermediate_stop",
+   "count": 180,
+   "severity": "INFO"
+  },
+  {
+   "code": "unknown_column",
+   "count": 2,
+   "severity": "INFO"
+  }
+ ],
+ "totals": {
+  "ERROR": 3,
+  "INFO": 182,
+  "WARNING": 4
+ },
+ "validated_at": "2026-11-23T19:32:50+01:00",
+ "validator_version": "8.0.1"
+}

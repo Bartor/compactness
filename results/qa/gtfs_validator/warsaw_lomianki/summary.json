@@ -1,0 +1,57 @@
+{
+ "duration_s": 2.6,
+ "feed": "warsaw_lomianki",
+ "gtfs_features": [
+  "Shapes",
+  "Feed Information",
+  "Fare Products",
+  "Headsigns",
+  "Trips Wheelchair Accessibility",
+  "Bike Allowed"
+ ],
+ "input_sha256": "80a5bce17d0d54ee376d87ac5687bc4233277c9c645d9f2397c1708e9f3d7588",
+ "notice_types": {
+  "ERROR": 0,
+  "INFO": 2,
+  "WARNING": 4
+ },
+ "notices": [
+  {
+   "code": "feed_expiration_date7_days",
+   "count": 1,
+   "severity": "WARNING"
+  },
+  {
+   "code": "missing_feed_contact_email_and_url",
+   "count": 1,
+   "severity": "WARNING"
+  },
+  {
+   "code": "mixed_case_recommended_field",
+   "count": 1,
+   "severity": "WARNING"
+  },
+  {
+   "code": "trip_coverage_not_active_for_next7_days",
+   "count": 1,
+   "severity": "WARNING"
+  },
+  {
+   "code": "trip_headsign_matches_intermediate_stop",
+   "count": 250,
+   "severity": "INFO"
+  },
+  {
+   "code": "unknown_column",
+   "count": 2,
+   "severity": "INFO"
+  }
+ ],
+ "totals": {
+  "ERROR": 0,
+  "INFO": 252,
+  "WARNING": 4
+ },
+ "validated_at": "2026-11-23T19:32:56+01:00",
+ "validator_version": "8.0.1"
+}

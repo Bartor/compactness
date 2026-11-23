@@ -1,0 +1,38 @@
+{
+ "duration_s": 2.3,
+ "feed": "warsaw_minsk",
+ "gtfs_features": [
+  "Transfers",
+  "Shapes",
+  "Feed Information",
+  "Attributions",
+  "Route Colors",
+  "Headsigns",
+  "Location Types"
+ ],
+ "input_sha256": "11a5e15e288495ba732a5b058503cd9ffc48deb4820abee4c1e04cfeb89ed747",
+ "notice_types": {
+  "ERROR": 0,
+  "INFO": 1,
+  "WARNING": 1
+ },
+ "notices": [
+  {
+   "code": "feed_expiration_date30_days",
+   "count": 1,
+   "severity": "WARNING"
+  },
+  {
+   "code": "unknown_column",
+   "count": 2,
+   "severity": "INFO"
+  }
+ ],
+ "totals": {
+  "ERROR": 0,
+  "INFO": 2,
+  "WARNING": 1
+ },
+ "validated_at": "2026-11-23T19:32:44+01:00",
+ "validator_version": "8.0.1"
+}

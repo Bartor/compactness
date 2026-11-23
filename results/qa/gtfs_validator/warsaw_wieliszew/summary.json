@@ -1,0 +1,47 @@
+{
+ "duration_s": 2.6,
+ "feed": "warsaw_wieliszew",
+ "gtfs_features": [
+  "Shapes",
+  "Feed Information",
+  "Fare Products",
+  "Headsigns",
+  "Trips Wheelchair Accessibility",
+  "Bike Allowed"
+ ],
+ "input_sha256": "4bbbf454144807a89c8087dc673ddd0fcaff13c9a7f8882bdd7cb675158134fa",
+ "notice_types": {
+  "ERROR": 0,
+  "INFO": 1,
+  "WARNING": 3
+ },
+ "notices": [
+  {
+   "code": "mixed_case_recommended_field",
+   "count": 259,
+   "severity": "WARNING"
+  },
+  {
+   "code": "feed_expiration_date30_days",
+   "count": 1,
+   "severity": "WARNING"
+  },
+  {
+   "code": "missing_feed_contact_email_and_url",
+   "count": 1,
+   "severity": "WARNING"
+  },
+  {
+   "code": "unknown_column",
+   "count": 2,
+   "severity": "INFO"
+  }
+ ],
+ "totals": {
+  "ERROR": 0,
+  "INFO": 2,
+  "WARNING": 261
+ },
+ "validated_at": "2026-11-23T19:33:03+01:00",
+ "validator_version": "8.0.1"
+}

@@ -1,0 +1,37 @@
+{
+ "duration_s": 2.3,
+ "feed": "warsaw_zyrardow",
+ "gtfs_features": [
+  "Shapes",
+  "Feed Information",
+  "Route Colors",
+  "Headsigns",
+  "Stops Wheelchair Accessibility",
+  "Location Types"
+ ],
+ "input_sha256": "61a83fe95d3b685725c13b550f57d09b7ecf038a4249e414f4bd645b00d18c76",
+ "notice_types": {
+  "ERROR": 0,
+  "INFO": 0,
+  "WARNING": 2
+ },
+ "notices": [
+  {
+   "code": "equal_shape_distance_same_coordinates",
+   "count": 21,
+   "severity": "WARNING"
+  },
+  {
+   "code": "unused_shape",
+   "count": 1,
+   "severity": "WARNING"
+  }
+ ],
+ "totals": {
+  "ERROR": 0,
+  "INFO": 0,
+  "WARNING": 22
+ },
+ "validated_at": "2026-11-23T19:33:20+01:00",
+ "validator_version": "8.0.1"
+}

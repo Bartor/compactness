@@ -1,0 +1,52 @@
+{
+ "duration_s": 2.6,
+ "feed": "lodz_strykow",
+ "gtfs_features": [
+  "Shapes",
+  "Feed Information",
+  "Fare Products",
+  "Headsigns",
+  "Trips Wheelchair Accessibility",
+  "Bike Allowed"
+ ],
+ "input_sha256": "f97c4b4233c7b64b2040499d3fae86d12b2a2ffc6cfe249fc08673caa48acec8",
+ "notice_types": {
+  "ERROR": 0,
+  "INFO": 1,
+  "WARNING": 4
+ },
+ "notices": [
+  {
+   "code": "mixed_case_recommended_field",
+   "count": 330,
+   "severity": "WARNING"
+  },
+  {
+   "code": "feed_expiration_date7_days",
+   "count": 1,
+   "severity": "WARNING"
+  },
+  {
+   "code": "missing_feed_contact_email_and_url",
+   "count": 1,
+   "severity": "WARNING"
+  },
+  {
+   "code": "trip_coverage_not_active_for_next7_days",
+   "count": 1,
+   "severity": "WARNING"
+  },
+  {
+   "code": "unknown_column",
+   "count": 2,
+   "severity": "INFO"
+  }
+ ],
+ "totals": {
+  "ERROR": 0,
+  "INFO": 2,
+  "WARNING": 333
+ },
+ "validated_at": "2026-11-23T19:33:36+01:00",
+ "validator_version": "8.0.1"
+}

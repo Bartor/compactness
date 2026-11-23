@@ -280,6 +280,34 @@ Czy ci przewoźnicy publikują GTFS, nie sprawdzano poza listą kandydatów z se
 - Niedopasowane przystanki w rdzeniach (np. ok. 90 ze znacznikiem „ZTM Warszawa”) leżą zwykle 50–300 m od najbliższego przystanku GTFS: prawdopodobnie czasowo nieobsługiwane, przeniesione albo nieaktualne w OSM (nie zweryfikowano).
 - Nie wyjaśniono: braku kursów tramwajowych na części przystanków w Krakowie i Łodzi w dniu referencyjnym; niedopasowanych przystanków ze znacznikiem „Wrocław” w Siechnicach i Długołęce oraz „ZTM Warszawa” w Sulejówku; położenia stacji Szczepanowice (w GTFS ok. 1 km od węzła OSM). Nie sprawdzono, jak granica „metropolia” zmieniłaby wynik skrajnych gmin GZM.
 
+### 6.6 Po dodaniu feedów podmiejskich (2026-11-23)
+
+Sekcje 6.1–6.5 opisują stan na 12 feedach z briefu. Zgodnie z decyzją 12 (sekcja 12.0) dodano 30 feedów przewoźników podmiejskich i powtórzono kontrolę. Dziennik decyzji per kandydat (dodany, odrzucony, nie znaleziono; URL, licencja, powód): [`candidate_feeds.md`](qa/phase0/gtfs/candidate_feeds.md). Zmiana pokrycia per gmina: [`coverage_change.md`](qa/phase0/coverage/coverage_change.md). Pliki CSV w `qa/phase0/coverage/` odpowiadają już stanowi po dodaniu (42 feedy).
+
+Pokrycie w %, wszystkie tryby, przed → po:
+
+| Aglomeracja | FUA | Rdzeń | Poza rdzeniem | Ludność w gminach o pokryciu ≥ 85 % |
+|---|---|---|---|---|
+| Warszawa | 59,9 → 81,0 | 97,2 → 97,2 | 35,8 → 70,6 | 60,0 → 77,8 |
+| Kraków | 59,8 → 80,1 | 96,1 → 97,8 | 36,9 → 69,0 | 65,6 → 73,1 |
+| Wrocław | 71,1 → 77,9 | 97,7 → 97,7 | 35,2 → 51,2 | 68,5 → 71,5 |
+| Łódź | 68,2 → 89,1 | 96,3 → 96,3 | 29,9 → 79,4 | 65,7 → 84,2 |
+| Trójmiasto | 71,1 → 76,4 | 96,5 → 96,5 | 35,8 → 48,5 | 75,0 → 81,2 |
+| Poznań | bez zmian | bez zmian | bez zmian | 86,6 |
+| GZM | bez zmian | bez zmian | bez zmian | 96,3 |
+
+Regułę 85 % z briefu §6 nadal spełniają tylko Poznań i GZM; Łódź jest najbliżej (84,2 %). Wyniki transportowe dla FUA pozostałych pięciu aglomeracji będą oznaczone jako niepełne, ale luka jest wyraźnie mniejsza.
+
+**Zastrzeżenie o pochodzeniu danych.** Z 30 dodanych feedów tylko dwa pochodzą od wydawcy lub mają jawnie podaną licencję u źródła (`krakow_ald`: Koleje Małopolskie, linie dowozowe; `trojmiasto_wejherowo`: MZK Wejherowo z mkuran.pl, CC0). Pozostałe 28 to nieoficjalne przepakowania rozkładów (girlc.at, zbiorkom.live, feed.gtfs.cc, kasznia.net, repozytoria GitHub). Licencje CC0, MIT lub CC BY podane w katalogach transitous i Mobility Database dotyczą samego przepakowania; warunków przewoźników nie udało się odczytać. Zgodności tych feedów z oficjalnymi rozkładami nie zweryfikowano. Trzy są ułożone ręcznie ze stałym tygodniowym wzorcem (`warsaw_czosnow`, `warsaw_zakroczym`, `wroclaw_oborniki`), a `lodz_suburban_qbx` (sześciu prywatnych przewoźników) nie ma żadnej licencji i jest oznaczony jako niskiej wiarygodności. Surowych feedów repo nie redystrybuuje; liczone są z nich tylko agregaty. Faza 2 powinna pokazać każdy wynik w dwóch wariantach: na feedach oficjalnych oraz na wszystkich, żeby było widać, ile zależy od danych nieoficjalnych.
+
+Pozostałe ustalenia:
+
+- Wszystkie 42 feedy mają kursy w środę 2026-11-25. W sobotę 2026-11-28 pięć feedów nie ma kursów w rozkładzie (`warsaw_halinow`, `warsaw_sulejowek`, `lodz_strykow`, `wroclaw_olesnica`, `wroclaw_oborniki`).
+- Jedyny stwierdzony dubel: linie 6 i 61 MUK Zgierz to te same kursy co linie 6 i 61 MPK Łódź (148 z 447 kursów, identyczne minuty odjazdu). Są odfiltrowane kluczem `drop_routes` w `config.yaml` i liczą się raz, w feedzie `lodz`. Test dublowania: linia + nazwa pierwszego przystanku + minuta odjazdu, wobec 12 feedów bazowych i pozostałych kandydatów.
+- Odrzucono 15 kandydatów (duplikaty istniejących feedów, obszary poza FUA, feed wygasły lub z licencją NC). PKS Poznań nie dał się pobrać (błąd TLS po przekierowaniu); nie obchodzono tego.
+- Feedu nie znaleziono m.in. dla: PKS Grójec, Nadwiślańskiej Komunikacji Autobusowej, Legionowa (Warszawa); Miechowa, Krzeszowic, Wieliczki (Kraków); Łasku (Łódź); PKS Gdynia, Żukowa, Kolbud, Pruszcza Gdańskiego (Trójmiasto); Siechnic, Czernicy, Kobierzyc, Trzebnicy (Wrocław); Pobiedzisk, Kostrzyna, Stęszewa (Poznań). „Nie znaleziono” oznacza wynik wyszukiwania, nie dowód, że feed nie istnieje.
+- Większość przepakowanych feedów ma ważność do 2026-11-28 lub kilka tygodni dłużej; surowe pliki z datą pobrania zostają w `data/raw/gtfs/` jako podstawa liczenia.
+
 ## 7. Miejsca pracy (zbiór Goliszek)
 
 Źródło: [`jobs_inventory.md`](qa/phase0/jobs/jobs_inventory.md). Goliszek S. (IGiPZ PAN), *Spatially disaggregated working-age population and job estimates for seven Polish cities with a 2025 allocation horizon*, Mendeley Data v1, doi:10.17632/mr9ywkgd9t.1, CC BY 4.0, publikacja 2026-09-29.

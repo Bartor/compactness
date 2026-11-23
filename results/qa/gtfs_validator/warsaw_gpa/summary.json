@@ -1,0 +1,53 @@
+{
+ "duration_s": 3.3,
+ "feed": "warsaw_gpa",
+ "gtfs_features": [
+  "Transfers",
+  "Shapes",
+  "Feed Information",
+  "Attributions",
+  "Route Colors",
+  "Headsigns",
+  "Location Types"
+ ],
+ "input_sha256": "03b2da657b115c532707a37a274b4384ba7ce12630b10e4c3c88b0c78ec55644",
+ "notice_types": {
+  "ERROR": 0,
+  "INFO": 2,
+  "WARNING": 3
+ },
+ "notices": [
+  {
+   "code": "service_has_no_active_day_of_the_week",
+   "count": 2,
+   "severity": "WARNING"
+  },
+  {
+   "code": "mixed_case_recommended_field",
+   "count": 1,
+   "severity": "WARNING"
+  },
+  {
+   "code": "route_short_name_too_long",
+   "count": 1,
+   "severity": "WARNING"
+  },
+  {
+   "code": "big_gap_in_service",
+   "count": 2,
+   "severity": "INFO"
+  },
+  {
+   "code": "unknown_column",
+   "count": 2,
+   "severity": "INFO"
+  }
+ ],
+ "totals": {
+  "ERROR": 0,
+  "INFO": 4,
+  "WARNING": 4
+ },
+ "validated_at": "2026-11-23T19:32:40+01:00",
+ "validator_version": "8.0.1"
+}

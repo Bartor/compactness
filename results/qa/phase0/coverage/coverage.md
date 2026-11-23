@@ -79,12 +79,12 @@ Badane promienie: 30 / 50 / 75 / 100 / 150 m (autobus, tramwaj) i 100 / 200 / 30
 
 | Aglomeracja | n | 30 m | 50 m | 75 m | 100 m | 150 m | 50 m + nazwa/kod |
 |---|---|---|---|---|---|---|---|
-| Warszawa | 11573 | 53,2% (1,3%) | 54,2% (3,2%) | 55,2% (6,5%) | 56,2% (10,0%) | 57,5% (19,2%) | **56,6%** |
-| Kraków | 5764 | 52,8% (0,8%) | 54,0% (1,9%) | 55,4% (3,8%) | 56,2% (6,5%) | 57,3% (13,7%) | **56,3%** |
-| Wrocław | 2693 | 64,0% (1,5%) | 67,0% (3,2%) | 68,5% (6,5%) | 69,6% (10,0%) | 71,3% (20,3%) | **70,5%** |
+| Warszawa | 11573 | 74,7% (1,5%) | 76,6% (3,8%) | 78,0% (7,8%) | 79,4% (12,2%) | 80,9% (24,0%) | **79,8%** |
+| Kraków | 5764 | 73,2% (1,0%) | 75,4% (2,3%) | 77,6% (4,5%) | 78,5% (7,8%) | 79,5% (16,6%) | **78,8%** |
+| Wrocław | 2693 | 71,7% (1,6%) | 74,7% (3,3%) | 76,4% (6,6%) | 77,6% (10,4%) | 79,5% (21,2%) | **78,5%** |
 | Poznań | 3026 | 76,1% (1,2%) | 81,6% (3,1%) | 85,1% (5,7%) | 87,0% (10,0%) | 88,9% (21,4%) | **87,5%** |
-| Łódź | 3052 | 58,9% (1,3%) | 60,4% (2,9%) | 61,6% (6,4%) | 62,5% (10,5%) | 63,5% (20,2%) | **62,8%** |
-| Trójmiasto | 3525 | 65,1% (1,6%) | 66,2% (3,5%) | 67,2% (7,2%) | 67,9% (11,9%) | 69,1% (22,6%) | **68,1%** |
+| Łódź | 3052 | 81,5% (1,6%) | 84,1% (3,7%) | 85,6% (7,8%) | 86,8% (12,7%) | 88,2% (24,5%) | **87,4%** |
+| Trójmiasto | 3525 | 71,1% (1,8%) | 72,1% (3,9%) | 73,2% (8,0%) | 74,0% (13,2%) | 75,2% (24,9%) | **74,1%** |
 | GZM | 5509 | 91,3% (1,5%) | 93,1% (3,5%) | 94,0% (6,6%) | 94,6% (11,0%) | 95,2% (21,9%) | **94,8%** |
 
 **tramwaj**: pokrycie FUA wg samej odległości (w nawiasie: dopasowania przypadkowe z kontroli przesunięcia); ostatnia kolumna: przy przyjętym promieniu z dopasowaniem po nazwie/kodzie.
@@ -118,28 +118,28 @@ Przyjęte promienie: 50 m (autobus, tramwaj, metro, peron nieokreślony), 200 m 
 
 | Aglomeracja | tryb | FUA | rdzeń | poza rdzeniem | GTFS bez OSM |
 |---|---|---|---|---|---|
-| Warszawa | wszystkie | 59,9% (12 781) | 97,2% (5 016) | 35,8% (7 765) | 1,4% (101 z 7 153) |
-| Warszawa | autobus | 56,6% (11 573) | 96,9% (4 043) | 34,9% (7 530) | 1,4% (88 z 6 220) |
+| Warszawa | wszystkie | 81,0% (12 781) | 97,2% (5 016) | 70,6% (7 765) | 4,6% (515 z 11 207) |
+| Warszawa | autobus | 79,8% (11 573) | 97,0% (4 043) | 70,6% (7 530) | 4,9% (502 z 10 274) |
 | Warszawa | tramwaj | 99,1% (854) | 99,3% (852) | 0,0% (2) | 1,6% (10 z 630) |
 | Warszawa | kolej | 98,6% (207) | 100,0% (55) | 98,0% (152) | 0,0% (0 z 265) |
-| Kraków | wszystkie | 59,8% (6 419) | 96,1% (2 488) | 36,9% (3 931) | 2,5% (102 z 4 124) |
-| Kraków | autobus | 56,3% (5 764) | 95,8% (1 919) | 36,5% (3 845) | 2,7% (100 z 3 701) |
+| Kraków | wszystkie | 80,1% (6 419) | 97,7% (2 488) | 69,0% (3 931) | 4,8% (263 z 5 466) |
+| Kraków | autobus | 78,8% (5 764) | 97,9% (1 919) | 69,3% (3 845) | 5,2% (261 z 5 043) |
 | Kraków | tramwaj | 91,5% (503) | 91,5% (503) | – (0) | 0,0% (0 z 353) |
 | Kraków | kolej | 95,9% (73) | 100,0% (27) | 93,5% (46) | 2,9% (2 z 70) |
-| Wrocław | wszystkie | 71,1% (3 491) | 97,7% (2 006) | 35,2% (1 485) | 5,9% (153 z 2 576) |
-| Wrocław | autobus | 70,5% (2 693) | 97,2% (1 500) | 37,0% (1 193) | 7,1% (146 z 2 044) |
+| Wrocław | wszystkie | 77,9% (3 491) | 97,7% (2 006) | 51,2% (1 485) | 11,0% (338 z 3 084) |
+| Wrocław | autobus | 78,5% (2 693) | 97,2% (1 500) | 54,9% (1 193) | 13,0% (331 z 2 552) |
 | Wrocław | tramwaj | 98,3% (473) | 98,3% (473) | – (0) | 1,6% (7 z 447) |
 | Wrocław | kolej | 100,0% (83) | 100,0% (30) | 100,0% (53) | 0,0% (0 z 85) |
 | Poznań | wszystkie | 86,2% (3 770) | 94,9% (1 713) | 78,9% (2 057) | 10,2% (340 z 3 330) |
 | Poznań | autobus | 87,5% (3 026) | 95,1% (1 236) | 82,3% (1 790) | 11,4% (339 z 2 964) |
 | Poznań | tramwaj | 97,1% (344) | 97,1% (344) | – (0) | 0,3% (1 z 304) |
 | Poznań | kolej | 100,0% (62) | 100,0% (13) | 100,0% (49) | 0,0% (0 z 62) |
-| Łódź | wszystkie | 68,2% (3 756) | 96,3% (2 168) | 29,9% (1 588) | 2,8% (66 z 2 386) |
-| Łódź | autobus | 62,8% (3 052) | 96,2% (1 633) | 24,5% (1 419) | 3,1% (58 z 1 865) |
+| Łódź | wszystkie | 89,1% (3 756) | 96,3% (2 168) | 79,3% (1 588) | 11,1% (431 z 3 868) |
+| Łódź | autobus | 87,4% (3 052) | 96,2% (1 633) | 77,2% (1 419) | 12,6% (423 z 3 347) |
 | Łódź | tramwaj | 89,9% (566) | 88,6% (502) | 100,0% (64) | 1,7% (8 z 465) |
 | Łódź | kolej | 100,0% (56) | 100,0% (22) | 100,0% (34) | 0,0% (0 z 56) |
-| Trójmiasto | wszystkie | 71,1% (3 968) | 96,5% (2 307) | 35,8% (1 661) | 2,5% (69 z 2 793) |
-| Trójmiasto | autobus | 68,1% (3 525) | 96,8% (1 895) | 34,8% (1 630) | 2,6% (64 z 2 487) |
+| Trójmiasto | wszystkie | 76,4% (3 968) | 96,5% (2 307) | 48,5% (1 661) | 2,4% (72 z 3 057) |
+| Trójmiasto | autobus | 74,1% (3 525) | 96,8% (1 895) | 47,7% (1 630) | 2,4% (67 z 2 751) |
 | Trójmiasto | tramwaj | 96,0% (351) | 96,0% (351) | – (0) | 2,0% (5 z 248) |
 | Trójmiasto | kolej | 93,5% (62) | 97,4% (38) | 87,5% (24) | 0,0% (0 z 58) |
 | GZM | wszystkie | 94,7% (6 246) | 96,9% (4 466) | 89,2% (1 780) | 7,1% (481 z 6 802) |
@@ -156,24 +156,24 @@ jako perony o nieokreślonym trybie).
 
 | Aglomeracja | OSM | odległość | nazwa/kod | zastępczy | tylko inny tryb | w feedzie, nieobsł. w dniu ref. | brak w GTFS |
 |---|---|---|---|---|---|---|---|
-| Warszawa | 12 781 | 7 356 | 294 | 5 | 37 | 25 | 5 064 |
-| Kraków | 6 419 | 3 657 | 149 | 35 | 7 | 0 | 2 571 |
-| Wrocław | 3 491 | 2 365 | 111 | 6 | 15 | 0 | 994 |
+| Warszawa | 12 781 | 9 954 | 397 | 5 | 23 | 10 | 2 392 |
+| Kraków | 6 419 | 4 894 | 213 | 36 | 3 | 0 | 1 273 |
+| Wrocław | 3 491 | 2 598 | 117 | 6 | 13 | 1 | 756 |
 | Poznań | 3 770 | 3 044 | 200 | 4 | 13 | 7 | 502 |
-| Łódź | 3 756 | 2 425 | 95 | 42 | 35 | 49 | 1 110 |
-| Trójmiasto | 3 968 | 2 741 | 72 | 8 | 16 | 11 | 1 120 |
+| Łódź | 3 756 | 3 180 | 125 | 42 | 9 | 22 | 378 |
+| Trójmiasto | 3 968 | 2 952 | 73 | 8 | 15 | 11 | 909 |
 | GZM | 6 246 | 5 786 | 106 | 24 | 5 | 0 | 325 |
 
 ## Pokrycie wg odległości od centrum (pasy 5 km, wszystkie tryby)
 
 | Aglomeracja | 0–5 km | 5–10 km | 10–15 km | 15–20 km | 20–25 km | 25–30 km | 30–35 km | 35–40 km | ≥40 km |
 |---|---|---|---|---|---|---|---|---|---|
-| Warszawa | 96% (1705) | 96% (2350) | 83% (1691) | 71% (1460) | 57% (1337) | 27% (1314) | 12% (1068) | 2% (596) | 4% (1260) |
-| Kraków | 93% (1081) | 98% (1383) | 75% (1093) | 46% (1058) | 16% (777) | 6% (580) | 0% (303) | 1% (117) | 0% (27) |
-| Wrocław | 97% (1117) | 92% (875) | 68% (617) | 42% (304) | 10% (195) | 5% (227) | 4% (83) | 0% (33) | 8% (40) |
+| Warszawa | 96% (1705) | 97% (2350) | 90% (1691) | 90% (1460) | 87% (1337) | 75% (1314) | 61% (1068) | 67% (596) | 31% (1260) |
+| Kraków | 97% (1081) | 98% (1383) | 87% (1093) | 86% (1058) | 58% (777) | 49% (580) | 24% (303) | 49% (117) | 70% (27) |
+| Wrocław | 97% (1117) | 93% (875) | 71% (617) | 52% (304) | 45% (195) | 46% (227) | 30% (83) | 15% (33) | 12% (40) |
 | Poznań | 95% (1061) | 96% (945) | 95% (684) | 84% (540) | 58% (357) | 21% (121) | 10% (31) | 7% (30) | 0% (1) |
-| Łódź | 97% (1171) | 88% (1132) | 49% (689) | 19% (332) | 7% (192) | 5% (150) | 6% (90) | – | – |
-| Trójmiasto | 95% (724) | 91% (745) | 70% (491) | 61% (697) | 62% (542) | 68% (355) | 39% (195) | 14% (202) | 0% (17) |
+| Łódź | 97% (1171) | 94% (1132) | 92% (689) | 89% (332) | 66% (192) | 33% (150) | 43% (90) | – | – |
+| Trójmiasto | 95% (724) | 91% (745) | 70% (491) | 61% (697) | 62% (542) | 68% (355) | 65% (195) | 86% (202) | 100% (17) |
 | GZM | 96% (605) | 98% (1154) | 99% (1519) | 97% (1311) | 93% (640) | 92% (519) | 85% (266) | 50% (94) | 63% (138) |
 
 Centra: Warszawa: Rondo Dmowskiego, Kraków: Rynek Główny, Wrocław: Rynek, Poznań: Stary Rynek, Łódź: pl. Wolności, Trójmiasto: Gdańsk Główny, GZM: Katowice Rynek. Trójmiasto i GZM są policentryczne; pierścienie od jednego centrum są tu tylko orientacyjne. Pełne dane (pierścienie 1 km, wszystkie tryby, promienie): `coverage_by_ring.csv`.
@@ -190,46 +190,46 @@ lub „(gmina wiejska)”: mniejsza powierzchniowo to miasto.
 
 | Gmina | OSM | pokrycie | brak w GTFS | udział pow. gminy w FUA |
 |---|---|---|---|---|
-| Żabia Wola | 210 | 0,0% | 210 | 100% |
-| Tarczyn | 174 | 0,0% | 174 | 100% |
 | Serock | 100 | 0,0% | 100 | 100% |
-| Jakubów | 66 | 0,0% | 66 | 100% |
 | Pułtusk | 66 | 0,0% | 66 | 99% |
-| Dobre | 65 | 0,0% | 65 | 99% |
-| Siennica | 64 | 0,0% | 64 | 100% |
-| Zakroczym | 52 | 0,0% | 52 | 100% |
-| Dąbrówka | 49 | 0,0% | 49 | 100% |
-| Radziejowice | 49 | 0,0% | 49 | 99% |
+| Sobienie-Jeziory | 29 | 0,0% | 29 | 100% |
+| Osieck | 27 | 0,0% | 27 | 100% |
+| Wilga | 23 | 0,0% | 23 | 100% |
+| Maciejowice | 22 | 0,0% | 22 | 99% |
+| Załuski | 19 | 0,0% | 19 | 100% |
+| Pokrzywnica | 17 | 0,0% | 17 | 100% |
+| Strachówka | 16 | 0,0% | 16 | 100% |
+| Korytnica | 12 | 0,0% | 12 | 100% |
 
 **Kraków** (43 gmin z przystankami OSM; poniżej 10 przystanków: 5). Najsłabiej pokryte (≥ 10 przystanków):
 
 | Gmina | OSM | pokrycie | brak w GTFS | udział pow. gminy w FUA |
 |---|---|---|---|---|
-| Myślenice | 191 | 0,0% | 191 | 99% |
-| Gdów | 150 | 0,0% | 150 | 100% |
-| Dobczyce | 94 | 0,0% | 94 | 99% |
-| Siepraw | 65 | 0,0% | 65 | 100% |
-| Sułkowice | 62 | 0,0% | 62 | 99% |
-| Alwernia | 61 | 0,0% | 61 | 98% |
-| Proszowice | 56 | 0,0% | 56 | 99% |
-| Trzyciąż | 55 | 0,0% | 55 | 100% |
-| Łapanów | 47 | 0,0% | 47 | 99% |
-| Koniusza | 46 | 0,0% | 46 | 100% |
+| Miechów | 203 | 1,5% | 200 | 100% |
+| Brzeźnica | 93 | 6,5% | 87 | 99% |
+| Łapanów | 47 | 10,6% | 42 | 99% |
+| Gołcza | 25 | 20,0% | 20 | 100% |
+| Słomniki | 58 | 36,2% | 37 | 100% |
+| Koniusza | 46 | 37,0% | 29 | 100% |
+| Krzeszowice | 146 | 37,7% | 91 | 100% |
+| Proszowice | 56 | 46,4% | 30 | 99% |
+| Iwanowice | 34 | 47,1% | 18 | 100% |
+| Siepraw | 65 | 49,2% | 33 | 100% |
 
 **Wrocław** (21 gmin z przystankami OSM; poniżej 10 przystanków: 1). Najsłabiej pokryte (≥ 10 przystanków):
 
 | Gmina | OSM | pokrycie | brak w GTFS | udział pow. gminy w FUA |
 |---|---|---|---|---|
-| Zawonia | 22 | 0,0% | 22 | 100% |
-| Oleśnica (gmina wiejska) | 58 | 1,7% | 53 | 99% |
 | Trzebnica | 92 | 2,2% | 90 | 100% |
-| Oleśnica (miasto) | 81 | 2,5% | 78 | 100% |
 | Prusice | 32 | 3,1% | 31 | 100% |
-| Oborniki Śląskie | 70 | 4,3% | 67 | 100% |
-| Dobroszyce | 22 | 4,5% | 21 | 100% |
 | Borów | 22 | 4,5% | 21 | 99% |
 | Żmigród | 53 | 5,7% | 50 | 100% |
 | Mietków | 16 | 6,2% | 15 | 99% |
+| Siechnice | 165 | 15,8% | 138 | 100% |
+| Żórawina | 73 | 28,8% | 52 | 100% |
+| Zawonia | 22 | 36,4% | 14 | 100% |
+| Oleśnica (miasto) | 81 | 42,0% | 46 | 100% |
+| Wisznia Mała | 68 | 54,4% | 31 | 100% |
 
 **Poznań** (22 gmin z przystankami OSM; poniżej 10 przystanków: 3). Najsłabiej pokryte (≥ 10 przystanków):
 
@@ -250,16 +250,16 @@ lub „(gmina wiejska)”: mniejsza powierzchniowo to miasto.
 
 | Gmina | OSM | pokrycie | brak w GTFS | udział pow. gminy w FUA |
 |---|---|---|---|---|
-| Pabianice (gmina wiejska) | 65 | 0,0% | 65 | 100% |
-| Brójce | 47 | 0,0% | 47 | 99% |
-| Tuszyn | 44 | 0,0% | 44 | 99% |
-| Dalików | 41 | 0,0% | 41 | 99% |
-| Dłutów | 27 | 0,0% | 27 | 100% |
-| Łask | 107 | 2,8% | 103 | 99% |
-| Koluszki | 72 | 6,9% | 65 | 100% |
-| Ozorków (gmina wiejska) | 14 | 7,1% | 13 | 98% |
-| Rokiciny | 39 | 7,7% | 35 | 99% |
-| Dobroń | 23 | 8,7% | 21 | 100% |
+| Łask | 107 | 19,6% | 86 | 99% |
+| Dobroń | 23 | 26,1% | 17 | 100% |
+| Rokiciny | 39 | 41,0% | 13 | 99% |
+| Dalików | 41 | 43,9% | 23 | 99% |
+| Brzeziny (gmina wiejska) | 39 | 56,4% | 17 | 100% |
+| Ozorków (gmina wiejska) | 14 | 57,1% | 6 | 98% |
+| Rogów | 17 | 58,8% | 7 | 99% |
+| Ksawerów | 48 | 64,6% | 11 | 100% |
+| Zgierz (gmina wiejska) | 46 | 69,6% | 14 | 99% |
+| Brzeziny (miasto) | 33 | 72,7% | 9 | 100% |
 
 **Trójmiasto** (22 gmin z przystankami OSM; poniżej 10 przystanków: 4). Najsłabiej pokryte (≥ 10 przystanków):
 
@@ -271,10 +271,10 @@ lub „(gmina wiejska)”: mniejsza powierzchniowo to miasto.
 | Cedry Wielkie | 52 | 0,0% | 52 | 100% |
 | Suchy Dąb | 14 | 0,0% | 14 | 100% |
 | Pszczółki | 43 | 7,0% | 40 | 100% |
-| Wejherowo (miasto) | 177 | 15,8% | 148 | 97% |
-| Reda | 94 | 20,2% | 75 | 97% |
 | Kolbudy | 83 | 24,1% | 63 | 100% |
 | Pruszcz Gdański (gmina wiejska) | 153 | 30,1% | 107 | 100% |
+| Żukowo | 297 | 32,3% | 197 | 99% |
+| Szemud | 171 | 39,8% | 102 | 99% |
 
 **GZM** (43 gmin z przystankami OSM; poniżej 10 przystanków: 4). Najsłabiej pokryte (≥ 10 przystanków):
 
@@ -307,52 +307,52 @@ linii wpisane w złe pole.
 
 | tag (najczęstszy zapis) | bez odp. | z odp. | w gminach słabo pokrytych | w gminach dobrze pokrytych | gdzie |
 |---|---|---|---|---|---|
-| (brak tagu) | 3174 | 113 | 2687 | 84 | Błonie (203); Grodzisk Mazowiecki (203); Brwinów (154); Żabia Wola (134) |
-| Grodziskie Przewozy Autobusowe | 262 | 16 | 244 | 12 | Grodzisk Mazowiecki (132); Żabia Wola (66); Błonie (35); Stare Babice (12) |
-| PKS Grójec | 248 | 18 | 170 | 2 | Tarczyn (144); Prażmów (58); Chynów (25); Góra Kalwaria (16) |
-| ZTM Warszawa | 227 | 6595 | 59 | 132 | Warszawa (90); Sulejówek (48); Wołomin (16); Piaseczno (9) |
-| Nadwiślańska Komunikacja Autobusowa | 160 | 5 | 76 | 0 | Góra Kalwaria (56); Karczew (46); Józefów (14); Sobienie-Jeziory (10) |
-| Bezpłatna Komunikacja Miejska Otwock | 79 | 2 | 70 | 0 | Otwock (70); Wiązowna (9) |
-| Pruszkowska Komunikacja Miejska;Grodziskie Przewozy Autobusowe | 69 | 1 | 68 | 0 | Pruszków (67); Michałowice (1); Ożarów Mazowiecki (1) |
+| (brak tagu) | 1305 | 1982 | 624 | 243 | Serock (99); Raszyn (68); Dobre (53); Mrozy (50) |
+| PKS Grójec | 246 | 20 | 167 | 3 | Tarczyn (142); Prażmów (58); Chynów (25); Góra Kalwaria (16) |
+| ZTM Warszawa | 158 | 6664 | 0 | 143 | Warszawa (90); Wołomin (14); Piaseczno (9); Kobyłka (7) |
+| Nadwiślańska Komunikacja Autobusowa | 157 | 8 | 68 | 6 | Góra Kalwaria (56); Karczew (46); Józefów (14); Sobienie-Jeziory (10) |
 | Powiat Legionowski | 69 | 3 | 0 | 0 | Jabłonna (42); Nieporęt (23); Legionowo (4) |
-| Pruszkowska Komunikacja Miejska | 68 | 0 | 57 | 0 | Pruszków (45); Michałowice (12); Ożarów Mazowiecki (7); Piastów (4) |
-| Nowodworska Komunikacja Autobusowa | 66 | 7 | 65 | 0 | Nowy Dwór Mazowiecki (61); Pomiechówek (4); Wieliszew (1) |
 | Powiat siedlecki | 50 | 0 | 50 | 0 | Kotuń (48); Mrozy (2) |
 | UTJ Wołoszka | 46 | 0 | 46 | 0 | Celestynów (22); Osieck (17); Kołbiel (6); Sobienie-Jeziory (1) |
+| Pułtuskie Przedsiębiorstwo Usług Komunalnych Sp. z o.o. | 39 | 0 | 39 | 0 | Pułtusk (39) |
+| DKM Legionowo | 37 | 8 | 0 | 0 | Legionowo (29); Nieporęt (7); Jabłonna (1) |
+| PKS Garwolin | 28 | 0 | 23 | 0 | Trojanów (11); Sobolew (7); Garwolin (3); Kołbiel (2) |
+| GDDKiA o/Warszawa | 27 | 10 | 18 | 0 | Kotuń (18); Dębe Wielkie (8); Siedlce (1) |
+| gmina Kotuń | 25 | 0 | 25 | 0 | Kotuń (25) |
 
 **Kraków**
 
 | tag (najczęstszy zapis) | bez odp. | z odp. | w gminach słabo pokrytych | w gminach dobrze pokrytych | gdzie |
 |---|---|---|---|---|---|
-| (brak tagu) | 1330 | 184 | 1159 | 99 | Miechów (194); Wieliczka (114); Myślenice (105); Krzeszowice (100) |
-| Małopolskie Linie Dowozowe | 871 | 21 | 840 | 25 | Wieliczka (144); Myślenice (86); Gdów (78); Drwinia (64) |
-| Niepołomicka Komunikacja Gminna | 112 | 6 | 112 | 0 | Niepołomice (110); Biskupice (2) |
-| KMK | 61 | 2287 | 6 | 16 | Skawina (39); Kraków (11); Krzeszowice (6); Zielonki (4) |
-| MDA | 32 | 3 | 0 | 32 | Kraków (32) |
-| Gmina Niepołomice | 30 | 4 | 30 | 0 | Niepołomice (30) |
-| Niepołomicka Komunikacja Gminna;Małopolskie Linie Dowozowe | 30 | 1 | 30 | 0 | Niepołomice (28); Gdów (2) |
-| KMK;Małopolskie Linie Dojazdowe | 24 | 71 | 0 | 0 | Skawina (24) |
-| Komunikacja Miejska w Krakowie | 22 | 860 | 0 | 18 | Kraków (16); Skawina (4); Zabierzów (2) |
-| Skawińska Komunikacja Gminna | 22 | 3 | 0 | 0 | Skawina (22) |
-| Małopolskie Linie Dowozowe;Skawińska Komunikacja Gminna | 10 | 0 | 0 | 0 | Skawina (10) |
-| Wielicka Spółka Transportowa;Małopolskie Linie Dowozowe | 6 | 0 | 6 | 0 | Wieliczka (6) |
+| (brak tagu) | 1171 | 343 | 487 | 124 | Miechów (194); Wieliczka (102); Brzeźnica (87); Myślenice (87) |
+| Małopolskie Linie Dowozowe | 40 | 852 | 11 | 8 | Kłaj (7); Miechów (6); Siepraw (6); Słomniki (4) |
+| KMK | 18 | 2330 | 6 | 12 | Kraków (7); Krzeszowice (6); Zielonki (4); Mogilany (1) |
+| Komunikacja Miejska w Krakowie | 18 | 864 | 0 | 18 | Kraków (16); Zabierzów (2) |
+| Niepołomicka Komunikacja Gminna | 7 | 111 | 0 | 7 | Niepołomice (7) |
+| Gmina Niepołomice | 3 | 31 | 0 | 3 | Niepołomice (3) |
+| Krakowski Tramwaj Wodny | 3 | 0 | 0 | 3 | Kraków (3) |
+| Wielicka Komunikacja Miejska | 3 | 0 | 0 | 0 | Wieliczka (3) |
+| G1, G2 | 2 | 0 | 0 | 0 | Wieliczka (2) |
+| Stefan Bus | 2 | 0 | 0 | 2 | Michałowice (2) |
+| Eurtrans-bis, Transpol | 1 | 0 | 0 | 0 | Iwanowice (1) |
+| Wielicka Komunikacja Miejska;Małopolskie Linie Dowozowe | 1 | 0 | 0 | 0 | Wieliczka (1) |
 
 **Wrocław**
 
 | tag (najczęstszy zapis) | bez odp. | z odp. | w gminach słabo pokrytych | w gminach dobrze pokrytych | gdzie |
 |---|---|---|---|---|---|
-| (brak tagu) | 803 | 332 | 680 | 8 | Trzebnica (90); Oleśnica (miasto) (79); Kobierzyce (72); Siechnice (69) |
-| Wrocław | 129 | 1988 | 52 | 35 | Siechnice (49); Długołęka (42); Wrocław (34); Kobierzyce (3) |
+| (brak tagu) | 573 | 562 | 336 | 19 | Trzebnica (90); Siechnice (69); Żórawina (51); Żmigród (50) |
+| Wrocław | 125 | 1992 | 49 | 35 | Siechnice (49); Długołęka (38); Wrocław (34); Kobierzyce (3) |
 | Gmina Czernica | 24 | 75 | 0 | 0 | Czernica (24) |
 | Siechnicka Komunikacja Publiczna | 20 | 4 | 18 | 2 | Siechnice (18); Wrocław (2) |
-| Komunikacja Gminna | 7 | 0 | 7 | 0 | Kobierzyce (7) |
 | ZDiUM Wrocław | 5 | 1 | 1 | 4 | Wrocław (4); Siechnice (1) |
 | grabor sp. z o. o. spółka | 4 | 0 | 4 | 0 | Mietków (4) |
-| Kobierzyce | 4 | 0 | 4 | 0 | Kobierzyce (4) |
+| Kobierzyce | 4 | 0 | 0 | 0 | Kobierzyce (4) |
+| Komunikacja Gminna | 4 | 3 | 0 | 0 | Kobierzyce (4) |
 | PKS | 3 | 0 | 3 | 0 | Siechnice (2); Żórawina (1) |
 | Wrocław (komunikacja podmiejska) | 3 | 1 | 0 | 3 | Wrocław (3) |
-| Gmina Kobierzyce | 2 | 1 | 2 | 0 | Kobierzyce (2) |
 | Kącka Komunikacja Autobusowa | 2 | 0 | 0 | 0 | Kąty Wrocławskie (2) |
+| Mietkowska Komunikacja Gminna | 1 | 0 | 1 | 0 | Mietków (1) |
 
 **Poznań**
 
@@ -375,16 +375,10 @@ linii wpisane w złe pole.
 
 | tag (najczęstszy zapis) | bez odp. | z odp. | w gminach słabo pokrytych | w gminach dobrze pokrytych | gdzie |
 |---|---|---|---|---|---|
-| (brak tagu) | 1170 | 1567 | 835 | 100 | Pabianice (miasto) (182); Zgierz (miasto) (121); Łask (104); Łódź (73) |
+| (brak tagu) | 398 | 2339 | 102 | 175 | Łask (86); Łódź (73); Dalików (23); Rokiciny (23) |
 | Lokalny Transport Zbiorowy w Łodzi | 5 | 944 | 0 | 5 | Łódź (5) |
-| Kasz-Bus | 4 | 0 | 4 | 0 | Koluszki (4) |
-| MZK-Pabianice | 3 | 0 | 3 | 0 | Pabianice (miasto) (3) |
 | Express-Bus | 2 | 0 | 0 | 2 | Łódź (2) |
-| Markab/MUK Zgierz | 2 | 0 | 0 | 0 | Zgierz (miasto) (2) |
-| MF Transport | 2 | 0 | 2 | 0 | Stryków (2) |
 | WicherTravel | 2 | 0 | 0 | 0 | Wodzierady (2) |
-| Express-Bus;Kasz-Bus | 1 | 0 | 1 | 0 | Stryków (1) |
-| Rzgów Grodziska/Zielona | 1 | 0 | 0 | 0 | Rzgów (1) |
 | Wicher Travel | 1 | 0 | 0 | 0 | Wodzierady (1) |
 | Łask-Pabianice | 1 | 0 | 1 | 0 | Dobroń (1) |
 
@@ -392,18 +386,18 @@ linii wpisane w złe pole.
 
 | tag (najczęstszy zapis) | bez odp. | z odp. | w gminach słabo pokrytych | w gminach dobrze pokrytych | gdzie |
 |---|---|---|---|---|---|
-| (brak tagu) | 814 | 589 | 741 | 67 | Żukowo (188); Trąbki Wielkie (102); Pruszcz Gdański (gmina wiejska) (97); Przywidz (67) |
-| MZK Wejherowo | 163 | 16 | 162 | 0 | Wejherowo (miasto) (93); Reda (69); Puck (1) |
-| PKS Gdynia | 51 | 20 | 50 | 0 | Szemud (49); Wejherowo (gmina wiejska) (1); Wejherowo (miasto) (1) |
+| (brak tagu) | 809 | 594 | 727 | 76 | Żukowo (188); Trąbki Wielkie (102); Pruszcz Gdański (gmina wiejska) (97); Przywidz (67) |
+| PKS Gdynia | 51 | 20 | 49 | 1 | Szemud (49); Wejherowo (gmina wiejska) (1); Wejherowo (miasto) (1) |
 | ZKM Gdynia | 16 | 879 | 2 | 14 | Gdynia (9); Rumia (2); Sopot (2); Szemud (2) |
 | ZTM Gdańsk | 16 | 1177 | 0 | 16 | Gdańsk (16) |
 | Przewozy Autokarowe Albatros | 11 | 1 | 11 | 0 | Żukowo (11) |
-| 6 | 5 | 0 | 5 | 0 | Wejherowo (miasto) (5) |
-| MZK Wejherowo, PKS Gdynia | 5 | 0 | 5 | 0 | Wejherowo (miasto) (5) |
 | 841 | 4 | 0 | 4 | 0 | Pruszcz Gdański (gmina wiejska) (4) |
-| 16 | 2 | 0 | 2 | 0 | Wejherowo (miasto) (2) |
-| 17 | 2 | 0 | 2 | 0 | Reda (2) |
-| 3 | 2 | 0 | 2 | 0 | Wejherowo (miasto) (2) |
+| 847 | 2 | 0 | 2 | 0 | Kolbudy (2) |
+| Albatros | 2 | 0 | 1 | 1 | Pruszcz Gdański (gmina wiejska) (1); Pruszcz Gdański (miasto) (1) |
+| D | 2 | 0 | 0 | 2 | Wejherowo (miasto) (2) |
+| Gdańska Stocznia „Remontowa” | 2 | 0 | 0 | 2 | Gdańsk (2) |
+| PKP Szybka Kolej Miejska w Trójmieście | 2 | 4 | 0 | 2 | Gdańsk (1); Gdynia (1) |
+| Przewozy Autobusowe "Gryf" Marian Kotecki | 2 | 0 | 2 | 0 | Pruszcz Gdański (gmina wiejska) (2) |
 
 **GZM**
 
@@ -461,24 +455,24 @@ Tabela: przyjęte promienie, sama odległość.
 | GZM | autobus | 6013 | 426 | 7,1% | 414 |
 | GZM | kolej | 71 | 0 | 0,0% | 0 |
 | GZM | tramwaj | 717 | 55 | 7,7% | 46 |
-| Kraków | autobus | 3701 | 100 | 2,7% | 43 |
+| Kraków | autobus | 5043 | 261 | 5,2% | 195 |
 | Kraków | kolej | 70 | 2 | 2,9% | 2 |
 | Kraków | tramwaj | 353 | 0 | 0,0% | 0 |
-| Łódź | autobus | 1865 | 58 | 3,1% | 53 |
+| Łódź | autobus | 3347 | 423 | 12,6% | 416 |
 | Łódź | kolej | 56 | 0 | 0,0% | 0 |
 | Łódź | tramwaj | 465 | 8 | 1,7% | 5 |
 | Poznań | autobus | 2964 | 339 | 11,4% | 334 |
 | Poznań | kolej | 62 | 0 | 0,0% | 0 |
 | Poznań | tramwaj | 304 | 1 | 0,3% | 1 |
-| Trójmiasto | autobus | 2487 | 64 | 2,6% | 61 |
+| Trójmiasto | autobus | 2751 | 67 | 2,4% | 64 |
 | Trójmiasto | kolej | 53 | 0 | 0,0% | 0 |
 | Trójmiasto | tramwaj | 248 | 5 | 2,0% | 5 |
 | Trójmiasto | ZKA (autobus zastępczy kolei) | 5 | 0 | 0,0% | 0 |
-| Warszawa | autobus | 6220 | 88 | 1,4% | 86 |
+| Warszawa | autobus | 10274 | 502 | 4,9% | 500 |
 | Warszawa | metro | 38 | 3 | 7,9% | 0 |
 | Warszawa | kolej | 264 | 0 | 0,0% | 0 |
 | Warszawa | tramwaj | 630 | 10 | 1,6% | 7 |
-| Wrocław | autobus | 2044 | 146 | 7,1% | 142 |
+| Wrocław | autobus | 2552 | 331 | 13,0% | 325 |
 | Wrocław | kolej | 83 | 0 | 0,0% | 0 |
 | Wrocław | tramwaj | 447 | 7 | 1,6% | 3 |
 
@@ -492,12 +486,12 @@ mieszka na obszarze, który można uznać za pokryty danymi. Dwa warianty, oba *
 
 | Aglomeracja | ludność FUA (NSP 2021) | w rdzeniu | gminy ≥50% | gminy ≥70% | gminy ≥85% | gminy bez przyst. OSM | komórki ≥50% | komórki ≥70% | komórki ≥85% | komórki bez przyst. OSM w 1 km |
 |---|---|---|---|---|---|---|---|---|---|---|
-| Warszawa | 3 485 881 | 53,5% | 73,2% | 66,6% | 60,0% | 0,2% | 73,2% | 69,0% | 65,2% | 4,7% |
-| Kraków | 1 411 779 | 56,2% | 71,1% | 67,3% | 65,6% | 0,3% | 72,8% | 69,1% | 65,2% | 3,4% |
-| Wrocław | 1 011 966 | 66,6% | 78,5% | 74,5% | 68,5% | 0,0% | 77,5% | 75,8% | 72,6% | 3,4% |
+| Warszawa | 3 485 881 | 53,5% | 89,3% | 83,2% | 77,8% | 0,2% | 88,4% | 84,5% | 78,9% | 4,7% |
+| Kraków | 1 411 779 | 56,2% | 90,2% | 79,7% | 73,1% | 0,3% | 86,7% | 82,5% | 78,0% | 3,4% |
+| Wrocław | 1 011 966 | 66,6% | 86,4% | 79,0% | 71,5% | 0,0% | 83,0% | 80,3% | 76,5% | 3,4% |
 | Poznań | 974 744 | 56,2% | 92,7% | 92,7% | 86,6% | 0,0% | 92,2% | 90,7% | 80,5% | 2,2% |
-| Łódź | 1 044 086 | 63,8% | 68,3% | 67,4% | 65,7% | 0,0% | 75,3% | 69,7% | 66,0% | 5,2% |
-| Trójmiasto | 1 089 730 | 69,0% | 77,7% | 77,7% | 75,0% | 0,0% | 82,5% | 81,1% | 76,1% | 1,3% |
+| Łódź | 1 044 086 | 63,8% | 95,4% | 91,5% | 84,2% | 0,0% | 90,5% | 88,6% | 85,4% | 5,2% |
+| Trójmiasto | 1 089 730 | 69,0% | 83,9% | 83,9% | 81,2% | 0,0% | 88,6% | 87,3% | 82,1% | 1,3% |
 | GZM | 2 057 054 | 79,9% | 98,7% | 97,5% | 96,3% | 0,0% | 98,3% | 97,6% | 94,9% | 0,5% |
 
 Reguła z §6 (≥ ~85% ludności FUA w obszarze pokrytym) jest spełniona tylko w **GZM** i, przy progu gminnym do 85%
@@ -510,12 +504,12 @@ proc., wariant (gmina / komórka) o kilka punktów: o ocenie „niepełny” dec
 
 | Aglomeracja | ludność FUA w gminach z pokryciem < 50% | ludność FUA w gminach z pokryciem < 85% | przystanki OSM bez odp. w gminach słabo pokrytych | główni nazwani przewoźnicy bez GTFS (przystanki bez odp.) |
 |---|---|---|---|---|
-| Warszawa | 26,6% | 39,8% | 4 041 | Grodziskie Przewozy Autobusowe (262); PKS Grójec (248); Nadwiślańska Komunikacja Autobusowa (160); Bezpłatna Komunikacja Miejska Otwock (79) |
-| Kraków | 28,7% | 34,2% | 2 198 | Małopolskie Linie Dowozowe (871); Niepołomicka Komunikacja Gminna (112); MDA (32); Gmina Niepołomice (30) |
-| Wrocław | 21,4% | 31,5% | 772 | Siechnicka Komunikacja Publiczna (20); Komunikacja Gminna (7); ZDiUM Wrocław (5); grabor sp. z o. o. spółka (4) |
+| Warszawa | 10,5% | 22,0% | 1 189 | PKS Grójec (246); Nadwiślańska Komunikacja Autobusowa (157); Powiat Legionowski (69); Powiat siedlecki (50) |
+| Kraków | 9,5% | 26,6% | 506 | Krakowski Tramwaj Wodny (3); Wielicka Komunikacja Miejska (3); G1, G2 (2); Stefan Bus (2) |
+| Wrocław | 13,5% | 28,5% | 412 | Siechnicka Komunikacja Publiczna (20); ZDiUM Wrocław (5); grabor sp. z o. o. spółka (4); Kobierzyce (4) |
 | Poznań | 7,3% | 13,4% | 275 | UMiG Pobiedziska (39); Kostrzyńska Komunikacja Publiczna (19); KPP (15); PKP (5) |
-| Łódź | 31,7% | 34,3% | 846 | Kasz-Bus (4); MZK-Pabianice (3); Express-Bus (2); Markab/MUK Zgierz (2) |
-| Trójmiasto | 22,3% | 25,0% | 1 033 | MZK Wejherowo (163); PKS Gdynia (51); Przewozy Autokarowe Albatros (11); MZK Wejherowo, PKS Gdynia (5) |
+| Łódź | 4,6% | 15,7% | 103 | Express-Bus (2); WicherTravel (2); Wicher Travel (1); Łask-Pabianice (1) |
+| Trójmiasto | 16,1% | 18,8% | 809 | PKS Gdynia (51); Przewozy Autokarowe Albatros (11); Albatros (2); D (2) |
 | GZM | 1,3% | 3,6% | 109 | PKS Gliwice (12); ZGKiM Sośnicowice (4); ZPG Jedźmy Razem (3); PGKiM Łaziska Górne (2) |
 
 Systematycznie zaniżone (gdyby liczyć na całej FUA bez maski) byłyby: **Warszawa, Kraków, Łódź, Wrocław i Trójmiasto**.

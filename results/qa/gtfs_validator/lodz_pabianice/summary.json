@@ -1,0 +1,37 @@
+{
+ "duration_s": 2.5,
+ "feed": "lodz_pabianice",
+ "gtfs_features": [
+  "Shapes",
+  "Feed Information",
+  "Attributions",
+  "Route Colors",
+  "Headsigns",
+  "Location Types"
+ ],
+ "input_sha256": "6e3e894ae9e4c6696bc0f312ac9af8b20613fc3141c4fe935ef92b9b13821f77",
+ "notice_types": {
+  "ERROR": 0,
+  "INFO": 1,
+  "WARNING": 1
+ },
+ "notices": [
+  {
+   "code": "feed_expiration_date30_days",
+   "count": 1,
+   "severity": "WARNING"
+  },
+  {
+   "code": "unknown_column",
+   "count": 2,
+   "severity": "INFO"
+  }
+ ],
+ "totals": {
+  "ERROR": 0,
+  "INFO": 2,
+  "WARNING": 1
+ },
+ "validated_at": "2026-11-23T19:33:31+01:00",
+ "validator_version": "8.0.1"
+}

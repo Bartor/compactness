@@ -1,0 +1,47 @@
+{
+ "duration_s": 2.7,
+ "feed": "warsaw_nowy_dwor",
+ "gtfs_features": [
+  "Shapes",
+  "Feed Information",
+  "Fare Products",
+  "Headsigns",
+  "Trips Wheelchair Accessibility",
+  "Bike Allowed"
+ ],
+ "input_sha256": "fe98893d47726dc1bd7ee4ac5d2b1521f23985ece0457782e9696c5ceee448fc",
+ "notice_types": {
+  "ERROR": 0,
+  "INFO": 1,
+  "WARNING": 3
+ },
+ "notices": [
+  {
+   "code": "feed_expiration_date7_days",
+   "count": 1,
+   "severity": "WARNING"
+  },
+  {
+   "code": "missing_feed_contact_email_and_url",
+   "count": 1,
+   "severity": "WARNING"
+  },
+  {
+   "code": "trip_coverage_not_active_for_next7_days",
+   "count": 1,
+   "severity": "WARNING"
+  },
+  {
+   "code": "unknown_column",
+   "count": 2,
+   "severity": "INFO"
+  }
+ ],
+ "totals": {
+  "ERROR": 0,
+  "INFO": 2,
+  "WARNING": 3
+ },
+ "validated_at": "2026-11-23T19:33:06+01:00",
+ "validator_version": "8.0.1"
+}

@@ -1,0 +1,38 @@
+{
+ "duration_s": 2.3,
+ "feed": "krakow_niepolomice",
+ "gtfs_features": [
+  "Transfers",
+  "Shapes",
+  "Feed Information",
+  "Attributions",
+  "Route Colors",
+  "Headsigns",
+  "Location Types"
+ ],
+ "input_sha256": "94c231690700d8dcde5119c857674aab96269c393463ca512b9fef3637c56fef",
+ "notice_types": {
+  "ERROR": 0,
+  "INFO": 1,
+  "WARNING": 1
+ },
+ "notices": [
+  {
+   "code": "fast_travel_between_consecutive_stops",
+   "count": 11,
+   "severity": "WARNING"
+  },
+  {
+   "code": "unknown_column",
+   "count": 2,
+   "severity": "INFO"
+  }
+ ],
+ "totals": {
+  "ERROR": 0,
+  "INFO": 2,
+  "WARNING": 11
+ },
+ "validated_at": "2026-11-23T19:33:29+01:00",
+ "validator_version": "8.0.1"
+}

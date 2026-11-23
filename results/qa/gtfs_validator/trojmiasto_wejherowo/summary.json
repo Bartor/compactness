@@ -1,0 +1,30 @@
+{
+ "duration_s": 2.7,
+ "feed": "trojmiasto_wejherowo",
+ "gtfs_features": [
+  "Shapes",
+  "Feed Information",
+  "Route Colors",
+  "Headsigns"
+ ],
+ "input_sha256": "0f9ab05e6dcd6c060e5b2ad40b1e8f352aeec04cede1aaaf2dcb2967903645b0",
+ "notice_types": {
+  "ERROR": 0,
+  "INFO": 0,
+  "WARNING": 1
+ },
+ "notices": [
+  {
+   "code": "missing_feed_contact_email_and_url",
+   "count": 1,
+   "severity": "WARNING"
+  }
+ ],
+ "totals": {
+  "ERROR": 0,
+  "INFO": 0,
+  "WARNING": 1
+ },
+ "validated_at": "2026-11-23T19:33:47+01:00",
+ "validator_version": "8.0.1"
+}

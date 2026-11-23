@@ -3,11 +3,18 @@
   "2026-11-24",
   "2026-11-25"
  ],
- "common_candidate_saturdays": [
-  "2026-11-28"
- ],
+ "common_candidate_saturdays": [],
  "common_reference_day": true,
- "common_reference_saturday": true,
+ "common_reference_saturday": false,
+ "feeds_without_service_on_reference_day": [],
+ "feeds_without_service_on_reference_saturday": [
+  "warsaw_halinow",
+  "warsaw_sulejowek",
+  "lodz_strykow",
+  "wroclaw_olesnica",
+  "wroclaw_oborniki"
+ ],
+ "fixed_by_config": true,
  "per_feed_fallback": {},
  "reference_day": "2026-11-25",
  "reference_saturday": "2026-11-28"

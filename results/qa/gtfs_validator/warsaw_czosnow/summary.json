@@ -1,0 +1,69 @@
+{
+ "duration_s": 2.3,
+ "feed": "warsaw_czosnow",
+ "gtfs_features": [
+  "Transfers",
+  "Shapes",
+  "Feed Information",
+  "Translations",
+  "Route Colors",
+  "Headsigns",
+  "Location Types",
+  "Contactless EMV Support"
+ ],
+ "input_sha256": "b52a2db4e4702cc6e7f57d7342bc125691186c6c3a8262a51c2c60fd69e2c64f",
+ "notice_types": {
+  "ERROR": 0,
+  "INFO": 5,
+  "WARNING": 3
+ },
+ "notices": [
+  {
+   "code": "mixed_case_recommended_field",
+   "count": 2,
+   "severity": "WARNING"
+  },
+  {
+   "code": "stop_has_too_many_matches_for_shape",
+   "count": 2,
+   "severity": "WARNING"
+  },
+  {
+   "code": "stops_match_shape_out_of_order",
+   "count": 2,
+   "severity": "WARNING"
+  },
+  {
+   "code": "big_gap_in_service",
+   "count": 48,
+   "severity": "INFO"
+  },
+  {
+   "code": "service_extends_far_in_the_future",
+   "count": 3,
+   "severity": "INFO"
+  },
+  {
+   "code": "service_window_outside_feed_period",
+   "count": 1,
+   "severity": "INFO"
+  },
+  {
+   "code": "unknown_column",
+   "count": 1,
+   "severity": "INFO"
+  },
+  {
+   "code": "unknown_file",
+   "count": 1,
+   "severity": "INFO"
+  }
+ ],
+ "totals": {
+  "ERROR": 0,
+  "INFO": 54,
+  "WARNING": 6
+ },
+ "validated_at": "2026-11-23T19:33:13+01:00",
+ "validator_version": "8.0.1"
+}

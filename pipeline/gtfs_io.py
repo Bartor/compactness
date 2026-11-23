@@ -101,6 +101,38 @@ class Feed:
         return df
 
 
+# ------------------------------------------------------------------ per-feed filters (config.yaml: drop_routes / drop_agencies)
+def drop_spec(feed: Feed) -> tuple[set[str], set[str]]:
+    """route_ids / agency_ids that ``config.yaml`` feeds.<id> excludes (duplicates of services in another feed)."""
+    from pipeline.common import load_config
+    c = (load_config().get("feeds") or {}).get(feed.id, {}) or {}
+    return set(map(str, c.get("drop_routes") or [])), set(map(str, c.get("drop_agencies") or []))
+
+
+def dropped_route_ids(feed: Feed) -> set[str]:
+    dr, da = drop_spec(feed)
+    if not dr and not da:
+        return set()
+    rt = feed.table("routes.txt", ["route_id", "agency_id"])
+    bad = set(dr)
+    if da and "agency_id" in rt:
+        bad |= set(rt.loc[rt["agency_id"].isin(da), "route_id"])
+    return bad
+
+
+def _cache_ok(feed: Feed, cache: Path, refresh: bool) -> bool:
+    """Cache is valid when newer than the zip and built with the same drop filters."""
+    sig = feed.interim / "drop_sig.txt"
+    cur = repr((sorted(drop_spec(feed)[0]), sorted(drop_spec(feed)[1])))
+    prev = sig.read_text(encoding="utf-8") if sig.exists() else repr(([], []))
+    if prev != cur:
+        for n in ("stop_events.parquet", "trip_stats.parquet"):
+            (feed.interim / n).unlink(missing_ok=True)
+        sig.write_text(cur, encoding="utf-8")
+        return False
+    return cache.exists() and not refresh and cache.stat().st_mtime >= feed.path.stat().st_mtime
+
+
 # ------------------------------------------------------------------ calendar
 def service_dates(feed: Feed) -> pd.DataFrame:
     """Long table (service_id, date) of every date each service runs.
@@ -171,9 +203,13 @@ def shape_lengths(feed: Feed) -> pd.Series:
 def stop_events(feed: Feed, refresh: bool = False) -> pd.DataFrame:
     """stop_times with integer seconds (NaN -> -1 is avoided: columns are float32), cached as parquet."""
     cache = feed.interim / "stop_events.parquet"
-    if cache.exists() and not refresh and cache.stat().st_mtime >= feed.path.stat().st_mtime:
+    if _cache_ok(feed, cache, refresh):
         return pd.read_parquet(cache)
     st = feed.table("stop_times.txt", ["trip_id", "stop_id", "stop_sequence", "arrival_time", "departure_time"])
+    bad = dropped_route_ids(feed)
+    if bad:
+        tr0 = feed.table("trips.txt", ["trip_id", "route_id"])
+        st = st[~st["trip_id"].isin(tr0.loc[tr0["route_id"].isin(bad), "trip_id"])]
     st["stop_sequence"] = pd.to_numeric(st["stop_sequence"], errors="coerce").astype("int32")
     st["arr_s"] = parse_time(st["arrival_time"]).astype("float32")
     st["dep_s"] = parse_time(st["departure_time"]).astype("float32")
@@ -212,9 +248,15 @@ def trip_stats(feed: Feed, refresh: bool = False) -> pd.DataFrame:
     number of departures implied by frequencies.txt.
     """
     cache = feed.interim / "trip_stats.parquet"
-    if cache.exists() and not refresh and cache.stat().st_mtime >= feed.path.stat().st_mtime:
+    if _cache_ok(feed, cache, refresh):
         return pd.read_parquet(cache)
     trips = feed.table("trips.txt", ["trip_id", "route_id", "service_id", "direction_id", "shape_id", "block_id"])
+    bad = dropped_route_ids(feed)
+    if bad:
+        trips = trips[~trips["route_id"].isin(bad)]
+    for c in ("direction_id", "shape_id", "block_id"):   # optional GTFS columns; many small feeds omit them
+        if c not in trips:
+            trips[c] = None
     ev = stop_events(feed)
     stops = feed.table("stops.txt", ["stop_id", "stop_lat", "stop_lon"])
     stops["lat"] = pd.to_numeric(stops["stop_lat"], errors="coerce")
@@ -258,7 +300,8 @@ def trip_stats(feed: Feed, refresh: bool = False) -> pd.DataFrame:
     routes = feed.table("routes.txt", ["route_id", "route_type", "agency_id"])
     if routes is not None:
         routes["route_class"] = routes["route_type"].map(route_class)
-        out = out.merge(routes[["route_id", "route_type", "route_class", "agency_id"]], on="route_id", how="left")
+        out = out.merge(routes[["route_id", "route_type", "route_class", "agency_id"]].drop_duplicates("route_id"),
+                        on="route_id", how="left")   # some feeds repeat route rows (e.g. Tczew)
     for c in ("shape_id", "block_id", "direction_id"):
         if c not in out:
             out[c] = None

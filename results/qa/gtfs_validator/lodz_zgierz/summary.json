@@ -1,0 +1,43 @@
+{
+ "duration_s": 2.5,
+ "feed": "lodz_zgierz",
+ "gtfs_features": [
+  "Transfers",
+  "Shapes",
+  "Feed Information",
+  "Attributions",
+  "Route Colors",
+  "Headsigns",
+  "Location Types"
+ ],
+ "input_sha256": "c53bcdbeadd9a33d2a8021f72c5f48e420796541b21f86ba6616245b2f912b04",
+ "notice_types": {
+  "ERROR": 0,
+  "INFO": 1,
+  "WARNING": 2
+ },
+ "notices": [
+  {
+   "code": "feed_expiration_date30_days",
+   "count": 1,
+   "severity": "WARNING"
+  },
+  {
+   "code": "stops_match_shape_out_of_order",
+   "count": 1,
+   "severity": "WARNING"
+  },
+  {
+   "code": "unknown_column",
+   "count": 2,
+   "severity": "INFO"
+  }
+ ],
+ "totals": {
+  "ERROR": 0,
+  "INFO": 2,
+  "WARNING": 2
+ },
+ "validated_at": "2026-11-23T19:33:44+01:00",
+ "validator_version": "8.0.1"
+}

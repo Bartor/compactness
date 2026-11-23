@@ -1,0 +1,52 @@
+{
+ "duration_s": 3.1,
+ "feed": "krakow_skawina",
+ "gtfs_features": [
+  "Shapes",
+  "Feed Information",
+  "Route Colors",
+  "Headsigns",
+  "Trips Wheelchair Accessibility",
+  "Bike Allowed"
+ ],
+ "input_sha256": "ca0529764195b6fa59fa18e76b5b46618ae61cdb2e6bee0ff2cf80667799194f",
+ "notice_types": {
+  "ERROR": 0,
+  "INFO": 1,
+  "WARNING": 4
+ },
+ "notices": [
+  {
+   "code": "feed_expiration_date7_days",
+   "count": 1,
+   "severity": "WARNING"
+  },
+  {
+   "code": "missing_feed_contact_email_and_url",
+   "count": 1,
+   "severity": "WARNING"
+  },
+  {
+   "code": "route_color_contrast",
+   "count": 1,
+   "severity": "WARNING"
+  },
+  {
+   "code": "trip_coverage_not_active_for_next7_days",
+   "count": 1,
+   "severity": "WARNING"
+  },
+  {
+   "code": "unknown_column",
+   "count": 2,
+   "severity": "INFO"
+  }
+ ],
+ "totals": {
+  "ERROR": 0,
+  "INFO": 2,
+  "WARNING": 4
+ },
+ "validated_at": "2026-11-23T19:33:26+01:00",
+ "validator_version": "8.0.1"
+}

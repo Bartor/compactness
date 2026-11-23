@@ -1,0 +1,44 @@
+{
+ "duration_s": 3.2,
+ "feed": "krakow_ald",
+ "gtfs_features": [
+  "Feed Information",
+  "Headsigns",
+  "Location Types"
+ ],
+ "input_sha256": "86c76af98b5407bb23b4d3d21fc18199cb4e4b2f94d04914127d5be82db0ddc9",
+ "notice_types": {
+  "ERROR": 0,
+  "INFO": 1,
+  "WARNING": 3
+ },
+ "notices": [
+  {
+   "code": "mixed_case_recommended_field",
+   "count": 3,
+   "severity": "WARNING"
+  },
+  {
+   "code": "missing_feed_contact_email_and_url",
+   "count": 1,
+   "severity": "WARNING"
+  },
+  {
+   "code": "missing_recommended_field",
+   "count": 1,
+   "severity": "WARNING"
+  },
+  {
+   "code": "unknown_column",
+   "count": 2,
+   "severity": "INFO"
+  }
+ ],
+ "totals": {
+  "ERROR": 0,
+  "INFO": 2,
+  "WARNING": 5
+ },
+ "validated_at": "2026-11-23T19:33:23+01:00",
+ "validator_version": "8.0.1"
+}

@@ -1,0 +1,46 @@
+{
+ "duration_s": 2.8,
+ "feed": "warsaw_radzymin",
+ "gtfs_features": [
+  "Shapes",
+  "Feed Information",
+  "Headsigns",
+  "Trips Wheelchair Accessibility",
+  "Bike Allowed"
+ ],
+ "input_sha256": "e1857cddaa9894bdb97f32f4fa987d9bc6f1c4b8c58c1ecedff63b3179e407c5",
+ "notice_types": {
+  "ERROR": 0,
+  "INFO": 1,
+  "WARNING": 3
+ },
+ "notices": [
+  {
+   "code": "feed_expiration_date7_days",
+   "count": 1,
+   "severity": "WARNING"
+  },
+  {
+   "code": "missing_feed_contact_email_and_url",
+   "count": 1,
+   "severity": "WARNING"
+  },
+  {
+   "code": "trip_coverage_not_active_for_next7_days",
+   "count": 1,
+   "severity": "WARNING"
+  },
+  {
+   "code": "unknown_column",
+   "count": 2,
+   "severity": "INFO"
+  }
+ ],
+ "totals": {
+  "ERROR": 0,
+  "INFO": 2,
+  "WARNING": 3
+ },
+ "validated_at": "2026-11-23T19:32:53+01:00",
+ "validator_version": "8.0.1"
+}

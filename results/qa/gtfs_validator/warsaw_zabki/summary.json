@@ -1,0 +1,46 @@
+{
+ "duration_s": 2.4,
+ "feed": "warsaw_zabki",
+ "gtfs_features": [
+  "Feed Information",
+  "Route Colors",
+  "Headsigns",
+  "Trips Wheelchair Accessibility",
+  "Bike Allowed"
+ ],
+ "input_sha256": "dba8a23bdc9af5914b788dc6052de5afae9ebbb0616c396f48e8da6e9ab77718",
+ "notice_types": {
+  "ERROR": 0,
+  "INFO": 1,
+  "WARNING": 3
+ },
+ "notices": [
+  {
+   "code": "non_ascii_or_non_printable_char",
+   "count": 244,
+   "severity": "WARNING"
+  },
+  {
+   "code": "stop_without_stop_time",
+   "count": 7,
+   "severity": "WARNING"
+  },
+  {
+   "code": "feed_expiration_date30_days",
+   "count": 1,
+   "severity": "WARNING"
+  },
+  {
+   "code": "unknown_column",
+   "count": 2,
+   "severity": "INFO"
+  }
+ ],
+ "totals": {
+  "ERROR": 0,
+  "INFO": 2,
+  "WARNING": 252
+ },
+ "validated_at": "2026-11-23T19:32:58+01:00",
+ "validator_version": "8.0.1"
+}

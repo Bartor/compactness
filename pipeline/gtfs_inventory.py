@@ -303,6 +303,20 @@ def run_reference() -> dict:
     cs = candidates((6,))
     ref, ref_common, score_w = pick(cw, med_w)
     sat, sat_common, score_s = pick(cs, med_s)
+    # The reference days are fixed in config.yaml (decision 2026-11-23): the proposal logic above must not override them.
+    cfg_all = load_config()
+    fixed_w, fixed_s = cfg_all.get("reference_day"), cfg_all.get("reference_saturday")
+
+    def _served(day):
+        return [f for f in feeds if day in km.index and pd.notna(km.at[day, f])]
+    if fixed_w:
+        ref = pd.Timestamp(fixed_w)
+        ref_common = len(_served(ref)) == len(feeds)
+    if fixed_s:
+        sat = pd.Timestamp(fixed_s)
+        sat_common = len(_served(sat)) == len(feeds)
+    no_service_w = [f for f in feeds if ref is not None and f not in _served(ref)]
+    no_service_s = [f for f in feeds if sat is not None and f not in _served(sat)]
     per_feed: dict[str, str] = {}
     if ref is None:  # same weekday in different weeks, per feed
         for f in feeds:
@@ -311,6 +325,8 @@ def run_reference() -> dict:
     info = {"reference_day": ref.strftime("%Y-%m-%d") if ref is not None else None,
             "reference_saturday": sat.strftime("%Y-%m-%d") if sat is not None else None,
             "common_reference_day": ref_common, "common_reference_saturday": sat_common,
+            "fixed_by_config": bool(fixed_w), "feeds_without_service_on_reference_day": no_service_w,
+            "feeds_without_service_on_reference_saturday": no_service_s,
             "per_feed_fallback": per_feed}
     common_w = [d.strftime("%Y-%m-%d") for d in cw if km.loc[d].notna().all()]
     common_s = [d.strftime("%Y-%m-%d") for d in cs if km.loc[d].notna().all()]
@@ -328,7 +344,15 @@ def run_reference() -> dict:
          "a gdy kurs nie ma kształtu: suma odległości po prostej między kolejnymi przystankami; udział tej metody w `service_by_day.csv`). "
          "Wartości w tabelach to **po usunięciu dokładnych duplikatów kursów** (kolumny `*_dedup`; dotyczy `gzm`, patrz niżej).",
          "", "## Rekomendacja", ""]
-    if ref is not None:
+    if ref is not None and fixed_w:
+        L += [f"- **Dzień roboczy ustalony w `config.yaml`: {ref.strftime('%Y-%m-%d')} ({WD_PL[ref.day_of_week]})**; "
+              f"sobota: {sat.strftime('%Y-%m-%d') if sat is not None else 'brak'}. Propozycja poniżej NIE zmienia tej decyzji; "
+              f"kursy w tym dniu ma {len(feeds) - len(no_service_w)}/{len(feeds)} feedów"
+              + (f" (bez kursów: {', '.join('`' + f + '`' for f in no_service_w)})." if no_service_w else " (wszystkie).")
+              + (f" W sobotę bez kursów: {', '.join('`' + f + '`' for f in no_service_s)}." if no_service_s else " W sobotę kursy mają wszystkie feedy."),
+              f"- Wspólne dni wt–czw (poza świętami i 24.12–6.01), tylko informacyjnie: {', '.join(common_w) or 'brak'}.",
+              f"- Wspólne soboty, tylko informacyjnie: {', '.join(common_s) or 'brak'}.", ""]
+    elif ref is not None:
         L += [f"- **Dzień roboczy (wt–czw): {ref.strftime('%Y-%m-%d')} ({WD_PL[ref.day_of_week]})**: jeden wspólny dzień dla wszystkich "
               f"{len(feeds)} feedów (każdy ma tego dnia kursy). Kandydat wybrany spośród wspólnych dni wt–czw o najmniejszym "
               "średnim odchyleniu wozokilometrów od mediany dni roboczych w ważności feedu (remis: środa).",
@@ -409,8 +433,8 @@ def run_reference() -> dict:
             flag = "TAK" if pd.notna(dev) and abs(dev) > 0.05 else "nie"
             rows.append({"feed": f, "date": f"{day:%Y-%m-%d}", "km": v, "median_km": m, "n": n, "dev_pct": dev * 100, "flag": flag})
             gg = sbd[(sbd["feed"] == f) & sbd["weekday_n"].isin(wset)]
-            gg = gg[~gg["date"].map(is_holiday)]["vehicle_km_dedup"]
-            rng = f"{gg.min():,.0f}–{gg.max():,.0f}"
+            gg = gg[~gg["date"].map(is_holiday).astype(bool)]["vehicle_km_dedup"] if len(gg) else gg["vehicle_km_dedup"]
+            rng = f"{gg.min():,.0f}–{gg.max():,.0f}" if len(gg) else "–"   # feed without service on this weekday type
             out.append(f"| `{f}` | {v:,.0f} | {m:,.0f} | {n} | {rng} | {dev * 100:+.1f} % | {flag} | {EXPLAIN.get(f + ':' + label, '') if flag == 'TAK' else ''} |".replace(",", " "))
         out.append("")
         return out, rows

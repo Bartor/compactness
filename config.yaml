@@ -266,6 +266,221 @@ feeds:
     license_url: "https://mkuran.pl/gtfs/"
     notes: "Agencies listed by publisher: PolRegio, PKP IC, KM, SKM Trójmiasto, KŚ, KD, KW, SKM Warszawa, ŁKA, KMŁ, Arriva RP, RegioJet, Leo Express."
 
+  # ---- added in phase 0 (closing coverage gaps; decisions: results/qa/phase0/gtfs/candidate_feeds.md) ----
+  # drop_routes / drop_agencies: route_id / agency_id lists removed in pipeline.gtfs_io (trip_stats, stop_events)
+  # because the same trips are already in another feed.
+  warsaw_gpa:
+    agglomerations: [warszawa]
+    url: "https://api.zbiorkom.live/api6-open/warsaw/gtfs/GPA"
+    publisher: "Grodziskie Przewozy Autobusowe (via zbiorkom.live)"
+    license: "MIT (zbiorkom.live repackaging; operator terms not stated)"
+    license_url: "https://api.zbiorkom.live/"
+    notes: "zbiorkom.live repackaging (api6-open); catalogue licence MIT covers the repackaging only, the municipality's own terms are not stated. Overlap with warsaw_ztm: 0 % line+first stop+minute, 1.5 % by stop location+minute (coincidence)."
+  warsaw_pruszkow:
+    agglomerations: [warszawa]
+    url: "https://api.zbiorkom.live/api6-open/warsaw/gtfs/PRUSZKOW"
+    publisher: "Miasto Pruszków, PKM (via zbiorkom.live)"
+    license: "MIT (zbiorkom.live repackaging; operator terms not stated)"
+    license_url: "https://api.zbiorkom.live/"
+    notes: "zbiorkom.live repackaging (api6-open); catalogue licence MIT covers the repackaging only, the municipality's own terms are not stated. Overlap with warsaw_ztm and warsaw_gpa below 1 %."
+  warsaw_minsk:
+    agglomerations: [warszawa]
+    url: "https://api.zbiorkom.live/api6-open/warsaw/gtfs/MINSK"
+    publisher: "Miasto Mińsk Mazowiecki (via zbiorkom.live)"
+    license: "MIT (zbiorkom.live repackaging; operator terms not stated)"
+    license_url: "https://api.zbiorkom.live/"
+    notes: "zbiorkom.live repackaging (api6-open); catalogue licence MIT covers the repackaging only, the municipality's own terms are not stated."
+  warsaw_powiat_minski:
+    agglomerations: [warszawa]
+    url: "https://files.girlc.at/gtfs/powiat_minski.zip"
+    publisher: "PGZTPPM Mińsk Mazowiecki (powiat miński) via files.girlc.at"
+    license: "CC0-1.0 (girlc.at repackaging; operator terms not stated)"
+    license_url: "https://files.girlc.at/gtfs/"
+    notes: "girlc.at repackaging of an unofficial timetable export (generated from T4B by lz); catalogue licence CC0-1.0 (transitous/Atlas) covers the repackaging only, the operator's own terms are not stated. Validity window is rolling (~2 weeks, ends 2026-11-28), so the file is re-published weekly; the raw copy is date-stamped."
+  warsaw_otwock:
+    agglomerations: [warszawa]
+    url: "https://files.girlc.at/gtfs/otwock.zip"
+    publisher: "OZEC / BKM Otwock via files.girlc.at"
+    license: "CC0-1.0 (girlc.at repackaging; operator terms not stated)"
+    license_url: "https://files.girlc.at/gtfs/"
+    notes: "girlc.at repackaging of an unofficial timetable export (generated from T4B by lz); catalogue licence CC0-1.0 (transitous/Atlas) covers the repackaging only, the operator's own terms are not stated. Validity window is rolling (~2 weeks, ends 2026-11-28), so the file is re-published weekly; the raw copy is date-stamped. Buses only (S1 rail is in warsaw_ztm). Validator ERRORs (3): duplicate route_id rows in routes.txt (M1, M3) and a bad agency phone; trips/stop_times unaffected (gtfs_io de-duplicates route rows)."
+  warsaw_radzymin:
+    agglomerations: [warszawa]
+    url: "https://files.girlc.at/gtfs/radzymin.zip"
+    publisher: "Urząd Miasta i Gminy Radzymin via files.girlc.at"
+    license: "CC0-1.0 (girlc.at repackaging; operator terms not stated)"
+    license_url: "https://files.girlc.at/gtfs/"
+    notes: "girlc.at repackaging of an unofficial timetable export (generated from T4B by lz); catalogue licence CC0-1.0 (transitous/Atlas) covers the repackaging only, the operator's own terms are not stated. Validity window is rolling (~2 weeks, ends 2026-11-28), so the file is re-published weekly; the raw copy is date-stamped."
+  warsaw_lomianki:
+    agglomerations: [warszawa]
+    url: "https://files.girlc.at/gtfs/lomianki.zip"
+    publisher: "Komunikacja Miejska Łomianki via files.girlc.at"
+    license: "CC0-1.0 (girlc.at repackaging; operator terms not stated)"
+    license_url: "https://files.girlc.at/gtfs/"
+    notes: "girlc.at repackaging of an unofficial timetable export (generated from T4B by lz); catalogue licence CC0-1.0 (transitous/Atlas) covers the repackaging only, the operator's own terms are not stated. Validity window is rolling (~2 weeks, ends 2026-11-28), so the file is re-published weekly; the raw copy is date-stamped."
+  warsaw_zabki:
+    agglomerations: [warszawa]
+    url: "https://files.girlc.at/gtfs/zabki.zip"
+    publisher: "Miasto Ząbki via files.girlc.at"
+    license: "CC0-1.0 (girlc.at repackaging; operator terms not stated)"
+    license_url: "https://files.girlc.at/gtfs/"
+    notes: "girlc.at repackaging of an unofficial timetable export (generated from T4B by lz); catalogue licence CC0-1.0 (transitous/Atlas) covers the repackaging only, the operator's own terms are not stated. Validity window is rolling (~2 weeks, ends 2026-11-28), so the file is re-published weekly; the raw copy is date-stamped. Window ends 2026-12-04. 22 % of trips share first stop name + minute with warsaw_ztm but on different lines (busy ZTM terminal); line+stop+minute overlap 0 %, so no filter."
+  warsaw_halinow:
+    agglomerations: [warszawa]
+    url: "https://files.girlc.at/gtfs/halinow.zip"
+    publisher: "Gmina Halinów via files.girlc.at"
+    license: "CC0-1.0 (girlc.at repackaging; operator terms not stated)"
+    license_url: "https://files.girlc.at/gtfs/"
+    notes: "girlc.at repackaging of an unofficial timetable export (generated from T4B by lz); catalogue licence CC0-1.0 (transitous/Atlas) covers the repackaging only, the operator's own terms are not stated. Validity window is rolling (~2 weeks, ends 2026-11-28), so the file is re-published weekly; the raw copy is date-stamped. No Saturday service."
+  warsaw_wieliszew:
+    agglomerations: [warszawa]
+    url: "https://files.girlc.at/gtfs/wieliszew.zip"
+    publisher: "Gmina Wieliszew via files.girlc.at"
+    license: "CC0-1.0 (girlc.at repackaging; operator terms not stated)"
+    license_url: "https://files.girlc.at/gtfs/"
+    notes: "girlc.at repackaging of an unofficial timetable export (generated from T4B by lz); catalogue licence CC0-1.0 (transitous/Atlas) covers the repackaging only, the operator's own terms are not stated. Validity window is rolling (~2 weeks, ends 2026-11-28), so the file is re-published weekly; the raw copy is date-stamped. Window 2026-11-19..12-02."
+  warsaw_nowy_dwor:
+    agglomerations: [warszawa]
+    url: "https://files.girlc.at/gtfs/nowy_dwor_mazowiecki.zip"
+    publisher: "Nowodworska Komunikacja Autobusowa (UM Nowy Dwór Mazowiecki) via files.girlc.at"
+    license: "CC0-1.0 (girlc.at repackaging; operator terms not stated)"
+    license_url: "https://files.girlc.at/gtfs/"
+    notes: "girlc.at repackaging of an unofficial timetable export (generated from T4B by lz); catalogue licence CC0-1.0 (transitous/Atlas) covers the repackaging only, the operator's own terms are not stated. Validity window is rolling (~2 weeks, ends 2026-11-28), so the file is re-published weekly; the raw copy is date-stamped."
+  warsaw_powiat_nowodworski:
+    agglomerations: [warszawa]
+    url: "https://files.girlc.at/gtfs/powiat_nowodworski.zip"
+    publisher: "Powiat Nowodworski via files.girlc.at"
+    license: "CC0-1.0 (girlc.at repackaging; operator terms not stated)"
+    license_url: "https://files.girlc.at/gtfs/"
+    notes: "girlc.at repackaging of an unofficial timetable export (generated from T4B by lz); catalogue licence CC0-1.0 (transitous/Atlas) covers the repackaging only, the operator's own terms are not stated. Validity window is rolling (~2 weeks, ends 2026-11-28), so the file is re-published weekly; the raw copy is date-stamped."
+  warsaw_sulejowek:
+    agglomerations: [warszawa]
+    url: "https://files.girlc.at/gtfs/sulejowek.zip"
+    publisher: "UM Sulejówek / Urząd Gminy Wiązowna via files.girlc.at"
+    license: "CC0-1.0 (girlc.at repackaging; operator terms not stated)"
+    license_url: "https://files.girlc.at/gtfs/"
+    notes: "girlc.at repackaging of an unofficial timetable export (generated from T4B by lz); catalogue licence CC0-1.0 (transitous/Atlas) covers the repackaging only, the operator's own terms are not stated. Validity window is rolling (~2 weeks, ends 2026-11-28), so the file is re-published weekly; the raw copy is date-stamped. No Saturday service."
+  warsaw_czosnow:
+    agglomerations: [warszawa]
+    url: "https://feed.gtfs.cc/czosnow/gtfs.zip"
+    publisher: "Urząd Gminy Czosnów (A. Dubis, feed.gtfs.cc)"
+    license: "MIT (feed.gtfs.cc catalogue entry; operator terms not stated)"
+    license_url: "https://feed.gtfs.cc/"
+    notes: "Hand-made feed (validity 2025-01-01..2029-12-26, i.e. a fixed weekly pattern rather than a dated timetable). 56 trips on the reference day."
+  warsaw_zakroczym:
+    agglomerations: [warszawa]
+    url: "https://feed.gtfs.cc/zakroczym/gtfs.zip"
+    publisher: "Komunikacja Gminna Zakroczym (A. Dubis, feed.gtfs.cc)"
+    license: "MIT (feed.gtfs.cc catalogue entry; operator terms not stated)"
+    license_url: "https://feed.gtfs.cc/"
+    notes: "Hand-made feed (validity 2025-01-01..2026-12-31). 44 trips on the reference day. Validator ERRORs (50): duplicate service_id rows in calendar.txt (patterns are unioned by gtfs_io); trips/stop_times unaffected."
+  warsaw_dabrowka:
+    agglomerations: [warszawa]
+    url: "https://files.girlc.at/gtfs/dabrowka.zip"
+    publisher: "Urząd Gminy Dąbrówka via files.girlc.at"
+    license: "CC0-1.0 (girlc.at repackaging; operator terms not stated)"
+    license_url: "https://files.girlc.at/gtfs/"
+    notes: "girlc.at repackaging of an unofficial timetable export (generated from T4B by lz); catalogue licence CC0-1.0 (transitous/Atlas) covers the repackaging only, the operator's own terms are not stated. Validity window is rolling (~2 weeks, ends 2026-11-28), so the file is re-published weekly; the raw copy is date-stamped."
+  warsaw_zyrardow:
+    agglomerations: [warszawa]
+    url: "https://github.com/minkowskimaciej/zyrardow/raw/main/zyrardow.zip"
+    publisher: "Żyrardowskie Przewozy Autobusowe (M. Minkowski, GitHub)"
+    license: "CC0-1.0 (Mobility Database entry; operator terms not stated)"
+    license_url: "https://creativecommons.org/publicdomain/zero/1.0/legalcode"
+    notes: "Community feed on GitHub, validity 2026-09-15..2027-12-31. Zyrardow gmina had 1 % coverage before."
+  krakow_ald:
+    agglomerations: [krakow]
+    url: "https://kolejemalopolskie.com.pl/rozklady_jazdy/ald-gtfs.zip"
+    publisher: "Koleje Małopolskie (autobusowe linie dowozowe ALD / Małopolskie Linie Dowozowe)"
+    license: "CC BY 4.0 (per transitous / Atlas catalogues; not checked on the publisher page, which returns 403 to scripts)"
+    license_url: "https://creativecommons.org/licenses/by/4.0/"
+    notes: "Official feed, buses only (70 routes across Małopolska; downstream clipping to the FUA applies). The zbiorkom.live copy (MLD) has the same 1309 trips on the reference day and is not used. Not contained in polish_trains (3 KML ZKA trips only); overlap with krakow_mobilis / krakow_bus below 4 % by location+minute."
+  krakow_skawina:
+    agglomerations: [krakow]
+    url: "https://files.girlc.at/gtfs/skawina.zip"
+    publisher: "Urząd Miasta i Gminy Skawina via files.girlc.at"
+    license: "CC0-1.0 (girlc.at repackaging; operator terms not stated)"
+    license_url: "https://files.girlc.at/gtfs/"
+    notes: "girlc.at repackaging of an unofficial timetable export (generated from T4B by lz); catalogue licence CC0-1.0 (transitous/Atlas) covers the repackaging only, the operator's own terms are not stated. Validity window is rolling (~2 weeks, ends 2026-11-28), so the file is re-published weekly; the raw copy is date-stamped. Overlap with krakow_bus 6.6 % by first stop name+minute, 0 % by line (coincidence)."
+  krakow_niepolomice:
+    agglomerations: [krakow]
+    url: "https://api.zbiorkom.live/api6-open/krakow/gtfs/NIEPOLOMICE"
+    publisher: "Gmina Niepołomice (via zbiorkom.live)"
+    license: "MIT (zbiorkom.live repackaging; operator terms not stated)"
+    license_url: "https://api.zbiorkom.live/"
+    notes: "zbiorkom.live repackaging (api6-open); catalogue licence MIT covers the repackaging only, the municipality's own terms are not stated. Window 2026-11-23..12-24."
+  lodz_pabianice:
+    agglomerations: [lodz]
+    url: "https://api.zbiorkom.live/api6-open/lodz/gtfs/PABIANICE"
+    publisher: "MZK Pabianice (via zbiorkom.live)"
+    license: "MIT (zbiorkom.live repackaging; operator terms not stated)"
+    license_url: "https://api.zbiorkom.live/"
+    notes: "zbiorkom.live repackaging (api6-open); catalogue licence MIT covers the repackaging only, the municipality's own terms are not stated. Window 2026-11-23..12-22. Overlap with lodz (MPK Łódź) 0 %."
+  lodz_aleksandrow:
+    agglomerations: [lodz]
+    url: "https://files.girlc.at/gtfs/aleksandrow_lodzki.zip"
+    publisher: "Urząd Miejski Aleksandrów Łódzki via files.girlc.at"
+    license: "CC0-1.0 (girlc.at repackaging; operator terms not stated)"
+    license_url: "https://files.girlc.at/gtfs/"
+    notes: "girlc.at repackaging of an unofficial timetable export (generated from T4B by lz); catalogue licence CC0-1.0 (transitous/Atlas) covers the repackaging only, the operator's own terms are not stated. Validity window is rolling (~2 weeks, ends 2026-11-28), so the file is re-published weekly; the raw copy is date-stamped."
+  lodz_strykow:
+    agglomerations: [lodz]
+    url: "https://files.girlc.at/gtfs/strykow.zip"
+    publisher: "Urząd Miejski Stryków via files.girlc.at"
+    license: "CC0-1.0 (girlc.at repackaging; operator terms not stated)"
+    license_url: "https://files.girlc.at/gtfs/"
+    notes: "girlc.at repackaging of an unofficial timetable export (generated from T4B by lz); catalogue licence CC0-1.0 (transitous/Atlas) covers the repackaging only, the operator's own terms are not stated. Validity window is rolling (~2 weeks, ends 2026-11-28), so the file is re-published weekly; the raw copy is date-stamped. No Saturday service."
+  lodz_lka_bus:
+    agglomerations: [lodz]
+    url: "https://gtfs.kasznia.net/static/sanitized/lka_bus.zip"
+    publisher: "Łódzka Kolej Aglomeracyjna, buses (M. Kasznia repackaging)"
+    license: "CC-BY-4.0 (kasznia.net repackaging per transitous; operator terms not stated)"
+    license_url: "https://gtfs.kasznia.net/"
+    notes: "Unofficial repackaging; validity 2026-03-08..2026-12-12. Not in polish_trains (ŁKA has only 6 ZKA trips there); overlap 0-1 %."
+  lodz_suburban_qbx:
+    agglomerations: [lodz]
+    url: "https://raw.githubusercontent.com/qbx-tt/gtfs-lodz-suburban/main/gtfs-lodz-suburban.zip"
+    publisher: "QBX Timetables (community GitHub repository): 6 private carriers around Łódź"
+    license: "no licence stated (Mobility Database mdb-3477 lists none)"
+    license_url: "https://github.com/qbx-tt/gtfs-lodz-suburban"
+    notes: "LOW CONFIDENCE: hand-compiled community feed, no licence, no update date; flagged. 415 trips on the reference day; overlap with lodz / polish_trains 0 %."
+  lodz_zgierz:
+    agglomerations: [lodz]
+    url: "https://api.zbiorkom.live/api6-open/lodz/gtfs/ZGIERZ"
+    publisher: "MUK Zgierz (via zbiorkom.live)"
+    license: "MIT (zbiorkom.live repackaging; operator terms not stated)"
+    license_url: "https://api.zbiorkom.live/"
+    drop_routes: ["ZGIERZ6", "ZGIERZ61"]
+    notes: "zbiorkom.live repackaging (api6-open); catalogue licence MIT covers the repackaging only, the municipality's own terms are not stated. Lines 6 and 61 are the same trips as MPK Łódź lines 6 and 61 (identical departure minutes; 148 of 447 trips on the reference day): dropped here via drop_routes so they count once (in lodz). Window 2026-11-23..12-22."
+  trojmiasto_wejherowo:
+    agglomerations: [trojmiasto]
+    url: "https://mkuran.pl/gtfs/wejherowo.zip"
+    publisher: "MZK Wejherowo (M. Kuranowski, mkuran.pl)"
+    license: "CC0 1.0 (stated on mkuran.pl/gtfs)"
+    license_url: "https://mkuran.pl/gtfs/"
+    notes: "Validity 2026-09-01..2026-12-31. Overlap with gdynia 1.5 % by name+minute, 0 % by line."
+  wroclaw_polbus:
+    agglomerations: [wroclaw]
+    url: "https://files.girlc.at/gtfs/polbus.zip"
+    publisher: "POLBUS-PKS Sp. z o.o. via files.girlc.at"
+    license: "CC0-1.0 (girlc.at repackaging; operator terms not stated)"
+    license_url: "https://files.girlc.at/gtfs/"
+    notes: "girlc.at repackaging of an unofficial timetable export (generated from T4B by lz); catalogue licence CC0-1.0 (transitous/Atlas) covers the repackaging only, the operator's own terms are not stated. Validity window is rolling (~2 weeks, ends 2026-11-28), so the file is re-published weekly; the raw copy is date-stamped. Window 2026-11-20..12-03. Validator ERRORs (22): duplicate route_id rows in routes.txt and line breaks inside stop_name; trips/stop_times unaffected (gtfs_io de-duplicates route rows; names are normalised before matching)."
+  wroclaw_olesnica:
+    agglomerations: [wroclaw]
+    url: "https://files.girlc.at/gtfs/olesnica.zip"
+    publisher: "Urząd Gminy Oleśnica via files.girlc.at"
+    license: "CC0-1.0 (girlc.at repackaging; operator terms not stated)"
+    license_url: "https://files.girlc.at/gtfs/"
+    notes: "girlc.at repackaging of an unofficial timetable export (generated from T4B by lz); catalogue licence CC0-1.0 (transitous/Atlas) covers the repackaging only, the operator's own terms are not stated. Validity window is rolling (~2 weeks, ends 2026-11-28), so the file is re-published weekly; the raw copy is date-stamped. No Saturday service."
+  wroclaw_oborniki:
+    agglomerations: [wroclaw]
+    url: "https://feed.gtfs.cc/oborniki-slaskie/gtfs.zip"
+    publisher: "OLKA Oborniki Śląskie (A. Dubis, feed.gtfs.cc)"
+    license: "MIT (feed.gtfs.cc catalogue entry; operator terms not stated)"
+    license_url: "https://feed.gtfs.cc/"
+    notes: "Hand-made feed (validity 2025-12-25..2027-12-31); 24 trips on the reference day, no Saturday service."
+
 # Layer 6b (real speed from archived GTFS-Realtime) is shelved: Bartor decided on 2026-11-23
 # that scheduled times are good enough for now. The collector code stays but is not run.
 collector:

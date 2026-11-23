@@ -1,0 +1,54 @@
+{
+ "duration_s": 2.3,
+ "feed": "wroclaw_oborniki",
+ "gtfs_features": [
+  "Shapes",
+  "Feed Information",
+  "Translations",
+  "Fare Products",
+  "Route Colors",
+  "Headsigns",
+  "Fare Media",
+  "Rider Categories"
+ ],
+ "input_sha256": "ae9bb937fbe1d4700df691ca7ff1965c2a1967473aa3ba8c663fa83768c4b03e",
+ "notice_types": {
+  "ERROR": 0,
+  "INFO": 1,
+  "WARNING": 4
+ },
+ "notices": [
+  {
+   "code": "stop_has_too_many_matches_for_shape",
+   "count": 5,
+   "severity": "WARNING"
+  },
+  {
+   "code": "stops_match_shape_out_of_order",
+   "count": 4,
+   "severity": "WARNING"
+  },
+  {
+   "code": "stop_without_stop_time",
+   "count": 3,
+   "severity": "WARNING"
+  },
+  {
+   "code": "stop_too_far_from_shape",
+   "count": 1,
+   "severity": "WARNING"
+  },
+  {
+   "code": "service_window_outside_feed_period",
+   "count": 1,
+   "severity": "INFO"
+  }
+ ],
+ "totals": {
+  "ERROR": 0,
+  "INFO": 1,
+  "WARNING": 13
+ },
+ "validated_at": "2026-11-23T19:33:55+01:00",
+ "validator_version": "8.0.1"
+}

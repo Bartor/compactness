@@ -1,0 +1,28 @@
+{
+ "duration_s": 2.6,
+ "feed": "lodz_suburban_qbx",
+ "gtfs_features": [
+  "Feed Information",
+  "Headsigns"
+ ],
+ "input_sha256": "1622198e30e0bad2beca36096283f559ab3978c8dd836d5c79cf5a776d7d77ba",
+ "notice_types": {
+  "ERROR": 0,
+  "INFO": 1,
+  "WARNING": 0
+ },
+ "notices": [
+  {
+   "code": "big_gap_in_service",
+   "count": 2,
+   "severity": "INFO"
+  }
+ ],
+ "totals": {
+  "ERROR": 0,
+  "INFO": 2,
+  "WARNING": 0
+ },
+ "validated_at": "2026-11-23T19:33:42+01:00",
+ "validator_version": "8.0.1"
+}

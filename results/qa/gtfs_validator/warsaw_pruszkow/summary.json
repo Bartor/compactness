@@ -1,0 +1,32 @@
+{
+ "duration_s": 2.5,
+ "feed": "warsaw_pruszkow",
+ "gtfs_features": [
+  "Shapes",
+  "Feed Information",
+  "Attributions",
+  "Route Colors",
+  "Headsigns",
+  "Location Types"
+ ],
+ "input_sha256": "b7c0b1ae930a6156a05e4ab6e2cca6e8f79b7f9f7435c91ed7e2d665ee2baef7",
+ "notice_types": {
+  "ERROR": 0,
+  "INFO": 1,
+  "WARNING": 0
+ },
+ "notices": [
+  {
+   "code": "unknown_column",
+   "count": 2,
+   "severity": "INFO"
+  }
+ ],
+ "totals": {
+  "ERROR": 0,
+  "INFO": 2,
+  "WARNING": 0
+ },
+ "validated_at": "2026-11-23T19:32:42+01:00",
+ "validator_version": "8.0.1"
+}

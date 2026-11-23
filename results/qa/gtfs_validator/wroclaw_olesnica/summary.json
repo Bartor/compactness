@@ -1,0 +1,56 @@
+{
+ "duration_s": 3.0,
+ "feed": "wroclaw_olesnica",
+ "gtfs_features": [
+  "Shapes",
+  "Feed Information",
+  "Headsigns",
+  "Trips Wheelchair Accessibility",
+  "Bike Allowed"
+ ],
+ "input_sha256": "11370137fe14394d9ed2c84f3222ebb1d4ae8dad1c75d4037a7407707bc13b5a",
+ "notice_types": {
+  "ERROR": 0,
+  "INFO": 2,
+  "WARNING": 4
+ },
+ "notices": [
+  {
+   "code": "mixed_case_recommended_field",
+   "count": 580,
+   "severity": "WARNING"
+  },
+  {
+   "code": "feed_expiration_date7_days",
+   "count": 1,
+   "severity": "WARNING"
+  },
+  {
+   "code": "missing_feed_contact_email_and_url",
+   "count": 1,
+   "severity": "WARNING"
+  },
+  {
+   "code": "trip_coverage_not_active_for_next7_days",
+   "count": 1,
+   "severity": "WARNING"
+  },
+  {
+   "code": "trip_headsign_matches_intermediate_stop",
+   "count": 10,
+   "severity": "INFO"
+  },
+  {
+   "code": "unknown_column",
+   "count": 2,
+   "severity": "INFO"
+  }
+ ],
+ "totals": {
+  "ERROR": 0,
+  "INFO": 12,
+  "WARNING": 583
+ },
+ "validated_at": "2026-11-23T19:33:52+01:00",
+ "validator_version": "8.0.1"
+}

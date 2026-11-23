@@ -1,0 +1,61 @@
+{
+ "duration_s": 2.7,
+ "feed": "wroclaw_polbus",
+ "gtfs_features": [
+  "Shapes",
+  "Feed Information",
+  "Headsigns",
+  "Trips Wheelchair Accessibility",
+  "Bike Allowed"
+ ],
+ "input_sha256": "7bc3f145bc1f7a94c7ffa596632fe9466e3ca305d8fbc644391091123bfa775e",
+ "notice_types": {
+  "ERROR": 2,
+  "INFO": 1,
+  "WARNING": 4
+ },
+ "notices": [
+  {
+   "code": "new_line_in_value",
+   "count": 12,
+   "severity": "ERROR"
+  },
+  {
+   "code": "duplicate_key",
+   "count": 10,
+   "severity": "ERROR"
+  },
+  {
+   "code": "mixed_case_recommended_field",
+   "count": 304,
+   "severity": "WARNING"
+  },
+  {
+   "code": "duplicate_route_name",
+   "count": 10,
+   "severity": "WARNING"
+  },
+  {
+   "code": "feed_expiration_date30_days",
+   "count": 1,
+   "severity": "WARNING"
+  },
+  {
+   "code": "missing_feed_contact_email_and_url",
+   "count": 1,
+   "severity": "WARNING"
+  },
+  {
+   "code": "unknown_column",
+   "count": 2,
+   "severity": "INFO"
+  }
+ ],
+ "totals": {
+  "ERROR": 22,
+  "INFO": 2,
+  "WARNING": 316
+ },
+ "validated_at": "2026-11-23T19:33:49+01:00",
+ "validator_version": "8.0.1"
+}

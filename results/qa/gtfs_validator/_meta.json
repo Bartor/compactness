@@ -1,70 +1,160 @@
 {
- "duration_s": 6.9,
- "git_sha": "",
+ "duration_s": 78.4,
+ "git_sha": "2dff67a6187de6fc06e88e82aa3b12029a9cc8fb",
  "inputs": {
-  "gtfs_gdansk": {
-   "data_date": "20261123/20261207",
-   "downloaded_at": "2026-11-23T18:19:06+01:00",
-   "sha256": "3785bc1d9c34a574f6f46c63b78ff99f9800503476b2ddccf3cb09012c097ede"
+  "gtfs_krakow_ald": {
+   "data_date": "20261123/20271231",
+   "downloaded_at": "2026-11-23T19:32:14+01:00",
+   "sha256": "86c76af98b5407bb23b4d3d21fc18199cb4e4b2f94d04914127d5be82db0ddc9"
   },
-  "gtfs_gdynia": {
-   "data_date": "20261123/20270129",
-   "downloaded_at": "2026-11-23T18:19:08+01:00",
-   "sha256": "eed56d66771d771c2f6a7859b9073dfc15cf97972696054cc00102b2b2f2bee3"
+  "gtfs_krakow_niepolomice": {
+   "data_date": "20261123/20261224",
+   "downloaded_at": "2026-11-23T19:32:17+01:00",
+   "sha256": "94c231690700d8dcde5119c857674aab96269c393463ca512b9fef3637c56fef"
   },
-  "gtfs_gzm": {
-   "data_date": "20261108/20261128",
-   "downloaded_at": "2026-11-23T18:19:11+01:00",
-   "sha256": "a726687dbdfbf53b1d3595adbadcabf9965755edb054aefaba9aaea5f9ceb884"
+  "gtfs_krakow_skawina": {
+   "data_date": "20261115/20261128",
+   "downloaded_at": "2026-11-23T19:32:16+01:00",
+   "sha256": "ca0529764195b6fa59fa18e76b5b46618ae61cdb2e6bee0ff2cf80667799194f"
   },
-  "gtfs_krakow_bus": {
-   "data_date": "20261114/20280131",
-   "downloaded_at": "2026-11-23T18:18:57+01:00",
-   "sha256": "c5465c49546f41df7ca2a7d18d613fb531793fbd0c7b0529482305a3dcb03e73"
+  "gtfs_lodz_aleksandrow": {
+   "data_date": "20261115/20261128",
+   "downloaded_at": "2026-11-23T19:32:20+01:00",
+   "sha256": "6acb844068bbc33cbb0314bc621aff5201d7ff0a0eebb7efaa2326b748e988d7"
   },
-  "gtfs_krakow_mobilis": {
-   "data_date": "20261118/20280131",
-   "downloaded_at": "2026-11-23T18:36:52+01:00",
-   "sha256": "b06e601f95da7a5490d8b76b2a5bbbd63571de9f5d5e575131cdf31d8c0e8da9"
+  "gtfs_lodz_lka_bus": {
+   "data_date": "20260308/20261212",
+   "downloaded_at": "2026-11-23T19:32:23+01:00",
+   "sha256": "314fa1a2f90b9dc3debfd70ff1ceb648cfa39ece4af96bd2551da730868660fb"
   },
-  "gtfs_krakow_tram": {
-   "data_date": "20261121/20270219",
-   "downloaded_at": "2026-11-23T18:18:58+01:00",
-   "sha256": "f84c4655e16054b865dc4f3d5e331242ecc0423af5c2fba4ac097ffc6cb0e160"
+  "gtfs_lodz_pabianice": {
+   "data_date": "20261123/20261222",
+   "downloaded_at": "2026-11-23T19:32:18+01:00",
+   "sha256": "6e3e894ae9e4c6696bc0f312ac9af8b20613fc3141c4fe935ef92b9b13821f77"
   },
-  "gtfs_lodz": {
-   "data_date": "20261122/20261231",
-   "downloaded_at": "2026-11-23T18:19:04+01:00",
-   "sha256": "154ff4694541f86e22bbc73be9e062e5ac123647049af13b1899e566d30e0b87"
+  "gtfs_lodz_strykow": {
+   "data_date": "20261115/20261128",
+   "downloaded_at": "2026-11-23T19:32:22+01:00",
+   "sha256": "f97c4b4233c7b64b2040499d3fae86d12b2a2ffc6cfe249fc08673caa48acec8"
   },
-  "gtfs_polish_trains": {
-   "data_date": "20261121/20261223",
-   "downloaded_at": "2026-11-23T18:19:13+01:00",
-   "sha256": "02e231b63a485494b4af9cad8f1239f485a3a603401f3482bbd4b7876139801a"
+  "gtfs_lodz_suburban_qbx": {
+   "data_date": "20261115/20271231",
+   "downloaded_at": "2026-11-23T19:32:25+01:00",
+   "sha256": "1622198e30e0bad2beca36096283f559ab3978c8dd836d5c79cf5a776d7d77ba"
   },
-  "gtfs_poznan": {
-   "data_date": "20261124/20261205",
-   "downloaded_at": "2026-11-23T18:19:02+01:00",
-   "sha256": "2914536ca1745409a1f2c1b81adff698cf3bb16abb3c15384e8fb64df6b12575"
+  "gtfs_lodz_zgierz": {
+   "data_date": "20261123/20261222",
+   "downloaded_at": "2026-11-23T19:32:26+01:00",
+   "sha256": "c53bcdbeadd9a33d2a8021f72c5f48e420796541b21f86ba6616245b2f912b04"
   },
-  "gtfs_warsaw_wkd": {
-   "data_date": "20251214/20261212",
-   "downloaded_at": "2026-11-23T18:18:55+01:00",
-   "sha256": "28b0de340f083a6535fdf2322088e52c670381a10d89fd2adcef5759130b0264"
+  "gtfs_trojmiasto_wejherowo": {
+   "data_date": "20260901/20261231",
+   "downloaded_at": "2026-11-23T19:32:28+01:00",
+   "sha256": "0f9ab05e6dcd6c060e5b2ad40b1e8f352aeec04cede1aaaf2dcb2967903645b0"
   },
-  "gtfs_warsaw_ztm": {
-   "data_date": "20261123/20261223",
-   "downloaded_at": "2026-11-23T18:18:52+01:00",
-   "sha256": "81ee0321967e6a26886630085a52da24cad30549c419a382fd0eda0901acc7f8"
+  "gtfs_warsaw_czosnow": {
+   "data_date": "20250101/20291226",
+   "downloaded_at": "2026-11-23T19:32:07+01:00",
+   "sha256": "b52a2db4e4702cc6e7f57d7342bc125691186c6c3a8262a51c2c60fd69e2c64f"
   },
-  "gtfs_wroclaw": {
-   "data_date": "20261123/20261206",
-   "downloaded_at": "2026-11-23T18:24:42+01:00",
-   "sha256": "774d854ca158219e04a42c1ed03899884ec96b382763abd273c85b9bde6d34e1"
+  "gtfs_warsaw_dabrowka": {
+   "data_date": "20261115/20261128",
+   "downloaded_at": "2026-11-23T19:32:10+01:00",
+   "sha256": "feef2295f3ddde081ac4bb747222d1e7b66cfd77b7e6b927dd7c519bbfd90a00"
+  },
+  "gtfs_warsaw_gpa": {
+   "data_date": "20261123/20271231",
+   "downloaded_at": "2026-11-23T19:31:45+01:00",
+   "sha256": "03b2da657b115c532707a37a274b4384ba7ce12630b10e4c3c88b0c78ec55644"
+  },
+  "gtfs_warsaw_halinow": {
+   "data_date": "20261115/20261128",
+   "downloaded_at": "2026-11-23T19:31:59+01:00",
+   "sha256": "7d025fd14f9f9fafa8618ee2910c3df87f1a0f8af207615067cd4fc7c59eef5c"
+  },
+  "gtfs_warsaw_lomianki": {
+   "data_date": "20261115/20261128",
+   "downloaded_at": "2026-11-23T19:31:55+01:00",
+   "sha256": "80a5bce17d0d54ee376d87ac5687bc4233277c9c645d9f2397c1708e9f3d7588"
+  },
+  "gtfs_warsaw_minsk": {
+   "data_date": "20261122/20261222",
+   "downloaded_at": "2026-11-23T19:31:49+01:00",
+   "sha256": "11a5e15e288495ba732a5b058503cd9ffc48deb4820abee4c1e04cfeb89ed747"
+  },
+  "gtfs_warsaw_nowy_dwor": {
+   "data_date": "20261115/20261128",
+   "downloaded_at": "2026-11-23T19:32:02+01:00",
+   "sha256": "fe98893d47726dc1bd7ee4ac5d2b1521f23985ece0457782e9696c5ceee448fc"
+  },
+  "gtfs_warsaw_otwock": {
+   "data_date": "20261120/20261203",
+   "downloaded_at": "2026-11-23T19:31:52+01:00",
+   "sha256": "87804464923c6c681af5902e5835f937479fff186792637671023988972073ef"
+  },
+  "gtfs_warsaw_powiat_minski": {
+   "data_date": "20261115/20261128",
+   "downloaded_at": "2026-11-23T19:31:50+01:00",
+   "sha256": "06fb59af186b61770efac1a3ce9e2de376a36a2ccfec3ce9f46aa748ea9c4058"
+  },
+  "gtfs_warsaw_powiat_nowodworski": {
+   "data_date": "20261115/20261128",
+   "downloaded_at": "2026-11-23T19:32:03+01:00",
+   "sha256": "dbaecc9a054a5a359289a8d99b0ce6f61654fe5698a865d1b92832763b45a17e"
+  },
+  "gtfs_warsaw_pruszkow": {
+   "data_date": "20261123/20271231",
+   "downloaded_at": "2026-11-23T19:31:47+01:00",
+   "sha256": "b7c0b1ae930a6156a05e4ab6e2cca6e8f79b7f9f7435c91ed7e2d665ee2baef7"
+  },
+  "gtfs_warsaw_radzymin": {
+   "data_date": "20261115/20261128",
+   "downloaded_at": "2026-11-23T19:31:54+01:00",
+   "sha256": "e1857cddaa9894bdb97f32f4fa987d9bc6f1c4b8c58c1ecedff63b3179e407c5"
+  },
+  "gtfs_warsaw_sulejowek": {
+   "data_date": "20261115/20261128",
+   "downloaded_at": "2026-11-23T19:32:05+01:00",
+   "sha256": "c34d5d077aa0fa0073043a0c2ea8a80ae7b3d557bedf88b16367b02295ab15b6"
+  },
+  "gtfs_warsaw_wieliszew": {
+   "data_date": "20261119/20261202",
+   "downloaded_at": "2026-11-23T19:32:00+01:00",
+   "sha256": "4bbbf454144807a89c8087dc673ddd0fcaff13c9a7f8882bdd7cb675158134fa"
+  },
+  "gtfs_warsaw_zabki": {
+   "data_date": "20261121/20261204",
+   "downloaded_at": "2026-11-23T19:31:57+01:00",
+   "sha256": "dba8a23bdc9af5914b788dc6052de5afae9ebbb0616c396f48e8da6e9ab77718"
+  },
+  "gtfs_warsaw_zakroczym": {
+   "data_date": "20250101/20261231",
+   "downloaded_at": "2026-11-23T19:32:08+01:00",
+   "sha256": "5247cf0cd9012b8da0fdeb56c74adb842c5f684224c7ff2517d8b6a87d2ca89c"
+  },
+  "gtfs_warsaw_zyrardow": {
+   "data_date": "20260915/20271231",
+   "downloaded_at": "2026-11-23T19:32:12+01:00",
+   "sha256": "61a83fe95d3b685725c13b550f57d09b7ecf038a4249e414f4bd645b00d18c76"
+  },
+  "gtfs_wroclaw_oborniki": {
+   "data_date": "20251225/20271231",
+   "downloaded_at": "2026-11-23T19:32:32+01:00",
+   "sha256": "ae9bb937fbe1d4700df691ca7ff1965c2a1967473aa3ba8c663fa83768c4b03e"
+  },
+  "gtfs_wroclaw_olesnica": {
+   "data_date": "20261115/20261128",
+   "downloaded_at": "2026-11-23T19:32:30+01:00",
+   "sha256": "11370137fe14394d9ed2c84f3222ebb1d4ae8dad1c75d4037a7407707bc13b5a"
+  },
+  "gtfs_wroclaw_polbus": {
+   "data_date": "20261120/20261203",
+   "downloaded_at": "2026-11-23T19:32:29+01:00",
+   "sha256": "7bc3f145bc1f7a94c7ffa596632fe9466e3ca305d8fbc644391091123bfa775e"
   }
  },
  "missing_inputs": [],
- "run_at": "2026-11-23T18:37:09+01:00",
+ "run_at": "2026-11-23T19:33:55+01:00",
  "step": "gtfs_validator",
  "validator_jar": "gtfs-validator-8.0.1-cli.jar"
 }

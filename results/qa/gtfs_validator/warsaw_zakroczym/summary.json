@@ -1,0 +1,67 @@
+{
+ "duration_s": 2.4,
+ "feed": "warsaw_zakroczym",
+ "gtfs_features": [
+  "Shapes",
+  "Feed Information",
+  "Attributions",
+  "Translations",
+  "Fare Products",
+  "Route Colors",
+  "Headsigns",
+  "Location Types",
+  "Fare Media",
+  "Rider Categories",
+  "Zone-Based Fares"
+ ],
+ "input_sha256": "5247cf0cd9012b8da0fdeb56c74adb842c5f684224c7ff2517d8b6a87d2ca89c",
+ "notice_types": {
+  "ERROR": 1,
+  "INFO": 2,
+  "WARNING": 4
+ },
+ "notices": [
+  {
+   "code": "duplicate_key",
+   "count": 50,
+   "severity": "ERROR"
+  },
+  {
+   "code": "service_has_no_active_day_of_the_week",
+   "count": 48,
+   "severity": "WARNING"
+  },
+  {
+   "code": "stops_match_shape_out_of_order",
+   "count": 5,
+   "severity": "WARNING"
+  },
+  {
+   "code": "stop_too_far_from_shape",
+   "count": 2,
+   "severity": "WARNING"
+  },
+  {
+   "code": "stop_without_stop_time",
+   "count": 1,
+   "severity": "WARNING"
+  },
+  {
+   "code": "big_gap_in_service",
+   "count": 48,
+   "severity": "INFO"
+  },
+  {
+   "code": "service_window_outside_feed_period",
+   "count": 4,
+   "severity": "INFO"
+  }
+ ],
+ "totals": {
+  "ERROR": 50,
+  "INFO": 52,
+  "WARNING": 56
+ },
+ "validated_at": "2026-11-23T19:33:15+01:00",
+ "validator_version": "8.0.1"
+}
