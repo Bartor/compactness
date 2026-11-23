@@ -1,0 +1,66 @@
+/* Application styles: what the kit has no part for. */
+
+/* The MapLibre map where BaseMap would be: .kit-map-wrap (from the kit) is the
+   flex child that fills what the sidebar leaves, and the whole screen behind
+   the sheets on phones. */
+.kit-map-wrap { min-width: 0; background: #ECE9E2; }
+.kit-map-wrap .kit-map { position: absolute; inset: 0; height: 100%; width: 100%; }
+.map-error {
+  position: absolute; left: 12px; top: 12px; right: 12px; z-index: 5;
+  background: var(--kit-panel); border: 1px solid var(--kit-line-strong); border-radius: 8px;
+  padding: .6rem .8rem; color: var(--kit-warn); font-size: .85rem;
+}
+
+/* MapLibre controls in the light palette */
+.maplibregl-ctrl-group { border-radius: 8px; box-shadow: 0 1px 6px rgba(31, 35, 40, .2); }
+.maplibregl-ctrl-attrib { background: rgba(251, 250, 247, .85) !important; color: var(--kit-dim); font-size: 11px; }
+.maplibregl-ctrl-attrib a { color: var(--kit-dim); }
+.maplibregl-ctrl-scale { background: rgba(251, 250, 247, .8); color: var(--kit-dim); border-color: var(--kit-dim); }
+
+/* layers in the sidebar */
+.layer-planned {
+  display: flex; align-items: baseline; justify-content: space-between; gap: .6rem;
+  padding: .3rem 0; color: var(--kit-faint); font-size: .9rem; cursor: not-allowed;
+}
+.layer-planned em { font-style: normal; font-size: .74rem; white-space: nowrap; }
+.layer-meta {
+  margin: 0 0 .5rem 1.65rem; display: flex; flex-direction: column; gap: .1rem;
+  color: var(--kit-dim); font-size: .76rem; line-height: 1.4;
+}
+
+/* legend */
+.legend { gap: .15rem; font-size: .76rem; max-width: 280px; }
+.legend-block { display: flex; flex-direction: column; gap: .2rem; }
+.legend-block + .legend-block { margin-top: .5rem; padding-top: .5rem; border-top: 1px solid var(--kit-line); }
+.legend-block b { font-size: .8rem; color: var(--kit-text); }
+.legend-block span { display: flex; align-items: center; gap: .45rem; }
+.legend-block small { color: var(--kit-dim); font-size: .7rem; line-height: 1.35; }
+.legend-unit { font-style: normal; color: var(--kit-dim); font-size: .72rem; }
+.kit-map-legend i.sq { width: 14px; height: 10px; border-radius: 2px; border: 1px solid rgba(31, 35, 40, .15); }
+.kit-map-legend i.line.dashed {
+  background: repeating-linear-gradient(90deg, #1D4ED8 0 4px, transparent 4px 7px); height: 2px; opacity: .8;
+}
+.kit-map-legend i.sq.hatch {
+  background: repeating-linear-gradient(135deg, #6E6E6A 0 1.5px, #D9D6CE 1.5px 4px); border-color: #A9A598;
+}
+@media (min-width: 761px) {
+  /* clear of the scale and the attribution */
+  .kit-map-legend { bottom: 56px; max-height: calc(100% - 80px); overflow-y: auto; }
+}
+.kit-map-legend.closed { color: var(--kit-text); }
+
+/* metrics in the details panel */
+.metric-group + .metric-group { margin-top: .4rem; }
+.kit-details-body .kit-text-table { font-size: .9rem; }
+.kit-details-body .kit-text-table td small { line-height: 1.4; margin-top: .1rem; }
+.kit-details-body .kit-text-table td:last-child { text-align: right; width: 38%; }
+.metric-value { font-weight: 600; font-variant-numeric: tabular-nums; color: var(--kit-text); }
+.metric-value.missing { font-weight: 500; font-style: italic; color: var(--kit-dim); }
+.kit-details-body .kit-text-table td small.metric-flag { color: var(--kit-warn); font-weight: 500; }
+.kit-details-body .kit-warn { font-size: .88rem; }
+
+@media (max-width: 760px) {
+  .kit-details-body .kit-text-table td:last-child { text-align: left; width: auto; }
+  /* the sheet's peek covers the bottom 62px: keep the attribution above it */
+  .maplibregl-ctrl-bottom-right, .maplibregl-ctrl-bottom-left { margin-bottom: 62px; }
+}

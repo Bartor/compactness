@@ -1,0 +1,172 @@
+{
+  "generated": "2026-11-23",
+  "agglomerations": [
+    {
+      "id": "warszawa",
+      "name": "Warszawa",
+      "phase": 1,
+      "centre": [
+        21.01,
+        52.23
+      ],
+      "bbox": [
+        20.41,
+        51.87,
+        21.61,
+        52.59
+      ]
+    },
+    {
+      "id": "krakow",
+      "name": "Kraków",
+      "phase": 1,
+      "centre": [
+        19.94,
+        50.06
+      ],
+      "bbox": [
+        19.484,
+        49.796,
+        20.396,
+        50.324
+      ]
+    },
+    {
+      "id": "wroclaw",
+      "name": "Wrocław",
+      "phase": 1,
+      "centre": [
+        17.032,
+        51.11
+      ],
+      "bbox": [
+        16.552,
+        50.81,
+        17.512,
+        51.41
+      ]
+    },
+    {
+      "id": "poznan",
+      "name": "Poznań",
+      "phase": 1,
+      "centre": [
+        16.93,
+        52.41
+      ],
+      "bbox": [
+        16.45,
+        52.122,
+        17.41,
+        52.698
+      ]
+    },
+    {
+      "id": "lodz",
+      "name": "Łódź",
+      "phase": 1,
+      "centre": [
+        19.46,
+        51.77
+      ],
+      "bbox": [
+        19.004,
+        51.482,
+        19.916,
+        52.058
+      ]
+    },
+    {
+      "id": "trojmiasto",
+      "name": "Trójmiasto",
+      "phase": 1,
+      "centre": [
+        18.45,
+        54.42
+      ],
+      "bbox": [
+        17.946,
+        54.18,
+        18.954,
+        54.66
+      ]
+    },
+    {
+      "id": "gzm",
+      "name": "GZM",
+      "phase": 1,
+      "centre": [
+        19,
+        50.27
+      ],
+      "bbox": [
+        18.34,
+        49.91,
+        19.66,
+        50.63
+      ],
+      "note": "Związek metropolitalny to wiele miast: miary dla całego obszaru nie opisują jednego ośrodka."
+    }
+  ],
+  "layers": [
+    {
+      "id": "fua",
+      "title": "Granice FUA",
+      "type": "geojson",
+      "url": "data/fua.geojson",
+      "kind": "boundary",
+      "status": "ready",
+      "attribution": "© EuroGeographics / Eurostat GISCO, Urban Audit 2021",
+      "population_date": null,
+      "timetable_date": null,
+      "note": ""
+    },
+    {
+      "id": "density250",
+      "title": "Gęstość zaludnienia, siatka 250 m",
+      "type": "pmtiles",
+      "url": "tiles/density250_2026-12-01.pmtiles",
+      "source_layer": "density250",
+      "property": "d",
+      "unit": "os./km²",
+      "kind": "choropleth",
+      "ramp": {
+        "stops": [
+          0,
+          1000,
+          3000,
+          6000,
+          10000,
+          20000
+        ],
+        "colors": [
+          "#E8EEF9",
+          "#C7D5F0",
+          "#9FB5E6",
+          "#6D8EDB",
+          "#3F63C4",
+          "#1D3C94"
+        ]
+      },
+      "status": "planned",
+      "population_date": "2020",
+      "timetable_date": null,
+      "attribution": "JRC GHSL",
+      "note": ""
+    },
+    {
+      "id": "nodata250",
+      "title": "Brak danych o ludności",
+      "type": "pmtiles",
+      "url": "tiles/nodata250_2026-12-01.pmtiles",
+      "source_layer": "nodata250",
+      "kind": "mask",
+      "legend": "brak danych",
+      "status": "planned",
+      "population_date": "2020",
+      "timetable_date": null,
+      "attribution": "JRC GHSL",
+      "note": ""
+    }
+  ]
+}

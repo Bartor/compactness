@@ -1,0 +1,105 @@
+/* Light theme for the dark-by-default kit. Loaded after the kit's CSS.
+   First every --kit-* property, then the colours the kit hard-codes. */
+
+:root {
+  --kit-bg: #F1EFE9;
+  --kit-rail: #F1EFE9;               /* sidebar, behind its cards */
+  --kit-panel: #FBFAF7;
+  --kit-raised: #FFFFFF;
+  --kit-hover: #F2F0EA;
+  --kit-control: #ECE9E1;
+  --kit-track: #D6D2C6;
+  --kit-line: #DDD9CE;
+  --kit-line-strong: #C7C2B4;
+  --kit-line-hover: #A9A394;
+  --kit-text: #1F2328;
+  --kit-soft: #3B4149;
+  --kit-dim: #5B616B;
+  --kit-faint: #7C818A;
+  --kit-accent: #1D4ED8;
+  --kit-accent-fill: #1D4ED8;        /* kit puts white text on it */
+  --kit-accent-dark: #E1E9FA;        /* kit uses it as a selected-row background */
+  --kit-accent-text: #1E3FA8;        /* kit uses it as text on that background */
+  --kit-focus: #1D4ED8;
+  --kit-link: #1D4ED8;
+  --kit-link-light: #1D4ED8;
+  --kit-warn: #8F5400;
+  --kit-dir-a: #B8431F;
+  --kit-dir-b: #C97A2B;
+
+  --font-ui: 'Schibsted Grotesk Variable', 'Schibsted Grotesk', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-serif: 'Newsreader Variable', 'Newsreader', Georgia, 'Times New Roman', serif;
+  font-family: var(--font-ui);
+  color-scheme: light;               /* base.css says dark */
+}
+
+body { font-family: var(--font-ui); }
+button, input, select, textarea { font-family: inherit; }
+
+/* scrollbars: base.css hard-codes dark thumbs */
+* { scrollbar-color: #C2BDAF transparent; }
+::-webkit-scrollbar-thumb { background: #C2BDAF; }
+::-webkit-scrollbar-thumb:hover { background-color: #A9A394; }
+
+/* ---- type: serif for titles and running text ---- */
+.kit-sidebar h1, .kit-details-head h3, .kit-modal h2 { font-family: var(--font-serif); font-weight: 600; }
+.kit-sidebar h1 { font-size: 1.5rem; letter-spacing: 0; line-height: 1.15; }
+.kit-sub { font-family: var(--font-serif); font-size: .95rem; line-height: 1.35; }
+.kit-details-head h3 { font-size: 1.3rem; }
+.kit-modal h2 { text-transform: none; letter-spacing: 0; font-size: 1.5rem; color: var(--kit-text); }
+.kit-modal-body p, .kit-hint, .kit-footnote { font-family: var(--font-serif); }
+.kit-modal-body p { font-size: 1rem; line-height: 1.55; }
+.kit-sidebar .kit-hint, .kit-details-body .kit-hint { font-size: .9rem; line-height: 1.45; }
+
+/* ---- hard-coded dark colours in styles.css ---- */
+.kit-panel h2 { color: var(--kit-soft); }                       /* was #b8bfcc */
+.kit-badge { color: #1C5B38; background: #DCEFE3; }              /* was #9fe0b8 on #24503a */
+.kit-cite blockquote { color: var(--kit-soft); }                 /* was #d4d9e2 */
+.kit-cite blockquote b { color: var(--kit-text); }               /* was #fff */
+.kit-check:hover { box-shadow: 0 0 0 3px rgba(29, 78, 216, .12); }
+.kit-switch {                                                    /* knob was #cfd5df on a dark track */
+  background: #B9B4A6 radial-gradient(circle, #fff 0 6px, transparent 6.5px)
+    no-repeat left 1px center / 16px 16px;
+}
+.kit-switch:checked { background-color: var(--kit-accent); }
+.kit-range::-webkit-slider-thumb, .kit-range::-moz-range-thumb,
+.kit-hours-thumb { box-shadow: 0 1px 3px rgba(31, 35, 40, .35); }
+.kit-select:hover { background-color: #E5E2D9; }                 /* was #2a2f3a */
+.kit-card.on { background: #E6EDFB; }                            /* was #26324a */
+.kit-card:has(input:focus-visible) { outline-color: var(--kit-focus); }
+.kit-hours-band { background: #E1DDD2; }                         /* was #23272f */
+.kit-tag.good { background: #DCEFE3; color: #1C5B38; }
+.kit-tag.fair { background: #E1E9FA; color: #1E3FA8; }
+.kit-tag.weak { background: #F6E6D0; color: #7A4A0A; }
+.kit-details { box-shadow: -8px 0 24px rgba(31, 35, 40, .12); }
+.kit-details-body dd.now { color: var(--kit-text); }             /* was #fff */
+.kit-callout { background: #EEF2FC; border-color: #CAD6F2; }     /* was #1f2430 */
+.kit-share-btn:hover:not(:disabled) { background: #E3E0D6; }     /* was #2e3644 */
+.kit-share-btn.primary { color: #fff; }
+.kit-share-msg { color: #1C5B38; }
+.kit-share-msg.err { color: #A02525; }
+.kit-tree li.hot > button { border-color: var(--kit-line-strong); }
+.kit-split-table td.strong { color: var(--kit-text); }           /* was #fff */
+.kit-split-table tr.sum td { border-top-color: var(--kit-line-strong); }
+.kit-chart-tip {
+  background: #fff; border-color: var(--kit-line-strong); color: var(--kit-text);
+  box-shadow: 0 4px 14px rgba(31, 35, 40, .15);
+}
+.kit-chart-tip b, .kit-chart-tip.stack .sum { color: var(--kit-soft); }
+.kit-chart-tip.stack .sum { border-top-color: var(--kit-line); }
+.kit-modal { box-shadow: 0 20px 60px rgba(31, 35, 40, .3); }
+.kit-modal::backdrop { background: rgba(31, 35, 40, .35); }
+.kit-map-legend {
+  background: rgba(251, 250, 247, .94); color: var(--kit-soft);
+  box-shadow: 0 1px 6px rgba(31, 35, 40, .18);
+}
+.kit-legend-note { color: var(--kit-dim); }
+.kit-message { color: var(--kit-text); }
+.kit-help-btn:hover, .kit-help-btn.on { color: #fff; }
+.kit-chip.on { color: #fff; }
+
+@media (max-width: 760px) {
+  .kit-sidebar { box-shadow: 0 -8px 24px rgba(31, 35, 40, .18); }
+  .kit-details { box-shadow: 0 -8px 24px rgba(31, 35, 40, .2); }
+  .kit-sidebar h1, .kit-sub { display: none; }                   /* kit hides them on phones */
+}
