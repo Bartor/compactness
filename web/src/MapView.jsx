@@ -4,6 +4,12 @@ import { Protocol } from 'pmtiles'
 import { buildStyle, hatchImage } from './mapStyle'
 import { fillId, syncOverlays } from './mapLayers'
 import Legend from './Legend'
+// MapLibre 6 looks for its worker next to its own module; once bundled, that
+// file is not there. Emitting it as an asset and naming it keeps dev and the
+// production build on the same path.
+import workerUrl from 'maplibre-gl/dist/maplibre-gl-worker.mjs?url'
+
+maplibregl.setWorkerUrl(workerUrl)
 
 // PMTiles are read straight from static hosting with range requests.
 let protocolReady = false
