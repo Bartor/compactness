@@ -6,6 +6,8 @@
 #   snakemake -c1 density        # phase 1: density measures
 #   snakemake -c1 supply         # phase 2: vehicle-km, tram speed (needs gtfs_service)
 #   snakemake -c1 frequent       # phase 2: population near frequent service
+#   snakemake -c1 access_run     # phase 3: R5 routing, ~12 h for all 7 agglomerations (explicit target only)
+#   snakemake -c1 access         # phase 3: aggregate whatever access_run has finished
 #   snakemake -c1 merge_metrics  # metrics_<step> -> metrics.csv/json + results/web/metrics.json
 #   snakemake -c1 all
 #
@@ -251,6 +253,55 @@ rule frequent:
         '"{PY}" -m pipeline.frequent'
 
 
+rule r5_inputs:
+    # clipped OSM + cleaned GTFS zips per agglomeration and feed variant (data/interim/r5)
+    input:
+        "config.yaml",
+        "pipeline/r5_inputs.py",
+        stamp("fetch_osm"),
+        stamp("gtfs_service"),
+    output:
+        touch(stamp("r5_inputs")),
+    shell:
+        '"{PY}" -m pipeline.r5_inputs'
+
+
+rule access_run:
+    # Phase 3 routing (brief 4.6): ~12 hours on 20 threads for all priorities and agglomerations.  Deliberately
+    # NOT part of `all` and not an input of any other rule: start it explicitly (snakemake -c1 access_run, or
+    # python -m pipeline.access run).  Resumable: finished chunks with an unchanged signature are skipped, so the
+    # same command continues after an interruption.  Progress: data/interim/access/run.log and
+    # python -m pipeline.access status.
+    input:
+        "pipeline/access.py",
+        "pipeline/access_inputs.py",
+        "pipeline/access_samples.py",
+        "pipeline/r5_env.py",
+        stamp("r5_inputs"),
+        stamp("popgrid"),
+        stamp("frequent"),
+    output:
+        touch(stamp("access_run")),
+    shell:
+        '"{PY}" -m pipeline.access run'
+
+
+rule access:
+    # aggregate the finished access units -> metrics_access.*, charts/access_performance.json,
+    # layers/access_cells.parquet, qa/access/access.md; unfinished units are listed as pending.  It does not
+    # depend on access_run (explicit target), so re-run it (snakemake -c1 -R access) after the routing progressed.
+    input:
+        "pipeline/access_aggregate.py",
+        "pipeline/access_qa.py",
+        "pipeline/access_inputs.py",
+        stamp("frequent"),
+        stamp("popgrid"),
+    output:
+        touch(stamp("access")),
+    shell:
+        '"{PY}" -m pipeline.access aggregate'
+
+
 rule merge_metrics:
     # metrics_<step>.* -> metrics.csv / metrics.json and the map panel subset results/web/metrics.json
     input:
@@ -258,6 +309,7 @@ rule merge_metrics:
         stamp("density"),
         stamp("supply"),
         stamp("frequent"),
+        stamp("access"),
     output:
         touch(stamp("merge_metrics")),
     shell:

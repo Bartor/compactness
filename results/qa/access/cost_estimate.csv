@@ -1,0 +1,155 @@
+agglomeration,element,note,origin_grid,n_origins,runs,s_per_origin,hours,curves_mb
+gzm,transit_am,"AM 7-9, per feed variant",250m,24869,2,0.0153,0.2114,24.27
+gzm,transit_am,"AM 7-9, per feed variant",500m,7693,2,0.0153,0.06539,7.508
+gzm,transit_midday,"10-14, per feed variant",250m,24869,2,0.02003,0.2768,24.27
+gzm,transit_midday,"10-14, per feed variant",500m,7693,2,0.02003,0.08562,7.508
+gzm,transit_evening,"20-22, per feed variant",250m,24869,2,0.01379,0.1905,24.27
+gzm,transit_evening,"20-22, per feed variant",500m,7693,2,0.01379,0.05894,7.508
+gzm,transit_saturday,"Sat 10-14, per feed variant",250m,24869,2,0.0197,0.2722,24.27
+gzm,transit_saturday,"Sat 10-14, per feed variant",500m,7693,2,0.0197,0.08421,7.508
+gzm,transit_max2transfers,"AM, max 3 rides, per feed variant",250m,24869,2,0.01159,0.1601,24.27
+gzm,transit_max2transfers,"AM, max 3 rides, per feed variant",500m,7693,2,0.01159,0.04954,7.508
+gzm,transit_fare_network,"AM, common-ticket network(s), official feeds",250m,24869,1,0.0153,0.1057,12.14
+gzm,transit_fare_network,"AM, common-ticket network(s), official feeds",500m,7693,1,0.0153,0.0327,3.754
+gzm,walk,street only,250m,24869,1,0.001192,0.008234,12.14
+gzm,walk,street only,500m,7693,1,0.001192,0.002547,3.754
+gzm,bike,"street only, LTS 3",250m,24869,1,0.003105,0.02145,12.14
+gzm,bike,"street only, LTS 3",500m,7693,1,0.003105,0.006635,3.754
+gzm,population_grids,2nd grid from the same travel times,250m,24869,1,0.0,0.0,0.0
+gzm,population_grids,2nd grid from the same travel times,500m,7693,1,0.0,0.0,0.0
+gzm,jobs,no data (GZM),250m,24869,1,0.0,0.0,0.0
+gzm,jobs,no data (GZM),500m,7693,1,0.0,0.0,0.0
+gzm,from_centre,"cells within 1 km of centre + hub, all runs",250m,24869,1,0.0,0.0,0.0
+gzm,from_centre,"cells within 1 km of centre + hub, all runs",500m,7693,1,0.0,0.0,0.0
+krakow,transit_am,"AM 7-9, per feed variant",250m,37817,2,0.01276,0.2681,55.36
+krakow,transit_am,"AM 7-9, per feed variant",500m,11540,2,0.01276,0.08181,16.89
+krakow,transit_midday,"10-14, per feed variant",250m,37817,2,0.01853,0.3893,55.36
+krakow,transit_midday,"10-14, per feed variant",500m,11540,2,0.01853,0.1188,16.89
+krakow,transit_evening,"20-22, per feed variant",250m,37817,2,0.01367,0.2872,55.36
+krakow,transit_evening,"20-22, per feed variant",500m,11540,2,0.01367,0.08763,16.89
+krakow,transit_saturday,"Sat 10-14, per feed variant",250m,37817,2,0.0155,0.3257,55.36
+krakow,transit_saturday,"Sat 10-14, per feed variant",500m,11540,2,0.0155,0.0994,16.89
+krakow,transit_max2transfers,"AM, max 3 rides, per feed variant",250m,37817,2,0.01036,0.2178,55.36
+krakow,transit_max2transfers,"AM, max 3 rides, per feed variant",500m,11540,2,0.01036,0.06645,16.89
+krakow,transit_fare_network,"AM, common-ticket network(s), official feeds",250m,37817,2,0.01276,0.2681,55.36
+krakow,transit_fare_network,"AM, common-ticket network(s), official feeds",500m,11540,2,0.01276,0.08181,16.89
+krakow,walk,street only,250m,37817,1,0.001521,0.01598,27.68
+krakow,walk,street only,500m,11540,1,0.001521,0.004876,8.447
+krakow,bike,"street only, LTS 3",250m,37817,1,0.002406,0.02527,27.68
+krakow,bike,"street only, LTS 3",500m,11540,1,0.002406,0.007713,8.447
+krakow,population_grids,2nd grid from the same travel times,250m,37817,1,0.0,0.0,0.0
+krakow,population_grids,2nd grid from the same travel times,500m,11540,1,0.0,0.0,0.0
+krakow,jobs,"same travel times, other weights",250m,37817,1,0.0,0.0,0.0
+krakow,jobs,"same travel times, other weights",500m,11540,1,0.0,0.0,0.0
+krakow,from_centre,"cells within 1 km of centre + hub, all runs",250m,37817,1,0.0,0.0,0.0
+krakow,from_centre,"cells within 1 km of centre + hub, all runs",500m,11540,1,0.0,0.0,0.0
+lodz,transit_am,"AM 7-9, per feed variant",250m,26274,2,0.006755,0.0986,38.47
+lodz,transit_am,"AM 7-9, per feed variant",500m,8394,2,0.006755,0.0315,12.29
+lodz,transit_midday,"10-14, per feed variant",250m,26274,2,0.008443,0.1232,38.47
+lodz,transit_midday,"10-14, per feed variant",500m,8394,2,0.008443,0.03937,12.29
+lodz,transit_evening,"20-22, per feed variant",250m,26274,2,0.006881,0.1004,38.47
+lodz,transit_evening,"20-22, per feed variant",500m,8394,2,0.006881,0.03209,12.29
+lodz,transit_saturday,"Sat 10-14, per feed variant",250m,26274,2,0.008057,0.1176,38.47
+lodz,transit_saturday,"Sat 10-14, per feed variant",500m,8394,2,0.008057,0.03757,12.29
+lodz,transit_max2transfers,"AM, max 3 rides, per feed variant",250m,26274,2,0.005984,0.08734,38.47
+lodz,transit_max2transfers,"AM, max 3 rides, per feed variant",500m,8394,2,0.005984,0.0279,12.29
+lodz,transit_fare_network,"AM, common-ticket network(s), official feeds",250m,26274,2,0.006755,0.0986,38.47
+lodz,transit_fare_network,"AM, common-ticket network(s), official feeds",500m,8394,2,0.006755,0.0315,12.29
+lodz,walk,street only,250m,26274,1,0.0009432,0.006884,19.23
+lodz,walk,street only,500m,8394,1,0.0009432,0.002199,6.144
+lodz,bike,"street only, LTS 3",250m,26274,1,0.002163,0.01579,19.23
+lodz,bike,"street only, LTS 3",500m,8394,1,0.002163,0.005043,6.144
+lodz,population_grids,2nd grid from the same travel times,250m,26274,1,0.0,0.0,0.0
+lodz,population_grids,2nd grid from the same travel times,500m,8394,1,0.0,0.0,0.0
+lodz,jobs,"same travel times, other weights",250m,26274,1,0.0,0.0,0.0
+lodz,jobs,"same travel times, other weights",500m,8394,1,0.0,0.0,0.0
+lodz,from_centre,"cells within 1 km of centre + hub, all runs",250m,26274,1,0.0,0.0,0.0
+lodz,from_centre,"cells within 1 km of centre + hub, all runs",500m,8394,1,0.0,0.0,0.0
+poznan,transit_am,"AM 7-9, per feed variant",250m,19201,2,0.005849,0.06239,28.11
+poznan,transit_am,"AM 7-9, per feed variant",500m,6441,2,0.005849,0.02093,9.43
+poznan,transit_midday,"10-14, per feed variant",250m,19201,2,0.007918,0.08446,28.11
+poznan,transit_midday,"10-14, per feed variant",500m,6441,2,0.007918,0.02833,9.43
+poznan,transit_evening,"20-22, per feed variant",250m,19201,2,0.00622,0.06635,28.11
+poznan,transit_evening,"20-22, per feed variant",500m,6441,2,0.00622,0.02226,9.43
+poznan,transit_saturday,"Sat 10-14, per feed variant",250m,19201,2,0.007712,0.08226,28.11
+poznan,transit_saturday,"Sat 10-14, per feed variant",500m,6441,2,0.007712,0.0276,9.43
+poznan,transit_max2transfers,"AM, max 3 rides, per feed variant",250m,19201,2,0.006041,0.06444,28.11
+poznan,transit_max2transfers,"AM, max 3 rides, per feed variant",500m,6441,2,0.006041,0.02162,9.43
+poznan,transit_fare_network,"AM, common-ticket network(s), official feeds",250m,19201,2,0.005849,0.06239,28.11
+poznan,transit_fare_network,"AM, common-ticket network(s), official feeds",500m,6441,2,0.005849,0.02093,9.43
+poznan,walk,street only,250m,19201,1,0.001063,0.00567,14.06
+poznan,walk,street only,500m,6441,1,0.001063,0.001902,4.715
+poznan,bike,"street only, LTS 3",250m,19201,1,0.002425,0.01293,14.06
+poznan,bike,"street only, LTS 3",500m,6441,1,0.002425,0.004339,4.715
+poznan,population_grids,2nd grid from the same travel times,250m,19201,1,0.0,0.0,0.0
+poznan,population_grids,2nd grid from the same travel times,500m,6441,1,0.0,0.0,0.0
+poznan,jobs,"same travel times, other weights",250m,19201,1,0.0,0.0,0.0
+poznan,jobs,"same travel times, other weights",500m,6441,1,0.0,0.0,0.0
+poznan,from_centre,"cells within 1 km of centre + hub, all runs",250m,19201,1,0.0,0.0,0.0
+poznan,from_centre,"cells within 1 km of centre + hub, all runs",500m,6441,1,0.0,0.0,0.0
+trojmiasto,transit_am,"AM 7-9, per feed variant",250m,17561,2,0.004414,0.04306,25.71
+trojmiasto,transit_am,"AM 7-9, per feed variant",500m,5686,2,0.004414,0.01394,8.324
+trojmiasto,transit_midday,"10-14, per feed variant",250m,17561,2,0.006534,0.06375,25.71
+trojmiasto,transit_midday,"10-14, per feed variant",500m,5686,2,0.006534,0.02064,8.324
+trojmiasto,transit_evening,"20-22, per feed variant",250m,17561,2,0.004494,0.04385,25.71
+trojmiasto,transit_evening,"20-22, per feed variant",500m,5686,2,0.004494,0.0142,8.324
+trojmiasto,transit_saturday,"Sat 10-14, per feed variant",250m,17561,2,0.006378,0.06222,25.71
+trojmiasto,transit_saturday,"Sat 10-14, per feed variant",500m,5686,2,0.006378,0.02015,8.324
+trojmiasto,transit_max2transfers,"AM, max 3 rides, per feed variant",250m,17561,2,0.004114,0.04014,25.71
+trojmiasto,transit_max2transfers,"AM, max 3 rides, per feed variant",500m,5686,2,0.004114,0.013,8.324
+trojmiasto,transit_fare_network,"AM, common-ticket network(s), official feeds",250m,17561,1,0.004414,0.02153,12.85
+trojmiasto,transit_fare_network,"AM, common-ticket network(s), official feeds",500m,5686,1,0.004414,0.006972,4.162
+trojmiasto,walk,street only,250m,17561,1,0.0006176,0.003013,12.85
+trojmiasto,walk,street only,500m,5686,1,0.0006176,0.0009755,4.162
+trojmiasto,bike,"street only, LTS 3",250m,17561,1,0.002208,0.01077,12.85
+trojmiasto,bike,"street only, LTS 3",500m,5686,1,0.002208,0.003487,4.162
+trojmiasto,population_grids,2nd grid from the same travel times,250m,17561,1,0.0,0.0,0.0
+trojmiasto,population_grids,2nd grid from the same travel times,500m,5686,1,0.0,0.0,0.0
+trojmiasto,jobs,"same travel times, other weights",250m,17561,1,0.0,0.0,0.0
+trojmiasto,jobs,"same travel times, other weights",500m,5686,1,0.0,0.0,0.0
+trojmiasto,from_centre,"cells within 1 km of centre + hub, all runs",250m,17561,1,0.0,0.0,0.0
+trojmiasto,from_centre,"cells within 1 km of centre + hub, all runs",500m,5686,1,0.0,0.0,0.0
+warszawa,transit_am,"AM 7-9, per feed variant",250m,88926,2,0.02253,1.113,130.2
+warszawa,transit_am,"AM 7-9, per feed variant",500m,28845,2,0.02253,0.361,42.23
+warszawa,transit_midday,"10-14, per feed variant",250m,88926,2,0.03101,1.532,130.2
+warszawa,transit_midday,"10-14, per feed variant",500m,28845,2,0.03101,0.4969,42.23
+warszawa,transit_evening,"20-22, per feed variant",250m,88926,2,0.02229,1.101,130.2
+warszawa,transit_evening,"20-22, per feed variant",500m,28845,2,0.02229,0.3571,42.23
+warszawa,transit_saturday,"Sat 10-14, per feed variant",250m,88926,2,0.02853,1.41,130.2
+warszawa,transit_saturday,"Sat 10-14, per feed variant",500m,28845,2,0.02853,0.4572,42.23
+warszawa,transit_max2transfers,"AM, max 3 rides, per feed variant",250m,88926,2,0.01843,0.9104,130.2
+warszawa,transit_max2transfers,"AM, max 3 rides, per feed variant",500m,28845,2,0.01843,0.2953,42.23
+warszawa,transit_fare_network,"AM, common-ticket network(s), official feeds",250m,88926,1,0.02253,0.5565,65.09
+warszawa,transit_fare_network,"AM, common-ticket network(s), official feeds",500m,28845,1,0.02253,0.1805,21.11
+warszawa,walk,street only,250m,88926,1,0.002555,0.06311,65.09
+warszawa,walk,street only,500m,28845,1,0.002555,0.02047,21.11
+warszawa,bike,"street only, LTS 3",250m,88926,1,0.004832,0.1194,65.09
+warszawa,bike,"street only, LTS 3",500m,28845,1,0.004832,0.03872,21.11
+warszawa,population_grids,2nd grid from the same travel times,250m,88926,1,0.0,0.0,0.0
+warszawa,population_grids,2nd grid from the same travel times,500m,28845,1,0.0,0.0,0.0
+warszawa,jobs,"same travel times, other weights",250m,88926,1,0.0,0.0,0.0
+warszawa,jobs,"same travel times, other weights",500m,28845,1,0.0,0.0,0.0
+warszawa,from_centre,"cells within 1 km of centre + hub, all runs",250m,88926,1,0.0,0.0,0.0
+warszawa,from_centre,"cells within 1 km of centre + hub, all runs",500m,28845,1,0.0,0.0,0.0
+wroclaw,transit_am,"AM 7-9, per feed variant",250m,20153,2,0.00509,0.05699,29.5
+wroclaw,transit_am,"AM 7-9, per feed variant",500m,7082,2,0.00509,0.02003,10.37
+wroclaw,transit_midday,"10-14, per feed variant",250m,20153,2,0.007386,0.08269,29.5
+wroclaw,transit_midday,"10-14, per feed variant",500m,7082,2,0.007386,0.02906,10.37
+wroclaw,transit_evening,"20-22, per feed variant",250m,20153,2,0.004896,0.05481,29.5
+wroclaw,transit_evening,"20-22, per feed variant",500m,7082,2,0.004896,0.01926,10.37
+wroclaw,transit_saturday,"Sat 10-14, per feed variant",250m,20153,2,0.006946,0.07777,29.5
+wroclaw,transit_saturday,"Sat 10-14, per feed variant",500m,7082,2,0.006946,0.02733,10.37
+wroclaw,transit_max2transfers,"AM, max 3 rides, per feed variant",250m,20153,2,0.004536,0.05079,29.5
+wroclaw,transit_max2transfers,"AM, max 3 rides, per feed variant",500m,7082,2,0.004536,0.01785,10.37
+wroclaw,transit_fare_network,"AM, common-ticket network(s), official feeds",250m,20153,2,0.00509,0.05699,29.5
+wroclaw,transit_fare_network,"AM, common-ticket network(s), official feeds",500m,7082,2,0.00509,0.02003,10.37
+wroclaw,walk,street only,250m,20153,1,0.0006423,0.003596,14.75
+wroclaw,walk,street only,500m,7082,1,0.0006423,0.001264,5.184
+wroclaw,bike,"street only, LTS 3",250m,20153,1,0.002615,0.01464,14.75
+wroclaw,bike,"street only, LTS 3",500m,7082,1,0.002615,0.005144,5.184
+wroclaw,population_grids,2nd grid from the same travel times,250m,20153,1,0.0,0.0,0.0
+wroclaw,population_grids,2nd grid from the same travel times,500m,7082,1,0.0,0.0,0.0
+wroclaw,jobs,"same travel times, other weights",250m,20153,1,0.0,0.0,0.0
+wroclaw,jobs,"same travel times, other weights",500m,7082,1,0.0,0.0,0.0
+wroclaw,from_centre,"cells within 1 km of centre + hub, all runs",250m,20153,1,0.0,0.0,0.0
+wroclaw,from_centre,"cells within 1 km of centre + hub, all runs",500m,7082,1,0.0,0.0,0.0

@@ -17,3 +17,4 @@ snakemake
 openpyxl
 tqdm
 filelock
+r5py==1.1.7
