@@ -468,6 +468,14 @@ Karty miast DG REGIO (przypis 15 pracy) nie zostały sprawdzone; mogą podawać 
 | 12 | Feedy podmiejskie | przed fazą 2 poszukać i dodać GTFS największych brakujących przewoźników (sekcja 6.4), każdy po walidacji i teście dublowania, potem powtórzyć kontrolę pokrycia |
 | – | Brief w repo | opublikowany (`zwartosc-miast-brief.md`) |
 
+Decyzje po fazie 1 (2026-11-23):
+
+| Nr | Sprawa | Decyzja |
+|---|---|---|
+| 4 | Próg zabudowy dla ρ | 20 % (2 000 m² zabudowy na komórkę 100 m); tabela wrażliwości zostaje w sekcji 14.3 |
+| – | Siatka ludności dla faz 2–3 | GHSL 250 m przeskalowany tak, żeby suma w każdej komórce spisowej 1 km równała się NSP 2021 (zero tam, gdzie spis ma zero); obok liczony jest wariant na surowym GHSL, żeby było widać różnicę. Warstwa 6c (BDOT10k) pozostaje na później |
+| – | Feedy nieoficjalne | każdy wynik transportowy w dwóch wariantach: feedy oficjalne (z briefu oraz dodatki pochodzące od wydawcy: `krakow_mobilis`, `krakow_ald`, `trojmiasto_wejherowo`) i wszystkie 42 |
+
 Otwarte pozostają: 5 (integracja taryfowa), 6 (linkowanie mapy), 8, 9 (podkład i domena), 11 (odświeżenie GZM: przy wybranym dniu referencyjnym niepotrzebne), 13 (reguła deduplikacji kolei) i 14 (okno ITDP). Dla 13 i 14 fazy 2–3 przyjmą rekomendacje z listy poniżej jako założenie robocze, opisane przy wynikach, do czasu potwierdzenia.
 
 ### 12.1 Lista pytań z fazy 0 (stan sprzed decyzji)

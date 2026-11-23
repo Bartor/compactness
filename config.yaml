@@ -25,11 +25,24 @@ sources:
     pbf_url: "https://download.geofabrik.de/europe/poland-latest.osm.pbf"
 
 # §12.4: share of built-up surface in a 100 m GHS-BUILT-S cell for the net built-up mask.
-# Not decided yet: phase 1 reports the Bertaud index at every value of the sensitivity list and
-# Bartor picks with the numbers in front of him. 0.20 is the working value until then.
+# Decided 2026-11-23 after the phase 1 sensitivity run: 0.20 is the reported threshold
+# (results/RAPORT.md 14.3); the sensitivity list stays for the table.
 # GHS-BUILT-S stores built-up m2 per cell (0-10000): share = value / 10000.
 built_up_threshold: 0.20
 built_up_threshold_sensitivity: [0.10, 0.20, 0.30, 0.50]
+
+# Population grid for the transit measures (phases 2-3), decided 2026-11-23:
+#   ghsl_census_scaled  GHSL 250 m pattern, rescaled so each 1 km census cell sums to NSP 2021 (main)
+#   ghsl_raw            GHSL 2020 unchanged (computed alongside, to show the difference)
+population_grid: "ghsl_census_scaled"
+population_grid_variants: ["ghsl_census_scaled", "ghsl_raw"]
+
+# Feed sets for the transit measures, decided 2026-11-23: every result is computed on both.
+#   official  the feeds named in the brief plus additions that come from the publisher
+#   all       official + unofficial repackagings of timetables (accuracy unchecked)
+feed_variants: ["official", "all"]
+official_feeds: [warsaw_ztm, warsaw_wkd, krakow_bus, krakow_tram, krakow_mobilis, krakow_ald, wroclaw,
+                 poznan, lodz, gdansk, gdynia, trojmiasto_wejherowo, gzm, polish_trains]
 
 # §5: one Tue-Thu working day shared by all feeds; filled in after phase 0 and Bartor's decision
 reference_day: "2026-11-25"        # Wednesday; decided 2026-11-23 (results/qa/phase0/gtfs/reference_day.md)
