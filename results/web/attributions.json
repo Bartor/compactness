@@ -1,0 +1,388 @@
+{
+ "gtfs_feeds": [
+  {
+   "agglomerations": [
+    "Trójmiasto"
+   ],
+   "id": "gdansk",
+   "license": "CC BY 4.0 (Creative Commons Attribution)",
+   "publisher": "ZTM w Gdańsku",
+   "url": "https://ckan.multimediagdansk.pl/dataset/tristar"
+  },
+  {
+   "agglomerations": [
+    "Trójmiasto"
+   ],
+   "id": "gdynia",
+   "license": "CC BY 4.0 (Creative Commons Attribution)",
+   "publisher": "Zarząd Dróg i Zieleni w Gdyni (ZKM Gdynia timetables)",
+   "url": "https://otwartedane.gdynia.pl/dataset/informacje-o-rozkladach-jazdy-i-lokalizacji-przystankow"
+  },
+  {
+   "agglomerations": [
+    "GZM"
+   ],
+   "id": "gzm",
+   "license": "CC BY 4.0",
+   "publisher": "ZTM GZM (mirror of the extended version from otwartedane.metropoliagzm.pl)",
+   "url": "https://otwartedane.metropoliagzm.pl/en/dataset/rozklady-jazdy-i-lokalizacja-przystankow-gtfs-wersja-rozszerzona"
+  },
+  {
+   "agglomerations": [
+    "Kraków"
+   ],
+   "id": "krakow_ald",
+   "license": "CC BY 4.0 (per transitous / Atlas catalogues; not checked on the publisher page, which returns 403 to scripts)",
+   "publisher": "Koleje Małopolskie (autobusowe linie dowozowe ALD / Małopolskie Linie Dowozowe)",
+   "url": "https://creativecommons.org/licenses/by/4.0/"
+  },
+  {
+   "agglomerations": [
+    "Kraków"
+   ],
+   "id": "krakow_bus",
+   "license": "CC BY 4.0",
+   "publisher": "ZTP Kraków",
+   "url": "https://gtfs.ztp.krakow.pl/"
+  },
+  {
+   "agglomerations": [
+    "Kraków"
+   ],
+   "id": "krakow_mobilis",
+   "license": "CC BY 4.0",
+   "publisher": "ZTP Kraków (suburban lines operated by Mobilis)",
+   "url": "https://gtfs.ztp.krakow.pl/"
+  },
+  {
+   "agglomerations": [
+    "Kraków"
+   ],
+   "id": "krakow_niepolomice",
+   "license": "MIT (zbiorkom.live repackaging; operator terms not stated)",
+   "publisher": "Gmina Niepołomice (via zbiorkom.live)",
+   "url": "https://api.zbiorkom.live/"
+  },
+  {
+   "agglomerations": [
+    "Kraków"
+   ],
+   "id": "krakow_skawina",
+   "license": "CC0-1.0 (girlc.at repackaging; operator terms not stated)",
+   "publisher": "Urząd Miasta i Gminy Skawina via files.girlc.at",
+   "url": "https://files.girlc.at/gtfs/"
+  },
+  {
+   "agglomerations": [
+    "Kraków"
+   ],
+   "id": "krakow_tram",
+   "license": "CC BY 4.0",
+   "publisher": "ZTP Kraków",
+   "url": "https://gtfs.ztp.krakow.pl/"
+  },
+  {
+   "agglomerations": [
+    "Łódź"
+   ],
+   "id": "lodz",
+   "license": "open licence of the Łódź open-data portal (attribution required; licence name not stated on the dataset page)",
+   "publisher": "Miasto Łódź, portal Otwarte dane (MPK-Łódź)",
+   "url": "https://otwarte.miasto.lodz.pl/transport_komunikacja/"
+  },
+  {
+   "agglomerations": [
+    "Łódź"
+   ],
+   "id": "lodz_aleksandrow",
+   "license": "CC0-1.0 (girlc.at repackaging; operator terms not stated)",
+   "publisher": "Urząd Miejski Aleksandrów Łódzki via files.girlc.at",
+   "url": "https://files.girlc.at/gtfs/"
+  },
+  {
+   "agglomerations": [
+    "Łódź"
+   ],
+   "id": "lodz_lka_bus",
+   "license": "CC-BY-4.0 (kasznia.net repackaging per transitous; operator terms not stated)",
+   "publisher": "Łódzka Kolej Aglomeracyjna, buses (M. Kasznia repackaging)",
+   "url": "https://gtfs.kasznia.net/"
+  },
+  {
+   "agglomerations": [
+    "Łódź"
+   ],
+   "id": "lodz_pabianice",
+   "license": "MIT (zbiorkom.live repackaging; operator terms not stated)",
+   "publisher": "MZK Pabianice (via zbiorkom.live)",
+   "url": "https://api.zbiorkom.live/"
+  },
+  {
+   "agglomerations": [
+    "Łódź"
+   ],
+   "id": "lodz_strykow",
+   "license": "CC0-1.0 (girlc.at repackaging; operator terms not stated)",
+   "publisher": "Urząd Miejski Stryków via files.girlc.at",
+   "url": "https://files.girlc.at/gtfs/"
+  },
+  {
+   "agglomerations": [
+    "Łódź"
+   ],
+   "id": "lodz_suburban_qbx",
+   "license": "no licence stated (Mobility Database mdb-3477 lists none)",
+   "publisher": "QBX Timetables (community GitHub repository): 6 private carriers around Łódź",
+   "url": "https://github.com/qbx-tt/gtfs-lodz-suburban"
+  },
+  {
+   "agglomerations": [
+    "Łódź"
+   ],
+   "id": "lodz_zgierz",
+   "license": "MIT (zbiorkom.live repackaging; operator terms not stated)",
+   "publisher": "MUK Zgierz (via zbiorkom.live)",
+   "url": "https://api.zbiorkom.live/"
+  },
+  {
+   "agglomerations": [
+    "Warszawa",
+    "Kraków",
+    "Wrocław",
+    "Poznań",
+    "Łódź",
+    "Trójmiasto",
+    "GZM"
+   ],
+   "id": "polish_trains",
+   "license": "PKP PLK public-sector data usage terms + Koleje Mazowieckie public-sector data usage terms",
+   "publisher": "PKP PLK data repackaged by M. Kuranowski (mkuran.pl)",
+   "url": "https://mkuran.pl/gtfs/"
+  },
+  {
+   "agglomerations": [
+    "Poznań"
+   ],
+   "id": "poznan",
+   "license": "ZTM Poznań terms of use (Zasady korzystania z danych)",
+   "publisher": "ZTM Poznań",
+   "url": "https://www.ztm.poznan.pl/assets/pliki/Zasady-korzystania-ZTM-Poznan.pdf"
+  },
+  {
+   "agglomerations": [
+    "Trójmiasto"
+   ],
+   "id": "trojmiasto_wejherowo",
+   "license": "CC0 1.0 (stated on mkuran.pl/gtfs)",
+   "publisher": "MZK Wejherowo (M. Kuranowski, mkuran.pl)",
+   "url": "https://mkuran.pl/gtfs/"
+  },
+  {
+   "agglomerations": [
+    "Warszawa"
+   ],
+   "id": "warsaw_czosnow",
+   "license": "MIT (feed.gtfs.cc catalogue entry; operator terms not stated)",
+   "publisher": "Urząd Gminy Czosnów (A. Dubis, feed.gtfs.cc)",
+   "url": "https://feed.gtfs.cc/"
+  },
+  {
+   "agglomerations": [
+    "Warszawa"
+   ],
+   "id": "warsaw_dabrowka",
+   "license": "CC0-1.0 (girlc.at repackaging; operator terms not stated)",
+   "publisher": "Urząd Gminy Dąbrówka via files.girlc.at",
+   "url": "https://files.girlc.at/gtfs/"
+  },
+  {
+   "agglomerations": [
+    "Warszawa"
+   ],
+   "id": "warsaw_gpa",
+   "license": "MIT (zbiorkom.live repackaging; operator terms not stated)",
+   "publisher": "Grodziskie Przewozy Autobusowe (via zbiorkom.live)",
+   "url": "https://api.zbiorkom.live/"
+  },
+  {
+   "agglomerations": [
+    "Warszawa"
+   ],
+   "id": "warsaw_halinow",
+   "license": "CC0-1.0 (girlc.at repackaging; operator terms not stated)",
+   "publisher": "Gmina Halinów via files.girlc.at",
+   "url": "https://files.girlc.at/gtfs/"
+  },
+  {
+   "agglomerations": [
+    "Warszawa"
+   ],
+   "id": "warsaw_lomianki",
+   "license": "CC0-1.0 (girlc.at repackaging; operator terms not stated)",
+   "publisher": "Komunikacja Miejska Łomianki via files.girlc.at",
+   "url": "https://files.girlc.at/gtfs/"
+  },
+  {
+   "agglomerations": [
+    "Warszawa"
+   ],
+   "id": "warsaw_minsk",
+   "license": "MIT (zbiorkom.live repackaging; operator terms not stated)",
+   "publisher": "Miasto Mińsk Mazowiecki (via zbiorkom.live)",
+   "url": "https://api.zbiorkom.live/"
+  },
+  {
+   "agglomerations": [
+    "Warszawa"
+   ],
+   "id": "warsaw_nowy_dwor",
+   "license": "CC0-1.0 (girlc.at repackaging; operator terms not stated)",
+   "publisher": "Nowodworska Komunikacja Autobusowa (UM Nowy Dwór Mazowiecki) via files.girlc.at",
+   "url": "https://files.girlc.at/gtfs/"
+  },
+  {
+   "agglomerations": [
+    "Warszawa"
+   ],
+   "id": "warsaw_otwock",
+   "license": "CC0-1.0 (girlc.at repackaging; operator terms not stated)",
+   "publisher": "OZEC / BKM Otwock via files.girlc.at",
+   "url": "https://files.girlc.at/gtfs/"
+  },
+  {
+   "agglomerations": [
+    "Warszawa"
+   ],
+   "id": "warsaw_powiat_minski",
+   "license": "CC0-1.0 (girlc.at repackaging; operator terms not stated)",
+   "publisher": "PGZTPPM Mińsk Mazowiecki (powiat miński) via files.girlc.at",
+   "url": "https://files.girlc.at/gtfs/"
+  },
+  {
+   "agglomerations": [
+    "Warszawa"
+   ],
+   "id": "warsaw_powiat_nowodworski",
+   "license": "CC0-1.0 (girlc.at repackaging; operator terms not stated)",
+   "publisher": "Powiat Nowodworski via files.girlc.at",
+   "url": "https://files.girlc.at/gtfs/"
+  },
+  {
+   "agglomerations": [
+    "Warszawa"
+   ],
+   "id": "warsaw_pruszkow",
+   "license": "MIT (zbiorkom.live repackaging; operator terms not stated)",
+   "publisher": "Miasto Pruszków, PKM (via zbiorkom.live)",
+   "url": "https://api.zbiorkom.live/"
+  },
+  {
+   "agglomerations": [
+    "Warszawa"
+   ],
+   "id": "warsaw_radzymin",
+   "license": "CC0-1.0 (girlc.at repackaging; operator terms not stated)",
+   "publisher": "Urząd Miasta i Gminy Radzymin via files.girlc.at",
+   "url": "https://files.girlc.at/gtfs/"
+  },
+  {
+   "agglomerations": [
+    "Warszawa"
+   ],
+   "id": "warsaw_sulejowek",
+   "license": "CC0-1.0 (girlc.at repackaging; operator terms not stated)",
+   "publisher": "UM Sulejówek / Urząd Gminy Wiązowna via files.girlc.at",
+   "url": "https://files.girlc.at/gtfs/"
+  },
+  {
+   "agglomerations": [
+    "Warszawa"
+   ],
+   "id": "warsaw_wieliszew",
+   "license": "CC0-1.0 (girlc.at repackaging; operator terms not stated)",
+   "publisher": "Gmina Wieliszew via files.girlc.at",
+   "url": "https://files.girlc.at/gtfs/"
+  },
+  {
+   "agglomerations": [
+    "Warszawa"
+   ],
+   "id": "warsaw_wkd",
+   "license": "CC0 1.0",
+   "publisher": "Warszawska Kolej Dojazdowa (mkuran.pl)",
+   "url": "https://mkuran.pl/gtfs/"
+  },
+  {
+   "agglomerations": [
+    "Warszawa"
+   ],
+   "id": "warsaw_zabki",
+   "license": "CC0-1.0 (girlc.at repackaging; operator terms not stated)",
+   "publisher": "Miasto Ząbki via files.girlc.at",
+   "url": "https://files.girlc.at/gtfs/"
+  },
+  {
+   "agglomerations": [
+    "Warszawa"
+   ],
+   "id": "warsaw_zakroczym",
+   "license": "MIT (feed.gtfs.cc catalogue entry; operator terms not stated)",
+   "publisher": "Komunikacja Gminna Zakroczym (A. Dubis, feed.gtfs.cc)",
+   "url": "https://feed.gtfs.cc/"
+  },
+  {
+   "agglomerations": [
+    "Warszawa"
+   ],
+   "id": "warsaw_ztm",
+   "license": "ZTM Warszawa data usage terms + ODbL for bus shapes (OSM); attribution: ZTM Warszawa, Mikołaj Kuranowski, OpenStreetMap contributors",
+   "publisher": "ZTM Warszawa (unofficial repackaging by M. Kuranowski, mkuran.pl)",
+   "url": "https://mkuran.pl/gtfs/"
+  },
+  {
+   "agglomerations": [
+    "Warszawa"
+   ],
+   "id": "warsaw_zyrardow",
+   "license": "CC0-1.0 (Mobility Database entry; operator terms not stated)",
+   "publisher": "Żyrardowskie Przewozy Autobusowe (M. Minkowski, GitHub)",
+   "url": "https://creativecommons.org/publicdomain/zero/1.0/legalcode"
+  },
+  {
+   "agglomerations": [
+    "Wrocław"
+   ],
+   "id": "wroclaw",
+   "license": "CC0 1.0",
+   "publisher": "Urząd Miejski Wrocławia, Wydział Transportu (Wrocław Open Data)",
+   "url": "https://open-data.cui.wroclaw.pl/hdb/metadane/13/"
+  },
+  {
+   "agglomerations": [
+    "Wrocław"
+   ],
+   "id": "wroclaw_oborniki",
+   "license": "MIT (feed.gtfs.cc catalogue entry; operator terms not stated)",
+   "publisher": "OLKA Oborniki Śląskie (A. Dubis, feed.gtfs.cc)",
+   "url": "https://feed.gtfs.cc/"
+  },
+  {
+   "agglomerations": [
+    "Wrocław"
+   ],
+   "id": "wroclaw_olesnica",
+   "license": "CC0-1.0 (girlc.at repackaging; operator terms not stated)",
+   "publisher": "Urząd Gminy Oleśnica via files.girlc.at",
+   "url": "https://files.girlc.at/gtfs/"
+  },
+  {
+   "agglomerations": [
+    "Wrocław"
+   ],
+   "id": "wroclaw_polbus",
+   "license": "CC0-1.0 (girlc.at repackaging; operator terms not stated)",
+   "publisher": "POLBUS-PKS Sp. z o.o. via files.girlc.at",
+   "url": "https://files.girlc.at/gtfs/"
+  }
+ ]
+}

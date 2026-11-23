@@ -1,0 +1,1599 @@
+{
+ "density_250m": {
+  "agglomerations": [
+   "bialystok",
+   "bydgoszcz_torun",
+   "gzm",
+   "kielce",
+   "krakow",
+   "lodz",
+   "lublin",
+   "poznan",
+   "rzeszow",
+   "szczecin",
+   "trojmiasto",
+   "warszawa",
+   "wroclaw"
+  ],
+  "bytes": 2998723,
+  "cells": 356031,
+  "classes": [
+   {
+    "code": 2,
+    "label": "< 500",
+    "v": 250
+   },
+   {
+    "code": 3,
+    "label": "500–1 000",
+    "v": 750
+   },
+   {
+    "code": 4,
+    "label": "1 000–2 500",
+    "v": 1750
+   },
+   {
+    "code": 5,
+    "label": "2 500–5 000",
+    "v": 3750
+   },
+   {
+    "code": 6,
+    "label": "5 000–10 000",
+    "v": 7500
+   },
+   {
+    "code": 7,
+    "label": "10 000–20 000",
+    "v": 15000
+   },
+   {
+    "code": 8,
+    "label": "≥ 20 000",
+    "v": 25000
+   }
+  ],
+  "extra": {},
+  "file": "density250_nsp2021.pmtiles",
+  "sha256": "6f644d001f21740ad77dd0859ff042ab4c3fc3cf89d50d19fc5d66bcd582d9f2",
+  "source_layer": "density250",
+  "title": "Gęstość zaludnienia 250 m (NSP 2021)",
+  "verify": {
+   "area": [
+    {
+     "agg": "bialystok",
+     "code": 2,
+     "diff_pct": -0.062,
+     "source_km2": 1156.125,
+     "tiles_km2": 1155.408
+    },
+    {
+     "agg": "bialystok",
+     "code": 3,
+     "diff_pct": 0.002,
+     "source_km2": 51.75,
+     "tiles_km2": 51.751
+    },
+    {
+     "agg": "bialystok",
+     "code": 4,
+     "diff_pct": 0.012,
+     "source_km2": 35.375,
+     "tiles_km2": 35.379
+    },
+    {
+     "agg": "bialystok",
+     "code": 5,
+     "diff_pct": -0.018,
+     "source_km2": 20.188,
+     "tiles_km2": 20.184
+    },
+    {
+     "agg": "bialystok",
+     "code": 6,
+     "diff_pct": 0.001,
+     "source_km2": 14.188,
+     "tiles_km2": 14.188
+    },
+    {
+     "agg": "bialystok",
+     "code": 7,
+     "diff_pct": 0.01,
+     "source_km2": 7.375,
+     "tiles_km2": 7.376
+    },
+    {
+     "agg": "bialystok",
+     "code": 8,
+     "diff_pct": -0.204,
+     "source_km2": 0.688,
+     "tiles_km2": 0.686
+    },
+    {
+     "agg": "bydgoszcz_torun",
+     "code": 2,
+     "diff_pct": -0.049,
+     "source_km2": 1768.25,
+     "tiles_km2": 1767.385
+    },
+    {
+     "agg": "bydgoszcz_torun",
+     "code": 3,
+     "diff_pct": -0.015,
+     "source_km2": 103.875,
+     "tiles_km2": 103.86
+    },
+    {
+     "agg": "bydgoszcz_torun",
+     "code": 4,
+     "diff_pct": 0.01,
+     "source_km2": 70.625,
+     "tiles_km2": 70.632
+    },
+    {
+     "agg": "bydgoszcz_torun",
+     "code": 5,
+     "diff_pct": -0.002,
+     "source_km2": 32.375,
+     "tiles_km2": 32.374
+    },
+    {
+     "agg": "bydgoszcz_torun",
+     "code": 6,
+     "diff_pct": -0.006,
+     "source_km2": 29.375,
+     "tiles_km2": 29.373
+    },
+    {
+     "agg": "bydgoszcz_torun",
+     "code": 7,
+     "diff_pct": -0.001,
+     "source_km2": 14.312,
+     "tiles_km2": 14.312
+    },
+    {
+     "agg": "bydgoszcz_torun",
+     "code": 8,
+     "diff_pct": 0.005,
+     "source_km2": 0.562,
+     "tiles_km2": 0.563
+    },
+    {
+     "agg": "gzm",
+     "code": 2,
+     "diff_pct": -0.049,
+     "source_km2": 866.375,
+     "tiles_km2": 865.948
+    },
+    {
+     "agg": "gzm",
+     "code": 3,
+     "diff_pct": 0.001,
+     "source_km2": 191.312,
+     "tiles_km2": 191.314
+    },
+    {
+     "agg": "gzm",
+     "code": 4,
+     "diff_pct": -0.008,
+     "source_km2": 197.688,
+     "tiles_km2": 197.672
+    },
+    {
+     "agg": "gzm",
+     "code": 5,
+     "diff_pct": 0.001,
+     "source_km2": 101.812,
+     "tiles_km2": 101.813
+    },
+    {
+     "agg": "gzm",
+     "code": 6,
+     "diff_pct": 0.008,
+     "source_km2": 85.25,
+     "tiles_km2": 85.257
+    },
+    {
+     "agg": "gzm",
+     "code": 7,
+     "diff_pct": -0.005,
+     "source_km2": 38.125,
+     "tiles_km2": 38.123
+    },
+    {
+     "agg": "gzm",
+     "code": 8,
+     "diff_pct": -0.039,
+     "source_km2": 1.438,
+     "tiles_km2": 1.437
+    },
+    {
+     "agg": "kielce",
+     "code": 2,
+     "diff_pct": -0.052,
+     "source_km2": 896.438,
+     "tiles_km2": 895.972
+    },
+    {
+     "agg": "kielce",
+     "code": 3,
+     "diff_pct": -0.009,
+     "source_km2": 108.438,
+     "tiles_km2": 108.428
+    },
+    {
+     "agg": "kielce",
+     "code": 4,
+     "diff_pct": 0.001,
+     "source_km2": 40.75,
+     "tiles_km2": 40.75
+    },
+    {
+     "agg": "kielce",
+     "code": 5,
+     "diff_pct": 0.0,
+     "source_km2": 9.438,
+     "tiles_km2": 9.438
+    },
+    {
+     "agg": "kielce",
+     "code": 6,
+     "diff_pct": -0.011,
+     "source_km2": 9.375,
+     "tiles_km2": 9.374
+    },
+    {
+     "agg": "kielce",
+     "code": 7,
+     "diff_pct": 0.03,
+     "source_km2": 3.688,
+     "tiles_km2": 3.689
+    },
+    {
+     "agg": "kielce",
+     "code": 8,
+     "diff_pct": -0.105,
+     "source_km2": 0.062,
+     "tiles_km2": 0.062
+    },
+    {
+     "agg": "krakow",
+     "code": 2,
+     "diff_pct": -0.037,
+     "source_km2": 1822.312,
+     "tiles_km2": 1821.645
+    },
+    {
+     "agg": "krakow",
+     "code": 3,
+     "diff_pct": -0.008,
+     "source_km2": 261.875,
+     "tiles_km2": 261.853
+    },
+    {
+     "agg": "krakow",
+     "code": 4,
+     "diff_pct": 0.005,
+     "source_km2": 155.25,
+     "tiles_km2": 155.258
+    },
+    {
+     "agg": "krakow",
+     "code": 5,
+     "diff_pct": 0.004,
+     "source_km2": 44.125,
+     "tiles_km2": 44.127
+    },
+    {
+     "agg": "krakow",
+     "code": 6,
+     "diff_pct": -0.004,
+     "source_km2": 36.062,
+     "tiles_km2": 36.061
+    },
+    {
+     "agg": "krakow",
+     "code": 7,
+     "diff_pct": 0.002,
+     "source_km2": 22.125,
+     "tiles_km2": 22.125
+    },
+    {
+     "agg": "krakow",
+     "code": 8,
+     "diff_pct": -0.007,
+     "source_km2": 2.188,
+     "tiles_km2": 2.187
+    },
+    {
+     "agg": "lodz",
+     "code": 2,
+     "diff_pct": -0.042,
+     "source_km2": 1342.688,
+     "tiles_km2": 1342.12
+    },
+    {
+     "agg": "lodz",
+     "code": 3,
+     "diff_pct": 0.002,
+     "source_km2": 105.062,
+     "tiles_km2": 105.065
+    },
+    {
+     "agg": "lodz",
+     "code": 4,
+     "diff_pct": -0.001,
+     "source_km2": 75.188,
+     "tiles_km2": 75.187
+    },
+    {
+     "agg": "lodz",
+     "code": 5,
+     "diff_pct": 0.005,
+     "source_km2": 41.875,
+     "tiles_km2": 41.877
+    },
+    {
+     "agg": "lodz",
+     "code": 6,
+     "diff_pct": -0.011,
+     "source_km2": 32.75,
+     "tiles_km2": 32.747
+    },
+    {
+     "agg": "lodz",
+     "code": 7,
+     "diff_pct": 0.008,
+     "source_km2": 20.812,
+     "tiles_km2": 20.814
+    },
+    {
+     "agg": "lodz",
+     "code": 8,
+     "diff_pct": -0.048,
+     "source_km2": 2.188,
+     "tiles_km2": 2.186
+    },
+    {
+     "agg": "lublin",
+     "code": 2,
+     "diff_pct": -0.041,
+     "source_km2": 1788.0,
+     "tiles_km2": 1787.274
+    },
+    {
+     "agg": "lublin",
+     "code": 3,
+     "diff_pct": -0.008,
+     "source_km2": 100.688,
+     "tiles_km2": 100.68
+    },
+    {
+     "agg": "lublin",
+     "code": 4,
+     "diff_pct": 0.012,
+     "source_km2": 38.438,
+     "tiles_km2": 38.442
+    },
+    {
+     "agg": "lublin",
+     "code": 5,
+     "diff_pct": -0.001,
+     "source_km2": 21.188,
+     "tiles_km2": 21.187
+    },
+    {
+     "agg": "lublin",
+     "code": 6,
+     "diff_pct": -0.015,
+     "source_km2": 22.75,
+     "tiles_km2": 22.747
+    },
+    {
+     "agg": "lublin",
+     "code": 7,
+     "diff_pct": 0.014,
+     "source_km2": 8.812,
+     "tiles_km2": 8.814
+    },
+    {
+     "agg": "lublin",
+     "code": 8,
+     "diff_pct": 0.029,
+     "source_km2": 0.125,
+     "tiles_km2": 0.125
+    },
+    {
+     "agg": "poznan",
+     "code": 2,
+     "diff_pct": -0.051,
+     "source_km2": 809.5,
+     "tiles_km2": 809.084
+    },
+    {
+     "agg": "poznan",
+     "code": 3,
+     "diff_pct": -0.009,
+     "source_km2": 111.812,
+     "tiles_km2": 111.802
+    },
+    {
+     "agg": "poznan",
+     "code": 4,
+     "diff_pct": 0.001,
+     "source_km2": 118.562,
+     "tiles_km2": 118.563
+    },
+    {
+     "agg": "poznan",
+     "code": 5,
+     "diff_pct": 0.004,
+     "source_km2": 56.125,
+     "tiles_km2": 56.127
+    },
+    {
+     "agg": "poznan",
+     "code": 6,
+     "diff_pct": -0.03,
+     "source_km2": 30.812,
+     "tiles_km2": 30.803
+    },
+    {
+     "agg": "poznan",
+     "code": 7,
+     "diff_pct": 0.03,
+     "source_km2": 15.312,
+     "tiles_km2": 15.317
+    },
+    {
+     "agg": "poznan",
+     "code": 8,
+     "diff_pct": -0.069,
+     "source_km2": 0.75,
+     "tiles_km2": 0.749
+    },
+    {
+     "agg": "rzeszow",
+     "code": 2,
+     "diff_pct": -0.044,
+     "source_km2": 951.562,
+     "tiles_km2": 951.145
+    },
+    {
+     "agg": "rzeszow",
+     "code": 3,
+     "diff_pct": -0.001,
+     "source_km2": 135.062,
+     "tiles_km2": 135.061
+    },
+    {
+     "agg": "rzeszow",
+     "code": 4,
+     "diff_pct": 0.004,
+     "source_km2": 72.125,
+     "tiles_km2": 72.128
+    },
+    {
+     "agg": "rzeszow",
+     "code": 5,
+     "diff_pct": 0.001,
+     "source_km2": 18.25,
+     "tiles_km2": 18.25
+    },
+    {
+     "agg": "rzeszow",
+     "code": 6,
+     "diff_pct": -0.007,
+     "source_km2": 8.062,
+     "tiles_km2": 8.062
+    },
+    {
+     "agg": "rzeszow",
+     "code": 7,
+     "diff_pct": -0.021,
+     "source_km2": 2.125,
+     "tiles_km2": 2.125
+    },
+    {
+     "agg": "szczecin",
+     "code": 2,
+     "diff_pct": -0.059,
+     "source_km2": 274.125,
+     "tiles_km2": 273.963
+    },
+    {
+     "agg": "szczecin",
+     "code": 3,
+     "diff_pct": -0.019,
+     "source_km2": 43.938,
+     "tiles_km2": 43.929
+    },
+    {
+     "agg": "szczecin",
+     "code": 4,
+     "diff_pct": -0.001,
+     "source_km2": 42.562,
+     "tiles_km2": 42.562
+    },
+    {
+     "agg": "szczecin",
+     "code": 5,
+     "diff_pct": 0.001,
+     "source_km2": 24.625,
+     "tiles_km2": 24.625
+    },
+    {
+     "agg": "szczecin",
+     "code": 6,
+     "diff_pct": -0.004,
+     "source_km2": 18.062,
+     "tiles_km2": 18.062
+    },
+    {
+     "agg": "szczecin",
+     "code": 7,
+     "diff_pct": -0.004,
+     "source_km2": 8.875,
+     "tiles_km2": 8.875
+    },
+    {
+     "agg": "szczecin",
+     "code": 8,
+     "diff_pct": -0.003,
+     "source_km2": 2.125,
+     "tiles_km2": 2.125
+    },
+    {
+     "agg": "trojmiasto",
+     "code": 2,
+     "diff_pct": -0.044,
+     "source_km2": 765.75,
+     "tiles_km2": 765.413
+    },
+    {
+     "agg": "trojmiasto",
+     "code": 3,
+     "diff_pct": -0.004,
+     "source_km2": 89.812,
+     "tiles_km2": 89.809
+    },
+    {
+     "agg": "trojmiasto",
+     "code": 4,
+     "diff_pct": 0.0,
+     "source_km2": 82.875,
+     "tiles_km2": 82.875
+    },
+    {
+     "agg": "trojmiasto",
+     "code": 5,
+     "diff_pct": -0.005,
+     "source_km2": 52.062,
+     "tiles_km2": 52.06
+    },
+    {
+     "agg": "trojmiasto",
+     "code": 6,
+     "diff_pct": -0.005,
+     "source_km2": 50.812,
+     "tiles_km2": 50.81
+    },
+    {
+     "agg": "trojmiasto",
+     "code": 7,
+     "diff_pct": 0.01,
+     "source_km2": 20.0,
+     "tiles_km2": 20.002
+    },
+    {
+     "agg": "trojmiasto",
+     "code": 8,
+     "diff_pct": -0.188,
+     "source_km2": 0.625,
+     "tiles_km2": 0.624
+    },
+    {
+     "agg": "warszawa",
+     "code": 2,
+     "diff_pct": -0.045,
+     "source_km2": 4476.875,
+     "tiles_km2": 4474.866
+    },
+    {
+     "agg": "warszawa",
+     "code": 3,
+     "diff_pct": -0.006,
+     "source_km2": 376.312,
+     "tiles_km2": 376.29
+    },
+    {
+     "agg": "warszawa",
+     "code": 4,
+     "diff_pct": 0.005,
+     "source_km2": 299.25,
+     "tiles_km2": 299.266
+    },
+    {
+     "agg": "warszawa",
+     "code": 5,
+     "diff_pct": -0.001,
+     "source_km2": 152.0,
+     "tiles_km2": 151.998
+    },
+    {
+     "agg": "warszawa",
+     "code": 6,
+     "diff_pct": -0.0,
+     "source_km2": 90.75,
+     "tiles_km2": 90.75
+    },
+    {
+     "agg": "warszawa",
+     "code": 7,
+     "diff_pct": -0.005,
+     "source_km2": 68.062,
+     "tiles_km2": 68.059
+    },
+    {
+     "agg": "warszawa",
+     "code": 8,
+     "diff_pct": -0.008,
+     "source_km2": 8.625,
+     "tiles_km2": 8.624
+    },
+    {
+     "agg": "wroclaw",
+     "code": 2,
+     "diff_pct": -0.061,
+     "source_km2": 854.125,
+     "tiles_km2": 853.604
+    },
+    {
+     "agg": "wroclaw",
+     "code": 3,
+     "diff_pct": -0.018,
+     "source_km2": 124.938,
+     "tiles_km2": 124.914
+    },
+    {
+     "agg": "wroclaw",
+     "code": 4,
+     "diff_pct": 0.01,
+     "source_km2": 97.0,
+     "tiles_km2": 97.01
+    },
+    {
+     "agg": "wroclaw",
+     "code": 5,
+     "diff_pct": 0.005,
+     "source_km2": 46.0,
+     "tiles_km2": 46.003
+    },
+    {
+     "agg": "wroclaw",
+     "code": 6,
+     "diff_pct": -0.008,
+     "source_km2": 32.875,
+     "tiles_km2": 32.872
+    },
+    {
+     "agg": "wroclaw",
+     "code": 7,
+     "diff_pct": 0.004,
+     "source_km2": 16.625,
+     "tiles_km2": 16.626
+    },
+    {
+     "agg": "wroclaw",
+     "code": 8,
+     "diff_pct": -0.003,
+     "source_km2": 2.438,
+     "tiles_km2": 2.437
+    }
+   ],
+   "bad_properties": 0,
+   "bytes_per_zoom": {
+    "10": 558330,
+    "11": 733266,
+    "12": 1041981,
+    "4": 1009,
+    "5": 2163,
+    "6": 7885,
+    "7": 32995,
+    "8": 131443,
+    "9": 484173
+   },
+   "cells_checked": 356031,
+   "cells_not_covered": 0,
+   "cells_wrong_class": 0,
+   "empty_cells_covered": 0,
+   "header": {
+    "addressed_tiles": 2417,
+    "bounds": [
+     14.19277,
+     49.6951,
+     24.1307,
+     54.54745
+    ],
+    "center": [
+     19.16173,
+     52.12128,
+     8
+    ],
+    "clustered": true,
+    "internal_compression": "GZIP",
+    "max_zoom": 12,
+    "min_zoom": 4,
+    "tile_compression": "GZIP",
+    "tile_contents": 2417,
+    "tile_type": "MVT"
+   },
+   "max_abs_diff_pct": 0.204,
+   "max_tile_bytes": {
+    "10": 15728,
+    "11": 6653,
+    "12": 2418,
+    "4": 755,
+    "5": 1811,
+    "6": 4043,
+    "7": 7234,
+    "8": 12843,
+    "9": 36324
+   },
+   "tiles_per_zoom": {
+    "10": 180,
+    "11": 510,
+    "12": 1601,
+    "4": 2,
+    "5": 2,
+    "6": 6,
+    "7": 12,
+    "8": 30,
+    "9": 74
+   },
+   "vector_layers": [
+    "density250"
+   ]
+  },
+  "visit": {
+   "agglomeration": "warszawa",
+   "directory_bytes": 16384,
+   "viewport_bytes": {
+    "10": 86575,
+    "11": 41537,
+    "12": 23084,
+    "8": 58434
+   }
+  }
+ },
+ "frequent_transport": {
+  "agglomerations": [
+   "gzm",
+   "krakow",
+   "lodz",
+   "poznan",
+   "trojmiasto",
+   "warszawa",
+   "wroclaw"
+  ],
+  "bytes": 1378494,
+  "cells": 228755,
+  "classes": [
+   {
+    "code": 1,
+    "label": "brak danych GTFS",
+    "v": null
+   },
+   {
+    "code": 2,
+    "label": "co ≤ 5 min",
+    "v": 5
+   },
+   {
+    "code": 3,
+    "label": "co ≤ 10 min",
+    "v": 10
+   },
+   {
+    "code": 4,
+    "label": "co ≤ 15 min",
+    "v": 15
+   },
+   {
+    "code": 5,
+    "label": "co ≤ 20 min",
+    "v": 20
+   },
+   {
+    "code": 6,
+    "label": "co ≤ 30 min",
+    "v": 30
+   },
+   {
+    "code": 7,
+    "label": "rzadziej niż co 30 min lub brak",
+    "v": 60
+   }
+  ],
+  "extra": {
+   "dropped_zero_pop": 6046
+  },
+  "file": "frequent_2026-11-25.pmtiles",
+  "sha256": "6c1ff8f3c8a7738e82a7416eef4b0b493b2c5db8c90798c354e75b0a583cc783",
+  "source_layer": "frequent",
+  "title": "Zasięg częstej komunikacji",
+  "verify": {
+   "area": [
+    {
+     "agg": "gzm",
+     "code": 1,
+     "diff_pct": -0.04,
+     "source_km2": 196.188,
+     "tiles_km2": 196.11
+    },
+    {
+     "agg": "gzm",
+     "code": 2,
+     "diff_pct": 0.007,
+     "source_km2": 28.375,
+     "tiles_km2": 28.377
+    },
+    {
+     "agg": "gzm",
+     "code": 3,
+     "diff_pct": -0.003,
+     "source_km2": 116.25,
+     "tiles_km2": 116.246
+    },
+    {
+     "agg": "gzm",
+     "code": 4,
+     "diff_pct": -0.003,
+     "source_km2": 75.562,
+     "tiles_km2": 75.56
+    },
+    {
+     "agg": "gzm",
+     "code": 5,
+     "diff_pct": -0.004,
+     "source_km2": 74.25,
+     "tiles_km2": 74.247
+    },
+    {
+     "agg": "gzm",
+     "code": 6,
+     "diff_pct": -0.001,
+     "source_km2": 86.875,
+     "tiles_km2": 86.874
+    },
+    {
+     "agg": "gzm",
+     "code": 7,
+     "diff_pct": -0.039,
+     "source_km2": 904.5,
+     "tiles_km2": 904.149
+    },
+    {
+     "agg": "krakow",
+     "code": 1,
+     "diff_pct": -0.028,
+     "source_km2": 874.625,
+     "tiles_km2": 874.384
+    },
+    {
+     "agg": "krakow",
+     "code": 2,
+     "diff_pct": -0.008,
+     "source_km2": 46.5,
+     "tiles_km2": 46.496
+    },
+    {
+     "agg": "krakow",
+     "code": 3,
+     "diff_pct": 0.005,
+     "source_km2": 41.938,
+     "tiles_km2": 41.94
+    },
+    {
+     "agg": "krakow",
+     "code": 4,
+     "diff_pct": -0.004,
+     "source_km2": 20.938,
+     "tiles_km2": 20.937
+    },
+    {
+     "agg": "krakow",
+     "code": 5,
+     "diff_pct": 0.001,
+     "source_km2": 40.688,
+     "tiles_km2": 40.688
+    },
+    {
+     "agg": "krakow",
+     "code": 6,
+     "diff_pct": -0.015,
+     "source_km2": 46.562,
+     "tiles_km2": 46.555
+    },
+    {
+     "agg": "krakow",
+     "code": 7,
+     "diff_pct": -0.034,
+     "source_km2": 1272.688,
+     "tiles_km2": 1272.257
+    },
+    {
+     "agg": "lodz",
+     "code": 1,
+     "diff_pct": -0.031,
+     "source_km2": 295.938,
+     "tiles_km2": 295.845
+    },
+    {
+     "agg": "lodz",
+     "code": 2,
+     "diff_pct": 0.01,
+     "source_km2": 28.0,
+     "tiles_km2": 28.003
+    },
+    {
+     "agg": "lodz",
+     "code": 3,
+     "diff_pct": -0.001,
+     "source_km2": 49.0,
+     "tiles_km2": 48.999
+    },
+    {
+     "agg": "lodz",
+     "code": 4,
+     "diff_pct": -0.003,
+     "source_km2": 13.438,
+     "tiles_km2": 13.437
+    },
+    {
+     "agg": "lodz",
+     "code": 5,
+     "diff_pct": -0.001,
+     "source_km2": 28.312,
+     "tiles_km2": 28.312
+    },
+    {
+     "agg": "lodz",
+     "code": 6,
+     "diff_pct": -0.006,
+     "source_km2": 40.688,
+     "tiles_km2": 40.685
+    },
+    {
+     "agg": "lodz",
+     "code": 7,
+     "diff_pct": -0.041,
+     "source_km2": 1165.188,
+     "tiles_km2": 1164.715
+    },
+    {
+     "agg": "poznan",
+     "code": 1,
+     "diff_pct": -0.042,
+     "source_km2": 326.75,
+     "tiles_km2": 326.611
+    },
+    {
+     "agg": "poznan",
+     "code": 2,
+     "diff_pct": 0.007,
+     "source_km2": 27.812,
+     "tiles_km2": 27.814
+    },
+    {
+     "agg": "poznan",
+     "code": 3,
+     "diff_pct": -0.002,
+     "source_km2": 34.75,
+     "tiles_km2": 34.749
+    },
+    {
+     "agg": "poznan",
+     "code": 4,
+     "diff_pct": -0.003,
+     "source_km2": 26.75,
+     "tiles_km2": 26.749
+    },
+    {
+     "agg": "poznan",
+     "code": 5,
+     "diff_pct": 0.008,
+     "source_km2": 28.812,
+     "tiles_km2": 28.815
+    },
+    {
+     "agg": "poznan",
+     "code": 6,
+     "diff_pct": -0.011,
+     "source_km2": 43.438,
+     "tiles_km2": 43.433
+    },
+    {
+     "agg": "poznan",
+     "code": 7,
+     "diff_pct": -0.044,
+     "source_km2": 654.562,
+     "tiles_km2": 654.275
+    },
+    {
+     "agg": "trojmiasto",
+     "code": 1,
+     "diff_pct": -0.036,
+     "source_km2": 513.438,
+     "tiles_km2": 513.254
+    },
+    {
+     "agg": "trojmiasto",
+     "code": 2,
+     "diff_pct": 0.001,
+     "source_km2": 29.562,
+     "tiles_km2": 29.563
+    },
+    {
+     "agg": "trojmiasto",
+     "code": 3,
+     "diff_pct": 0.009,
+     "source_km2": 49.75,
+     "tiles_km2": 49.755
+    },
+    {
+     "agg": "trojmiasto",
+     "code": 4,
+     "diff_pct": -0.006,
+     "source_km2": 35.938,
+     "tiles_km2": 35.935
+    },
+    {
+     "agg": "trojmiasto",
+     "code": 5,
+     "diff_pct": -0.005,
+     "source_km2": 29.75,
+     "tiles_km2": 29.748
+    },
+    {
+     "agg": "trojmiasto",
+     "code": 6,
+     "diff_pct": -0.019,
+     "source_km2": 23.25,
+     "tiles_km2": 23.246
+    },
+    {
+     "agg": "trojmiasto",
+     "code": 7,
+     "diff_pct": -0.042,
+     "source_km2": 380.25,
+     "tiles_km2": 380.092
+    },
+    {
+     "agg": "warszawa",
+     "code": 1,
+     "diff_pct": -0.034,
+     "source_km2": 1700.062,
+     "tiles_km2": 1699.477
+    },
+    {
+     "agg": "warszawa",
+     "code": 2,
+     "diff_pct": -0.002,
+     "source_km2": 129.25,
+     "tiles_km2": 129.247
+    },
+    {
+     "agg": "warszawa",
+     "code": 3,
+     "diff_pct": 0.002,
+     "source_km2": 105.812,
+     "tiles_km2": 105.815
+    },
+    {
+     "agg": "warszawa",
+     "code": 4,
+     "diff_pct": -0.01,
+     "source_km2": 81.5,
+     "tiles_km2": 81.492
+    },
+    {
+     "agg": "warszawa",
+     "code": 5,
+     "diff_pct": -0.008,
+     "source_km2": 62.438,
+     "tiles_km2": 62.432
+    },
+    {
+     "agg": "warszawa",
+     "code": 6,
+     "diff_pct": -0.009,
+     "source_km2": 97.25,
+     "tiles_km2": 97.241
+    },
+    {
+     "agg": "warszawa",
+     "code": 7,
+     "diff_pct": -0.043,
+     "source_km2": 3295.562,
+     "tiles_km2": 3294.149
+    },
+    {
+     "agg": "wroclaw",
+     "code": 1,
+     "diff_pct": -0.045,
+     "source_km2": 453.0,
+     "tiles_km2": 452.795
+    },
+    {
+     "agg": "wroclaw",
+     "code": 2,
+     "diff_pct": 0.001,
+     "source_km2": 51.812,
+     "tiles_km2": 51.813
+    },
+    {
+     "agg": "wroclaw",
+     "code": 3,
+     "diff_pct": -0.004,
+     "source_km2": 38.375,
+     "tiles_km2": 38.373
+    },
+    {
+     "agg": "wroclaw",
+     "code": 4,
+     "diff_pct": -0.007,
+     "source_km2": 16.5,
+     "tiles_km2": 16.499
+    },
+    {
+     "agg": "wroclaw",
+     "code": 5,
+     "diff_pct": -0.008,
+     "source_km2": 9.875,
+     "tiles_km2": 9.874
+    },
+    {
+     "agg": "wroclaw",
+     "code": 6,
+     "diff_pct": -0.01,
+     "source_km2": 15.75,
+     "tiles_km2": 15.748
+    },
+    {
+     "agg": "wroclaw",
+     "code": 7,
+     "diff_pct": -0.055,
+     "source_km2": 588.688,
+     "tiles_km2": 588.362
+    }
+   ],
+   "bad_properties": 0,
+   "bytes_per_zoom": {
+    "10": 236927,
+    "11": 321590,
+    "12": 475190,
+    "4": 1242,
+    "5": 3072,
+    "6": 12294,
+    "7": 32825,
+    "8": 84629,
+    "9": 207169
+   },
+   "cells_checked": 228755,
+   "cells_not_covered": 0,
+   "cells_wrong_class": 0,
+   "empty_cells_covered": 0,
+   "header": {
+    "addressed_tiles": 1424,
+    "bounds": [
+     16.36653,
+     49.74768,
+     22.34871,
+     54.61437
+    ],
+    "center": [
+     19.35762,
+     52.18102,
+     8
+    ],
+    "clustered": true,
+    "internal_compression": "GZIP",
+    "max_zoom": 12,
+    "min_zoom": 4,
+    "tile_compression": "GZIP",
+    "tile_contents": 1424,
+    "tile_type": "MVT"
+   },
+   "max_abs_diff_pct": 0.055,
+   "max_tile_bytes": {
+    "10": 8724,
+    "11": 3777,
+    "12": 1487,
+    "4": 1185,
+    "5": 3072,
+    "6": 8041,
+    "7": 8497,
+    "8": 12890,
+    "9": 21027
+   },
+   "tiles_per_zoom": {
+    "10": 98,
+    "11": 299,
+    "12": 950,
+    "4": 2,
+    "5": 1,
+    "6": 4,
+    "7": 9,
+    "8": 21,
+    "9": 40
+   },
+   "vector_layers": [
+    "frequent"
+   ]
+  },
+  "visit": {
+   "agglomeration": "warszawa",
+   "directory_bytes": 16384,
+   "viewport_bytes": {
+    "10": 56006,
+    "11": 24801,
+    "12": 14964,
+    "8": 36293
+   }
+  }
+ },
+ "gtfs_nodata": {
+  "agglomerations": [
+   "gzm",
+   "krakow",
+   "lodz",
+   "poznan",
+   "trojmiasto",
+   "warszawa",
+   "wroclaw"
+  ],
+  "bytes": 373190,
+  "cells": 106967,
+  "classes": [
+   {
+    "code": 1,
+    "label": "brak danych GTFS",
+    "v": null
+   }
+  ],
+  "extra": {
+   "source_area_km2": {
+    "gzm": 340.4999413370034,
+    "krakow": 1141.5627146611241,
+    "lodz": 411.6872308161441,
+    "poznan": 584.3760084627372,
+    "trojmiasto": 820.186838317349,
+    "warszawa": 2476.8115331397134,
+    "wroclaw": 910.3130857612584
+   }
+  },
+  "file": "gtfs_nodata_2026-11-25.pmtiles",
+  "sha256": "e53bddf056d0ef45199f1a38ae727a4f7ba93a02c5d90b7907877a534cf2dc35",
+  "source_layer": "gtfs_nodata",
+  "title": "Brak danych GTFS",
+  "verify": {
+   "area": [
+    {
+     "agg": "gzm",
+     "code": 1,
+     "diff_pct": -0.037,
+     "source_km2": 340.5,
+     "tiles_km2": 340.372
+    },
+    {
+     "agg": "krakow",
+     "code": 1,
+     "diff_pct": -0.026,
+     "source_km2": 1141.562,
+     "tiles_km2": 1141.271
+    },
+    {
+     "agg": "lodz",
+     "code": 1,
+     "diff_pct": -0.031,
+     "source_km2": 411.688,
+     "tiles_km2": 411.56
+    },
+    {
+     "agg": "poznan",
+     "code": 1,
+     "diff_pct": -0.032,
+     "source_km2": 584.375,
+     "tiles_km2": 584.186
+    },
+    {
+     "agg": "trojmiasto",
+     "code": 1,
+     "diff_pct": -0.022,
+     "source_km2": 820.188,
+     "tiles_km2": 820.011
+    },
+    {
+     "agg": "warszawa",
+     "code": 1,
+     "diff_pct": -0.026,
+     "source_km2": 2476.812,
+     "tiles_km2": 2476.165
+    },
+    {
+     "agg": "wroclaw",
+     "code": 1,
+     "diff_pct": -0.029,
+     "source_km2": 910.312,
+     "tiles_km2": 910.046
+    }
+   ],
+   "bad_properties": 0,
+   "bytes_per_zoom": {
+    "10": 54094,
+    "11": 86345,
+    "12": 146447,
+    "4": 493,
+    "5": 1379,
+    "6": 5018,
+    "7": 10878,
+    "8": 22241,
+    "9": 43233
+   },
+   "cells_checked": 106967,
+   "cells_not_covered": 0,
+   "cells_wrong_class": 0,
+   "empty_cells_covered": 0,
+   "header": {
+    "addressed_tiles": 1315,
+    "bounds": [
+     16.35493,
+     49.75217,
+     22.34871,
+     54.61412
+    ],
+    "center": [
+     19.35182,
+     52.18314,
+     8
+    ],
+    "clustered": true,
+    "internal_compression": "GZIP",
+    "max_zoom": 12,
+    "min_zoom": 4,
+    "tile_compression": "GZIP",
+    "tile_contents": 1315,
+    "tile_type": "MVT"
+   },
+   "max_abs_diff_pct": 0.037,
+   "max_tile_bytes": {
+    "10": 1302,
+    "11": 641,
+    "12": 366,
+    "4": 433,
+    "5": 1379,
+    "6": 3263,
+    "7": 2859,
+    "8": 3058,
+    "9": 3761
+   },
+   "tiles_per_zoom": {
+    "10": 96,
+    "11": 288,
+    "12": 856,
+    "4": 2,
+    "5": 1,
+    "6": 4,
+    "7": 9,
+    "8": 21,
+    "9": 38
+   },
+   "vector_layers": [
+    "gtfs_nodata"
+   ]
+  },
+  "visit": {
+   "agglomeration": "warszawa",
+   "directory_bytes": 16384,
+   "viewport_bytes": {
+    "10": 11498,
+    "11": 3696,
+    "12": 1735,
+    "8": 9367
+   }
+  }
+ },
+ "transport_performance_30": {
+  "agglomerations": [
+   "wroclaw"
+  ],
+  "bytes": 155448,
+  "cells": 18784,
+  "classes": [
+   {
+    "code": 1,
+    "label": "brak danych GTFS",
+    "v": null
+   },
+   {
+    "code": 2,
+    "label": "< 10",
+    "v": 5
+   },
+   {
+    "code": 3,
+    "label": "10–20",
+    "v": 15
+   },
+   {
+    "code": 4,
+    "label": "20–30",
+    "v": 25
+   },
+   {
+    "code": 5,
+    "label": "30–40",
+    "v": 35
+   },
+   {
+    "code": 6,
+    "label": "40–50",
+    "v": 45
+   },
+   {
+    "code": 7,
+    "label": "50–60",
+    "v": 55
+   },
+   {
+    "code": 8,
+    "label": "≥ 60",
+    "v": 65
+   }
+  ],
+  "extra": {
+   "present": [
+    "wroclaw"
+   ]
+  },
+  "file": "performance30_2026-11-25.pmtiles",
+  "sha256": "7bd61f762f138910381086621d1d845d9a2a5e9bf643807adf1f97753a2148d4",
+  "source_layer": "performance30",
+  "title": "Transport performance 30 min",
+  "verify": {
+   "area": [
+    {
+     "agg": "wroclaw",
+     "code": 1,
+     "diff_pct": -0.045,
+     "source_km2": 453.0,
+     "tiles_km2": 452.795
+    },
+    {
+     "agg": "wroclaw",
+     "code": 2,
+     "diff_pct": -0.058,
+     "source_km2": 504.125,
+     "tiles_km2": 503.831
+    },
+    {
+     "agg": "wroclaw",
+     "code": 3,
+     "diff_pct": -0.026,
+     "source_km2": 104.938,
+     "tiles_km2": 104.91
+    },
+    {
+     "agg": "wroclaw",
+     "code": 4,
+     "diff_pct": -0.004,
+     "source_km2": 61.812,
+     "tiles_km2": 61.81
+    },
+    {
+     "agg": "wroclaw",
+     "code": 5,
+     "diff_pct": -0.007,
+     "source_km2": 33.25,
+     "tiles_km2": 33.248
+    },
+    {
+     "agg": "wroclaw",
+     "code": 6,
+     "diff_pct": -0.02,
+     "source_km2": 13.062,
+     "tiles_km2": 13.06
+    },
+    {
+     "agg": "wroclaw",
+     "code": 7,
+     "diff_pct": -0.006,
+     "source_km2": 3.5,
+     "tiles_km2": 3.5
+    },
+    {
+     "agg": "wroclaw",
+     "code": 8,
+     "diff_pct": -0.11,
+     "source_km2": 0.312,
+     "tiles_km2": 0.312
+    }
+   ],
+   "bad_properties": 0,
+   "bytes_per_zoom": {
+    "10": 25480,
+    "11": 35284,
+    "12": 52365,
+    "4": 267,
+    "5": 605,
+    "6": 2458,
+    "7": 4962,
+    "8": 10169,
+    "9": 22674
+   },
+   "cells_checked": 18784,
+   "cells_not_covered": 0,
+   "cells_wrong_class": 0,
+   "empty_cells_covered": 0,
+   "header": {
+    "addressed_tiles": 175,
+    "bounds": [
+     16.54602,
+     50.80521,
+     17.61181,
+     51.59075
+    ],
+    "center": [
+     17.07892,
+     51.19798,
+     8
+    ],
+    "clustered": true,
+    "internal_compression": "GZIP",
+    "max_zoom": 12,
+    "min_zoom": 4,
+    "tile_compression": "GZIP",
+    "tile_contents": 175,
+    "tile_type": "MVT"
+   },
+   "max_abs_diff_pct": 0.11,
+   "max_tile_bytes": {
+    "10": 7961,
+    "11": 4071,
+    "12": 1729,
+    "4": 267,
+    "5": 605,
+    "6": 1454,
+    "7": 3266,
+    "8": 7210,
+    "9": 9650
+   },
+   "tiles_per_zoom": {
+    "10": 12,
+    "11": 37,
+    "12": 113,
+    "4": 1,
+    "5": 1,
+    "6": 2,
+    "7": 2,
+    "8": 2,
+    "9": 5
+   },
+   "vector_layers": [
+    "performance30"
+   ]
+  },
+  "visit": {
+   "agglomeration": "wroclaw",
+   "directory_bytes": 16384,
+   "viewport_bytes": {
+    "10": 23057,
+    "11": 20704,
+    "12": 13285,
+    "8": 10169
+   }
+  }
+ }
+}

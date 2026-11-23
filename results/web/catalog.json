@@ -224,52 +224,129 @@
    "url": "data/fua.geojson"
   },
   {
-   "attribution": "",
+   "attribution": "GUS NSP 2021, JRC GHSL",
+   "has_nodata": false,
    "id": "density_250m",
-   "kind": "density",
-   "note": "",
-   "population_date": null,
-   "status": "planned",
+   "kind": "choropleth",
+   "note": "Komórki 250 m w granicach FUA; ludność ze spisu NSP 2021 rozłożona wzorem GHSL 2020. Komórki bez ludności nie są rysowane: to rzeczywiste zero, a nie brak danych. Kolor oznacza przedział gęstości, nie wartość komórki; przy większości komórek gęstość jest poniżej 500 os./km².",
+   "population_date": "2021-03-31 (NSP 2021, wzór GHSL 2020)",
+   "property": "v",
+   "ramp": {
+    "colors": [
+     "#F5E1A4",
+     "#F0C36D",
+     "#E39A3B",
+     "#C9701E",
+     "#9E4A12",
+     "#702C0A",
+     "#431A06"
+    ],
+    "stops": [
+     500,
+     1000,
+     2500,
+     5000,
+     10000,
+     20000
+    ]
+   },
+   "source_layer": "density250",
+   "status": "ready",
    "timetable_date": null,
-   "title": "Gęstość zaludnienia 250 m (GHSL 2020)",
+   "title": "Gęstość zaludnienia 250 m (NSP 2021)",
    "type": "pmtiles",
-   "url": null
+   "unit": "os./km²",
+   "url": "tiles/density250_nsp2021.pmtiles"
   },
   {
-   "attribution": "",
+   "attribution": "wydawcy GTFS (lista w „O danych”), © współtwórcy OpenStreetMap, GUS, JRC GHSL",
+   "has_nodata": true,
    "id": "frequent_transport",
-   "kind": "access",
-   "note": "",
-   "population_date": null,
-   "status": "planned",
-   "timetable_date": null,
+   "kind": "choropleth",
+   "note": "Najlepszy odstęp między kursami (średnia 6:00–20:00, dzień roboczy) przy zespole przystanków w zasięgu 500 m pieszo po sieci OSM; kolor oznacza klasę, w której leży co najmniej połowa punktów próbkowania komórki. Komórki poza pokryciem danych GTFS są kreskowane jako brak danych, nie jako brak komunikacji. Wszystkie feedy, w tym nieoficjalne. Rysowane są komórki z ludnością.",
+   "population_date": "2021-03-31 (NSP 2021, wzór GHSL 2020)",
+   "property": "v",
+   "ramp": {
+    "colors": [
+     "#16348F",
+     "#1D4ED8",
+     "#4F78DE",
+     "#7FA3E3",
+     "#AAC4EA",
+     "#D3E0F3"
+    ],
+    "labels": [
+     "co ≤ 5 min",
+     "co ≤ 10 min",
+     "co ≤ 15 min",
+     "co ≤ 20 min",
+     "co ≤ 30 min",
+     "rzadziej niż co 30 min lub brak"
+    ],
+    "stops": [
+     10,
+     15,
+     20,
+     30,
+     60
+    ]
+   },
+   "source_layer": "frequent",
+   "status": "ready",
+   "timetable_date": "2026-11-25",
    "title": "Zasięg częstej komunikacji",
    "type": "pmtiles",
-   "url": null
+   "unit": "odstęp między kursami",
+   "url": "tiles/frequent_2026-11-25.pmtiles"
   },
   {
-   "attribution": "",
+   "attribution": "wydawcy GTFS (lista w „O danych”), © współtwórcy OpenStreetMap, GUS, JRC GHSL",
+   "has_nodata": true,
    "id": "transport_performance_30",
-   "kind": "access",
-   "note": "",
-   "population_date": null,
-   "status": "planned",
-   "timetable_date": null,
+   "kind": "choropleth",
+   "note": "Odsetek ludności z okolicy (promień odpowiadający 15 km/h, 7,5 km), który można osiągnąć w 30 min komunikacją i pieszo; środa 7:00–9:00, mediana z odjazdów co minutę; wartości w %. Komórki poza pokryciem danych GTFS są kreskowane jako brak danych. Wszystkie feedy, w tym nieoficjalne. Rysowane są komórki z ludnością. Policzono: Wrocław. W trakcie obliczeń: GZM, Kraków, Łódź, Poznań, Trójmiasto, Warszawa.",
+   "population_date": "2021-03-31 (NSP 2021, wzór GHSL 2020)",
+   "property": "v",
+   "ramp": {
+    "colors": [
+     "#D6E3F5",
+     "#ADC6EC",
+     "#84A8E3",
+     "#5B89DA",
+     "#3569D5",
+     "#1D4ED8",
+     "#16348F"
+    ],
+    "stops": [
+     10,
+     20,
+     30,
+     40,
+     50,
+     60
+    ]
+   },
+   "source_layer": "performance30",
+   "status": "ready",
+   "timetable_date": "2026-11-25",
    "title": "Transport performance 30 min",
    "type": "pmtiles",
-   "url": null
+   "unit": "% ludności osiągalnej w 30 min",
+   "url": "tiles/performance30_2026-11-25.pmtiles"
   },
   {
-   "attribution": "",
+   "attribution": "wydawcy GTFS (lista w „O danych”), © współtwórcy OpenStreetMap, GUS, JRC GHSL",
    "id": "gtfs_nodata",
    "kind": "mask",
-   "note": "",
+   "legend": "obszar bez danych o rozkładach (GTFS)",
+   "note": "Obszar FUA, w którym nie da się ocenić komunikacji: w promieniu 1 km od środka komórki mniej niż 85 % przystanków z OpenStreetMap ma odpowiednik w rozkładach GTFS (brak feedu albo luki w nim), więc brak kursów na mapie nie oznacza ich braku w rzeczywistości. Komórki bez żadnego przystanku w promieniu 1 km mają dane i nie są kreskowane. Wszystkie feedy, w tym nieoficjalne.",
    "population_date": null,
-   "status": "planned",
-   "timetable_date": null,
-   "title": "Maska braku danych GTFS",
+   "source_layer": "gtfs_nodata",
+   "status": "ready",
+   "timetable_date": "2026-11-25",
+   "title": "Brak danych GTFS",
    "type": "pmtiles",
-   "url": null
+   "url": "tiles/gtfs_nodata_2026-11-25.pmtiles"
   }
  ]
 }
