@@ -1,0 +1,23 @@
+# raw and intermediate data are reproducible from data/manifest.csv (brief §14.3)
+data/raw/
+data/interim/
+# local tooling (JDK, validator jar, CLI binaries)
+.tools/
+.venv/
+.snakemake/
+__pycache__/
+*.pyc
+# web build
+node_modules/
+web/dist/
+web/public/data/
+site/
+# GTFS-RT archive never lives in the repo (brief §14.6)
+collector/archive/
+collector/*.log
+# big layers
+results/layers/*.big.parquet
+.claude/settings.local.json
+# validator reports carry local paths and sample feed rows; summary.json is the committed record
+results/qa/gtfs_validator/*/report.json
+results/qa/gtfs_validator/*/system_errors.json

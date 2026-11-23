@@ -1,0 +1,272 @@
+# Single source of configuration for the pipeline (brief §14.1).
+# Values marked PROPOSAL wait for Bartor's approval (brief §12).
+
+crs_metric: "EPSG:2180"
+edge_buffer_km: 15          # destinations / neighbourhood population domain = FUA + buffer (§2)
+
+sources:
+  urau:
+    year: 2021
+    base_url: "https://gisco-services.ec.europa.eu/distribution/v2/urau/"
+  ghs_pop:
+    release: "R2023A"
+    epoch: 2020               # never the 2025 projection (§3)
+    resolution_m: 100
+  ghs_built_s:
+    release: "R2023A"
+    epoch: 2020
+    resolution_m: 100
+  census_grid:
+    name: "NSP 2021, 1 km grid (GUS)"
+  jobs:
+    doi: "10.17632/mr9ywkgd9t.1"
+  osm:
+    pbf_url: "https://download.geofabrik.de/europe/poland-latest.osm.pbf"
+
+# PROPOSAL (§12.4): share of built-up surface in a 100 m GHS-BUILT-S cell for the net built-up mask
+built_up_threshold: 0.20
+
+# §5: one Tue-Thu working day shared by all feeds; filled in after phase 0 and Bartor's decision
+reference_day: null
+reference_saturday: null
+excluded_periods:
+  - ["2026-12-24", "2027-01-06"]
+
+time_windows:               # §4.6
+  am_peak:   {day: weekday,  start: "07:00", end: "09:00", main: true}
+  midday:    {day: weekday,  start: "10:00", end: "14:00"}
+  evening:   {day: weekday,  start: "20:00", end: "22:00"}
+  saturday:  {day: saturday, start: "10:00", end: "14:00"}
+frequency_window: {start: "06:00", end: "20:00"}    # §4.5, as DG REGIO
+headway_thresholds_min: [5, 10, 15, 20, 30]
+walk_to_stop_m: 500
+rail_station_radius_m: 1000
+stop_cluster_radius_m: 100
+osm_gtfs_match_radius_m: 50            # bus and tram; plus name/code fallback within 200 m
+osm_gtfs_rail_match_radius_m: 200      # stations; plus name fallback within 500 m (results/qa/phase0/coverage)
+coverage_min_share: 0.85    # §6: below this the result is flagged incomplete
+
+# Centres and hubs: lon, lat (WGS84). PROPOSALS (§12.2), verified against OSM in phase 0.
+# fua_codes / city_codes are URAU 2021 codes, filled in phase 0.
+agglomerations:
+  warszawa:
+    name: "Warszawa"
+    phase: 1
+    voivodeships: ["mazowieckie"]
+    centre: {name: "Rondo Dmowskiego", lon: 21.0118, lat: 52.2297}
+    hub:    {name: "Metro Centrum / Warszawa Centralna", lon: 21.0107, lat: 52.2302}
+    fua_codes: ["PL001F"]
+    city_codes: ["PL001C"]
+  krakow:
+    name: "Kraków"
+    phase: 1
+    voivodeships: ["małopolskie"]
+    centre: {name: "Rynek Główny", lon: 19.9373, lat: 50.0617}
+    hub:    {name: "Kraków Główny / Dworzec Główny", lon: 19.9468, lat: 50.0670}
+    fua_codes: ["PL003F"]
+    city_codes: ["PL003C"]
+  wroclaw:
+    name: "Wrocław"
+    phase: 1
+    voivodeships: ["dolnośląskie"]
+    centre: {name: "Rynek", lon: 17.0320, lat: 51.1100}
+    hub:    {name: "Galeria Dominikańska", lon: 17.0403, lat: 51.1083}
+    fua_codes: ["PL004F"]
+    city_codes: ["PL004C"]
+  poznan:
+    name: "Poznań"
+    phase: 1
+    voivodeships: ["wielkopolskie"]
+    centre: {name: "Stary Rynek", lon: 16.9342, lat: 52.4083}
+    hub:    {name: "Rondo Kaponiera", lon: 16.9126, lat: 52.4081}
+    fua_codes: ["PL005F"]
+    city_codes: ["PL005C"]
+  lodz:
+    name: "Łódź"
+    phase: 1
+    voivodeships: ["łódzkie"]
+    centre: {name: "pl. Wolności", lon: 19.4547, lat: 51.7769}
+    hub:    {name: "Piotrkowska Centrum", lon: 19.4573, lat: 51.7594}
+    fua_codes: ["PL002F"]
+    city_codes: ["PL002C"]
+  trojmiasto:
+    name: "Trójmiasto"
+    phase: 1
+    voivodeships: ["pomorskie"]
+    polycentric: true         # linear, coastal: single-centre measures carry a caveat (§11)
+    centre: {name: "Gdańsk Główny", lon: 18.6440, lat: 54.3556}
+    hub:    {name: "Gdańsk Główny", lon: 18.6440, lat: 54.3556}
+    extra_centres:
+      - {name: "Gdynia Główna", lon: 18.5297, lat: 54.5208}
+      - {name: "Sopot", lon: 18.5620, lat: 54.4405}
+    fua_codes: ["PL006F", "PL053F"]
+    city_codes: ["PL006C", "PL053C"]
+    fua_note: "FUA Gdańsk (PL006F) contains Sopot; Gdynia has its own FUA (PL053F), so the agglomeration is their union. Sopot is not a URAU city: the core adds the LAU unit Sopot to Gdańsk + Gdynia (see pipeline/boundaries.py)."
+  gzm:
+    name: "GZM"
+    phase: 1
+    voivodeships: ["śląskie"]
+    polycentric: true
+    boundary_variant: null    # DECISION (§12.1): "fua_union" or "metropolis"
+    centre: {name: "Katowice Rynek", lon: 19.0216, lat: 50.2594}
+    hub:    {name: "Katowice Rynek", lon: 19.0216, lat: 50.2594}
+    extra_centres:            # PROPOSAL: nearest-of-N variant of rho (§4.3)
+      - {name: "Gliwice Rynek", lon: 18.6657, lat: 50.2945}
+      - {name: "Sosnowiec centrum", lon: 19.1275, lat: 50.2780}
+      - {name: "Bytom Rynek", lon: 18.9210, lat: 50.3480}
+      - {name: "Zabrze centrum", lon: 18.7860, lat: 50.3050}
+      - {name: "Tychy centrum", lon: 18.9870, lat: 50.1240}
+      - {name: "Chorzów Rynek", lon: 18.9540, lat: 50.2970}
+      - {name: "Dąbrowa Górnicza centrum", lon: 19.1850, lat: 50.3240}
+      - {name: "Ruda Śląska (Nowy Bytom)", lon: 18.8760, lat: 50.2880}
+    fua_codes: ["PL010F", "PL055F", "PL061F", "PL070F"]
+    city_codes: ["PL010C", "PL054C", "PL055C", "PL056C", "PL057C", "PL059C", "PL061C", "PL066C", "PL069C", "PL070C", "PL072C", "PL074C", "PL075C"]
+    fua_note: "Provisional variant (a): FUAs with >= 5% of their area inside Metropolia GZM (Katowice, Gliwice/Zabrze, Tychy, Dabrowa Gornicza); Rybnik FUA touches GZM only by a 0.1 km2 sliver and is excluded. Core = the 13 URAU cities lying in GZM. Variant (b) = 41 gminas, see results/qa/phase0/boundaries/gzm_variants.md."
+  szczecin:
+    name: "Szczecin"
+    phase: 2
+    voivodeships: ["zachodniopomorskie"]
+    centre: {name: "Brama Portowa", lon: 14.5494, lat: 53.4250}
+    fua_codes: ["PL007F"]
+    city_codes: ["PL007C"]
+  bydgoszcz_torun:
+    name: "Bydgoszcz–Toruń"
+    phase: 2
+    voivodeships: ["kujawsko-pomorskie"]
+    polycentric: true
+    centre: {name: "Bydgoszcz, Stary Rynek", lon: 18.0003, lat: 53.1220}
+    extra_centres:
+      - {name: "Toruń, Rynek Staromiejski", lon: 18.6045, lat: 53.0104}
+    fua_codes: ["PL008F", "PL013F"]
+    city_codes: ["PL008C", "PL013C"]
+  lublin:
+    name: "Lublin"
+    phase: 2
+    voivodeships: ["lubelskie"]
+    centre: {name: "pl. Litewski", lon: 22.5600, lat: 51.2481}
+    fua_codes: ["PL009F"]
+    city_codes: ["PL009C"]
+  rzeszow:
+    name: "Rzeszów"
+    phase: 2
+    voivodeships: ["podkarpackie"]
+    centre: {name: "Rynek", lon: 22.0050, lat: 50.0375}
+    fua_codes: ["PL015F"]
+    city_codes: ["PL015C"]
+  kielce:
+    name: "Kielce"
+    phase: 2
+    voivodeships: ["świętokrzyskie"]
+    centre: {name: "Rynek", lon: 20.6335, lat: 50.8703}
+    fua_codes: ["PL012F"]
+    city_codes: ["PL012C"]
+  bialystok:
+    name: "Białystok"
+    phase: 2
+    voivodeships: ["podlaskie"]
+    centre: {name: "Rynek Kościuszki", lon: 23.1589, lat: 53.1325}
+    fua_codes: ["PL011F"]
+    city_codes: ["PL011C"]
+
+# GTFS feeds (§3). URLs verified in phase 0 (2026-11-23); see results/qa/phase0/gtfs/.
+# `agglomerations` lists which areas a feed serves; rail is nationwide and deduplicated later.
+# `license` = terms stated by the publisher, `license_url` = where they are stated.
+feeds:
+  warsaw_ztm:
+    agglomerations: [warszawa]
+    url: "https://mkuran.pl/gtfs/warsaw.zip"
+    publisher: "ZTM Warszawa (unofficial repackaging by M. Kuranowski, mkuran.pl)"
+    license: "ZTM Warszawa data usage terms + ODbL for bus shapes (OSM); attribution: ZTM Warszawa, Mikołaj Kuranowski, OpenStreetMap contributors"
+    license_url: "https://mkuran.pl/gtfs/"
+    notes: "Includes metro, SKM, tram, bus; shapes for buses derived from OSM."
+  warsaw_wkd:
+    agglomerations: [warszawa]
+    url: "https://mkuran.pl/gtfs/wkd.zip"
+    publisher: "Warszawska Kolej Dojazdowa (mkuran.pl)"
+    license: "CC0 1.0"
+    license_url: "https://mkuran.pl/gtfs/"
+    notes: "WKD is not in polish_trains agency list."
+  krakow_bus:
+    agglomerations: [krakow]
+    url: "https://gtfs.ztp.krakow.pl/GTFS_KRK_A.zip"
+    publisher: "ZTP Kraków"
+    license: "CC BY 4.0"
+    license_url: "https://gtfs.ztp.krakow.pl/"
+    notes: "Buses (MPK Kraków)."
+  krakow_tram:
+    agglomerations: [krakow]
+    url: "https://gtfs.ztp.krakow.pl/GTFS_KRK_T.zip"
+    publisher: "ZTP Kraków"
+    license: "CC BY 4.0"
+    license_url: "https://gtfs.ztp.krakow.pl/"
+    notes: "Trams."
+  krakow_mobilis:
+    agglomerations: [krakow]
+    url: "https://gtfs.ztp.krakow.pl/GTFS_KRK_M.zip"
+    publisher: "ZTP Kraków (suburban lines operated by Mobilis)"
+    license: "CC BY 4.0"
+    license_url: "https://gtfs.ztp.krakow.pl/"
+    notes: "Added in phase 0: official third ZTP feed, Mobilis suburban bus lines (33 routes); not in the brief's table."
+  wroclaw:
+    agglomerations: [wroclaw]
+    url: "https://open-data.cui.wroclaw.pl/hdb/download/164/"
+    resolve: wroclaw_cui    # resource ids grow weekly (160=07.11, 162=16.11, 164=23.11): fetch_gtfs probes for newer GTFS ids
+    publisher: "Urząd Miejski Wrocławia, Wydział Transportu (Wrocław Open Data)"
+    license: "CC0 1.0"
+    license_url: "https://open-data.cui.wroclaw.pl/hdb/metadane/13/"
+    notes: "MPK Wrocław + DLA, KŁOSOK, Sevibus etc.; weekly new resource id with GTFS_<ddmmyyyy>.zip; window ~2 weeks, so the file ends the day before the next one starts."
+  poznan:
+    agglomerations: [poznan]
+    url: "https://www.ztm.poznan.pl/pl/dla-deweloperow/getGTFSFile"
+    publisher: "ZTM Poznań"
+    license: "ZTM Poznań terms of use (Zasady korzystania z danych)"
+    license_url: "https://www.ztm.poznan.pl/assets/pliki/Zasady-korzystania-ZTM-Poznan.pdf"
+    notes: "Works with default User-Agent; file name encodes validity window (e.g. 20261124_20261205.zip)."
+  lodz:
+    agglomerations: [lodz]
+    url: "https://otwarte.miasto.lodz.pl/wp-content/uploads/2025/06/GTFS.zip"
+    publisher: "Miasto Łódź, portal Otwarte dane (MPK-Łódź)"
+    license: "open licence of the Łódź open-data portal (attribution required; licence name not stated on the dataset page)"
+    license_url: "https://otwarte.miasto.lodz.pl/transport_komunikacja/"
+    notes: "Stable URL, file overwritten in place (last modified 2026-11-23)."
+  gdansk:
+    agglomerations: [trojmiasto]
+    url: "https://ckan.multimediagdansk.pl/dataset/c24aa637-3619-4dc2-a171-a23eec8f2172/resource/30e783e4-2bec-4a7d-bb22-ee3e3b26ca96/download/gtfsgoogle.zip"
+    publisher: "ZTM w Gdańsku"
+    license: "CC BY 4.0 (Creative Commons Attribution)"
+    license_url: "https://ckan.multimediagdansk.pl/dataset/tristar"
+    notes: "Gdańsk city + neighbouring gminas served by ZTM Gdańsk."
+  gdynia:
+    agglomerations: [trojmiasto]
+    url: "https://api.zdiz.gdynia.pl/pt/gtfs.zip"
+    publisher: "Zarząd Dróg i Zieleni w Gdyni (ZKM Gdynia timetables)"
+    license: "CC BY 4.0 (Creative Commons Attribution)"
+    license_url: "https://otwartedane.gdynia.pl/dataset/informacje-o-rozkladach-jazdy-i-lokalizacji-przystankow"
+    notes: "Gdynia buses and trolleybuses (ZKM) + some suburban lines."
+  gzm:
+    agglomerations: [gzm]
+    url: "https://github.com/TransportGZM-GTFS-mirror/TransportGZM-GTFS-extended-ver/releases/latest/download/TransportGZM-GTFS.zip"
+    publisher: "ZTM GZM (mirror of the extended version from otwartedane.metropoliagzm.pl)"
+    license: "CC BY 4.0"
+    license_url: "https://otwartedane.metropoliagzm.pl/en/dataset/rozklady-jazdy-i-lokalizacja-przystankow-gtfs-wersja-rozszerzona"
+    notes: "Mirror release; may be a single-day feed."
+  polish_trains:
+    agglomerations: [warszawa, krakow, wroclaw, poznan, lodz, trojmiasto, gzm]
+    url: "https://mkuran.pl/gtfs/polish_trains.zip"
+    rail: true
+    publisher: "PKP PLK data repackaged by M. Kuranowski (mkuran.pl)"
+    license: "PKP PLK public-sector data usage terms + Koleje Mazowieckie public-sector data usage terms"
+    license_url: "https://mkuran.pl/gtfs/"
+    notes: "Agencies listed by publisher: PolRegio, PKP IC, KM, SKM Trójmiasto, KŚ, KD, KW, SKM Warszawa, ŁKA, KMŁ, Arriva RP, RegioJet, Leo Express."
+
+# Layer 6b (real speed from archived GTFS-Realtime) is shelved: Bartor decided on 2026-11-23
+# that scheduled times are good enough for now. The collector code stays but is not run.
+collector:
+  enabled: false
+  archive_dir: null          # outside the repo (§14.6)
+  interval_s: 25
+
+tiles:
+  base_url: "./tiles/"       # one place to switch to Cloudflare R2 (§14.4)
+  warn_file_mb: 50
+  warn_total_mb: 200

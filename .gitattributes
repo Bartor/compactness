@@ -1,0 +1,5 @@
+* text=auto eol=lf
+*.png binary
+*.pmtiles binary
+*.parquet binary
+*.gpkg binary
