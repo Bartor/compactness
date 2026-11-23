@@ -1,0 +1,78 @@
+# GTFS-RT feed registry. Survey details (verified 2026-11-23) in FEEDS.md.
+# interval = seconds between polls. enabled: false => not started unless named with --feeds.
+feeds:
+  - id: warsaw
+    city: Warszawa
+    url: https://mkuran.pl/gtfs/warsaw/vehicles.pb
+    format: gtfs-rt
+    interval: 30
+    enabled: true
+    opts: {route_from_trip: "colon:1"}   # feed leaves route_id empty; trip_id = "YYYY-MM-DD:<route>:<brigade>:..."
+    note: all modes (about 1900 vehicles); trams = short route numbers
+
+  - id: krakow_t
+    city: Kraków
+    url: https://gtfs.ztp.krakow.pl/VehiclePositions_T.pb
+    trip_updates_url: https://gtfs.ztp.krakow.pl/TripUpdates_T.pb
+    format: gtfs-rt
+    interval: 20
+    enabled: true
+    note: trams; route_id empty, derive from static GTFS_KRK_T via trip_id
+
+  - id: krakow_a
+    city: Kraków
+    url: https://gtfs.ztp.krakow.pl/VehiclePositions_A.pb
+    trip_updates_url: https://gtfs.ztp.krakow.pl/TripUpdates_A.pb
+    format: gtfs-rt
+    interval: 30
+    enabled: true
+    note: agglomeration buses
+
+  - id: krakow_m
+    city: Kraków
+    url: https://gtfs.ztp.krakow.pl/VehiclePositions_M.pb
+    trip_updates_url: https://gtfs.ztp.krakow.pl/TripUpdates_M.pb
+    format: gtfs-rt
+    interval: 30
+    enabled: true
+    note: MPK buses
+
+  - id: poznan
+    city: Poznań
+    url: https://www.ztm.poznan.pl/pl/dla-deweloperow/getGtfsRtFile/?file=vehicle_positions.pb
+    trip_updates_url: https://www.ztm.poznan.pl/pl/dla-deweloperow/getGtfsRtFile/?file=trip_updates.pb
+    format: gtfs-rt
+    interval: 20
+    enabled: true
+    note: trams and buses; licence not verified
+
+  - id: szczecin
+    city: Szczecin
+    url: https://www.zditm.szczecin.pl/storage/gtfs/gtfs-rt-vehicles.pb
+    trip_updates_url: https://www.zditm.szczecin.pl/storage/gtfs/gtfs-rt-trips.pb
+    format: gtfs-rt
+    interval: 20
+    enabled: true
+    note: CC0; route_id empty, trip_id joins static GTFS (route_id = line number); limit 100 req/min per IP
+
+  - id: gdansk
+    city: Gdańsk
+    url: https://ckan2.multimediagdansk.pl/gpsPositions?v=2
+    format: gdansk-json
+    interval: 20
+    enabled: true
+    note: custom JSON (not GTFS-RT); CC BY; speed km/h converted to m/s; tripId is a per-route number
+
+  - id: gzm
+    city: Górnośląsko-Zagłębiowska Metropolia
+    url: https://gtfsrt.transportgzm.pl:5443/gtfsrt/gzm
+    format: gtfs-rt
+    entity: trip_updates
+    interval: 30
+    enabled: false
+    note: only TripUpdates (delays), NO vehicle positions found; enable manually for punctuality data
+
+  # No usable public real-time feed verified for the cities below (url: null => never started).
+  - {id: wroclaw, city: Wrocław, url: null, enabled: false, note: "open-data portal and MPK API blocked/unreachable from the survey machine (HTTP 403 WAF / no connection); format unverified"}
+  - {id: lodz, city: Łódź, url: null, enabled: false, note: "no public real-time feed found"}
+  - {id: gdynia, city: Gdynia, url: null, enabled: false, note: "no public real-time feed found (static GTFS only)"}
