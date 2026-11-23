@@ -1,8 +1,8 @@
 """Phase 1, density measures (brief §4.1-4.4) for every agglomeration, FUA and core.
 
 Outputs
-* results/metrics/metrics.csv + metrics.json   long format, 4 significant digits, sorted
-* results/charts/pwd.json, profile_cumulative_monocentric.json, profile_cumulative_polycentric.json
+* results/metrics/metrics_density.csv + .json long format, 4 significant digits, sorted
+* results/charts/pwdens.json, profile_cumulative_monocentric.json, profile_cumulative_polycentric.json
 * data/interim/density/<agg>.npz + <agg>.json  arrays and tables for the QA plots (pipeline.density_qa)
 * data/interim/density/ghsl_on_census_1km.tif  GHSL 2020 summed into the census 1 km LAEA cells
 * data/interim/density/poland_mask_100m_moll.tif
@@ -50,6 +50,7 @@ import csv
 import datetime as dt
 import json
 import math
+import shutil
 import time
 from functools import lru_cache
 
@@ -267,7 +268,7 @@ class Window:
 
 # ------------------------------------------------------------------ §4.1
 
-def pwd(p: np.ndarray, d: np.ndarray, w: np.ndarray | None = None) -> float:
+def pwdens(p: np.ndarray, d: np.ndarray, w: np.ndarray | None = None) -> float:
     p = p.astype(np.float64)
     if w is not None:
         p = p * w
@@ -275,31 +276,31 @@ def pwd(p: np.ndarray, d: np.ndarray, w: np.ndarray | None = None) -> float:
     return float((p * d).sum() / s) if s > 0 else float("nan")
 
 
-def pwd_census(geom) -> dict:
+def pwdens_census(geom) -> dict:
     c = census()
     idx = census_in(geom)
     sub = c.iloc[idx]
     p = sub.RES.values
-    main = pwd(p, p / sub.area_km2.values)
-    nominal = pwd(p, p / 1.0)
+    main = pwdens(p, p / sub.area_km2.values)
+    nominal = pwdens(p, p / 1.0)
     # area-weighted assignment: cells intersecting the polygon, weight = share of cell area inside
     cand = np.sort(c.sindex.query(geom, predicate="intersects"))
     cc = c.iloc[cand]
     inter = shapely.intersection(cc.geometry.values, geom)
     frac = shapely.area(inter) / shapely.area(cc.geometry.values)
     pw = cc.RES.values.astype(float)
-    aw = pwd(pw, pw / cc.area_km2.values, frac)
+    aw = pwdens(pw, pw / cc.area_km2.values, frac)
     ghsl_cells = ghsl_on_census()[idx]
-    return {"pop": int(p.sum()), "pwd": main, "pwd_nominal": nominal, "pwd_area_weighted": aw,
+    return {"pop": int(p.sum()), "pwdens": main, "pwdens_nominal": nominal, "pwdens_area_weighted": aw,
             "pop_area_weighted": float((pw * frac).sum()),
             "cells": int(len(idx)), "cells_populated": int((p > 0).sum()),
             "clipped_cells": int(sub.clipped.sum()), "clipped_pop": int(sub.RES.values[sub.clipped.values].sum()),
             "boundary_cells": int(((frac > 0) & (frac < 0.999)).sum()),
-            "pwd_ghsl_1km": pwd(ghsl_cells, ghsl_cells / 1.0),
+            "pwdens_ghsl_1km": pwdens(ghsl_cells, ghsl_cells / 1.0),
             "ghsl_1km_pop": float(ghsl_cells.sum())}
 
 
-def pwd_250(geom) -> dict:
+def pwdens_250(geom) -> dict:
     a, tr = grid250()
     b = geom.bounds
     c0 = int((b[0] - tr.c) // 250); c1 = int(-(-(b[2] - tr.c) // 250))
@@ -308,7 +309,7 @@ def pwd_250(geom) -> dict:
     wt = rasterio.Affine(250, 0, tr.c + c0 * 250, 0, -250, tr.f - r0 * 250)
     m = features.geometry_mask([geom], out_shape=sub.shape, transform=wt, invert=True, all_touched=False)
     p = sub[m]
-    return {"pop": float(p.sum()), "pwd": pwd(p, p / CELL250_KM2)}
+    return {"pop": float(p.sum()), "pwdens": pwdens(p, p / CELL250_KM2)}
 
 
 # ------------------------------------------------------------------ §4.2
@@ -461,8 +462,8 @@ def run_agglomeration(agg: str, thresholds: list[float], thr_work: float) -> dic
     # §4.1
     for dom in ("fua", "core"):
         g = a[dom]
-        pc = pwd_census(g)
-        p250 = pwd_250(g)
+        pc = pwdens_census(g)
+        p250 = pwdens_250(g)
         ar = area_km2(g)
         res[dom] = {"area_km2": ar, "census": pc, "ghsl250": p250, "gross_density": pc["pop"] / ar}
 
@@ -596,17 +597,17 @@ def metric_rows(r: dict, thresholds: list[float], thr_work: float) -> list[dict]
         add(dom, "density_gross", "Gęstość brutto (ludność / powierzchnia obszaru)", d["gross_density"], "os./km²",
             GRID_NSP, SRC_NSP, POP_DATE_NSP, "table",
             "Zależy od rysunku granicy; tylko dla kontrastu z gęstością ważoną populacją.")
-        add(dom, "pwd_census_1km", "Gęstość ważona populacją (siatka spisowa 1 km)", c["pwd"], "os./km²",
+        add(dom, "pwdens_census_1km", "Gęstość ważona populacją (siatka spisowa 1 km)", c["pwdens"], "os./km²",
             GRID_NSP, SRC_NSP, POP_DATE_NSP, "main", "Nie porównywać z wartościami z innych siatek (MAUP).")
-        add(dom, "pwd_ghsl_250m", "Gęstość ważona populacją (GHSL 250 m, dane modelowane)", d["ghsl250"]["pwd"],
+        add(dom, "pwdens_ghsl_250m", "Gęstość ważona populacją (GHSL 250 m, dane modelowane)", d["ghsl250"]["pwdens"],
             "os./km²", GRID_250, SRC_GHSL, POP_DATE_GHSL, "table",
             "Inna siatka niż wynik główny (1 km): liczby nieporównywalne z PWD 1 km.")
-        add(dom, "pwd_ghsl_1km", "PWD z GHSL zsumowanego do komórek spisowych 1 km (kontrola źródła)",
-            c["pwd_ghsl_1km"], "os./km²", GRID_NSP, SRC_GHSL, POP_DATE_GHSL, "qa")
-        add(dom, "pwd_census_1km_nominal_area", "PWD 1 km, wariant: pole nominalne 1 km² dla każdej komórki",
-            c["pwd_nominal"], "os./km²", GRID_NSP, SRC_NSP, POP_DATE_NSP, "qa")
-        add(dom, "pwd_census_1km_area_weighted", "PWD 1 km, wariant: komórki brzegowe ważone udziałem pola w obszarze",
-            c["pwd_area_weighted"], "os./km²", GRID_NSP, SRC_NSP, POP_DATE_NSP, "qa")
+        add(dom, "pwdens_ghsl_1km", "PWD z GHSL zsumowanego do komórek spisowych 1 km (kontrola źródła)",
+            c["pwdens_ghsl_1km"], "os./km²", GRID_NSP, SRC_GHSL, POP_DATE_GHSL, "qa")
+        add(dom, "pwdens_census_1km_nominal_area", "PWD 1 km, wariant: pole nominalne 1 km² dla każdej komórki",
+            c["pwdens_nominal"], "os./km²", GRID_NSP, SRC_NSP, POP_DATE_NSP, "qa")
+        add(dom, "pwdens_census_1km_area_weighted", "PWD 1 km, wariant: komórki brzegowe ważone udziałem pola w obszarze",
+            c["pwdens_area_weighted"], "os./km²", GRID_NSP, SRC_NSP, POP_DATE_NSP, "qa")
         add(dom, "ghsl_to_census_ratio", "Ludność GHSL 2020 / NSP 2021 (ta sama domena)",
             r["ghsl_100m_pop"][dom] / c["pop"], "", "GHSL 100 m vs siatka 1 km", f"{SRC_GHSL}; {SRC_NSP}",
             f"{POP_DATE_GHSL} / {POP_DATE_NSP}", "qa",
@@ -619,9 +620,10 @@ def metric_rows(r: dict, thresholds: list[float], thr_work: float) -> list[dict]
         for thr in thresholds:
             t = f"{int(round(thr * 100))}"
             e = r["rho"][str(thr)][dom]
-            work = "próg roboczy" if thr == thr_work else "wariant wrażliwości"
-            fl = (f"Maska zabudowy GHS-BUILT-S ≥ {t} % ({work}; próg do decyzji). ρ = 1 to równomierna gęstość "
-                  "na kole, nie optimum; ρ < 1: ludność bliżej centrum niż przy równomiernym rozkładzie.")
+            work = "próg przyjęty do raportowania" if thr == thr_work else "wariant wrażliwości"
+            fl = (f"Maska zabudowy GHS-BUILT-S ≥ {t} % ({work}). ρ = 1 to równomierna gęstość "
+                  "na kole, nie optimum; ρ < 1: ludność bliżej centrum niż przy równomiernym rozkładzie. "
+                  "Poziom nieporównywalny z wartościami Bertauda i Malpezziego.")
             if e["rho"] is None:
                 fl += f" Brak danych: maska obejmuje < {int(MIN_MASK_POP_SHARE * 100)} % ludności obszaru."
             add(dom, f"rho_t{t}", f"Indeks dyspersji Bertauda ρ (maska zabudowy ≥ {t} %)", e["rho"], "",
@@ -670,10 +672,10 @@ def metric_rows(r: dict, thresholds: list[float], thr_work: float) -> list[dict]
 def write_metrics(rows: list[dict], today: str) -> None:
     rows = sorted(rows, key=lambda m: (m["agglomeration"], m["domain"], m["metric"]))
     METRICS.mkdir(parents=True, exist_ok=True)
-    write_json(METRICS / "metrics.json", {"generated": today, "metrics": rows})
+    write_json(METRICS / "metrics_density.json", {"generated": today, "metrics": rows})
     fields = ["agglomeration", "domain", "metric", "label", "value", "unit", "grid", "source", "population_date",
               "timetable_date", "coverage_share", "flag", "tier"]
-    with open(METRICS / "metrics.csv", "w", encoding="utf-8", newline="") as f:
+    with open(METRICS / "metrics_density.csv", "w", encoding="utf-8", newline="") as f:
         w = csv.DictWriter(f, fieldnames=fields, lineterminator="\n")
         w.writeheader()
         for m in rows:
@@ -683,24 +685,24 @@ def write_metrics(rows: list[dict], today: str) -> None:
 def write_charts(results: list[dict], today: str, thr_work: float) -> None:
     CHARTS.mkdir(parents=True, exist_ok=True)
     cities = []
-    for r in sorted(results, key=lambda r: -r["fua"]["census"]["pwd"]):
+    for r in sorted(results, key=lambda r: -r["fua"]["census"]["pwdens"]):
         cities.append({"id": r["id"], "name": r["name"], "phase": r["phase"], "polycentric": r["polycentric"],
-                       "pwd_fua": sig(r["fua"]["census"]["pwd"]), "pwd_core": sig(r["core"]["census"]["pwd"]),
+                       "pwdens_fua": sig(r["fua"]["census"]["pwdens"]), "pwdens_core": sig(r["core"]["census"]["pwdens"]),
                        "gross_density_fua": sig(r["fua"]["gross_density"]),
                        "gross_density_core": sig(r["core"]["gross_density"]),
                        "population_fua": r["fua"]["census"]["pop"], "population_core": r["core"]["census"]["pop"],
                        "flag": ("Aglomeracja policentryczna/liniowa; granica to suma kilku FUA Eurostatu. "
                                 "PWD nie zależy od wyboru centrum." if r["polycentric"] else "")})
-    write_json(CHARTS / "pwd.json", {
+    write_json(CHARTS / "pwdens.json", {
         "generated": today, "title": "Gęstość ważona populacją (experienced density) i gęstość brutto",
         "unit": "os./km²", "grid": GRID_NSP, "source": SRC_NSP, "population_date": POP_DATE_NSP,
         "timetable_date": None, "domains": {"fua": "FUA (Eurostat URAU 2021)", "core": "rdzeń (miasta URAU 2021)"},
-        "method": ("PWD = Σ p·d / Σ p po komórkach 1 km, których środek leży w obszarze; d = ludność komórki / "
+        "method": ("PWD (gęstość ważona populacją: Σ p·d / Σ p) po komórkach 1 km, których środek leży w obszarze; d = ludność komórki / "
                    "jej pole (1 km², mniej dla komórek przyciętych granicą państwa). Gęstość brutto = ludność / pole obszaru."),
         "caveats": ["PWD zależy od rozmiaru komórki (MAUP): porównywać tylko liczby z tej samej siatki 1 km.",
                     "Ludność rezydująca NSP 2021 (ok. 2,7 % poniżej ludności wg definicji krajowej).",
                     "GZM i Trójmiasto: PWD nie zależy od centrum, ale granica GZM to suma 4 FUA (wariant a)."],
-        "sorted_by": "pwd_fua desc", "cities": cities})
+        "sorted_by": "pwdens_fua desc", "cities": cities})
 
     def series(r, key, rmax=None):
         df = pd.DataFrame(r["profiles"][key])
@@ -758,7 +760,7 @@ def main() -> None:
         results.append(r)
         rows += metric_rows(r, thresholds, thr_work)
         write_json(OUT / f"{agg}.json", jsonable(r))
-        print(f"{agg}: PWD fua {r['fua']['census']['pwd']:.0f} core {r['core']['census']['pwd']:.0f} "
+        print(f"{agg}: PWD fua {r['fua']['census']['pwdens']:.0f} core {r['core']['census']['pwdens']:.0f} "
               f"rho20 {r['rho'][str(thr_work)]['fua']['rho']:.3f} ({time.time() - t1:.0f} s)", flush=True)
     write_metrics(rows, today)
     write_charts(results, today, thr_work)
@@ -766,8 +768,10 @@ def main() -> None:
              "min_mask_pop_share": MIN_MASK_POP_SHARE,
              "seed_radius_m": SEED_RADIUS_M, "circle_km": CIRCLE_KM, "eta_sample": ETA_SAMPLE,
              "population_dates": {"census": POP_DATE_NSP, "ghsl": POP_DATE_GHSL}}
-    for d in (METRICS, CHARTS, OUT):
-        write_meta(d, "density", inputs=INPUT_IDS, started=t0, extra=extra)
+    mp = write_meta(OUT, "density", inputs=INPUT_IDS, started=t0, extra=extra)
+    # metrics/ and charts/ hold one _meta_<step>.json per step; the plain _meta.json there belongs to the merge step
+    for d in (METRICS, CHARTS):
+        shutil.copyfile(mp, d / "_meta_density.json")
 
 
 if __name__ == "__main__":

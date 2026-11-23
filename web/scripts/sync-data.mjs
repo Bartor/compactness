@@ -1,6 +1,6 @@
 // Copies the pipeline's outputs into web/public/ so Vite serves and ships them.
-//   ../results/web/*                  -> public/data/
-//   ../results/metrics/metrics.json   -> public/data/metrics.json
+//   ../results/web/*                  -> public/data/   (metrics.json there is the panel subset;
+//                                         the full table results/metrics/metrics.json is not shipped)
 //   ../tiles/*.pmtiles                -> public/tiles/
 // Without ../results/web/catalog.json the small fixtures in web/fixtures/ are
 // used instead, with a loud warning: a site built from them is only a demo.
@@ -35,9 +35,9 @@ const real = existsSync(join(webDir, 'catalog.json'))
 
 if (real) {
   for (const f of files(webDir)) copy(join(webDir, f), join(dataOut, f))
-  const metrics = join(repo, 'results', 'metrics', 'metrics.json')
-  if (existsSync(metrics)) copy(metrics, join(dataOut, 'metrics.json'))
-  else console.warn('sync-data: results/metrics/metrics.json is missing, the site will show no metrics')
+  if (!existsSync(join(dataOut, 'metrics.json'))) {
+    console.warn('sync-data: results/web/metrics.json is missing (run pipeline.merge_metrics), the site will show no metrics')
+  }
   console.log(`sync-data: data from results/web (${files(dataOut).length} files)`)
 } else {
   const fixtures = join(web, 'fixtures')

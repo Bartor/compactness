@@ -93,7 +93,7 @@ def outline_px(geom, tr):
     return out
 
 
-def plot_pwd(agg: str, r: dict, a: dict) -> None:
+def plot_pwdens(agg: str, r: dict, a: dict) -> None:
     c = D.census()
     idx = D.census_in(a["fua"])
     sub = c.iloc[idx].copy()
@@ -111,13 +111,13 @@ def plot_pwd(agg: str, r: dict, a: dict) -> None:
     for dom, col in (("fua", "#1D4ED8"), ("core", "#16a34a")):
         s = c.iloc[D.census_in(a[dom])]
         ax2.hist(s.RES / s.area_km2, bins=bins, weights=s.RES / s.RES.sum(), histtype="step", color=col,
-                 label=f"{dom.upper()}: PWD {n(r[dom]['census']['pwd'])}, brutto {n(r[dom]['gross_density'])}")
-        ax2.axvline(r[dom]["census"]["pwd"], color=col, ls="--", lw=1)
+                 label=f"{dom.upper()}: PWD {n(r[dom]['census']['pwdens'])}, brutto {n(r[dom]['gross_density'])}")
+        ax2.axvline(r[dom]["census"]["pwdens"], color=col, ls="--", lw=1)
     ax2.set_xlabel("gęstość komórki 1 km, os./km²"); ax2.set_ylabel("udział ludności obszaru")
     ax2.set_title("Rozkład ludności według gęstości komórki (linia przerywana: PWD)")
     ax2.legend(fontsize=7)
     fig.suptitle("QA §4.1, gęstość ważona populacją (siatka spisowa 1 km, NSP 2021-03-31)", fontsize=9)
-    fig.savefig(QA / f"pwd_{agg}.png", bbox_inches="tight")
+    fig.savefig(QA / f"pwdens_{agg}.png", bbox_inches="tight")
     plt.close(fig)
 
 
@@ -262,17 +262,17 @@ def plot_control(agg: str, r: dict, a: dict) -> None:
 
 
 def summary_plots(res: dict, ctl: dict, thr_list: list[float]) -> None:
-    ids = sorted(res, key=lambda k: -res[k]["fua"]["census"]["pwd"])
+    ids = sorted(res, key=lambda k: -res[k]["fua"]["census"]["pwdens"])
     fig, ax = plt.subplots(figsize=(11, 4.5))
     x = np.arange(len(ids))
-    ax.bar(x - 0.3, [res[k]["fua"]["census"]["pwd"] for k in ids], 0.2, label="PWD FUA (1 km)", color="#1D4ED8")
-    ax.bar(x - 0.1, [res[k]["core"]["census"]["pwd"] for k in ids], 0.2, label="PWD rdzeń (1 km)", color="#93c5fd")
+    ax.bar(x - 0.3, [res[k]["fua"]["census"]["pwdens"] for k in ids], 0.2, label="PWD FUA (1 km)", color="#1D4ED8")
+    ax.bar(x - 0.1, [res[k]["core"]["census"]["pwdens"] for k in ids], 0.2, label="PWD rdzeń (1 km)", color="#93c5fd")
     ax.bar(x + 0.1, [res[k]["fua"]["gross_density"] for k in ids], 0.2, label="brutto FUA", color="#E07B00")
     ax.bar(x + 0.3, [res[k]["core"]["gross_density"] for k in ids], 0.2, label="brutto rdzeń", color="#fdba74")
     ax.set_xticks(x, [res[k]["name"] + (" *" if res[k]["polycentric"] else "") for k in ids], rotation=30, ha="right")
     ax.set_ylabel("os./km²"); ax.legend(fontsize=7)
     ax.set_title("PWD (siatka spisowa 1 km) i gęstość brutto; NSP 2021-03-31; * policentryczne")
-    fig.savefig(QA / "summary_pwd.png", bbox_inches="tight"); plt.close(fig)
+    fig.savefig(QA / "summary_pwdens.png", bbox_inches="tight"); plt.close(fig)
 
     fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 4.8))
     ths = [str(t) for t in thr_list]
@@ -360,21 +360,21 @@ def write_md(res: dict, ctl: dict, g250: dict, thr_list: list[float], thr_work: 
     t_main = table(
         ["Aglomeracja", "Faza", "Ludność FUA (NSP)", "PWD FUA", "PWD rdzeń", "Brutto FUA", "Brutto rdzeń",
          "PWD GHSL 250 m FUA", "PWD GHSL 250 m rdzeń"],
-        [[nm(k), res[k]["phase"], n(res[k]["fua"]["census"]["pop"]), n(res[k]["fua"]["census"]["pwd"]),
-          n(res[k]["core"]["census"]["pwd"]), n(res[k]["fua"]["gross_density"]), n(res[k]["core"]["gross_density"]),
-          n(res[k]["fua"]["ghsl250"]["pwd"]), n(res[k]["core"]["ghsl250"]["pwd"])] for k in ids])
+        [[nm(k), res[k]["phase"], n(res[k]["fua"]["census"]["pop"]), n(res[k]["fua"]["census"]["pwdens"]),
+          n(res[k]["core"]["census"]["pwdens"]), n(res[k]["fua"]["gross_density"]), n(res[k]["core"]["gross_density"]),
+          n(res[k]["fua"]["ghsl250"]["pwdens"]), n(res[k]["core"]["ghsl250"]["pwdens"])] for k in ids])
 
     rob_rows = []
     worst = 0.0
     for k in ids:
         for dom in ("fua", "core"):
             cc = res[k][dom]["census"]
-            dn = cc["pwd_nominal"] / cc["pwd"] - 1
-            da = cc["pwd_area_weighted"] / cc["pwd"] - 1
+            dn = cc["pwdens_nominal"] / cc["pwdens"] - 1
+            da = cc["pwdens_area_weighted"] / cc["pwdens"] - 1
             worst = max(worst, abs(dn), abs(da))
-            rob_rows.append([nm(k), dom.upper(), n(cc["pwd"]), n(cc["pwd_nominal"]), pct(dn, 2),
-                             n(cc["pwd_area_weighted"]), pct(da, 2), cc["boundary_cells"], cc["clipped_cells"],
-                             n(cc["pwd_ghsl_1km"]), pct(cc["pwd_ghsl_1km"] / cc["pwd"] - 1)])
+            rob_rows.append([nm(k), dom.upper(), n(cc["pwdens"]), n(cc["pwdens_nominal"]), pct(dn, 2),
+                             n(cc["pwdens_area_weighted"]), pct(da, 2), cc["boundary_cells"], cc["clipped_cells"],
+                             n(cc["pwdens_ghsl_1km"]), pct(cc["pwdens_ghsl_1km"] / cc["pwdens"] - 1)])
     t_rob = table(["Aglomeracja", "Domena", "PWD (główna)", "pole nominalne 1 km²", "różnica",
                    "komórki brzegowe ważone polem", "różnica", "komórki przecięte granicą obszaru",
                    "komórki przycięte granicą państwa", "PWD z GHSL na tych samych komórkach", "różnica"], rob_rows)
@@ -501,9 +501,9 @@ def write_md(res: dict, ctl: dict, g250: dict, thr_list: list[float], thr_work: 
         v = [res[k]["rho"][t]["fua"]["area_km2"] for k in ids]
         return f"{n(min(v))}–{n(max(v))} km²"
 
-    gd = [res[k][d]["census"]["pwd_ghsl_1km"] / res[k][d]["census"]["pwd"] - 1 for k in ids for d in ("fua", "core")
+    gd = [res[k][d]["census"]["pwdens_ghsl_1km"] / res[k][d]["census"]["pwdens"] - 1 for k in ids for d in ("fua", "core")
           if k != "rzeszow"]
-    ghsl_pwd_range = f"{n(-max(gd) * 100)}–{n(-min(gd) * 100)} %"
+    ghsl_pwdens_range = f"{n(-max(gd) * 100)}–{n(-min(gd) * 100)} %"
     below1 = [(res[k]["name"], d, t) for k in ids for d in ("fua", "core") for t in ths
               if res[k]["rho"][t][d]["rho"] is not None and res[k]["rho"][t][d]["rho"] < 1]
     below1_txt = ("; wyjątki (ρ < 1): " + ", ".join(f"{a} {b} przy {int(float(c) * 100)} %" for a, b, c in below1)) if below1 else ""
@@ -518,7 +518,7 @@ def write_md(res: dict, ctl: dict, g250: dict, thr_list: list[float], thr_work: 
 
 Wygenerowano: {today} (`python -m pipeline.density_qa`; liczby z `pipeline.grid250`, `pipeline.density`,
 `pipeline.density_control`). Wszystkie liczby w tym pliku są przepisywane przez kod z plików pośrednich, więc zgadzają się z
-`results/metrics/metrics.csv`. Daty danych: **ludność NSP 2021 stan na 31.03.2021** (ludność rezydująca), **GHSL epoka 2020**
+`results/metrics/metrics_density.csv` (po scaleniu: `metrics.csv`). Daty danych: **ludność NSP 2021 stan na 31.03.2021** (ludność rezydująca), **GHSL epoka 2020**
 (dane modelowane, nie spisowe). Rozkładów jazdy ta faza nie używa (`timetable_date` = brak). Granice: Eurostat URAU 2021, GZM
 w wariancie (a) (suma czterech FUA), Trójmiasto jako suma dwóch FUA. Aglomeracje oznaczone * są policentryczne lub liniowe
 (GZM, Trójmiasto, Bydgoszcz–Toruń): miary jednocentrowe podajemy dla nich wyłącznie z zastrzeżeniem (brief §11).
@@ -529,7 +529,7 @@ Każdą regułę, której brief nie przesądza, trzeba było doprecyzować. Poni
 
 ### 1.1 Gęstość ważona populacją (PWD, §4.1)
 
-- **Wzór:** PWD = Σ pᵢ·dᵢ / Σ pᵢ, gdzie dᵢ = pᵢ / pole komórki i.
+- **Wzór:** gęstość ważona populacją: Σ pᵢ·dᵢ / Σ pᵢ, gdzie dᵢ = pᵢ / pole komórki i.
 - **Siatka główna:** NSP 2021, siatka 1 km (EU LAEA, EPSG:3035, kody `CRS3035RES1000mN…E…`), pole `RES` (ludność rezydująca).
 - **Przypisanie do domeny (FUA, rdzeń):** komórka należy do obszaru, gdy jej **centroid** (EPSG:2180) leży wewnątrz
   wielokąta, jak w fazie 0.
@@ -627,7 +627,7 @@ Każdą regułę, której brief nie przesądza, trzeba było doprecyzować. Poni
   - η: wzór (6), średnia odległość między hotspotami / średnia odległość między wszystkimi komórkami domeny.
 - **Uproszczenie obliczeniowe:** obie średnie liczymy na stałej próbie losowej (ziarno 0, maks. {D.ETA_SAMPLE} komórek),
   żeby uniknąć ~10¹⁰ par.
-- Próg LouBar i rozdzielczość są zapisane przy każdej liczbie (tabela 8, `metrics.csv`, kolumna `flag`).
+- Próg LouBar i rozdzielczość są zapisane przy każdej liczbie (tabela 8, `metrics_density.csv`, kolumna `flag`).
 
 ## 2. Wyniki: gęstość ważona populacją (§4.1)
 
@@ -638,7 +638,7 @@ i nie porównuje się ich z PWD 1 km.
 Wielkości są zgodne z oczekiwaniami. PWD dużych miast na siatce 1 km wynosi kilka tysięcy os./km², od kilku do
 kilkunastu razy więcej niż gęstość brutto FUA:
 
-- Warszawa: rdzeń {n(res['warszawa']['core']['census']['pwd'])}, FUA {n(res['warszawa']['fua']['census']['pwd'])}
+- Warszawa: rdzeń {n(res['warszawa']['core']['census']['pwdens'])}, FUA {n(res['warszawa']['fua']['census']['pwdens'])}
   vs brutto FUA {n(res['warszawa']['fua']['gross_density'])};
 - PWD rdzenia > PWD FUA w każdej aglomeracji;
 - GZM ma najmniejszą różnicę rdzeń–FUA, co pasuje do konurbacji bez wyraźnego śródmieścia.
@@ -646,7 +646,7 @@ kilkunastu razy więcej niż gęstość brutto FUA:
 Tabela 2. Odporność PWD na definicję pola komórki i przypisania (os./km²).
 
 {t_rob}
-PWD z GHSL na tych samych komórkach 1 km jest systematycznie niższe od spisowego (o {ghsl_pwd_range}), z wyjątkiem Rzeszowa.
+PWD z GHSL na tych samych komórkach 1 km jest systematycznie niższe od spisowego (o {ghsl_pwdens_range}), z wyjątkiem Rzeszowa.
 GHSL wygładza szczyty gęstości: rozdziela ludność według kubatury zabudowy, także niemieszkalnej (patrz §7.1).
 
 ## 3. Wyniki: profil gęstości (§4.2)
@@ -931,11 +931,11 @@ względnych na aglomerację).
 ## 9. Pliki
 
 - Wyniki:
-  - `results/metrics/metrics.csv` i `.json`: format długi; `tier`: `main` (na grafikę), `table`, `qa`;
-  - `results/charts/pwd.json`;
+  - `results/metrics/metrics_density.csv` i `.json` (scalone z innymi krokami w `metrics.csv`): format długi; `tier`: `main` (na grafikę), `table`, `qa`;
+  - `results/charts/pwdens.json`;
   - `results/charts/profile_cumulative_monocentric.json`, `profile_cumulative_polycentric.json`.
 - QA:
-  - `results/qa/density/{{pwd,profile,mask,gini,control}}_<aglomeracja>.png`;
+  - `results/qa/density/{{pwdens,profile,mask,gini,control}}_<aglomeracja>.png`;
   - `summary_*.png`, `grid250_moire_warszawa.png`;
   - `control_*.csv`.
 - Pośrednie: `data/interim/grid250/` (siatka 250 m, maska Polski, `cells_*.parquet`, `qa.json`),
@@ -954,8 +954,8 @@ def checks(res: dict) -> None:
             assert (np.diff(d.cum_pop.values) >= -1e-6).all(), (k, key, "cumulative not monotone")
         last = profile(k, "fua").cum_share.iloc[-1]
         assert abs(last - 1) < 1e-6, (k, "variant (i) does not reach 100 %", last)
-        assert r["fua"]["census"]["pwd"] > r["fua"]["gross_density"], (k, "PWD <= gross")
-        assert r["core"]["census"]["pwd"] > r["fua"]["census"]["pwd"], (k, "core PWD <= FUA PWD")
+        assert r["fua"]["census"]["pwdens"] > r["fua"]["gross_density"], (k, "PWD <= gross")
+        assert r["core"]["census"]["pwdens"] > r["fua"]["census"]["pwdens"], (k, "core PWD <= FUA PWD")
 
 
 def main() -> None:
@@ -969,7 +969,7 @@ def main() -> None:
     for agg in sorted(res):
         a = load_agglomeration(agg)
         r = res[agg]
-        plot_pwd(agg, r, a)
+        plot_pwdens(agg, r, a)
         plot_profile(agg, r)
         plot_mask(agg, r, a, thr_work)
         plot_gini(agg, r)

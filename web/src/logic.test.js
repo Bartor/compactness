@@ -79,6 +79,36 @@ describe('metrics', () => {
     expect(groupMetrics(rows, 'b')).toHaveLength(1)
     expect(groupMetrics(undefined, 'a')).toEqual([])
   })
+  it('supports three domains in order, keeps file order, drops qa rows', () => {
+    const r = [
+      { agglomeration: 'a', domain: 'covered', label: 'c1', value: 1 },
+      { agglomeration: 'a', domain: 'core', label: 'k2', value: 2, tier: 'table' },
+      { agglomeration: 'a', domain: 'fua', label: 'f2', value: 3, tier: 'table' },
+      { agglomeration: 'a', domain: 'fua', label: 'f1', value: 4, tier: 'main' },
+      { agglomeration: 'a', domain: 'core', label: 'k1', value: 5, tier: 'main' },
+      { agglomeration: 'a', domain: 'covered', label: 'qa', value: 6, tier: 'qa' },
+      { agglomeration: 'a', domain: 'covered', label: 'c2', value: null },
+    ]
+    const g = groupMetrics(r, 'a')
+    expect(g.map((x) => x.domain)).toEqual(['fua', 'core', 'covered'])
+    expect(g.map((x) => x.title)).toEqual(['Cały obszar FUA', 'Rdzeń miasta', 'Obszar pokryty danymi GTFS'])
+    expect(g[0].rows.map((x) => x.label)).toEqual(['f2', 'f1'])
+    expect(g[1].rows.map((x) => x.label)).toEqual(['k2', 'k1'])
+    expect(g[2].rows.map((x) => x.label)).toEqual(['c1', 'c2'])
+    expect(g[2].rows[1].value).toBeNull()
+  })
+  it('formats percentages with one decimal and a comma', () => {
+    expect(flat(formatValue({ value: 80.38, unit: '%' }).text)).toBe('80,4 %')
+    expect(flat(formatValue({ value: 5, unit: '%' }).text)).toBe('5,0 %')
+    expect(formatValue({ value: null, unit: '%' })).toEqual({ text: NO_DATA, missing: true })
+  })
+  it('names the feed variant and population grid in the small print', () => {
+    const all = metricNotes({ feed_variant: 'all', population_grid: 'ghsl_census_scaled', grid: 'tech' })
+    expect(flat(all)).toBe('GHSL 250 m przeskalowany do spisu 1 km \u00b7 wszystkie feedy, w tym nieoficjalne')
+    expect(flat(metricNotes({ feed_variant: 'official', population_grid: 'ghsl_raw' })))
+      .toBe('GHSL 250 m \u00b7 feedy oficjalne')
+    expect(metricNotes({ grid: '1 km' })).toBe('1 km')
+  })
   it('formats values; null is "brak danych", zero stays zero', () => {
     expect(flat(formatValue(rows[1]).text)).toBe('4 321 os./km²')
     expect(formatValue(rows[3])).toEqual({ text: NO_DATA, missing: true })

@@ -4,6 +4,9 @@
 #   snakemake -c1 fetch          # download sources into data/raw (+ manifest)
 #   snakemake -c1 inventory      # phase 0 tables in results/qa/phase0
 #   snakemake -c1 density        # phase 1: density measures
+#   snakemake -c1 supply         # phase 2: vehicle-km, tram speed (needs gtfs_service)
+#   snakemake -c1 frequent       # phase 2: population near frequent service
+#   snakemake -c1 merge_metrics  # metrics_<step> -> metrics.csv/json + results/web/metrics.json
 #   snakemake -c1 all
 #
 # Steps with many outputs are tracked through stamp files in data/interim/_stamps;
@@ -27,6 +30,7 @@ rule all:
     input:
         stamp("inventory"),
         stamp("density"),
+        stamp("merge_metrics"),
 
 
 rule fetch:
@@ -171,6 +175,93 @@ rule density:
         touch(stamp("density")),
     shell:
         '"{PY}" -m pipeline.density && "{PY}" -m pipeline.density_control && "{PY}" -m pipeline.density_qa'
+
+
+rule popgrid:
+    # census 1 km and GHSL 250 m population on one footing (scaled / raw variants)
+    input:
+        "config.yaml",
+        "pipeline/popgrid.py",
+        stamp("grid250"),
+        stamp("fetch_population"),
+    output:
+        touch(stamp("popgrid")),
+    shell:
+        '"{PY}" -m pipeline.popgrid'
+
+
+rule walk_network:
+    # OSM pedestrian network per agglomeration
+    input:
+        "config.yaml",
+        "pipeline/walk_network.py",
+        stamp("fetch_osm"),
+        stamp("fetch_boundaries"),
+    output:
+        touch(stamp("walk_network")),
+    shell:
+        '"{PY}" -m pipeline.walk_network'
+
+
+rule gtfs_service:
+    # per-stop service levels from GTFS for the reference day
+    input:
+        "config.yaml",
+        "pipeline/gtfs_service.py",
+        "pipeline/gtfs_io.py",
+        stamp("fetch_gtfs"),
+        stamp("fetch_boundaries"),
+    output:
+        touch(stamp("gtfs_service")),
+    shell:
+        '"{PY}" -m pipeline.gtfs_service'
+
+
+rule supply:
+    # vehicle-km per inhabitant, tram operating speed (metrics_supply.*)
+    input:
+        "config.yaml",
+        "pipeline/supply.py",
+        "pipeline/supply_core.py",
+        "pipeline/supply_report.py",
+        "pipeline/tram_speed.py",
+        "pipeline/top_stops.py",
+        stamp("gtfs_service"),
+    output:
+        touch(stamp("supply")),
+    shell:
+        '"{PY}" -m pipeline.supply'
+
+
+rule frequent:
+    # population near frequent transit service (metrics_frequent.*)
+    input:
+        "config.yaml",
+        "pipeline/frequent.py",
+        "pipeline/frequent_md.py",
+        "pipeline/frequent_qa.py",
+        "pipeline/frequent_text.py",
+        stamp("popgrid"),
+        stamp("walk_network"),
+        stamp("gtfs_service"),
+        stamp("stop_coverage"),
+    output:
+        touch(stamp("frequent")),
+    shell:
+        '"{PY}" -m pipeline.frequent'
+
+
+rule merge_metrics:
+    # metrics_<step>.* -> metrics.csv / metrics.json and the map panel subset results/web/metrics.json
+    input:
+        "pipeline/merge_metrics.py",
+        stamp("density"),
+        stamp("supply"),
+        stamp("frequent"),
+    output:
+        touch(stamp("merge_metrics")),
+    shell:
+        '"{PY}" -m pipeline.merge_metrics'
 
 
 rule inventory:

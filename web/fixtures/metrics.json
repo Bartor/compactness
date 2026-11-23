@@ -4,7 +4,7 @@
     {
       "agglomeration": "warszawa",
       "domain": "fua",
-      "metric": "pwd_1km",
+      "metric": "pwdens_1km",
       "label": "Gęstość ważona populacją",
       "value": 4753,
       "unit": "os./km²",
@@ -32,7 +32,7 @@
     {
       "agglomeration": "warszawa",
       "domain": "core",
-      "metric": "pwd_1km",
+      "metric": "pwdens_1km",
       "label": "Gęstość ważona populacją",
       "value": 7920,
       "unit": "os./km²",
@@ -60,7 +60,7 @@
     {
       "agglomeration": "wroclaw",
       "domain": "fua",
-      "metric": "pwd_1km",
+      "metric": "pwdens_1km",
       "label": "Gęstość ważona populacją",
       "value": 4321,
       "unit": "os./km²",
@@ -88,7 +88,7 @@
     {
       "agglomeration": "wroclaw",
       "domain": "core",
-      "metric": "pwd_1km",
+      "metric": "pwdens_1km",
       "label": "Gęstość ważona populacją",
       "value": 7200,
       "unit": "os./km²",
@@ -116,7 +116,7 @@
     {
       "agglomeration": "krakow",
       "domain": "fua",
-      "metric": "pwd_1km",
+      "metric": "pwdens_1km",
       "label": "Gęstość ważona populacją",
       "value": 5185,
       "unit": "os./km²",
@@ -144,7 +144,7 @@
     {
       "agglomeration": "krakow",
       "domain": "core",
-      "metric": "pwd_1km",
+      "metric": "pwdens_1km",
       "label": "Gęstość ważona populacją",
       "value": 8640,
       "unit": "os./km²",
@@ -186,7 +186,7 @@
     {
       "agglomeration": "poznan",
       "domain": "fua",
-      "metric": "pwd_1km",
+      "metric": "pwdens_1km",
       "label": "Gęstość ważona populacją",
       "value": 3650,
       "unit": "os./km²",

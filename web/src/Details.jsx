@@ -1,17 +1,13 @@
 import { DetailsPanel, Hint, TextTable, Warn } from '@bartor-net/ui-kit'
-import { formatValue, groupMetrics, isSecondary, metricNotes } from './metrics'
+import { formatValue, groupMetrics, metricNotes } from './metrics'
 import { ACCENT } from './config'
-
-// Rows of tier "table" (fine in a table, not for a graphic) are shown dimmer and lighter.
-const SECONDARY = { opacity: 0.72, fontWeight: 400 }
 
 function Row(m) {
   const v = formatValue(m)
   const notes = metricNotes(m)
-  const style = isSecondary(m) ? SECONDARY : undefined
   return [
-    <span style={style}>{m.label || m.metric}{notes && <small>{notes}</small>}</span>,
-    <span style={style}>
+    <span>{m.label || m.metric}{notes && <small>{notes}</small>}</span>,
+    <span>
       <span className={v.missing ? 'metric-value missing' : 'metric-value'}>{v.text}</span>
       {m.flag && <small className="metric-flag">{m.flag}</small>}
     </span>,
