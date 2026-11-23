@@ -89,7 +89,8 @@ export default function MapView({ catalog, active, selectedId, onSelect, fit, de
     const known = (id) => latest.current.catalog.agglomerations.some((a) => a.id === id)
     m.on('click', (e) => {
       const hit = boundaryHits(e.point).find((f) => known(f.properties?.id))
-      if (hit) latest.current.onSelect(hit.properties.id)
+      // from the whole-country view an area is a speck: tell the app, so it can zoom in
+      if (hit) latest.current.onSelect(hit.properties.id, m.getZoom() < 7.5)
     })
     m.on('mousemove', (e) => {
       m.getCanvas().style.cursor = boundaryHits(e.point).some((f) => known(f.properties?.id)) ? 'pointer' : ''

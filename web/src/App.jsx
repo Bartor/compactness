@@ -51,7 +51,8 @@ function Loaded({ catalog, metrics }) {
 
   const selected = catalog.agglomerations.find((a) => a.id === selectedId) || null
 
-  // picked in the list: fly there; clicked on the map: the view stays
+  // picked in the list: fly there; clicked on the map: the view stays, unless
+  // the click came from the whole-country view
   const pick = useCallback((id) => {
     setSelectedId(id)
     if (id) {
@@ -60,10 +61,11 @@ function Loaded({ catalog, metrics }) {
       if (a?.bbox) setFit((f) => ({ bbox: a.bbox, animate: true, n: (f?.n || 0) + 1 }))
     }
   }, [catalog])
-  const clickOnMap = useCallback((id) => {
+  const clickOnMap = useCallback((id, far) => {
+    if (far) return pick(id)   // clicked from far out: go there
     setSelectedId(id)
     setSheetOpen(false)
-  }, [])
+  }, [pick])
   const close = useCallback(() => setSelectedId(null), [])
 
   const setLayer = useCallback((id, on) => setActive((prev) => {

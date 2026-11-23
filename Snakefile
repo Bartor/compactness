@@ -3,6 +3,7 @@
 #
 #   snakemake -c1 fetch          # download sources into data/raw (+ manifest)
 #   snakemake -c1 inventory      # phase 0 tables in results/qa/phase0
+#   snakemake -c1 density        # phase 1: density measures
 #   snakemake -c1 all
 #
 # Steps with many outputs are tracked through stamp files in data/interim/_stamps;
@@ -25,6 +26,7 @@ def stamp(name):
 rule all:
     input:
         stamp("inventory"),
+        stamp("density"),
 
 
 rule fetch:
@@ -142,6 +144,33 @@ rule stop_coverage:
         touch(stamp("stop_coverage")),
     shell:
         '"{PY}" -m pipeline.stop_coverage'
+
+
+rule grid250:
+    # GHS-POP 100 m (Mollweide) -> 250 m grid in EPSG:2180, area-preserving
+    input:
+        "pipeline/grid250.py",
+        stamp("fetch_population"),
+    output:
+        touch(stamp("grid250")),
+    shell:
+        '"{PY}" -m pipeline.grid250'
+
+
+rule density:
+    # phase 1 (brief 4.1-4.4, 7.1): metrics, chart data, QA plots
+    input:
+        "config.yaml",
+        "pipeline/density.py",
+        "pipeline/density_control.py",
+        "pipeline/density_qa.py",
+        "pipeline/boundaries.py",
+        stamp("grid250"),
+        stamp("fetch_boundaries"),
+    output:
+        touch(stamp("density")),
+    shell:
+        '"{PY}" -m pipeline.density && "{PY}" -m pipeline.density_control && "{PY}" -m pipeline.density_qa'
 
 
 rule inventory:

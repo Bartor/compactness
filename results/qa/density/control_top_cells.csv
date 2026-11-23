@@ -1,0 +1,261 @@
+agglomeration,kind,cell,lon,lat,gmina,nsp_2021,ghsl_2020,diff,ratio,clipped,hint
+bialystok,abs,CRS3035RES1000mN3416000E5194000,23.136,53.143,Białystok,12479,7208,-5271,0.5776,False,
+bialystok,abs,CRS3035RES1000mN3417000E5193000,23.124,53.153,Białystok,15141,10228,-4913,0.6755,False,
+bialystok,abs,CRS3035RES1000mN3414000E5192000,23.101,53.128,Białystok,12026,7677,-4349,0.6383,False,
+bialystok,abs,CRS3035RES1000mN3417000E5196000,23.168,53.148,Białystok,974,4825,3851,4.953,False,"GHSL >> NSP: kubatura niemieszkalna w komórce (biura, handel, przemysł)?"
+bialystok,abs,CRS3035RES1000mN3413000E5191000,23.084,53.121,Białystok,2673,6495,3822,2.43,False,"GHSL >> NSP: kubatura niemieszkalna w komórce (biura, handel, przemysł)?"
+bialystok,abs,CRS3035RES1000mN3412000E5194000,23.125,53.107,Białystok,11859,8125,-3734,0.6851,False,
+bialystok,abs,CRS3035RES1000mN3413000E5192000,23.098,53.119,Białystok,9869,6171,-3698,0.6253,False,
+bialystok,abs,CRS3035RES1000mN3416000E5198000,23.195,53.136,Białystok,7373,4014,-3359,0.5444,False,
+bialystok,abs,CRS3035RES1000mN3412000E5195000,23.14,53.106,Białystok,2267,5600,3333,2.47,False,"GHSL >> NSP: kubatura niemieszkalna w komórce (biura, handel, przemysł)?"
+bialystok,abs,CRS3035RES1000mN3418000E5197000,23.185,53.155,Białystok,2616,5819,3203,2.224,False,"GHSL >> NSP: kubatura niemieszkalna w komórce (biura, handel, przemysł)?"
+bialystok,rel,CRS3035RES1000mN3418000E5196000,23.171,53.157,Białystok,2,989,987,494.6,False,"GHSL >> NSP: kubatura niemieszkalna w komórce (biura, handel, przemysł)?"
+bialystok,rel,CRS3035RES1000mN3436000E5197000,23.235,53.314,Czarna Białostocka,0,328,328,,False,"NSP = 0: brak mieszkańców w spisie (zabudowa niemieszkalna, przemysł, usługi?)"
+bialystok,rel,CRS3035RES1000mN3415000E5190000,23.074,53.14,Białystok,130,1893,1763,14.56,False,"GHSL >> NSP: kubatura niemieszkalna w komórce (biura, handel, przemysł)?"
+bialystok,rel,CRS3035RES1000mN3408000E5212000,23.379,53.043,Zabłudów,349,35,-314,0.1014,False,GHSL << NSP: zabudowa nowsza niż dane wejściowe GHSL albo obiekt zbiorowego zakwaterowania?
+bialystok,rel,CRS3035RES1000mN3395000E5180000,22.873,52.98,Łapy,88,686,598,7.793,False,"GHSL >> NSP: kubatura niemieszkalna w komórce (biura, handel, przemysł)?"
+bialystok,rel,CRS3035RES1000mN3418000E5191000,23.097,53.165,Białystok,70,455,385,6.501,False,"GHSL >> NSP: kubatura niemieszkalna w komórce (biura, handel, przemysł)?"
+bialystok,rel,CRS3035RES1000mN3415000E5202000,23.251,53.121,Supraśl,86,486,400,5.647,False,"GHSL >> NSP: kubatura niemieszkalna w komórce (biura, handel, przemysł)?"
+bialystok,rel,CRS3035RES1000mN3413000E5196000,23.157,53.113,Białystok,65,325,260,5.005,False,"GHSL >> NSP: kubatura niemieszkalna w komórce (biura, handel, przemysł)?"
+bialystok,rel,CRS3035RES1000mN3417000E5196000,23.168,53.148,Białystok,974,4825,3851,4.953,False,"GHSL >> NSP: kubatura niemieszkalna w komórce (biura, handel, przemysł)?"
+bialystok,rel,CRS3035RES1000mN3411000E5201000,23.225,53.087,Białystok,742,185,-557,0.2488,False,
+bydgoszcz_torun,abs,CRS3035RES1000mN3364000E4855000,18.002,53.123,Bydgoszcz,4689,11138,6449,2.375,False,"GHSL >> NSP: kubatura niemieszkalna w komórce (biura, handel, przemysł)?"
+bydgoszcz_torun,abs,CRS3035RES1000mN3363000E4858000,18.045,53.111,Bydgoszcz,13093,6739,-6354,0.5147,False,
+bydgoszcz_torun,abs,CRS3035RES1000mN3369000E4865000,18.159,53.158,Bydgoszcz,10919,4881,-6038,0.4471,False,
+bydgoszcz_torun,abs,CRS3035RES1000mN3358000E4901000,18.674,53.023,Toruń,10637,4793,-5844,0.4506,False,
+bydgoszcz_torun,abs,CRS3035RES1000mN3363000E4855000,18.001,53.114,Bydgoszcz,13732,8291,-5441,0.6038,False,
+bydgoszcz_torun,abs,CRS3035RES1000mN3370000E4865000,18.161,53.167,Bydgoszcz,8421,3875,-4546,0.4602,False,
+bydgoszcz_torun,abs,CRS3035RES1000mN3365000E4858000,18.049,53.129,Bydgoszcz,11956,7415,-4541,0.6202,False,
+bydgoszcz_torun,abs,CRS3035RES1000mN3368000E4864000,18.143,53.15,Bydgoszcz,7032,2884,-4148,0.4101,False,
+bydgoszcz_torun,abs,CRS3035RES1000mN3356000E4895000,18.582,53.011,Toruń,10179,6659,-3520,0.6542,False,
+bydgoszcz_torun,abs,CRS3035RES1000mN3368000E4863000,18.128,53.151,Bydgoszcz,9138,5700,-3438,0.6237,False,
+bydgoszcz_torun,rel,CRS3035RES1000mN3360000E4900000,18.663,53.041,Toruń,0,2045,2045,,False,"NSP = 0: brak mieszkańców w spisie (zabudowa niemieszkalna, przemysł, usługi?)"
+bydgoszcz_torun,rel,CRS3035RES1000mN3361000E4860000,18.072,53.092,Bydgoszcz,0,1588,1588,,False,"NSP = 0: brak mieszkańców w spisie (zabudowa niemieszkalna, przemysł, usługi?)"
+bydgoszcz_torun,rel,CRS3035RES1000mN3364000E4861000,18.091,53.117,Bydgoszcz,0,1478,1478,,False,"NSP = 0: brak mieszkańców w spisie (zabudowa niemieszkalna, przemysł, usługi?)"
+bydgoszcz_torun,rel,CRS3035RES1000mN3362000E4852000,17.954,53.108,Bydgoszcz,0,1295,1295,,False,"NSP = 0: brak mieszkańców w spisie (zabudowa niemieszkalna, przemysł, usługi?)"
+bydgoszcz_torun,rel,CRS3035RES1000mN3360000E4860000,18.07,53.083,Bydgoszcz,0,1290,1290,,False,"NSP = 0: brak mieszkańców w spisie (zabudowa niemieszkalna, przemysł, usługi?)"
+bydgoszcz_torun,rel,CRS3035RES1000mN3361000E4859000,18.057,53.093,Bydgoszcz,0,986,986,,False,"NSP = 0: brak mieszkańców w spisie (zabudowa niemieszkalna, przemysł, usługi?)"
+bydgoszcz_torun,rel,CRS3035RES1000mN3362000E4860000,18.073,53.1,Bydgoszcz,0,695,695,,False,"NSP = 0: brak mieszkańców w spisie (zabudowa niemieszkalna, przemysł, usługi?)"
+bydgoszcz_torun,rel,CRS3035RES1000mN3349000E4864000,18.111,52.981,Nowa Wieś Wielka,0,491,491,,False,"NSP = 0: brak mieszkańców w spisie (zabudowa niemieszkalna, przemysł, usługi?)"
+bydgoszcz_torun,rel,CRS3035RES1000mN3353000E4898000,18.621,52.981,Wielka Nieszawka,1,473,472,472.9,False,"GHSL >> NSP: kubatura niemieszkalna w komórce (biura, handel, przemysł)?"
+bydgoszcz_torun,rel,CRS3035RES1000mN3360000E4861000,18.085,53.082,Bydgoszcz,0,452,452,,False,"NSP = 0: brak mieszkańców w spisie (zabudowa niemieszkalna, przemysł, usługi?)"
+gzm,abs,CRS3035RES1000mN3057000E4959000,18.982,50.277,Katowice,10522,3127,-7395,0.2972,False,
+gzm,abs,CRS3035RES1000mN3064000E4974000,19.204,50.323,Dąbrowa Górnicza,11012,4431,-6581,0.4024,False,
+gzm,abs,CRS3035RES1000mN3041000E4961000,18.983,50.132,Tychy,2130,8491,6361,3.986,False,"GHSL >> NSP: kubatura niemieszkalna w komórce (biura, handel, przemysł)?"
+gzm,abs,CRS3035RES1000mN3065000E4975000,19.219,50.33,Dąbrowa Górnicza,10044,4039,-6005,0.4021,False,
+gzm,abs,CRS3035RES1000mN3038000E4962000,18.992,50.104,Tychy,10874,4941,-5933,0.4544,False,
+gzm,abs,CRS3035RES1000mN3039000E4961000,18.98,50.114,Tychy,12919,7695,-5224,0.5957,False,
+gzm,abs,CRS3035RES1000mN3039000E4962000,18.994,50.113,Tychy,10369,5195,-5174,0.5011,False,
+gzm,abs,CRS3035RES1000mN3065000E4976000,19.233,50.329,Dąbrowa Górnicza,7597,2429,-5168,0.3197,False,
+gzm,abs,CRS3035RES1000mN3066000E4948000,18.844,50.369,Bytom,8978,3945,-5033,0.4394,False,
+gzm,abs,CRS3035RES1000mN3060000E4969000,19.127,50.293,Sosnowiec,9967,14750,4783,1.48,False,
+gzm,rel,CRS3035RES1000mN3067000E4980000,19.293,50.343,Dąbrowa Górnicza,0,4120,4120,,False,"NSP = 0: brak mieszkańców w spisie (zabudowa niemieszkalna, przemysł, usługi?)"
+gzm,rel,CRS3035RES1000mN3066000E4979000,19.277,50.335,Dąbrowa Górnicza,0,3110,3110,,False,"NSP = 0: brak mieszkańców w spisie (zabudowa niemieszkalna, przemysł, usługi?)"
+gzm,rel,CRS3035RES1000mN3067000E4979000,19.279,50.344,Dąbrowa Górnicza,0,2900,2900,,False,"NSP = 0: brak mieszkańców w spisie (zabudowa niemieszkalna, przemysł, usługi?)"
+gzm,rel,CRS3035RES1000mN3068000E4978000,19.266,50.354,Dąbrowa Górnicza,0,2762,2762,,False,"NSP = 0: brak mieszkańców w spisie (zabudowa niemieszkalna, przemysł, usługi?)"
+gzm,rel,CRS3035RES1000mN3060000E4957000,18.96,50.306,Chorzów,0,2585,2585,,False,"NSP = 0: brak mieszkańców w spisie (zabudowa niemieszkalna, przemysł, usługi?)"
+gzm,rel,CRS3035RES1000mN3067000E4983000,19.334,50.339,Dąbrowa Górnicza,0,2423,2423,,False,"NSP = 0: brak mieszkańców w spisie (zabudowa niemieszkalna, przemysł, usługi?)"
+gzm,rel,CRS3035RES1000mN3066000E4980000,19.291,50.334,Dąbrowa Górnicza,0,1956,1956,,False,"NSP = 0: brak mieszkańców w spisie (zabudowa niemieszkalna, przemysł, usługi?)"
+gzm,rel,CRS3035RES1000mN3063000E4942000,18.755,50.349,Zabrze,0,1934,1934,,False,"NSP = 0: brak mieszkańców w spisie (zabudowa niemieszkalna, przemysł, usługi?)"
+gzm,rel,CRS3035RES1000mN3068000E4979000,19.28,50.353,Dąbrowa Górnicza,0,1792,1792,,False,"NSP = 0: brak mieszkańców w spisie (zabudowa niemieszkalna, przemysł, usługi?)"
+gzm,rel,CRS3035RES1000mN3053000E4939000,18.697,50.263,Gliwice,0,1765,1765,,False,"NSP = 0: brak mieszkańców w spisie (zabudowa niemieszkalna, przemysł, usługi?)"
+kielce,abs,CRS3035RES1000mN3138000E5066000,20.633,50.869,Kielce,4648,10994,6346,2.365,False,"GHSL >> NSP: kubatura niemieszkalna w komórce (biura, handel, przemysł)?"
+kielce,abs,CRS3035RES1000mN3141000E5068000,20.667,50.893,Kielce,12785,6767,-6018,0.5293,False,
+kielce,abs,CRS3035RES1000mN3138000E5067000,20.647,50.868,Kielce,12689,6969,-5720,0.5492,False,
+kielce,abs,CRS3035RES1000mN3140000E5067000,20.651,50.886,Kielce,9514,4869,-4645,0.5117,False,
+kielce,abs,CRS3035RES1000mN3139000E5065000,20.621,50.879,Kielce,2506,6722,4216,2.682,False,"GHSL >> NSP: kubatura niemieszkalna w komórce (biura, handel, przemysł)?"
+kielce,abs,CRS3035RES1000mN3139000E5062000,20.579,50.883,Kielce,8465,4660,-3805,0.5505,False,
+kielce,abs,CRS3035RES1000mN3140000E5066000,20.637,50.887,Kielce,8435,4879,-3556,0.5784,False,
+kielce,abs,CRS3035RES1000mN3139000E5063000,20.593,50.882,Kielce,8196,5297,-2899,0.6463,False,
+kielce,abs,CRS3035RES1000mN3141000E5065000,20.625,50.897,Kielce,27,2806,2779,103.9,False,"GHSL >> NSP: kubatura niemieszkalna w komórce (biura, handel, przemysł)?"
+kielce,abs,CRS3035RES1000mN3136000E5066000,20.629,50.851,Kielce,8654,6133,-2521,0.7087,False,
+kielce,rel,CRS3035RES1000mN3130000E5060000,20.532,50.806,Sitkówka-Nowiny,0,1527,1527,,False,"NSP = 0: brak mieszkańców w spisie (zabudowa niemieszkalna, przemysł, usługi?)"
+kielce,rel,CRS3035RES1000mN3131000E5066000,20.619,50.807,Kielce,0,884,884,,False,"NSP = 0: brak mieszkańców w spisie (zabudowa niemieszkalna, przemysł, usługi?)"
+kielce,rel,CRS3035RES1000mN3141000E5065000,20.625,50.897,Kielce,27,2806,2779,103.9,False,"GHSL >> NSP: kubatura niemieszkalna w komórce (biura, handel, przemysł)?"
+kielce,rel,CRS3035RES1000mN3142000E5065000,20.627,50.906,Kielce,13,348,335,26.79,False,"GHSL >> NSP: kubatura niemieszkalna w komórce (biura, handel, przemysł)?"
+kielce,rel,CRS3035RES1000mN3130000E5061000,20.547,50.805,Sitkówka-Nowiny,22,302,280,13.74,False,"GHSL >> NSP: kubatura niemieszkalna w komórce (biura, handel, przemysł)?"
+kielce,rel,CRS3035RES1000mN3133000E5061000,20.552,50.831,Kielce,31,334,303,10.79,False,"GHSL >> NSP: kubatura niemieszkalna w komórce (biura, handel, przemysł)?"
+kielce,rel,CRS3035RES1000mN3136000E5064000,20.601,50.854,Kielce,108,1061,953,9.822,False,"GHSL >> NSP: kubatura niemieszkalna w komórce (biura, handel, przemysł)?"
+kielce,rel,CRS3035RES1000mN3146000E5069000,20.692,50.936,Masłów,45,324,279,7.206,False,"GHSL >> NSP: kubatura niemieszkalna w komórce (biura, handel, przemysł)?"
+kielce,rel,CRS3035RES1000mN3140000E5063000,20.595,50.891,Kielce,316,2263,1947,7.162,False,"GHSL >> NSP: kubatura niemieszkalna w komórce (biura, handel, przemysł)?"
+kielce,rel,CRS3035RES1000mN3137000E5064000,20.603,50.863,Kielce,400,2701,2301,6.751,False,"GHSL >> NSP: kubatura niemieszkalna w komórce (biura, handel, przemysł)?"
+krakow,abs,CRS3035RES1000mN3042000E5030000,19.942,50.061,Kraków,5662,14946,9284,2.64,False,"GHSL >> NSP: kubatura niemieszkalna w komórce (biura, handel, przemysł)?"
+krakow,abs,CRS3035RES1000mN3046000E5034000,20.006,50.092,Kraków,14408,5861,-8547,0.4068,False,
+krakow,abs,CRS3035RES1000mN3044000E5037000,20.043,50.07,Kraków,14219,5888,-8331,0.4141,False,
+krakow,abs,CRS3035RES1000mN3046000E5035000,20.019,50.091,Kraków,15358,7070,-8288,0.4604,False,
+krakow,abs,CRS3035RES1000mN3042000E5029000,19.929,50.062,Kraków,5090,12890,7800,2.532,False,"GHSL >> NSP: kubatura niemieszkalna w komórce (biura, handel, przemysł)?"
+krakow,abs,CRS3035RES1000mN3045000E5035000,20.017,50.082,Kraków,16379,8992,-7387,0.549,False,
+krakow,abs,CRS3035RES1000mN3045000E5036000,20.031,50.081,Kraków,13962,6848,-7114,0.4904,False,
+krakow,abs,CRS3035RES1000mN3046000E5033000,19.992,50.093,Kraków,15729,8957,-6772,0.5694,False,
+krakow,abs,CRS3035RES1000mN3037000E5033000,19.975,50.013,Kraków,12003,5384,-6619,0.4486,False,
+krakow,abs,CRS3035RES1000mN3047000E5034000,20.007,50.101,Kraków,11446,4907,-6539,0.4287,False,
+krakow,rel,CRS3035RES1000mN3045000E5040000,20.087,50.076,Kraków,0,5338,5338,,False,"NSP = 0: brak mieszkańców w spisie (zabudowa niemieszkalna, przemysł, usługi?)"
+krakow,rel,CRS3035RES1000mN3046000E5040000,20.089,50.084,Kraków,0,4496,4496,,False,"NSP = 0: brak mieszkańców w spisie (zabudowa niemieszkalna, przemysł, usługi?)"
+krakow,rel,CRS3035RES1000mN3046000E5039000,20.075,50.086,Kraków,0,4316,4316,,False,"NSP = 0: brak mieszkańców w spisie (zabudowa niemieszkalna, przemysł, usługi?)"
+krakow,rel,CRS3035RES1000mN3046000E5041000,20.102,50.083,Kraków,0,2365,2365,,False,"NSP = 0: brak mieszkańców w spisie (zabudowa niemieszkalna, przemysł, usługi?)"
+krakow,rel,CRS3035RES1000mN3040000E5038000,20.05,50.034,Kraków,2,3437,3435,1719.0,False,"GHSL >> NSP: kubatura niemieszkalna w komórce (biura, handel, przemysł)?"
+krakow,rel,CRS3035RES1000mN3045000E5039000,20.073,50.077,Kraków,0,1564,1564,,False,"NSP = 0: brak mieszkańców w spisie (zabudowa niemieszkalna, przemysł, usługi?)"
+krakow,rel,CRS3035RES1000mN3046000E5042000,20.116,50.082,Kraków,0,698,698,,False,"NSP = 0: brak mieszkańców w spisie (zabudowa niemieszkalna, przemysł, usługi?)"
+krakow,rel,CRS3035RES1000mN3044000E5040000,20.085,50.067,Kraków,3,2024,2021,674.6,False,"GHSL >> NSP: kubatura niemieszkalna w komórce (biura, handel, przemysł)?"
+krakow,rel,CRS3035RES1000mN3040000E5039000,20.064,50.032,Kraków,0,519,519,,False,"NSP = 0: brak mieszkańców w spisie (zabudowa niemieszkalna, przemysł, usługi?)"
+krakow,rel,CRS3035RES1000mN3041000E5047000,20.176,50.031,Niepołomice,0,418,418,,False,"NSP = 0: brak mieszkańców w spisie (zabudowa niemieszkalna, przemysł, usługi?)"
+lodz,abs,CRS3035RES1000mN3223000E4974000,19.491,51.738,Łódź,14327,5163,-9164,0.3604,False,
+lodz,abs,CRS3035RES1000mN3223000E4967000,19.391,51.747,Łódź,14261,5642,-8619,0.3956,False,
+lodz,abs,CRS3035RES1000mN3229000E4968000,19.416,51.799,Łódź,309,8402,8093,27.19,False,"GHSL >> NSP: kubatura niemieszkalna w komórce (biura, handel, przemysł)?"
+lodz,abs,CRS3035RES1000mN3223000E4968000,19.405,51.745,Łódź,15503,7427,-8076,0.4791,False,
+lodz,abs,CRS3035RES1000mN3228000E4966000,19.386,51.792,Łódź,9867,3362,-6505,0.3407,False,
+lodz,abs,CRS3035RES1000mN3226000E4971000,19.454,51.769,Łódź,12097,18102,6005,1.496,False,
+lodz,abs,CRS3035RES1000mN3223000E4975000,19.506,51.737,Łódź,10033,4063,-5970,0.405,False,
+lodz,abs,CRS3035RES1000mN3222000E4972000,19.461,51.732,Łódź,11243,5387,-5856,0.4792,False,
+lodz,abs,CRS3035RES1000mN3223000E4976000,19.52,51.736,Łódź,129,5946,5817,46.1,False,"GHSL >> NSP: kubatura niemieszkalna w komórce (biura, handel, przemysł)?"
+lodz,abs,CRS3035RES1000mN3222000E4973000,19.475,51.731,Łódź,12606,6791,-5815,0.5387,False,
+lodz,rel,CRS3035RES1000mN3224000E4977000,19.536,51.744,Łódź,0,5501,5501,,False,"NSP = 0: brak mieszkańców w spisie (zabudowa niemieszkalna, przemysł, usługi?)"
+lodz,rel,CRS3035RES1000mN3224000E4976000,19.522,51.745,Łódź,0,5207,5207,,False,"NSP = 0: brak mieszkańców w spisie (zabudowa niemieszkalna, przemysł, usługi?)"
+lodz,rel,CRS3035RES1000mN3225000E4969000,19.423,51.762,Łódź,0,1323,1323,,False,"NSP = 0: brak mieszkańców w spisie (zabudowa niemieszkalna, przemysł, usługi?)"
+lodz,rel,CRS3035RES1000mN3241000E4978000,19.583,51.894,Stryków,0,1013,1013,,False,"NSP = 0: brak mieszkańców w spisie (zabudowa niemieszkalna, przemysł, usługi?)"
+lodz,rel,CRS3035RES1000mN3222000E4965000,19.36,51.74,Łódź,3,958,955,319.5,False,"GHSL >> NSP: kubatura niemieszkalna w komórce (biura, handel, przemysł)?"
+lodz,rel,CRS3035RES1000mN3239000E4977000,19.565,51.877,Stryków,4,444,440,110.9,False,"GHSL >> NSP: kubatura niemieszkalna w komórce (biura, handel, przemysł)?"
+lodz,rel,CRS3035RES1000mN3226000E4998000,19.842,51.737,Koluszki,6,421,415,70.13,False,"GHSL >> NSP: kubatura niemieszkalna w komórce (biura, handel, przemysł)?"
+lodz,rel,CRS3035RES1000mN3230000E4966000,19.389,51.81,Łódź,45,2372,2327,52.7,False,"GHSL >> NSP: kubatura niemieszkalna w komórce (biura, handel, przemysł)?"
+lodz,rel,CRS3035RES1000mN3223000E4976000,19.52,51.736,Łódź,129,5946,5817,46.1,False,"GHSL >> NSP: kubatura niemieszkalna w komórce (biura, handel, przemysł)?"
+lodz,rel,CRS3035RES1000mN3213000E4975000,19.487,51.648,Rzgów,8,348,340,43.46,False,"GHSL >> NSP: kubatura niemieszkalna w komórce (biura, handel, przemysł)?"
+lublin,abs,CRS3035RES1000mN3201000E5192000,22.553,51.248,Lublin,5883,12370,6487,2.103,False,"GHSL >> NSP: kubatura niemieszkalna w komórce (biura, handel, przemysł)?"
+lublin,abs,CRS3035RES1000mN3199000E5190000,22.52,51.234,Lublin,10544,4969,-5575,0.4712,False,
+lublin,abs,CRS3035RES1000mN3199000E5198000,22.633,51.221,Lublin,6844,1895,-4949,0.2768,False,
+lublin,abs,CRS3035RES1000mN3202000E5194000,22.584,51.254,Lublin,9189,4314,-4875,0.4694,False,
+lublin,abs,CRS3035RES1000mN3201000E5193000,22.567,51.247,Lublin,4479,8918,4439,1.991,False,
+lublin,abs,CRS3035RES1000mN3198000E5191000,22.531,51.223,Lublin,7620,3195,-4425,0.4193,False,
+lublin,abs,CRS3035RES1000mN3201000E5195000,22.595,51.244,Lublin,7704,3376,-4328,0.4382,False,
+lublin,abs,CRS3035RES1000mN3201000E5196000,22.609,51.242,Lublin,203,4493,4290,22.13,False,"GHSL >> NSP: kubatura niemieszkalna w komórce (biura, handel, przemysł)?"
+lublin,abs,CRS3035RES1000mN3203000E5191000,22.544,51.267,Lublin,8699,4681,-4018,0.5382,False,
+lublin,abs,CRS3035RES1000mN3200000E5195000,22.593,51.235,Lublin,11035,7041,-3994,0.638,False,
+lublin,rel,CRS3035RES1000mN3197000E5193000,22.557,51.211,Lublin,0,3303,3303,,False,"NSP = 0: brak mieszkańców w spisie (zabudowa niemieszkalna, przemysł, usługi?)"
+lublin,rel,CRS3035RES1000mN3201000E5202000,22.694,51.233,Świdnik,0,437,437,,False,"NSP = 0: brak mieszkańców w spisie (zabudowa niemieszkalna, przemysł, usługi?)"
+lublin,rel,CRS3035RES1000mN3201000E5203000,22.708,51.231,Świdnik,11,1906,1895,173.3,False,"GHSL >> NSP: kubatura niemieszkalna w komórce (biura, handel, przemysł)?"
+lublin,rel,CRS3035RES1000mN3201000E5197000,22.623,51.24,Lublin,20,3371,3351,168.5,False,"GHSL >> NSP: kubatura niemieszkalna w komórce (biura, handel, przemysł)?"
+lublin,rel,CRS3035RES1000mN3224000E5191000,22.595,51.453,Lubartów,14,1090,1076,77.84,False,"GHSL >> NSP: kubatura niemieszkalna w komórce (biura, handel, przemysł)?"
+lublin,rel,CRS3035RES1000mN3201000E5199000,22.652,51.237,Lublin,45,1022,977,22.72,False,"GHSL >> NSP: kubatura niemieszkalna w komórce (biura, handel, przemysł)?"
+lublin,rel,CRS3035RES1000mN3201000E5196000,22.609,51.242,Lublin,203,4493,4290,22.13,False,"GHSL >> NSP: kubatura niemieszkalna w komórce (biura, handel, przemysł)?"
+lublin,rel,CRS3035RES1000mN3200000E5197000,22.621,51.232,Lublin,156,2592,2436,16.61,False,"GHSL >> NSP: kubatura niemieszkalna w komórce (biura, handel, przemysł)?"
+lublin,rel,CRS3035RES1000mN3230000E5189000,22.581,51.509,Lubartów,39,362,323,9.276,False,"GHSL >> NSP: kubatura niemieszkalna w komórce (biura, handel, przemysł)?"
+lublin,rel,CRS3035RES1000mN3198000E5196000,22.602,51.215,Lublin,60,450,390,7.492,False,"GHSL >> NSP: kubatura niemieszkalna w komórce (biura, handel, przemysł)?"
+poznan,abs,CRS3035RES1000mN3277000E4791000,16.925,52.405,Poznań,9074,17784,8710,1.96,False,
+poznan,abs,CRS3035RES1000mN3277000E4790000,16.911,52.406,Poznań,2469,10058,7589,4.074,False,"GHSL >> NSP: kubatura niemieszkalna w komórce (biura, handel, przemysł)?"
+poznan,abs,CRS3035RES1000mN3282000E4790000,16.918,52.451,Poznań,12444,4954,-7490,0.3981,False,
+poznan,abs,CRS3035RES1000mN3283000E4790000,16.919,52.46,Poznań,12114,5806,-6308,0.4793,False,
+poznan,abs,CRS3035RES1000mN3280000E4791000,16.93,52.432,Poznań,11745,5609,-6136,0.4776,False,
+poznan,abs,CRS3035RES1000mN3283000E4789000,16.904,52.461,Poznań,10952,5208,-5744,0.4756,False,
+poznan,abs,CRS3035RES1000mN3281000E4791000,16.931,52.441,Poznań,9440,3846,-5594,0.4074,False,
+poznan,abs,CRS3035RES1000mN3275000E4794000,16.966,52.385,Poznań,10521,5081,-5440,0.483,False,
+poznan,abs,CRS3035RES1000mN3276000E4795000,16.983,52.393,Poznań,8515,3252,-5263,0.3819,False,
+poznan,abs,CRS3035RES1000mN3275000E4793000,16.952,52.386,Poznań,10588,5545,-5043,0.5237,False,
+poznan,rel,CRS3035RES1000mN3278000E4804000,17.117,52.403,Swarzędz,1,1379,1378,1379.0,False,"GHSL >> NSP: kubatura niemieszkalna w komórce (biura, handel, przemysł)?"
+poznan,rel,CRS3035RES1000mN3268000E4799000,17.03,52.318,Kórnik,0,666,666,,False,"NSP = 0: brak mieszkańców w spisie (zabudowa niemieszkalna, przemysł, usługi?)"
+poznan,rel,CRS3035RES1000mN3268000E4798000,17.015,52.319,Kórnik,0,572,572,,False,"NSP = 0: brak mieszkańców w spisie (zabudowa niemieszkalna, przemysł, usługi?)"
+poznan,rel,CRS3035RES1000mN3270000E4783000,16.799,52.349,Komorniki,0,516,516,,False,"NSP = 0: brak mieszkańców w spisie (zabudowa niemieszkalna, przemysł, usługi?)"
+poznan,rel,CRS3035RES1000mN3281000E4794000,16.975,52.438,Poznań,0,452,452,,False,"NSP = 0: brak mieszkańców w spisie (zabudowa niemieszkalna, przemysł, usługi?)"
+poznan,rel,CRS3035RES1000mN3275000E4797000,17.01,52.382,Poznań,0,407,407,,False,"NSP = 0: brak mieszkańców w spisie (zabudowa niemieszkalna, przemysł, usługi?)"
+poznan,rel,CRS3035RES1000mN3268000E4795000,16.971,52.321,Poznań,0,386,386,,False,"NSP = 0: brak mieszkańców w spisie (zabudowa niemieszkalna, przemysł, usługi?)"
+poznan,rel,CRS3035RES1000mN3279000E4798000,17.031,52.417,Poznań,0,316,316,,False,"NSP = 0: brak mieszkańców w spisie (zabudowa niemieszkalna, przemysł, usługi?)"
+poznan,rel,CRS3035RES1000mN3279000E4788000,16.884,52.426,Poznań,0,309,309,,False,"NSP = 0: brak mieszkańców w spisie (zabudowa niemieszkalna, przemysł, usługi?)"
+poznan,rel,CRS3035RES1000mN3281000E4773000,16.667,52.456,Tarnowo Podgórne,2,435,433,217.7,False,"GHSL >> NSP: kubatura niemieszkalna w komórce (biura, handel, przemysł)?"
+rzeszow,abs,CRS3035RES1000mN3060000E5177000,22.013,50.024,Rzeszów,11824,7377,-4447,0.6239,False,
+rzeszow,abs,CRS3035RES1000mN3062000E5179000,22.045,50.038,Rzeszów,2513,6941,4428,2.762,False,"GHSL >> NSP: kubatura niemieszkalna w komórce (biura, handel, przemysł)?"
+rzeszow,abs,CRS3035RES1000mN3063000E5174000,21.978,50.055,Rzeszów,9389,5135,-4254,0.5469,False,
+rzeszow,abs,CRS3035RES1000mN3059000E5175000,21.983,50.018,Rzeszów,1328,5003,3675,3.768,False,"GHSL >> NSP: kubatura niemieszkalna w komórce (biura, handel, przemysł)?"
+rzeszow,abs,CRS3035RES1000mN3061000E5178000,22.029,50.031,Rzeszów,3627,6865,3238,1.893,False,
+rzeszow,abs,CRS3035RES1000mN3063000E5176000,22.006,50.052,Rzeszów,2274,5485,3211,2.412,False,"GHSL >> NSP: kubatura niemieszkalna w komórce (biura, handel, przemysł)?"
+rzeszow,abs,CRS3035RES1000mN3062000E5177000,22.017,50.041,Rzeszów,2575,5613,3038,2.18,False,"GHSL >> NSP: kubatura niemieszkalna w komórce (biura, handel, przemysł)?"
+rzeszow,abs,CRS3035RES1000mN3061000E5179000,22.043,50.03,Rzeszów,1829,4771,2942,2.608,False,"GHSL >> NSP: kubatura niemieszkalna w komórce (biura, handel, przemysł)?"
+rzeszow,abs,CRS3035RES1000mN3058000E5178000,22.022,50.005,Rzeszów,2961,5856,2895,1.978,False,
+rzeszow,abs,CRS3035RES1000mN3061000E5176000,22.001,50.034,Rzeszów,4750,7530,2780,1.585,False,
+rzeszow,rel,CRS3035RES1000mN3064000E5177000,22.022,50.059,Rzeszów,2,1602,1600,801.1,False,"GHSL >> NSP: kubatura niemieszkalna w komórce (biura, handel, przemysł)?"
+rzeszow,rel,CRS3035RES1000mN3065000E5177000,22.024,50.068,Rzeszów,6,783,777,130.5,False,"GHSL >> NSP: kubatura niemieszkalna w komórce (biura, handel, przemysł)?"
+rzeszow,rel,CRS3035RES1000mN3071000E5177000,22.037,50.121,Trzebownisko,14,380,366,27.16,False,"GHSL >> NSP: kubatura niemieszkalna w komórce (biura, handel, przemysł)?"
+rzeszow,rel,CRS3035RES1000mN3070000E5173000,21.98,50.118,Głogów Małopolski,43,605,562,14.08,False,"GHSL >> NSP: kubatura niemieszkalna w komórce (biura, handel, przemysł)?"
+rzeszow,rel,CRS3035RES1000mN3063000E5179000,22.047,50.047,Rzeszów,127,897,770,7.063,False,"GHSL >> NSP: kubatura niemieszkalna w komórce (biura, handel, przemysł)?"
+rzeszow,rel,CRS3035RES1000mN3069000E5191000,22.226,50.083,Łańcut,346,1860,1514,5.375,False,"GHSL >> NSP: kubatura niemieszkalna w komórce (biura, handel, przemysł)?"
+rzeszow,rel,CRS3035RES1000mN3071000E5176000,22.024,50.123,Trzebownisko,130,696,566,5.355,False,"GHSL >> NSP: kubatura niemieszkalna w komórce (biura, handel, przemysł)?"
+rzeszow,rel,CRS3035RES1000mN3065000E5178000,22.038,50.066,Rzeszów,95,472,377,4.973,False,"GHSL >> NSP: kubatura niemieszkalna w komórce (biura, handel, przemysł)?"
+rzeszow,rel,CRS3035RES1000mN3059000E5180000,22.052,50.011,Rzeszów,387,92,-295,0.2372,False,
+rzeszow,rel,CRS3035RES1000mN3061000E5184000,22.111,50.022,Krasne,410,106,-304,0.2581,False,
+szczecin,abs,CRS3035RES1000mN3394000E4621000,14.539,53.573,Police,0,7305,7305,,False,"NSP = 0: brak mieszkańców w spisie (zabudowa niemieszkalna, przemysł, usługi?)"
+szczecin,abs,CRS3035RES1000mN3380000E4623000,14.556,53.447,Szczecin,15699,10230,-5469,0.6516,False,
+szczecin,abs,CRS3035RES1000mN3377000E4622000,14.538,53.42,Szczecin,8847,14253,5406,1.611,False,
+szczecin,abs,CRS3035RES1000mN3380000E4625000,14.586,53.446,Szczecin,19,5169,5150,272.0,False,"GHSL >> NSP: kubatura niemieszkalna w komórce (biura, handel, przemysł)?"
+szczecin,abs,CRS3035RES1000mN3381000E4622000,14.542,53.456,Szczecin,10643,5936,-4707,0.5578,False,
+szczecin,abs,CRS3035RES1000mN3390000E4622000,14.55,53.537,Police,8333,3666,-4667,0.44,False,
+szczecin,abs,CRS3035RES1000mN3381000E4623000,14.557,53.456,Szczecin,10590,6305,-4285,0.5954,False,
+szczecin,abs,CRS3035RES1000mN3379000E4624000,14.57,53.437,Szczecin,13093,9002,-4091,0.6876,False,
+szczecin,abs,CRS3035RES1000mN3377000E4623000,14.553,53.42,Szczecin,4349,8381,4032,1.927,False,
+szczecin,abs,CRS3035RES1000mN3372000E4630000,14.653,53.371,Szczecin,6769,2886,-3883,0.4264,False,
+szczecin,rel,CRS3035RES1000mN3394000E4621000,14.539,53.573,Police,0,7305,7305,,False,"NSP = 0: brak mieszkańców w spisie (zabudowa niemieszkalna, przemysł, usługi?)"
+szczecin,rel,CRS3035RES1000mN3394000E4622000,14.554,53.573,Police,0,3429,3429,,False,"NSP = 0: brak mieszkańców w spisie (zabudowa niemieszkalna, przemysł, usługi?)"
+szczecin,rel,CRS3035RES1000mN3378000E4625000,14.584,53.428,Szczecin,0,1750,1750,,False,"NSP = 0: brak mieszkańców w spisie (zabudowa niemieszkalna, przemysł, usługi?)"
+szczecin,rel,CRS3035RES1000mN3379000E4625000,14.585,53.437,Szczecin,0,1642,1642,,False,"NSP = 0: brak mieszkańców w spisie (zabudowa niemieszkalna, przemysł, usługi?)"
+szczecin,rel,CRS3035RES1000mN3388000E4627000,14.624,53.516,Szczecin,0,1475,1475,,False,"NSP = 0: brak mieszkańców w spisie (zabudowa niemieszkalna, przemysł, usługi?)"
+szczecin,rel,CRS3035RES1000mN3395000E4623000,14.57,53.581,Police,0,611,611,,False,"NSP = 0: brak mieszkańców w spisie (zabudowa niemieszkalna, przemysł, usługi?)"
+szczecin,rel,CRS3035RES1000mN3396000E4623000,14.571,53.59,Police,0,579,579,,False,"NSP = 0: brak mieszkańców w spisie (zabudowa niemieszkalna, przemysł, usługi?)"
+szczecin,rel,CRS3035RES1000mN3382000E4619000,14.498,53.467,Szczecin,0,547,547,,False,"NSP = 0: brak mieszkańców w spisie (zabudowa niemieszkalna, przemysł, usługi?)"
+szczecin,rel,CRS3035RES1000mN3375000E4625000,14.581,53.401,Szczecin,0,489,489,,False,"NSP = 0: brak mieszkańców w spisie (zabudowa niemieszkalna, przemysł, usługi?)"
+szczecin,rel,CRS3035RES1000mN3395000E4622000,14.555,53.582,Police,0,484,484,,False,"NSP = 0: brak mieszkańców w spisie (zabudowa niemieszkalna, przemysł, usługi?)"
+trojmiasto,abs,CRS3035RES1000mN3505000E4877000,18.581,54.358,Gdańsk,11153,3843,-7310,0.3445,False,
+trojmiasto,abs,CRS3035RES1000mN3505000E4887000,18.734,54.347,Gdańsk,0,7292,7292,,False,"NSP = 0: brak mieszkańców w spisie (zabudowa niemieszkalna, przemysł, usługi?)"
+trojmiasto,abs,CRS3035RES1000mN3512000E4876000,18.579,54.422,Gdańsk,12522,5353,-7169,0.4275,False,
+trojmiasto,abs,CRS3035RES1000mN3511000E4877000,18.592,54.412,Gdańsk,14170,7695,-6475,0.5431,False,
+trojmiasto,abs,CRS3035RES1000mN3509000E4878000,18.604,54.393,Gdańsk,10995,4834,-6161,0.4397,False,
+trojmiasto,abs,CRS3035RES1000mN3505000E4881000,18.642,54.354,Gdańsk,2310,8415,6105,3.643,False,"GHSL >> NSP: kubatura niemieszkalna w komórce (biura, handel, przemysł)?"
+trojmiasto,abs,CRS3035RES1000mN3505000E4888000,18.749,54.346,Gdańsk,2,6037,6035,3019.0,False,"GHSL >> NSP: kubatura niemieszkalna w komórce (biura, handel, przemysł)?"
+trojmiasto,abs,CRS3035RES1000mN3524000E4870000,18.509,54.535,Gdynia,24,5389,5365,224.6,False,"GHSL >> NSP: kubatura niemieszkalna w komórce (biura, handel, przemysł)?"
+trojmiasto,abs,CRS3035RES1000mN3524000E4867000,18.463,54.538,Gdynia,10179,4897,-5282,0.4811,False,
+trojmiasto,abs,CRS3035RES1000mN3524000E4868000,18.479,54.537,Gdynia,9245,4067,-5178,0.4399,False,
+trojmiasto,rel,CRS3035RES1000mN3505000E4887000,18.734,54.347,Gdańsk,0,7292,7292,,False,"NSP = 0: brak mieszkańców w spisie (zabudowa niemieszkalna, przemysł, usługi?)"
+trojmiasto,rel,CRS3035RES1000mN3507000E4882000,18.661,54.371,Gdańsk,0,4923,4923,,False,"NSP = 0: brak mieszkańców w spisie (zabudowa niemieszkalna, przemysł, usługi?)"
+trojmiasto,rel,CRS3035RES1000mN3507000E4881000,18.646,54.372,Gdańsk,0,3566,3566,,False,"NSP = 0: brak mieszkańców w spisie (zabudowa niemieszkalna, przemysł, usługi?)"
+trojmiasto,rel,CRS3035RES1000mN3524000E4871000,18.524,54.534,Gdynia,0,3109,3109,,False,"NSP = 0: brak mieszkańców w spisie (zabudowa niemieszkalna, przemysł, usługi?)"
+trojmiasto,rel,CRS3035RES1000mN3505000E4888000,18.749,54.346,Gdańsk,2,6037,6035,3019.0,False,"GHSL >> NSP: kubatura niemieszkalna w komórce (biura, handel, przemysł)?"
+trojmiasto,rel,CRS3035RES1000mN3508000E4882000,18.663,54.38,Gdańsk,0,2955,2955,,False,"NSP = 0: brak mieszkańców w spisie (zabudowa niemieszkalna, przemysł, usługi?)"
+trojmiasto,rel,CRS3035RES1000mN3526000E4866000,18.451,54.557,Gdynia,0,2251,2251,,False,"NSP = 0: brak mieszkańców w spisie (zabudowa niemieszkalna, przemysł, usługi?)"
+trojmiasto,rel,CRS3035RES1000mN3509000E4885000,18.711,54.385,Gdańsk,0,1892,1892,,True,komórka przycięta granicą państwa/brzegiem: GHSL liczy cały kwadrat
+trojmiasto,rel,CRS3035RES1000mN3525000E4873000,18.557,54.541,Gdynia,0,1393,1393,,False,"NSP = 0: brak mieszkańców w spisie (zabudowa niemieszkalna, przemysł, usługi?)"
+trojmiasto,rel,CRS3035RES1000mN3492000E4881000,18.618,54.238,Pruszcz Gdański,0,1210,1210,,False,"NSP = 0: brak mieszkańców w spisie (zabudowa niemieszkalna, przemysł, usługi?)"
+warszawa,abs,CRS3035RES1000mN3285000E5075000,21.075,52.161,Warszawa,16943,7442,-9501,0.4393,False,
+warszawa,abs,CRS3035RES1000mN3301000E5064000,20.951,52.318,Warszawa,12688,5207,-7481,0.4104,False,
+warszawa,abs,CRS3035RES1000mN3309000E5061000,20.925,52.393,Legionowo,13566,6291,-7275,0.4637,False,
+warszawa,abs,CRS3035RES1000mN3292000E5070000,21.018,52.23,Warszawa,9856,17126,7270,1.738,False,
+warszawa,abs,CRS3035RES1000mN3275000E5072000,21.01,52.077,Piaseczno,10507,3402,-7105,0.3238,False,
+warszawa,abs,CRS3035RES1000mN3291000E5069000,21.002,52.223,Warszawa,3869,10597,6728,2.739,False,"GHSL >> NSP: kubatura niemieszkalna w komórce (biura, handel, przemysł)?"
+warszawa,abs,CRS3035RES1000mN3287000E5073000,21.051,52.182,Warszawa,14970,8338,-6632,0.557,False,
+warszawa,abs,CRS3035RES1000mN3299000E5077000,21.135,52.283,Ząbki,11344,5013,-6331,0.4419,False,
+warszawa,abs,CRS3035RES1000mN3299000E5070000,21.034,52.292,Warszawa,15010,9064,-5946,0.6039,False,
+warszawa,abs,CRS3035RES1000mN3282000E5057000,20.808,52.159,Pruszków,13317,7562,-5755,0.5679,False,
+warszawa,rel,CRS3035RES1000mN3300000E5068000,21.007,52.304,Warszawa,0,1938,1938,,False,"NSP = 0: brak mieszkańców w spisie (zabudowa niemieszkalna, przemysł, usługi?)"
+warszawa,rel,CRS3035RES1000mN3285000E5068000,20.974,52.171,Warszawa,0,1666,1666,,False,"NSP = 0: brak mieszkańców w spisie (zabudowa niemieszkalna, przemysł, usługi?)"
+warszawa,rel,CRS3035RES1000mN3298000E5068000,21.003,52.286,Warszawa,0,1103,1103,,False,"NSP = 0: brak mieszkańców w spisie (zabudowa niemieszkalna, przemysł, usługi?)"
+warszawa,rel,CRS3035RES1000mN3299000E5068000,21.005,52.295,Warszawa,2,2108,2106,1054.0,False,"GHSL >> NSP: kubatura niemieszkalna w komórce (biura, handel, przemysł)?"
+warszawa,rel,CRS3035RES1000mN3301000E5068000,21.009,52.313,Warszawa,2,2052,2050,1026.0,False,"GHSL >> NSP: kubatura niemieszkalna w komórce (biura, handel, przemysł)?"
+warszawa,rel,CRS3035RES1000mN3285000E5040000,20.568,52.208,Błonie,0,775,775,,False,"NSP = 0: brak mieszkańców w spisie (zabudowa niemieszkalna, przemysł, usługi?)"
+warszawa,rel,CRS3035RES1000mN3300000E5073000,21.079,52.297,Warszawa,0,552,552,,False,"NSP = 0: brak mieszkańców w spisie (zabudowa niemieszkalna, przemysł, usługi?)"
+warszawa,rel,CRS3035RES1000mN3283000E5052000,20.738,52.175,Brwinów,0,530,530,,False,"NSP = 0: brak mieszkańców w spisie (zabudowa niemieszkalna, przemysł, usługi?)"
+warszawa,rel,CRS3035RES1000mN3296000E5060000,20.882,52.279,Warszawa,0,450,450,,False,"NSP = 0: brak mieszkańców w spisie (zabudowa niemieszkalna, przemysł, usługi?)"
+warszawa,rel,CRS3035RES1000mN3299000E5061000,20.903,52.305,Warszawa,0,393,393,,False,"NSP = 0: brak mieszkańców w spisie (zabudowa niemieszkalna, przemysł, usługi?)"
+wroclaw,abs,CRS3035RES1000mN3134000E4812000,17.03,51.109,Wrocław,7016,15513,8497,2.211,False,"GHSL >> NSP: kubatura niemieszkalna w komórce (biura, handel, przemysł)?"
+wroclaw,abs,CRS3035RES1000mN3131000E4813000,17.041,51.081,Wrocław,14234,7599,-6635,0.5339,False,
+wroclaw,abs,CRS3035RES1000mN3136000E4813000,17.047,51.126,Wrocław,18641,12287,-6354,0.6591,False,
+wroclaw,abs,CRS3035RES1000mN3133000E4811000,17.015,51.101,Wrocław,16813,11320,-5493,0.6733,False,
+wroclaw,abs,CRS3035RES1000mN3134000E4807000,16.959,51.113,Wrocław,12712,7624,-5088,0.5997,False,
+wroclaw,abs,CRS3035RES1000mN3134000E4813000,17.045,51.108,Wrocław,3991,8928,4937,2.237,False,"GHSL >> NSP: kubatura niemieszkalna w komórce (biura, handel, przemysł)?"
+wroclaw,abs,CRS3035RES1000mN3134000E4809000,16.988,51.111,Wrocław,426,5131,4705,12.04,False,"GHSL >> NSP: kubatura niemieszkalna w komórce (biura, handel, przemysł)?"
+wroclaw,abs,CRS3035RES1000mN3137000E4807000,16.963,51.14,Wrocław,9285,4785,-4500,0.5153,False,
+wroclaw,abs,CRS3035RES1000mN3133000E4810000,17.001,51.102,Wrocław,10069,5715,-4354,0.5676,False,
+wroclaw,abs,CRS3035RES1000mN3132000E4813000,17.042,51.09,Wrocław,15689,11356,-4333,0.7238,False,
+wroclaw,rel,CRS3035RES1000mN3133000E4809000,16.986,51.102,Wrocław,0,3068,3068,,False,"NSP = 0: brak mieszkańców w spisie (zabudowa niemieszkalna, przemysł, usługi?)"
+wroclaw,rel,CRS3035RES1000mN3126000E4807000,16.949,51.041,Kobierzyce,0,1513,1513,,False,"NSP = 0: brak mieszkańców w spisie (zabudowa niemieszkalna, przemysł, usługi?)"
+wroclaw,rel,CRS3035RES1000mN3123000E4803000,16.888,51.018,Kobierzyce,0,1270,1270,,False,"NSP = 0: brak mieszkańców w spisie (zabudowa niemieszkalna, przemysł, usługi?)"
+wroclaw,rel,CRS3035RES1000mN3130000E4815000,17.068,51.07,Wrocław,0,530,530,,False,"NSP = 0: brak mieszkańców w spisie (zabudowa niemieszkalna, przemysł, usługi?)"
+wroclaw,rel,CRS3035RES1000mN3125000E4807000,16.947,51.033,Kobierzyce,0,464,464,,False,"NSP = 0: brak mieszkańców w spisie (zabudowa niemieszkalna, przemysł, usługi?)"
+wroclaw,rel,CRS3035RES1000mN3126000E4806000,16.934,51.042,Kąty Wrocławskie,0,414,414,,False,"NSP = 0: brak mieszkańców w spisie (zabudowa niemieszkalna, przemysł, usługi?)"
+wroclaw,rel,CRS3035RES1000mN3137000E4810000,17.006,51.137,Wrocław,0,395,395,,False,"NSP = 0: brak mieszkańców w spisie (zabudowa niemieszkalna, przemysł, usługi?)"
+wroclaw,rel,CRS3035RES1000mN3143000E4803000,16.915,51.197,Wrocław,0,381,381,,False,"NSP = 0: brak mieszkańców w spisie (zabudowa niemieszkalna, przemysł, usługi?)"
+wroclaw,rel,CRS3035RES1000mN3115000E4795000,16.764,50.953,Sobótka,1,372,371,372.1,False,"GHSL >> NSP: kubatura niemieszkalna w komórce (biura, handel, przemysł)?"
+wroclaw,rel,CRS3035RES1000mN3129000E4807000,16.953,51.068,Kąty Wrocławskie,0,347,347,,False,"NSP = 0: brak mieszkańców w spisie (zabudowa niemieszkalna, przemysł, usługi?)"

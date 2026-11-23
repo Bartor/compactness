@@ -29,16 +29,33 @@ export function metricNotes(m) {
   return parts.join(' · ')
 }
 
-/** Rows of one agglomeration grouped by domain: FUA, core, then any other. */
+// tier: "main" may go on a graphic, "table" only in tables (shown, but secondary),
+// "qa" is a control number and never shown in the map panel. Rows without a tier count as main.
+const TIER_ORDER = ['main', 'table']
+const tierRank = (m) => (m.tier && TIER_ORDER.includes(m.tier) ? TIER_ORDER.indexOf(m.tier) : 0)
+
+/** True for rows that are shown, but as secondary (tier "table"). */
+export const isSecondary = (m) => m.tier === 'table'
+
+/** Rows of one agglomeration grouped by domain: FUA, core, then any other.
+ *  QA-only rows are left out; within a domain "main" rows come before "table" rows. */
 export function groupMetrics(metrics, agglomeration) {
   const groups = new Map()
   for (const m of metrics || []) {
     if (m.agglomeration !== agglomeration) continue
+    if (m.tier === 'qa') continue
     if (!groups.has(m.domain)) groups.set(m.domain, [])
     groups.get(m.domain).push(m)
   }
   const rank = (d) => (DOMAIN_ORDER.includes(d) ? DOMAIN_ORDER.indexOf(d) : DOMAIN_ORDER.length)
   return [...groups.entries()]
     .sort(([a], [b]) => rank(a) - rank(b) || a.localeCompare(b))
-    .map(([domain, rows]) => ({ domain, title: DOMAIN_TITLES[domain] || domain, rows }))
+    .map(([domain, rows]) => ({
+      domain,
+      title: DOMAIN_TITLES[domain] || domain,
+      rows: rows
+        .map((m, i) => [m, i])
+        .sort(([a, i], [b, j]) => tierRank(a) - tierRank(b) || i - j)
+        .map(([m]) => m),
+    }))
 }

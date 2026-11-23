@@ -1,4 +1,4 @@
-# Zwartość i potencjał transportowy polskich aglomeracji: raport fazy 0 (inwentaryzacja)
+# Zwartość i potencjał transportowy polskich aglomeracji: raport (fazy 0–1)
 
 Stan na 2026-11-23. Raport zbiera wyniki fazy 0 i wskazuje decyzje, które muszą zapaść przed fazą 1. Nie zawiera żadnego wyniku gęstościowego ani transportowego: takie wyniki jeszcze nie istnieją. Wszystkie liczby poniżej są liczbami inwentaryzacyjnymi, przepisanymi z plików w `results/qa/phase0/`, `data/manifest.csv` i `config.yaml`; przy każdej podano plik źródłowy. Gdzie czegoś nie sprawdzono, stoi „nie zweryfikowano”; gdzie danych nie ma, „brak danych”.
 
@@ -11,7 +11,7 @@ Faza 0 jest zakończona. Zgodnie z briefem (§9) potok zatrzymuje się tutaj i c
 | Faza | Zakres | Status |
 |---|---|---|
 | 0. Inwentaryzacja | pobranie źródeł, tabele feedów, warianty GZM, dzień referencyjny, zasięg miejsc pracy, integracja taryfowa | wykonana; STOP, czeka na decyzje (sekcja 12); pokrycie GTFS: sekcja 6 |
-| 1. Gęstość | §4.1–4.4 briefu, kontrola GHSL vs NSP (§7.1) | nie rozpoczęta |
+| 1. Gęstość | §4.1–4.4 briefu, kontrola GHSL vs NSP (§7.1) | wykonana 2026-11-23 dla 13 aglomeracji; sekcja 14 |
 | 2. Częsta komunikacja i podaż | §4.5, §4.7 | nie rozpoczęta |
 | 3. Dostępność | §4.6 | nie rozpoczęta |
 | 4. Mapa | §8 | nie rozpoczęta |
@@ -509,3 +509,82 @@ Numeracja zgodna z briefem §12; punkty 10–14 to nowe pytania z fazy 0. Rekome
 | ITDP `pedestriansfirst`, `atlas` (odczyt kodu) | licencji repozytoriów nie sprawdzano (nie zweryfikowano) | z kodu przepisano tylko parametry definicji |
 
 Surowych feedów nie redystrybuujemy; w repo trafiają wyniki zagregowane (brief §14.3). Atrybucje na mapie: © współtwórcy OpenStreetMap, JRC GHSL, GUS, IGiPZ PAN (Goliszek), Eurostat GISCO / © EuroGeographics, wydawcy GTFS.
+
+## 14. Faza 1: gęstość (2026-11-23)
+
+Pełny opis metody (każda reguła, którą trzeba było doprecyzować), wszystkie tabele, kontrola §7.1, ograniczenia i lista zaskoczeń: [`qa/density/density.md`](qa/density/density.md). Liczby: [`metrics/metrics.csv`](metrics/metrics.csv) i `metrics.json` (765 wierszy; kolumna `tier` mówi, czy liczba może iść na grafikę: `main`, tylko do tabeli: `table`, czy jest wyłącznie kontrolna: `qa`). Dane pod wykresy: [`charts/pwd.json`](charts/pwd.json), [`charts/profile_cumulative_monocentric.json`](charts/profile_cumulative_monocentric.json), [`charts/profile_cumulative_polycentric.json`](charts/profile_cumulative_polycentric.json). Szkice kontrolne: `qa/density/*.png`. Kod: `pipeline/grid250.py`, `density.py`, `density_control.py`, `density_qa.py`. Dwa pełne przebiegi dały pliki identyczne co do bajta (poza `_meta.json` z czasem uruchomienia). Policzono wszystkie 13 aglomeracji (dla sześciu miast fazy 2 to ten sam kod), FUA i rdzeń.
+
+### 14.1 Gęstość ważona populacją (§4.1)
+
+Siatka spisowa 1 km, NSP 2021 (ludność rezydująca, 31.03.2021), os./km². Gwiazdka: układ policentryczny lub liniowy.
+
+| Aglomeracja | PWD FUA | PWD rdzeń | Brutto FUA | Brutto rdzeń |
+|---|---|---|---|---|
+| Warszawa | 5 910 | 9 103 | 375 | 3 606 |
+| Kraków | 4 580 | 7 505 | 421 | 2 427 |
+| Wrocław | 5 220 | 7 159 | 325 | 2 302 |
+| Poznań | 4 421 | 6 538 | 427 | 2 091 |
+| Łódź | 5 711 | 7 658 | 414 | 2 270 |
+| Trójmiasto* | 4 749 | 5 872 | 567 | 1 819 |
+| GZM* | 4 809 | 5 466 | 792 | 1 546 |
+| Szczecin | 6 506 | 7 810 | 376 | 1 279 |
+| Bydgoszcz–Toruń* | 4 461 | 6 761 | 201 | 1 751 |
+| Lublin | 3 634 | 5 976 | 187 | 2 188 |
+| Rzeszów | 2 087 | 4 377 | 236 | 1 468 |
+| Kielce | 3 140 | 6 397 | 166 | 1 635 |
+| Białystok | 4 733 | 6 999 | 116 | 2 760 |
+
+![PWD i gęstość brutto](qa/density/summary_pwd.png)
+
+- Gęstość komórki liczona z jej własnej powierzchni, przypisanie do obszaru centroidem. Wariant z nominalnym 1 km² albo z ważeniem komórek brzegowych zmienia PWD najwyżej o 0,65 %.
+- Najwyższe PWD w FUA ma Szczecin (6 506). Sprawdzono: najgęstsza komórka spisowa w Polsce leży w centrum Szczecina (26 043 os./km²), a GHSL daje dla niej 22 411, więc to nie artefakt spisu. Wynik zostaje.
+- Liczb z siatki 1 km nie wolno porównywać z PWD z GHSL 250 m (w `metrics.csv` jako `pwd_ghsl_250m`, poziom `table`).
+
+### 14.2 Profil skumulowany (§4.2)
+
+![Profile skumulowane, aglomeracje jednocentrowe](qa/density/summary_profiles_monocentric.png)
+
+Policzono dwa warianty, pierścienie co 1 km do 40 km, GHS-POP 2020 100 m (dane modelowane): (i) ludność w FUA, udział w ludności FUA; (ii) bez granic: cała ludność w promieniu r od centrum. **Rekomendacja agenta na grafikę: wariant (ii) jako bezwzględna ludność skumulowana, dla pięciu jednocentrowych miast fazy 1.** Wariant (i) ustawia miasta według tego, jak duże FUA narysował Eurostat: Warszawa z ogromnym FUA wypada ostatnia na 10 km (46 %), choć w (ii) jest w środku stawki (51 %). Udział w wariancie (ii) wymaga arbitralnego mianownika (ludność do 40 km), a dla Rzeszowa i Kielc mierzy wtedy gęsto zaludniony region wiejski. Zgodność z siatką spisową co 5 km: różnice krzywych do 3–4,5 pkt proc. (Rzeszów 7,4). GZM, Trójmiasto i Bydgoszcz–Toruń są w osobnym pliku, z wariantem „odległość do najbliższego z N centrów”, oznaczonym jako inna miara. Gradient Clarka: tylko tabela i QA.
+
+### 14.3 Indeks Bertauda ρ i próg zabudowy (§4.3): do decyzji
+
+ρ dla FUA; maska: komórki GHS-BUILT-S 100 m o udziale zabudowy ≥ X, spójne z centrum. „brak” = w masce jest mniej niż 5 % ludności.
+
+| Aglomeracja | ρ 10 % | ρ 20 % | ρ 30 % | ρ 50 % |
+|---|---|---|---|---|
+| Warszawa | 1,17 | 1,40 | 1,60 | brak |
+| Kraków | 1,35 | 1,46 | 1,85 | brak |
+| Wrocław | 1,05 | 1,23 | 1,53 | brak |
+| Poznań | 1,17 | 1,32 | 1,64 | brak |
+| Łódź | 1,20 | 1,39 | 1,81 | brak |
+| Trójmiasto* | 2,45 | 3,14 | 4,30 | brak |
+| GZM* | 1,68 | 2,12 | 2,98 | brak |
+| Szczecin | 1,54 | 1,68 | 1,63 | brak |
+| Bydgoszcz–Toruń* | 4,05 | 5,18 | 6,53 | brak |
+| Lublin | 1,41 | 1,38 | 1,76 | brak |
+| Rzeszów | 1,55 | 1,52 | 1,51 | brak |
+| Kielce | 1,51 | 1,46 | 1,51 | brak |
+| Białystok | 1,04 | 1,22 | 1,52 | brak |
+
+- **Reguła maski (doprecyzowanie agenta):** komórki z centrum w FUA; zostają skupiska 8-spójne, które sięgają komórek w promieniu 1 km od któregoś ze skonfigurowanych centrów, po zmostkowaniu przerw do ok. 600 m (przy 200 m Wisła odcina całą Pragę, a Szczecin traci Prawobrzeże; ceną 600 m jest przyłączenie Polic do Szczecina i Łańcuta do Rzeszowa przez zabudowę wzdłuż dróg). Wody nie trzeba maskować osobno: mają ok. 0 zabudowy.
+- **Udział ludności FUA w masce:** 69–89 % przy progu 10 %, 46–73 % przy 20 %, 24–46 % przy 30 %; przy 50 % maska ma 0–6 km².
+- **Ranking miast jednocentrowych** jest zgodny między progami 10 % i 20 % (korelacja rang 0,90), a przy 30 % się rozpada (−0,09). **Rekomendacja agenta: 10 % albo 20 %, nie 30 % ani 50 %.** Decyzja należy do Bartora (punkt 4 z sekcji 12).
+- **ρ > 1 prawie wszędzie** (wyjątek: rdzeń Rzeszowa przy 10 %). Sprawdzono mapy masek, wrażliwość na mostkowanie (Warszawa ok. 1,4 dla 0–1400 m) i zakres wartości GHS-BUILT-S; wynik zostaje. Maska netto jest mała i gwiaździsta, więc poziom ρ **nie jest porównywalny z wartościami opublikowanymi przez Bertauda i Malpezziego** i nie należy go tak przedstawiać. Zgodnie z briefem ρ = 1 to walec o równomiernej gęstości, nie optimum.
+- GZM w wariancie „najbliższe z 9 centrów”: 0,60 przy progu 20 % (inna miara). ρ ok. 5 dla Bydgoszczy–Torunia to po prostu dwa ośrodki oddalone o ok. 42 km; tam ma sens tylko wariant „najbliższe z N”. Trójmiasto: wynik z zastrzeżeniem (miasto liniowe).
+- Gini i η (§4.4) są w `metrics.csv` z poziomem `qa` i nie idą na grafiki.
+
+### 14.4 Kontrola GHSL 2020 vs NSP 2021 (§7.1)
+
+- Suma siatki spisowej równa się co do osoby ludności rezydującej z BDL (37 019 327; zmienna BDL 1644331, NSP 2021, gminy, 31.03.2021). Ludność według definicji krajowej: zmienna 1639271. Zmiennej na 31.12.2020 nie udało się pobrać: po ok. 90 zapytaniach zapora GUS zablokowała API; pobieranie przerwano.
+- **GHSL 2020 umieszcza w Polsce 38,47 mln osób**: 1,1 % powyżej definicji krajowej i 3,9 % powyżej ludności rezydującej. Na czym JRC kalibrował model dla Polski, nie zweryfikowano.
+- Rozkład odchyleń per FUA i rdzeń (GHSL/NSP = reszta modelu × definicja krajowa/rezydująca × przypisanie komórek): we Wrocławiu (FUA −7 %, rdzeń −6 %) definicja ludności nie wyjaśnia prawie nic (czynnik ok. 1,007), reszta modelu to 0,92; Kraków, Poznań, Trójmiasto i Warszawa mają ten sam znak z resztą 0,94–0,96. W rdzeniach GZM, Bydgoszczy–Torunia, Kielc i Białegostoku (+6–8 %) definicja wyjaśnia +2–4 %, reszta jest poniżej 4 %. Rdzeń Rzeszowa (+13,5 %): definicja 1,038 × model 1,077, skupione w kilku komórkach.
+- **Na poziomie komórek 1 km GHSL i spis rozchodzą się wyraźnie.** Korelacja Pearsona 0,78–0,94, ale indeks niepodobieństwa 16–26 %: GHSL lokuje inaczej co czwartą do co szóstej osoby. GHSL umieszcza ludność w hutach, portach i rafineriach, gdzie spis ma zero (Nowa Huta do ok. 5 300 osób na komórkę, Huta Katowice, Okęcie, rafineria w Gdańsku, port w Gdyni, parki logistyczne), zawyża centra (Stare Miasto w Krakowie 14 946 wobec 5 662 w spisie) i zaniża wielkie osiedla do 35–60 % wartości spisowej (Ursynów, Nowa Huta, Zaspa, Retkinia, Winogrady). Nazwy miejsc pochodzą z samych współrzędnych; nie sprawdzano ich na ortofotomapie.
+- Skutek: PWD liczone z GHSL na tych samych komórkach 1 km jest o 15–29 % niższe niż spisowe (poza Rzeszowem). Dlatego wynikiem głównym jest siatka spisowa, zgodnie z briefem.
+
+### 14.5 Co z tego wynika dla faz 2–3
+
+Brief przewiduje GHSL (100 m i 250 m) jako siatkę ludności dla częstej komunikacji (§4.5) i dostępności (§4.6). Kontrola pokazuje, że GHSL systematycznie zaniża wielkie osiedla i zawyża centra oraz tereny przemysłowe, a właśnie te miejsca różnią się obsługą komunikacyjną. Wyniki z §4.5–4.6 liczone na GHSL trzeba więc traktować jako obciążone w nieznanym kierunku, dopóki nie powstanie siatka skorygowana. **Do decyzji Bartora:** czy przesunąć warstwę 6c (rozprowadzenie ludności spisowej z siatki 1 km na budynki z BDOT10k, potem agregacja do 250 m; brief §13) przed fazę 2, czy liczyć fazy 2–3 na GHSL z tym zastrzeżeniem i powtórzyć je po 6c. Siatka 250 m z GHSL jest już zbudowana (`data/interim/grid250/`, sumy per FUA zgodne ze źródłem 100 m do 0,035 %).
+
+### 14.6 Nie zweryfikowano
+
+Danych wejściowych JRC dla Polski; nazw miejsc przy największych różnicach komórek; błędu próbkowania η (próba 4 000 komórek); wrażliwości miar na dokładne współrzędne centrów.
