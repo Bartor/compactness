@@ -2,7 +2,8 @@ import { Hint, Modal, TextTable } from '@bartor-net/ui-kit'
 import { dataDates } from './layerInfo'
 
 /** Placeholder for the full methodology: sources and the date mismatch. */
-export default function About({ catalog, metrics, onClose }) {
+export default function About({ catalog, metrics, attributions, onClose }) {
+  const feeds = attributions?.gtfs_feeds || []
   const rows = catalog.layers.map((l) => [
     <>{l.title}{l.status !== 'ready' && <small>w przygotowaniu</small>}</>,
     <>{l.attribution || '-'}{l.note && <small>{l.note}</small>}</>,
@@ -29,6 +30,20 @@ export default function About({ catalog, metrics, onClose }) {
       {rows.length
         ? <TextTable head={['Warstwa', 'Źródło', 'Daty danych']} rows={rows} />
         : <Hint>Lista warstw pojawi się po przeliczeniu.</Hint>}
+
+      <h3>Wydawcy rozkładów jazdy (GTFS)</h3>
+      {feeds.length
+        ? (
+          <TextTable
+            head={['Wydawca', 'Licencja lub warunki', 'Obszar']}
+            rows={feeds.map((f) => [
+              f.publisher,
+              <>{f.license || '-'}{f.url && <small><a href={f.url} target="_blank" rel="noopener">warunki</a></small>}</>,
+              (f.agglomerations || []).join(', ') || '-',
+            ])}
+          />
+        )
+        : <Hint>Lista wydawców pojawi się po przeliczeniu.</Hint>}
 
       <h3>Mapa</h3>
       <p>

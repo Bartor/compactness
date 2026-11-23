@@ -18,3 +18,5 @@ openpyxl
 tqdm
 filelock
 r5py==1.1.7
+pmtiles==3.8.1
+mapbox-vector-tile==2.2.0

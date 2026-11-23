@@ -2,6 +2,8 @@
 // layers. Only what differs from the defaults is written.
 //   #a=wroclaw&l=fua,density250      l= (empty) means "no layers"
 
+import { oneChoropleth } from './layerState'
+
 const LIST = ','
 
 /** What the address asks for; absent keys stay undefined. */
@@ -31,5 +33,5 @@ export function resolveHash(parsed, { agglomerations, layers }, defaultLayers) {
   const agg = agglomerations.some((a) => a.id === parsed.agg) ? parsed.agg : null
   const ready = new Set(layers.filter((l) => l.status === 'ready').map((l) => l.id))
   const on = parsed.layers ? parsed.layers.filter((id) => ready.has(id)) : defaultLayers
-  return { agg, layers: on }
+  return { agg, layers: oneChoropleth(on, layers) }
 }

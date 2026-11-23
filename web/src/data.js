@@ -23,6 +23,16 @@ export async function loadMetrics() {
   }
 }
 
+/** The list of GTFS publishers; optional, the page works without it. */
+export async function loadAttributions() {
+  try {
+    const a = await getJson(DATA_BASE_URL + DATA_FILES.attributions)
+    return { gtfs_feeds: Array.isArray(a.gtfs_feeds) ? a.gtfs_feeds : [] }
+  } catch {
+    return { gtfs_feeds: [] }
+  }
+}
+
 /** Colour of a layer's checkbox in the sidebar. */
 export function layerColor(layer) {
   if (layer.kind === 'boundary') return '#1D4ED8'

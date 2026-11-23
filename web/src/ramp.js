@@ -42,3 +42,13 @@ export function classLabel({ from, to }, unit = '') {
   if (to == null) return `od ${nf(from)}${u}`
   return `${nf(from)}–${nf(to)}${u}`
 }
+
+/**
+ * Legend rows of a ramp: [{color, label}] in ramp order. A ramp may carry its own `labels`
+ * (one per colour, for classes that are not numeric ranges); otherwise they come from the bounds.
+ */
+export function rampLegend(ramp, unit = '') {
+  const classes = rampClasses(ramp)
+  const own = Array.isArray(ramp.labels) && ramp.labels.length === classes.length ? ramp.labels : null
+  return classes.map((c, i) => ({ color: c.color, label: own ? own[i] : classLabel(c, unit) }))
+}

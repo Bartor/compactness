@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { AppMessage, AppShell, ErrorBoundary } from '@bartor-net/ui-kit'
-import { loadCatalog, loadMetrics, isReady } from './data'
+import { loadAttributions, loadCatalog, loadMetrics, isReady } from './data'
+import { toggleLayer } from './layerState'
 import { readHash, hashOf, resolveHash } from './urlState'
 import MapView from './MapView'
 import Sidebar from './Sidebar'
@@ -11,11 +12,12 @@ const URL0 = readHash()
 export default function App() {
   const [catalog, setCatalog] = useState(null)
   const [metrics, setMetrics] = useState({ generated: null, metrics: [] })
+  const [attributions, setAttributions] = useState({ gtfs_feeds: [] })
   const [error, setError] = useState(null)
 
   useEffect(() => {
-    Promise.all([loadCatalog(), loadMetrics()])
-      .then(([c, m]) => { setCatalog(c); setMetrics(m) })
+    Promise.all([loadCatalog(), loadMetrics(), loadAttributions()])
+      .then(([c, m, a]) => { setCatalog(c); setMetrics(m); setAttributions(a) })
       .catch((e) => setError(e.message || String(e)))
   }, [])
 
@@ -28,10 +30,10 @@ export default function App() {
     )
   }
   if (!catalog) return <AppMessage>Wczytywanie danych…</AppMessage>
-  return <Loaded catalog={catalog} metrics={metrics} />
+  return <Loaded catalog={catalog} metrics={metrics} attributions={attributions} />
 }
 
-function Loaded({ catalog, metrics }) {
+function Loaded({ catalog, metrics, attributions }) {
   // Layers on when nothing in the address says otherwise: the boundaries.
   const defaultLayers = useMemo(
     () => catalog.layers.filter((l) => isReady(l) && l.kind === 'boundary').map((l) => l.id),
@@ -68,11 +70,8 @@ function Loaded({ catalog, metrics }) {
   }, [pick])
   const close = useCallback(() => setSelectedId(null), [])
 
-  const setLayer = useCallback((id, on) => setActive((prev) => {
-    const next = new Set(prev)
-    if (on) next.add(id); else next.delete(id)
-    return next
-  }), [])
+  // value layers are mutually exclusive (layerState.js)
+  const setLayer = useCallback((id, on) => setActive((prev) => toggleLayer(prev, id, on, catalog.layers)), [catalog])
 
   // Keep the address in step, without adding a history entry per click.
   useEffect(() => {
@@ -85,7 +84,7 @@ function Loaded({ catalog, metrics }) {
   return (
     <AppShell>
       <Sidebar
-        catalog={catalog} metrics={metrics} selectedId={selectedId} onPick={pick}
+        catalog={catalog} metrics={metrics} attributions={attributions} selectedId={selectedId} onPick={pick}
         active={active} setLayer={setLayer} sheetOpen={sheetOpen} setSheetOpen={setSheetOpen}
       />
       <MapView

@@ -1,10 +1,12 @@
 import { describe, expect, it } from 'vitest'
 import { hashOf, readHash, resolveHash } from './urlState'
-import { classLabel, rampClasses, rampExpression } from './ramp'
+import { classLabel, rampClasses, rampExpression, rampLegend } from './ramp'
 import { formatValue, groupMetrics, metricNotes, NO_DATA } from './metrics'
 import { absoluteUrl, resolveUrl } from './config'
 import { hatchImage } from './mapStyle'
 import { layerSpecs, sourceSpec } from './mapLayers'
+import { legendRows } from './layerInfo'
+import { oneChoropleth, toggleLayer } from './layerState'
 
 const flat = (s) => s.replace(/\u00a0/g, ' ')
 
@@ -148,5 +150,46 @@ describe('map layers', () => {
     const h = hatchImage(12)
     expect(h.data.length).toBe(12 * 12 * 4)
     expect(new Set(Array.from({ length: 144 }, (_, i) => h.data[i * 4 + 3])).size).toBe(2)
+  })
+})
+
+describe('legend', () => {
+  const ramp = { stops: [10, 20], colors: ['#0', '#1', '#2'] }
+  it('derives class labels from the bounds', () => {
+    expect(rampLegend(ramp).map((r) => flat(r.label))).toEqual(['poniżej 10', '10–20', 'od 20'])
+    expect(rampLegend(ramp).map((r) => r.color)).toEqual(['#0', '#1', '#2'])
+  })
+  it('uses the labels of a ramp when there is one per colour', () => {
+    const labels = ['co ≤ 5 min', 'co ≤ 10 min', 'rzadziej']
+    expect(rampLegend({ ...ramp, labels }).map((r) => r.label)).toEqual(labels)
+    // a wrong count is ignored rather than shown misaligned
+    expect(rampLegend({ ...ramp, labels: ['a'] }).map((r) => flat(r.label))).toEqual(['poniżej 10', '10–20', 'od 20'])
+  })
+  it('shows the hatched row only for layers that can have no-data cells', () => {
+    const l = { kind: 'choropleth', ramp }
+    expect(legendRows(l).noData).toBeNull()
+    expect(legendRows({ ...l, has_nodata: true }).noData).toBe('brak danych GTFS')
+    expect(legendRows({ ...l, has_nodata: true, nodata_label: 'x' }).noData).toBe('x')
+    expect(legendRows({ kind: 'mask' })).toEqual({ rows: [], noData: null })
+  })
+})
+
+describe('layer switches', () => {
+  const layers = [
+    { id: 'fua', kind: 'boundary' }, { id: 'a', kind: 'choropleth' }, { id: 'b', kind: 'choropleth' },
+    { id: 'm', kind: 'mask' },
+  ]
+  it('turning a choropleth on turns the other choropleths off, not boundaries or masks', () => {
+    const on = toggleLayer(new Set(['fua', 'a', 'm']), 'b', true, layers)
+    expect([...on].sort()).toEqual(['b', 'fua', 'm'])
+  })
+  it('turning layers off and on again leaves the rest alone', () => {
+    expect([...toggleLayer(new Set(['fua', 'a']), 'a', false, layers)]).toEqual(['fua'])
+    expect([...toggleLayer(new Set(['a']), 'm', true, layers)].sort()).toEqual(['a', 'm'])
+  })
+  it('an address with two choropleths keeps the first one listed', () => {
+    expect(oneChoropleth(['b', 'fua', 'a', 'm'], layers)).toEqual(['b', 'fua', 'm'])
+    const catalog = { agglomerations: [], layers: layers.map((l) => ({ ...l, status: 'ready' })) }
+    expect(resolveHash({ layers: ['a', 'b', 'fua'] }, catalog, []).layers).toEqual(['a', 'fua'])
   })
 })

@@ -402,7 +402,16 @@ def write_web() -> None:
                "status": "ready", "attribution": "© EuroGeographics / Eurostat GISCO, Urban Audit 2021",
                "population_date": None, "timetable_date": None,
                "note": "Granice uproszczone (tolerancja ok. 100 m). GZM: suma czterech FUA; Trójmiasto: suma dwóch FUA."}]
+    # layers that pipeline.tiles has already filled in (status other than "planned") are kept as they are
+    old_path = WEB / "catalog.json"
+    kept = {}
+    if old_path.exists():
+        kept = {l["id"]: l for l in json.loads(old_path.read_text(encoding="utf-8")).get("layers", [])
+                if l.get("status") != "planned"}
     for lid, title, kind in planned:
+        if lid in kept:
+            layers.append(kept[lid])
+            continue
         layers.append({"id": lid, "title": title, "type": "pmtiles", "url": None, "kind": kind, "status": "planned",
                        "attribution": "", "population_date": None, "timetable_date": None, "note": ""})
     write_json(WEB / "catalog.json", {"generated": dt.date.today().isoformat(), "agglomerations": aggs, "layers": layers})

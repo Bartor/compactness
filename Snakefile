@@ -9,6 +9,7 @@
 #   snakemake -c1 access_run     # phase 3: R5 routing, ~12 h for all 7 agglomerations (explicit target only)
 #   snakemake -c1 access         # phase 3: aggregate whatever access_run has finished
 #   snakemake -c1 merge_metrics  # metrics_<step> -> metrics.csv/json + results/web/metrics.json
+#   snakemake -c1 tiles          # phase 4: PMTiles in tiles/, layer entries in results/web/catalog.json
 #   snakemake -c1 all
 #
 # Steps with many outputs are tracked through stamp files in data/interim/_stamps;
@@ -33,6 +34,7 @@ rule all:
         stamp("inventory"),
         stamp("density"),
         stamp("merge_metrics"),
+        stamp("tiles"),
 
 
 rule fetch:
@@ -314,6 +316,27 @@ rule merge_metrics:
         touch(stamp("merge_metrics")),
     shell:
         '"{PY}" -m pipeline.merge_metrics'
+
+
+rule tiles:
+    # phase 4 (brief 8, 14.3-14.4): four PMTiles files (density, frequent transit, performance 30 min, GTFS no-data
+    # mask), their catalog entries, results/web/attributions.json, results/qa/tiles/tiles.md.  Single process.
+    # After more agglomerations finish routing: re-run `snakemake -c1 -R access tiles` or only
+    # python -m pipeline.tiles --layer transport_performance_30
+    input:
+        "config.yaml",
+        "pipeline/tiles.py",
+        "pipeline/tiles_core.py",
+        "pipeline/tiles_layers.py",
+        "pipeline/tiles_verify.py",
+        stamp("popgrid"),
+        stamp("frequent"),
+        stamp("access"),
+        stamp("phase0_boundaries"),
+    output:
+        touch(stamp("tiles")),
+    shell:
+        '"{PY}" -m pipeline.tiles'
 
 
 rule inventory:

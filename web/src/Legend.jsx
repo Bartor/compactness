@@ -1,6 +1,5 @@
 import { useState } from 'react'
-import { rampClasses, classLabel } from './ramp'
-import { dataDates } from './layerInfo'
+import { dataDates, legendRows } from './layerInfo'
 
 const isPhone = () => typeof window !== 'undefined' && window.matchMedia('(max-width: 760px)').matches
 
@@ -23,6 +22,7 @@ export default function Legend({ layers }) {
 
 function LegendBlock({ layer }) {
   const dates = dataDates(layer)
+  const { rows, noData } = legendRows(layer)
   return (
     <div className="legend-block">
       <b>{layer.title}</b>
@@ -35,10 +35,10 @@ function LegendBlock({ layer }) {
       {layer.kind === 'choropleth' && layer.ramp && (
         <>
           {layer.unit && <em className="legend-unit">{layer.unit}</em>}
-          {rampClasses(layer.ramp).map((c, i) => (
-            <span key={i}><i className="sq" style={{ background: c.color }} />{classLabel(c)}</span>
+          {rows.map((r, i) => (
+            <span key={i}><i className="sq" style={{ background: r.color }} />{r.label}</span>
           ))}
-          <span><i className="sq hatch" />brak danych</span>
+          {noData && <span><i className="sq hatch" />{noData}</span>}
         </>
       )}
       {layer.kind === 'mask' && (

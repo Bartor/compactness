@@ -33,7 +33,7 @@ function LayerRow({ layer, on, onChange }) {
 }
 
 export default function Sidebar({
-  catalog, metrics, selectedId, onPick, active, setLayer, sheetOpen, setSheetOpen,
+  catalog, metrics, attributions, selectedId, onPick, active, setLayer, sheetOpen, setSheetOpen,
 }) {
   const [about, setAbout] = useState(false)
   const sel = catalog.agglomerations.find((a) => a.id === selectedId)
@@ -41,7 +41,7 @@ export default function Sidebar({
     { value: '', label: 'Cała Polska' },
     ...catalog.agglomerations.map((a) => ({ value: a.id, label: a.name })),
   ]
-  const attributions = [...new Set(catalog.layers
+  const layerCredits = [...new Set(catalog.layers
     .filter((l) => l.status === 'ready' && active.has(l.id) && l.attribution)
     .map((l) => l.attribution))]
 
@@ -55,7 +55,7 @@ export default function Sidebar({
           <>
             Podkład: <a href="https://openfreemap.org" target="_blank" rel="noopener">OpenFreeMap</a>,
             {' '}© <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">współtwórcy OpenStreetMap</a>.
-            {attributions.map((a) => <span key={a}><br />{a}</span>)}
+            {layerCredits.map((a) => <span key={a}><br />{a}</span>)}
           </>
         )}
       >
@@ -71,6 +71,9 @@ export default function Sidebar({
           {catalog.layers.map((l) => (
             <LayerRow key={l.id} layer={l} on={active.has(l.id)} onChange={(v) => setLayer(l.id, v)} />
           ))}
+          {catalog.layers.filter((l) => l.status === 'ready' && l.kind === 'choropleth').length > 1 && (
+            <Hint>Naraz można pokazać jedną warstwę wartości; granice i maskę braku danych włącza się osobno.</Hint>
+          )}
           {catalog.layers.some((l) => l.status !== 'ready') && (
             <Hint>Warstwy oznaczone jako „w przygotowaniu” zostaną włączone, gdy dane będą gotowe.</Hint>
           )}
@@ -90,7 +93,7 @@ export default function Sidebar({
           </Footnote>
         </Panel>
       </Shell>
-      {about && <About catalog={catalog} metrics={metrics} onClose={() => setAbout(false)} />}
+      {about && <About catalog={catalog} metrics={metrics} attributions={attributions} onClose={() => setAbout(false)} />}
     </>
   )
 }
