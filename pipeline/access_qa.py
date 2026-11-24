@@ -31,8 +31,22 @@ NAMES = {a: CFG["agglomerations"][a]["name"] for a in AGGS_BY_SIZE}
 BINS = [0, 10, 20, 30, 40, 50, 60, 80, 100, 1e9]
 COLS = ["#f7f4f9", "#e7e1ef", "#d4b9da", "#c994c7", "#df65b0", "#e7298a", "#ce1256", "#980043", "#67001f"]
 
-# Observations from checking the Wroclaw end-to-end test (2026-11-23).  Re-read and update after the full run.
+# Observations written after the full run (2026-11-24, 98/98 units).  Hand-written: re-read after any re-run.
 OBSERVATIONS = """\
+Stan na 2026-11-24, po pełnym przebiegu (98 z 98 jednostek, 11 h 20 min routingu). Liczby dotyczą rdzeni miast, wszystkich feedów i siatki spisowej, o ile nie napisano inaczej.
+
+- **GZM wyraźnie najniżej.** KZ 45 min: 36,1 wobec 51–59 w pozostałych miastach. Sprawdzono z wynikami fazy 2: GZM ma też najmniejszy udział mieszkańców rdzenia przy kursach co 10 min lub częściej (45,6 % wobec 59–80 %) i najbardziej rozproszoną ludność. W granicach urban centre (ta sama reguła obszaru dla każdego miasta, `qa/access_uc/access_uc.md`) GZM pozostaje ostatnie: 43,2 wobec 62–67 (stosunek średnich). Wynik zostaje.
+- **Wrocław: wieczór lepszy niż szczyt poranny przy 45 min** (54,7 wobec 53,0); to jedyne takie miasto. Sprawdzono z rozkładami: rozkładowa prędkość komunikacyjna tramwajów we Wrocławiu to 16,1 km/h w szczytach i 18,0 km/h po 20:00, największa różnica z siedmiu miast (w pozostałych 0,1–1,3 km/h). Wynik zostaje.
+- **Duże spadki poza szczytem.** Trójmiasto wieczorem przy 45 min: 55,4 → 46,3 (−9,1 pkt); GZM wieczorem −6,4 i w sobotę −7,3 pkt. W pozostałych miastach okna różnią się od szczytu porannego o najwyżej 6 pkt; sobota jest wszędzie najsłabsza albo druga od końca. Przyczyn spadków w Trójmieście i GZM nie sprawdzano.
+- **Siatka ludności zmienia wynik bardziej niż oczekiwano.** Surowy GHSL obniża wynik rdzenia o 3–7 pkt w Krakowie, Poznaniu i Łodzi (Poznań, 45 min: 54,6 → 47,9; Łódź: 51,3 → 46,3; Kraków, 30 min: 31,6 → 28,0), a w Warszawie i Wrocławiu prawie go nie zmienia (do 0,8 pkt). To więcej niż różnice między miastami ze środka tabeli, więc ich kolejność zależy od wyboru siatki. Na próbie Wrocławia z 2026-11-23 tej wrażliwości nie było widać.
+- **Limit przesiadek prawie nic nie zmienia.** Maksymalnie 2 przesiadki zamiast braku limitu: do 0,14 pkt (Warszawa, 45 min). Zgodne z próbą tras: mediana liczby przesiadek to 0 albo 1, a trzy i więcej przejazdów ma 1,5–10 % par.
+- **Feedy nieoficjalne w rdzeniach prawie nic nie zmieniają.** Różnica między siecią ze wszystkimi feedami a samymi oficjalnymi: do 0,5 pkt (Łódź, 45 min); w Poznaniu, Trójmieście i GZM zero, bo listy feedów są tam takie same. Feedy nieoficjalne mają znaczenie dla stref podmiejskich i dla zasięgu maski pokrycia.
+- **Reguła min(komunikacja, pieszo)** podnosi wynik rdzenia o 0,1–0,9 pkt (najwięcej w GZM przy 30 min).
+- **Kontrola „wszystkie feedy ≥ oficjalne” nie przechodzi w sześciu miastach** (tabela w §8). W Warszawie dotyczy 730 z 88 926 komórek przy którymkolwiek progu; przy 30 min to 72 komórki, a mediana straty wynosi 0,17 %. Wynik główny rdzenia różni się między sieciami o 0,03 pkt. Przyczyny nie ustalono.
+- **Porównanie z wyszukiwarką (§9).** 28 z 30 porównywalnych par mieści się w ±20 %. Dwa wyjątki to krótkie podróże (Łódź 16 wobec 11 min, Wrocław 20 wobec 16 min), w których tramwaj odjeżdża w minucie zapytania, a R5 jedzie następnym kursem. W GZM wyszukiwarka wybrała linię M1 tam, gdzie R5 pojechał autobusem i pociągiem: linia M1 jest w feedzie z tym samym odjazdem, R5 nie zdążył na kurs dwie minuty po godzinie zapytania. Dla jednej pary pod Wrocławiem (Morzęcin Wielki) wyszukiwarka nie zna linii gminnych, które są w naszym feedzie.
+- **DG REGIO (§7).** Różnica 45-minutowa dla Poznania i Łodzi wynika głównie z innego obszaru (urban centre 2011), nie z braków w feedach; po odtworzeniu obszaru i metody zostaje reszta +4,5 pkt (Poznań) i +11,0 pkt (Łódź), której nie wyjaśniono. Pełny opis: `qa/access/dgregio/dgregio.md`.
+- **Miejsca pracy.** Wskaźnik dla miejsc pracy liczony jest jako stosunek średnich, bo w komórkach z małą liczbą miejsc pracy w pobliżu stosunki pojedynczych komórek są niestabilne. Zbiór nie obejmuje GZM (brak danych, nie zero).
+- **Próba tras.** `DetailedItineraries` przy oknie 1 min wyczerpywał pamięć R5, więc trasy w próbie liczono dla losowego 5-minutowego okna odjazdów; liczby przesiadek dotyczą najszybszej trasy w tym oknie.
 """
 
 
