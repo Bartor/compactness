@@ -7,6 +7,7 @@
 #   snakemake -c1 supply         # phase 2: vehicle-km, tram speed (needs gtfs_service)
 #   snakemake -c1 frequent       # phase 2: population near frequent service
 #   snakemake -c1 density_service  # density x service frequency: metrics_density_service.*
+#   snakemake -c1 transfer_ease  # ease of transfer at stop areas: metrics_transfer.*, layers/transfer_nodes.parquet
 #   snakemake -c1 access_run     # phase 3: R5 routing, ~12 h for all 7 agglomerations (explicit target only)
 #   snakemake -c1 access         # phase 3: aggregate whatever access_run has finished
 #   snakemake -c1 access_uc_run  # phase 3, urban-centre domain: R5 routing, ~1 h on 6 threads (explicit target only)
@@ -268,6 +269,27 @@ rule density_service:
         touch(stamp("density_service")),
     shell:
         '"{PY}" -m pipeline.density_service'
+
+
+rule transfer_ease:
+    # ease of transfer at stop areas (extra layer, RAPORT 12.2): metrics_transfer.*, layers/transfer_nodes.parquet,
+    # results/qa/transfer; OSM crossing / tunnel / bridge tags cached in data/interim/transfer (one PBF pass).
+    # Not yet an input of merge_metrics or tiles.
+    input:
+        "config.yaml",
+        "pipeline/transfer_ease.py",
+        "pipeline/transfer_osm.py",
+        "pipeline/transfer_walk.py",
+        "pipeline/transfer_report.py",
+        "pipeline/transfer_md.py",
+        stamp("fetch_osm"),
+        stamp("walk_network"),
+        stamp("gtfs_service"),
+        stamp("frequent"),
+    output:
+        touch(stamp("transfer_ease")),
+    shell:
+        '"{PY}" -m pipeline.transfer_ease'
 
 
 rule r5_inputs:

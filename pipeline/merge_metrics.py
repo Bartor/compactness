@@ -7,6 +7,7 @@ Inputs  (one pair per step, all in results/metrics/)
 * metrics_density_service.csv/json  density x service frequency (feed_variant, population_grid)
 * metrics_access.csv/json    phase 3 (feed_variant empty for walk / bike, which do not depend on the feeds)
 * metrics_access_uc.csv/json phase 3 on the urban-centre domain (domain "urban_centre"; same conventions)
+* metrics_transfer.csv/json  ease of transfer in stop areas (no population grid; feed_variant "all")
 
 Outputs
 * results/metrics/metrics.csv + metrics.json   union of all steps, columns COLUMNS, deterministic sort;
@@ -28,7 +29,7 @@ from pipeline.common import RESULTS, write_json, write_meta
 
 METRICS = RESULTS / "metrics"
 WEB = RESULTS / "web"
-STEPS = ["density", "supply", "frequent", "density_service", "access", "access_uc"]
+STEPS = ["density", "supply", "frequent", "density_service", "access", "access_uc", "transfer"]
 ACCESS_STEPS = ("access", "access_uc")
 
 COLUMNS = ["agglomeration", "domain", "metric", "label", "value", "unit", "grid", "source", "population_date",
@@ -68,6 +69,11 @@ for _dom in ("core", "covered"):
     PANEL[(_dom, "dxs_dense_underserved_share")] = (
         220, "Mieszkańcy gęstej zabudowy (≥ 2 500 os./km²) bez kursów co ≤ 20 min w zasięgu 500 m")
     PANEL[(_dom, "dxs_rank_correlation")] = (221, "Korelacja rang: gęstość a częstotliwość kursów")
+    # ease of transfer (pipeline.transfer_ease): walking between lines by direction, and walk + wait at the
+    # 20 busiest stop areas
+    PANEL[(_dom, "transfer_dep_share_walkdir_le2min")] = (230, "Odjazdy w węzłach z dojściem między liniami ≤ 2 min")
+    PANEL[(_dom, "transfer_top20_walkwait_dir_am_median_min")] = (
+        231, "Przesiadka w 20 największych węzłach: dojście + czekanie, 7–9")
 # accessibility (phase 3): transport performance, Wednesday 07-09, all feeds, census-scaled grid
 for _dom in ("covered", "core"):
     PANEL[(_dom, "tp_pt_am_30min")] = (300, "Transport performance komunikacją + pieszo, 30 min (7–9)")
