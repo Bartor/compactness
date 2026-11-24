@@ -1,0 +1,26 @@
+{
+ "duration_s": 53.7,
+ "git_sha": "fdbe00328afd174dede951a1d838bb62be17bdca",
+ "inputs": {},
+ "missing_inputs": [],
+ "outputs": {
+  "charts/distribution.json": 483.8,
+  "metrics/metrics_distribution.csv": 301.2,
+  "metrics/metrics_distribution.json": 439.7,
+  "qa/distribution/distribution.md": 15.2,
+  "web/charts.json": 206.7
+ },
+ "population_grid": "ghsl_census_scaled",
+ "routed_units": "data/interim/access/<agg>/{all/pt_am,pt_midday,pt_evening,pt_saturday; street/walk,bike_lts3,bike_lts4} (read through pipeline.access_aggregate.load_unit); data/interim/access_uc/<agg>/ (read only)",
+ "run_at": "2026-11-24T17:16:09+01:00",
+ "sources_sha256": {
+  "results/layers/frequent_cells.parquet": "2ea4841caf8d6b5c307359baab16c55819fa3fa0625725a1bdf9b72ffb4b687b",
+  "results/metrics/metrics_access.json": "235be84c8d8a6fa09f25baaa89f7f44a8709f59ccee88955e897bbc7b462ff33",
+  "results/metrics/metrics_access_uc.json": "db6c9eaa8d674a4ff114d7d7fa669c990ff6d426653401e7332cd58c143428f2",
+  "results/metrics/metrics_frequent.json": "bae46bc5a1c1a3ec044483a98c0b04cc59391dc9b640ed2ef71269680221e828",
+  "results/web/catalog.json": "7689706623157cf2e7fae63d10be5f9c5da2b3928ac38979ad22c1c69dea3b1d"
+ },
+ "step": "distribution",
+ "timetable_date": "2026-11-25",
+ "timetable_date_saturday": "2026-11-28"
+}

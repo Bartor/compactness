@@ -1095,3 +1095,37 @@ Pełny przegląd: [`../reports/Urban transit metrics research review.md`](../rep
 **Co planujemy dalej.** Wykresy „odsetek mieszkańców z co najmniej X” dla zasięgu i częstotliwości; pełna krzywa progów 5–60 min; wariant porównywalny z siatkowym badaniem DG REGIO (urban centre, promienie 8 i 12 km, dojście do 1,2 km, najlepsze połączenie w szczycie); wyniki dla grup wieku z siatki spisowej 1 km oraz szkoły i szpitale jako cele; większa próba porównań z wyszukiwarką połączeń (ok. 100 losowych par, także poza szczytem); dla przesiadek pasmo czasu uogólnionego (dojście i czekanie z wagami z literatury plus kara za przesiadkę, jako przedział, nie ranking) i ocena przejść według skali AMPTI W6; warstwa prędkości z „czasem ponad jazdę swobodną” pokazanym jako przedział z modelu.
 
 **Czego nie robimy.** Miar z korektą o konkurencję (typu 2SFCA): w porównaniach nie tłumaczyły udziału komunikacji lepiej niż proste miary skumulowane, a ich jednostki trudno wyjaśnić. Współczynnika Giniego jako wyniku głównego: zależy mocno od wyboru wskaźnika i metody przypisania. Kar za przesiadkę zależnych od środka transportu: w badaniach mierzą głównie preferencję kolei wobec autobusu.
+
+## 22. Rozkład dostępu: kto ma słaby zasięg (2026-11-24)
+
+Krok `pipeline.distribution` (czyta wyniki fazy 3, nic nie liczy od nowa w routingu). Nota z metodą, tabelami i
+ograniczeniami: [`qa/distribution/distribution.md`](qa/distribution/distribution.md); liczby:
+`metrics/metrics_distribution.csv`; dane wykresów: `charts/distribution.json`, na stronę `web/charts.json`.
+
+**Minimalny zasięg.** Próg to połowa mediany siedmiu miast: mediana z siedmiu median rdzeni (mediana komórek 250 m
+ważona ludnością, środa 7:00–9:00), podzielona przez dwa i zaokrąglona: **16 % przy 30 min** (mediana 31,2) i
+**28 % przy 45 min** (mediana 55,5). To wybór normatywny, wzorowany na względnej granicy ubóstwa; obok progi 40 % i
+60 % mediany. Dla każdego miasta podajemy odsetek mieszkańców poniżej progu (FGT0), średni niedobór (FGT1) i jego
+kwadrat (FGT2). Współczynnika Giniego nie podajemy (§21); wskaźnik Palmy jest w nocie jako miara pomocnicza.
+
+| Aglomeracja | Rdzeń: poniżej 16 % w 30 min, % | FGT1 × 100 | FGT2 × 100 | Obszar pokryty: poniżej progu, % | Rdzeń: poniżej 28 % w 45 min, % |
+|---|---|---|---|---|---|
+| Warszawa | 9,4 | 3,83 | 2,29 | 26,9 | 6,4 |
+| Kraków | 13,8 | 6,52 | 4,18 | 36,5 | 9,6 |
+| Wrocław | 18,2 | 6,21 | 3,08 | 29,7 | 10,3 |
+| Poznań | 19,8 | 8,62 | 4,88 | 37,9 | 11,4 |
+| Łódź | 15,2 | 6,36 | 3,94 | 25,9 | 9,2 |
+| Trójmiasto | 14,7 | 5,21 | 2,73 | 17,5 | 9,6 |
+| GZM | 30,1 | 10,39 | 5,41 | 35,3 | 30,2 |
+
+- GZM ma najwięcej mieszkańców rdzenia poniżej progu przy każdym z trzech progów; wieczorem i w sobotę odsetek rośnie
+  do 45,9 i 47,0 % (rano 30,1 %), zgodnie ze spadkami z §17.2.
+- Wrocław ma przy 30 min więcej mieszkańców poniżej progu niż Łódź przy podobnej średniej (29,4 wobec 28,3): dużo komórek
+  leży tuż pod progiem (przy progu 12 % odsetek spada z 18,2 do 10,2 %). Kolejność środka tabeli zależy od progu
+  (korelacja rang 0,64–0,96), więc nie jest rankingiem.
+- Wysoki górny ogon GZM (5,4 % mieszkańców rdzenia z wynikiem ≥ 60 % przy 30 min) to Tychy: mały mianownik (ok.
+  140 tys. osób w promieniu 7,5 km wobec ok. 270 tys. w typowej komórce GZM), nie lepsza sieć.
+- Krzywa zasięgu 5–60 min z pasmem kwartyli i krzywe „odsetek mieszkańców z co najmniej X” dla komunikacji, pieszo,
+  roweru i częstotliwości kursów są w danych wykresów; wartości dla 5–10 min są zdominowane przez własną komórkę
+  mieszkańca i nie opisują sieci.
+- Przeliczona tu średnia stosunków zgadza się z `metrics_access` i `metrics_access_uc` w 42 z 42 porównań.
