@@ -419,6 +419,10 @@ def write_web() -> None:
     for lid in ("transfer_total", "transfer_walk", "transfer_wait"):
         if lid in kept:
             layers.append(kept[lid])
+    # grid layers added later by pipeline.tiles (no placeholder): kept when present
+    for lid in ("transfer_dependence_30",):
+        if lid in kept:
+            layers.append(kept[lid])
     write_json(WEB / "catalog.json", {"generated": dt.date.today().isoformat(), "agglomerations": aggs, "layers": layers})
 
 

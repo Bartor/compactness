@@ -23,9 +23,11 @@ from __future__ import annotations
 import csv
 import hashlib
 import json
+import re
 import time
+import unicodedata
 
-from pipeline.common import RESULTS, write_json, write_meta
+from pipeline.common import RESULTS, load_config, write_json, write_meta
 
 METRICS = RESULTS / "metrics"
 WEB = RESULTS / "web"
@@ -64,10 +66,10 @@ for _dom in ("core", "covered"):
     for _i, (_n, _s) in enumerate(_FREQ):
         PANEL[(_dom, f"freq_seg_net_le{_n}min")] = (200 + _i, f"Ludność ≤ 500 m od przystanku z kursami co ≤ {_s} min")
     PANEL[(_dom, "rail_ge4dph_net_1km")] = (210, "Ludność ≤ 1 km od stacji kolei lub metra z ≥ 4 odjazdami/h")
-# density x service frequency (tier "main"): dense areas without frequent service, rank correlation
+# density x service frequency (tier "main"): residents of cells >= 5 000 /km2 without frequent service, rank correlation
 for _dom in ("core", "covered"):
     PANEL[(_dom, "dxs_dense_underserved_share")] = (
-        220, "Mieszkańcy gęstej zabudowy (≥ 2 500 os./km²) bez kursów co ≤ 20 min w zasięgu 500 m")
+        220, "Mieszkańcy komórek ≥ 5 000 os./km² bez kursów co ≤ 20 min w zasięgu 500 m")
     PANEL[(_dom, "dxs_rank_correlation")] = (221, "Korelacja rang: gęstość a częstotliwość kursów")
     # ease of transfer (pipeline.transfer_ease): walking between lines by direction, and walk + wait at the
     # 20 busiest stop areas
@@ -77,22 +79,64 @@ for _dom in ("core", "covered"):
         231, "Typowa przesiadka w 20 największych węzłach, 7–9: dojście + czekanie")
     PANEL[(_dom, "transfer_top20_walk_w_am_mean_min")] = (232, "w tym dojście między liniami")
     PANEL[(_dom, "transfer_top20_wait_w_am_mean_min")] = (233, "w tym czekanie na drugą linię")
-# accessibility (phase 3): transport performance, Wednesday 07-09, all feeds, census-scaled grid
-for _dom in ("covered", "core"):
-    PANEL[(_dom, "tp_pt_am_30min")] = (300, "Transport performance komunikacją + pieszo, 30 min (7–9)")
-    PANEL[(_dom, "tp_pt_am_45min")] = (301, "Transport performance komunikacją + pieszo, 45 min (7–9)")
-for _dom in ("fua", "core"):
-    PANEL[(_dom, "tp_walk_30min")] = (310, "Transport performance pieszo, 30 min")
-    PANEL[(_dom, "tp_bike_lts3_30min")] = (311, "Transport performance rowerem, 30 min (LTS ≤ 3)")
-    PANEL[(_dom, "tp_bike_lts4_30min")] = (312, "Transport performance rowerem, 30 min (LTS ≤ 4)")
+    # share of the 30 / 45 min reach that needs a transfer (ratio of sums), with the reach of direct trips below
+    PANEL[(_dom, "transfer_dependence_pt_am_30min_ratio_of_sums")] = (234, "Zasięg 30 min wymagający przesiadki")
+    PANEL[(_dom, "tp_pt_am_direct_30min")] = (235, "zasięg w 30 min bez przesiadek")
+    PANEL[(_dom, "transfer_dependence_pt_am_45min_ratio_of_sums")] = (236, "Zasięg 45 min wymagający przesiadki")
+    PANEL[(_dom, "tp_pt_am_direct_45min")] = (237, "zasięg w 45 min bez przesiadek")
+# accessibility (phase 3): transport performance, Wednesday 07-09, all feeds, census-scaled grid.  Headline: the
+# ratio of means (as DG REGIO), directly followed by the mean of per-cell ratios as the value for a typical resident.
+_TYP = "dla typowego mieszkańca"
+_TP = [("tp_pt_am_30min", "Zasięg komunikacją + pieszo, 30 min (7–9)"),
+       ("tp_pt_am_45min", "Zasięg komunikacją + pieszo, 45 min (7–9)"),
+       ("tp_walk_30min", "Zasięg pieszo, 30 min"),
+       ("tp_bike_lts3_30min", "Zasięg rowerem, 30 min (LTS ≤ 3)"),
+       ("tp_bike_lts4_30min", "Zasięg rowerem, 30 min (LTS ≤ 4)")]
+_TP_DOMAINS = {"tp_pt_am_30min": ("covered", "core"), "tp_pt_am_45min": ("covered", "core")}
+for _i, (_m, _lab) in enumerate(_TP):
+    for _dom in _TP_DOMAINS.get(_m, ("fua", "core")):
+        PANEL[(_dom, f"{_m}_ratio_of_means")] = (300 + 2 * _i, _lab)
+        PANEL[(_dom, _m)] = (301 + 2 * _i, f"{_lab}, {_TYP}")
 # the same five measures on the urban-centre domain (pipeline.access_uc): origins, destinations and denominator
 # restricted to the Eurostat 2021 urban centre(s) in the FUA
 _UC = "centrum miejskie (urban centre, Eurostat 2021)"
-PANEL[("urban_centre", "tp_pt_am_30min")] = (400, f"Transport performance komunikacją + pieszo, 30 min (7–9), {_UC}")
-PANEL[("urban_centre", "tp_pt_am_45min")] = (401, f"Transport performance komunikacją + pieszo, 45 min (7–9), {_UC}")
-PANEL[("urban_centre", "tp_walk_30min")] = (410, f"Transport performance pieszo, 30 min, {_UC}")
-PANEL[("urban_centre", "tp_bike_lts3_30min")] = (411, f"Transport performance rowerem, 30 min (LTS ≤ 3), {_UC}")
-PANEL[("urban_centre", "tp_bike_lts4_30min")] = (412, f"Transport performance rowerem, 30 min (LTS ≤ 4), {_UC}")
+for _i, (_m, _lab) in enumerate(_TP):
+    PANEL[("urban_centre", f"{_m}_ratio_of_means")] = (400 + 2 * _i, f"{_lab}, {_UC}")
+    PANEL[("urban_centre", _m)] = (401 + 2 * _i, f"{_lab}, {_UC}, {_TYP}")
+# time of day (core; the site shows them in their own block, next to the morning peak)
+for _i, (_w, _wl) in enumerate((("midday", "południe"), ("evening", "wieczór"), ("saturday", "sobota"))):
+    PANEL[("core", f"tp_pt_{_w}_30min")] = (320 + 2 * _i, f"Zasięg komunikacją + pieszo, 30 min ({_wl})")
+    PANEL[("core", f"tp_pt_{_w}_45min")] = (321 + 2 * _i, f"Zasięg komunikacją + pieszo, 45 min ({_wl})")
+# from the centres (cells within 1 km of the centre, the hub and every extra centre): added in centre_panel(),
+# because the domains are read from metrics_access and the labels from config.yaml
+CENTRE_METRICS = ("tp_pt_am_30min", "tp_pt_am_45min")
+
+
+def _slug(name: str) -> str:
+    """The domain suffix pipeline.access_inputs.centres() gives a centre name."""
+    s = unicodedata.normalize("NFKD", name).encode("ascii", "ignore").decode().lower()
+    return re.sub(r"[^a-z0-9]+", "_", s).strip("_")
+
+
+def centre_panel(rows: list[dict]) -> dict[tuple[str, str], tuple[int, str]]:
+    """Panel entries for the centre domains present in the access rows: hub_1km, centre_1km, centre_1km_<name>."""
+    names = {}
+    for a in load_config()["agglomerations"].values():
+        for e in a.get("extra_centres", []):
+            names[f"centre_1km_{_slug(e['name'])}"] = e["name"]
+    doms = sorted({r["domain"] for r in rows if r["step"] == "access" and r["metric"] in CENTRE_METRICS
+                   and re.fullmatch(r"(hub_1km|centre_1km)(_.+)?", r["domain"] or "")})
+    out = {}
+    for d in doms:
+        if d == "centre_1km":
+            lab, o = "z centrum (komórki ≤ 1 km)", 500
+        elif d == "hub_1km":
+            lab, o = "z węzła przesiadkowego (komórki ≤ 1 km)", 502
+        else:
+            lab, o = f"z centrum: {names.get(d, d[len('centre_1km_'):])} (komórki ≤ 1 km)", 504
+        for k, m in enumerate(CENTRE_METRICS):     # one label for both: the site shows 30 and 45 min as columns
+            out[(d, m)] = (o + k, lab)
+    return out
 
 
 def sha256(path) -> str:
@@ -181,7 +225,11 @@ def main() -> None:
             gens.append(g)
     check_duplicates(rows)
     rows.sort(key=sort_key)
+    PANEL.update(centre_panel(rows))
     panel = panel_subset(rows)
+    keys = [(r["agglomeration"], r["domain"], r["metric"]) for r in panel]
+    if len(keys) != len(set(keys)):
+        raise SystemExit("merge_metrics: the panel subset has more than one row for an (agglomeration, domain, metric)")
     missing = sorted(set(PANEL) - {(r["domain"], r["metric"]) for r in panel})
     if missing:
         print(f"note: panel ids without rows: {missing}")

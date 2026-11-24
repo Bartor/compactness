@@ -1,6 +1,6 @@
 """Phase 4: map tiles (brief §8, §14.3-14.4).
 
-    python -m pipeline.tiles                       # all five layers
+    python -m pipeline.tiles                       # all six layers
     python -m pipeline.tiles --layer transport_performance_30    # only that one (repeatable)
     python -m pipeline.tiles --no-verify           # skip the read-back check (faster, for experiments)
 
@@ -43,6 +43,8 @@ def layer_table(cfg: dict) -> dict:
         "gtfs_nodata": L("gtfs_nodata", "gtfs_nodata", "gtfs_nodata", TL.load_mask, TL.describe_mask),
         "density_service": L("density_service", "density_service", "density_service", TL.load_density_service,
                             TL.describe_density_service),
+        "transfer_dependence_30": L("transfer_dependence_30", "transfer_dep30", "transfer_dep30",
+                                    TL.load_transfer_dependence, TL.describe_transfer_dependence),
     }
 
 
@@ -52,7 +54,8 @@ def file_name(layer_id: str, cfg: dict) -> str:
             "frequent_transport": f"frequent_{day}.pmtiles",
             "transport_performance_30": f"performance30_{day}.pmtiles",
             "gtfs_nodata": f"gtfs_nodata_{day}.pmtiles",
-            "density_service": f"density_service_{day}.pmtiles"}[layer_id]
+            "density_service": f"density_service_{day}.pmtiles",
+            "transfer_dependence_30": f"transfer_dep30_{day}.pmtiles"}[layer_id]
 
 
 def read_catalog() -> dict | None:

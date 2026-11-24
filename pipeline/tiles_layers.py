@@ -1,4 +1,4 @@
-"""The five map layers: source data -> class grid -> catalog entry (brief §8, §14.4).
+"""The six map layers: source data -> class grid -> catalog entry (brief §8, §14.4).
 
 A layer is read from the committed layer parquets (or the phase-1 population grid), every populated
 250 m cell is put into a ramp class, and the class grid goes to pipeline.tiles_core.  The ``v`` property of
@@ -32,20 +32,33 @@ ATTR_DENSITY = "GUS NSP 2021, JRC GHSL"
 ATTR_TRANSIT = "wydawcy GTFS (lista w „O danych”), © współtwórcy OpenStreetMap, GUS, JRC GHSL"
 
 # Ramps.  The first colour is the one below the first stop (rampClasses in web/src/ramp.js).
+# Dark basemap (land #1c1f26): every sequential ramp runs from a dim colour (OKLCH L 0.45, still >= 2:1 against the
+# land and chromatic, so it cannot be mistaken for the grey no-data hatch) to the brightest and most saturated colour
+# at the end that means "more" of what the layer measures; lightness and chroma rise strictly, one hue family per
+# layer (hue spread <= 38 deg), different between layers: density amber -> yellow, frequent service blue -> cyan,
+# transport performance green, transfer dependence violet -> pink.  Checked with an ordinal palette validator
+# (monotone L, adjacent dL >= 0.06, low end contrast, single hue).  Readers still tend to read "darker = more"
+# on dark maps, so every unit says the direction in words.
 DENSITY_STOPS = [500, 1000, 2500, 5000, 10000, 20000]
 DENSITY_REPS = [250, 750, 1750, 3750, 7500, 15000, 25000]
-DENSITY_COLORS = ["#F5E1A4", "#F0C36D", "#E39A3B", "#C9701E", "#9E4A12", "#702C0A", "#431A06"]
+DENSITY_COLORS = ["#7B4713", "#945D18", "#AC741D", "#C38D24", "#D9A82D", "#EDC439", "#FFE148"]
 
 HEADWAY_CLASSES = ["5", "10", "15", "20", "30", ">30"]
 HEADWAY_V = [5, 10, 15, 20, 30, 60]
 HEADWAY_STOPS = [10, 15, 20, 30, 60]
-HEADWAY_COLORS = ["#16348F", "#1D4ED8", "#4F78DE", "#7FA3E3", "#AAC4EA", "#D3E0F3"]
+# best service (shortest headway) first and brightest
+HEADWAY_COLORS = ["#52DFFF", "#4CC2E8", "#49A5D0", "#458AB5", "#3F709A", "#37577E"]
 HEADWAY_LABELS = ["co ≤ 5 min", "co ≤ 10 min", "co ≤ 15 min", "co ≤ 20 min", "co ≤ 30 min",
                   "rzadziej niż co 30 min lub brak"]
 
 PERF_STOPS = [10, 20, 30, 40, 50, 60]
 PERF_REPS = [5, 15, 25, 35, 45, 55, 65]
-PERF_COLORS = ["#D6E3F5", "#ADC6EC", "#84A8E3", "#5B89DA", "#3569D5", "#1D4ED8", "#16348F"]
+PERF_COLORS = ["#276249", "#317C54", "#41955B", "#58AF5F", "#73C95E", "#94E258", "#B8FA49"]
+
+# share of the 30-min reach that needs a transfer, %; classes from the distribution of 2026-11-24 (access.md §14)
+TDEP_STOPS = [1, 5, 10, 20, 30]
+TDEP_REPS = [0, 3, 7, 15, 25, 65]
+TDEP_COLORS = ["#654777", "#80548E", "#9D60A4", "#BC6DB8", "#DC7ACA", "#FF87DA"]
 
 
 @dataclass
@@ -98,6 +111,11 @@ def _density_labels() -> list[str]:
 def _perf_labels() -> list[str]:
     s = PERF_STOPS
     return [f"< {s[0]}"] + [f"{a}–{b}" for a, b in zip(s, s[1:])] + [f"≥ {s[-1]}"]
+
+
+def _tdep_labels() -> list[str]:
+    s = TDEP_STOPS
+    return [f"< {s[0]} %"] + [f"{a}–{b} %" for a, b in zip(s, s[1:])] + [f"≥ {s[-1]} %"]
 
 
 # ------------------------------------------------------------------ loaders
@@ -191,6 +209,33 @@ def load_performance(cfg) -> Built | None:
     return Built(grid, aggs, props, classes, {"cells": int(len(d)), "present": aggs})
 
 
+def load_transfer_dependence(cfg) -> Built | None:
+    """Share of the population reachable in 30 min (pt_am) that is not reachable without a transfer, in %."""
+    fn = LAYERS_DIR / "access_cells.parquet"
+    if not fn.exists():
+        return None
+    cols = ["agglomeration", "cell_id", "pop_census_scaled", "in_mask_all", "transfer_dependence_30"]
+    try:
+        d = pd.read_parquet(fn, columns=cols)
+    except Exception:            # column not written yet (pt_am_direct not aggregated)
+        return None
+    have = sorted(d.loc[d.in_mask_all & d.transfer_dependence_30.notna(), "agglomeration"].unique())
+    d = d[d.agglomeration.isin(have) & (d.pop_census_scaled > 0)].reset_index(drop=True)
+    if d.empty:
+        return None
+    xll, yll = _parse_ll(d.cell_id)
+    val = d.transfer_dependence_30.to_numpy(np.float64)
+    ok = d.in_mask_all.to_numpy(bool) & ~np.isnan(val)
+    code = np.full(len(d), NODATA, np.uint8)
+    code[ok] = _ramp_codes(val[ok], TDEP_STOPS)
+    grid, aggs = _grid(xll, yll, code, list(d.agglomeration.unique()), d.agglomeration)
+    props, classes = _classes(_tdep_labels(), TDEP_REPS)
+    props[NODATA] = {}
+    classes.insert(0, {"code": NODATA, "label": "brak danych", "v": None})
+    return Built(grid, aggs, props, classes, {"cells": int(len(d)), "present": aggs,
+                                              "nodata_in_mask": int((d.in_mask_all.to_numpy(bool) & np.isnan(val)).sum())})
+
+
 def load_mask(cfg) -> Built | None:
     fn = LAYERS_DIR / "gtfs_coverage_mask.parquet"
     if not fn.exists():
@@ -233,7 +278,7 @@ def describe_density(cfg, built: Built, names: dict, url: str) -> dict:
             "Kolor oznacza przedział gęstości, nie wartość komórki; przy większości komórek gęstość jest "
             f"poniżej {DENSITY_STOPS[0]} os./km².")
     return _base(cfg, "Gęstość zaludnienia 250 m (NSP 2021)", ATTR_DENSITY, note, kind="choropleth", type="pmtiles",
-                 url=url, source_layer="density250", property="v", unit="os./km²", has_nodata=False,
+                 url=url, source_layer="density250", property="v", unit="os./km²; jaśniej = gęściej", has_nodata=False,
                  population_date=POP_DATE,
                  ramp={"stops": DENSITY_STOPS, "colors": DENSITY_COLORS})
 
@@ -245,7 +290,7 @@ def describe_frequent(cfg, built: Built, names: dict, url: str) -> dict:
             "komórki. Komórki poza pokryciem danych GTFS są kreskowane jako brak danych, nie jako brak komunikacji. "
             "Wszystkie feedy, w tym nieoficjalne. Rysowane są komórki z ludnością.")
     return _base(cfg, "Zasięg częstej komunikacji", ATTR_TRANSIT, note, kind="choropleth", type="pmtiles", url=url,
-                 source_layer="frequent", property="v", unit="odstęp między kursami", has_nodata=True,
+                 source_layer="frequent", property="v", unit="odstęp między kursami; jaśniej = częściej", has_nodata=True,
                  population_date=POP_DATE, timetable_date=day,
                  ramp={"stops": HEADWAY_STOPS, "colors": HEADWAY_COLORS, "labels": HEADWAY_LABELS})
 
@@ -262,24 +307,40 @@ def describe_performance(cfg, built: Built, names: dict, url: str, expected: lis
         done = ", ".join(names.get(a, a) for a in present)
         note += f" Policzono: {done}. W trakcie obliczeń: {', '.join(pending)}."
     return _base(cfg, "Transport performance 30 min", ATTR_TRANSIT, note, kind="choropleth", type="pmtiles", url=url,
-                 source_layer="performance30", property="v", unit="% ludności osiągalnej w 30 min",
+                 source_layer="performance30", property="v", unit="% ludności osiągalnej w 30 min; jaśniej = więcej",
                  has_nodata=True, population_date=POP_DATE, timetable_date=day,
                  ramp={"stops": PERF_STOPS, "colors": PERF_COLORS})
+
+
+def describe_transfer_dependence(cfg, built: Built, names: dict, url: str) -> dict:
+    day = cfg["reference_day"]
+    note = ("Jaka część ludności, do której mieszkaniec komórki dojedzie komunikacją i pieszo w 30 min, wymaga "
+            "przesiadki: bez zmiany linii (jednym przejazdem albo pieszo) tych osób nie osiągnie w 30 min. Niskie "
+            "wartości znaczą, że bezpośrednie linie i spacer pokrywają prawie cały zasięg. Czas rozkładowy (środa "
+            "7:00–9:00, mediana z odjazdów co minutę), bez opóźnień. Komórki poza pokryciem danych GTFS są kreskowane "
+            "jako brak danych. Wszystkie feedy, w tym nieoficjalne. Rysowane są komórki z ludnością.")
+    return _base(cfg, "Zasięg 30 min wymagający przesiadki", ATTR_TRANSIT, note, kind="choropleth", type="pmtiles",
+                 url=url, source_layer="transfer_dep30", property="v",
+                 unit="% osiągalnej w 30 min ludności, do której trzeba się przesiąść; jaśniej = więcej przesiadek",
+                 has_nodata=True, population_date=POP_DATE, timetable_date=day,
+                 ramp={"stops": TDEP_STOPS, "colors": TDEP_COLORS, "labels": _tdep_labels()})
 
 
 def describe_density_service(cfg, built: Built, names: dict, url: str) -> dict:
     day = cfg["reference_day"]
     dense = f"{int(DS.DENSITY_STOPS[0]):,}".replace(",", " ")
-    note = ("Dwie zmienne naraz: czy w komórce 250 m mieszka dużo ludzi i jak często kursuje komunikacja w zasięgu "
-            f"500 m pieszo. „Gęsto” oznacza co najmniej {dense} os./km². Czerwony i pomarańczowy to gęsta zabudowa "
-            "bez częstych kursów, granatowy to gęsta zabudowa z kursami co 10 min lub częściej, jasnoniebieski to "
-            "regularne kursy tam, gdzie mieszka niewiele osób. Rysowane są tylko komórki z ludnością; komórki "
-            "kreskowane leżą poza pokryciem danych o rozkładach (GTFS), więc nie wiadomo, jaka jest tam komunikacja. "
-            "Wszystkie feedy, w tym nieoficjalne.")
+    note = ("Dwie zmienne naraz: ilu ludzi mieszka w komórce 250 m i jak często kursuje komunikacja w zasięgu "
+            f"500 m pieszo. Próg to {dense} os./km² (50 mieszkańców na hektar, w literaturze poziom, przy którym "
+            "oczekuje się częstej obsługi autobusowej); liczeni są tylko mieszkańcy, bez miejsc pracy. "
+            f"Pomarańczowoczerwony: co najmniej {dense} os./km², a kursy rzadziej niż co 20 min lub brak; fioletowy: "
+            "kursy co 11–20 min; jasnoniebieski: kursy co 10 min lub częściej. Przygaszony niebieski i szary to komórki "
+            f"poniżej {dense} os./km² z kursami co ≤ 20 min albo rzadszymi. Rysowane są tylko komórki z ludnością; "
+            "komórki kreskowane leżą poza pokryciem danych o rozkładach (GTFS), więc nie wiadomo, jaka jest tam "
+            "komunikacja. Wszystkie feedy, w tym nieoficjalne.")
     n = len(DS.MAP_CLASSES)
     return _base(cfg, "Gęstość × częstotliwość komunikacji", ATTR_TRANSIT, note, kind="choropleth", type="pmtiles",
                  url=url, source_layer="density_service", property="v",
-                 unit=f"gęsto: ≥ {dense} os./km²; kursy w zasięgu 500 m", opacity=0.9,
+                 unit=f"ludność komórki 250 m (próg {dense} os./km²) i kursy w zasięgu 500 m", opacity=0.9,
                  has_nodata=True, population_date=POP_DATE, timetable_date=day,
                  ramp={"stops": list(range(1, n)), "colors": [c for _, c in DS.MAP_CLASSES],
                        "labels": [lab for lab, _ in DS.MAP_CLASSES]})

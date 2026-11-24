@@ -13,15 +13,71 @@ export const METRIC_GROUPS = [
   },
   { id: 'match', title: 'Gęstość a oferta', metrics: ['dxs_dense_underserved_share', 'dxs_rank_correlation'] },
   {
+    // each headline (ratio of means, compared between cities) is followed by the value for a typical resident
     id: 'reach', title: 'Co można osiągnąć',
-    metrics: ['tp_pt_am_30min', 'tp_pt_am_45min', 'tp_walk_30min', 'tp_bike_lts3_30min', 'tp_bike_lts4_30min'],
+    metrics: ['tp_pt_am_30min_ratio_of_means', 'tp_pt_am_30min', 'tp_pt_am_45min_ratio_of_means', 'tp_pt_am_45min',
+      'tp_walk_30min_ratio_of_means', 'tp_walk_30min', 'tp_bike_lts3_30min_ratio_of_means', 'tp_bike_lts3_30min',
+      'tp_bike_lts4_30min_ratio_of_means', 'tp_bike_lts4_30min'],
   },
   {
     id: 'transfer', title: 'Przesiadki',
     metrics: ['transfer_top20_walkwait_w_am_mean_min', 'transfer_top20_walk_w_am_mean_min',
-      'transfer_top20_wait_w_am_mean_min', 'transfer_dep_share_walkdir_le2min'],
+      'transfer_top20_wait_w_am_mean_min', 'transfer_dep_share_walkdir_le2min',
+      'transfer_dependence_pt_am_30min_ratio_of_sums', 'tp_pt_am_direct_30min',
+      'transfer_dependence_pt_am_45min_ratio_of_sums', 'tp_pt_am_direct_45min'],
   },
 ]
+
+// One sentence of uncertainty under every headline reach figure.
+const UNCERTAINTY = 'Niepewność: wybór danych o ludności przesuwa wynik niektórych miast o 3–7 punktów, a w publikowanych '
+  + 'badaniach wyniki liczone z rozkładów są zwykle o 5–15 % lepsze niż w rzeczywistości (tu tego nie mierzono).'
+const RATIO_OF_MEANS = 'Liczone jak w DG REGIO: suma osób osiągalnych ze wszystkich komórek 250 m, ważona ich ludnością, '
+  + 'podzielona przez taką samą sumę osób mieszkających w promieniu (stosunek średnich).'
+const MEAN_OF_RATIOS = 'Średnia wartości poszczególnych komórek 250 m, ważona ich ludnością (średnia stosunków). W rdzeniu '
+  + 'miasta różni się od wiersza powyżej najwyżej o ok. 3 punkty; w obszarze z przedmieściami bywa niższa o 10 i '
+  + 'więcej punktów, bo słabszy wynik mieszkańców przedmieść liczy się tu tak samo jak wynik mieszkańców centrum.'
+
+/** The headline (ratio of means) and the typical-resident row (mean of ratios) of one reach measure. */
+const reach = ({ short, what, radius, layer, method }) => ({
+  headline: {
+    short,
+    better: 'higher',
+    ...(layer ? { layer } : {}),
+    read: [
+      `Jaką część wszystkich par „mieszkaniec – osoba mieszkająca w promieniu ${radius}” da się pokonać ${what}. `
+      + 'Tę liczbę porównujemy między miastami.',
+      UNCERTAINTY,
+    ],
+    method: [method, RATIO_OF_MEANS],
+  },
+  typical: {
+    // "(typowy mieszkaniec)", folded into an existing bracket when the name already ends with one
+    short: short.endsWith(')') ? `${short.slice(0, -1)}, typowy mieszkaniec)` : `${short} (typowy mieszkaniec)`,
+    better: 'higher',
+    ...(layer ? { layer } : {}),
+    read: [
+      `Jaką część ludzi mieszkających w promieniu ${radius} typowy mieszkaniec osiągnie ${what}. Ta sama miara co `
+      + 'wiersz powyżej, ale każda komórka liczy się swoim wynikiem, więc to wartość dla przeciętnej osoby, a nie dla '
+      + 'wszystkich połączeń razem.',
+    ],
+    method: [method, MEAN_OF_RATIOS],
+  },
+})
+
+const PT_METHOD = 'Silnik R5, środa 7:00–9:00, mediana z odjazdów co minutę, dojście do przystanku do 1 km; czasy z '
+  + 'rozkładu, bez opóźnień. Mianownik: ludność w promieniu odpowiadającym 15 km/h w linii prostej.'
+const PT30 = reach({
+  short: 'Zasięg komunikacją w 30 min', what: 'komunikacją i pieszo w 30 minut w porannym szczycie', radius: '7,5 km',
+  layer: 'transport_performance_30', method: PT_METHOD,
+})
+const PT45 = reach({
+  short: 'Zasięg komunikacją w 45 min', what: 'komunikacją i pieszo w 45 minut w porannym szczycie', radius: '11,25 km',
+  method: PT_METHOD,
+})
+const WALK = reach({
+  short: 'Zasięg pieszo w 30 min', what: 'pieszo w 30 minut', radius: '2,5 km',
+  method: 'Silnik R5, 5 km/h po sieci pieszej OpenStreetMap. Rzeki, tory i brak przejść obniżają wynik.',
+})
 
 const freq = (n) => ({
   short: `Kursy co ≤ ${n} min w zasięgu 500 m`,
@@ -39,17 +95,42 @@ const freq = (n) => ({
   ],
 })
 
-const bike = (lts, streets) => ({
-  short: `Zasięg rowerem w 30 min (${streets})`,
-  better: 'higher',
+const bike = (lts, streets) => {
+  const r = reach({
+    short: `Zasięg rowerem w 30 min (${streets})`, what: `rowerem w 30 minut, jadąc ${streets}`, radius: '7,5 km',
+    method: `Silnik R5, 15 km/h, ulice o poziomie stresu rowerowego (LTS) do ${lts}. Poziom stresu wynika z tagów `
+      + 'OpenStreetMap, więc jest przybliżony.',
+  })
+  r.headline.read.splice(1, 0, 'Porównanie obu wersji rowerowych pokazuje, ile zasięgu zależy od jazdy po ruchliwych ulicach.')
+  return r
+}
+const BIKE3 = bike(3, 'tylko po spokojnych ulicach i drogach rowerowych')
+const BIKE4 = bike(4, 'także po ruchliwych ulicach')
+
+const dependence = (t, layer) => ({
+  short: `Zasięg ${t} min wymagający przesiadki`,
+  better: null,
+  ...(layer ? { layer } : {}),
   read: [
-    `Jaką część ludzi mieszkających w promieniu 7,5 km przeciętny mieszkaniec osiągnie rowerem w 30 minut, jadąc ${streets}.`,
-    'Porównanie obu wersji rowerowych pokazuje, ile zasięgu zależy od jazdy po ruchliwych ulicach.',
+    `Jaka część tego, do czego mieszkaniec dojedzie komunikacją i pieszo w ${t} minut, wymaga zmiany linii: bez `
+    + 'przesiadki (jednym przejazdem albo pieszo) tych osób nie osiągnie w tym czasie.',
+    'Niska wartość znaczy, że linie bezpośrednie albo spacer pokrywają prawie wszystko. Nie jest to ocena: dużo '
+    + 'przesiadek może oznaczać dobrze połączoną sieć. Gdzie udział wynosi 0, zwykle zasięg pokrywa sam spacer.',
   ],
   method: [
-    `Silnik R5, 15 km/h, ulice o poziomie stresu rowerowego (LTS) do ${lts}. Poziom stresu wynika z tagów `
-    + 'OpenStreetMap, więc jest przybliżony.',
+    'Wynik główny porównany z wariantem z co najwyżej jednym przejazdem (R5, środa 7:00–9:00); 1 − osiągalni bez '
+    + 'przesiadki / osiągalni, z sum ważonych ludnością komórek. Czasy z rozkładu.',
   ],
+})
+
+const direct = (t) => ({
+  short: `Zasięg w ${t} min bez przesiadek`,
+  better: 'higher',
+  read: [
+    `Jaką część ludzi z okolicy typowy mieszkaniec osiągnie w ${t} minut jednym przejazdem albo pieszo, bez zmiany `
+    + 'linii. Różnica do zasięgu z przesiadkami pokazuje, ile dają przesiadki.',
+  ],
+  method: ['Jak zasięg komunikacją (średnia komórek ważona ludnością), z co najwyżej jednym przejazdem.'],
 })
 
 export const METRIC_INFO = {
@@ -172,12 +253,14 @@ export const METRIC_INFO = {
     better: 'lower',
     layer: 'density_service',
     read: [
-      'Jaka część mieszkańców gęstej zabudowy nie ma w zasięgu 500 m kursów nawet co 20 minut.',
+      'Jaka część mieszkańców komórek o gęstości co najmniej 5 000 os./km² nie ma w zasięgu 500 m kursów nawet co '
+      + '20 minut.',
       'To najprostsza miara niedopasowania: ludzie są, oferty nie ma. Niżej znaczy lepiej.',
     ],
     method: [
-      'Gęsta zabudowa to komórki 250 m o gęstości co najmniej 2 500 os./km². Ten próg i próg 20 minut są wyborem '
-      + 'autorów, nie normą.',
+      'Komórki 250 m, liczeni tylko mieszkańcy. 5 000 os./km² (50 na hektar) to w literaturze poziom, przy którym '
+      + 'oczekuje się częstej obsługi autobusowej; wynik przy progu 2 500 jest w tabelach jako wariant, a kolejność '
+      + 'miast od progu prawie nie zależy. Próg 20 minut jest wyborem autorów.',
     ],
   },
   dxs_rank_correlation: {
@@ -191,43 +274,47 @@ export const METRIC_INFO = {
     ],
     method: ['Korelacja rang Spearmana między gęstością komórki a klasą odstępu między kursami, ważona ludnością.'],
   },
-  tp_pt_am_30min: {
-    short: 'Zasięg komunikacją w 30 min',
-    better: 'higher',
-    layer: 'transport_performance_30',
+  tp_pt_am_30min_ratio_of_means: {
+    ...PT30.headline,
     read: [
-      'Jaką część ludzi mieszkających w promieniu 7,5 km przeciętny mieszkaniec osiągnie komunikacją i pieszo w '
-      + '30 minut w porannym szczycie.',
+      PT30.headline.read[0],
       '100 oznaczałoby komunikację tak szybką jak jazda 15 km/h w linii prostej do każdego w okolicy. Różnica kilku '
       + 'punktów między miastami nie jest rankingiem: wynik zależy od przebiegu granicy i od danych o ludności.',
-    ],
-    method: [
-      'Silnik R5, środa 7:00–9:00, mediana z odjazdów co minutę, dojście do przystanku do 1 km; średnia po komórkach '
-      + '250 m ważona ludnością. Czasy z rozkładu, bez opóźnień.',
+      UNCERTAINTY,
     ],
   },
-  tp_pt_am_45min: {
-    short: 'Zasięg komunikacją w 45 min',
-    better: 'higher',
+  tp_pt_am_30min: PT30.typical,
+  tp_pt_am_45min_ratio_of_means: {
+    ...PT45.headline,
     read: [
-      'To samo dla 45 minut i promienia 11,25 km. Pokazuje, jak komunikacja radzi sobie z dłuższymi podróżami przez '
-      + 'miasto.',
+      PT45.headline.read[0],
       'W małym, zwartym obszarze ta liczba zbliża się do udziału całego obszaru osiągalnego w 45 minut, więc duże i '
       + 'małe miasta nie są w pełni porównywalne.',
+      UNCERTAINTY,
     ],
-    method: ['Jak dla 30 minut.'],
   },
-  tp_walk_30min: {
-    short: 'Zasięg pieszo w 30 min',
-    better: 'higher',
+  tp_pt_am_45min: PT45.typical,
+  tp_walk_30min_ratio_of_means: {
+    ...WALK.headline,
     read: [
-      'Jaką część ludzi mieszkających w promieniu 2,5 km da się osiągnąć pieszo w 30 minut.',
-      'Pokazuje ciągłość sieci pieszej: rzeki, tory i brak przejść obniżają wynik.',
+      WALK.headline.read[0],
+      'Pokazuje ciągłość sieci pieszej. Niepewność: wybór danych o ludności przesuwa wynik miast o 1–6 punktów; '
+      + 'rozkładów jazdy ta miara nie używa.',
     ],
-    method: ['Silnik R5, 5 km/h po sieci pieszej OpenStreetMap.'],
   },
-  tp_bike_lts3_30min: bike(3, 'tylko po spokojnych ulicach i drogach rowerowych'),
-  tp_bike_lts4_30min: bike(4, 'także po ruchliwych ulicach'),
+  tp_walk_30min: WALK.typical,
+  tp_bike_lts3_30min_ratio_of_means: {
+    ...BIKE3.headline,
+    read: [BIKE3.headline.read[0], BIKE3.headline.read[1],
+      'Niepewność: wybór danych o ludności przesuwa wynik miast o najwyżej 4 punkty; rozkładów jazdy ta miara nie używa.'],
+  },
+  tp_bike_lts3_30min: BIKE3.typical,
+  tp_bike_lts4_30min_ratio_of_means: {
+    ...BIKE4.headline,
+    read: [BIKE4.headline.read[0], BIKE4.headline.read[1],
+      'Niepewność: wybór danych o ludności przesuwa wynik miast o najwyżej 4 punkty; rozkładów jazdy ta miara nie używa.'],
+  },
+  tp_bike_lts4_30min: BIKE4.typical,
   transfer_top20_walkwait_w_am_mean_min: {
     short: 'Typowa przesiadka: dojście + czekanie',
     better: 'lower',
@@ -278,6 +365,10 @@ export const METRIC_INFO = {
       + 'indziej niż pierwsza. Miara własna, składowe pokazywane osobno.',
     ],
   },
+  transfer_dependence_pt_am_30min_ratio_of_sums: dependence(30, 'transfer_dependence_30'),
+  tp_pt_am_direct_30min: direct(30),
+  transfer_dependence_pt_am_45min_ratio_of_sums: dependence(45),
+  tp_pt_am_direct_45min: direct(45),
 }
 
 /** Short explanations of the areas a metric can refer to (the columns of the city table). */

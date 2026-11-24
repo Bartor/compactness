@@ -6,9 +6,10 @@ Source: results/layers/frequent_cells.parquet (250 m cells, census-scaled popula
 500 m walk, GTFS coverage mask, feed variant "all").  Every populated cell inside the coverage mask is put into one
 of 3 x 3 classes (density x service); cells outside the mask are "no data" and never a class.  The metrics use the
 full 3 x 3 table; the map layer folds it into the five MAP_CLASSES below, because nine blended colours cannot be
-told apart reliably on a map.  A threshold sweep (SWEEP_STOPS, tier "table") repeats the two "dense" shares and the
-number of residents for "dense" = density >= T, so the dependence on the 2 500 /km2 choice is visible; the classes
-and the map are unchanged.
+told apart reliably on a map.  The headline threshold is 5 000 people/km2 on 250 m cells (50 residents per hectare,
+the published "frequent bus" density; it was 2 500 until 2026-11-24).  A threshold sweep (SWEEP_STOPS, tier
+"table") repeats the two headline shares and the number of residents for density >= T, so the dependence on the
+threshold is visible (the 2 500 figures stay there as a sensitivity row); the classes and the map use 5 000.
 
 Writes results/metrics/metrics_density_service.{csv,json} (+ _meta_density_service.json) and
 results/qa/density_service/{density_service.md,_meta.json}.  The class constants below are shared with
@@ -29,25 +30,29 @@ from pipeline.common import RESULTS, load_config, sig, write_json, write_meta
 
 # ------------------------------------------------------------------ classes (not in config.yaml on purpose)
 CELL_KM2 = 0.0625
-DENSITY_STOPS = [2500.0, 10000.0]                    # people / km2: D1 < 2 500 <= D2 < 10 000 <= D3
-DENSITY_LABELS = ["< 2 500 os./km²", "2 500–10 000", "≥ 10 000"]
+DENSITY_STOPS = [5000.0, 10000.0]                    # people / km2: D1 < 5 000 <= D2 < 10 000 <= D3
+DENSITY_LABELS = ["< 5 000 os./km²", "5 000–10 000", "≥ 10 000"]
 SERVICE_OF_HEADWAY = {">30": 1, "30": 1, "20": 2, "15": 2, "10": 3, "5": 3}      # S1 poor, S2 medium, S3 good
 SERVICE_LABELS = ["rzadziej niż co 20 min lub brak", "co 11–20 min", "co ≤ 10 min"]
 HEADWAY_ORDER = [">30", "30", "20", "15", "10", "5"]  # worst -> best; service level for the rank correlation
-DENSE_MIN_CLASS = 2                                    # "dense" = D2 and D3
-# Map layer: five classes, tiles property v = index.  Hue says how well the cell is served, strength says whether
-# many people live there.  All pairs are at least dE 16 apart in OKLab x100, also under simulated protanopia and
-# deuteranopia (checked with an all-pairs palette validator).
-MAP_CLASSES = [("gęsto, rzadziej niż co 20 min lub brak", "#b5300f"),
-               ("gęsto, co 11–20 min", "#f0a35e"),
-               ("gęsto, co ≤ 10 min", "#17509a"),
-               ("rzadko zaludnione, co ≤ 20 min", "#74acdf"),
-               ("rzadko zaludnione, rzadziej lub brak", "#e3e1dc")]
+DENSE_MIN_CLASS = 2                                    # headline: residents of D2 and D3 (>= DENSITY_STOPS[0])
+# Map layer: five classes, tiles property v = index; labels state the numbers, not "dense" / "sparse".  Colours for
+# the dark basemap (land #1c1f26): the cells with many residents and poor service are the most salient (bright
+# warm), many residents with good service a bright cool colour, medium service violet (between the two), the
+# low-density classes muted (steel blue, warm grey).  All-pairs OKLab dE x100 >= 18.5 in normal vision and >= 8.5
+# under simulated protanopia and deuteranopia (all-pairs palette validator, dark mode, surface #1c1f26); the muted
+# classes fall outside the validator's lightness band and chroma floor on purpose.
+_T = "5 000 os./km²"
+MAP_CLASSES = [(f"≥ {_T}, kursy rzadziej niż co 20 min lub brak", "#FF5A2E"),
+               (f"≥ {_T}, co 11–20 min", "#C98BE3"),
+               (f"≥ {_T}, co ≤ 10 min", "#4FD6FF"),
+               (f"< {_T}, co ≤ 20 min", "#3F78A3"),
+               (f"< {_T}, rzadziej lub brak", "#4A4642")]
 
-# Threshold sweep (tier "table"): the "dense" figures recomputed with "dense" = cell density >= T.  Anchors (units
-# differ, see density_service.md): 1 500 Eurostat urban-centre cell (1 km); 2 500 this layer's class; 5 000 = 50
-# residents/ha, "frequent bus" (Angel et al. 2011, after Orosz); 7 500 ~ Guerra & Cervero light rail (people + jobs
-# per gross acre); 10 000 this layer's top class.
+# Threshold sweep (tier "table"): the headline figures recomputed for cells with density >= T.  Anchors (units
+# differ, see density_service.md): 1 500 Eurostat urban-centre cell (1 km); 2 500 this layer's threshold until
+# 2026-11-24; 5 000 = 50 residents/ha, "frequent bus" (Angel et al. 2011, after Orosz), the headline; 7 500 ~ Guerra
+# & Cervero light rail (people + jobs per gross acre); 10 000 this layer's top class.
 SWEEP_STOPS = [1500.0, 2500.0, 5000.0, 7500.0, 10000.0]
 
 FEED_VARIANT = "all"
@@ -169,12 +174,16 @@ def agg_figures(d: pd.DataFrame, dom: str) -> dict:
 
 def compute(d: pd.DataFrame) -> dict:
     res = {(a, dom): agg_figures(d[d.agglomeration == a].reset_index(drop=True), dom) for a in AGGS for dom in DOMAINS}
+    assert DENSITY_STOPS[0] in SWEEP_STOPS and 2500.0 in SWEEP_STOPS   # headline and the former threshold
     for k, f in res.items():   # the sweep at the class stop must reproduce the main figures
         s = f["sweep"][DENSITY_STOPS[0]]
         assert abs(s["pop"] - f["dense_pop"]) < 1e-6 * max(f["dense_pop"], 1), k
         assert (s["underserved"] is None) == (f["underserved"] is None), k
         if f["underserved"] is not None:
             assert abs(s["underserved"] - f["underserved"]) < 1e-9 and abs(s["good"] - f["good"]) < 1e-9, k
+        top = f["sweep"][DENSITY_STOPS[1]]["pop"]          # the top table row is the sweep at the second stop
+        assert abs(top - f["table"][2].sum()) < 1e-6 * max(top, 1), k
+        assert abs(f["table"].sum() - f["pop"]) < 1e-6 * max(f["pop"], 1), k
     return res
 
 
@@ -183,20 +192,23 @@ def sweep_md(res: dict) -> list[str]:
     heads = [f"≥ {t:,.0f}".replace(",", " ") for t in SWEEP_STOPS]
     L = ["## Wrażliwość na próg gęstości\n",
          "Te same dwa wskaźniki („bez kursów co ≤ 20 min” i „z kursami co ≤ 10 min” w zasięgu 500 m), policzone dla "
-         "mieszkańców komórek 250 m o gęstości co najmniej T os./km², dla pięciu progów T. Przy T = 2 500 liczby są równe "
-         "wskaźnikom głównym. Mapa i tabele 3 × 3 zostają przy klasach 2 500 / 10 000.\n",
+         "mieszkańców komórek 250 m o gęstości co najmniej T os./km², dla pięciu progów T. Przy T = 5 000 liczby są równe "
+         "wskaźnikom głównym; próg 2 500 był progiem głównym do 2026-11-24 i zostaje jako wariant. Mapa i tabele 3 × 3 "
+         "używają klas 5 000 / 10 000.\n",
          "Skąd progi (jednostki się różnią, więc to punkty orientacyjne, nie równoważniki):\n",
          "- 1 500: Eurostat, komórka centrum miejskiego w stopniu urbanizacji (komórki 1 km);",
-         "- 2 500: próg tej warstwy (25 mieszkańców na ha w komórce 250 m; na siatce 1 km to mniej więcej 2 000);",
-         "- 5 000: 50 mieszkańców na ha, częsta i atrakcyjna obsługa autobusowa wg Angela i in. (2011, za Oroszem), "
-         "liczone na obwodach spisowych USA; 30 na ha to tam próg „podstawowej” obsługi autobusowej;",
+         "- 2 500: dawny próg tej warstwy (25 mieszkańców na ha w komórce 250 m; na siatce 1 km to mniej więcej 2 000);",
+         "- 5 000: próg główny od 2026-11-24; 50 mieszkańców na ha, częsta i atrakcyjna obsługa autobusowa wg Angela "
+         "i in. (2011, za Oroszem), liczone na obwodach spisowych USA; 30 na ha to tam próg „podstawowej” obsługi "
+         "autobusowej;",
          "- 7 500: rząd wielkości progu opłacalności tramwaju/LRT wg Guerry i Cervero (2011), ok. 30 osób (mieszkańcy "
          "i miejsca pracy) na akr brutto wokół stacji; tu liczymy tylko mieszkańców;",
-         "- 10 000: klasa „bardzo gęsto” tej warstwy (100 na ha).\n",
+         "- 10 000: górna klasa gęstości tej warstwy (100 na ha).\n",
          "Progi z literatury dotyczą jednostek większych niż komórka 250 m (obwody spisowe, całe obszary), które "
          "zawierają ulice, parki i działki niemieszkalne. Komórka 250 m bywa prawie w całości mieszkaniowa, więc ta "
-         "sama gęstość „obszarowa” daje w niej wyższą liczbę. Próg 2 500 na komórkach 250 m jest więc łagodny: "
-         "obejmuje także zwykłą zabudowę jednorodzinną (25–40 mieszkańców na ha).\n"]
+         "sama gęstość „obszarowa” daje w niej wyższą liczbę. Próg 2 500 na komórkach 250 m był więc łagodny: "
+         "obejmował także zwykłą zabudowę jednorodzinną (25–40 mieszkańców na ha). Dlatego od 2026-11-24 wskaźniki "
+         "główne i mapa używają progu 5 000.\n"]
     for dom in DOMAINS:
         L.append(f"### {DOM_LABEL[dom].capitalize()}\n")
         for key, title, d in (("underserved", "bez kursów co ≤ 20 min w zasięgu 500 m, % mieszkańców komórek ≥ T", 1),
@@ -227,7 +239,7 @@ def sweep_md(res: dict) -> list[str]:
                    for t1, t2 in zip(SWEEP_STOPS, SWEEP_STOPS[1:])) for a in AGGS for dom in DOMAINS)
     L.append(("- W każdej aglomeracji i domenie" if mono else "- Prawie wszędzie") +
              " im wyższy próg, tym mniejszy udział mieszkańców bez kursów co ≤ 20 min: gęstsze komórki są lepiej "
-             "obsługiwane, zgodnie z dodatnią korelacją rang. Wynik przy progu 2 500 obejmuje więc także mieszkańców "
+             "obsługiwane, zgodnie z dodatnią korelacją rang. Wynik przy dawnym progu 2 500 obejmuje więc także mieszkańców "
              "komórek o gęstości 25–50 na ha, czyli prawdopodobnie w dużej części zabudowy jednorodzinnej (typu "
              "zabudowy w tych komórkach nie sprawdzano), gdzie literatura nie oczekuje częstej komunikacji.")
     L.append("- Mieszkańcy, nie miejsca pracy: progi Guerry i Cervero oraz Newmana i Kenworthy'ego liczą też miejsca "
@@ -266,17 +278,18 @@ def metric_rows(res: dict, day: str, cov_min: float) -> list[dict]:
                         f"Ludność komórek o gęstości {DENSITY_LABELS[i]} i kursach: {SERVICE_LABELS[j]} "
                         f"(odsetek ludności w masce, {DOM_LABEL[dom]})", v, "%", "table", flag, cov)
             add(a, dom, "dxs_dense_underserved_share",
-                "Mieszkańcy gęstej zabudowy (≥ 2 500 os./km²) bez kursów co ≤ 20 min w zasięgu 500 m "
-                "(odsetek ludności komórek o gęstości ≥ 2 500)", f["underserved"], "%", "main", flag, cov)
+                f"Mieszkańcy komórek 250 m o gęstości ≥ {_T} bez kursów co ≤ 20 min w zasięgu 500 m "
+                f"(odsetek mieszkańców tych komórek, {DOM_LABEL[dom]})", f["underserved"], "%", "main", flag, cov)
             add(a, dom, "dxs_dense_good_share",
-                "Mieszkańcy gęstej zabudowy (≥ 2 500 os./km²) z kursami co ≤ 10 min w zasięgu 500 m "
-                "(odsetek ludności komórek o gęstości ≥ 2 500)", f["good"], "%", "main", flag, cov)
+                f"Mieszkańcy komórek 250 m o gęstości ≥ {_T} z kursami co ≤ 10 min w zasięgu 500 m "
+                f"(odsetek mieszkańców tych komórek, {DOM_LABEL[dom]})", f["good"], "%", "main", flag, cov)
             add(a, dom, "dxs_rank_correlation",
                 "Korelacja rang (Spearman, ważona ludnością) między gęstością komórki a częstotliwością kursów; "
                 "dodatnia = gęstsze komórki mają lepszą komunikację", f["rho"], "–", "main", flag, cov)
             sflag = ((flag + " ") if flag else "") + (
                 "Wrażliwość na próg gęstości (komórki 250 m, tylko mieszkańcy, bez miejsc pracy); "
-                "przy 2 500 równe wskaźnikom głównym. Progi z literatury dotyczą większych jednostek (density_service.md).")
+                "przy 5 000 równe wskaźnikom głównym, 2 500 to dawny próg główny. Progi z literatury dotyczą większych "
+                "jednostek (density_service.md).")
             for t in SWEEP_STOPS:
                 s = f["sweep"][t]
                 tt = f"{int(t)}"
@@ -317,19 +330,20 @@ def write_md(res: dict, day: str) -> None:
          "## Metoda\n",
          f"- Komórki 250 m z ludnością (siatka GHSL przeskalowana do NSP 2021), tylko wewnątrz maski pokrycia GTFS "
          f"(wszystkie feedy, dzień {day}); komórki poza maską to brak danych, nie klasa i nie zero.",
-         "- Gęstość = ludność komórki / 0,0625 km². Klasy: D1 poniżej 2 500, D2 2 500–10 000, D3 od 10 000 os./km² "
-         "(punkty podziału rampy gęstości na mapie).",
+         "- Gęstość = ludność komórki / 0,0625 km². Klasy: D1 poniżej 5 000, D2 5 000–10 000, D3 od 10 000 os./km² "
+         "(punkty podziału rampy gęstości na mapie). Do 2026-11-24 granicą D1 było 2 500; zmieniono ją po przeglądzie "
+         "literatury, bo 2 500 na komórkach 250 m obejmuje zwykłą zabudowę jednorodzinną (sekcja o wrażliwości niżej).",
          "- Kursy: najlepsza klasa odstępu w zasięgu 500 m pieszo po sieci OSM (średnia 6:00–20:00). S1: co 30 min, "
          "rzadziej lub brak; S2: co 15 lub 20 min; S3: co 5 lub 10 min.",
          "- Udziały to odsetki ludności w masce w danej domenie (rdzeń albo obszar pokryty danymi w całym FUA); "
-         "każda tabela sumuje się do 100 %. Gęsta zabudowa to D2 i D3.",
+         "każda tabela sumuje się do 100 %. Wskaźniki główne dotyczą mieszkańców komórek od 5 000 os./km² (D2 i D3).",
          "- Korelacja rang: Spearman ważony ludnością (średnie rangi ważone, potem ważona korelacja Pearsona rang) "
          "między gęstością a klasą odstępu uporządkowaną od „> 30” do „5”; dodatnia oznacza, że gęstsze komórki mają "
          "lepszą komunikację.\n"]
     L.append("## Główne wskaźniki\n")
     for dom in DOMAINS:
         L.append(f"### {DOM_LABEL[dom].capitalize()}\n")
-        L.append("| Aglomeracja | Gęsta zabudowa bez kursów co ≤ 20 min (%) | Gęsta zabudowa z kursami co ≤ 10 min (%) | "
+        L.append("| Aglomeracja | ≥ 5 000 os./km², bez kursów co ≤ 20 min (%) | ≥ 5 000 os./km², kursy co ≤ 10 min (%) | "
                  "Korelacja rang | Pokrycie GTFS (% ludności) |\n|---|---|---|---|---|")
         for a in AGGS:
             f = res[(a, dom)]
