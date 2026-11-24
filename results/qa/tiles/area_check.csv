@@ -89,6 +89,48 @@ density_250m,wroclaw,2 500–5 000,46.0,46.003,0.005
 density_250m,wroclaw,5 000–10 000,32.875,32.872,-0.008
 density_250m,wroclaw,10 000–20 000,16.625,16.626,0.004
 density_250m,wroclaw,≥ 20 000,2.438,2.437,-0.003
+density_service,gzm,brak danych GTFS,196.188,196.11,-0.04
+density_service,gzm,"gęsto, rzadziej niż co 20 min lub brak",68.312,68.313,0.001
+density_service,gzm,"gęsto, co 11–20 min",55.375,55.375,-0.0
+density_service,gzm,"gęsto, co ≤ 10 min",96.188,96.191,0.004
+density_service,gzm,"rzadko zaludnione, co ≤ 20 min",142.875,142.864,-0.008
+density_service,gzm,"rzadko zaludnione, rzadziej lub brak",923.062,922.711,-0.038
+density_service,krakow,brak danych GTFS,874.625,874.384,-0.028
+density_service,krakow,"gęsto, rzadziej niż co 20 min lub brak",16.125,16.125,0.001
+density_service,krakow,"gęsto, co 11–20 min",17.0,17.003,0.018
+density_service,krakow,"gęsto, co ≤ 10 min",59.312,59.311,-0.003
+density_service,krakow,"rzadko zaludnione, co ≤ 20 min",73.75,73.746,-0.005
+density_service,krakow,"rzadko zaludnione, rzadziej lub brak",1303.125,1302.687,-0.034
+density_service,lodz,brak danych GTFS,295.938,295.845,-0.031
+density_service,lodz,"gęsto, rzadziej niż co 20 min lub brak",22.0,22.001,0.003
+density_service,lodz,"gęsto, co 11–20 min",15.0,15.0,-0.003
+density_service,lodz,"gęsto, co ≤ 10 min",52.188,52.187,-0.001
+density_service,lodz,"rzadko zaludnione, co ≤ 20 min",51.562,51.565,0.005
+density_service,lodz,"rzadko zaludnione, rzadziej lub brak",1183.875,1183.4,-0.04
+density_service,poznan,brak danych GTFS,326.75,326.611,-0.042
+density_service,poznan,"gęsto, rzadziej niż co 20 min lub brak",27.125,27.117,-0.028
+density_service,poznan,"gęsto, co 11–20 min",20.562,20.564,0.006
+density_service,poznan,"gęsto, co ≤ 10 min",43.125,43.129,0.009
+density_service,poznan,"rzadko zaludnione, co ≤ 20 min",54.438,54.435,-0.004
+density_service,poznan,"rzadko zaludnione, rzadziej lub brak",670.875,670.59,-0.042
+density_service,trojmiasto,brak danych GTFS,513.438,513.254,-0.036
+density_service,trojmiasto,"gęsto, rzadziej niż co 20 min lub brak",27.188,27.188,0.0
+density_service,trojmiasto,"gęsto, co 11–20 min",29.625,29.621,-0.013
+density_service,trojmiasto,"gęsto, co ≤ 10 min",54.438,54.439,0.002
+density_service,trojmiasto,"rzadko zaludnione, co ≤ 20 min",60.938,60.941,0.006
+density_service,trojmiasto,"rzadko zaludnione, rzadziej lub brak",376.312,376.15,-0.043
+density_service,warszawa,brak danych GTFS,1700.062,1699.477,-0.034
+density_service,warszawa,"gęsto, rzadziej niż co 20 min lub brak",67.625,67.624,-0.002
+density_service,warszawa,"gęsto, co 11–20 min",40.375,40.374,-0.003
+density_service,warszawa,"gęsto, co ≤ 10 min",160.312,160.315,0.001
+density_service,warszawa,"rzadko zaludnione, co ≤ 20 min",178.312,178.298,-0.008
+density_service,warszawa,"rzadko zaludnione, rzadziej lub brak",3325.188,3323.766,-0.043
+density_service,wroclaw,brak danych GTFS,453.0,452.795,-0.045
+density_service,wroclaw,"gęsto, rzadziej niż co 20 min lub brak",16.75,16.751,0.005
+density_service,wroclaw,"gęsto, co 11–20 min",8.562,8.564,0.015
+density_service,wroclaw,"gęsto, co ≤ 10 min",57.688,57.687,-0.001
+density_service,wroclaw,"rzadko zaludnione, co ≤ 20 min",50.312,50.309,-0.008
+density_service,wroclaw,"rzadko zaludnione, rzadziej lub brak",587.688,587.36,-0.056
 frequent_transport,gzm,brak danych GTFS,196.188,196.11,-0.04
 frequent_transport,gzm,co ≤ 5 min,28.375,28.377,0.007
 frequent_transport,gzm,co ≤ 10 min,116.25,116.246,-0.003

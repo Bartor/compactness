@@ -347,6 +347,45 @@
    "title": "Brak danych GTFS",
    "type": "pmtiles",
    "url": "tiles/gtfs_nodata_2026-11-25.pmtiles"
+  },
+  {
+   "attribution": "wydawcy GTFS (lista w „O danych”), © współtwórcy OpenStreetMap, GUS, JRC GHSL",
+   "has_nodata": true,
+   "id": "density_service",
+   "kind": "choropleth",
+   "note": "Dwie zmienne naraz: czy w komórce 250 m mieszka dużo ludzi i jak często kursuje komunikacja w zasięgu 500 m pieszo. „Gęsto” oznacza co najmniej 2 500 os./km². Czerwony i pomarańczowy to gęsta zabudowa bez częstych kursów, granatowy to gęsta zabudowa z kursami co 10 min lub częściej, jasnoniebieski to regularne kursy tam, gdzie mieszka niewiele osób. Rysowane są tylko komórki z ludnością; komórki kreskowane leżą poza pokryciem danych o rozkładach (GTFS), więc nie wiadomo, jaka jest tam komunikacja. Wszystkie feedy, w tym nieoficjalne.",
+   "opacity": 0.9,
+   "population_date": "2021-03-31 (NSP 2021, wzór GHSL 2020)",
+   "property": "v",
+   "ramp": {
+    "colors": [
+     "#b5300f",
+     "#f0a35e",
+     "#17509a",
+     "#74acdf",
+     "#e3e1dc"
+    ],
+    "labels": [
+     "gęsto, rzadziej niż co 20 min lub brak",
+     "gęsto, co 11–20 min",
+     "gęsto, co ≤ 10 min",
+     "rzadko zaludnione, co ≤ 20 min",
+     "rzadko zaludnione, rzadziej lub brak"
+    ],
+    "stops": [
+     1,
+     2,
+     3,
+     4
+    ]
+   },
+   "source_layer": "density_service",
+   "status": "ready",
+   "timetable_date": "2026-11-25",
+   "title": "Gęstość × częstotliwość komunikacji",
+   "type": "pmtiles",
+   "unit": "gęsto: ≥ 2 500 os./km²; kursy w zasięgu 500 m",
+   "url": "tiles/density_service_2026-11-25.pmtiles"
   }
  ]
 }

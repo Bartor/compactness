@@ -1,0 +1,68 @@
+{
+ "density_stops_per_km2": [
+  2500.0,
+  10000.0
+ ],
+ "duration_s": 0.5,
+ "git_sha": "f1110a83d8957eac1e4bca475b183c3db6681564",
+ "inputs": {
+  "ghs_built_s_2020_R3_C20": {
+   "data_date": "2020",
+   "downloaded_at": "2026-11-23T18:17:08+01:00",
+   "sha256": "b155a9a69e1fa2ec243a5f9cdbc1a2dd981052310acdf876582021011611ae2c"
+  },
+  "ghs_built_s_2020_R4_C20": {
+   "data_date": "2020",
+   "downloaded_at": "2026-11-23T18:17:10+01:00",
+   "sha256": "be8b88ffb1547118750bad7b441ba7c50ddc5634cb60b4854d807e104bb19570"
+  },
+  "ghs_pop_2020_R3_C20": {
+   "data_date": "2020",
+   "downloaded_at": "2026-11-23T18:17:03+01:00",
+   "sha256": "1d9fb8c2e9576bec25fb18fab847901dc2f3b416377493b7920f83f0801c52c9"
+  },
+  "ghs_pop_2020_R4_C20": {
+   "data_date": "2020",
+   "downloaded_at": "2026-11-23T18:17:06+01:00",
+   "sha256": "200057fa8efc334e633a94971192c97b2318996b35a84cfe8fe652cdb170ba7a"
+  },
+  "lau_2021_01m": {
+   "data_date": "2021",
+   "downloaded_at": "2026-11-23T18:15:37+01:00",
+   "sha256": "3d7199c0b88040785d609dcf69ade80cf0843941b6deff4aa714a442c72f2dd6"
+  },
+  "nsp2021_grid_1km_shp": {
+   "data_date": "2021-03-31",
+   "downloaded_at": "2026-11-23T18:16:58+01:00",
+   "sha256": "815deb0fb369df11de0ff150dd14ce87fd875acf3d542da8d2db1dafc0791680"
+  },
+  "osm_poland_pbf": {
+   "data_date": "2026-11-22T21:20:48Z",
+   "downloaded_at": "2026-11-23T18:50:02+01:00",
+   "sha256": "8c6264a60df1a1a66b4ca3d68dd3f07c3be26237c86b97bff1aa5d3bb566dc1f"
+  },
+  "urau_2021_100k_all": {
+   "data_date": "2021",
+   "downloaded_at": "2026-11-23T18:15:32+01:00",
+   "sha256": "9f64bf0689875be1f64ecb742e370dd7987804ddbb63df5ac6e8860516ef7de3"
+  }
+ },
+ "missing_inputs": [],
+ "outputs": [
+  "metrics_density_service.csv",
+  "metrics_density_service.json"
+ ],
+ "rows": 168,
+ "run_at": "2026-11-24T08:09:42+01:00",
+ "service_of_headway": {
+  "10": 3,
+  "15": 2,
+  "20": 2,
+  "30": 1,
+  "5": 3,
+  ">30": 1
+ },
+ "source": "results/layers/frequent_cells.parquet",
+ "step": "density_service",
+ "timetable_date": "2026-11-25"
+}

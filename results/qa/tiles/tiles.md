@@ -7,10 +7,11 @@ Dzień referencyjny rozkładów: 2026-11-25; ludność: NSP 2021 (31.03.2021) ro
 | Plik | Rozmiar (MB) | Kafli | Warstwa |
 |---|---|---|---|
 | `density250_nsp2021.pmtiles` | 3,00 | 2417 | Gęstość zaludnienia 250 m (NSP 2021) |
+| `density_service_2026-11-25.pmtiles` | 1,39 | 1424 | Gęstość × częstotliwość komunikacji |
 | `frequent_2026-11-25.pmtiles` | 1,38 | 1424 | Zasięg częstej komunikacji |
 | `gtfs_nodata_2026-11-25.pmtiles` | 0,37 | 1315 | Brak danych GTFS |
 | `performance30_2026-11-25.pmtiles` | 0,16 | 175 | Transport performance 30 min |
-| **razem `tiles/`** | **4,91** | | |
+| **razem `tiles/`** | **6,30** | | |
 
 Ostrzeżenia o rozmiarze: brak (żaden plik nie przekracza 50 MB, katalog nie przekracza 200 MB).
 
@@ -57,6 +58,41 @@ Powierzchnia klas na z12 (km², suma po aglomeracjach): kafle (przycięte do gra
 | ≥ 20 000 | 21,81 | 21,81 | -0,041 |
 
 Największa różnica po aglomeracji (klasy o powierzchni ≥ 1 km², pełna tabela w `area_check.csv`): Białystok 0,062 %, Bydgoszcz–Toruń 0,049 %, GZM 0,049 %, Kielce 0,052 %, Kraków 0,037 %, Łódź 0,048 %, Lublin 0,041 %, Poznań 0,051 %, Rzeszów 0,044 %, Szczecin 0,059 %, Trójmiasto 0,044 %, Warszawa 0,045 %, Wrocław 0,061 %.
+
+### Gęstość × częstotliwość komunikacji (`density_service`)
+
+- Plik `density_service_2026-11-25.pmtiles`, 1,39 MB, SHA-256 `4c9389f32442fd3579fd4dc490637b8480e47a42e048107a136842ddb9e33e33`.
+- Aglomeracje w pliku (7): GZM, Kraków, Łódź, Poznań, Trójmiasto, Warszawa, Wrocław.
+- Narysowanych komórek 250 m: 228755.
+- Pominięto 6046 komórek bez ludności w siatce przeskalowanej do spisu (są w źródle, bo mają ludność surową GHSL).
+- Nagłówek: MVT, kafle GZIP, katalogi GZIP, clustered=True, zoomy 4–12, zakres [16.36653, 49.74768, 22.34871, 54.61437], środek [19.35762, 52.18102, 8], kafli adresowanych 1424 (unikalnych 1424); warstwy wektorowe w metadanych: density_service.
+
+| Zoom | Kafli | Bajtów razem | Największy kafel (B) |
+|---|---|---|---|
+| 4 | 2 | 1268 | 1204 |
+| 5 | 1 | 3071 | 3071 |
+| 6 | 4 | 12185 | 7915 |
+| 7 | 9 | 31186 | 8125 |
+| 8 | 21 | 82430 | 12143 |
+| 9 | 40 | 209963 | 20633 |
+| 10 | 98 | 240016 | 8410 |
+| 11 | 299 | 326011 | 3925 |
+| 12 | 950 | 484074 | 1640 |
+
+Kontrola przypisania na z12: sprawdzono 228755 narysowanych komórek (środek komórki w kafelku); nie pokryte przez żaden obiekt: 0, pokryte obiektem innej klasy: 0; komórki niezaludnione pokryte obiektem: 0; obiekty o niedozwolonej własności: 0.
+
+Powierzchnia klas na z12 (km², suma po aglomeracjach): kafle (przycięte do granic kafla bez bufora) wobec komórek źródłowych.
+
+| Klasa | Komórki źródłowe (km²) | Kafle (km²) | Różnica (%) |
+|---|---|---|---|
+| brak danych GTFS | 4360,00 | 4358,48 | -0,035 |
+| gęsto, rzadziej niż co 20 min lub brak | 245,12 | 245,12 | -0,002 |
+| gęsto, co 11–20 min | 186,50 | 186,50 | +0,001 |
+| gęsto, co ≤ 10 min | 523,25 | 523,26 | +0,002 |
+| rzadko zaludnione, co ≤ 20 min | 612,19 | 612,16 | -0,005 |
+| rzadko zaludnione, rzadziej lub brak | 8370,12 | 8366,66 | -0,041 |
+
+Największa różnica po aglomeracji (klasy o powierzchni ≥ 1 km², pełna tabela w `area_check.csv`): GZM 0,040 %, Kraków 0,034 %, Łódź 0,040 %, Poznań 0,042 %, Trójmiasto 0,043 %, Warszawa 0,043 %, Wrocław 0,056 %.
 
 ### Zasięg częstej komunikacji (`frequent_transport`)
 
@@ -162,14 +198,15 @@ Największa różnica po aglomeracji (klasy o powierzchni ≥ 1 km², pełna tab
 
 ## Transfer na typową wizytę
 
-Pierwsza wizyta, jedna warstwa wartości, okno 1440 × 900 px na jednej aglomeracji przy zoomach 8, 10, 11, 12 (kafle 512 px, bajty skompresowane tak, jak je odczyta przeglądarka). Stałe: aplikacja po gzip 713 kB, `catalog.json` 3 kB, `fua.geojson` 75 kB, `attributions.json` 2 kB, `metrics.json` 6 kB (razem 799 kB); do tego 16 kB nagłówka i katalogu PMTiles na plik. Podkład OpenFreeMap idzie z ich serwerów, nie z limitu Pages.
+Pierwsza wizyta, jedna warstwa wartości, okno 1440 × 900 px na jednej aglomeracji przy zoomach 8, 10, 11, 12 (kafle 512 px, bajty skompresowane tak, jak je odczyta przeglądarka). Stałe: aplikacja po gzip 714 kB, `catalog.json` 3 kB, `fua.geojson` 75 kB, `attributions.json` 2 kB, `metrics.json` 8 kB (razem 802 kB); do tego 16 kB nagłówka i katalogu PMTiles na plik. Podkład OpenFreeMap idzie z ich serwerów, nie z limitu Pages.
 
 | Warstwa | Aglomeracja | Kafle (kB) | Razem wizyta (kB) | Wizyt w 100 GB/mies. |
 |---|---|---|---|---|
-| Gęstość zaludnienia 250 m (NSP 2021) | Warszawa | 226 | 1025 | 97542 |
-| Zasięg częstej komunikacji | Warszawa | 148 | 948 | 105526 |
-| Brak danych GTFS | Warszawa | 43 | 842 | 118784 |
-| Transport performance 30 min | Wrocław | 84 | 883 | 113278 |
+| Gęstość zaludnienia 250 m (NSP 2021) | Warszawa | 226 | 1028 | 97252 |
+| Gęstość × częstotliwość komunikacji | Warszawa | 147 | 950 | 105308 |
+| Zasięg częstej komunikacji | Warszawa | 148 | 951 | 105187 |
+| Brak danych GTFS | Warszawa | 43 | 845 | 118355 |
+| Transport performance 30 min | Wrocław | 84 | 886 | 112888 |
 
 Powtórna wizyta czyta aplikację i dane z pamięci podręcznej przeglądarki, więc kosztuje tylko kafle, o ile ich pliki się nie zmieniły. Kolejna warstwa tej samej aglomeracji dodaje swoje kafle (i 16 kB katalogu). To oszacowanie z jednego położenia okna, nie pomiar ruchu.
 
