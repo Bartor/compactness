@@ -1,0 +1,32 @@
+Miasto,Nr,Odjazd,Wyszukiwarka,Data zapytania,Najwcześniejszy przyjazd,"Wyszukiwarka, min od podanej godziny",Linie w najszybszej trasie,Uwagi
+Wrocław,1,2026-11-25 07:35,Google Maps,2026-11-24,07:51,16,5,odjazd 07:35 (tramwaj odjeżdża w minucie zapytania; R5 potrzebuje 1 min dojścia i jedzie następnym kursem); druga opcja 07:38–07:52 linią 11
+Wrocław,2,2026-11-25 07:50,Google Maps,2026-11-24,08:52,62,923 + 10 albo 101 + 10,odjazd 07:58 lub 07:59
+Wrocław,3,2026-11-25 08:05,Google Maps,2026-11-24,,,,Google nie zwraca trasy komunikacją (linii gminnych Obornik Śląskich nie ma w danych Google)
+Wrocław,4,2026-11-25 08:20,Google Maps,2026-11-24,09:17,57,145 + 136,odjazd 08:22; opcja 148 + 122 przyjazd 09:18
+Wrocław,5,2026-11-25 08:35,Google Maps,2026-11-24,09:09,34,12,odjazd 08:38
+Wrocław,6,2026-11-25 07:40,Google Maps,2026-11-24,08:28,48,110 + 16,odjazd 07:43; Google nie pokazuje wariantu pociągiem D3 z Iwin
+Wrocław,7,2026-11-25 08:10,Google Maps,2026-11-24,09:13,63,800 + 80,odjazd 08:16; pociąg D7 08:52–09:20
+Poznań,1,2026-11-25 07:35,Google Maps,2026-11-24,08:07,32,603 + 6,odjazd 07:36; Google nie pokazuje wariantu pociągiem PKM3 z Poznania Dębca (R5: 26 min)
+Poznań,2,2026-11-25 07:50,Google Maps,2026-11-24,08:33,43,822 + 9,odjazd 07:52
+Poznań,3,2026-11-25 08:05,Google Maps,2026-11-24,09:24,79,822 + 9,odjazd 08:33; opcja 822 + 8 przyjazd 09:25
+Poznań,4,2026-11-25 08:20,Google Maps,2026-11-24,09:08,48,11 + 7,odjazd 08:24
+Łódź,1,2026-11-25 07:35,Google Maps,2026-11-24,07:46,11,13,odjazd 07:35 (tramwaj odjeżdża w minucie zapytania; R5 nie zdąża na ten kurs i jedzie linią 12)
+Łódź,2,2026-11-25 07:50,Google Maps,2026-11-24,08:54,64,78 + 8,odjazd 08:00
+Łódź,3,2026-11-25 08:05,Google Maps,2026-11-24,08:54,49,Ł + 8,odjazd 08:16
+Łódź,4,2026-11-25 08:20,Google Maps,2026-11-24,09:06,46,13,odjazd 08:28
+Warszawa,1,2026-11-25 07:35,Google Maps,2026-11-24,07:57,22,175,odjazd 07:35
+Warszawa,2,2026-11-25 07:50,Google Maps,2026-11-24,08:33,43,207 + R1,odjazd 07:59; pieszo + R1 odjazd 07:55 z tym samym przyjazdem
+Warszawa,3,2026-11-25 08:05,Google Maps,2026-11-24,08:55,50,716 + S1,odjazd 08:08
+Warszawa,4,2026-11-25 08:20,Google Maps,2026-11-24,09:11,51,M2 + 190,"odjazd 08:29; R5 (41 min) przesiada się z M2 na autobus 129 z 2,5 min zapasu – tej przesiadki Google nie proponuje"
+Kraków,1,2026-11-25 07:35,Google Maps,2026-11-24,07:52,17,7,odjazd 07:37; linia 15 przyjazd 07:53
+Kraków,2,2026-11-25 07:50,Google Maps,2026-11-24,08:33,43,288 + SKA3,odjazd 07:50
+Kraków,3,2026-11-25 08:05,Google Maps,2026-11-24,08:59,54,310 + 168 + 15,odjazd 08:14
+Kraków,4,2026-11-25 08:20,Google Maps,2026-11-24,09:10,50,15 + SKA3,odjazd 08:26; opcje autobusowe przyjazd 09:12
+GZM,1,2026-11-25 07:35,Google Maps,2026-11-24,07:56,21,11,odjazd 07:41
+GZM,2,2026-11-25 07:50,Google Maps,2026-11-24,08:50,60,9 + M3,odjazd 07:55
+GZM,3,2026-11-25 08:05,Google Maps,2026-11-24,08:40,35,M1,odjazd 08:07 z przystanku Zabrze Rondo Sybiraków (66 m od startu); linia M1 jest w naszym feedzie z tym samym odjazdem – R5 nie zdąża na kurs 2 min po godzinie zapytania i jedzie autobusem 23 i pociągiem (42 min); mediana 7–9 (44 min) odpowiada jeździe M1
+GZM,4,2026-11-25 08:20,Google Maps,2026-11-24,09:26,66,920 + 672 + KŚ S1,odjazd 08:22
+Trójmiasto,1,2026-11-25 07:35,Google Maps,2026-11-24,08:04,29,11,odjazd 07:37
+Trójmiasto,2,2026-11-25 07:50,Google Maps,2026-11-24,08:47,57,120 + 810,odjazd 08:01
+Trójmiasto,3,2026-11-25 08:05,Google Maps,2026-11-24,09:25,80,173 + S1,odjazd 08:19; R5 (68 min) jedzie S1 z Rumi Janowa do Gdańska Stoczni i dochodzi pieszo; przyczyna różnicy niesprawdzona
+Trójmiasto,4,2026-11-25 08:20,Google Maps,2026-11-24,09:12,52,SKM + 289,odjazd 08:40; tramwaj 6 + 289 odjazd 08:22 z tym samym przyjazdem
