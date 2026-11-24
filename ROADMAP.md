@@ -41,6 +41,8 @@ Last updated 2026-11-24.
   and rail; day type and time band) with a "Prędkości" tab of lines per city; stop-area detail in "Przesiadki"
   (stops, walking paths, crossings, line-to-line matrix); "Dokąd dojadę stąd" isochrones from precomputed origins;
   travel-survey mode shares in the city view.
+- Who and to what: frequent service and reach for residents aged 0-14 and 65+ (census 1 km grid by age), and travel
+  time by public transport to the nearest secondary school (RSPO) and hospital emergency department (RPRM).
 - Urban form additions: residents by 250 m density class, official Eurostat 2021 urban-centre shares, polycentricity
   (eta and density hotspots) in the tables; Angel's proximity index in the tables only (not robust among
   single-centre cities).
@@ -70,7 +72,9 @@ Method and data
 11. DG REGIO grid-study variant, remaining: the cause of Warszawa's 8-point gap to DG REGIO's own value; the
     total-walk limit (R5 limits each leg, not the trip); register `data/raw/dgregio_gridstudy/` in the manifest.
 12. Distribution, remaining: the same outputs on the raw GHSL grid as a sensitivity variant.
-13. New open data: NSP 2021 age grid, commuting matrix, BDOT10k buildings, schools (RSPO) and hospitals as destinations.
+13. Who and to what, remaining: emergency departments on the site once the register is checked (it lists 4 units
+    for the whole GZM area); map layers of travel time to the nearest school and emergency department; the
+    commuting matrix and BDOT10k buildings were not used; licences of the two register downloads not stated.
 14. Validation, remaining: about 100 random journey-planner pairs at several departure minutes; the cause of the
     10-22 minute gap to the NIK audit's times around Poznań; nodes sized by use on the map (data ready in
     `results/layers/node_use.parquet`).

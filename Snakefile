@@ -553,6 +553,24 @@ rule access_gridstudy:
         '"{PY}" -m pipeline.access_gridstudy_eu fetch && "{PY}" -m pipeline.access_gridstudy report'
 
 
+rule services:
+    # age groups on the 250 m cells (pipeline.agegrid) and travel time to the nearest secondary school and hospital
+    # emergency department (pipeline.services, access_services: own network copies, about 1.5 h of routing)
+    # -> metrics_services.*, results/layers/services_cells.parquet, results/qa/services/.
+    input:
+        "pipeline/agegrid.py",
+        "pipeline/services.py",
+        "pipeline/access_services.py",
+        "pipeline/access_services_aggregate.py",
+        stamp("access"),
+        stamp("frequent"),
+    output:
+        touch(stamp("services")),
+    shell:
+        '"{PY}" -m pipeline.agegrid && "{PY}" -m pipeline.services && "{PY}" -m pipeline.access_services route && '
+        '"{PY}" -m pipeline.access_services_aggregate'
+
+
 rule merge_metrics:
     # metrics_<step>.* -> metrics.csv / metrics.json and the map panel subset results/web/metrics.json
     input:

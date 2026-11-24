@@ -13,6 +13,8 @@ Inputs  (one pair per step, all in results/metrics/)
 * metrics_whatif.csv/json    Wrocław tram what-if scenarios (pipeline.whatif_tram); not in the panel
 * metrics_access_gridstudy.csv/json  comparison-only variant by the rules of the DG REGIO grid study (domain
                              "urban_centre"), with DG REGIO's own values for four centres
+* metrics_services.csv/json  age groups (census 1 km grid by age) and travel time to the nearest secondary
+                             school and hospital emergency department (feed_variant, population_grid)
 * metrics_form.csv/json      urban form: Angel's indices, polycentricity, Eurostat 2021 urban-centre shares,
                              residents by 250 m density class (no feed variant)
 
@@ -38,7 +40,7 @@ from pipeline.common import RESULTS, load_config, write_json, write_meta
 
 METRICS = RESULTS / "metrics"
 WEB = RESULTS / "web"
-STEPS = ["density", "supply", "frequent", "density_service", "access", "access_uc", "transfer", "distribution", "form", "speed", "whatif", "access_gridstudy"]
+STEPS = ["density", "supply", "frequent", "density_service", "access", "access_uc", "transfer", "distribution", "form", "speed", "whatif", "access_gridstudy", "services"]
 ACCESS_STEPS = ("access", "access_uc", "access_gridstudy")
 
 COLUMNS = ["agglomeration", "domain", "metric", "label", "value", "unit", "grid", "source", "population_date",
@@ -152,6 +154,17 @@ PANEL[("urban_centre", "tp_gridstudy_pt_30min")] = (420, "Zasięg 30 min wg regu
 PANEL[("urban_centre", "tp_gridstudy_dgregio_30min")] = (421, "wartość z badania UE dla tego centrum (rozkłady 2019–2021)")
 PANEL[("urban_centre", "tp_gridstudy_pt_45min")] = (422, "Zasięg 45 min wg reguł badania UE (DG REGIO 2023)")
 PANEL[("urban_centre", "tp_gridstudy_dgregio_45min")] = (423, "wartość z badania UE dla tego centrum (rozkłady 2019–2021)")
+# who and to what (pipeline.agegrid, pipeline.access_services): age groups, and the nearest secondary school by
+# public transport and walking.  The emergency-department rows stay in the tables only: the register lists 4 units
+# for the whole GZM area, so its figures cannot be set beside the other cities until that is checked.
+for _dom in ("covered", "core"):
+    PANEL[(_dom, "age_freq_le10min_age0_14")] = (250, "Dzieci 0–14 lat ≤ 500 m od kursów co ≤ 10 min")
+    PANEL[(_dom, "age_freq_le10min_age65")] = (251, "Osoby 65+ ≤ 500 m od kursów co ≤ 10 min")
+    PANEL[(_dom, "age_tp_pt_am_30min_age0_14")] = (252, "Zasięg komunikacją + pieszo, 30 min: dzieci 0–14 lat")
+    PANEL[(_dom, "age_tp_pt_am_30min_age65")] = (253, "Zasięg komunikacją + pieszo, 30 min: osoby 65+")
+    PANEL[(_dom, "svc_school_pt_am_le20min")] = (350, "Mieszkańcy ≤ 20 min od szkoły ponadpodstawowej (komunikacja + pieszo, 7–9)")
+    PANEL[(_dom, "svc_school_pt_am_le30min")] = (351, "Mieszkańcy ≤ 30 min od szkoły ponadpodstawowej (7–9)")
+    PANEL[(_dom, "svc_school_pt_am_le30min_age0_14")] = (352, "w tym dzieci 0–14 lat")
 # from the centres (cells within 1 km of the centre, the hub and every extra centre): added in centre_panel(),
 # because the domains are read from metrics_access and the labels from config.yaml
 CENTRE_METRICS = ("tp_pt_am_30min", "tp_pt_am_45min")
@@ -239,7 +252,7 @@ def panel_subset(rows: list[dict]) -> list[dict]:
         external = r["metric"].startswith("tp_gridstudy_dgregio_")   # DG REGIO's own values: no feed, no grid of ours
         if r["step"] not in ("density", "form") and r["feed_variant"] != PANEL_FEED_VARIANT and not street_only:
             continue
-        if (r["step"] in ("frequent", "density_service", *ACCESS_STEPS) and r["population_grid"] != PANEL_POP_GRID
+        if (r["step"] in ("frequent", "density_service", "services", *ACCESS_STEPS) and r["population_grid"] != PANEL_POP_GRID
                 and not external):
             continue
         # density: the 100 m measures exist on two population grids; only the census-scaled one is shown

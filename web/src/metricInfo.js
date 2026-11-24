@@ -38,6 +38,13 @@ export const METRIC_GROUPS = [
       'dist_below_floor_pt_saturday_30min'],
   },
   {
+    // the emergency-department measures are in the tables only (register gaps in GZM), see merge_metrics
+    id: 'services', title: 'Kto i do czego: wiek i szkoły',
+    metrics: ['age_freq_le10min_age0_14', 'age_freq_le10min_age65', 'age_tp_pt_am_30min_age0_14',
+      'age_tp_pt_am_30min_age65', 'svc_school_pt_am_le20min', 'svc_school_pt_am_le30min',
+      'svc_school_pt_am_le30min_age0_14'],
+  },
+  {
     id: 'transfer', title: 'Przesiadki',
     metrics: ['transfer_top20_walkwait_w_am_mean_min', 'transfer_top20_walk_w_am_mean_min',
       'transfer_top20_wait_w_am_mean_min', 'transfer_top20_connwait_w_am_mean_min',
@@ -158,6 +165,40 @@ const FLOOR_METHOD = 'Próg to połowa mediany siedmiu miast: dla każdego rdzen
   + '45 min: 28 %). Ten sam próg obowiązuje w każdym mieście i o każdej porze, więc odsetki można porównywać. To '
   + 'wybór normatywny, wzorowany na względnej granicy ubóstwa (50 % mediany dochodu); w tabelach są też progi 40 % i '
   + '60 % mediany. Komórki poza zasięgiem danych o rozkładach są pomijane, nie liczone jako zero.'
+
+const SVC_PT = 'Silnik R5, środa 7:00–9:00, mediana z odjazdów co minutę, dojście do przystanku do 1 km; nie gorzej '
+  + 'niż pieszo. Czas do najbliższej placówki danego rodzaju, od środka komórki 250 m do punktu placówki. Tylko '
+  + 'obszar, dla którego mamy rozkłady jazdy.'
+const SCHOOL_SRC = 'Szkoły: rejestr RSPO (stan 2026-11-24): licea ogólnokształcące, technika i szkoły branżowe I '
+  + 'stopnia dla młodzieży, bez szkół specjalnych, bez szkół bez uczniów i bez szkół w zakładach poprawczych; położenie siedziby według rejestru.'
+const SOR_SRC = 'Szpitalne oddziały ratunkowe z rejestru RPRM (stan 2026-11-24), bez SOR dziecięcych; położenie: '
+  + 'adres z rejestru dopasowany do adresu w OpenStreetMap, nie wejście na oddział.'
+const school = (t) => ({
+  short: `Szkoła ponadpodstawowa w ${t} min`,
+  better: 'higher',
+  layer: 'time_to_school',
+  read: [
+    `Odsetek mieszkańców, którzy dojadą komunikacją z dojściem pieszym do najbliższego liceum, technikum albo `
+    + `szkoły branżowej w ${t} minut lub szybciej w porannym szczycie.`,
+    'Najbliższa szkoła nie musi być tą, do której dziecko chodzi: rejonów ani profili szkół nie uwzględniono.',
+  ],
+  method: [SVC_PT, SCHOOL_SRC],
+})
+const sor = (t, win) => ({
+  short: `SOR w ${t} min${win ? ` (${win})` : ''}`,
+  better: 'higher',
+  layer: 'time_to_sor',
+  read: [
+    `Odsetek mieszkańców, którzy dojadą komunikacją z dojściem pieszym do najbliższego szpitalnego oddziału `
+    + `ratunkowego w ${t} minut lub szybciej${win ? `, ${win}` : ' w porannym szczycie'}.`,
+    'To miara dostępności oddziału dla odwiedzających i pacjentów w stanie niewymagającym karetki; w nagłych '
+    + 'wypadkach liczy się dojazd ratownictwa, którego tu nie mierzymy.',
+  ],
+  method: [SVC_PT, SOR_SRC],
+})
+const ageNote = 'Wiek ze spisu 2021 w kwadratach 1 km rozdzielony na komórki 250 m według liczby mieszkańców; '
+  + 'wewnątrz kwadratu 1 km udział grupy jest wszędzie taki sam, więc różnice między grupami pochodzą tylko z różnic '
+  + 'między kwadratami. Różnice poniżej 1 punktu nie są interpretowane.'
 
 export const METRIC_INFO = {
   area: {
@@ -432,6 +473,35 @@ export const METRIC_INFO = {
     read: ['Jak wyżej, dla linii kursujących co 15 minut lub częściej.'],
     method: ['Co najmniej 8 kursów obu linii w 2 godziny szczytu.'],
   },
+  svc_school_pt_am_le20min: school(20),
+  svc_school_pt_am_le30min: school(30),
+  svc_school_pt_am_le30min_age0_14: { ...school(30), short: 'Szkoła w 30 min: dzieci 0–14 lat',
+    read: ['Ten sam odsetek policzony dla mieszkańców w wieku 0–14 lat. Porównaj z wierszem dla wszystkich '
+      + 'mieszkańców: wyższa wartość znaczy, że dzieci mieszkają częściej tam, gdzie szkoła jest blisko.'],
+    method: [SVC_PT, SCHOOL_SRC, ageNote] },
+  svc_sor_pt_am_le30min: sor(30),
+  svc_sor_pt_am_le45min: sor(45),
+  svc_sor_pt_am_le30min_age65: { ...sor(30), short: 'SOR w 30 min: osoby 65+',
+    read: ['Ten sam odsetek policzony dla mieszkańców w wieku 65 lat i więcej.'], method: [SVC_PT, SOR_SRC, ageNote] },
+  svc_sor_pt_evening_le30min: sor(30, 'wieczorem 20:00–22:00'),
+  svc_sor_pt_am_none60: { short: 'Bez SOR w 60 min', better: 'lower', layer: 'time_to_sor',
+    read: ['Odsetek mieszkańców, którzy w porannym szczycie nie dojadą komunikacją z dojściem pieszym do żadnego '
+      + 'SOR w ciągu godziny.'], method: [SVC_PT, SOR_SRC] },
+  age_freq_le10min_age0_14: { short: 'Kursy co ≤ 10 min w zasięgu 500 m: dzieci 0–14', better: 'higher',
+    layer: 'frequent_transport',
+    read: ['Odsetek dzieci w wieku 0–14 lat, które mają w zasięgu 500 m pieszo przystanek z kursami co 10 minut lub '
+      + 'częściej. Porównaj z wartością dla wszystkich mieszkańców.'],
+    method: ['Ta sama miara co „Kursy co ≤ 10 min w zasięgu 500 m”, ważona liczbą dzieci w komórce.', ageNote] },
+  age_freq_le10min_age65: { short: 'Kursy co ≤ 10 min w zasięgu 500 m: osoby 65+', better: 'higher',
+    layer: 'frequent_transport',
+    read: ['Odsetek osób w wieku 65+, które mają w zasięgu 500 m pieszo przystanek z kursami co 10 minut lub częściej.'],
+    method: ['Ta sama miara co „Kursy co ≤ 10 min w zasięgu 500 m”, ważona liczbą osób 65+ w komórce.', ageNote] },
+  age_tp_pt_am_30min_age0_14: { short: 'Zasięg komunikacją w 30 min: dzieci 0–14', better: 'higher',
+    read: ['Jaką część par „mieszkaniec – osoba z okolicy (7,5 km)” da się pokonać w 30 minut, licząc tylko '
+      + 'mieszkańców w wieku 0–14 lat jako punkty startu.'],
+    method: [PT_METHOD, RATIO_OF_MEANS, ageNote] },
+  age_tp_pt_am_30min_age65: { short: 'Zasięg komunikacją w 30 min: osoby 65+', better: 'higher',
+    read: ['Jak wyżej, dla mieszkańców w wieku 65+ jako punktów startu.'], method: [PT_METHOD, RATIO_OF_MEANS, ageNote] },
   freq_seg_net_le5min: freq(5),
   freq_seg_net_le10min: freq(10),
   freq_seg_net_le15min: freq(15),
