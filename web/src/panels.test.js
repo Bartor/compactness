@@ -134,12 +134,11 @@ describe('panels render without a browser', () => {
     expect(s).toContain('Łódź')
     expect(s).toContain('1/3')   // rank among the three cities with data
     expect(s).toContain('Centrum miejskie')
-    expect(s).toContain('W środku aglomeracji')
+    expect(s).toContain('Najruchliwsze zespoły przystanków')
     expect(s).toContain('Dworzec')
     expect(s).toContain('dojście 1 min, czekanie 2 min')
     expect(s).toContain('Uwaga.')
     const bare = html(h(CityPanel, { ...base, nodes: null }))
-    expect(bare).not.toContain('W środku aglomeracji')
     expect(bare).not.toContain('Najruchliwsze')
   })
   it('a city without metrics says so', () => {
@@ -154,7 +153,7 @@ describe('panels render without a browser', () => {
       catalog, metrics: { generated: 'x', metrics }, selectedId: null, onPick: noop, view, active: activeIds(view, catalog.layers),
       onValue: noop, onOverlayOn: noop, onOverlayLayer: noop, onVariant: noop,
       focus: { focuses: EMPTY_FOCUSES, onHover: noop, onToggle: noop, onClear: noop },
-      sheetOpen: false, setSheetOpen: noop, onAbout: noop, onCompare: noop, sharesOf: () => undefined,
+      sheetOpen: false, setSheetOpen: noop, onAbout: noop, onCompare: noop,
     }
     const s = html(h(Sidebar, props))
     expect(s).toContain('Tylko granice')
@@ -165,8 +164,9 @@ describe('panels render without a browser', () => {
     expect(s).toContain('czekanie')                               // chooser of the points layer
     expect(s).toContain('Porównanie miast')
     expect(s).not.toContain('Nieznana')
-    const withShares = html(h(Sidebar, { ...props, sharesOf: (id) => (id === 'd' ? [0.3, 0.7] : undefined) }))
-    expect(withShares).toContain('30 %')
-    expect(s).not.toContain('legend-share')
+    // controls only: no legend rows, no layer note in the open (it is behind the "?" of the card and of the switch)
+    expect(s).not.toContain('legend-row')
+    expect(s).not.toContain('Nota.')
+    expect(s).toContain('aria-expanded="false"')
   })
 })

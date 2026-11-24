@@ -1,7 +1,74 @@
 /* Parts written like the kit's: classes are kitx-*, colours are the kit's custom properties. */
 
-/* ---- DockPanel: the details slot made wider ---- */
-@media (min-width: 761px) {
-  .kitx-dock { display: contents; }
-  .kitx-dock > .kit-details { width: min(560px, 100vw); flex-basis: 560px; }
+/* ---- DockStage: the map above, the dock below, on the stage the sidebar leaves ---- */
+.kitx-stage { flex: 1; min-width: 0; height: 100%; display: flex; flex-direction: column; position: relative; overflow: hidden; }
+.kitx-stage-map { flex: 1 1 auto; min-height: 0; position: relative; }
+.kitx-stage-map > .kit-map-wrap { position: absolute; inset: 0; height: auto; }
+
+.kitx-dock {
+  flex: 0 0 auto; position: relative; z-index: 6; min-height: 0; display: flex; flex-direction: column;
+  background: var(--kit-panel); border-top: 1px solid var(--kit-line-strong); box-shadow: 0 -6px 18px rgba(0, 0, 0, .35);
 }
+.kitx-stage.folded .kitx-dock { height: 44px; }
+.kitx-stage.half .kitx-dock { height: 46%; }
+.kitx-stage.full .kitx-dock { position: absolute; inset: 0; height: auto; box-shadow: none; border-top: 0; }
+.kitx-stage.dragging { user-select: none; }
+
+.kitx-dock-grip {
+  flex: none; height: 10px; display: grid; place-items: center; cursor: ns-resize; touch-action: none;
+}
+.kitx-dock-grip span { width: 38px; height: 3px; border-radius: 2px; background: var(--kit-line-hover); }
+.kitx-dock-grip:hover span, .kitx-dock-grip:focus-visible span { background: var(--kit-link-light); }
+.kitx-dock-grip:focus-visible { outline: 2px solid var(--kit-focus); outline-offset: -2px; }
+
+.kitx-dock-head {
+  flex: none; height: 34px; padding: 0 .9rem; display: flex; align-items: center; justify-content: space-between; gap: .8rem;
+}
+.kitx-dock-title { display: flex; align-items: center; gap: .7rem; min-width: 0; }
+.kitx-dock-title h2 {
+  margin: 0; font-size: 1.1rem; font-weight: 600; color: var(--kit-text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.kitx-dock-actions { display: flex; align-items: center; gap: .6rem; flex: none; }
+.kitx-dock-sizes { display: inline-flex; border: 1px solid var(--kit-line-strong); border-radius: 6px; overflow: hidden; }
+.kitx-dock-sizes button {
+  background: none; border: 0; color: var(--kit-soft); font: inherit; font-size: .76rem; padding: .22rem .6rem; cursor: pointer;
+}
+.kitx-dock-sizes button + button { border-left: 1px solid var(--kit-line-strong); }
+.kitx-dock-sizes button:hover { background: var(--kit-hover); color: var(--kit-text); }
+.kitx-dock-sizes button[aria-pressed="true"] { background: var(--kit-accent-fill); color: #fff; }
+.kitx-dock-sizes button:focus-visible { outline: 2px solid var(--kit-focus); outline-offset: -2px; }
+
+.kitx-dock-body { flex: 1 1 auto; min-height: 0; overflow-y: auto; padding: .4rem .9rem 1rem; }
+
+/* full: the map is a small live inset in the corner of the dock */
+.kitx-stage.full .kitx-stage-map {
+  position: absolute; right: .8rem; bottom: .8rem; width: 280px; height: 200px; flex: none; z-index: 7;
+  border: 1px solid var(--kit-line-strong); border-radius: 8px; overflow: hidden; box-shadow: 0 4px 18px rgba(0, 0, 0, .6);
+}
+.kitx-stage.full .kit-map-legend,
+.kitx-stage.full .maplibregl-ctrl-top-left,
+.kitx-stage.full .maplibregl-ctrl-bottom-left,
+.kitx-stage.full .maplibregl-ctrl-bottom-right { display: none; }   /* the page's footer carries the attribution */
+.kitx-stage.full .kitx-dock-body { padding-bottom: 14rem; }   /* room to scroll the last rows out from under the inset */
+.kitx-stage.full .kitx-dock-body:has(.city-columns) { padding-bottom: .5rem; }
+.kitx-inset-back {
+  position: absolute; right: calc(.8rem + 6px); bottom: calc(.8rem + 200px - 34px); z-index: 8; width: 28px; height: 28px;
+  display: grid; place-items: center; border-radius: 6px; cursor: pointer; font-size: 1rem; line-height: 1;
+  background: rgba(28, 31, 38, .9); color: var(--kit-text); border: 1px solid var(--kit-line-strong);
+}
+.kitx-inset-back:hover { background: var(--kit-hover); }
+.kitx-inset-back:focus-visible { outline: 2px solid var(--kit-focus); outline-offset: 2px; }
+
+/* ---- MapLegendBox: never more than about half of the map's height; scrolls inside ---- */
+.kit-map-legend.kitx-legend { max-height: 52%; overflow: hidden; display: flex; flex-direction: column; padding: .45rem .3rem .45rem .65rem; }
+.kitx-legend-scroll { overflow-y: auto; min-height: 0; padding-right: 1.5rem; display: flex; flex-direction: column; gap: .25rem; }
+
+/* ---- StackBars ---- */
+.kitx-stack-pick {
+  background: none; border: 0; padding: 0; font: inherit; color: var(--kit-soft); cursor: pointer;
+  text-decoration: underline; text-decoration-color: var(--kit-line-strong); text-underline-offset: 3px;
+}
+.kitx-stack-pick:hover { color: var(--kit-text); text-decoration-color: var(--kit-link-light); }
+.kitx-stack-pick:focus-visible { outline: 2px solid var(--kit-focus); outline-offset: 2px; border-radius: 2px; }
+.kitx-stack .kit-sharebar { grid-template-columns: 7.5rem 1fr 3.2rem; }
+.kitx-stack .kit-sharebar > span { grid-column: auto; margin-bottom: 0; }

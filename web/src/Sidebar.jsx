@@ -1,53 +1,46 @@
+import { useState } from 'react'
 import {
-  Chips, Field, Footnote, Hint, InfoButton, LinkButton, Panel, RadioCards, Select, Sidebar as Shell, Toggle, Warn,
+  Chips, HelpButton, Hint, InfoButton, LinkButton, Panel, RadioCards, Select, Sidebar as Shell, Toggle,
 } from '@bartor-net/ui-kit'
 import { dataDates } from './layerInfo'
 import { layerColor, rampMid } from './data'
-import { LegendBody } from './Legend'
-import { focusOf } from './classFocus'
 import { chipLabel, overlayGroups, valueLayers, variantOf } from './layerControl'
-import { usePhone } from './usePhone'
 
 const TITLE = 'Zwartość miast'
 const SUBTITLE = 'Gęstość, forma i transport zbiorowy w polskich aglomeracjach'
 const NO_VALUE = ''   // the radio value of "Tylko granice"
 const CHIPS_MAX = 4   // more layers in a group than this are chosen from a list
 
-function LayerMeta({ layer }) {
+/** What stands behind a layer's "?": its note, then the dates and the source in small print. */
+function LayerHelp({ layer }) {
   const dates = dataDates(layer)
-  if (!dates && !layer.attribution) return null
   return (
-    <p className="layer-meta">
-      {dates && <span>{dates}</span>}
-      {layer.attribution && <span>{layer.attribution}</span>}
-    </p>
+    <>
+      {layer.note && <p>{layer.note}</p>}
+      {(dates || layer.attribution) && (
+        <p className="layer-meta">
+          {dates && <span>{dates}</span>}
+          {layer.attribution && <span>{layer.attribution}</span>}
+        </p>
+      )}
+    </>
   )
 }
 
-function Legend({ layer, focus, shares }) {
-  return (
-    <div className="layer-legend">
-      <LegendBody
-        layer={layer} focus={focusOf(focus.focuses, layer.id)} shares={shares}
-        onHover={focus.onHover} onToggle={focus.onToggle} onClear={focus.onClear}
-      />
-    </div>
-  )
-}
-
-/** One overlay group: a switch, and when on: which layer (if the group has several), its variants and its key. */
-function OverlayGroup({ group, state, onOn, onLayer, onVariant, focus, showLegend, sharesOf }) {
+/** One overlay group: a switch with a "?", and when on: which layer (if the group has several) and its variants. */
+function OverlayGroup({ group, state, onOn, onLayer, onVariant }) {
   const o = state.overlays[group.kind]
   const chosen = group.layers.find((l) => l.id === o.layer) || group.layers[0]
   const variants = chosen.variants || []
+  const chooser = o.on && group.layers.length > 1
   return (
     <Toggle
       label={group.label} checked={o.on} onChange={(v) => onOn(group.kind, v)}
-      help={chosen.note ? <p>{chosen.note}</p> : undefined}
+      help={chosen.note || chosen.attribution ? <LayerHelp layer={chosen} /> : undefined}
     >
-      {o.on && (
+      {o.on && (chooser || variants.length > 1) && (
         <div className="overlay-body">
-          {group.layers.length > 1 && (group.layers.length <= CHIPS_MAX
+          {chooser && (group.layers.length <= CHIPS_MAX
             ? (
               <Chips
                 tight items={group.layers.map((l) => ({ key: l.id, label: chipLabel(l), on: l.id === chosen.id }))}
@@ -67,19 +60,18 @@ function OverlayGroup({ group, state, onOn, onLayer, onVariant, focus, showLegen
               onPick={(k) => onVariant(chosen, k)}
             />
           )}
-          {showLegend && <Legend layer={chosen} focus={focus} shares={sharesOf(chosen.id)} />}
-          <LayerMeta layer={chosen} />
         </div>
       )}
     </Toggle>
   )
 }
 
+/** The controls only: city, what to colour the map with, overlays. Legends live on the map, tables in the dock. */
 export default function Sidebar({
-  catalog, metrics, selectedId, onPick, view, active, onValue, onOverlayOn, onOverlayLayer, onVariant, focus,
-  sheetOpen, setSheetOpen, onAbout, onCompare, sharesOf,
+  catalog, metrics, selectedId, onPick, view, active, onValue, onOverlayOn, onOverlayLayer, onVariant,
+  sheetOpen, setSheetOpen, onAbout, onCompare,
 }) {
-  const phone = usePhone()   // on a phone the key is the overlay on the map, not here
+  const [helpFor, setHelpFor] = useState(null)   // the value layer whose "?" is open
   const sel = catalog.agglomerations.find((a) => a.id === selectedId)
   const options = [
     { value: '', label: 'Cała Polska' },
@@ -89,12 +81,25 @@ export default function Sidebar({
   const planned = catalog.layers.filter((l) => l.status !== 'ready' && l.kind === 'choropleth')
   const groups = overlayGroups(catalog.layers)
   const chosenValue = values.find((l) => l.id === view.value) || null
+  const helpLayer = values.find((l) => l.id === helpFor) || null
   const layerCredits = [...new Set(catalog.layers
     .filter((l) => l.status === 'ready' && active.has(l.id) && l.attribution)
     .map((l) => l.attribution))]
   const cards = [
     { value: NO_VALUE, label: 'Tylko granice', sub: 'bez kolorowania obszaru' },
-    ...values.map((l) => ({ value: l.id, label: l.title, sub: l.sub || l.unit, color: rampMid(l.ramp) || layerColor(l) })),
+    ...values.map((l) => ({
+      value: l.id,
+      label: (
+        <>
+          {l.title}
+          {(l.note || l.attribution) && (
+            <HelpButton open={helpFor === l.id} onClick={() => setHelpFor(helpFor === l.id ? null : l.id)} />
+          )}
+        </>
+      ),
+      sub: l.sub || l.unit,
+      color: rampMid(l.ramp) || layerColor(l),
+    })),
   ]
 
   return (
@@ -118,14 +123,12 @@ export default function Sidebar({
       <Panel title="Aglomeracja">
         <Select label="Aglomeracja" value={selectedId || ''} options={options}
           onChange={(v) => onPick(v || null)} />
-        {sel?.note && <Warn>{sel.note}</Warn>}
-        {!sel && <Hint>Wybierz aglomerację z listy albo kliknij jej obrys na mapie.</Hint>}
         <LinkButton block onClick={onCompare}>Porównanie miast</LinkButton>
       </Panel>
 
       <Panel
         title="Co pokazać"
-        help={<p>Naraz widać jedną warstwę wartości, bo jej kolory zasłaniałyby się nawzajem. Nakładki poniżej można dodać do każdej z nich.</p>}
+        help={<p>Naraz widać jedną warstwę wartości, bo jej kolory zasłaniałyby się nawzajem. Nakładki poniżej można dodać do każdej z nich. Legenda jest w rogu mapy.</p>}
       >
         {values.length === 0
           ? <Hint>Warstwy pojawią się po przeliczeniu.</Hint>
@@ -137,19 +140,7 @@ export default function Sidebar({
               options={cards}
             />
           )}
-        {chosenValue && (
-          <>
-            {!phone && (
-              <Field label="Legenda" help={chosenValue.note ? <p>{chosenValue.note}</p> : undefined}>
-                <Legend layer={chosenValue} focus={focus} shares={sharesOf(chosenValue.id)} />
-              </Field>
-            )}
-            {phone && chosenValue.note && (
-              <Field label="O tej warstwie" help={<p>{chosenValue.note}</p>} />
-            )}
-            <LayerMeta layer={chosenValue} />
-          </>
-        )}
+        {helpLayer && <div className="kit-info"><LayerHelp layer={helpLayer} /></div>}
         {planned.length > 0 && (
           <Hint>W przygotowaniu: {planned.map((l) => l.title).join('; ')}.</Hint>
         )}
@@ -162,15 +153,14 @@ export default function Sidebar({
         {groups.length === 0 && <Hint>Nakładki pojawią się po przeliczeniu.</Hint>}
         {groups.map((g) => (
           <OverlayGroup
-            key={g.kind} group={g} state={view} focus={focus} showLegend={!phone} sharesOf={sharesOf}
+            key={g.kind} group={g} state={view}
             onOn={onOverlayOn} onLayer={onOverlayLayer} onVariant={onVariant}
           />
         ))}
-        {view.overlays.points?.on && <Hint>Kliknij punkt na mapie, aby zobaczyć składowe przesiadki.</Hint>}
       </Panel>
-      <Footnote>
+      <p className="kit-footnote sidebar-link">
         <LinkButton onClick={() => onAbout()}>Źródła, różnice dat i ograniczenia</LinkButton>
-      </Footnote>
+      </p>
     </Shell>
   )
 }

@@ -3,7 +3,6 @@ import {
   AREAS, allCities, areaRow, buildGroups, centreRows, cityCell, highlights, indexMetrics, markExtremes, metricArea,
   metricName, nodeSub, plainText, rankOf, sourceModel, standing, timeOfDay, topNodes, transportCities,
 } from './metricTable'
-import { shareText, sharesFor } from './classShares'
 
 const row = (agglomeration, metric, domain, value, extra = {}) => ({
   agglomeration, metric, domain, value, unit: '%', label: `L ${metric}`, tier: 'main', ...extra,
@@ -184,21 +183,5 @@ describe('source note', () => {
   })
   it('is empty when no row exists', () => {
     expect(sourceModel([{ key: 'a', row: null }])).toEqual({ source: null, dates: [], feed: null, coverage: [], flags: [] })
-  })
-})
-
-describe('class shares', () => {
-  it('reads shares of a layer for a city, if any', () => {
-    expect(sharesFor({ L: { a: [0.5, 0.5] } }, 'L', 'a')).toEqual([0.5, 0.5])
-    expect(sharesFor({}, 'L', 'a')).toBeUndefined()
-    expect(sharesFor(undefined, 'L', 'a')).toBeUndefined()
-    expect(sharesFor({ L: { a: [] } }, 'L', 'a')).toBeUndefined()
-  })
-  it('prints whole percentages, "<1 %" for crumbs, nothing without a number', () => {
-    expect(shareText([0.234, 0.005, 0.761], 0)).toBe('23 %')
-    expect(shareText([0.234, 0.005, 0.761], 1)).toBe('<1 %')
-    expect(shareText([0.5], 3)).toBe('')
-    expect(shareText(undefined, 0)).toBe('')
-    expect(shareText([40, 60], 0)).toBe('40 %')   // already in percent
   })
 })

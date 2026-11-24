@@ -3,6 +3,12 @@ import { DOMAIN_INFO } from './metricInfo'
 import { AREAS, DENSITY_GROUP_IDS } from './metricTable'
 import { cityColumns, compareGroups } from './tableModel'
 
+export const COMPARE_TABS = [
+  { key: 'metrics', label: 'Miary' },
+  { key: 'density', label: 'Gęstość, wszystkie miasta' },
+  { key: 'classes', label: 'Mieszkańcy w klasach warstwy' },
+]
+
 /**
  * The line over a sorted comparison: which metric orders the cities and which way, and the way back to the default
  * order. Nothing when there is no sort or its metric is not in this table (an old link, say).
@@ -22,57 +28,95 @@ function SortNote({ groups, sort, onReset }) {
 
 /**
  * The body of "Porównanie miast": which area the numbers refer to, the table of the cities with transport data,
- * a shorter table with all cities, and the reminder that "brak danych" is not zero. Shown in the details slot on a
- * desktop and in a modal on a phone. `hot`/`setHot` is the city whose column (and outline on the map) is lit.
+ * a shorter table with all cities, the residents by class of the active value layer, and the reminder that "brak
+ * danych" is not zero. `hot`/`setHot` is the city whose column (and outline on the map) is lit.
+ * `layout` is 'stack' (a phone's modal: everything one under another) or 'tabs' (the wide dock: the area chips and
+ * three tabs, one shown at a time; `tab`/`setTab` says which). `chart` is the block of residents by class per city.
  * `sort`/`setSort` and `sortDensity`/`setSortDensity` are the sorts of the two tables, {key: metric id, dir} or
  * null: a control on a row puts the cities in the order of that row's numbers. They live above, so that they
  * survive a change of area and go into the address.
  */
 export default function Compare({
   index, cities, everyCity, names, area, setArea, layers, onShowLayer, onPickCity, hot, setHot, onOpenLimits,
-  sort = null, setSort, sortDensity = null, setSortDensity,
+  sort = null, setSort, sortDensity = null, setSortDensity, layout = 'stack', tab = 'metrics', setTab, chart = null,
 }) {
   if (!cities.length) return <Hint>Miary pojawią się po przeliczeniu.</Hint>
+  const tabs = layout === 'tabs'
   const common = { index, area, names, layers, onShowLayer }
   const transport = compareGroups({ ...common, cities })
   const density = compareGroups({ ...common, cities: everyCity, onlyGroups: DENSITY_GROUP_IDS })
   const info = DOMAIN_INFO[area]
-  return (
+  const tableClass = tabs ? 'compare-table dock-table' : 'compare-table'
+
+  const metrics = (
     <>
-      <Chips
-        items={AREAS.map((a) => ({ key: a, label: DOMAIN_INFO[a].short, on: a === area }))}
-        onPick={setArea}
-      />
-      <p className="compare-area">{info.read}</p>
       <SortNote groups={transport} sort={sort} onReset={() => setSort?.(null)} />
       <DataTable
-        caption="Porównanie miast z danymi o transporcie" className="compare-table" labelHead="Miara"
+        caption="Porównanie miast z danymi o transporcie" className={tableClass} labelHead="Miara"
         columns={cityColumns(cities, names, onPickCity)} groups={transport}
         sortBy="row" sort={sort} onSortChange={setSort}
         hot={hot} onHot={setHot}
+        resizable={tabs ? 'all' : false} density={tabs ? 'compact' : 'regular'}
       />
       <Hint>
         Pogrubiona liczba to najlepsza wartość w wierszu, przygaszona najsłabsza; nie oznaczamy miar, w których
         „lepiej” nie ma sensu. Strzałki przy mierze ustawiają miasta od najlepszego (jeszcze raz: od najgorszego,
         trzeci raz: jak na początku). Kliknij nazwę miasta, aby zobaczyć jego miary.
       </Hint>
+    </>
+  )
+  const densityBlock = density.length > 0 && (
+    <>
+      {!tabs && <h4>Gęstość: wszystkie {everyCity.length} miast</h4>}
+      <SortNote groups={density} sort={sortDensity} onReset={() => setSortDensity?.(null)} />
+      <DataTable
+        caption="Gęstość i forma wszystkich aglomeracji" className={tableClass} labelHead="Miara"
+        columns={cityColumns(everyCity, names, onPickCity)} groups={density}
+        sortBy="row" sort={sortDensity} onSortChange={setSortDensity}
+        hot={hot} onHot={setHot}
+        resizable={tabs ? 'all' : false} density={tabs ? 'compact' : 'regular'}
+      />
+    </>
+  )
+  const reminder = (
+    <Hint>
+      „–” oznacza brak danych, a nie zero: miary nie da się policzyć albo nie dotyczy tego obszaru.{' '}
+      <LinkButton onClick={onOpenLimits}>Czego te liczby nie mówią</LinkButton>
+    </Hint>
+  )
 
-      {density.length > 0 && (
-        <>
-          <h4>Gęstość: wszystkie {everyCity.length} miast</h4>
-          <SortNote groups={density} sort={sortDensity} onReset={() => setSortDensity?.(null)} />
-          <DataTable
-            caption="Gęstość i forma wszystkich aglomeracji" className="compare-table" labelHead="Miara"
-            columns={cityColumns(everyCity, names, onPickCity)} groups={density}
-            sortBy="row" sort={sortDensity} onSortChange={setSortDensity}
-            hot={hot} onHot={setHot}
+  return (
+    <>
+      <div className="compare-bar">
+        <Chips
+          items={AREAS.map((a) => ({ key: a, label: DOMAIN_INFO[a].short, on: a === area }))}
+          onPick={setArea}
+        />
+        {tabs && (
+          <Chips
+            items={COMPARE_TABS.map((t) => ({ key: t.key, label: t.label, on: t.key === tab }))}
+            onPick={setTab}
           />
-        </>
-      )}
-      <Hint>
-        „–” oznacza brak danych, a nie zero: miary nie da się policzyć albo nie dotyczy tego obszaru.{' '}
-        <LinkButton onClick={onOpenLimits}>Czego te liczby nie mówią</LinkButton>
-      </Hint>
+        )}
+      </div>
+      <p className="compare-area">{info.read}</p>
+      {tabs
+        ? (
+          <>
+            {tab === 'metrics' && metrics}
+            {tab === 'density' && densityBlock}
+            {tab === 'classes' && chart}
+            {reminder}
+          </>
+        )
+        : (
+          <>
+            {metrics}
+            {densityBlock}
+            {chart && <><h4>Mieszkańcy w klasach warstwy</h4>{chart}</>}
+            {reminder}
+          </>
+        )}
     </>
   )
 }

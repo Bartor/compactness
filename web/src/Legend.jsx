@@ -1,48 +1,48 @@
-import { useState } from 'react'
-import { dataDates, legendRows } from './layerInfo'
+import { legendRows } from './layerInfo'
 import { emphasised, focusOf, hovered } from './classFocus'
 import { sizeClasses } from './pointLayers'
-import { shareText } from './classShares'
-import { usePhone } from './usePhone'
+import { shareFractions, shareText } from './classShares'
+import { KIND_ORDER } from './mapLayers'
+import { ScopeLine } from './ClassChart'
+import MapLegendBox from './kitx/MapLegendBox'
 
 /**
- * Phone only: a collapsed "Legenda" button over the map that opens the key of the visible layers, with their
- * data dates and sources. On desktop the key is in the sidebar, under each layer (LegendBody), and this
- * renders nothing. `sharesOf(layerId)` gives the share of the selected city's residents per class, when known. `focuses` ({layerId: focus}) says which classes are hovered or pinned, `onHover(layerId,
- * index | null)` and `onToggle(layerId, index)` report the pointer and clicks, `onClear(layerId)` unpins all.
+ * The legend in the corner of the map (desktop and phone): the active value layer with its classes (hover and pin as
+ * in the sidebar before: they drive the map and the charts) and the unit, then a compact key of each active overlay.
+ * No dates and no sources here; they are behind the "?" of the layer in the sidebar. `open` / `onToggle` is the fold
+ * state, kept by the page. `shares` is {scopeOf(layerId) -> scope | null (classShares.scopeData), aggName, area,
+ * onArea}: with it every class of a value layer shows the share of residents of the scope, and a line says whose
+ * numbers those are.
  */
-export default function Legend({ layers, focuses, onHover, onToggle, onClear, sharesOf }) {
-  const phone = usePhone()
-  const [open, setOpen] = useState(false)
-  if (!phone || !layers.length) return null
-  if (!open) {
-    return (
-      <button type="button" className="kit-map-legend closed" onClick={() => setOpen(true)}>Legenda</button>
-    )
-  }
+export default function Legend({ layers, focuses, onHover, onToggle, onClear, open, onOpen, shares }) {
+  if (!layers.length) return null
+  const ordered = [...layers].sort((a, b) => (KIND_ORDER[a.kind] ?? 9) - (KIND_ORDER[b.kind] ?? 9))
   return (
-    <div className="kit-map-legend legend">
-      <button type="button" className="kit-legend-close" aria-label="Zwiń legendę" onClick={() => setOpen(false)}>×</button>
-      {layers.map((l) => {
-        const dates = dataDates(l)
+    <MapLegendBox open={open} onToggle={onOpen}>
+      {ordered.map((l) => {
+        const scope = l.kind === 'choropleth' ? shares?.scopeOf(l.id) : null
+        const fr = shareFractions(scope)
         return (
           <div key={l.id} className="legend-block">
             <b>{l.title}</b>
-            <LegendBody layer={l} focus={focusOf(focuses || {}, l.id)} onHover={onHover} onToggle={onToggle} onClear={onClear} shares={sharesOf?.(l.id)} />
-            {dates && <small>{dates}</small>}
-            {l.attribution && <small>{l.attribution}</small>}
+            <LegendBody
+              layer={l} focus={focusOf(focuses || {}, l.id)} onHover={onHover} onToggle={onToggle} onClear={onClear}
+              shares={fr?.pop} noDataShare={fr?.nodataPop} compact
+            />
+            {scope && <ScopeLine aggName={shares.aggName} area={shares.area} onArea={shares.onArea} />}
           </div>
         )
       })}
-    </div>
+    </MapLegendBox>
   )
 }
 
 /**
- * The key of one layer without its title, dates and sources: shared by the sidebar and the phone overlay.
- * `shares` (optional): per class, in ramp order, the share of the selected city's residents; shown beside the class when given.
+ * The key of one layer without its title, dates and sources. `shares` (optional) is, per class in ramp order, the
+ * share of residents as a fraction (classShares.shareFractions().pop), `noDataShare` the same for the hatched row;
+ * `compact` drops the explanatory line under the classes (it stays as "Pokaż wszystkie klasy" while a class is pinned).
  */
-export function LegendBody({ layer, focus, onHover, onToggle, onClear, shares }) {
+export function LegendBody({ layer, focus, onHover, onToggle, onClear, shares, noDataShare = null, compact = false }) {
   const { rows, noData, noValue } = legendRows(layer)
   const points = layer.kind === 'points'
   const strong = emphasised(focus, layer.id)
@@ -50,6 +50,7 @@ export function LegendBody({ layer, focus, onHover, onToggle, onClear, shares })
   const under = hovered(focus, layer.id)
   const rowClass = (i) => ['legend-row', pinned.includes(i) && 'pinned', under === i && 'hover',
     strong.size > 0 && !strong.has(i) && under !== i && 'dim'].filter(Boolean).join(' ')
+  const noDataText = noDataShare == null ? '' : shareText([noDataShare], 0)
   return (
     <>
       {layer.kind === 'boundary' && (
@@ -85,13 +86,20 @@ export function LegendBody({ layer, focus, onHover, onToggle, onClear, shares })
               </div>
             </div>
           )}
-          {noData && <span><i className={points ? 'dot ring' : 'sq hatch'} />{noData}</span>}
+          {noData && (
+            <span>
+              <i className={points ? 'dot ring' : 'sq hatch'} />{noData}
+              {noDataText && <em className="legend-share">{noDataText}</em>}
+            </span>
+          )}
           {noValue && <span><i className="dot ring" />{noValue}</span>}
-          <small className="legend-hint">
-            {pinned.length
-              ? <button type="button" className="legend-clear" onClick={() => onClear?.(layer.id)}>Pokaż wszystkie klasy</button>
-              : 'Wskaż klasę, aby wyróżnić ją na mapie; kliknij, aby zostawić wyróżnienie.'}
-          </small>
+          {(pinned.length > 0 || !compact) && (
+            <small className="legend-hint">
+              {pinned.length
+                ? <button type="button" className="legend-clear" onClick={() => onClear?.(layer.id)}>Pokaż wszystkie klasy</button>
+                : 'Wskaż klasę, aby wyróżnić ją na mapie; kliknij, aby zostawić wyróżnienie.'}
+            </small>
+          )}
         </>
       )}
       {layer.kind === 'mask' && (

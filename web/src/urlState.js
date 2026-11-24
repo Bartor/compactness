@@ -1,13 +1,15 @@
 // The view lives in the address, so a link opens on the same agglomeration and
 // layers. Only what differs from the defaults is written.
-//   #a=wroclaw&l=fua,density250&v=layer:variant&s=pwdens_census_1km:desc&sd=gini:asc
+//   #a=wroclaw&l=fua,density250&v=layer:variant&s=pwdens_census_1km:desc&sd=gini:asc&d=full
 // l= lists the ids of the layers drawn (empty: none); old addresses that list several value layers or several
 // layers of one overlay group still open, on the first of each (layerControl.stateFromIds).
 // v= is the chosen variant of layers that have variants.
 // s= and sd= are the sorts of the city comparison and of its density table: the metric whose row orders the city
 // columns, and the way (desc / asc). Absent: the default order of the cities. Addresses without them still open.
+// d= is the state of the bottom dock on desktop: folded, half or full. Absent (an old address): half.
 
 import { activeIds, initialState, stateFromIds, variantsToWrite } from './layerControl'
+import { DEFAULT_DOCK, parseDock } from './kitx/dock'
 
 const LIST = ','
 const DIRS = ['asc', 'desc']
@@ -38,13 +40,14 @@ export function readHash(hash = typeof window !== 'undefined' ? window.location.
     variants,
     sort: parseSort(q.get('s')),
     sortDensity: parseSort(q.get('sd')),
+    dock: parseDock(q.get('d')),
   }
 }
 
 const sameSet = (a, b) => a.length === b.length && a.every((x) => b.includes(x))
 
 /** The hash (with '#', or '' when plain) for a state, given the defaults. `variants` is {layerId: key}. */
-export function hashOf({ agg, layers, variants = {}, sort, sortDensity }, defaults) {
+export function hashOf({ agg, layers, variants = {}, sort, sortDensity, dock }, defaults) {
   const q = new URLSearchParams()
   if (agg) q.set('a', agg)
   const on = [...layers].sort()
@@ -53,24 +56,25 @@ export function hashOf({ agg, layers, variants = {}, sort, sortDensity }, defaul
   if (v.length) q.set('v', v.join(LIST))
   if (sortText(sort)) q.set('s', sortText(sort))
   if (sortText(sortDensity)) q.set('sd', sortText(sortDensity))
+  if (dock && dock !== DEFAULT_DOCK && parseDock(dock)) q.set('d', dock)
   // ',' and ':' are fine in a fragment; left unescaped the link stays readable
   const s = q.toString().replace(/%2C/g, ',').replace(/%3A/g, ':')
   return s ? `#${s}` : ''
 }
 
-/** The hash of the page state: `view` is the layer-control state (layerControl.js), `sorts` is {sort, sortDensity}. */
+/** The hash of the page state: `view` is the layer-control state (layerControl.js), `sorts` is {sort, sortDensity, dock}. */
 export function hashOfView(agg, view, layers, sorts = {}) {
   const defaults = { layers: [...activeIds(initialState(layers), layers)] }
   const active = activeIds(view, layers)
-  return hashOf({ agg, layers: [...active], variants: variantsToWrite(view, layers, active), sort: sorts.sort, sortDensity: sorts.sortDensity }, defaults)
+  return hashOf({ agg, layers: [...active], variants: variantsToWrite(view, layers, active), sort: sorts.sort, sortDensity: sorts.sortDensity, dock: sorts.dock }, defaults)
 }
 
 /**
- * Checks a parsed hash against the catalog; anything unknown falls back. Returns {agg, state, sort, sortDensity}; the
- * sorts are {key, dir} or null. Their keys are not checked here: a table ignores a key it has no row for.
+ * Checks a parsed hash against the catalog; anything unknown falls back. Returns {agg, state, sort, sortDensity, dock}; the
+ * sorts are {key, dir} or null, the dock is a state (an old address without one gets the half state). Their keys are not checked here: a table ignores a key it has no row for.
  */
 export function resolveHash(parsed, { agglomerations, layers }) {
   const agg = agglomerations.some((a) => a.id === parsed.agg) ? parsed.agg : null
   const state = parsed.layers ? stateFromIds(parsed.layers, layers, parsed.variants) : initialState(layers)
-  return { agg, state, sort: parsed.sort ?? null, sortDensity: parsed.sortDensity ?? null }
+  return { agg, state, sort: parsed.sort ?? null, sortDensity: parsed.sortDensity ?? null, dock: parsed.dock ?? DEFAULT_DOCK }
 }

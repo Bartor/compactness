@@ -16,14 +16,16 @@ Last updated 2026-11-24.
   time above free running (data only, not on the site yet).
 - Site redesign after the KBR viewer: dark theme, radio cards for value layers, switches for overlays,
   comparison and city tables with "how to read it" explanations, colours for the dark basemap.
-- ui-kit 0.3.1: `DataTable` (sticky heads, sorting by column or by row). The site uses a vendored tarball until
-  the version is on the npm registry.
+- ui-kit 0.3.2: `DataTable` (sticky heads, sorting by column or by row, one-line row headers, resizable columns,
+  compact density). The site uses a vendored tarball until the version is on the npm registry.
+- Layout rework: tables in a bottom dock (folded, half, whole screen with a small live map), legend in a map corner
+  with the share of residents per class, class charts linked to hover and pin, the area outside the selected city
+  dimmed.
 
 ## In progress
 
-- Layout rework (owner's request, 2026-11-24): tables in a bottom dock that can expand to the whole screen with a
-  small map; legend back in a map corner as in the KBR viewer; residents and cells per legend class as charts,
-  limited to the selected city and pinned classes.
+- To-do items 1–4, 6 and 9–16 below are being worked on (data and self-contained site pieces first, wiring into the
+  site after each is checked).
 
 ## To do
 
@@ -36,10 +38,10 @@ Site
 4. Node detail view: stops, walking paths, crossings, top line-to-line movements; nodes sized by actual use.
 5. Network view: select a line, see its stretches and its connections with waits.
 6. Isochrones from a clicked point; survey context (KBR mode shares) in the city view.
-7. Switch the site to ui-kit `^0.3.1` from the registry and delete `web/vendor`; move the remaining local
+7. Switch the site to ui-kit `^0.3.2` from the registry and delete `web/vendor`; move the remaining local
    pieces (dock, legend with shares, mini-map) into the kit once the design settles.
 8. Checks never done: Firefox, Safari, keyboard order, phone layout after each change; re-measure the transfer
-   estimate per first visit; trace the two 404s on the live site (probably the optional class-shares file).
+   estimate per first visit. On a phone the city sheet covers most of the fitted city.
 
 Method and data
 9. Transfer layer revisions from the review: generalised-time band (walk x1.2–1.7, wait x1.5, penalty 5/13/18 min),

@@ -27,13 +27,15 @@ const HIT_PAD = 4
 const POLAND = { center: [19.4, 52.1], zoom: 5.6 }
 const isPhone = () => window.matchMedia('(max-width: 760px)').matches
 
-// Desktop padding for fitBounds: clear of the details panel on the right (560 px wide; the legend is in the sidebar).
-const fitPadding = (detailsOpen) => ({ top: 40, left: 40, right: detailsOpen ? 600 : 40, bottom: 40 })
+// Desktop padding for fitBounds: the page passes it (`fitPad`), clear of the legend in the corner. The dock is not
+// in it: it sits under the map and the map box already ends above it.
+const DEFAULT_PAD = { top: 40, left: 40, right: 40, bottom: 40 }
 
 // The kit's .kit-map-wrap supplies the sizing: a flex child that fills what
 // the sidebar leaves, and the whole screen behind the sheets on phones.
 export default function MapView({
-  catalog, active, selectedId, hot, onHot, onSelect, fit, detailsOpen, focus, nodeRequest, sharesOf,
+  catalog, active, selectedId, hot, onHot, onSelect, fit, fitPad = DEFAULT_PAD, focus, nodeRequest, outside = null,
+  legendOpen, onLegendOpen, legendShares,
 }) {
   const { focuses, setFocuses } = focus
   const box = useRef(null)
@@ -189,12 +191,12 @@ export default function MapView({
   useEffect(() => {
     if (!ready) return
     try {
-      syncOverlays(ready, catalog.layers, active, selectedId, hot)
+      syncOverlays(ready, catalog.layers, active, selectedId, hot, outside)
     } catch (e) {
       console.warn('map layers:', e)
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [ready, catalog, active, selectedId])
+  }, [ready, catalog, active, selectedId, outside])
 
   // the lit city: outline only, no restacking
   useEffect(() => {
@@ -243,11 +245,11 @@ export default function MapView({
   useEffect(() => {
     if (!ready || !fit) return
     const phone = isPhone()
+    ready.resize()   // the box may have just changed size (the dock moved): fit to what is there now
     ready.fitBounds(
       [[fit.bbox[0], fit.bbox[1]], [fit.bbox[2], fit.bbox[3]]],
       {
-        padding: phone ? { top: 40, left: 20, right: 20, bottom: 120 }
-          : fitPadding(detailsOpen && window.innerWidth > 1100),
+        padding: phone ? { top: 40, left: 20, right: 20, bottom: 120 } : fitPad,
         duration: fit.animate ? 1200 : 0,
         maxZoom: 12,
       },
@@ -261,8 +263,8 @@ export default function MapView({
       <div ref={box} className="kit-map" />
       {mapError && <div className="map-error">Nie udało się uruchomić mapy: {mapError}</div>}
       <Legend
-        layers={shown} focuses={focuses}
-        onHover={focus.onHover} onToggle={focus.onToggle} onClear={focus.onClear} sharesOf={sharesOf}
+        layers={shown} focuses={focuses} open={legendOpen} onOpen={onLegendOpen} shares={legendShares}
+        onHover={focus.onHover} onToggle={focus.onToggle} onClear={focus.onClear}
       />
     </div>
   )

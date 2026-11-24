@@ -18,6 +18,11 @@ export const sourceId = (layer) => `src-${layer.id}`
 export const fillId = (layer) => `${layer.id}:fill`
 export const selId = (layer) => `${layer.id}:sel`
 export const hotId = (layer) => `${layer.id}:hot`
+export const OUTSIDE_SOURCE = 'outside-src'
+export const OUTSIDE_LAYER = 'outside:fill'
+// the veil over everything outside the selected city: dark, so that the city stands out without hiding the rest
+export const OUTSIDE_COLOR = '#12141a'
+export const OUTSIDE_OPACITY = 0.62
 
 export function sourceSpec(layer) {
   const attribution = layer.attribution || undefined
@@ -89,8 +94,11 @@ export const hotFilter = (hot) => (hot ? ['==', ['get', 'id'], hot] : ZERO)
 /**
  * Makes the map show exactly the ready layers in `active`, in KIND_ORDER, just
  * below the labels. Cheap to call again with the same arguments.
+ * `outside` (optional) is a GeoJSON Feature that covers everything outside the selected city (outsideMask.js): it is
+ * drawn as a dark veil above the value layers, the hatch and the stop areas and below the outlines, so those are
+ * dimmed outside the city and the outlines (and so clicks on other cities) are not.
  */
-export function syncOverlays(map, layers, active, selectedId, hot = null) {
+export function syncOverlays(map, layers, active, selectedId, hot = null, outside = null) {
   const wanted = layers
     .filter((l) => l.status === 'ready' && active.has(l.id) && l.url && layerSpecs(l).length)
     .sort((a, b) => (KIND_ORDER[a.kind] ?? 9) - (KIND_ORDER[b.kind] ?? 9))
@@ -107,13 +115,35 @@ export function syncOverlays(map, layers, active, selectedId, hot = null) {
       if (!map.getLayer(s.id)) map.addLayer({ ...s, source: sourceId(l) }, ANCHOR_LABELS)
     }
   }
+  syncOutside(map, outside)
+  const veil = () => { if (map.getLayer(OUTSIDE_LAYER)) map.moveLayer(OUTSIDE_LAYER, ANCHOR_LABELS) }
+  let veiled = false
   // stacking: moving each one to just below the labels, in order, sorts them
   for (const l of wanted) {
+    if (l.kind === 'boundary' && !veiled) { veil(); veiled = true }
     for (const s of layerSpecs(l)) map.moveLayer(s.id, ANCHOR_LABELS)
     if (l.kind === 'boundary' && map.getLayer(selId(l))) map.setFilter(selId(l), selectionFilter(selectedId))
     if (l.kind === 'boundary' && map.getLayer(hotId(l))) map.setFilter(hotId(l), hotFilter(hot))
   }
+  if (!veiled) veil()
   return wanted
+}
+
+/** Puts the veil on the map (or updates it), or takes it off when there is none. */
+export function syncOutside(map, outside) {
+  if (!outside) {
+    if (map.getLayer(OUTSIDE_LAYER)) map.removeLayer(OUTSIDE_LAYER)
+    if (map.getSource(OUTSIDE_SOURCE)) map.removeSource(OUTSIDE_SOURCE)
+    return
+  }
+  if (map.getSource(OUTSIDE_SOURCE)) map.getSource(OUTSIDE_SOURCE).setData(outside)
+  else map.addSource(OUTSIDE_SOURCE, { type: 'geojson', data: outside })
+  if (!map.getLayer(OUTSIDE_LAYER)) {
+    map.addLayer({
+      id: OUTSIDE_LAYER, type: 'fill', source: OUTSIDE_SOURCE,
+      paint: { 'fill-color': OUTSIDE_COLOR, 'fill-opacity': OUTSIDE_OPACITY, 'fill-antialias': false },
+    }, ANCHOR_LABELS)
+  }
 }
 
 /** Lights the outline of one city (id) or none (null) on every boundary layer on the map; cheap, no restacking. */
