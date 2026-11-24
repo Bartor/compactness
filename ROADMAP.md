@@ -30,6 +30,9 @@ Last updated 2026-11-24.
   wait: timetables are not coordinated by day; the test does find night-line meeting points), a generalised-time
   band from published weights, crossings on the AMPTI W6 scale, frequent x frequent movements, and a detail
   export for 1 757 nodes (stops, walking paths, crossings, line-to-line movements).
+- Routed-trip sample (135 000 trips): transfer shares against Warsaw's survey and Jakdojade (the level depends on
+  the destination draw and a transfer penalty, the order of cities holds), use of stop areas for transfers, and the
+  15 suburban pairs of the NIK audit.
 - Urban form additions: residents by 250 m density class, official Eurostat 2021 urban-centre shares, polycentricity
   (eta and density hotspots) in the tables; Angel's proximity index in the tables only (not robust among
   single-centre cities).
@@ -63,8 +66,9 @@ Method and data
     total-walk limit (R5 limits each leg, not the trip); register `data/raw/dgregio_gridstudy/` in the manifest.
 12. Distribution, remaining: the same outputs on the raw GHSL grid as a sensitivity variant.
 13. New open data: NSP 2021 age grid, commuting matrix, BDOT10k buildings, schools (RSPO) and hospitals as destinations.
-14. Validation: about 100 random journey-planner pairs at several departure minutes; the 15 suburban pairs from
-    the NIK audit; transfer shares from routed trips against Warsaw's 43 % (WBR 2015) and Jakdojade.
+14. Validation, remaining: about 100 random journey-planner pairs at several departure minutes; the cause of the
+    10-22 minute gap to the NIK audit's times around Poznań; nodes sized by use on the map (data ready in
+    `results/layers/node_use.parquet`).
 15. Wrocław tram what-if, remaining: a map layer of the gain and a block in the city view; other cities; Saturday and evening windows.
 16. Form, remaining: Eurostat's official medium-density clusters (level 2 classes) were not downloaded; town halls
     not checked against official registers.
