@@ -1,0 +1,22 @@
+{
+ "bytes": 3097260,
+ "catalog_layers": [
+  "transfer_walk",
+  "transfer_wait"
+ ],
+ "dropped_single_line_no_pair": 0,
+ "duration_s": 2.2,
+ "features": 8540,
+ "flag_shortened": true,
+ "git_sha": "8cfbe8d09816ec809b1c8fa3a6186b1146bc853c",
+ "inputs": {},
+ "missing_inputs": [],
+ "nodata_features": 706,
+ "output": "results/web/transfer_nodes.geojson",
+ "run_at": "2026-11-24T13:22:00+01:00",
+ "share_unit": "fraction 0..1 (cross_signal, steps, stepfree)",
+ "source": "results/layers/transfer_nodes.parquet",
+ "step": "transfer_web",
+ "time_unit": "minutes",
+ "timetable_date": "2026-11-25"
+}

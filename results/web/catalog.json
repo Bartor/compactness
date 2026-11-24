@@ -386,6 +386,99 @@
    "type": "pmtiles",
    "unit": "gęsto: ≥ 2 500 os./km²; kursy w zasięgu 500 m",
    "url": "tiles/density_service_2026-11-25.pmtiles"
+  },
+  {
+   "attribution": "wydawcy GTFS (lista w „O danych”), © współtwórcy OpenStreetMap",
+   "has_nodata": true,
+   "id": "transfer_walk",
+   "kind": "points",
+   "nodata_label": "brak danych (poza pokryciem GTFS)",
+   "note": "Punkt to zespół przystanków, czyli przystanki tramwaju, autobusu, kolei i metra leżące tak blisko siebie, że można między nimi przesiąść się pieszo; kolor pokazuje medianę dojścia między liniami, a wielkość punktu to liczba odjazdów na godzinę. Dojście liczono po sieci pieszej OSM, 5 km/h, osobno dla każdego kierunku jazdy, a czekanie z rozkładu jazdy, w pełnych minutach. To miara własna, której składowe są pokazane osobno i nie są łączone w jedną ocenę; nie jest to metoda AMPTI. Informacja o drodze bez schodów zależy od kompletności OpenStreetMap, a zespoły poza pokryciem GTFS nie mają wartości.",
+   "novalue_label": "bez wartości (brak ruchów przesiadkowych z kierunkami)",
+   "population_date": null,
+   "property": "walk_dir",
+   "ramp": {
+    "colors": [
+     "#B9CEF3",
+     "#8AACEB",
+     "#5A86E0",
+     "#1D4ED8",
+     "#13308A"
+    ],
+    "labels": [
+     "do 1 min",
+     "1–2 min",
+     "2–3 min",
+     "3–5 min",
+     "ponad 5 min"
+    ],
+    "stops": [
+     1,
+     2,
+     3,
+     5
+    ]
+   },
+   "size_label": "odjazdów na godzinę (6–20)",
+   "size_property": "dep_h",
+   "size_stops": [
+    20,
+    50,
+    100,
+    200
+   ],
+   "status": "ready",
+   "timetable_date": "2026-11-25",
+   "title": "Przesiadki: dojście między liniami",
+   "type": "geojson",
+   "unit": "mediana dojścia między liniami, min",
+   "url": "data/transfer_nodes.geojson"
+  },
+  {
+   "attribution": "wydawcy GTFS (lista w „O danych”), © współtwórcy OpenStreetMap",
+   "has_nodata": true,
+   "id": "transfer_wait",
+   "kind": "points",
+   "nodata_label": "brak danych (poza pokryciem GTFS)",
+   "note": "Punkt to zespół przystanków, czyli przystanki tramwaju, autobusu, kolei i metra leżące tak blisko siebie, że można między nimi przesiąść się pieszo; kolor pokazuje oczekiwane czekanie na linię docelową w godzinach 7–9, a wielkość punktu to liczba odjazdów na godzinę. Dojście liczono po sieci pieszej OSM, 5 km/h, osobno dla każdego kierunku jazdy, a czekanie z rozkładu jazdy, w pełnych minutach. To miara własna, której składowe są pokazane osobno i nie są łączone w jedną ocenę; nie jest to metoda AMPTI. Informacja o drodze bez schodów zależy od kompletności OpenStreetMap, a zespoły poza pokryciem GTFS nie mają wartości.",
+   "population_date": null,
+   "property": "wait_am",
+   "ramp": {
+    "colors": [
+     "#F8D9A8",
+     "#F0A35E",
+     "#D9722B",
+     "#A94A12",
+     "#6B2C0A"
+    ],
+    "labels": [
+     "do 3 min",
+     "3–5 min",
+     "5–10 min",
+     "10–15 min",
+     "ponad 15 min"
+    ],
+    "stops": [
+     3,
+     5,
+     10,
+     15
+    ]
+   },
+   "size_label": "odjazdów na godzinę (6–20)",
+   "size_property": "dep_h",
+   "size_stops": [
+    20,
+    50,
+    100,
+    200
+   ],
+   "status": "ready",
+   "timetable_date": "2026-11-25",
+   "title": "Przesiadki: czekanie na linię docelową (7–9)",
+   "type": "geojson",
+   "unit": "oczekiwane czekanie, min",
+   "url": "data/transfer_nodes.geojson"
   }
  ]
 }
