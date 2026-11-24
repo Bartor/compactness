@@ -9,6 +9,8 @@ Inputs  (one pair per step, all in results/metrics/)
 * metrics_access_uc.csv/json phase 3 on the urban-centre domain (domain "urban_centre"; same conventions)
 * metrics_transfer.csv/json  ease of transfer in stop areas (no population grid; feed_variant "all")
 * metrics_distribution.csv/json  distribution of cell values: share below the access floor, FGT, percentiles
+* metrics_form.csv/json      urban form: Angel's indices, polycentricity, Eurostat 2021 urban-centre shares,
+                             residents by 250 m density class (no feed variant)
 
 Outputs
 * results/metrics/metrics.csv + metrics.json   union of all steps, columns COLUMNS, deterministic sort;
@@ -32,7 +34,7 @@ from pipeline.common import RESULTS, load_config, write_json, write_meta
 
 METRICS = RESULTS / "metrics"
 WEB = RESULTS / "web"
-STEPS = ["density", "supply", "frequent", "density_service", "access", "access_uc", "transfer", "distribution"]
+STEPS = ["density", "supply", "frequent", "density_service", "access", "access_uc", "transfer", "distribution", "form"]
 ACCESS_STEPS = ("access", "access_uc")
 
 COLUMNS = ["agglomeration", "domain", "metric", "label", "value", "unit", "grid", "source", "population_date",
@@ -118,6 +120,14 @@ for _dom in ("core", "covered"):
     PANEL[(_dom, "dist_p75_pt_am_30min")] = (344, "Zasięg 30 min: co czwarty mieszkaniec ma co najmniej")
 PANEL[("core", "dist_below_floor_pt_evening_30min")] = (345, "Poniżej minimalnego zasięgu 30 min, wieczór")
 PANEL[("core", "dist_below_floor_pt_saturday_30min")] = (346, "Poniżej minimalnego zasięgu 30 min, sobota")
+# urban form additions (pipeline.form_extra): density classes, Eurostat urban centres, polycentricity
+for _dom in ("fua", "core"):
+    PANEL[(_dom, "share_residents_ge5000")] = (110, "Mieszkańcy komórek o gęstości ≥ 5 000 os./km²")
+    PANEL[(_dom, "median_resident_density_250m")] = (111, "Gęstość wokół typowego mieszkańca (komórka 250 m)")
+    PANEL[(_dom, "degurba2021_share_urban_centre")] = (112, "Mieszkańcy centrów miejskich (Eurostat 2021)")
+PANEL[("fua", "poly_eta_mask_t20")] = (113, "Rozproszenie skupisk gęstości η")
+PANEL[("fua", "hotspots_n")] = (114, "Skupiska gęstości ≥ 10 000 os./km²")
+PANEL[("fua", "hotspots_largest_share")] = (115, "Udział największego skupiska gęstości")
 # from the centres (cells within 1 km of the centre, the hub and every extra centre): added in centre_panel(),
 # because the domains are read from metrics_access and the labels from config.yaml
 CENTRE_METRICS = ("tp_pt_am_30min", "tp_pt_am_45min")
@@ -202,12 +212,12 @@ def panel_subset(rows: list[dict]) -> list[dict]:
         if spec is None or r["tier"] == "qa":
             continue
         street_only = r["step"] in ACCESS_STEPS and r["feed_variant"] is None    # walk / bike: no feed variant
-        if r["step"] != "density" and r["feed_variant"] != PANEL_FEED_VARIANT and not street_only:
+        if r["step"] not in ("density", "form") and r["feed_variant"] != PANEL_FEED_VARIANT and not street_only:
             continue
         if r["step"] in ("frequent", "density_service", *ACCESS_STEPS) and r["population_grid"] != PANEL_POP_GRID:
             continue
         # density: the 100 m measures exist on two population grids; only the census-scaled one is shown
-        if r["step"] == "density" and r["population_grid"] not in (None, PANEL_POP_GRID):
+        if r["step"] in ("density", "form") and r["population_grid"] not in (None, PANEL_POP_GRID):
             continue
         out.append((spec[0], {**r, "label": spec[1]}))
     out.sort(key=lambda t: (t[1]["agglomeration"], t[1]["domain"], t[0]))

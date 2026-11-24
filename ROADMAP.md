@@ -21,17 +21,23 @@ Last updated 2026-11-24.
 - Layout rework: tables in a bottom dock (folded, half, whole screen with a small live map), legend in a map corner
   with the share of residents per class, class charts linked to hover and pin, the area outside the selected city
   dimmed.
+- Distribution outputs and charts: share of residents below an explicit access floor (FGT, no Gini), "at least X"
+  curves, the 5-60 minute reach curve with quartile band, dot strips, dumbbells and the time-of-day profile, in the
+  dock and linked with the tables, legend and map.
+- Urban form additions: residents by 250 m density class, official Eurostat 2021 urban-centre shares, polycentricity
+  (eta and density hotspots) in the tables; Angel's proximity index in the tables only (not robust among
+  single-centre cities).
 
 ## In progress
 
-- To-do items 1–4, 6 and 9–16 below are being worked on (data and self-contained site pieces first, wiring into the
-  site after each is checked).
+- To-do items 2–4, 6, 9–11 and 13–15 below are being worked on (data and self-contained site pieces first, wiring
+  into the site after each is checked).
 
 ## To do
 
 Site
-1. Charts: "share of residents with at least X" curves per city, the 5–60 minute reach curve with quartile band,
-   dot strips or dumbbells for city comparison, time-of-day profile.
+1. Charts, remaining: density-class and rank-size charts from `results/charts/form.json`; pinned cities in the
+   address; pinned cities marked in the comparison table.
 2. Line-speed overlay (tram and bus stretches, metro and rail lines) with day-type and time-band choice;
    per-city files or tiles for buses.
 3. Speed tables view (lines by city, mode, band) linked both ways with the overlay; area-speed layer.
@@ -49,12 +55,13 @@ Method and data
    coordination test only for lines every 15 min or less often.
 10. Speed: show time above free running in s/km with a range; fixed colour breaks; a Puls Gdańska-style check.
 11. Variant comparable with the DG REGIO grid study (fastest peak trip, 1.2 km walk, 8/12 km radii).
-12. Distribution outputs: share of residents below an explicit access floor (FGT), no headline Gini.
+12. Distribution, remaining: the same outputs on the raw GHSL grid as a sensitivity variant.
 13. New open data: NSP 2021 age grid, commuting matrix, BDOT10k buildings, schools (RSPO) and hospitals as destinations.
 14. Validation: about 100 random journey-planner pairs at several departure minutes; the 15 suburban pairs from
     the NIK audit; transfer shares from routed trips against Warsaw's 43 % (WBR 2015) and Jakdojade.
 15. Wrocław tram what-if built on the slow stretches (target speed, re-run accessibility).
-16. Form: Eurostat degree-of-urbanisation shares in the tables, Angel's proximity index, polycentricity for GZM and Trójmiasto.
+16. Form, remaining: Eurostat's official medium-density clusters (level 2 classes) were not downloaded; town halls
+    not checked against official registers.
 
 ## Known loose ends
 

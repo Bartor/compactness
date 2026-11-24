@@ -24,6 +24,9 @@ export function cityColumns(cities, names, onPick) {
   return cities.map((c) => ({ key: c, head: cityHead(c, names), title: names[c] || c, onPick: onPick ? () => onPick(c) : undefined }))
 }
 
+/** Groups whose measures exist for a single area (the whole functional area). */
+const ONE_AREA_GROUPS = new Set(['poly'])
+
 /**
  * Groups of rows for the comparison: one column per city, all in `area`. Each row marks its best and weakest value
  * (METRIC_INFO's `better`), has the "?" with the explanation and, where a map layer shows the same thing, "na mapie".
@@ -50,7 +53,8 @@ export function compareGroups({ index, cities, area, names, layers, onShowLayer,
           : { content: plainText(rows[i]), value: v, title: formatValue(rows[i]).text, tone: marks.best.has(i) ? 'best' : marks.worst.has(i) ? 'weak' : undefined })),
       }
     }),
-  }))
+    // groups computed for one area only are left out elsewhere instead of being shown as rows of dashes
+  })).filter((g) => !ONE_AREA_GROUPS.has(g.id) || g.rows.some((r) => r.cells.some((c) => c !== DASH)))
 }
 
 /** Column definitions of the areas of one city's table, with a narrow rank column last. */

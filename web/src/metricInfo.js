@@ -5,7 +5,12 @@
 
 export const METRIC_GROUPS = [
   { id: 'size', title: 'Wielkość i gęstość', metrics: ['area', 'population_census', 'density_gross', 'pwdens_census_1km'] },
-  { id: 'form', title: 'Forma miasta', metrics: ['rho_t20', 'rho_nearest_t20', 'profile_r50_km'] },
+  {
+    id: 'form', title: 'Forma miasta',
+    metrics: ['rho_t20', 'rho_nearest_t20', 'profile_r50_km', 'share_residents_ge5000',
+      'median_resident_density_250m', 'degurba2021_share_urban_centre'],
+  },
+  { id: 'poly', title: 'Kilka ośrodków czy jeden', metrics: ['poly_eta_mask_t20', 'hotspots_n', 'hotspots_largest_share'] },
   {
     id: 'supply', title: 'Oferta komunikacji',
     metrics: ['vkm_per_cap_day_total', 'tram_speed_median', 'freq_seg_net_le5min', 'freq_seg_net_le10min',
@@ -381,6 +386,80 @@ export const METRIC_INFO = {
   tp_pt_am_direct_30min: direct(30),
   transfer_dependence_pt_am_45min_ratio_of_sums: dependence(45),
   tp_pt_am_direct_45min: direct(45),
+  share_residents_ge5000: {
+    short: 'Mieszkańcy gęstej zabudowy',
+    better: 'higher',
+    layer: 'density_250m',
+    read: [
+      'Jaka część mieszkańców mieszka w kwadratach 250 × 250 m, w których jest co najmniej 5 000 osób na km² '
+      + '(ok. 310 osób na kwadrat). To zwykle bloki i kamienice; poniżej tej granicy przeważają domy jednorodzinne.',
+      'Ta sama granica co w warstwie „gęstość a częstotliwość kursów”. W obszarze funkcjonalnym zależy też od tego, '
+      + 'jak daleko sięga jego granica, więc porównywać miasta raczej w rdzeniu.',
+    ],
+    method: [
+      'Ludność ze spisu 2021 (siatka 1 km) rozłożona na kwadraty 250 m według modelu GHSL 2020; gęstość kwadratu = '
+      + 'mieszkańcy / 0,0625 km². Liczeni tylko mieszkańcy, bez miejsc pracy.',
+    ],
+  },
+  median_resident_density_250m: {
+    short: 'Gęstość wokół typowego mieszkańca',
+    better: 'higher',
+    layer: 'density_250m',
+    read: [
+      'Połowa mieszkańców mieszka w kwadratach 250 m gęstszych niż ta wartość, połowa w rzadszych.',
+      'Wyższa niż gęstość ważona populacją z siatki 1 km, bo mniejszy kwadrat obejmuje mniej pustych terenów; tych '
+      + 'dwóch liczb nie porównywać.',
+    ],
+    method: ['Mediana gęstości kwadratów 250 m ważona liczbą mieszkańców; ludność jak w wierszu powyżej.'],
+  },
+  degurba2021_share_urban_centre: {
+    short: 'Mieszkańcy centrów miejskich',
+    better: null,
+    read: [
+      'Jaka część mieszkańców żyje w centrum miejskim według Eurostatu: zwartym obszarze kwadratów 1 km z co '
+      + 'najmniej 1 500 osobami na km², który razem ma co najmniej 50 000 mieszkańców.',
+      'To ta sama definicja, której Eurostat i OECD używają we wszystkich krajach, więc liczbę można zestawiać z '
+      + 'miastami za granicą. W obszarze funkcjonalnym zależy od tego, jak szeroko narysowano jego granicę.',
+    ],
+    method: [
+      'Oficjalna warstwa centrów miejskich Eurostatu 2021 nałożona na siatkę spisową 1 km (spis 2021).',
+    ],
+  },
+  poly_eta_mask_t20: {
+    short: 'Rozproszenie skupisk gęstości η',
+    better: null,
+    read: [
+      'Czy najgęściej zaludnione miejsca leżą w jednym rejonie (blisko 0), czy są rozrzucone po całym obszarze jak '
+      + 'cała zabudowa (blisko 1).',
+      'Wysokie w GZM, Trójmieście i Bydgoszczy–Toruniu, ale też w Lublinie, gdzie gęste osiedla leżą daleko od '
+      + 'siebie. Samo nie odróżnia kilku miast od jednego miasta z rozrzuconymi osiedlami.',
+    ],
+    method: [
+      'Miara Volpatiego i Barthelemy’ego (2018): średnia odległość między najgęstszymi kwadratami 100 m (powyżej '
+      + 'progu LouBar) podzielona przez średnią odległość między wszystkimi kwadratami zabudowy (≥ 20 % powierzchni '
+      + 'pod budynkami).',
+    ],
+  },
+  hotspots_n: {
+    short: 'Skupiska gęstości',
+    better: null,
+    layer: 'density_250m',
+    read: [
+      'Ile jest zwartych skupisk kwadratów 250 m z co najmniej 10 000 osobami na km², w których mieszka co najmniej '
+      + '5 000 osób. W GZM ponad 30, w miastach jednocentrowych zwykle kilka do kilkunastu.',
+      'Skupiska to najczęściej wielkie osiedla, a nie śródmieścia.',
+    ],
+    method: ['Kwadraty powyżej progu połączone bokami lub narożnikami; ludność jak w wierszach o gęstości.'],
+  },
+  hotspots_largest_share: {
+    short: 'Udział największego skupiska',
+    better: null,
+    read: [
+      'Jaka część mieszkańców wszystkich skupisk gęstości mieszka w największym z nich. Niski udział (GZM ok. 10 %) '
+      + 'oznacza wiele podobnych ośrodków, wysoki (Szczecin ok. 60 %) jeden dominujący.',
+    ],
+    method: ['Jak wiersz „Skupiska gęstości”; w mianowniku wszystkie skupiska, także mniejsze niż 5 000 osób.'],
+  },
   dist_below_floor_pt_am_30min: {
     short: 'Poniżej minimalnego zasięgu (30 min)',
     better: 'lower',

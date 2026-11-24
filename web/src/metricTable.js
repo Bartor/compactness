@@ -9,7 +9,7 @@ export const AREAS = ['core', 'urban_centre', 'covered', 'fua']
 /** Tram speed is a property of the city's network, not of an area; it is shown in every area view. */
 export const TRAM_DOMAIN = 'city_tram_network'
 /** Groups of the second, density-only table. */
-export const DENSITY_GROUP_IDS = ['size', 'form']
+export const DENSITY_GROUP_IDS = ['size', 'form', 'poly']
 
 /** Short column heads of the cities, in the order of the comparison. Cities not listed come after, by catalog order. */
 export const SHORT_CITY = {

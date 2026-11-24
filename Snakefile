@@ -491,6 +491,22 @@ rule distribution:
         '"{PY}" -m pipeline.distribution'
 
 
+rule form:
+    # urban form additions (pipeline.form_extra, form_md): Angel's proximity and cohesion on a GHSL urban extent,
+    # polycentricity (eta, density hotspots), Eurostat 2021 urban-centre shares, residents by 250 m density class
+    # -> metrics_form.*, results/charts/form.json, results/qa/form/.  About 6 minutes.
+    input:
+        "pipeline/form_extra.py",
+        "pipeline/form_md.py",
+        "pipeline/form_text.py",
+        stamp("density"),
+        stamp("popgrid"),
+    output:
+        touch(stamp("form")),
+    shell:
+        '"{PY}" -m pipeline.form_extra && "{PY}" -m pipeline.form_md'
+
+
 rule merge_metrics:
     # metrics_<step>.* -> metrics.csv / metrics.json and the map panel subset results/web/metrics.json
     input:
@@ -502,6 +518,7 @@ rule merge_metrics:
         stamp("access"),
         stamp("access_uc"),
         stamp("distribution"),
+        stamp("form"),
     output:
         touch(stamp("merge_metrics")),
     shell:
