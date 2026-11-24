@@ -124,7 +124,7 @@ export const METRIC_INFO = {
       + 'skupione.',
       'Zależy od wielkości miasta, więc porównywać miasta podobnej wielkości.',
     ],
-    method: ['Z profilu skumulowanej ludności według odległości od centrum, siatka 250 m.'],
+    method: ['Z profilu skumulowanej ludności według odległości od centrum; ludność ze spisu 2021 rozłożona na komórki 100 m.'],
   },
   vkm_per_cap_day_total: {
     short: 'Wozokilometry na mieszkańca na dobę',

@@ -6,7 +6,9 @@ Source: results/layers/frequent_cells.parquet (250 m cells, census-scaled popula
 500 m walk, GTFS coverage mask, feed variant "all").  Every populated cell inside the coverage mask is put into one
 of 3 x 3 classes (density x service); cells outside the mask are "no data" and never a class.  The metrics use the
 full 3 x 3 table; the map layer folds it into the five MAP_CLASSES below, because nine blended colours cannot be
-told apart reliably on a map.
+told apart reliably on a map.  A threshold sweep (SWEEP_STOPS, tier "table") repeats the two "dense" shares and the
+number of residents for "dense" = density >= T, so the dependence on the 2 500 /km2 choice is visible; the classes
+and the map are unchanged.
 
 Writes results/metrics/metrics_density_service.{csv,json} (+ _meta_density_service.json) and
 results/qa/density_service/{density_service.md,_meta.json}.  The class constants below are shared with
@@ -41,6 +43,12 @@ MAP_CLASSES = [("gęsto, rzadziej niż co 20 min lub brak", "#b5300f"),
                ("gęsto, co ≤ 10 min", "#17509a"),
                ("rzadko zaludnione, co ≤ 20 min", "#74acdf"),
                ("rzadko zaludnione, rzadziej lub brak", "#e3e1dc")]
+
+# Threshold sweep (tier "table"): the "dense" figures recomputed with "dense" = cell density >= T.  Anchors (units
+# differ, see density_service.md): 1 500 Eurostat urban-centre cell (1 km); 2 500 this layer's class; 5 000 = 50
+# residents/ha, "frequent bus" (Angel et al. 2011, after Orosz); 7 500 ~ Guerra & Cervero light rail (people + jobs
+# per gross acre); 10 000 this layer's top class.
+SWEEP_STOPS = [1500.0, 2500.0, 5000.0, 7500.0, 10000.0]
 
 FEED_VARIANT = "all"
 GRID = "ghsl_census_scaled"
@@ -144,7 +152,15 @@ def agg_figures(d: pd.DataFrame, dom: str) -> dict:
     tot = tab.sum()
     dense = tab[DENSE_MIN_CLASS - 1:].sum()
     level = d.headway_class_all[sel].map({h: i for i, h in enumerate(HEADWAY_ORDER)}).to_numpy(float)
+    sweep = {}
+    for t in SWEEP_STOPS:
+        above = dens >= t
+        pa = float(p[above].sum())
+        sweep[t] = {"pop": pa, "pop_share": pa / tot * 100 if tot > 0 else None,
+                    "underserved": float(p[above & (sc == 1)].sum()) / pa * 100 if pa > 0 else None,
+                    "good": float(p[above & (sc == 3)].sum()) / pa * 100 if pa > 0 else None}
     return {"table": tab, "pop": tot, "pop_domain": pop_all, "coverage": tot / pop_all if pop_all > 0 else None,
+            "sweep": sweep,
             "dense_pop": dense,
             "underserved": tab[DENSE_MIN_CLASS - 1:, 0].sum() / dense * 100 if dense > 0 else None,
             "good": tab[DENSE_MIN_CLASS - 1:, 2].sum() / dense * 100 if dense > 0 else None,
@@ -152,7 +168,71 @@ def agg_figures(d: pd.DataFrame, dom: str) -> dict:
 
 
 def compute(d: pd.DataFrame) -> dict:
-    return {(a, dom): agg_figures(d[d.agglomeration == a].reset_index(drop=True), dom) for a in AGGS for dom in DOMAINS}
+    res = {(a, dom): agg_figures(d[d.agglomeration == a].reset_index(drop=True), dom) for a in AGGS for dom in DOMAINS}
+    for k, f in res.items():   # the sweep at the class stop must reproduce the main figures
+        s = f["sweep"][DENSITY_STOPS[0]]
+        assert abs(s["pop"] - f["dense_pop"]) < 1e-6 * max(f["dense_pop"], 1), k
+        assert (s["underserved"] is None) == (f["underserved"] is None), k
+        if f["underserved"] is not None:
+            assert abs(s["underserved"] - f["underserved"]) < 1e-9 and abs(s["good"] - f["good"]) < 1e-9, k
+    return res
+
+
+def sweep_md(res: dict) -> list[str]:
+    """QA section: how the 'dense' figures depend on the density threshold."""
+    heads = [f"≥ {t:,.0f}".replace(",", " ") for t in SWEEP_STOPS]
+    L = ["## Wrażliwość na próg gęstości\n",
+         "Te same dwa wskaźniki („bez kursów co ≤ 20 min” i „z kursami co ≤ 10 min” w zasięgu 500 m), policzone dla "
+         "mieszkańców komórek 250 m o gęstości co najmniej T os./km², dla pięciu progów T. Przy T = 2 500 liczby są równe "
+         "wskaźnikom głównym. Mapa i tabele 3 × 3 zostają przy klasach 2 500 / 10 000.\n",
+         "Skąd progi (jednostki się różnią, więc to punkty orientacyjne, nie równoważniki):\n",
+         "- 1 500: Eurostat, komórka centrum miejskiego w stopniu urbanizacji (komórki 1 km);",
+         "- 2 500: próg tej warstwy (25 mieszkańców na ha w komórce 250 m; na siatce 1 km to mniej więcej 2 000);",
+         "- 5 000: 50 mieszkańców na ha, częsta i atrakcyjna obsługa autobusowa wg Angela i in. (2011, za Oroszem), "
+         "liczone na obwodach spisowych USA; 30 na ha to tam próg „podstawowej” obsługi autobusowej;",
+         "- 7 500: rząd wielkości progu opłacalności tramwaju/LRT wg Guerry i Cervero (2011), ok. 30 osób (mieszkańcy "
+         "i miejsca pracy) na akr brutto wokół stacji; tu liczymy tylko mieszkańców;",
+         "- 10 000: klasa „bardzo gęsto” tej warstwy (100 na ha).\n",
+         "Progi z literatury dotyczą jednostek większych niż komórka 250 m (obwody spisowe, całe obszary), które "
+         "zawierają ulice, parki i działki niemieszkalne. Komórka 250 m bywa prawie w całości mieszkaniowa, więc ta "
+         "sama gęstość „obszarowa” daje w niej wyższą liczbę. Próg 2 500 na komórkach 250 m jest więc łagodny: "
+         "obejmuje także zwykłą zabudowę jednorodzinną (25–40 mieszkańców na ha).\n"]
+    for dom in DOMAINS:
+        L.append(f"### {DOM_LABEL[dom].capitalize()}\n")
+        for key, title, d in (("underserved", "bez kursów co ≤ 20 min w zasięgu 500 m, % mieszkańców komórek ≥ T", 1),
+                              ("good", "z kursami co ≤ 10 min w zasięgu 500 m, % mieszkańców komórek ≥ T", 1),
+                              ("pop_share", "mieszkańcy komórek ≥ T, % ludności w masce", 1),
+                              ("pop", "mieszkańcy komórek ≥ T, tys.", 0)):
+            L.append(f"**{title[0].upper() + title[1:]}**\n")
+            L.append("| Aglomeracja | " + " | ".join(heads) + " |\n|---|" + "---|" * len(heads))
+            for a in AGGS:
+                s = res[(a, dom)]["sweep"]
+                vals = [s[t][key] / 1000 if (key == "pop" and s[t][key] is not None) else s[t][key] for t in SWEEP_STOPS]
+                L.append(f"| {AGG_NAME[a]} | " + " | ".join(pl(v, d) for v in vals) + " |")
+            L.append("")
+    # plain reading of the sweep, computed
+    lines = []
+    for dom in DOMAINS:
+        lo = [res[(a, dom)]["sweep"][SWEEP_STOPS[0]]["underserved"] for a in AGGS]
+        hi = [res[(a, dom)]["sweep"][5000.0]["underserved"] for a in AGGS]
+        order_25 = sorted(AGGS, key=lambda a: -(res[(a, dom)]["sweep"][2500.0]["underserved"] or 0))
+        order_50 = sorted(AGGS, key=lambda a: -(res[(a, dom)]["sweep"][5000.0]["underserved"] or 0))
+        lines.append(f"- {DOM_LABEL[dom].capitalize()}: udział bez kursów co ≤ 20 min wynosi {pl(min(lo))}–{pl(max(lo))} % "
+                     f"przy 1 500 i {pl(min(hi))}–{pl(max(hi))} % przy 5 000. Kolejność miast od najgorszego: przy "
+                     f"2 500 {', '.join(AGG_NAME[a] for a in order_25)}; przy 5 000 "
+                     f"{', '.join(AGG_NAME[a] for a in order_50)}.")
+    L.append("Jak czytać:\n")
+    L += lines
+    mono = all(all(res[(a, dom)]["sweep"][t1]["underserved"] >= res[(a, dom)]["sweep"][t2]["underserved"]
+                   for t1, t2 in zip(SWEEP_STOPS, SWEEP_STOPS[1:])) for a in AGGS for dom in DOMAINS)
+    L.append(("- W każdej aglomeracji i domenie" if mono else "- Prawie wszędzie") +
+             " im wyższy próg, tym mniejszy udział mieszkańców bez kursów co ≤ 20 min: gęstsze komórki są lepiej "
+             "obsługiwane, zgodnie z dodatnią korelacją rang. Wynik przy progu 2 500 obejmuje więc także mieszkańców "
+             "komórek o gęstości 25–50 na ha, czyli prawdopodobnie w dużej części zabudowy jednorodzinnej (typu "
+             "zabudowy w tych komórkach nie sprawdzano), gdzie literatura nie oczekuje częstej komunikacji.")
+    L.append("- Mieszkańcy, nie miejsca pracy: progi Guerry i Cervero oraz Newmana i Kenworthy'ego liczą też miejsca "
+             "pracy, więc porównanie z nimi jest tylko orientacyjne.\n")
+    return L
 
 
 # ------------------------------------------------------------------ metric rows
@@ -194,6 +274,24 @@ def metric_rows(res: dict, day: str, cov_min: float) -> list[dict]:
             add(a, dom, "dxs_rank_correlation",
                 "Korelacja rang (Spearman, ważona ludnością) między gęstością komórki a częstotliwością kursów; "
                 "dodatnia = gęstsze komórki mają lepszą komunikację", f["rho"], "–", "main", flag, cov)
+            sflag = ((flag + " ") if flag else "") + (
+                "Wrażliwość na próg gęstości (komórki 250 m, tylko mieszkańcy, bez miejsc pracy); "
+                "przy 2 500 równe wskaźnikom głównym. Progi z literatury dotyczą większych jednostek (density_service.md).")
+            for t in SWEEP_STOPS:
+                s = f["sweep"][t]
+                tt = f"{int(t)}"
+                tl = f"{t:,.0f}".replace(",", " ")
+                add(a, dom, f"dxs_sweep_t{tt}_pop", f"Mieszkańcy komórek o gęstości ≥ {tl} os./km² (w masce, {DOM_LABEL[dom]})",
+                    s["pop"], "os.", "table", sflag, cov)
+                add(a, dom, f"dxs_sweep_t{tt}_pop_share",
+                    f"Mieszkańcy komórek o gęstości ≥ {tl} os./km² (odsetek ludności w masce, {DOM_LABEL[dom]})",
+                    s["pop_share"], "%", "table", sflag, cov)
+                add(a, dom, f"dxs_sweep_t{tt}_underserved_share",
+                    f"Mieszkańcy komórek o gęstości ≥ {tl} os./km² bez kursów co ≤ 20 min w zasięgu 500 m "
+                    f"(odsetek mieszkańców tych komórek)", s["underserved"], "%", "table", sflag, cov)
+                add(a, dom, f"dxs_sweep_t{tt}_good_share",
+                    f"Mieszkańcy komórek o gęstości ≥ {tl} os./km² z kursami co ≤ 10 min w zasięgu 500 m "
+                    f"(odsetek mieszkańców tych komórek)", s["good"], "%", "table", sflag, cov)
     return rows
 
 
@@ -238,6 +336,7 @@ def write_md(res: dict, day: str) -> None:
             L.append(f"| {AGG_NAME[a]} | {pl(f['underserved'])} | {pl(f['good'])} | {pl(f['rho'], 2)} | "
                      f"{pl(f['coverage'] * 100 if f['coverage'] is not None else None)} |")
         L.append("")
+    L += sweep_md(res)
     L.append("## Tabele 3 × 3 (% ludności w masce)\n")
     L.append("Wiersze: gęstość (od najmniejszej), kolumny: kursy (od najgorszych do najlepszych).\n")
     for dom in DOMAINS:
@@ -276,7 +375,8 @@ def main() -> None:
     inputs = ["osm_poland_pbf", "nsp2021_grid_1km_shp", "ghs_pop_2020_R3_C20", "ghs_pop_2020_R4_C20",
               "ghs_built_s_2020_R3_C20", "ghs_built_s_2020_R4_C20", "urau_2021_100k_all", "lau_2021_01m"]
     extra = {"timetable_date": day, "source": "results/layers/frequent_cells.parquet",
-             "density_stops_per_km2": DENSITY_STOPS, "service_of_headway": SERVICE_OF_HEADWAY, "rows": len(rows)}
+             "density_stops_per_km2": DENSITY_STOPS, "sweep_stops_per_km2": SWEEP_STOPS,
+             "service_of_headway": SERVICE_OF_HEADWAY, "rows": len(rows)}
     write_meta(QA, "density_service", inputs=inputs, started=t0,
                extra={**extra, "outputs": sorted(p.name for p in QA.iterdir() if p.name != "_meta.json")})
     tmp = Path(tempfile.mkdtemp())

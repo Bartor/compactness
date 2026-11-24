@@ -42,6 +42,26 @@ Rules made precise (described in Polish in results/qa/density/density.md)
   (tangent of the Lorenz curve at F = 1); eta = mean distance between hotspots / mean distance
   between all cells (eq. 6), both estimated on a fixed random subsample (seed 0, <= 4000 cells).
 
+Population grid of the 100 m measures (profiles, r50, Clark, rho, Gini, eta)
+* Main (``population_grid`` = ``ghsl_census_scaled``): the census-rescaled grid of phase 2 at its native
+  100 m resolution, i.e. GHS-POP 100 m pixels rescaled so that every NSP 2021 1 km cell sums to its census
+  value (pipeline.popgrid.scale_100m; the 250 m grid data/interim/popgrid/pop_ghsl_census_scaled_250m is
+  exactly this raster summed to 250 m).  Using the 100 m version keeps the 100 m built-up mask and
+  distances unchanged, so the difference between the variants is the population alone.  Cached in
+  data/interim/density/ghs_pop_census_scaled_100m_moll.tif (float32; delete to rebuild).
+* Variant (``ghsl_raw``): raw GHS-POP 2020, as before; metric rows with tier ``qa``.
+* The masks (built-up threshold, connectivity, seeds) do not depend on the population and are shared.
+  Rows that exist in both variants carry ``population_grid``; every other row has it empty.
+
+Centre sensitivity (tier ``table``): rho (FUA at the working threshold, core at 10 % and at the working
+threshold) and r50 (FUA, core) with three centres: the configured one, the OSM city hall of the core
+city (pipeline.density_centres) and the population-weighted centroid of the core (census-scaled 100 m).
+The mask is the same for all three (seeded by the configured centres); only the distances change.
+
+Degree of urbanisation (tier ``table``): population shares of FUA and core in urban centre / urban
+cluster / rural census 1 km cells, classified on the whole census grid with the Eurostat rules
+(DEGURBA level 1, simplified; see ``degurba_grid``).
+
 Run: python -m pipeline.density
 """
 from __future__ import annotations
@@ -77,6 +97,7 @@ NSP_SHP = RAW / "nsp2021" / "extracted" / "GRID_NSP2021_RES.shp"
 GRID250 = INTERIM / "grid250" / "ghs_pop_2020_250m_epsg2180.tif"
 GHSL_1KM = OUT / "ghsl_on_census_1km.tif"
 PL_MASK_100 = OUT / "poland_mask_100m_moll.tif"
+SCALED_100 = OUT / "ghs_pop_census_scaled_100m_moll.tif"
 
 INPUT_IDS = ["ghs_pop_2020_R3_C20", "ghs_pop_2020_R4_C20", "ghs_built_s_2020_R3_C20",
              "ghs_built_s_2020_R4_C20", "nsp2021_grid_1km_shp", "urau_2021_100k_all", "lau_2021_01m"]
@@ -85,6 +106,7 @@ TO_MOLL = Transformer.from_crs("EPSG:2180", "ESRI:54009", always_xy=True)
 MOLL_TO_2180 = Transformer.from_crs("ESRI:54009", "EPSG:2180", always_xy=True)
 WGS_TO_2180 = Transformer.from_crs("EPSG:4326", "EPSG:2180", always_xy=True)
 TO_3035 = Transformer.from_crs("EPSG:2180", "EPSG:3035", always_xy=True)
+TO_WGS = Transformer.from_crs("EPSG:2180", "EPSG:4326", always_xy=True)
 
 PIX_KM2 = 0.01            # GHS 100 m Mollweide pixel, true area
 CELL250_KM2 = 0.0625
@@ -109,6 +131,27 @@ GRID_100 = "GHSL 100 m (Mollweide)"
 
 POLY_FLAG = ("Aglomeracja policentryczna/liniowa: miara względem jednego centrum wymaga zastrzeżenia "
              "(brief §11); nie do zestawień jednopanelowych.")
+
+# population grid variants of the 100 m measures; MAIN goes into the existing keys of the result dict
+MAIN, RAWV = "ghsl_census_scaled", "ghsl_raw"
+VARIANTS = (MAIN, RAWV)
+POP_DATE_SCALED = "2021-03-31 (NSP 2021, wzór GHSL 2020)"
+SRC_SCALED = "GUS NSP 2021 (siatka 1 km) rozłożony wzorem JRC GHS-POP R2023A 2020"
+SRC_SCALED_BUILT = SRC_SCALED + "; maska JRC GHS-BUILT-S R2023A 2020"
+GRID_100S = "GHSL 100 m (Mollweide) przeskalowany do NSP 2021 (komórki 1 km)"
+RAW_FLAG = ("Wariant kontrolny: surowy GHS-POP 2020 (przed przeskalowaniem do NSP 2021); wynik główny w wierszu "
+            "population_grid = ghsl_census_scaled.")
+VARIANT_META = {MAIN: (GRID_100S, SRC_SCALED, SRC_SCALED_BUILT, POP_DATE_SCALED),
+                RAWV: (GRID_100, SRC_GHSL, SRC_GHSL_BUILT, POP_DATE_GHSL)}
+CENTRE_KINDS = ("config", "townhall", "popcentroid")
+CENTRE_LABEL = {"config": "centrum z config.yaml", "townhall": "ratusz miasta rdzenia (OSM)",
+                "popcentroid": "środek ciężkości ludności rdzenia"}
+BERTAUD_THR = 0.1                 # built-up threshold closest to Bertaud & Malpezzi's built-up area (core)
+# DEGURBA level 1 on the census 1 km grid (Eurostat manual 2021, simplified)
+DEGURBA_UC_DENS, DEGURBA_UC_POP = 1500, 50000
+DEGURBA_CL_DENS, DEGURBA_CL_POP = 300, 5000
+DEGURBA_LABEL = {"urban_centre": "centrum miejskie", "urban_cluster": "skupisko miejskie (poza centrum)",
+                 "rural": "obszar wiejski (komórki wiejskie)"}
 
 
 # ------------------------------------------------------------------ shared data
@@ -194,6 +237,33 @@ def ghsl_on_census() -> np.ndarray:
     return arr[rows, cols]
 
 
+def build_scaled_100() -> None:
+    """Census-scaled GHS-POP 100 m (pipeline.popgrid.scale_100m) cached as float32 on the GHSL grid."""
+    if SCALED_100.exists():
+        return
+    from pipeline.popgrid import scale_100m
+    scaled, _, tr, crs, _, _ = scale_100m()
+    OUT.mkdir(parents=True, exist_ok=True)
+    tmp = SCALED_100.with_suffix(".tmp.tif")
+    with rasterio.open(tmp, "w", driver="GTiff", height=scaled.shape[0], width=scaled.shape[1], count=1,
+                       dtype="float32", crs=crs, transform=tr, nodata=-200.0, compress="deflate", predictor=3,
+                       tiled=True, blockxsize=512, blockysize=512) as d:
+        d.write(scaled.astype("float32"), 1)
+        d.update_tags(source="GHS-POP R2023A E2020 100 m rescaled to NSP 2021 1 km cells (pipeline.popgrid.scale_100m)")
+    tmp.replace(SCALED_100)
+
+
+@lru_cache(maxsize=1)
+def ghs_scaled() -> np.ndarray:
+    """Census-scaled population on the GHSL 100 m grid (float32, nodata -> 0)."""
+    build_scaled_100()
+    with rasterio.open(SCALED_100) as s:
+        a = s.read(1)
+        assert s.transform == ghs()[2]
+    a[a < 0] = 0.0
+    return a
+
+
 @lru_cache(maxsize=1)
 def grid250():
     with rasterio.open(GRID250) as s:
@@ -251,6 +321,12 @@ class Window:
         self.poland = poland_mask_100()[self.sl] == 1
         self.popz = np.nan_to_num(self.pop, nan=0.0)
         self.valid = ~np.isnan(self.pop)
+        self.pops = ghs_scaled()[self.sl].astype(np.float64)
+        # people the rescaling placed on pixels without GHSL data (left out by the domain masks)
+        self.scaled_on_invalid = float(self.pops[~self.valid].sum())
+
+    def popv(self, variant: str) -> np.ndarray:
+        return self.pops if variant == MAIN else self.popz
 
     def mask(self, geom) -> np.ndarray:
         g = reproj(shapely.segmentize(geom, 250), TO_MOLL)
@@ -310,6 +386,57 @@ def pwdens_250(geom) -> dict:
     m = features.geometry_mask([geom], out_shape=sub.shape, transform=wt, invert=True, all_touched=False)
     p = sub[m]
     return {"pop": float(p.sum()), "pwdens": pwdens(p, p / CELL250_KM2)}
+
+
+# ------------------------------------------------------------------ degree of urbanisation (census 1 km)
+
+def degurba_grid() -> np.ndarray:
+    """DEGURBA level-1 class of every census cell (rows of ``census()``): 2 urban centre, 1 urban cluster, 0 rural.
+
+    Simplified Eurostat (2021 manual) rules on the whole national census grid, density = RES / own cell area:
+    * urban centre: cells >= 1 500 /km2, 4-connected clusters with >= 50 000 inhabitants, then gap filling
+      (a non-centre cell with >= 5 of its 8 neighbours in a centre joins it; repeated until stable);
+      the manual's extra rule for centres whose share of built-up land is high is not applied;
+    * urban cluster: cells >= 300 /km2, 8-connected clusters with >= 5 000 inhabitants, minus centre cells;
+    * rural: everything else (including populated cells of small clusters).
+    Cells outside Poland are absent from the census grid, so clusters at the border are truncated."""
+    c = census()
+    e0, n1 = int(c.E.min()), int(c.N.max())
+    rows = ((n1 - c.N.values) // 1000).astype(int)
+    cols = ((c.E.values - e0) // 1000).astype(int)
+    shape = (rows.max() + 1, cols.max() + 1)
+    pop = np.zeros(shape)
+    dens = np.zeros(shape)
+    pop[rows, cols] = c.RES.values
+    dens[rows, cols] = c.RES.values / c.area_km2.values
+    four = ndimage.generate_binary_structure(2, 1)
+    eight = np.ones((3, 3), bool)
+
+    def big_clusters(m: np.ndarray, st: np.ndarray, minpop: float) -> np.ndarray:
+        lab, n = ndimage.label(m, structure=st)
+        sums = ndimage.sum(pop, lab, index=np.arange(1, n + 1))
+        keep = np.r_[False, sums >= minpop]
+        return keep[lab]
+
+    uc = big_clusters(dens >= DEGURBA_UC_DENS, four, DEGURBA_UC_POP)
+    while True:
+        nb = ndimage.convolve(uc.astype(np.int16), eight.astype(np.int16), mode="constant") - uc
+        add = (~uc) & (nb >= 5)
+        if not add.any():
+            break
+        uc = uc | add
+    cl = big_clusters(dens >= DEGURBA_CL_DENS, eight, DEGURBA_CL_POP) & ~uc
+    cls = np.where(uc, 2, np.where(cl, 1, 0))
+    return cls[rows, cols].astype(np.int8)
+
+
+def degurba_shares(geom, cls: np.ndarray) -> dict:
+    idx = census_in(geom)
+    p = census().RES.values[idx].astype(float)
+    k = cls[idx]
+    tot = p.sum()
+    return {name: float(p[k == code].sum() / tot) for code, name in ((2, "urban_centre"), (1, "urban_cluster"),
+                                                                       (0, "rural"))}
 
 
 # ------------------------------------------------------------------ §4.2
@@ -396,13 +523,13 @@ def built_mask(W: Window, dom: np.ndarray, thr: float, cs: list[dict], gap_cells
     return M, {"seed_radius_m": radius, "components_kept": int(len(keep)), "built_cells_all": int(B.sum())}
 
 
-def rho(W: Window, M: np.ndarray, cs: list[dict]) -> dict:
+def rho(W: Window, M: np.ndarray, cs: list[dict], pop: np.ndarray) -> dict:
     n = int(M.sum())
     if n == 0:
         return {"rho": None, "mean_dist_km": None, "R_km": None, "area_km2": 0.0, "pop": 0.0}
     A = n * PIX_KM2
     R = math.sqrt(A / math.pi)
-    p = W.popz[M]
+    p = pop[M]
     d = W.dist(cs)[M] / 1000
     md = float((p * d).sum() / p.sum()) if p.sum() > 0 else float("nan")
     return {"rho": md / (2 / 3 * R), "mean_dist_km": md, "R_km": R, "area_km2": A, "pop": float(p.sum())}
@@ -452,7 +579,136 @@ def gini_eta(p: np.ndarray, x: np.ndarray, y: np.ndarray) -> dict:
 
 # ------------------------------------------------------------------ per agglomeration
 
-def run_agglomeration(agg: str, thresholds: list[float], thr_work: float) -> dict:
+def pop_measures(W: Window, p: np.ndarray, a: dict, cs: list[dict], doms: dict, masks: dict, gap_masks: dict,
+                 thresholds: list[float], thr_work: float, circ: np.ndarray) -> tuple[dict, dict]:
+    """Every population-dependent 100 m measure for one population array ``p`` (same window as W).
+
+    Returns (result dict, profiles {name: {"total", "rings"}})."""
+    dom_f, dom_c, dom_free = doms["fua"], doms["core"], doms["free"]
+    inhabited = p > 0
+    d_main = W.dist(cs[:1])
+    d_near = W.dist(cs)
+    out: dict = {}
+    prof = {}
+    for name, dom, dist in [("fua", dom_f, d_main), ("core", dom_c, d_main), ("free", dom_free, d_main),
+                            ("fua_nearest", dom_f, d_near), ("free_nearest", dom_free, d_near)]:
+        if name.endswith("nearest") and len(cs) < 2:
+            continue
+        if name in ("free", "free_nearest"):
+            rmax = PROFILE_MAX_KM
+            total = float(p[dom & (dist < rmax * 1000)].sum())
+        else:
+            rmax = max(PROFILE_MAX_KM, int(math.ceil(dist[dom].max() / 1000)))
+            total = float(p[dom].sum())
+        df = rings(p, inhabited, dist, dom, rmax)
+        df["cum_share"] = df.cum_pop / total
+        prof[name] = {"total": total, "rings": df}
+    out["profile_totals"] = {k: v["total"] for k, v in prof.items()}
+    out["clark"] = clark(prof["fua"]["rings"])
+    out["r50"] = {k: r_at_share(v["rings"], v["total"], 0.5) for k, v in prof.items()}
+    out["share_within"] = {k: {str(s): float(v["rings"].cum_share.iloc[s - 1]) for s in (5, 10, 20, 40)}
+                           for k, v in prof.items()}
+    # census cross-check of the cumulative curve
+    cc_fua = census_cumulative(a["fua"], cs[:1], CENSUS_CHECK_STEPS_KM)
+    cc_free = census_cumulative(None, cs[:1], CENSUS_CHECK_STEPS_KM)
+    g_fua = [float(prof["fua"]["rings"].cum_share.iloc[s - 1]) for s in CENSUS_CHECK_STEPS_KM]
+    g_free = [float(prof["free"]["rings"].cum_share.iloc[s - 1]) for s in CENSUS_CHECK_STEPS_KM]
+    out["census_check"] = {"steps_km": CENSUS_CHECK_STEPS_KM, "census_fua": cc_fua, "ghsl_fua": g_fua,
+                           "census_free": cc_free, "ghsl_free": g_free,
+                           "max_abs_diff_pp_fua": float(np.max(np.abs(np.array(cc_fua) - g_fua)) * 100),
+                           "max_abs_diff_pp_free": float(np.max(np.abs(np.array(cc_free) - g_free)) * 100)}
+
+    # §4.3
+    rr: dict = {}
+    pop_fua = float(p[dom_f].sum())
+    pop_core = float(p[dom_c].sum())
+    for thr in thresholds:
+        M, info = masks[thr]
+        rf = rho(W, M, cs[:1], p)
+        rc = rho(W, M & dom_c, cs[:1], p)
+        rf.update(info)
+        rf["pop_share"] = rf["pop"] / pop_fua
+        rc["pop_share"] = rc["pop"] / pop_core
+        for e in (rf, rc):
+            # a near-empty mask makes rho meaningless: keep the raw number for the QA table only
+            e["rho_raw"] = e["rho"]
+            if e["pop_share"] < MIN_MASK_POP_SHARE:
+                e["rho"] = None
+        entry = {"fua": rf, "core": rc}
+        if len(cs) > 1:
+            entry["fua_nearest"] = rho(W, M, cs, p)
+            entry["core_nearest"] = rho(W, M & dom_c, cs, p)
+            # reference: N equal discs of total area A -> mean distance 2/3 * sqrt(A / (N pi))
+            for k, base in (("fua_nearest", rf), ("core_nearest", rc)):
+                e = entry[k]
+                e["rho_raw"] = e["rho"]
+                if base["rho"] is None:
+                    e["rho"] = None
+                if e["rho"] is not None:
+                    e["rho_ndisc"] = e["mean_dist_km"] / (2 / 3 * math.sqrt(e["area_km2"] / (len(cs) * math.pi)))
+        rr[str(thr)] = entry
+    out["rho"] = rr
+    gap = {}
+    for k in GAP_SENSITIVITY:
+        r = rho(W, gap_masks[k], cs[:1], p)
+        gap[str(k)] = {"gap_m": 2 * k * 100, "rho": r["rho"], "area_km2": r["area_km2"], "pop_share": r["pop"] / pop_fua}
+    out["rho_gap_sensitivity"] = gap
+
+    # §4.4
+    Mw = masks[thr_work][0]
+    out["gini_eta"] = {
+        "mask_fua": gini_eta(p[Mw], W.x[Mw], W.y[Mw]),
+        "mask_core": gini_eta(p[Mw & dom_c], W.x[Mw & dom_c], W.y[Mw & dom_c]),
+        "circle": gini_eta(p[circ], W.x[circ], W.y[circ]),
+    }
+    out["pop_100m"] = {"fua": pop_fua, "core": pop_core}
+    # Bertaud & Malpezzi comparison: core mask at 10 %, people per built-up hectare
+    Mt = masks[BERTAUD_THR][0] & dom_c
+    pc = float(p[Mt].sum())
+    at = float(Mt.sum() * PIX_KM2)
+    out["bertaud_core_t10"] = {"area_km2": at, "pop": pc, "people_per_ha": pc / (at * 100) if at > 0 else None}
+    return out, prof
+
+
+def centre_sensitivity(W: Window, p: np.ndarray, agg: str, cs: list[dict], doms: dict, masks: dict,
+                       thr_work: float) -> dict:
+    """rho and r50 with the configured centre, the OSM city hall and the population centroid of the core."""
+    from pipeline.density_centres import townhall
+    dom_f, dom_c = doms["fua"], doms["core"]
+    pc = p[dom_c]
+    cx, cy = float((pc * W.x[dom_c]).sum() / pc.sum()), float((pc * W.y[dom_c]).sum() / pc.sum())
+    th = townhall(agg)
+    lon, lat = TO_WGS.transform(cx, cy)
+    cen = {"config": {"name": cs[0]["name"], "x": cs[0]["x"], "y": cs[0]["y"]},
+           "townhall": {"name": th["name"], "x": th["x"], "y": th["y"], "osm": th["osm"], "rule": th["rule"],
+                        "reason": th["reason"], "lon": th["lon"], "lat": th["lat"]},
+           "popcentroid": {"name": "środek ciężkości ludności rdzenia", "x": cx, "y": cy, "lon": lon, "lat": lat}}
+    for c in cen.values():
+        c["offset_from_config_km"] = math.hypot(c["x"] - cs[0]["x"], c["y"] - cs[0]["y"]) / 1000
+    pop_f, pop_c = float(p[dom_f].sum()), float(p[dom_c].sum())
+    vals = {}
+    for kind, c in cen.items():
+        one = [c]
+        v = {}
+        for key, M, tot in (("rho_fua_work", masks[thr_work][0], pop_f),
+                            ("rho_core_work", masks[thr_work][0] & dom_c, pop_c),
+                            ("rho_core_t10", masks[BERTAUD_THR][0] & dom_c, pop_c)):
+            r = rho(W, M, one, p)
+            v[key] = r["rho"] if r["pop"] / tot >= MIN_MASK_POP_SHARE else None
+        d = W.dist(one)
+        for name, dom in (("fua", dom_f), ("core", dom_c)):
+            rmax = max(PROFILE_MAX_KM, int(math.ceil(d[dom].max() / 1000)))
+            df = rings(p, p > 0, d, dom, rmax)
+            v[f"r50_{name}"] = r_at_share(df, float(p[dom].sum()), 0.5)
+        vals[kind] = v
+    spread = {}
+    for key in ("rho_fua_work", "rho_core_work", "rho_core_t10", "r50_fua", "r50_core"):
+        xs = [vals[k][key] for k in CENTRE_KINDS if vals[k][key] is not None]
+        spread[key] = (max(xs) - min(xs)) if len(xs) == len(CENTRE_KINDS) else None
+    return {"centres": cen, "values": vals, "spread": spread, "threshold_work": thr_work}
+
+
+def run_agglomeration(agg: str, thresholds: list[float], thr_work: float, degurba: np.ndarray) -> dict:
     cfg = load_config()["agglomerations"][agg]
     a = load_agglomeration(agg)
     cs = centres(agg)
@@ -465,109 +721,44 @@ def run_agglomeration(agg: str, thresholds: list[float], thr_work: float) -> dic
         pc = pwdens_census(g)
         p250 = pwdens_250(g)
         ar = area_km2(g)
-        res[dom] = {"area_km2": ar, "census": pc, "ghsl250": p250, "gross_density": pc["pop"] / ar}
+        res[dom] = {"area_km2": ar, "census": pc, "ghsl250": p250, "gross_density": pc["pop"] / ar,
+                    "degurba": degurba_shares(g, degurba)}
 
-    # §4.2
     W = Window(agg, a, cs)
-    inhabited = W.popz > 0
-    dom_f = W.mask(a["fua"]) & W.valid
-    dom_c = W.mask(a["core"]) & W.valid
-    dom_free = W.poland & W.valid
+    doms = {"fua": W.mask(a["fua"]) & W.valid, "core": W.mask(a["core"]) & W.valid, "free": W.poland & W.valid}
+    dom_f = doms["fua"]
     d_main = W.dist(cs[:1])
-    d_near = W.dist(cs)
-    prof = {}
-    for name, dom, dist in [("fua", dom_f, d_main), ("core", dom_c, d_main), ("free", dom_free, d_main),
-                            ("fua_nearest", dom_f, d_near), ("free_nearest", dom_free, d_near)]:
-        if name.endswith("nearest") and len(cs) < 2:
-            continue
-        if name in ("free", "free_nearest"):
-            rmax = PROFILE_MAX_KM
-            total = float(W.popz[dom & (dist < rmax * 1000)].sum())
-        else:
-            rmax = max(PROFILE_MAX_KM, int(math.ceil(dist[dom].max() / 1000)))
-            total = float(W.popz[dom].sum())
-        df = rings(W.popz, inhabited, dist, dom, rmax)
-        df["cum_share"] = df.cum_pop / total
-        prof[name] = {"total": total, "rings": df}
-    res["profile_totals"] = {k: v["total"] for k, v in prof.items()}
-    res["clark"] = clark(prof["fua"]["rings"])
-    res["r50"] = {k: r_at_share(v["rings"], v["total"], 0.5) for k, v in prof.items()}
-    res["share_within"] = {k: {str(s): float(v["rings"].cum_share.iloc[s - 1]) for s in (5, 10, 20, 40)}
-                           for k, v in prof.items()}
-    # census cross-check of the cumulative curve
-    cc_fua = census_cumulative(a["fua"], cs[:1], CENSUS_CHECK_STEPS_KM)
-    cc_free = census_cumulative(None, cs[:1], CENSUS_CHECK_STEPS_KM)
-    g_fua = [float(prof["fua"]["rings"].cum_share.iloc[s - 1]) for s in CENSUS_CHECK_STEPS_KM]
-    g_free = [float(prof["free"]["rings"].cum_share.iloc[s - 1]) for s in CENSUS_CHECK_STEPS_KM]
-    res["census_check"] = {"steps_km": CENSUS_CHECK_STEPS_KM, "census_fua": cc_fua, "ghsl_fua": g_fua,
-                           "census_free": cc_free, "ghsl_free": g_free,
-                           "max_abs_diff_pp_fua": float(np.max(np.abs(np.array(cc_fua) - g_fua)) * 100),
-                           "max_abs_diff_pp_free": float(np.max(np.abs(np.array(cc_free) - g_free)) * 100)}
-
-    # §4.3
-    rr: dict = {}
-    masks = {}
-    pop_fua_ghsl = float(W.popz[dom_f].sum())
-    pop_core_ghsl = float(W.popz[dom_c].sum())
-    for thr in thresholds:
-        M, info = built_mask(W, dom_f, thr, cs)
-        masks[thr] = M
-        rf = rho(W, M, cs[:1])
-        rc = rho(W, M & dom_c, cs[:1])
-        rf.update(info)
-        rf["pop_share"] = rf["pop"] / pop_fua_ghsl
-        rc["pop_share"] = rc["pop"] / pop_core_ghsl
-        for e in (rf, rc):
-            # a near-empty mask makes rho meaningless: keep the raw number for the QA table only
-            e["rho_raw"] = e["rho"]
-            if e["pop_share"] < MIN_MASK_POP_SHARE:
-                e["rho"] = None
-        entry = {"fua": rf, "core": rc}
-        if len(cs) > 1:
-            entry["fua_nearest"] = rho(W, M, cs)
-            entry["core_nearest"] = rho(W, M & dom_c, cs)
-            # reference: N equal discs of total area A -> mean distance 2/3 * sqrt(A / (N pi))
-            for k, base in (("fua_nearest", rf), ("core_nearest", rc)):
-                e = entry[k]
-                e["rho_raw"] = e["rho"]
-                if base["rho"] is None:
-                    e["rho"] = None
-                if e["rho"] is not None:
-                    e["rho_ndisc"] = e["mean_dist_km"] / (2 / 3 * math.sqrt(e["area_km2"] / (len(cs) * math.pi)))
-        rr[str(thr)] = entry
-    res["rho"] = rr
+    circ = (d_main <= CIRCLE_KM * 1000) & W.poland & W.valid
+    # masks do not depend on the population: computed once, shared by both variants
+    masks = {thr: built_mask(W, dom_f, thr, cs) for thr in sorted(set(thresholds) | {BERTAUD_THR})}
+    gap_masks = {k: built_mask(W, dom_f, thr_work, cs, gap_cells=k)[0] for k in GAP_SENSITIVITY}
+    meas, profs = {}, {}
+    for v in VARIANTS:
+        meas[v], profs[v] = pop_measures(W, W.popv(v), a, cs, doms, masks, gap_masks, thresholds, thr_work, circ)
+    res.update(meas[MAIN])
+    res["raw"] = meas[RAWV]
+    res["population_grid"] = MAIN
+    res["ghsl_100m_pop"] = meas[RAWV]["pop_100m"]
+    res["scaled_on_nodata_pixels"] = W.scaled_on_invalid
     # truncation: the same cluster rule on FUA + 15 km; share of the cluster outside the FUA
     dom_b = W.mask(a["buffered"]) & W.valid
     Mb, _ = built_mask(W, dom_b, thr_work, cs)
     res["rho_truncation"] = {"threshold": thr_work, "cluster_area_buffer_km2": float(Mb.sum() * PIX_KM2),
                              "cluster_area_outside_fua_km2": float((Mb & ~dom_f).sum() * PIX_KM2),
                              "share_outside_fua": float((Mb & ~dom_f).sum() / max(Mb.sum(), 1))}
-    gap = {}
-    for k in GAP_SENSITIVITY:
-        M, info = built_mask(W, dom_f, thr_work, cs, gap_cells=k)
-        r = rho(W, M, cs[:1])
-        gap[str(k)] = {"gap_m": 2 * k * 100, "rho": r["rho"], "area_km2": r["area_km2"],
-                       "pop_share": r["pop"] / pop_fua_ghsl}
-    res["rho_gap_sensitivity"] = gap
+    res["centre_sensitivity"] = centre_sensitivity(W, W.popv(MAIN), agg, cs, doms, masks, thr_work)
 
-    # §4.4
-    Mw = masks[thr_work]
-    circ = (d_main <= CIRCLE_KM * 1000) & W.poland & W.valid
-    res["gini_eta"] = {
-        "mask_fua": gini_eta(W.popz[Mw], W.x[Mw], W.y[Mw]),
-        "mask_core": gini_eta(W.popz[Mw & dom_c], W.x[Mw & dom_c], W.y[Mw & dom_c]),
-        "circle": gini_eta(W.popz[circ], W.x[circ], W.y[circ]),
-    }
-    res["ghsl_100m_pop"] = {"fua": pop_fua_ghsl, "core": pop_core_ghsl}
-
-    # arrays for QA plots (downsampled where useful)
+    # arrays for QA plots
     OUT.mkdir(parents=True, exist_ok=True)
-    np.savez_compressed(OUT / f"{agg}.npz", mask=Mw, dom_f=dom_f, dom_c=dom_c, pop=W.popz.astype(np.float32),
-                        x0=W.x[0, 0], y0=W.y[0, 0], tr=np.array(W.tr)[:6],
-                        built=W.built, circle=circ)
-    for k, v in prof.items():
-        v["rings"].to_csv(OUT / f"{agg}_profile_{k}.csv", index=False, lineterminator="\n", float_format="%.6g")
-    res["profiles"] = {k: v["rings"].to_dict(orient="list") for k, v in prof.items()}
+    Mw = masks[thr_work][0]
+    np.savez_compressed(OUT / f"{agg}.npz", mask=Mw, dom_f=dom_f, dom_c=doms["core"],
+                        pop=W.pops.astype(np.float32), pop_raw=W.popz.astype(np.float32),
+                        x0=W.x[0, 0], y0=W.y[0, 0], tr=np.array(W.tr)[:6], built=W.built, circle=circ)
+    for v, suffix in ((MAIN, ""), (RAWV, "_raw")):
+        for k, pr in profs[v].items():
+            pr["rings"].to_csv(OUT / f"{agg}_profile_{k}{suffix}.csv", index=False, lineterminator="\n",
+                               float_format="%.6g")
+    res["profiles"] = {k: v["rings"].to_dict(orient="list") for k, v in profs[MAIN].items()}
     return res
 
 
@@ -577,15 +768,24 @@ def metric_rows(r: dict, thresholds: list[float], thr_work: float) -> list[dict]
     rows = []
     agg, poly = r["id"], r["polycentric"]
 
-    def add(domain, metric, label, value, unit, grid, source, pop_date, tier, flag=""):
+    def add(domain, metric, label, value, unit, grid, source, pop_date, tier, flag="", pop_grid=None):
         if value is not None and isinstance(value, float) and math.isnan(value):
             value = None
         if poly and metric.startswith(("rho", "clark", "profile", "density_first_km")) and "nearest" not in metric:
             flag = (flag + " " if flag else "") + POLY_FLAG
+        if pop_grid == RAWV:
+            flag = RAW_FLAG + (" " + flag if flag else "")
+            tier = "qa"
         rows.append({"agglomeration": agg, "domain": domain, "metric": metric, "label": label,
                      "value": sig(value) if value is not None else None, "unit": unit, "grid": grid,
                      "source": source, "population_date": pop_date, "timetable_date": None,
-                     "coverage_share": None, "flag": flag, "tier": tier})
+                     "coverage_share": None, "flag": flag, "tier": tier, "population_grid": pop_grid})
+
+    def vres(v):
+        return r if v == MAIN else r["raw"]
+
+    def popname(v):
+        return "NSP 2021 rozłożony wzorem GHSL" if v == MAIN else "GHSL"
 
     for dom in ("fua", "core"):
         d = r[dom]
@@ -612,69 +812,122 @@ def metric_rows(r: dict, thresholds: list[float], thr_work: float) -> list[dict]
             r["ghsl_100m_pop"][dom] / c["pop"], "", "GHSL 100 m vs siatka 1 km", f"{SRC_GHSL}; {SRC_NSP}",
             f"{POP_DATE_GHSL} / {POP_DATE_NSP}", "qa",
             "Część różnicy to definicja ludności (rezydująca w NSP), nie rozkład; patrz density.md §7.1.")
-        key = dom
-        add(dom, "profile_r50_km", "Promień od centrum obejmujący 50 % ludności obszaru", r["r50"][key], "km",
-            GRID_100, SRC_GHSL, POP_DATE_GHSL, "table")
-        add(dom, "profile_share_10km", "Udział ludności obszaru w promieniu 10 km od centrum",
-            r["share_within"][key]["10"] * 100, "%", GRID_100, SRC_GHSL, POP_DATE_GHSL, "table")
-        for thr in thresholds:
-            t = f"{int(round(thr * 100))}"
-            e = r["rho"][str(thr)][dom]
-            work = "próg przyjęty do raportowania" if thr == thr_work else "wariant wrażliwości"
-            fl = (f"Maska zabudowy GHS-BUILT-S ≥ {t} % ({work}). ρ = 1 to równomierna gęstość "
-                  "na kole, nie optimum; ρ < 1: ludność bliżej centrum niż przy równomiernym rozkładzie. "
-                  "Poziom nieporównywalny z wartościami Bertauda i Malpezziego.")
-            if e["rho"] is None:
-                fl += f" Brak danych: maska obejmuje < {int(MIN_MASK_POP_SHARE * 100)} % ludności obszaru."
-            add(dom, f"rho_t{t}", f"Indeks dyspersji Bertauda ρ (maska zabudowy ≥ {t} %)", e["rho"], "",
-                GRID_100, SRC_GHSL_BUILT, POP_DATE_GHSL, "table", fl)
-            add(dom, f"mask_area_t{t}", f"Pole maski terenu zabudowanego (≥ {t} %)", e["area_km2"], "km²",
-                GRID_100, "JRC GHS-BUILT-S R2023A, epoka 2020", POP_DATE_GHSL, "table")
-            add(dom, f"mask_pop_share_t{t}", f"Udział ludności obszaru (GHSL) w masce zabudowy ≥ {t} %",
-                e["pop_share"] * 100, "%", GRID_100, SRC_GHSL_BUILT, POP_DATE_GHSL, "table")
-            nk = f"{dom}_nearest"
-            if nk in r["rho"][str(thr)]:
-                en = r["rho"][str(thr)][nk]
-                add(dom, f"rho_nearest_t{t}", f"ρ liczone do najbliższego z {len(r['centres'])} centrów (inna miara; maska ≥ {t} %)",
-                    en["rho"], "", GRID_100, SRC_GHSL_BUILT, POP_DATE_GHSL, "table",
-                    "Inna miara niż ρ jednocentrowe: odległość do najbliższego centrum z listy w config.yaml; "
-                    "mianownik ⅔R jak w ρ. Nie porównywać z ρ innych miast.")
-        ge = r["gini_eta"][f"mask_{dom}"]
-        add(dom, "gini_norm_mask", "Gini znormalizowany (G/Gmax) w masce zabudowy", ge.get("gini_norm"), "",
-            GRID_100, SRC_GHSL_BUILT, POP_DATE_GHSL, "qa",
-            f"Tylko QA. Domena: maska ≥ {int(thr_work * 100)} %, komórki 100 m, n = {ge.get('n_cells')}.")
-        add(dom, "eta_mask", "Indeks rozproszenia hotspotów η (Volpati i Barthelemy) w masce zabudowy",
-            ge.get("eta"), "", GRID_100, SRC_GHSL_BUILT, POP_DATE_GHSL, "qa",
-            f"Tylko QA. Próg LouBar: {sig(ge.get('loubar_density') or float('nan'))} os./km² "
-            f"({ge.get('n_hotspots')} hotspotów), rozdzielczość 100 m.")
+        # degree of urbanisation (census grid; one variant only)
+        for k, lab in DEGURBA_LABEL.items():
+            add(dom, f"degurba_share_{k}", f"Udział ludności obszaru w komórkach 1 km typu: {lab} (stopień urbanizacji)",
+                d["degurba"][k] * 100, "%", GRID_NSP, SRC_NSP, POP_DATE_NSP, "table",
+                "Klasyfikacja wg reguł Eurostatu (DEGURBA poziom 1, uproszczona: bez reguły zabudowy ≥ 50 %) "
+                "liczona na całej siatce spisowej 1 km; centrum ≥ 1 500 os./km² i ≥ 50 000 os., skupisko "
+                "≥ 300 os./km² i ≥ 5 000 os. Nie jest to oficjalna klasyfikacja Eurostatu.")
+        for v in VARIANTS:
+            x = vres(v)
+            grid, src, src_b, pdate = VARIANT_META[v]
+            add(dom, "profile_r50_km", "Promień od centrum obejmujący 50 % ludności obszaru", x["r50"][dom], "km",
+                grid, src, pdate, "table", pop_grid=v)
+            add(dom, "profile_share_10km", "Udział ludności obszaru w promieniu 10 km od centrum",
+                x["share_within"][dom]["10"] * 100, "%", grid, src, pdate, "table", pop_grid=v)
+            for thr in thresholds:
+                t = f"{int(round(thr * 100))}"
+                e = x["rho"][str(thr)][dom]
+                work = "próg przyjęty do raportowania" if thr == thr_work else "wariant wrażliwości"
+                if dom == "core" and thr == BERTAUD_THR:
+                    cmp_ = ("Definicja najbliższa Bertaudowi i Malpezziemu (2003): wartości dla Warszawy i Krakowa "
+                            "zbliżone do ich danych z lat 90. (density.md, tabela B).")
+                else:
+                    cmp_ = ("Poziom wyższy niż u Bertauda i Malpezziego z konstrukcji (maska netto); porównywalny "
+                            "z ich wartościami jest rdzeń przy progu 10 % (density.md, tabela B).")
+                fl = (f"Maska zabudowy GHS-BUILT-S ≥ {t} % ({work}). ρ = 1 to równomierna gęstość "
+                      "na kole, nie optimum; ρ < 1: ludność bliżej centrum niż przy równomiernym rozkładzie. " + cmp_)
+                if e["rho"] is None:
+                    fl += f" Brak danych: maska obejmuje < {int(MIN_MASK_POP_SHARE * 100)} % ludności obszaru."
+                add(dom, f"rho_t{t}", f"Indeks dyspersji Bertauda ρ (maska zabudowy ≥ {t} %)", e["rho"], "",
+                    grid, src_b, pdate, "table", fl, pop_grid=v)
+                if v == MAIN:
+                    add(dom, f"mask_area_t{t}", f"Pole maski terenu zabudowanego (≥ {t} %)", e["area_km2"], "km²",
+                        GRID_100, "JRC GHS-BUILT-S R2023A, epoka 2020", POP_DATE_GHSL, "table")
+                add(dom, f"mask_pop_share_t{t}", f"Udział ludności obszaru ({popname(v)}) w masce zabudowy ≥ {t} %",
+                    e["pop_share"] * 100, "%", grid, src_b, pdate, "table", pop_grid=v)
+                nk = f"{dom}_nearest"
+                if nk in x["rho"][str(thr)]:
+                    en = x["rho"][str(thr)][nk]
+                    add(dom, f"rho_nearest_t{t}",
+                        f"ρ liczone do najbliższego z {len(r['centres'])} centrów (inna miara; maska ≥ {t} %)",
+                        en["rho"], "", grid, src_b, pdate, "table",
+                        "Inna miara niż ρ jednocentrowe: odległość do najbliższego centrum z listy w config.yaml; "
+                        "mianownik ⅔R jak w ρ. Nie porównywać z ρ innych miast.", pop_grid=v)
+            ge = x["gini_eta"][f"mask_{dom}"]
+            add(dom, "gini_norm_mask", "Gini znormalizowany (G/Gmax) w masce zabudowy", ge.get("gini_norm"), "",
+                grid, src_b, pdate, "qa",
+                f"Tylko QA. Domena: maska ≥ {int(thr_work * 100)} %, komórki 100 m, n = {ge.get('n_cells')}.", pop_grid=v)
+            add(dom, "eta_mask", "Indeks rozproszenia hotspotów η (Volpati i Barthelemy) w masce zabudowy",
+                ge.get("eta"), "", grid, src_b, pdate, "qa",
+                f"Tylko QA. Próg LouBar: {sig(ge.get('loubar_density') or float('nan'))} os./km² "
+                f"({ge.get('n_hotspots')} hotspotów), rozdzielczość 100 m.", pop_grid=v)
     # FUA-only rows (profile shape, Clark, fixed circle)
-    ck = r["clark"]
-    add("fua", "clark_b", "Gradient Clarka b (pierścienie 1–25 km, FUA)", ck["b"], "1/km", GRID_100, SRC_GHSL,
-        POP_DATE_GHSL, "table", "Nie na grafiki jako samodzielna liczba (brief §11).")
-    add("fua", "clark_d0", "Gęstość D0 z modelu Clarka (wyraz wolny)", ck["d0"], "os./km²", GRID_100, SRC_GHSL,
-        POP_DATE_GHSL, "table")
-    add("fua", "clark_r2", "R² dopasowania Clarka", ck["r2"], "", GRID_100, SRC_GHSL, POP_DATE_GHSL, "qa")
-    add("fua", "density_first_km", "Gęstość w pierwszym km od centrum (pierścień 0–1 km)", ck.get("first_km_density"),
-        "os./km²", GRID_100, SRC_GHSL, POP_DATE_GHSL, "table")
-    add("fua", "profile_share_10km_free", "Udział ludności w promieniu 10 km wśród mieszkańców w promieniu 40 km (bez granic FUA)",
-        r["share_within"]["free"]["10"] * 100, "%", GRID_100, SRC_GHSL, POP_DATE_GHSL, "table",
-        "Wariant bez granic: cała ludność Polski w promieniu r od centrum.")
-    ge = r["gini_eta"]["circle"]
-    add("fua", "gini_norm_circle10", f"Gini znormalizowany w kole {CIRCLE_KM} km wokół centrum", ge.get("gini_norm"), "",
-        GRID_100, SRC_GHSL, POP_DATE_GHSL, "qa",
-        f"Tylko QA. Domena: koło {CIRCLE_KM} km wokół centrum (niezależne od FUA), komórki 100 m, n = {ge.get('n_cells')}.")
-    add("fua", "eta_circle10", f"η (Volpati i Barthelemy) w kole {CIRCLE_KM} km wokół centrum", ge.get("eta"), "",
-        GRID_100, SRC_GHSL, POP_DATE_GHSL, "qa",
-        f"Tylko QA. Próg LouBar: {sig(ge.get('loubar_density') or float('nan'))} os./km², rozdzielczość 100 m.")
+    for v in VARIANTS:
+        x = vres(v)
+        grid, src, src_b, pdate = VARIANT_META[v]
+        ck = x["clark"]
+        add("fua", "clark_b", "Gradient Clarka b (pierścienie 1–25 km, FUA)", ck["b"], "1/km", grid, src,
+            pdate, "table", "Nie na grafiki jako samodzielna liczba (brief §11).", pop_grid=v)
+        add("fua", "clark_d0", "Gęstość D0 z modelu Clarka (wyraz wolny)", ck["d0"], "os./km²", grid, src,
+            pdate, "table", pop_grid=v)
+        add("fua", "clark_r2", "R² dopasowania Clarka", ck["r2"], "", grid, src, pdate, "qa", pop_grid=v)
+        add("fua", "density_first_km", "Gęstość w pierwszym km od centrum (pierścień 0–1 km)",
+            ck.get("first_km_density"), "os./km²", grid, src, pdate, "table", pop_grid=v)
+        add("fua", "profile_share_10km_free",
+            "Udział ludności w promieniu 10 km wśród mieszkańców w promieniu 40 km (bez granic FUA)",
+            x["share_within"]["free"]["10"] * 100, "%", grid, src, pdate, "table",
+            "Wariant bez granic: cała ludność Polski w promieniu r od centrum.", pop_grid=v)
+        ge = x["gini_eta"]["circle"]
+        add("fua", "gini_norm_circle10", f"Gini znormalizowany w kole {CIRCLE_KM} km wokół centrum",
+            ge.get("gini_norm"), "", grid, src, pdate, "qa",
+            f"Tylko QA. Domena: koło {CIRCLE_KM} km wokół centrum (niezależne od FUA), komórki 100 m, "
+            f"n = {ge.get('n_cells')}.", pop_grid=v)
+        add("fua", "eta_circle10", f"η (Volpati i Barthelemy) w kole {CIRCLE_KM} km wokół centrum", ge.get("eta"), "",
+            grid, src, pdate, "qa",
+            f"Tylko QA. Próg LouBar: {sig(ge.get('loubar_density') or float('nan'))} os./km², rozdzielczość 100 m.",
+            pop_grid=v)
+    # centre sensitivity (main grid only)
+    cs_ = r["centre_sensitivity"]
+    grid, src, src_b, pdate = VARIANT_META[MAIN]
+    tw = int(round(thr_work * 100))
+    cflag = ("Wrażliwość na wybór centrum; maska zabudowy ta sama dla trzech centrów (zarodki z config.yaml), "
+             "zmieniają się tylko odległości.")
+    for kind in ("townhall", "popcentroid"):
+        c = cs_["centres"][kind]
+        note = f"{CENTRE_LABEL[kind]}: {c['name']}" + (f" ({c['osm']}; wybór: {c['rule']})" if kind == "townhall" else "")
+        add("core", f"centre_offset_{kind}_km", f"Odległość: centrum z config.yaml – {CENTRE_LABEL[kind]}",
+            c["offset_from_config_km"], "km", "EPSG:2180", src if kind == "popcentroid" else "OSM 2026-11-22",
+            pdate if kind == "popcentroid" else None, "table", note)
+    for kind in CENTRE_KINDS:
+        vv = cs_["values"][kind]
+        lab = CENTRE_LABEL[kind]
+        for dom, key, metric, label in (
+                ("fua", "rho_fua_work", f"rho_t{tw}_centre_{kind}", f"ρ (maska ≥ {tw} %), centrum: {lab}"),
+                ("core", "rho_core_work", f"rho_t{tw}_centre_{kind}", f"ρ (maska ≥ {tw} %), centrum: {lab}"),
+                ("core", "rho_core_t10", f"rho_t10_centre_{kind}", f"ρ (maska ≥ 10 %), centrum: {lab}"),
+                ("fua", "r50_fua", f"profile_r50_km_centre_{kind}", f"Promień obejmujący 50 % ludności, centrum: {lab}"),
+                ("core", "r50_core", f"profile_r50_km_centre_{kind}", f"Promień obejmujący 50 % ludności, centrum: {lab}")):
+            add(dom, metric, label, vv[key], "km" if key.startswith("r50") else "", grid,
+                src_b if key.startswith("rho") else src, pdate, "table", cflag)
+    for dom, key, metric, unit in (("fua", "rho_fua_work", f"rho_t{tw}_centre_spread", ""),
+                                   ("core", "rho_core_work", f"rho_t{tw}_centre_spread", ""),
+                                   ("core", "rho_core_t10", "rho_t10_centre_spread", ""),
+                                   ("fua", "r50_fua", "profile_r50_km_centre_spread", "km"),
+                                   ("core", "r50_core", "profile_r50_km_centre_spread", "km")):
+        what = "ρ" if key.startswith("rho") else "r50"
+        add(dom, metric, f"Rozrzut {what} między trzema centrami (maks. − min.)", cs_["spread"][key], unit, grid,
+            src_b if key.startswith("rho") else src, pdate, "table", cflag)
     return rows
 
 
 def write_metrics(rows: list[dict], today: str) -> None:
-    rows = sorted(rows, key=lambda m: (m["agglomeration"], m["domain"], m["metric"]))
+    rows = sorted(rows, key=lambda m: (m["agglomeration"], m["domain"], m["metric"], m["population_grid"] or ""))
     METRICS.mkdir(parents=True, exist_ok=True)
     write_json(METRICS / "metrics_density.json", {"generated": today, "metrics": rows})
     fields = ["agglomeration", "domain", "metric", "label", "value", "unit", "grid", "source", "population_date",
-              "timetable_date", "coverage_share", "flag", "tier"]
+              "timetable_date", "coverage_share", "flag", "tier", "population_grid"]
     with open(METRICS / "metrics_density.csv", "w", encoding="utf-8", newline="") as f:
         w = csv.DictWriter(f, fieldnames=fields, lineterminator="\n")
         w.writeheader()
@@ -711,15 +964,17 @@ def write_charts(results: list[dict], today: str, thr_work: float) -> None:
         return {"r_km": [int(v) for v in df.r_out_km], "cum_share": [sig(v) for v in df.cum_share],
                 "cum_pop": [int(round(v)) for v in df.cum_pop], "ring_density": [sig(v) for v in df.density]}
 
-    common = {"generated": today, "grid": GRID_100, "source": SRC_GHSL, "population_date": POP_DATE_GHSL,
-              "timetable_date": None, "x": "odległość od centrum, km (koniec pierścienia; EPSG:2180)",
+    common = {"generated": today, "grid": GRID_100S, "source": SRC_SCALED, "population_date": POP_DATE_SCALED,
+              "population_grid": MAIN, "timetable_date": None,
+              "x": "odległość od centrum, km (koniec pierścienia; EPSG:2180)",
               "y": "udział skumulowany ludności (0–1)",
               "variants": {
-                  "fua": "(i) tylko ludność w FUA; udział w ludności FUA (GHSL); krzywa kończy się na 100 % na skraju FUA",
+                  "fua": "(i) tylko ludność w FUA; udział w ludności FUA; krzywa kończy się na 100 % na skraju FUA",
                   "free": "(ii) bez granic FUA: cała ludność (w Polsce) w promieniu r; udział w ludności w promieniu 40 km",
               },
-              "caveats": ["GHS-POP to dane modelowane (rozkład według kubatury zabudowy), nie spisowe.",
-                          "Krzywa skumulowana sprawdzona względem siatki spisowej 1 km co 5 km (density.md).",
+              "caveats": ["Ludność NSP 2021 z komórek 1 km rozłożona wewnątrz komórki wzorem GHS-POP 2020 (100 m); "
+                          "poziom spisowy na 1 km, rozkład wewnątrz komórki modelowany.",
+                          "Wariant z surowym GHS-POP: data/interim/density/*_profile_*_raw.csv (density.md).",
                           "Wariant (ii): przy dużym r wchodzą sąsiednie miasta; ludność za granicą państwa pominięta."]}
     mono = [r for r in results if not r["polycentric"]]
     poly = [r for r in results if r["polycentric"]]
@@ -753,10 +1008,12 @@ def main() -> None:
     if thr_work not in thresholds:
         thresholds = sorted(thresholds + [thr_work])
     today = dt.date.today().isoformat()
+    build_scaled_100()            # before the GHSL rasters are loaded (memory)
+    degurba = degurba_grid()
     results, rows = [], []
     for agg in sorted(all_agglomeration_ids()):
         t1 = time.time()
-        r = run_agglomeration(agg, thresholds, thr_work)
+        r = run_agglomeration(agg, thresholds, thr_work, degurba)
         results.append(r)
         rows += metric_rows(r, thresholds, thr_work)
         write_json(OUT / f"{agg}.json", jsonable(r))
@@ -767,8 +1024,15 @@ def main() -> None:
     extra = {"thresholds": thresholds, "working_threshold": thr_work, "gap_cells": GAP_CELLS,
              "min_mask_pop_share": MIN_MASK_POP_SHARE,
              "seed_radius_m": SEED_RADIUS_M, "circle_km": CIRCLE_KM, "eta_sample": ETA_SAMPLE,
-             "population_dates": {"census": POP_DATE_NSP, "ghsl": POP_DATE_GHSL}}
-    mp = write_meta(OUT, "density", inputs=INPUT_IDS, started=t0, extra=extra)
+             "population_dates": {"census": POP_DATE_NSP, "ghsl": POP_DATE_GHSL, "census_scaled": POP_DATE_SCALED},
+             "population_grids": {"main": MAIN, "variant": RAWV,
+                                  "note": "100 m measures on the census-scaled GHSL grid (pipeline.popgrid.scale_100m "
+                                          "at 100 m); raw GHS-POP kept as tier-qa rows with population_grid=ghsl_raw"},
+             "bertaud_threshold": BERTAUD_THR,
+             "degurba": {"urban_centre": [DEGURBA_UC_DENS, DEGURBA_UC_POP], "urban_cluster": [DEGURBA_CL_DENS,
+                                                                                            DEGURBA_CL_POP]},
+             "townhalls": "data/interim/density/townhalls_osm.csv (OSM 2026-11-22, amenity=townhall)"}
+    mp = write_meta(OUT, "density", inputs=INPUT_IDS + ["osm_poland_pbf"], started=t0, extra=extra)
     # metrics/ and charts/ hold one _meta_<step>.json per step; the plain _meta.json there belongs to the merge step
     for d in (METRICS, CHARTS):
         shutil.copyfile(mp, d / "_meta_density.json")

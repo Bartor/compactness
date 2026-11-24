@@ -21,7 +21,7 @@ import shapely
 from pyproj import Transformer
 
 from pipeline.boundaries import all_agglomeration_ids, load_agglomeration
-from pipeline.common import INTERIM, RESULTS, load_config, write_meta
+from pipeline.common import INTERIM, RAW, RESULTS, load_config, write_meta
 from pipeline import density as D
 
 matplotlib.use("Agg")
@@ -125,7 +125,7 @@ def plot_profile(agg: str, r: dict) -> None:
     fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 4.6))
     f = profile(agg, "fua")
     ok = f.area_km2 > 0
-    ax1.semilogy(f.r_in_km[ok] + 0.5, f.density[ok], "o-", ms=3, color="#1D4ED8", label="pierścień 1 km, FUA (GHSL 100 m)")
+    ax1.semilogy(f.r_in_km[ok] + 0.5, f.density[ok], "o-", ms=3, color="#1D4ED8", label="pierścień 1 km, FUA (siatka 100 m)")
     ck = r["clark"]
     if ck["b"] is not None:
         rr = np.linspace(1, 25, 50)
@@ -143,6 +143,11 @@ def plot_profile(agg: str, r: dict) -> None:
             continue
         d = profile(agg, k)
         ax2.plot(np.r_[0, d.r_out_km], np.r_[0, d.cum_share], color=col, ls=ls, label=lab)
+    raw_p = DEN / f"{agg}_profile_fua_raw.csv"
+    if raw_p.exists():
+        d = pd.read_csv(raw_p)
+        ax2.plot(np.r_[0, d.r_out_km], np.r_[0, d.cum_share], color="#1D4ED8", ls="--", lw=0.8,
+                 label="(i) surowy GHS-POP (wariant)")
     cc = r["census_check"]
     ax2.plot(cc["steps_km"], cc["census_fua"], "s", color="#1D4ED8", mfc="none", label="NSP 1 km, (i)")
     ax2.plot(cc["steps_km"], cc["census_free"], "s", color="#E07B00", mfc="none", label="NSP 1 km, (ii)")
@@ -153,7 +158,7 @@ def plot_profile(agg: str, r: dict) -> None:
     ax2.set_title(f"Krzywa skumulowana; maks. różnica GHSL–NSP: {g4(cc['max_abs_diff_pp_fua'])} pp (i), "
                   f"{g4(cc['max_abs_diff_pp_free'])} pp (ii)")
     flag = " (POLICENTRYCZNA: miara jednocentrowa z zastrzeżeniem)" if r["polycentric"] else ""
-    fig.suptitle(f"QA §4.2, {r['name']}{flag}: centrum {r['centres'][0]['name']}; GHS-POP 2020 (model)", fontsize=9)
+    fig.suptitle(f"QA §4.2, {r['name']}{flag}: centrum {r['centres'][0]['name']}; NSP 2021 rozłożony wzorem GHSL (100 m); przerywana: surowy GHS-POP 2020", fontsize=9)
     fig.savefig(QA / f"profile_{agg}.png", bbox_inches="tight")
     plt.close(fig)
 
@@ -181,7 +186,7 @@ def plot_mask(agg: str, r: dict, a: dict, thr_work: float) -> None:
     e = r["rho"][str(thr_work)]["fua"]
     ax1.set_title(f"Maska zabudowy ≥ {int(thr_work * 100)} % (pomarańczowy), spójna z centrami, luka ≤ 600 m\n"
                   f"pole {n(e['area_km2'])} km², {pct(e['pop_share'])} ludności FUA, ρ = {g4(e['rho'])}; "
-                  "szarość: gęstość GHSL")
+                  "szarość: gęstość (siatka przeskalowana)")
     ax1.set_xticks([]); ax1.set_yticks([])
     ths = sorted(r["rho"], key=float)
     x = [float(t) * 100 for t in ths]
@@ -198,7 +203,7 @@ def plot_mask(agg: str, r: dict, a: dict, thr_work: float) -> None:
     ax2.legend(fontsize=7, loc="upper left")
     ax2.set_title("Wrażliwość na próg (null w tabelach, gdy w masce < 5 % ludności)")
     flag = " (POLICENTRYCZNA)" if r["polycentric"] else ""
-    fig.suptitle(f"QA §4.3, {r['name']}{flag}: indeks dyspersji Bertauda; GHS-BUILT-S i GHS-POP 2020 100 m", fontsize=9)
+    fig.suptitle(f"QA §4.3, {r['name']}{flag}: indeks dyspersji Bertauda; GHS-BUILT-S 2020 i NSP 2021 rozłożony wzorem GHSL (100 m)", fontsize=9)
     fig.savefig(QA / f"mask_{agg}.png", bbox_inches="tight")
     plt.close(fig)
 
@@ -231,7 +236,7 @@ def plot_gini(agg: str, r: dict) -> None:
     ax2.set_xticks([]); ax2.set_yticks([])
     ax2.set_title(f"Hotspoty (LouBar ≥ {n(ge['loubar_density'])} os./km², {ge['n_hotspots']} komórek) w masce")
     fig.suptitle(f"QA §4.4, {r['name']}: Gini i η (Volpati i Barthelemy 2018); tylko kontrola, nie na grafiki; "
-                 "GHS-POP 2020 100 m", fontsize=9)
+                 "NSP 2021 rozłożony wzorem GHSL (100 m)", fontsize=9)
     fig.savefig(QA / f"gini_{agg}.png", bbox_inches="tight")
     plt.close(fig)
 
@@ -310,7 +315,7 @@ def summary_plots(res: dict, ctl: dict, thr_list: list[float]) -> None:
     for ax in axs:
         ax.set_xlim(0, 40); ax.grid(alpha=0.3); ax.set_xlabel("km od centrum")
     axs[0].legend(fontsize=6)
-    fig.suptitle("Profile skumulowane, aglomeracje jednocentrowe (grube: faza 1); GHS-POP 2020 100 m (model)", fontsize=9)
+    fig.suptitle("Profile skumulowane, aglomeracje jednocentrowe (grube: faza 1); NSP 2021 rozłożony wzorem GHSL (100 m)", fontsize=9)
     fig.savefig(QA / "summary_profiles_monocentric.png", bbox_inches="tight"); plt.close(fig)
 
     fig, axs = plt.subplots(1, 2, figsize=(11, 4.4))
@@ -343,6 +348,192 @@ def summary_plots(res: dict, ctl: dict, thr_list: list[float]) -> None:
     axs[0].legend(fontsize=6.5, loc="upper center", bbox_to_anchor=(1.1, -0.08), ncol=2)
     fig.suptitle("§7.1: rozkład różnicy GHSL 2020 / NSP 2021 na czynniki (ułamki; kropkowane ±5 %)", fontsize=9)
     fig.savefig(QA / "summary_control.png", bbox_inches="tight"); plt.close(fig)
+
+
+# ------------------------------------------------------------------ population-grid variants, centres, Bertaud, DEGURBA
+
+HDENS_2021 = RAW / "eurostat_hdens_2021" / "extracted" / "HDENS_CLST_2021.tif"
+# Bertaud & Malpezzi (2003), Table 1 (data from the 1990s; read for the literature review, see
+# research_notes/Urban transit metrics research review/urban_form_and_density.md)
+BERTAUD = {"warszawa": {"pop": 1639675, "built_km2": 235, "p_ha": 70, "rho": 0.99, "beta": -0.170},
+           "krakow": {"pop": 730600, "built_km2": 112, "p_ha": 65, "rho": 1.18, "beta": -0.174}}
+
+
+DOMPL = {"fua": "FUA", "core": "rdzeń"}
+
+
+def vr(res: dict, k: str, v: str) -> dict:
+    """Result dict of agglomeration k for population-grid variant v ('scaled' or 'raw')."""
+    return res[k] if v == "scaled" else res[k]["raw"]
+
+
+def arrow(a, b) -> str:
+    if a is None or b is None or (isinstance(a, float) and math.isnan(a)):
+        return f"{g4(a)} → {g4(b)}"
+    ch = b / a - 1 if a else 0.0
+    sign = "+" if ch >= 0 else "−"
+    return f"{g4(a)} → {g4(b)} ({sign}{n(abs(ch) * 100, 1)} %)"
+
+
+def mono_order(res: dict, mono: list[str], t: str, v: str, dom: str = "fua") -> list[str]:
+    valid = [k for k in mono if vr(res, k, v)["rho"][t][dom]["rho"] is not None]
+    return sorted(valid, key=lambda k: vr(res, k, v)["rho"][t][dom]["rho"])
+
+
+def spearman_thr(res: dict, mono: list[str], t1: str, t2: str, v: str):
+    from scipy.stats import spearmanr
+    valid = [k for k in mono if vr(res, k, v)["rho"][t1]["fua"]["rho"] is not None
+             and vr(res, k, v)["rho"][t2]["fua"]["rho"] is not None]
+    if len(valid) < 4:
+        return None
+    return float(spearmanr([vr(res, k, v)["rho"][t1]["fua"]["rho"] for k in valid],
+                           [vr(res, k, v)["rho"][t2]["fua"]["rho"] for k in valid]).statistic)
+
+
+def statements(res: dict, ids: list[str], mono: list[str], ths: list[str]) -> list[list[str]]:
+    """Statements of RAPORT §14 / this note recomputed on both population grids."""
+    out = []
+
+    def both(label, fn):
+        a, b = fn("raw"), fn("scaled")
+        out.append([label, a, b, "tak" if a != b else "nie"])   # any difference, numbers included
+
+    def share_range(v, t):
+        x = [vr(res, k, v)["rho"][t]["fua"]["pop_share"] for k in ids]
+        return f"{n(min(x) * 100)}–{n(max(x) * 100)} %"
+
+    for t in ("0.1", "0.2", "0.3"):
+        both(f"Udział ludności FUA w masce ≥ {int(float(t) * 100)} % (zakres 13 aglomeracji)", lambda v, t=t: share_range(v, t))
+    both("Korelacja rang ρ FUA, progi 10 % i 20 % (miasta jednocentrowe)",
+         lambda v: g4(spearman_thr(res, mono, "0.1", "0.2", v)))
+    both("Korelacja rang ρ FUA, progi 20 % i 30 %", lambda v: g4(spearman_thr(res, mono, "0.2", "0.3", v)))
+    for t in ("0.1", "0.2"):
+        both(f"Kolejność miast jednocentrowych wg ρ FUA, {int(float(t) * 100)} % (od najniższego)",
+             lambda v, t=t: ", ".join(res[k]["name"] for k in mono_order(res, mono, t, v)))
+    both("ρ < 1 (wyjątki od „ρ > 1 prawie wszędzie”)",
+         lambda v: ", ".join(f"{res[k]['name']} {DOMPL[d]} {int(float(t) * 100)} % ({g4(vr(res, k, v)['rho'][t][d]['rho'])})"
+                             for k in ids for d in ("fua", "core") for t in ths
+                             if vr(res, k, v)["rho"][t][d]["rho"] is not None and vr(res, k, v)["rho"][t][d]["rho"] < 1)
+         or "brak")
+    both("Warszawa: ρ FUA 20 % przy tolerancji luki 0–1 400 m",
+         lambda v: f"{g4(min(g['rho'] for g in vr(res, 'warszawa', v)['rho_gap_sensitivity'].values()))}–"
+                   f"{g4(max(g['rho'] for g in vr(res, 'warszawa', v)['rho_gap_sensitivity'].values()))}")
+    both("GZM: ρ do najbliższego z 9 centrów, 20 %", lambda v: g4(vr(res, "gzm", v)["rho"]["0.2"]["fua_nearest"]["rho"]))
+    both("Bydgoszcz–Toruń: ρ FUA 20 %", lambda v: g4(vr(res, "bydgoszcz_torun", v)["rho"]["0.2"]["fua"]["rho"]))
+
+    def w10(v, key):
+        order = sorted(PHASE1_MONO, key=lambda k: vr(res, k, v)["share_within"][key]["10"])
+        return (f"{pct(vr(res, 'warszawa', v)['share_within'][key]['10'])}, miejsce "
+                f"{len(order) - order.index('warszawa')} z {len(order)} (1 = najwyższy udział)")
+    both("Warszawa: udział do 10 km, wariant (i) FUA (5 miast jednocentrowych fazy 1)", lambda v: w10(v, "fua"))
+    both("Warszawa: udział do 10 km, wariant (ii) bez granic", lambda v: w10(v, "free"))
+    both("Maks. różnica krzywej skumulowanej względem NSP 1 km, (i), bez Rzeszowa",
+         lambda v: g4(max(vr(res, k, v)["census_check"]["max_abs_diff_pp_fua"] for k in ids if k != "rzeszow")) + " pp")
+    both("To samo, Rzeszów", lambda v: g4(vr(res, "rzeszow", v)["census_check"]["max_abs_diff_pp_fua"]) + " pp")
+    both("η w masce: dwie najwyższe wartości",
+         lambda v: ", ".join(res[k]["name"] for k in sorted(ids, key=lambda k: -vr(res, k, v)["gini_eta"]["mask_fua"]["eta"])[:2]))
+    both("η w masce, miasta jednocentrowe: trzy najniższe",
+         lambda v: ", ".join(res[k]["name"] for k in sorted(mono, key=lambda k: vr(res, k, v)["gini_eta"]["mask_fua"]["eta"])[:3]))
+    both("Clark b: kolejność 5 miast jednocentrowych fazy 1 (od najbardziej stromego)",
+         lambda v: ", ".join(res[k]["name"] for k in sorted(PHASE1_MONO, key=lambda k: -vr(res, k, v)["clark"]["b"])))
+    both("r50 (i) FUA: kolejność 5 miast jednocentrowych fazy 1 (od najmniejszego)",
+         lambda v: ", ".join(res[k]["name"] for k in sorted(PHASE1_MONO, key=lambda k: vr(res, k, v)["r50"]["fua"])))
+    return out
+
+
+def degurba_check() -> dict:
+    """Own DEGURBA urban centres vs Eurostat HDENS_CLST_2021 on the census cells in Poland."""
+    import rasterio
+    c = D.census()
+    cls = D.degurba_grid()
+    with rasterio.open(HDENS_2021) as s:
+        arr, tr = s.read(1), s.transform
+    col = np.floor((c.E.values + 500 - tr.c) / tr.a).astype(int)
+    row = np.floor((c.N.values + 500 - tr.f) / tr.e).astype(int)
+    ok = (row >= 0) & (row < arr.shape[0]) & (col >= 0) & (col < arr.shape[1])
+    eu = np.zeros(len(c), bool)
+    eu[ok] = arr[row[ok], col[ok]] > 0
+    mine = cls == 2
+    p = c.RES.values.astype(float)
+    return {"pop_share_mine": p[mine].sum() / p.sum(), "pop_share_eurostat": p[eu].sum() / p.sum(),
+            "cells_mine": int(mine.sum()), "cells_eurostat": int(eu.sum()), "cells_both": int((mine & eu).sum()),
+            "pop_only_mine": p[mine & ~eu].sum(), "pop_only_eurostat": p[eu & ~mine].sum(),
+            "jaccard_cells": (mine & eu).sum() / max((mine | eu).sum(), 1)}
+
+
+def form_tables(res: dict, ids: list[str], mono: list[str], ths: list[str], thr_work: float, nm) -> dict:
+    tw = str(thr_work)
+    T = {}
+    T["variants"] = table(
+        ["Aglomeracja", "ρ FUA 10 %", "ρ FUA 20 %", "ρ rdzeń 10 %", "ρ rdzeń 20 %", "r50 (i) FUA, km", "r50 rdzeń, km",
+         "Clark b, 1/km", "G/Gmax maska", "η maska"],
+        [[nm(k)] + [arrow(res[k]["raw"]["rho"][t][d]["rho"], res[k]["rho"][t][d]["rho"])
+                    for d, t in (("fua", "0.1"), ("fua", "0.2"), ("core", "0.1"), ("core", "0.2"))]
+         + [arrow(res[k]["raw"]["r50"][d], res[k]["r50"][d]) for d in ("fua", "core")]
+         + [arrow(res[k]["raw"]["clark"]["b"], res[k]["clark"]["b"]),
+            arrow(res[k]["raw"]["gini_eta"]["mask_fua"]["gini_norm"], res[k]["gini_eta"]["mask_fua"]["gini_norm"]),
+            arrow(res[k]["raw"]["gini_eta"]["mask_fua"]["eta"], res[k]["gini_eta"]["mask_fua"]["eta"])] for k in ids])
+    rank_rows = []
+    from scipy.stats import spearmanr
+    for t in ths:
+        a, b = mono_order(res, mono, t, "raw"), mono_order(res, mono, t, "scaled")
+        if not a and not b:
+            continue
+        common = [k for k in a if k in b]
+        s = spearmanr([a.index(k) for k in common], [b.index(k) for k in common]).statistic if len(common) >= 4 else None
+        rank_rows.append([f"≥ {int(float(t) * 100)} %", ", ".join(res[k]["name"] for k in a) or "brak danych",
+                          ", ".join(res[k]["name"] for k in b) or "brak danych",
+                          "bez zmian" if a == b else f"zmiana (Spearman {g4(s)})"])
+    T["ranks"] = table(["Próg", "Surowy GHSL", "Przeskalowany do NSP", "Kolejność"], rank_rows)
+    T["statements"] = table(["Stwierdzenie (RAPORT §14 / ta notatka)", "Surowy GHSL", "Przeskalowany do NSP",
+                             "Inny wynik (także liczbowo)?"], statements(res, ids, mono, ths))
+
+    # Bertaud & Malpezzi
+    brow = []
+    for k, b in BERTAUD.items():
+        r = res[k]
+        bt, btr = r["bertaud_core_t10"], r["raw"]["bertaud_core_t10"]
+        brow.append([res[k]["name"], n(b["rho"], 2), f"{g4(r['rho']['0.1']['core']['rho'])} ({g4(r['raw']['rho']['0.1']['core']['rho'])})",
+                     g4(r["rho"]["0.2"]["core"]["rho"]), g4(r["rho"]["0.2"]["fua"]["rho"]),
+                     n(-b["beta"], 3), f"{n(r['clark']['b'], 3)} ({n(r['raw']['clark']['b'], 3)})",
+                     n(b["built_km2"]), n(bt["area_km2"]), n(b["p_ha"]), f"{n(bt['people_per_ha'])} ({n(btr['people_per_ha'])})",
+                     n(b["pop"]), n(bt["pop"])])
+    T["bertaud"] = table(["Miasto", "B&M ρ", "ρ rdzeń 10 % (surowy GHSL)", "ρ rdzeń 20 %", "ρ FUA 20 %",
+                          "B&M gradient, 1/km", "Clark b FUA (surowy)", "B&M teren zabudowany, km²",
+                          "maska rdzenia 10 %, km²", "B&M os./ha zabudowy", "os./ha w masce rdzenia 10 % (surowy)",
+                          "B&M ludność", "ludność w masce rdzenia 10 %"], brow)
+
+    # centre sensitivity
+    crow, vrow = [], []
+    for k in ids:
+        cs = res[k]["centre_sensitivity"]
+        c = cs["centres"]
+        th = c["townhall"]
+        crow.append([nm(k), c["config"]["name"], f"{th['name']} ({th['osm']})",
+                     {"hand": "ręcznie", "name": "nazwa", "townhall:type=city": "townhall:type=city"}[th["rule"]],
+                     n(th["offset_from_config_km"], 2), n(c["popcentroid"]["offset_from_config_km"], 2),
+                     f"{c['popcentroid']['lat']:.4f}, {c['popcentroid']['lon']:.4f}".replace(".", ",")])
+        v = cs["values"]
+        vrow.append([nm(k)] + [" / ".join(g4(v[kind][key]) for kind in D.CENTRE_KINDS)
+                               for key in ("rho_fua_work", "rho_core_t10", "rho_core_work", "r50_fua", "r50_core")]
+                    + [g4(cs["spread"]["rho_fua_work"]), g4(cs["spread"]["rho_core_t10"]),
+                       n(cs["spread"]["r50_fua"], 2) if cs["spread"]["r50_fua"] is not None else "brak danych"])
+    T["centres"] = table(["Aglomeracja", "Centrum z config.yaml", "Ratusz (OSM)", "Wybór ratusza",
+                          "config–ratusz, km", "config–środek ciężkości, km", "Środek ciężkości (lat, lon)"], crow)
+    tws = int(thr_work * 100)
+    T["centre_values"] = table(["Aglomeracja", f"ρ FUA {tws} %: config / ratusz / środek", "ρ rdzeń 10 %",
+                                f"ρ rdzeń {tws} %", "r50 (i) FUA, km", "r50 rdzeń, km", f"rozrzut ρ FUA {tws} %",
+                                "rozrzut ρ rdzeń 10 %", "rozrzut r50 FUA, km"], vrow)
+    picks = [f"- {res[k]['name']}: {res[k]['centre_sensitivity']['centres']['townhall']['reason']}"
+             for k in ids if res[k]["centre_sensitivity"]["centres"]["townhall"]["rule"] == "hand"]
+    T["centre_picks"] = "\n".join(picks)
+
+    # DEGURBA
+    T["degurba"] = table(["Aglomeracja", "FUA: centrum miejskie", "FUA: skupisko miejskie", "FUA: wiejskie",
+                          "rdzeń: centrum miejskie", "rdzeń: skupisko", "rdzeń: wiejskie"],
+                         [[nm(k)] + [pct(res[k][d]["degurba"][c]) for d in ("fua", "core")
+                                     for c in ("urban_centre", "urban_cluster", "rural")] for k in ids])
+    return T
 
 
 # ------------------------------------------------------------------ markdown
@@ -381,7 +572,7 @@ def write_md(res: dict, ctl: dict, g250: dict, thr_list: list[float], thr_work: 
 
     t_prof = table(
         ["Aglomeracja", "r50 (i) FUA, km", "r50 (ii), km", "udział do 10 km (i)", "udział do 10 km (ii)",
-         "gęstość 0–1 km", "Clark b, 1/km", "Clark D0", "R²", "maks. różnica GHSL–NSP (i), pp", "(ii), pp"],
+         "gęstość 0–1 km", "Clark b, 1/km", "Clark D0", "R²", "maks. różnica względem NSP 1 km (i), pp", "(ii), pp"],
         [[nm(k), g4(res[k]["r50"]["fua"]), g4(res[k]["r50"]["free"]), pct(res[k]["share_within"]["fua"]["10"]),
           pct(res[k]["share_within"]["free"]["10"]), n(res[k]["clark"]["first_km_density"]), g4(res[k]["clark"]["b"]),
           n(res[k]["clark"]["d0"]), g4(res[k]["clark"]["r2"]), g4(res[k]["census_check"]["max_abs_diff_pp_fua"]),
@@ -393,7 +584,7 @@ def write_md(res: dict, ctl: dict, g250: dict, thr_list: list[float], thr_work: 
         cc = res[k]["census_check"]
         cc_rows.append([nm(k)] + [f"{n(cc['ghsl_fua'][i] * 100, 1)} / {n(cc['census_fua'][i] * 100, 1)}"
                                   for i in range(len(steps)) if steps[i] in (2, 5, 10, 20, 30)])
-    t_cc = table(["Aglomeracja"] + [f"do {s} km: GHSL / NSP, %" for s in steps if s in (2, 5, 10, 20, 30)], cc_rows)
+    t_cc = table(["Aglomeracja"] + [f"do {s} km: siatka 100 m / NSP, %" for s in steps if s in (2, 5, 10, 20, 30)], cc_rows)
 
     ths = [str(t) for t in thr_list]
 
@@ -508,11 +699,27 @@ def write_md(res: dict, ctl: dict, g250: dict, thr_list: list[float], thr_work: 
               if res[k]["rho"][t][d]["rho"] is not None and res[k]["rho"][t][d]["rho"] < 1]
     below1_txt = ("; wyjątki (ρ < 1): " + ", ".join(f"{a} {b} przy {int(float(c) * 100)} %" for a, b, c in below1)) if below1 else ""
     eta_mono = sorted(mono, key=lambda k: res[k]["gini_eta"]["mask_fua"]["eta"])
+    gt1_word = "prawie wszędzie" if below1 else "wszędzie (każda aglomeracja, domena i próg z wartością)"
+    w_order = sorted(PHASE1_MONO, key=lambda k: -res[k]["share_within"]["free"]["10"])
+    w_rank_free = w_order.index("warszawa") + 1
+    eta_top = ", ".join(f"{res[k]['name']} {g4(res[k]['gini_eta']['mask_fua']['eta'])}"
+                        for k in sorted(ids, key=lambda k: -res[k]["gini_eta"]["mask_fua"]["eta"])[:4])
     eta_low = ", ".join(f"{res[k]['name']} {g4(res[k]['gini_eta']['mask_fua']['eta'])}" for k in eta_mono[:3])
     eta_high = ", ".join(f"{res[k]['name']} {g4(res[k]['gini_eta']['mask_fua']['eta'])}" for k in eta_mono[-2:])
     seeds = sorted({res[k]["rho"][t]["fua"]["seed_radius_m"] for k in ids for t in ths})
     corr = {r[0]: r[2] for r in corr_rows}
     core_sh = [res[k]["rho"][t]["core"]["pop_share"] for k in ids for t in ths[:2]]
+    FT = form_tables(res, ids, mono, ths, thr_work, nm)
+    dg = degurba_check()
+    cc_raw_max = max(res[k]["raw"]["census_check"]["max_abs_diff_pp_fua"] for k in ids if k != "rzeszow")
+    cc_max = max(res[k]["census_check"]["max_abs_diff_pp_fua"] for k in ids)
+    cc_max_k = max(ids, key=lambda k: res[k]["census_check"]["max_abs_diff_pp_fua"])
+    g_raw = [res[k]["raw"]["gini_eta"]["mask_fua"]["gini_norm"] for k in ids]
+    g_sc = [res[k]["gini_eta"]["mask_fua"]["gini_norm"] for k in ids]
+    b_w, b_k = res["warszawa"], res["krakow"]
+    cs_mono = [k for k in mono]
+    spread_f = [res[k]["centre_sensitivity"]["spread"]["rho_fua_work"] for k in cs_mono]
+    big_off = sorted(cs_mono, key=lambda k: -res[k]["centre_sensitivity"]["centres"]["popcentroid"]["offset_from_config_km"])
 
     txt = f"""# Faza 1: miary gęstości (§4.1–4.4) i kontrola GHSL vs NSP (§7.1)
 
@@ -569,11 +776,11 @@ Każdą regułę, której brief nie przesądza, trzeba było doprecyzować. Poni
 
 ### 1.3 Profil gęstości (§4.2)
 
-- **Dane:** GHS-POP 100 m. Pierścienie 1 km są za drobne na siatkę spisową 1 km, a GHSL to dane modelowane.
+- **Dane:** siatka 100 m przeskalowana do spisu (patrz 1.6). Pierścienie 1 km są za drobne na samą siatkę spisową 1 km.
 - **Odległość:** od środka piksela do centrum z `config.yaml`, w EPSG:2180. Pierścienie [k, k+1) km.
 - **Gęstość pierścienia:** ludność / pole komórek pierścienia w domenie (lasy i wody wewnątrz domeny wliczone).
   Osobno podajemy pole zamieszkane (komórki z ludnością > 0) w plikach `data/interim/density/*_profile_*.csv`.
-- **Wariant (i) „fua”:** tylko komórki o środku w FUA; udział w ludności FUA (GHSL). Pierścienie sięgają do najdalszej
+- **Wariant (i) „fua”:** tylko komórki o środku w FUA; udział w ludności FUA (ta sama siatka 100 m). Pierścienie sięgają do najdalszej
   komórki FUA, więc krzywa kończy się na 100 %. Warszawa i inne duże FUA sięgają dalej niż 40 km: wtedy udział przy
   40 km jest mniejszy od 100 %.
 - **Wariant (ii) „free”, bez granic:** wszystkie komórki o środku w Polsce w promieniu r. Udział liczony w ludności do
@@ -610,7 +817,7 @@ Każdą regułę, której brief nie przesądza, trzeba było doprecyzować. Poni
      odpadają przy każdym progu z listy.
   4. **Domena:** FUA. Tabela 7 pokazuje, jaka część klastra wychodzi poza FUA, gdy tę samą regułę puścić na FUA + 15 km.
   5. **Rdzeń:** ta sama maska ograniczona do komórek o środku w rdzeniu.
-- **Licznik:** tylko ludność GHS-POP 100 m z komórek maski; odległość od środka komórki do centrum w EPSG:2180.
+- **Licznik:** tylko ludność siatki 100 m (1.6) z komórek maski; odległość od środka komórki do centrum w EPSG:2180.
 - **Wartość „brak danych”:** gdy maska obejmuje < 5 % ludności domeny. Przy progu 50 % maska ma kilka km² wokół
   rynku i ρ traci sens; surowa wartość jest w nawiasie w tabelach.
 - **Wariant „do najbliższego z N centrów”** (GZM, Trójmiasto, Bydgoszcz–Toruń; inna miara): odległość do najbliższego
@@ -620,7 +827,7 @@ Każdą regułę, której brief nie przesądza, trzeba było doprecyzować. Poni
 ### 1.5 Gini i η (§4.4, tylko QA)
 
 - **Domeny (stałe):** maska z §4.3 przy progu roboczym {int(thr_work * 100)} % oraz koło {D.CIRCLE_KM} km wokół centrum
-  (komórki w Polsce). Rozdzielczość 100 m (GHS-POP).
+  (komórki w Polsce). Rozdzielczość 100 m (siatka z 1.6).
 - **Wzory wg Volpati i Barthelemy (2018), arXiv:1804.00855:**
   - Gini: wzór (1) na liczbach ludności komórek, normalizowany przez G_max = (n−1)/n (wzory 2–3);
   - hotspoty: komórki powyżej wartości LouBar, czyli miejsca, w którym styczna do krzywej Lorenza w F = 1 przecina oś;
@@ -628,6 +835,21 @@ Każdą regułę, której brief nie przesądza, trzeba było doprecyzować. Poni
 - **Uproszczenie obliczeniowe:** obie średnie liczymy na stałej próbie losowej (ziarno 0, maks. {D.ETA_SAMPLE} komórek),
   żeby uniknąć ~10¹⁰ par.
 - Próg LouBar i rozdzielczość są zapisane przy każdej liczbie (tabela 8, `metrics_density.csv`, kolumna `flag`).
+
+### 1.6 Siatka ludności miar 100 m (od 2026-11-24)
+
+- **Wynik główny:** profile, r50, gradient Clarka, ρ, Gini i η liczymy na tej samej siatce, którą faza 2 zbudowała dla
+  częstej komunikacji: GHS-POP 100 m przeskalowany tak, żeby każda komórka spisowa 1 km sumowała się do NSP 2021
+  (`pipeline.popgrid.scale_100m`). Używamy jej w rozdzielczości 100 m, przed agregacją do 250 m, bo maska zabudowy
+  i odległości są w 100 m; dzięki temu różnica między wariantami to wyłącznie ludność. Kontrola: ta siatka zsumowana
+  do 250 m tym samym jądrem GDAL co w `pipeline.popgrid` różni się od `pop_ghsl_census_scaled_250m_epsg2180.tif`
+  najwyżej o 0,0001 osoby na komórkę (zaokrąglenie float32).
+- **Poziom spisowy, rozkład modelowy:** na poziomie 1 km liczby są spisowe; wewnątrz komórki 1 km ludność jest
+  rozłożona wzorem GHSL. Komórki spisowe z zerową ludnością tracą ludność, którą GHSL umieścił w zakładach i portach.
+- **Wariant kontrolny:** surowy GHS-POP 2020, liczony tym samym kodem; w `metrics_density.csv` wiersze z
+  `population_grid` = `ghsl_raw` i poziomem `qa`. Wiersze, które istnieją w obu wariantach, mają wypełnioną kolumnę
+  `population_grid`; pozostałe (siatka spisowa 1 km, pola masek, GHSL 250 m) mają ją pustą. Porównanie: sekcja 5a.
+- **Daty:** NSP 2021 (31.03.2021), wzór wewnątrz komórek z GHSL epoki 2020.
 
 ## 2. Wyniki: gęstość ważona populacją (§4.1)
 
@@ -651,33 +873,32 @@ GHSL wygładza szczyty gęstości: rozdziela ludność według kubatury zabudowy
 
 ## 3. Wyniki: profil gęstości (§4.2)
 
-Tabela 3. Profil (GHS-POP 2020 100 m).
+Tabela 3. Profil (siatka 100 m przeskalowana do NSP 2021; wariant z surowym GHSL w sekcji 5a).
 
 - r50: promień, w którym mieszka 50 % ludności;
 - udział do 10 km: (i) w ludności FUA, (ii) w ludności do 40 km;
 - Clark: tylko tabela/QA;
-- ostatnie kolumny: maksymalna różnica krzywej skumulowanej GHSL względem NSP 1 km na krokach 2, 5, …, 40 km.
+- ostatnie kolumny: maksymalna różnica krzywej skumulowanej względem NSP 1 km na krokach 2, 5, …, 40 km.
 
 {t_prof}
-Tabela 4. Kontrola krzywej skumulowanej (i) spisem: udział ludności FUA w promieniu r, GHSL / NSP (%).
+Tabela 4. Kontrola krzywej skumulowanej (i) spisem: udział ludności FUA w promieniu r, siatka 100 m / NSP 1 km (%).
 
 {t_cc}
 Krzywe są monotoniczne z konstrukcji (sumy skumulowane nieujemnych liczb). W wariancie (i) każda kończy się na 100,0 %
 (sprawdzone w `density_qa`, asercja).
 
-Zgodność GHSL ze spisem w kształcie krzywej jest dobra: różnice do ok. 3–4 pp. Odstają dwa przypadki:
-
-- **Rzeszów, różnica {g4(res['rzeszow']['census_check']['max_abs_diff_pp_fua'])} pp przy 5 km:** GHSL koncentruje ludność
-  w centrum Rzeszowa bardziej niż spis (patrz §7.1, rdzeń Rzeszowa +13,5 %);
-- **pierwsze 2 km:** krok 2 km jest porównywalny z rozmiarem komórki spisowej, więc różnica tam jest częściowo
-  artefaktem przypisania komórek 1 km do pierścienia.
+Na siatce przeskalowanej różnica wynosi najwyżej {g4(cc_max)} pp ({res[cc_max_k]['name']}). Resztę tłumaczy sposób
+liczenia, nie źródło: spis przypisujemy do pierścienia według centroidu komórki 1 km, a siatkę 100 m według środka
+piksela, a krok 2 km jest porównywalny z rozmiarem komórki spisowej. Na surowym GHSL różnice sięgały
+{g4(cc_raw_max)} pp poza Rzeszowem i {g4(res['rzeszow']['raw']['census_check']['max_abs_diff_pp_fua'])} pp w Rzeszowie,
+gdzie GHSL koncentruje ludność w centrum bardziej niż spis (patrz §7.1, rdzeń Rzeszowa +13,5 %).
 
 **Rekomendacja wariantu na grafikę: (ii) bez granic, jako liczba osób w promieniu r (oś Y w tysiącach lub milionach),
 dla pięciu jednocentrowych aglomeracji fazy 1.** Uzasadnienie:
 
 1. **Wariant (i) zmienia ranking przez rysunek granicy FUA, nie przez formę miasta.** Duża FUA Warszawy (9 296 km²,
    sięga poza 40 km) daje jej najniższy udział do 10 km ({pct(res['warszawa']['share_within']['fua']['10'])} w (i)),
-   choć w (ii) jest w środku stawki ({pct(res['warszawa']['share_within']['free']['10'])}). Mała FUA Szczecina działa
+   choć w (ii) jest {w_rank_free}. miejsce z 5 ({pct(res['warszawa']['share_within']['free']['10'])}). Mała FUA Szczecina działa
    odwrotnie. Brief (§2) każe unikać wyników, które mierzą przebieg granicy.
 2. **Wariant (ii) da się sprawdzić spisem** bez żadnej granicy. Różnice z NSP 1 km są tu mniejsze niż w (i).
 3. **Udział w (ii) wymaga arbitralnego mianownika** (ludność do 40 km), który w miastach otoczonych gęstą wsią
@@ -691,8 +912,8 @@ oznaczonym jako inna miara.
 
 ## 4. Wyniki: indeks dyspersji Bertauda ρ (§4.3)
 
-Tabela 5. **ρ (FUA) dla każdego progu z `built_up_threshold_sensitivity`**, pole maski i udział ludności FUA (GHSL)
-w masce. To tabela do decyzji o progu (brief §12.4). Próg roboczy: {int(thr_work * 100)} %.
+Tabela 5. **ρ (FUA) dla każdego progu z `built_up_threshold_sensitivity`**, pole maski i udział ludności FUA
+w masce (siatka przeskalowana do NSP). To tabela do decyzji o progu (brief §12.4). Próg roboczy: {int(thr_work * 100)} %.
 
 {t_rho}
 Tabela 5a. ρ dla rdzenia (ta sama maska ograniczona do rdzenia).
@@ -704,13 +925,14 @@ Tabela 6. Ranking miast jednocentrowych według ρ FUA przy każdym progu i zgod
 {t_corr}
 **Jak czytać wartości:**
 
-- **ρ > 1 prawie wszędzie{below1_txt}.** To nie jest błąd liczenia; sprawdzone (sekcja 8). Maska jest
+- **ρ > 1 {gt1_word}{below1_txt}.** To nie jest błąd liczenia; sprawdzone (sekcja 8). Maska jest
   „netto”: zawiera tylko komórki 100 m z wysokim udziałem powierzchni budynków. W polskich miastach parki, doliny rzek,
   tereny kolejowe i luźna zabudowa blokowa wypadają z maski. Pole A jest więc małe w stosunku do rozpiętości miasta, a
   maska ma kształt gwiazdy (pasma wzdłuż dróg), nie koła. Dla kształtu niekołowego średnia odległość od centrum jest
   większa niż ⅔R nawet przy równomiernej gęstości.
-- **Poziom ρ nie jest porównywalny z wartościami Bertauda i Malpezziego (2003)**, którzy liczyli teren zabudowany
-  inaczej (z map i zdjęć, z małymi terenami otwartymi). Nie sprawdzaliśmy ich liczb dla polskich miast.
+- **Porównanie z Bertaudem i Malpezzim (2003): sekcja 4a.** Dla rdzenia przy progu 10 %, czyli przy terenie
+  zabudowanym najbliższym ich definicji, ρ Warszawy i Krakowa jest bliskie ich wartościom z lat 90.; wartości FUA przy
+  20 % są wyższe z konstrukcji (maska netto, cała FUA).
 - **Próg zmienia poziom ρ i, powyżej 20 %, także kolejność miast:**
   - 10 %: maska {area_range("0.1")}, {share_range("0.1")} ludności FUA;
   - 20 %: {area_range("0.2")}, {share_range("0.2")};
@@ -754,6 +976,63 @@ Tabela 7a. Wariant „do najbliższego z N centrów” (inna miara; nie porówny
 - **Bydgoszcz–Toruń:** ρ ok. 5 to artefakt dwóch ośrodków odległych o ok. 42 km (oba miasta w masce, zarodki przy obu
   centrach). Do tabel tylko wariant N centrów.
 
+## 4a. Porównanie z Bertaudem i Malpezzim (2003)
+
+Tabela B. Warszawa i Kraków: wartości z tabeli 1 Bertauda i Malpezziego (2003; dane z lat 90.) i wartości projektu.
+W nawiasach wariant z surowym GHSL. Gradient Bertauda i Malpezziego podajemy jako wartość dodatnią (u nich −0,170 i
+−0,174 na km), tak jak b w modelu Clarka.
+
+{FT['bertaud']}
+**Różnice definicji:**
+
+- **Dekada:** ludność miast z lat 90. (Warszawa 1,64 mln, Kraków 0,73 mln) wobec NSP 2021 rozłożonego wzorem GHSL 2020.
+- **Teren zabudowany:** Bertaud i Malpezzi liczą gęstość w obwodach spisowych netto, po odjęciu tylko dużych terenów
+  niezabudowanych (duże parki, jeziora, pasy zieleni, tereny górzyste). Nasza maska to komórki 100 m z co najmniej 10 % powierzchni pod
+  budynkami (GHS-BUILT-S), spójne z centrum; przy 20 % wypada z niej znacznie więcej terenu.
+- **Obszar:** u nich miasto (zabudowa miasta), u nas rdzeń URAU (granica miasta) albo FUA.
+- **Gradient:** u nich obwody zabudowy miasta, u nas pierścienie 1–25 km całej FUA; ich centrum to CBD, nasze to
+  centrum z `config.yaml`.
+- **Próba:** zbierana miasto po mieście przez ok. dekadę, nie zharmonizowana.
+
+**Wynik:** przy definicji najbliższej ich terenowi zabudowanemu (rdzeń, próg 10 %) ρ Warszawy wynosi
+{g4(b_w['rho']['0.1']['core']['rho'])} wobec 0,99, a Krakowa {g4(b_k['rho']['0.1']['core']['rho'])} wobec 1,18; pole maski
+({n(b_w['bertaud_core_t10']['area_km2'])} i {n(b_k['bertaud_core_t10']['area_km2'])} km²) i liczba mieszkańców na hektar
+zabudowy ({n(b_w['bertaud_core_t10']['people_per_ha'])} i {n(b_k['bertaud_core_t10']['people_per_ha'])}) są tego samego rzędu co
+u nich (235 i 112 km², 70 i 65 os./ha). Gradienty Clarka ({n(b_w['clark']['b'], 3)} i {n(b_k['clark']['b'], 3)} na km)
+różnią się od ich wartości o kilka tysięcznych. Zgodność jest wskazówką, nie dowodem: inne dane, inna dekada, inny
+obszar dopasowania gradientu. Wartości FUA przy progu 20 % (Warszawa {g4(b_w['rho']['0.2']['fua']['rho'])}, Kraków
+{g4(b_k['rho']['0.2']['fua']['rho'])}) są wyższe z konstrukcji i nie należy ich zestawiać z liczbami Bertauda i Malpezziego.
+
+## 4b. Wrażliwość ρ i r50 na wybór centrum
+
+Trzy centra: centrum z `config.yaml`, ratusz miasta rdzenia (OSM `amenity=townhall`, stan 2026-11-22; miasto
+rdzenia to pierwsze miasto URAU z listy, czyli Katowice, Gdańsk, Bydgoszcz w aglomeracjach wielomiejskich) i środek
+ciężkości ludności rdzenia (siatka przeskalowana, cały rdzeń URAU, w GZM 13 miast, w Trójmieście trzy, w
+Bydgoszczy–Toruniu dwa). Maska zabudowy jest ta sama dla trzech centrów (zarodki z `config.yaml`), zmieniają się
+tylko odległości. Reguła wyboru ratusza: obiekt z `townhall:type=city`, jeżeli jest jeden; inaczej jedyny o nazwie
+„Urząd Miasta / Urząd Miejski / Magistrat”, który nie jest urzędem dzielnicy ani wydziałem; inaczej wybór ręczny.
+
+Tabela C1. Centra i odległości od centrum z `config.yaml`.
+
+{FT['centres']}
+Wybory ręczne (siedziby prezydentów według wiedzy ogólnej, nie sprawdzane w BIP):
+
+{FT['centre_picks']}
+
+Tabela C2. ρ i r50 dla trzech centrów (kolejno: config / ratusz / środek ciężkości) i rozrzut (maks. − min.).
+
+{FT['centre_values']}
+- **Odległość centrum od środka ciężkości ludności** w miastach jednocentrowych wynosi
+  {n(min(res[k]['centre_sensitivity']['centres']['popcentroid']['offset_from_config_km'] for k in mono), 1)}–{n(max(res[k]['centre_sensitivity']['centres']['popcentroid']['offset_from_config_km'] for k in mono), 1)} km;
+  największa: {", ".join(f"{res[k]['name']} {n(res[k]['centre_sensitivity']['centres']['popcentroid']['offset_from_config_km'], 1)} km" for k in big_off[:3])}.
+  Bertaud i Malpezzi wymieniają Kraków jako miasto z CBD przesuniętym względem środka ciężkości ludności.
+- **Rozrzut ρ FUA ({int(thr_work * 100)} %)** w miastach jednocentrowych: {g4(min(spread_f))}–{g4(max(spread_f))}. To tyle, ile
+  dzielą sąsiednie miasta w rankingu (tabela 6), więc kolejność miast o podobnym ρ zależy od wyboru centrum; różnice
+  większe niż rozrzut są na wybór centrum odporne.
+- **Aglomeracje wielomiejskie:** środek ciężkości rdzenia GZM, Trójmiasta i Bydgoszczy–Torunia leży między miastami
+  (dla Bydgoszczy–Torunia ok. 17 km od Starego Rynku w Bydgoszczy); te wartości pokazują tylko, że ρ jednocentrowe nie ma
+  tam sensu.
+
 ## 5. Gini i η (§4.4, tylko QA, nie na grafiki)
 
 Tabela 8. Gini znormalizowany (G/Gmax) i η. Rozdzielczość 100 m; domeny stałe: maska ≥ {int(thr_work * 100)} % oraz
@@ -762,9 +1041,40 @@ koło {D.CIRCLE_KM} km.
 {t_ge}
 - Gini w kole jest wyższy niż w masce, bo koło zawiera tereny niezamieszkane. To dokładnie efekt, przed którym brief
   ostrzega przy liczeniu na FUA.
-- η w masce: najwyższe dla Bydgoszczy–Torunia (dwa ośrodki) i Trójmiasta, wysokie dla GZM. Odpowiada to
-  policentryczności. Wśród miast jednocentrowych najniższe η: {eta_low} (hotspoty skupione); najwyższe: {eta_high}.
+- η w masce: najwyższe dla {eta_top}. Aglomeracje policentryczne lub liniowe są w czołówce, co
+  odpowiada policentryczności. Wśród miast jednocentrowych najniższe η: {eta_low} (hotspoty skupione); najwyższe: {eta_high}.
 - Wartości zależą od progu LouBar i rozdzielczości (zapisane w tabeli), więc służą tylko do opisu w RAPORT.md.
+- **Gini zależy od siatki ludności bardziej niż pozostałe miary:** po przeskalowaniu do spisu G/Gmax w masce wynosi
+  {g4(min(g_sc))}–{g4(max(g_sc))} wobec {g4(min(g_raw))}–{g4(max(g_raw))} na surowym GHSL. Przeskalowanie zeruje ludność
+  komórek spisowych bez mieszkańców (zakłady, porty, tereny usługowe) i podnosi blokowiska, a wewnątrz komórki 1 km
+  stosuje jeden współczynnik, co daje skoki na granicach komórek. Gini nie powinien więc wychodzić poza QA.
+
+## 5a. Siatka ludności: surowy GHSL a siatka przeskalowana do NSP 2021
+
+Tabela V1. Miary 100 m na surowym GHS-POP 2020 → na siatce przeskalowanej (zmiana względna). Maska zabudowy i
+centra bez zmian.
+
+{FT['variants']}
+Tabela V2. Kolejność miast jednocentrowych według ρ FUA, oba warianty.
+
+{FT['ranks']}
+Tabela V3. Stwierdzenia z RAPORT.md §14 i tej notatki policzone na obu siatkach.
+
+{FT['statements']}
+## 5b. Stopień urbanizacji (DEGURBA) na siatce spisowej 1 km
+
+Tabela D. Udział ludności FUA i rdzenia (NSP 2021, komórki 1 km o środku w obszarze) w komórkach centrum miejskiego,
+skupiska miejskiego (poza centrum) i wiejskich. Klasyfikacja na całej krajowej siatce spisowej według reguł Eurostatu
+(DEGURBA poziom 1, wydanie 2021), w uproszczeniu: centrum miejskie = komórki ≥ 1 500 os./km² połączone krawędziami,
+skupisko ≥ 50 000 mieszkańców, potem wypełnienie luk (komórka z ≥ 5 z 8 sąsiadów w centrum dołącza); skupisko miejskie
+= komórki ≥ 300 os./km² połączone także narożnikami, ≥ 5 000 mieszkańców, bez komórek centrum. Bez reguły 50 % zabudowy
+i bez podziału na gęste i półgęste skupiska.
+
+{FT['degurba']}
+**Kontrola z Eurostatem (HDENS_CLST_2021, centra miejskie 2021):** w Polsce nasze centra miejskie obejmują
+{pct(dg['pop_share_mine'])} ludności siatki, Eurostatu {pct(dg['pop_share_eurostat'])}; komórek: {n(dg['cells_mine'])} i
+{n(dg['cells_eurostat'])}, wspólnych {n(dg['cells_both'])} (indeks Jaccarda {g4(dg['jaccard_cells'])}). Ludność komórek tylko
+w naszych centrach: {n(dg['pop_only_mine'])}, tylko w centrach Eurostatu: {n(dg['pop_only_eurostat'])}.
 
 ## 6. Kontrola §7.1: GHSL 2020 vs NSP 2021 vs BDL
 
@@ -878,24 +1188,26 @@ względnych na aglomerację).
 **Wniosek dla projektu:**
 
 - PWD i krzywe skumulowane liczymy na spisie, jak przewiduje brief.
-- GHSL jest wystarczający do profilu 1 km i krzywej skumulowanej: różnice w krzywej do 3–4 pp poza Rzeszowem.
+- Surowy GHSL dawał krzywe skumulowane różniące się od spisu o 3–4 pp poza Rzeszowem; od 2026-11-24 miary 100 m
+  liczymy na siatce przeskalowanej do spisu (1.6, 5a).
 - Na poziomie komórek GHSL przesuwa ludność z blokowisk do centrów i stref przemysłowych. To trzeba opisać przy warstwie
   250 m i przy dostępności, gdzie GHSL wyznacza pochodzenia (§4.6).
 - Warstwa 6c (BDOT10k, brief §13) jest właściwym lekarstwem.
 
 ## 7. Ograniczenia
 
-- **GHS-POP to model.** Wszystkie wyniki 100 m i 250 m (profile, ρ, Gini, η, PWD 250 m) dziedziczą błędy opisane w §6:
-  ludność w strefach przemysłowych, niedoszacowanie blokowisk, poziom ok. 1 % powyżej definicji krajowej.
-- **ρ zależy od dwóch decyzji metodycznych:** progu (tabela 5) i reguły spójności (tabela 7). Jego poziom nie jest
-  porównywalny z literaturą.
+- **Siatka 100 m to spis na 1 km i model wewnątrz komórki.** Profile, ρ, Gini i η mają poziom spisowy w każdej
+  komórce 1 km, ale rozkład wewnątrz komórki dziedziczy błędy GHSL opisane w §6 (np. ludność na dachach hal obok
+  blokowiska w tej samej komórce). PWD 250 m (`pwdens_ghsl_250m`) pozostaje na surowym GHSL.
+- **ρ zależy od trzech decyzji metodycznych:** progu (tabela 5), reguły spójności (tabela 7) i centrum (sekcja 4b).
+  Z literaturą (Bertaud i Malpezzi) porównywalny jest tylko rdzeń przy progu 10 % (sekcja 4a).
 - **Daty się nie pokrywają:** GHSL to epoka 2020, NSP stan 31.03.2021, granice 2021. Migracje po 2021 r. i nowe
   osiedla nie są uwzględnione.
 - **Rdzenie** to granice URAU (miasto). Dla GZM to 13 miast, dla Trójmiasta trzy.
 - **Wariant (ii) profilu** pomija ludność za granicą państwa (Szczecin).
 - **Gini i η liczone na próbie** maks. {D.ETA_SAMPLE} komórek (stałe ziarno). Błąd próbkowania średniej odległości
   szacujemy na < 1 %, ale tego nie mierzono.
-- **Centra punktowe** z `config.yaml`. ρ i profil są wrażliwe na położenie centrum o kilkaset metrów; tego nie badano.
+- **Centra punktowe** z `config.yaml`. Wrażliwość na centrum: sekcja 4b (ratusz z OSM, środek ciężkości ludności).
 
 ## 8. Co zaskoczyło i co wyszło przy sprawdzeniu
 
@@ -909,7 +1221,7 @@ względnych na aglomerację).
    - mapa maski Warszawy (przy luce 200 m klaster kończył się na Wiśle, stąd zmiana reguły na 600 m);
    - wrażliwość na lukę 0–1 400 m: ρ Warszawy stabilne około 1,4;
    - rozkład wartości GHS-BUILT-S (dane w m² na komórkę 0–10 000, zgodnie z dokumentacją; przy progu 20 % w FUA
-     Warszawy jest 582 km² zabudowy z 76 % ludności).
+     Warszawy jest 582 km² zabudowy z 76 % ludności według surowego GHSL).
 
    Wynik zostaje: to cecha maski netto (patrz §4), nie błąd. **Zostaje z zastrzeżeniem.**
 3. **Maska przy progu 50 % jest prawie pusta** (0–2 km²). Komórka 100 m z połową powierzchni pod dachami to w
@@ -927,6 +1239,16 @@ względnych na aglomerację).
 6. **Wrocław GHSL −7 %** nie wynika z definicji ludności: BDL pokazuje b ≈ 1,007. To różnica modelu (patrz 6.2).
 7. **GHSL ma ludność w kombinatach i portach** (5 300 osób w komórce huty w Nowej Hucie). Kontrola: NSP = 0 w tych
    komórkach. **Zostaje jako fakt o źródle**, opisany przy warstwie 250 m.
+8. **Przejście na siatkę przeskalowaną do spisu (2026-11-24) mało zmienia ρ i gradient Clarka:** ρ zwykle o
+   1–5 % (Rzeszów do 10 %), gradient Clarka w pięciu jednocentrowych miastach fazy 1 o 1–3 % (GZM +14 %, Szczecin
+   +11 %, Rzeszów +9 %), r50 o 1–9 % (Rzeszów +15 %, rdzeń Bydgoszczy–Torunia +23 %); tabela V1. Gini rośnie w 12
+   aglomeracjach o 10–32 %, w Rzeszowie spada o 4 % (sekcja 5). Jedyny przypadek ρ < 1
+   (rdzeń Rzeszowa przy 10 % na surowym GHSL) znika: GHSL zawyżał ludność centrum Rzeszowa (§6.2). Kolejność miast
+   według ρ zmienia się tylko między miastami o prawie równych wartościach (tabela V2). **Zostaje; wynik główny na
+   siatce przeskalowanej.**
+9. **Tag `townhall:type=city` w OSM bywa na niewłaściwym obiekcie:** w Bydgoszczy na oddziale urzędu w Fordonie
+   (ok. 10 km od centrum), w Katowicach na punkcie obsługi mieszkańców. Dlatego siedem ratuszy wybrano ręcznie
+   (sekcja 4b). **Zostaje, z listą wyborów.**
 
 ## 9. Pliki
 
@@ -939,7 +1261,8 @@ względnych na aglomerację).
   - `summary_*.png`, `grid250_moire_warszawa.png`;
   - `control_*.csv`.
 - Pośrednie: `data/interim/grid250/` (siatka 250 m, maska Polski, `cells_*.parquet`, `qa.json`),
-  `data/interim/density/`.
+  `data/interim/density/` (w tym `ghs_pop_census_scaled_100m_moll.tif`, `*_profile_*_raw.csv`, `townhalls_osm.csv`).
+- Kod centrów (ratusze z OSM): `pipeline/density_centres.py`.
 - BDL: `data/raw/bdl/*.json`, w manifeście jako `bdl_nsp2021_resident_gmina`, `bdl_nsp2021_national_gmina`.
 - Polecenia (w tej kolejności): `python -m pipeline.grid250`, `python -m pipeline.density`,
   `python -m pipeline.density_control`, `python -m pipeline.density_qa`.

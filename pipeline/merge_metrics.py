@@ -151,6 +151,9 @@ def panel_subset(rows: list[dict]) -> list[dict]:
             continue
         if r["step"] in ("frequent", "density_service", *ACCESS_STEPS) and r["population_grid"] != PANEL_POP_GRID:
             continue
+        # density: the 100 m measures exist on two population grids; only the census-scaled one is shown
+        if r["step"] == "density" and r["population_grid"] not in (None, PANEL_POP_GRID):
+            continue
         out.append((spec[0], {**r, "label": spec[1]}))
     out.sort(key=lambda t: (t[1]["agglomeration"], t[1]["domain"], t[0]))
     return [r for _, r in out]
