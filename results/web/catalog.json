@@ -570,6 +570,337 @@
    "type": "pmtiles",
    "unit": "% osiągalnej w 30 min ludności, do której trzeba się przesiąść; jaśniej = więcej przesiadek",
    "url": "tiles/transfer_dep30_2026-11-25.pmtiles"
+  },
+  {
+   "attribution": "wydawcy rozkładów jazdy (lista w „O danych”), © współtwórcy OpenStreetMap",
+   "chip": "tramwaje",
+   "id": "speed_tram",
+   "kind": "lines",
+   "mode_group": "tram",
+   "note": "Sieć tramwajowa podzielona na odcinki między ważnymi przystankami; kolor to prędkość z rozkładu jazdy (długość przez czas rozkładowy, z postojami na przystankach) w wybranym paśmie, grubość to liczba kursów na godzinę. Każdy kierunek jest narysowany po swojej prawej stronie. To rozkład, nie pomiar: rzeczywiste prędkości mogą być niższe. Rozkład podaje pełne minuty, więc prędkość odcinka ma przedział ±1 min (w okienku); odcinki krótsze niż 5 min są przerywane. W okienku także czas ponad jazdę swobodną w s/km: liczba z prostego modelu, nie pomiar strat na światłach.",
+   "population_date": null,
+   "property": "v",
+   "ramp": {
+    "colors": [
+     "#5B1A8C",
+     "#952C80",
+     "#C73E73",
+     "#EF6A5A",
+     "#FBA45C",
+     "#FCE38A"
+    ],
+    "labels": [
+     "poniżej 12 km/h",
+     "12–15 km/h",
+     "15–18 km/h",
+     "18–22 km/h",
+     "22–26 km/h",
+     "26 km/h i więcej"
+    ],
+    "stops": [
+     12,
+     15,
+     18,
+     22,
+     26
+    ]
+   },
+   "size_label": "kursy na godzinę w paśmie",
+   "size_property": "t",
+   "size_stops": [
+    4,
+    8,
+    15,
+    30
+   ],
+   "status": "ready",
+   "timetable_date": "2026-11-25",
+   "timetable_dates": {
+    "saturday": "2026-11-28",
+    "weekday": "2026-11-25"
+   },
+   "title": "Prędkość z rozkładu: tramwaje (odcinki)",
+   "type": "geojson",
+   "unit": "km/h, z rozkładu (rozkładowa prędkość komunikacyjna)",
+   "url": "data/speed/trams.geojson",
+   "variants": [
+    {
+     "key": "w_am",
+     "label": "śr. 07–09"
+    },
+    {
+     "key": "w_md",
+     "label": "śr. 09–15"
+    },
+    {
+     "key": "w_pm",
+     "label": "śr. 15–18"
+    },
+    {
+     "key": "w_ee",
+     "label": "śr. 18–20"
+    },
+    {
+     "key": "w_ev",
+     "label": "śr. 20–23"
+    },
+    {
+     "key": "w_e",
+     "label": "śr. 05–07"
+    },
+    {
+     "key": "w_n",
+     "label": "śr. noc"
+    },
+    {
+     "key": "w_all",
+     "label": "śr. doba"
+    },
+    {
+     "key": "s_mo",
+     "label": "sob. 05–09"
+    },
+    {
+     "key": "s_d",
+     "label": "sob. 09–18"
+    },
+    {
+     "key": "s_ev",
+     "label": "sob. 18–23"
+    },
+    {
+     "key": "s_n",
+     "label": "sob. noc"
+    },
+    {
+     "key": "s_all",
+     "label": "sob. doba"
+    }
+   ]
+  },
+  {
+   "attribution": "wydawcy rozkładów jazdy (lista w „O danych”)",
+   "chip": "autobusy",
+   "cities": [
+    "warszawa",
+    "krakow",
+    "wroclaw",
+    "poznan",
+    "lodz",
+    "trojmiasto",
+    "gzm"
+   ],
+   "id": "speed_bus",
+   "kind": "lines",
+   "mode_group": "bus",
+   "needs_city": true,
+   "note": "Odcinki sieci autobusowej i trolejbusowej wybranej aglomeracji (feedy oficjalne z kształtami tras; bez Krakowa „ald”, który nie ma kształtów). Kolor to prędkość z rozkładu w paśmie, grubość to kursy na godzinę. Sieć autobusowa ma dużo rozgałęzień, więc wiele odcinków jest krótszych niż 5 minut (linia przerywana): ich prędkość mocno zależy od zaokrąglenia rozkładu. To rozkład, nie pomiar.",
+   "population_date": null,
+   "property": "v",
+   "ramp": {
+    "colors": [
+     "#5B1A8C",
+     "#952C80",
+     "#C73E73",
+     "#EF6A5A",
+     "#FBA45C",
+     "#FCE38A"
+    ],
+    "labels": [
+     "poniżej 12 km/h",
+     "12–15 km/h",
+     "15–18 km/h",
+     "18–22 km/h",
+     "22–26 km/h",
+     "26 km/h i więcej"
+    ],
+    "stops": [
+     12,
+     15,
+     18,
+     22,
+     26
+    ]
+   },
+   "size_label": "kursy na godzinę w paśmie",
+   "size_property": "t",
+   "size_stops": [
+    4,
+    8,
+    15,
+    30
+   ],
+   "status": "ready",
+   "timetable_date": "2026-11-25",
+   "timetable_dates": {
+    "saturday": "2026-11-28",
+    "weekday": "2026-11-25"
+   },
+   "title": "Prędkość z rozkładu: autobusy i trolejbusy (odcinki)",
+   "type": "geojson",
+   "unit": "km/h, z rozkładu (rozkładowa prędkość komunikacyjna)",
+   "url_template": "data/speed/bus_{agg}.geojson",
+   "variants": [
+    {
+     "key": "w_am",
+     "label": "śr. 07–09"
+    },
+    {
+     "key": "w_md",
+     "label": "śr. 09–15"
+    },
+    {
+     "key": "w_pm",
+     "label": "śr. 15–18"
+    },
+    {
+     "key": "w_ee",
+     "label": "śr. 18–20"
+    },
+    {
+     "key": "w_ev",
+     "label": "śr. 20–23"
+    },
+    {
+     "key": "w_e",
+     "label": "śr. 05–07"
+    },
+    {
+     "key": "w_n",
+     "label": "śr. noc"
+    },
+    {
+     "key": "w_all",
+     "label": "śr. doba"
+    },
+    {
+     "key": "s_mo",
+     "label": "sob. 05–09"
+    },
+    {
+     "key": "s_d",
+     "label": "sob. 09–18"
+    },
+    {
+     "key": "s_ev",
+     "label": "sob. 18–23"
+    },
+    {
+     "key": "s_n",
+     "label": "sob. noc"
+    },
+    {
+     "key": "s_all",
+     "label": "sob. doba"
+    }
+   ]
+  },
+  {
+   "attribution": "wydawcy rozkładów jazdy (lista w „O danych”)",
+   "chip": "metro i kolej",
+   "id": "speed_rail",
+   "kind": "lines",
+   "mode_group": "rail",
+   "note": "Jedna linia metra lub kolei to jeden przebieg (najczęstszy wzorzec przystanków w środę, przycięty do obszaru funkcjonalnego + 15 km) z prędkością całej linii w paśmie. Dla kolei „linia” to oznaczenie z rozkładu (często kategoria pociągu wspólna dla wielu relacji), więc to przybliżenie. To rozkład, nie pomiar.",
+   "population_date": null,
+   "property": "v",
+   "ramp": {
+    "colors": [
+     "#5B1A8C",
+     "#952C80",
+     "#C73E73",
+     "#EF6A5A",
+     "#FBA45C",
+     "#FCE38A"
+    ],
+    "labels": [
+     "poniżej 12 km/h",
+     "12–15 km/h",
+     "15–18 km/h",
+     "18–22 km/h",
+     "22–26 km/h",
+     "26 km/h i więcej"
+    ],
+    "stops": [
+     12,
+     15,
+     18,
+     22,
+     26
+    ]
+   },
+   "size_label": "kursy na godzinę w paśmie",
+   "size_property": "t",
+   "size_stops": [
+    4,
+    8,
+    15,
+    30
+   ],
+   "status": "ready",
+   "timetable_date": "2026-11-25",
+   "timetable_dates": {
+    "saturday": "2026-11-28",
+    "weekday": "2026-11-25"
+   },
+   "title": "Prędkość z rozkładu: metro i kolej (linie)",
+   "type": "geojson",
+   "unit": "km/h, z rozkładu",
+   "url": "data/speed/rail.geojson",
+   "variants": [
+    {
+     "key": "w_am",
+     "label": "śr. 07–09"
+    },
+    {
+     "key": "w_md",
+     "label": "śr. 09–15"
+    },
+    {
+     "key": "w_pm",
+     "label": "śr. 15–18"
+    },
+    {
+     "key": "w_ee",
+     "label": "śr. 18–20"
+    },
+    {
+     "key": "w_ev",
+     "label": "śr. 20–23"
+    },
+    {
+     "key": "w_e",
+     "label": "śr. 05–07"
+    },
+    {
+     "key": "w_n",
+     "label": "śr. noc"
+    },
+    {
+     "key": "w_all",
+     "label": "śr. doba"
+    },
+    {
+     "key": "s_mo",
+     "label": "sob. 05–09"
+    },
+    {
+     "key": "s_d",
+     "label": "sob. 09–18"
+    },
+    {
+     "key": "s_ev",
+     "label": "sob. 18–23"
+    },
+    {
+     "key": "s_n",
+     "label": "sob. noc"
+    },
+    {
+     "key": "s_all",
+     "label": "sob. doba"
+    }
+   ]
   }
  ]
 }
