@@ -1,0 +1,316 @@
+Aglomeracja,Kontrola,Naruszenia,Komórek,Wynik,Uwagi
+Warszawa,all/pt_am: osiągalni rosną z progiem 5→60 min,0,88926,OK,
+Warszawa,"all/pt_am: performance 30 min w [0, 100]",0,88926,OK,"maks. 88,0; > 100 to cele dalej niż promień (szybki środek transportu); 0 linkowania: 0 komórek, ludność 0"
+Warszawa,"all/pt_am: KZ + pieszo ≥ sam spacer (każda komórka, każdy próg)",0,88926,OK,
+Warszawa,"all/pt_am: reguła min(KZ, pieszo) nigdy nie obniża wyniku R5",0,88926,OK,podnosi osiągalnych w 30 min w 88250 komórkach
+Warszawa,all/pt_am_max3rides: osiągalni rosną z progiem 5→60 min,0,88926,OK,
+Warszawa,"all/pt_am_max3rides: performance 30 min w [0, 100]",0,88926,OK,"maks. 88,0; > 100 to cele dalej niż promień (szybki środek transportu); 0 linkowania: 0 komórek, ludność 0"
+Warszawa,"all/pt_am_max3rides: KZ + pieszo ≥ sam spacer (każda komórka, każdy próg)",0,88926,OK,
+Warszawa,"all/pt_am_max3rides: reguła min(KZ, pieszo) nigdy nie obniża wyniku R5",0,88926,OK,podnosi osiągalnych w 30 min w 88250 komórkach
+Warszawa,all/pt_evening: osiągalni rosną z progiem 5→60 min,0,88926,OK,
+Warszawa,"all/pt_evening: performance 30 min w [0, 100]",0,88926,OK,"maks. 81,6; > 100 to cele dalej niż promień (szybki środek transportu); 0 linkowania: 0 komórek, ludność 0"
+Warszawa,"all/pt_evening: KZ + pieszo ≥ sam spacer (każda komórka, każdy próg)",0,88926,OK,
+Warszawa,"all/pt_evening: reguła min(KZ, pieszo) nigdy nie obniża wyniku R5",0,88926,OK,podnosi osiągalnych w 30 min w 88409 komórkach
+Warszawa,all/pt_midday: osiągalni rosną z progiem 5→60 min,0,88926,OK,
+Warszawa,"all/pt_midday: performance 30 min w [0, 100]",0,88926,OK,"maks. 83,8; > 100 to cele dalej niż promień (szybki środek transportu); 0 linkowania: 0 komórek, ludność 0"
+Warszawa,"all/pt_midday: KZ + pieszo ≥ sam spacer (każda komórka, każdy próg)",0,88926,OK,
+Warszawa,"all/pt_midday: reguła min(KZ, pieszo) nigdy nie obniża wyniku R5",0,88926,OK,podnosi osiągalnych w 30 min w 88381 komórkach
+Warszawa,all/pt_saturday: osiągalni rosną z progiem 5→60 min,0,88926,OK,
+Warszawa,"all/pt_saturday: performance 30 min w [0, 100]",0,88926,OK,"maks. 80,5; > 100 to cele dalej niż promień (szybki środek transportu); 0 linkowania: 0 komórek, ludność 0"
+Warszawa,"all/pt_saturday: KZ + pieszo ≥ sam spacer (każda komórka, każdy próg)",0,88926,OK,
+Warszawa,"all/pt_saturday: reguła min(KZ, pieszo) nigdy nie obniża wyniku R5",0,88926,OK,podnosi osiągalnych w 30 min w 88437 komórkach
+Warszawa,official/pt_am: osiągalni rosną z progiem 5→60 min,0,88926,OK,
+Warszawa,"official/pt_am: performance 30 min w [0, 100]",0,88926,OK,"maks. 88,0; > 100 to cele dalej niż promień (szybki środek transportu); 0 linkowania: 0 komórek, ludność 0"
+Warszawa,"official/pt_am: KZ + pieszo ≥ sam spacer (każda komórka, każdy próg)",0,88926,OK,
+Warszawa,"official/pt_am: reguła min(KZ, pieszo) nigdy nie obniża wyniku R5",0,88926,OK,podnosi osiągalnych w 30 min w 88253 komórkach
+Warszawa,official/pt_evening: osiągalni rosną z progiem 5→60 min,0,88926,OK,
+Warszawa,"official/pt_evening: performance 30 min w [0, 100]",0,88926,OK,"maks. 81,6; > 100 to cele dalej niż promień (szybki środek transportu); 0 linkowania: 0 komórek, ludność 0"
+Warszawa,"official/pt_evening: KZ + pieszo ≥ sam spacer (każda komórka, każdy próg)",0,88926,OK,
+Warszawa,"official/pt_evening: reguła min(KZ, pieszo) nigdy nie obniża wyniku R5",0,88926,OK,podnosi osiągalnych w 30 min w 88408 komórkach
+Warszawa,official/pt_midday: osiągalni rosną z progiem 5→60 min,0,88926,OK,
+Warszawa,"official/pt_midday: performance 30 min w [0, 100]",0,88926,OK,"maks. 83,8; > 100 to cele dalej niż promień (szybki środek transportu); 0 linkowania: 0 komórek, ludność 0"
+Warszawa,"official/pt_midday: KZ + pieszo ≥ sam spacer (każda komórka, każdy próg)",0,88926,OK,
+Warszawa,"official/pt_midday: reguła min(KZ, pieszo) nigdy nie obniża wyniku R5",0,88926,OK,podnosi osiągalnych w 30 min w 88380 komórkach
+Warszawa,official/pt_saturday: osiągalni rosną z progiem 5→60 min,0,88926,OK,
+Warszawa,"official/pt_saturday: performance 30 min w [0, 100]",0,88926,OK,"maks. 80,5; > 100 to cele dalej niż promień (szybki środek transportu); 0 linkowania: 0 komórek, ludność 0"
+Warszawa,"official/pt_saturday: KZ + pieszo ≥ sam spacer (każda komórka, każdy próg)",0,88926,OK,
+Warszawa,"official/pt_saturday: reguła min(KZ, pieszo) nigdy nie obniża wyniku R5",0,88926,OK,podnosi osiągalnych w 30 min w 88436 komórkach
+Warszawa,street/bike_lts3: osiągalni rosną z progiem 5→60 min,0,88926,OK,
+Warszawa,"street/bike_lts3: performance 30 min w [0, 100]",0,88926,OK,"maks. 87,7; > 100 to cele dalej niż promień (szybki środek transportu); 0 linkowania: 0 komórek, ludność 0"
+Warszawa,street/bike_lts4: osiągalni rosną z progiem 5→60 min,0,88926,OK,
+Warszawa,"street/bike_lts4: performance 30 min w [0, 100]",0,88926,OK,"maks. 95,0; > 100 to cele dalej niż promień (szybki środek transportu); 0 linkowania: 0 komórek, ludność 0"
+Warszawa,street/walk: osiągalni rosną z progiem 5→60 min,0,88926,OK,
+Warszawa,"street/walk: performance 30 min w [0, 100]",0,88926,OK,"maks. 99,9; > 100 to cele dalej niż promień (szybki środek transportu); 0 linkowania: 0 komórek, ludność 0"
+Warszawa,"rower LTS 4 ≥ LTS 3 (osiągalni, każdy próg)",0,88926,OK,
+Warszawa,"bez limitu przesiadek ≥ maks. 2 przesiadki (osiągalni, każdy próg)",0,88926,OK,
+Warszawa,"wszystkie feedy ≥ oficjalne (osiągalni, każdy próg)",730,88926,UWAGA,ludność komórek z naruszeniem: 57440
+Kraków,all/pt_am: osiągalni rosną z progiem 5→60 min,0,37817,OK,
+Kraków,"all/pt_am: performance 30 min w [0, 100]",0,37817,OK,"maks. 64,4; > 100 to cele dalej niż promień (szybki środek transportu); 0 linkowania: 0 komórek, ludność 0"
+Kraków,"all/pt_am: KZ + pieszo ≥ sam spacer (każda komórka, każdy próg)",0,37817,OK,
+Kraków,"all/pt_am: reguła min(KZ, pieszo) nigdy nie obniża wyniku R5",0,37817,OK,podnosi osiągalnych w 30 min w 37581 komórkach
+Kraków,all/pt_am_max3rides: osiągalni rosną z progiem 5→60 min,0,37817,OK,
+Kraków,"all/pt_am_max3rides: performance 30 min w [0, 100]",0,37817,OK,"maks. 64,4; > 100 to cele dalej niż promień (szybki środek transportu); 0 linkowania: 0 komórek, ludność 0"
+Kraków,"all/pt_am_max3rides: KZ + pieszo ≥ sam spacer (każda komórka, każdy próg)",0,37817,OK,
+Kraków,"all/pt_am_max3rides: reguła min(KZ, pieszo) nigdy nie obniża wyniku R5",0,37817,OK,podnosi osiągalnych w 30 min w 37581 komórkach
+Kraków,all/pt_evening: osiągalni rosną z progiem 5→60 min,0,37817,OK,
+Kraków,"all/pt_evening: performance 30 min w [0, 100]",0,37817,OK,"maks. 62,1; > 100 to cele dalej niż promień (szybki środek transportu); 0 linkowania: 0 komórek, ludność 0"
+Kraków,"all/pt_evening: KZ + pieszo ≥ sam spacer (każda komórka, każdy próg)",0,37817,OK,
+Kraków,"all/pt_evening: reguła min(KZ, pieszo) nigdy nie obniża wyniku R5",0,37817,OK,podnosi osiągalnych w 30 min w 37634 komórkach
+Kraków,all/pt_midday: osiągalni rosną z progiem 5→60 min,0,37817,OK,
+Kraków,"all/pt_midday: performance 30 min w [0, 100]",0,37817,OK,"maks. 61,8; > 100 to cele dalej niż promień (szybki środek transportu); 0 linkowania: 0 komórek, ludność 0"
+Kraków,"all/pt_midday: KZ + pieszo ≥ sam spacer (każda komórka, każdy próg)",0,37817,OK,
+Kraków,"all/pt_midday: reguła min(KZ, pieszo) nigdy nie obniża wyniku R5",0,37817,OK,podnosi osiągalnych w 30 min w 37605 komórkach
+Kraków,all/pt_saturday: osiągalni rosną z progiem 5→60 min,0,37817,OK,
+Kraków,"all/pt_saturday: performance 30 min w [0, 100]",0,37817,OK,"maks. 59,2; > 100 to cele dalej niż promień (szybki środek transportu); 0 linkowania: 0 komórek, ludność 0"
+Kraków,"all/pt_saturday: KZ + pieszo ≥ sam spacer (każda komórka, każdy próg)",0,37817,OK,
+Kraków,"all/pt_saturday: reguła min(KZ, pieszo) nigdy nie obniża wyniku R5",0,37817,OK,podnosi osiągalnych w 30 min w 37665 komórkach
+Kraków,official/pt_am: osiągalni rosną z progiem 5→60 min,0,37817,OK,
+Kraków,"official/pt_am: performance 30 min w [0, 100]",0,37817,OK,"maks. 64,4; > 100 to cele dalej niż promień (szybki środek transportu); 0 linkowania: 0 komórek, ludność 0"
+Kraków,"official/pt_am: KZ + pieszo ≥ sam spacer (każda komórka, każdy próg)",0,37817,OK,
+Kraków,"official/pt_am: reguła min(KZ, pieszo) nigdy nie obniża wyniku R5",0,37817,OK,podnosi osiągalnych w 30 min w 37581 komórkach
+Kraków,official/pt_evening: osiągalni rosną z progiem 5→60 min,0,37817,OK,
+Kraków,"official/pt_evening: performance 30 min w [0, 100]",0,37817,OK,"maks. 62,1; > 100 to cele dalej niż promień (szybki środek transportu); 0 linkowania: 0 komórek, ludność 0"
+Kraków,"official/pt_evening: KZ + pieszo ≥ sam spacer (każda komórka, każdy próg)",0,37817,OK,
+Kraków,"official/pt_evening: reguła min(KZ, pieszo) nigdy nie obniża wyniku R5",0,37817,OK,podnosi osiągalnych w 30 min w 37634 komórkach
+Kraków,official/pt_midday: osiągalni rosną z progiem 5→60 min,0,37817,OK,
+Kraków,"official/pt_midday: performance 30 min w [0, 100]",0,37817,OK,"maks. 61,8; > 100 to cele dalej niż promień (szybki środek transportu); 0 linkowania: 0 komórek, ludność 0"
+Kraków,"official/pt_midday: KZ + pieszo ≥ sam spacer (każda komórka, każdy próg)",0,37817,OK,
+Kraków,"official/pt_midday: reguła min(KZ, pieszo) nigdy nie obniża wyniku R5",0,37817,OK,podnosi osiągalnych w 30 min w 37605 komórkach
+Kraków,official/pt_saturday: osiągalni rosną z progiem 5→60 min,0,37817,OK,
+Kraków,"official/pt_saturday: performance 30 min w [0, 100]",0,37817,OK,"maks. 59,2; > 100 to cele dalej niż promień (szybki środek transportu); 0 linkowania: 0 komórek, ludność 0"
+Kraków,"official/pt_saturday: KZ + pieszo ≥ sam spacer (każda komórka, każdy próg)",0,37817,OK,
+Kraków,"official/pt_saturday: reguła min(KZ, pieszo) nigdy nie obniża wyniku R5",0,37817,OK,podnosi osiągalnych w 30 min w 37665 komórkach
+Kraków,street/bike_lts3: osiągalni rosną z progiem 5→60 min,0,37817,OK,
+Kraków,"street/bike_lts3: performance 30 min w [0, 100]",0,37817,OK,"maks. 72,6; > 100 to cele dalej niż promień (szybki środek transportu); 0 linkowania: 0 komórek, ludność 0"
+Kraków,street/bike_lts4: osiągalni rosną z progiem 5→60 min,0,37817,OK,
+Kraków,"street/bike_lts4: performance 30 min w [0, 100]",0,37817,OK,"maks. 79,4; > 100 to cele dalej niż promień (szybki środek transportu); 0 linkowania: 0 komórek, ludność 0"
+Kraków,street/walk: osiągalni rosną z progiem 5→60 min,0,37817,OK,
+Kraków,"street/walk: performance 30 min w [0, 100]",0,37813,OK,"maks. 96,6; > 100 to cele dalej niż promień (szybki środek transportu); 0 linkowania: 0 komórek, ludność 0"
+Kraków,"rower LTS 4 ≥ LTS 3 (osiągalni, każdy próg)",0,37817,OK,
+Kraków,"bez limitu przesiadek ≥ maks. 2 przesiadki (osiągalni, każdy próg)",0,37817,OK,
+Kraków,"wszystkie feedy ≥ oficjalne (osiągalni, każdy próg)",20,37817,UWAGA,ludność komórek z naruszeniem: 835
+Łódź,all/pt_am: osiągalni rosną z progiem 5→60 min,0,26274,OK,
+Łódź,"all/pt_am: performance 30 min w [0, 100]",0,26274,OK,"maks. 69,4; > 100 to cele dalej niż promień (szybki środek transportu); 0 linkowania: 0 komórek, ludność 0"
+Łódź,"all/pt_am: KZ + pieszo ≥ sam spacer (każda komórka, każdy próg)",0,26274,OK,
+Łódź,"all/pt_am: reguła min(KZ, pieszo) nigdy nie obniża wyniku R5",0,26274,OK,podnosi osiągalnych w 30 min w 26096 komórkach
+Łódź,all/pt_am_max3rides: osiągalni rosną z progiem 5→60 min,0,26274,OK,
+Łódź,"all/pt_am_max3rides: performance 30 min w [0, 100]",0,26274,OK,"maks. 69,4; > 100 to cele dalej niż promień (szybki środek transportu); 0 linkowania: 0 komórek, ludność 0"
+Łódź,"all/pt_am_max3rides: KZ + pieszo ≥ sam spacer (każda komórka, każdy próg)",0,26274,OK,
+Łódź,"all/pt_am_max3rides: reguła min(KZ, pieszo) nigdy nie obniża wyniku R5",0,26274,OK,podnosi osiągalnych w 30 min w 26096 komórkach
+Łódź,all/pt_evening: osiągalni rosną z progiem 5→60 min,0,26274,OK,
+Łódź,"all/pt_evening: performance 30 min w [0, 100]",0,26274,OK,"maks. 66,6; > 100 to cele dalej niż promień (szybki środek transportu); 0 linkowania: 0 komórek, ludność 0"
+Łódź,"all/pt_evening: KZ + pieszo ≥ sam spacer (każda komórka, każdy próg)",0,26274,OK,
+Łódź,"all/pt_evening: reguła min(KZ, pieszo) nigdy nie obniża wyniku R5",0,26274,OK,podnosi osiągalnych w 30 min w 26148 komórkach
+Łódź,all/pt_midday: osiągalni rosną z progiem 5→60 min,0,26274,OK,
+Łódź,"all/pt_midday: performance 30 min w [0, 100]",0,26274,OK,"maks. 68,8; > 100 to cele dalej niż promień (szybki środek transportu); 0 linkowania: 0 komórek, ludność 0"
+Łódź,"all/pt_midday: KZ + pieszo ≥ sam spacer (każda komórka, każdy próg)",0,26274,OK,
+Łódź,"all/pt_midday: reguła min(KZ, pieszo) nigdy nie obniża wyniku R5",0,26274,OK,podnosi osiągalnych w 30 min w 26106 komórkach
+Łódź,all/pt_saturday: osiągalni rosną z progiem 5→60 min,0,26274,OK,
+Łódź,"all/pt_saturday: performance 30 min w [0, 100]",0,26274,OK,"maks. 67,1; > 100 to cele dalej niż promień (szybki środek transportu); 0 linkowania: 0 komórek, ludność 0"
+Łódź,"all/pt_saturday: KZ + pieszo ≥ sam spacer (każda komórka, każdy próg)",0,26274,OK,
+Łódź,"all/pt_saturday: reguła min(KZ, pieszo) nigdy nie obniża wyniku R5",0,26274,OK,podnosi osiągalnych w 30 min w 26170 komórkach
+Łódź,official/pt_am: osiągalni rosną z progiem 5→60 min,0,26274,OK,
+Łódź,"official/pt_am: performance 30 min w [0, 100]",0,26274,OK,"maks. 60,4; > 100 to cele dalej niż promień (szybki środek transportu); 0 linkowania: 0 komórek, ludność 0"
+Łódź,"official/pt_am: KZ + pieszo ≥ sam spacer (każda komórka, każdy próg)",0,26274,OK,
+Łódź,"official/pt_am: reguła min(KZ, pieszo) nigdy nie obniża wyniku R5",0,26274,OK,podnosi osiągalnych w 30 min w 26096 komórkach
+Łódź,official/pt_evening: osiągalni rosną z progiem 5→60 min,0,26274,OK,
+Łódź,"official/pt_evening: performance 30 min w [0, 100]",0,26274,OK,"maks. 59,6; > 100 to cele dalej niż promień (szybki środek transportu); 0 linkowania: 0 komórek, ludność 0"
+Łódź,"official/pt_evening: KZ + pieszo ≥ sam spacer (każda komórka, każdy próg)",0,26274,OK,
+Łódź,"official/pt_evening: reguła min(KZ, pieszo) nigdy nie obniża wyniku R5",0,26274,OK,podnosi osiągalnych w 30 min w 26148 komórkach
+Łódź,official/pt_midday: osiągalni rosną z progiem 5→60 min,0,26274,OK,
+Łódź,"official/pt_midday: performance 30 min w [0, 100]",0,26274,OK,"maks. 60,4; > 100 to cele dalej niż promień (szybki środek transportu); 0 linkowania: 0 komórek, ludność 0"
+Łódź,"official/pt_midday: KZ + pieszo ≥ sam spacer (każda komórka, każdy próg)",0,26274,OK,
+Łódź,"official/pt_midday: reguła min(KZ, pieszo) nigdy nie obniża wyniku R5",0,26274,OK,podnosi osiągalnych w 30 min w 26109 komórkach
+Łódź,official/pt_saturday: osiągalni rosną z progiem 5→60 min,0,26274,OK,
+Łódź,"official/pt_saturday: performance 30 min w [0, 100]",0,26274,OK,"maks. 59,6; > 100 to cele dalej niż promień (szybki środek transportu); 0 linkowania: 0 komórek, ludność 0"
+Łódź,"official/pt_saturday: KZ + pieszo ≥ sam spacer (każda komórka, każdy próg)",0,26274,OK,
+Łódź,"official/pt_saturday: reguła min(KZ, pieszo) nigdy nie obniża wyniku R5",0,26274,OK,podnosi osiągalnych w 30 min w 26170 komórkach
+Łódź,street/bike_lts3: osiągalni rosną z progiem 5→60 min,0,26274,OK,
+Łódź,"street/bike_lts3: performance 30 min w [0, 100]",0,26274,OK,"maks. 83,7; > 100 to cele dalej niż promień (szybki środek transportu); 0 linkowania: 0 komórek, ludność 0"
+Łódź,street/bike_lts4: osiągalni rosną z progiem 5→60 min,0,26274,OK,
+Łódź,"street/bike_lts4: performance 30 min w [0, 100]",0,26274,OK,"maks. 91,4; > 100 to cele dalej niż promień (szybki środek transportu); 0 linkowania: 0 komórek, ludność 0"
+Łódź,street/walk: osiągalni rosną z progiem 5→60 min,0,26274,OK,
+Łódź,"street/walk: performance 30 min w [0, 100]",0,26274,OK,"maks. 98,3; > 100 to cele dalej niż promień (szybki środek transportu); 0 linkowania: 0 komórek, ludność 0"
+Łódź,"rower LTS 4 ≥ LTS 3 (osiągalni, każdy próg)",0,26274,OK,
+Łódź,"bez limitu przesiadek ≥ maks. 2 przesiadki (osiągalni, każdy próg)",0,26274,OK,
+Łódź,"wszystkie feedy ≥ oficjalne (osiągalni, każdy próg)",159,26274,UWAGA,ludność komórek z naruszeniem: 2278
+GZM,all/pt_am: osiągalni rosną z progiem 5→60 min,0,24869,OK,
+GZM,"all/pt_am: performance 30 min w [0, 100]",0,24869,OK,"maks. 77,6; > 100 to cele dalej niż promień (szybki środek transportu); 0 linkowania: 0 komórek, ludność 0"
+GZM,"all/pt_am: KZ + pieszo ≥ sam spacer (każda komórka, każdy próg)",0,24869,OK,
+GZM,"all/pt_am: reguła min(KZ, pieszo) nigdy nie obniża wyniku R5",0,24869,OK,podnosi osiągalnych w 30 min w 24806 komórkach
+GZM,all/pt_am_max3rides: osiągalni rosną z progiem 5→60 min,0,24869,OK,
+GZM,"all/pt_am_max3rides: performance 30 min w [0, 100]",0,24869,OK,"maks. 77,6; > 100 to cele dalej niż promień (szybki środek transportu); 0 linkowania: 0 komórek, ludność 0"
+GZM,"all/pt_am_max3rides: KZ + pieszo ≥ sam spacer (każda komórka, każdy próg)",0,24869,OK,
+GZM,"all/pt_am_max3rides: reguła min(KZ, pieszo) nigdy nie obniża wyniku R5",0,24869,OK,podnosi osiągalnych w 30 min w 24806 komórkach
+GZM,all/pt_evening: osiągalni rosną z progiem 5→60 min,0,24869,OK,
+GZM,"all/pt_evening: performance 30 min w [0, 100]",0,24869,OK,"maks. 76,2; > 100 to cele dalej niż promień (szybki środek transportu); 0 linkowania: 0 komórek, ludność 0"
+GZM,"all/pt_evening: KZ + pieszo ≥ sam spacer (każda komórka, każdy próg)",0,24869,OK,
+GZM,"all/pt_evening: reguła min(KZ, pieszo) nigdy nie obniża wyniku R5",0,24869,OK,podnosi osiągalnych w 30 min w 24817 komórkach
+GZM,all/pt_midday: osiągalni rosną z progiem 5→60 min,0,24869,OK,
+GZM,"all/pt_midday: performance 30 min w [0, 100]",0,24869,OK,"maks. 77,3; > 100 to cele dalej niż promień (szybki środek transportu); 0 linkowania: 0 komórek, ludność 0"
+GZM,"all/pt_midday: KZ + pieszo ≥ sam spacer (każda komórka, każdy próg)",0,24869,OK,
+GZM,"all/pt_midday: reguła min(KZ, pieszo) nigdy nie obniża wyniku R5",0,24869,OK,podnosi osiągalnych w 30 min w 24808 komórkach
+GZM,all/pt_saturday: osiągalni rosną z progiem 5→60 min,0,24869,OK,
+GZM,"all/pt_saturday: performance 30 min w [0, 100]",0,24869,OK,"maks. 74,7; > 100 to cele dalej niż promień (szybki środek transportu); 0 linkowania: 0 komórek, ludność 0"
+GZM,"all/pt_saturday: KZ + pieszo ≥ sam spacer (każda komórka, każdy próg)",0,24869,OK,
+GZM,"all/pt_saturday: reguła min(KZ, pieszo) nigdy nie obniża wyniku R5",0,24869,OK,podnosi osiągalnych w 30 min w 24819 komórkach
+GZM,official/pt_am: osiągalni rosną z progiem 5→60 min,0,24869,OK,
+GZM,"official/pt_am: performance 30 min w [0, 100]",0,24869,OK,"maks. 77,6; > 100 to cele dalej niż promień (szybki środek transportu); 0 linkowania: 0 komórek, ludność 0"
+GZM,"official/pt_am: KZ + pieszo ≥ sam spacer (każda komórka, każdy próg)",0,24869,OK,
+GZM,"official/pt_am: reguła min(KZ, pieszo) nigdy nie obniża wyniku R5",0,24869,OK,podnosi osiągalnych w 30 min w 24806 komórkach
+GZM,official/pt_evening: osiągalni rosną z progiem 5→60 min,0,24869,OK,
+GZM,"official/pt_evening: performance 30 min w [0, 100]",0,24869,OK,"maks. 76,2; > 100 to cele dalej niż promień (szybki środek transportu); 0 linkowania: 0 komórek, ludność 0"
+GZM,"official/pt_evening: KZ + pieszo ≥ sam spacer (każda komórka, każdy próg)",0,24869,OK,
+GZM,"official/pt_evening: reguła min(KZ, pieszo) nigdy nie obniża wyniku R5",0,24869,OK,podnosi osiągalnych w 30 min w 24817 komórkach
+GZM,official/pt_midday: osiągalni rosną z progiem 5→60 min,0,24869,OK,
+GZM,"official/pt_midday: performance 30 min w [0, 100]",0,24869,OK,"maks. 77,3; > 100 to cele dalej niż promień (szybki środek transportu); 0 linkowania: 0 komórek, ludność 0"
+GZM,"official/pt_midday: KZ + pieszo ≥ sam spacer (każda komórka, każdy próg)",0,24869,OK,
+GZM,"official/pt_midday: reguła min(KZ, pieszo) nigdy nie obniża wyniku R5",0,24869,OK,podnosi osiągalnych w 30 min w 24808 komórkach
+GZM,official/pt_saturday: osiągalni rosną z progiem 5→60 min,0,24869,OK,
+GZM,"official/pt_saturday: performance 30 min w [0, 100]",0,24869,OK,"maks. 74,7; > 100 to cele dalej niż promień (szybki środek transportu); 0 linkowania: 0 komórek, ludność 0"
+GZM,"official/pt_saturday: KZ + pieszo ≥ sam spacer (każda komórka, każdy próg)",0,24869,OK,
+GZM,"official/pt_saturday: reguła min(KZ, pieszo) nigdy nie obniża wyniku R5",0,24869,OK,podnosi osiągalnych w 30 min w 24819 komórkach
+GZM,street/bike_lts3: osiągalni rosną z progiem 5→60 min,0,24869,OK,
+GZM,"street/bike_lts3: performance 30 min w [0, 100]",0,24869,OK,"maks. 89,1; > 100 to cele dalej niż promień (szybki środek transportu); 0 linkowania: 0 komórek, ludność 0"
+GZM,street/bike_lts4: osiągalni rosną z progiem 5→60 min,0,24869,OK,
+GZM,"street/bike_lts4: performance 30 min w [0, 100]",0,24869,OK,"maks. 93,8; > 100 to cele dalej niż promień (szybki środek transportu); 0 linkowania: 0 komórek, ludność 0"
+GZM,street/walk: osiągalni rosną z progiem 5→60 min,0,24869,OK,
+GZM,"street/walk: performance 30 min w [0, 100]",0,24868,OK,"maks. 100,0; > 100 to cele dalej niż promień (szybki środek transportu); 0 linkowania: 0 komórek, ludność 0"
+GZM,"rower LTS 4 ≥ LTS 3 (osiągalni, każdy próg)",0,24869,OK,
+GZM,"bez limitu przesiadek ≥ maks. 2 przesiadki (osiągalni, każdy próg)",0,24869,OK,
+GZM,"wszystkie feedy ≥ oficjalne (osiągalni, każdy próg)",1,24869,UWAGA,ludność komórek z naruszeniem: 3
+Wrocław,all/pt_am: osiągalni rosną z progiem 5→60 min,0,20153,OK,
+Wrocław,"all/pt_am: performance 30 min w [0, 100]",0,20153,OK,"maks. 69,4; > 100 to cele dalej niż promień (szybki środek transportu); 0 linkowania: 0 komórek, ludność 0"
+Wrocław,"all/pt_am: KZ + pieszo ≥ sam spacer (każda komórka, każdy próg)",0,20153,OK,
+Wrocław,"all/pt_am: reguła min(KZ, pieszo) nigdy nie obniża wyniku R5",0,20153,OK,podnosi osiągalnych w 30 min w 20089 komórkach
+Wrocław,all/pt_am_max3rides: osiągalni rosną z progiem 5→60 min,0,20153,OK,
+Wrocław,"all/pt_am_max3rides: performance 30 min w [0, 100]",0,20153,OK,"maks. 69,4; > 100 to cele dalej niż promień (szybki środek transportu); 0 linkowania: 0 komórek, ludność 0"
+Wrocław,"all/pt_am_max3rides: KZ + pieszo ≥ sam spacer (każda komórka, każdy próg)",0,20153,OK,
+Wrocław,"all/pt_am_max3rides: reguła min(KZ, pieszo) nigdy nie obniża wyniku R5",0,20153,OK,podnosi osiągalnych w 30 min w 20089 komórkach
+Wrocław,all/pt_evening: osiągalni rosną z progiem 5→60 min,0,20153,OK,
+Wrocław,"all/pt_evening: performance 30 min w [0, 100]",0,20153,OK,"maks. 69,2; > 100 to cele dalej niż promień (szybki środek transportu); 0 linkowania: 0 komórek, ludność 0"
+Wrocław,"all/pt_evening: KZ + pieszo ≥ sam spacer (każda komórka, każdy próg)",0,20153,OK,
+Wrocław,"all/pt_evening: reguła min(KZ, pieszo) nigdy nie obniża wyniku R5",0,20153,OK,podnosi osiągalnych w 30 min w 20096 komórkach
+Wrocław,all/pt_midday: osiągalni rosną z progiem 5→60 min,0,20153,OK,
+Wrocław,"all/pt_midday: performance 30 min w [0, 100]",0,20153,OK,"maks. 69,2; > 100 to cele dalej niż promień (szybki środek transportu); 0 linkowania: 0 komórek, ludność 0"
+Wrocław,"all/pt_midday: KZ + pieszo ≥ sam spacer (każda komórka, każdy próg)",0,20153,OK,
+Wrocław,"all/pt_midday: reguła min(KZ, pieszo) nigdy nie obniża wyniku R5",0,20153,OK,podnosi osiągalnych w 30 min w 20097 komórkach
+Wrocław,all/pt_saturday: osiągalni rosną z progiem 5→60 min,0,20153,OK,
+Wrocław,"all/pt_saturday: performance 30 min w [0, 100]",0,20153,OK,"maks. 69,2; > 100 to cele dalej niż promień (szybki środek transportu); 0 linkowania: 0 komórek, ludność 0"
+Wrocław,"all/pt_saturday: KZ + pieszo ≥ sam spacer (każda komórka, każdy próg)",0,20153,OK,
+Wrocław,"all/pt_saturday: reguła min(KZ, pieszo) nigdy nie obniża wyniku R5",0,20153,OK,podnosi osiągalnych w 30 min w 20098 komórkach
+Wrocław,official/pt_am: osiągalni rosną z progiem 5→60 min,0,20153,OK,
+Wrocław,"official/pt_am: performance 30 min w [0, 100]",0,20153,OK,"maks. 69,2; > 100 to cele dalej niż promień (szybki środek transportu); 0 linkowania: 0 komórek, ludność 0"
+Wrocław,"official/pt_am: KZ + pieszo ≥ sam spacer (każda komórka, każdy próg)",0,20153,OK,
+Wrocław,"official/pt_am: reguła min(KZ, pieszo) nigdy nie obniża wyniku R5",0,20153,OK,podnosi osiągalnych w 30 min w 20089 komórkach
+Wrocław,official/pt_evening: osiągalni rosną z progiem 5→60 min,0,20153,OK,
+Wrocław,"official/pt_evening: performance 30 min w [0, 100]",0,20153,OK,"maks. 69,2; > 100 to cele dalej niż promień (szybki środek transportu); 0 linkowania: 0 komórek, ludność 0"
+Wrocław,"official/pt_evening: KZ + pieszo ≥ sam spacer (każda komórka, każdy próg)",0,20153,OK,
+Wrocław,"official/pt_evening: reguła min(KZ, pieszo) nigdy nie obniża wyniku R5",0,20153,OK,podnosi osiągalnych w 30 min w 20096 komórkach
+Wrocław,official/pt_midday: osiągalni rosną z progiem 5→60 min,0,20153,OK,
+Wrocław,"official/pt_midday: performance 30 min w [0, 100]",0,20153,OK,"maks. 69,2; > 100 to cele dalej niż promień (szybki środek transportu); 0 linkowania: 0 komórek, ludność 0"
+Wrocław,"official/pt_midday: KZ + pieszo ≥ sam spacer (każda komórka, każdy próg)",0,20153,OK,
+Wrocław,"official/pt_midday: reguła min(KZ, pieszo) nigdy nie obniża wyniku R5",0,20153,OK,podnosi osiągalnych w 30 min w 20097 komórkach
+Wrocław,official/pt_saturday: osiągalni rosną z progiem 5→60 min,0,20153,OK,
+Wrocław,"official/pt_saturday: performance 30 min w [0, 100]",0,20153,OK,"maks. 69,2; > 100 to cele dalej niż promień (szybki środek transportu); 0 linkowania: 0 komórek, ludność 0"
+Wrocław,"official/pt_saturday: KZ + pieszo ≥ sam spacer (każda komórka, każdy próg)",0,20153,OK,
+Wrocław,"official/pt_saturday: reguła min(KZ, pieszo) nigdy nie obniża wyniku R5",0,20153,OK,podnosi osiągalnych w 30 min w 20098 komórkach
+Wrocław,street/bike_lts3: osiągalni rosną z progiem 5→60 min,0,20153,OK,
+Wrocław,"street/bike_lts3: performance 30 min w [0, 100]",0,20153,OK,"maks. 85,7; > 100 to cele dalej niż promień (szybki środek transportu); 0 linkowania: 0 komórek, ludność 0"
+Wrocław,street/bike_lts4: osiągalni rosną z progiem 5→60 min,0,20153,OK,
+Wrocław,"street/bike_lts4: performance 30 min w [0, 100]",0,20153,OK,"maks. 92,8; > 100 to cele dalej niż promień (szybki środek transportu); 0 linkowania: 0 komórek, ludność 0"
+Wrocław,street/walk: osiągalni rosną z progiem 5→60 min,0,20153,OK,
+Wrocław,"street/walk: performance 30 min w [0, 100]",0,20149,OK,"maks. 100,0; > 100 to cele dalej niż promień (szybki środek transportu); 0 linkowania: 0 komórek, ludność 0"
+Wrocław,"rower LTS 4 ≥ LTS 3 (osiągalni, każdy próg)",0,20153,OK,
+Wrocław,"bez limitu przesiadek ≥ maks. 2 przesiadki (osiągalni, każdy próg)",0,20153,OK,
+Wrocław,"wszystkie feedy ≥ oficjalne (osiągalni, każdy próg)",26,20153,UWAGA,ludność komórek z naruszeniem: 416
+Poznań,all/pt_am: osiągalni rosną z progiem 5→60 min,0,19201,OK,
+Poznań,"all/pt_am: performance 30 min w [0, 100]",0,19201,OK,"maks. 68,0; > 100 to cele dalej niż promień (szybki środek transportu); 0 linkowania: 18 komórek, ludność 0"
+Poznań,"all/pt_am: KZ + pieszo ≥ sam spacer (każda komórka, każdy próg)",0,19201,OK,
+Poznań,"all/pt_am: reguła min(KZ, pieszo) nigdy nie obniża wyniku R5",0,19201,OK,podnosi osiągalnych w 30 min w 18994 komórkach
+Poznań,all/pt_am_max3rides: osiągalni rosną z progiem 5→60 min,0,19201,OK,
+Poznań,"all/pt_am_max3rides: performance 30 min w [0, 100]",0,19201,OK,"maks. 68,0; > 100 to cele dalej niż promień (szybki środek transportu); 0 linkowania: 18 komórek, ludność 0"
+Poznań,"all/pt_am_max3rides: KZ + pieszo ≥ sam spacer (każda komórka, każdy próg)",0,19201,OK,
+Poznań,"all/pt_am_max3rides: reguła min(KZ, pieszo) nigdy nie obniża wyniku R5",0,19201,OK,podnosi osiągalnych w 30 min w 18994 komórkach
+Poznań,all/pt_evening: osiągalni rosną z progiem 5→60 min,0,19201,OK,
+Poznań,"all/pt_evening: performance 30 min w [0, 100]",0,19201,OK,"maks. 67,2; > 100 to cele dalej niż promień (szybki środek transportu); 0 linkowania: 18 komórek, ludność 0"
+Poznań,"all/pt_evening: KZ + pieszo ≥ sam spacer (każda komórka, każdy próg)",0,19201,OK,
+Poznań,"all/pt_evening: reguła min(KZ, pieszo) nigdy nie obniża wyniku R5",0,19201,OK,podnosi osiągalnych w 30 min w 19032 komórkach
+Poznań,all/pt_midday: osiągalni rosną z progiem 5→60 min,0,19201,OK,
+Poznań,"all/pt_midday: performance 30 min w [0, 100]",0,19201,OK,"maks. 65,8; > 100 to cele dalej niż promień (szybki środek transportu); 0 linkowania: 18 komórek, ludność 0"
+Poznań,"all/pt_midday: KZ + pieszo ≥ sam spacer (każda komórka, każdy próg)",0,19201,OK,
+Poznań,"all/pt_midday: reguła min(KZ, pieszo) nigdy nie obniża wyniku R5",0,19201,OK,podnosi osiągalnych w 30 min w 19026 komórkach
+Poznań,all/pt_saturday: osiągalni rosną z progiem 5→60 min,0,19201,OK,
+Poznań,"all/pt_saturday: performance 30 min w [0, 100]",0,19201,OK,"maks. 64,0; > 100 to cele dalej niż promień (szybki środek transportu); 0 linkowania: 18 komórek, ludność 0"
+Poznań,"all/pt_saturday: KZ + pieszo ≥ sam spacer (każda komórka, każdy próg)",0,19201,OK,
+Poznań,"all/pt_saturday: reguła min(KZ, pieszo) nigdy nie obniża wyniku R5",0,19201,OK,podnosi osiągalnych w 30 min w 19041 komórkach
+Poznań,official/pt_am: osiągalni rosną z progiem 5→60 min,0,19201,OK,
+Poznań,"official/pt_am: performance 30 min w [0, 100]",0,19201,OK,"maks. 68,0; > 100 to cele dalej niż promień (szybki środek transportu); 0 linkowania: 18 komórek, ludność 0"
+Poznań,"official/pt_am: KZ + pieszo ≥ sam spacer (każda komórka, każdy próg)",0,19201,OK,
+Poznań,"official/pt_am: reguła min(KZ, pieszo) nigdy nie obniża wyniku R5",0,19201,OK,podnosi osiągalnych w 30 min w 18994 komórkach
+Poznań,official/pt_evening: osiągalni rosną z progiem 5→60 min,0,19201,OK,
+Poznań,"official/pt_evening: performance 30 min w [0, 100]",0,19201,OK,"maks. 67,2; > 100 to cele dalej niż promień (szybki środek transportu); 0 linkowania: 18 komórek, ludność 0"
+Poznań,"official/pt_evening: KZ + pieszo ≥ sam spacer (każda komórka, każdy próg)",0,19201,OK,
+Poznań,"official/pt_evening: reguła min(KZ, pieszo) nigdy nie obniża wyniku R5",0,19201,OK,podnosi osiągalnych w 30 min w 19032 komórkach
+Poznań,official/pt_midday: osiągalni rosną z progiem 5→60 min,0,19201,OK,
+Poznań,"official/pt_midday: performance 30 min w [0, 100]",0,19201,OK,"maks. 65,8; > 100 to cele dalej niż promień (szybki środek transportu); 0 linkowania: 18 komórek, ludność 0"
+Poznań,"official/pt_midday: KZ + pieszo ≥ sam spacer (każda komórka, każdy próg)",0,19201,OK,
+Poznań,"official/pt_midday: reguła min(KZ, pieszo) nigdy nie obniża wyniku R5",0,19201,OK,podnosi osiągalnych w 30 min w 19026 komórkach
+Poznań,official/pt_saturday: osiągalni rosną z progiem 5→60 min,0,19201,OK,
+Poznań,"official/pt_saturday: performance 30 min w [0, 100]",0,19201,OK,"maks. 64,0; > 100 to cele dalej niż promień (szybki środek transportu); 0 linkowania: 18 komórek, ludność 0"
+Poznań,"official/pt_saturday: KZ + pieszo ≥ sam spacer (każda komórka, każdy próg)",0,19201,OK,
+Poznań,"official/pt_saturday: reguła min(KZ, pieszo) nigdy nie obniża wyniku R5",0,19201,OK,podnosi osiągalnych w 30 min w 19041 komórkach
+Poznań,street/bike_lts3: osiągalni rosną z progiem 5→60 min,0,19201,OK,
+Poznań,"street/bike_lts3: performance 30 min w [0, 100]",0,19201,OK,"maks. 86,8; > 100 to cele dalej niż promień (szybki środek transportu); 0 linkowania: 18 komórek, ludność 0"
+Poznań,street/bike_lts4: osiągalni rosną z progiem 5→60 min,0,19201,OK,
+Poznań,"street/bike_lts4: performance 30 min w [0, 100]",0,19201,OK,"maks. 97,3; > 100 to cele dalej niż promień (szybki środek transportu); 0 linkowania: 18 komórek, ludność 0"
+Poznań,street/walk: osiągalni rosną z progiem 5→60 min,0,19201,OK,
+Poznań,"street/walk: performance 30 min w [0, 100]",0,19195,OK,"maks. 100,0; > 100 to cele dalej niż promień (szybki środek transportu); 0 linkowania: 18 komórek, ludność 0"
+Poznań,"rower LTS 4 ≥ LTS 3 (osiągalni, każdy próg)",0,19201,OK,
+Poznań,"bez limitu przesiadek ≥ maks. 2 przesiadki (osiągalni, każdy próg)",0,19201,OK,
+Poznań,"wszystkie feedy ≥ oficjalne (osiągalni, każdy próg)",2,19201,UWAGA,ludność komórek z naruszeniem: 15
+Trójmiasto,all/pt_am: osiągalni rosną z progiem 5→60 min,0,17561,OK,
+Trójmiasto,"all/pt_am: performance 30 min w [0, 100]",0,17561,OK,"maks. 85,4; > 100 to cele dalej niż promień (szybki środek transportu); 0 linkowania: 0 komórek, ludność 0"
+Trójmiasto,"all/pt_am: KZ + pieszo ≥ sam spacer (każda komórka, każdy próg)",0,17561,OK,
+Trójmiasto,"all/pt_am: reguła min(KZ, pieszo) nigdy nie obniża wyniku R5",0,17561,OK,podnosi osiągalnych w 30 min w 17478 komórkach
+Trójmiasto,all/pt_am_max3rides: osiągalni rosną z progiem 5→60 min,0,17561,OK,
+Trójmiasto,"all/pt_am_max3rides: performance 30 min w [0, 100]",0,17561,OK,"maks. 85,4; > 100 to cele dalej niż promień (szybki środek transportu); 0 linkowania: 0 komórek, ludność 0"
+Trójmiasto,"all/pt_am_max3rides: KZ + pieszo ≥ sam spacer (każda komórka, każdy próg)",0,17561,OK,
+Trójmiasto,"all/pt_am_max3rides: reguła min(KZ, pieszo) nigdy nie obniża wyniku R5",0,17561,OK,podnosi osiągalnych w 30 min w 17478 komórkach
+Trójmiasto,all/pt_evening: osiągalni rosną z progiem 5→60 min,0,17561,OK,
+Trójmiasto,"all/pt_evening: performance 30 min w [0, 100]",0,17561,OK,"maks. 76,0; > 100 to cele dalej niż promień (szybki środek transportu); 0 linkowania: 0 komórek, ludność 0"
+Trójmiasto,"all/pt_evening: KZ + pieszo ≥ sam spacer (każda komórka, każdy próg)",0,17561,OK,
+Trójmiasto,"all/pt_evening: reguła min(KZ, pieszo) nigdy nie obniża wyniku R5",0,17561,OK,podnosi osiągalnych w 30 min w 17516 komórkach
+Trójmiasto,all/pt_midday: osiągalni rosną z progiem 5→60 min,0,17561,OK,
+Trójmiasto,"all/pt_midday: performance 30 min w [0, 100]",0,17561,OK,"maks. 81,5; > 100 to cele dalej niż promień (szybki środek transportu); 0 linkowania: 0 komórek, ludność 0"
+Trójmiasto,"all/pt_midday: KZ + pieszo ≥ sam spacer (każda komórka, każdy próg)",0,17561,OK,
+Trójmiasto,"all/pt_midday: reguła min(KZ, pieszo) nigdy nie obniża wyniku R5",0,17561,OK,podnosi osiągalnych w 30 min w 17490 komórkach
+Trójmiasto,all/pt_saturday: osiągalni rosną z progiem 5→60 min,0,17561,OK,
+Trójmiasto,"all/pt_saturday: performance 30 min w [0, 100]",0,17561,OK,"maks. 73,5; > 100 to cele dalej niż promień (szybki środek transportu); 0 linkowania: 0 komórek, ludność 0"
+Trójmiasto,"all/pt_saturday: KZ + pieszo ≥ sam spacer (każda komórka, każdy próg)",0,17561,OK,
+Trójmiasto,"all/pt_saturday: reguła min(KZ, pieszo) nigdy nie obniża wyniku R5",0,17561,OK,podnosi osiągalnych w 30 min w 17504 komórkach
+Trójmiasto,official/pt_am: osiągalni rosną z progiem 5→60 min,0,17561,OK,
+Trójmiasto,"official/pt_am: performance 30 min w [0, 100]",0,17561,OK,"maks. 85,4; > 100 to cele dalej niż promień (szybki środek transportu); 0 linkowania: 0 komórek, ludność 0"
+Trójmiasto,"official/pt_am: KZ + pieszo ≥ sam spacer (każda komórka, każdy próg)",0,17561,OK,
+Trójmiasto,"official/pt_am: reguła min(KZ, pieszo) nigdy nie obniża wyniku R5",0,17561,OK,podnosi osiągalnych w 30 min w 17478 komórkach
+Trójmiasto,official/pt_evening: osiągalni rosną z progiem 5→60 min,0,17561,OK,
+Trójmiasto,"official/pt_evening: performance 30 min w [0, 100]",0,17561,OK,"maks. 76,0; > 100 to cele dalej niż promień (szybki środek transportu); 0 linkowania: 0 komórek, ludność 0"
+Trójmiasto,"official/pt_evening: KZ + pieszo ≥ sam spacer (każda komórka, każdy próg)",0,17561,OK,
+Trójmiasto,"official/pt_evening: reguła min(KZ, pieszo) nigdy nie obniża wyniku R5",0,17561,OK,podnosi osiągalnych w 30 min w 17516 komórkach
+Trójmiasto,official/pt_midday: osiągalni rosną z progiem 5→60 min,0,17561,OK,
+Trójmiasto,"official/pt_midday: performance 30 min w [0, 100]",0,17561,OK,"maks. 81,5; > 100 to cele dalej niż promień (szybki środek transportu); 0 linkowania: 0 komórek, ludność 0"
+Trójmiasto,"official/pt_midday: KZ + pieszo ≥ sam spacer (każda komórka, każdy próg)",0,17561,OK,
+Trójmiasto,"official/pt_midday: reguła min(KZ, pieszo) nigdy nie obniża wyniku R5",0,17561,OK,podnosi osiągalnych w 30 min w 17490 komórkach
+Trójmiasto,official/pt_saturday: osiągalni rosną z progiem 5→60 min,0,17561,OK,
+Trójmiasto,"official/pt_saturday: performance 30 min w [0, 100]",0,17561,OK,"maks. 73,5; > 100 to cele dalej niż promień (szybki środek transportu); 0 linkowania: 0 komórek, ludność 0"
+Trójmiasto,"official/pt_saturday: KZ + pieszo ≥ sam spacer (każda komórka, każdy próg)",0,17561,OK,
+Trójmiasto,"official/pt_saturday: reguła min(KZ, pieszo) nigdy nie obniża wyniku R5",0,17561,OK,podnosi osiągalnych w 30 min w 17504 komórkach
+Trójmiasto,street/bike_lts3: osiągalni rosną z progiem 5→60 min,0,17561,OK,
+Trójmiasto,"street/bike_lts3: performance 30 min w [0, 100]",0,17561,OK,"maks. 84,7; > 100 to cele dalej niż promień (szybki środek transportu); 0 linkowania: 0 komórek, ludność 0"
+Trójmiasto,street/bike_lts4: osiągalni rosną z progiem 5→60 min,0,17561,OK,
+Trójmiasto,"street/bike_lts4: performance 30 min w [0, 100]",0,17561,OK,"maks. 94,2; > 100 to cele dalej niż promień (szybki środek transportu); 0 linkowania: 0 komórek, ludność 0"
+Trójmiasto,street/walk: osiągalni rosną z progiem 5→60 min,0,17561,OK,
+Trójmiasto,"street/walk: performance 30 min w [0, 100]",0,17561,OK,"maks. 98,3; > 100 to cele dalej niż promień (szybki środek transportu); 0 linkowania: 0 komórek, ludność 0"
+Trójmiasto,"rower LTS 4 ≥ LTS 3 (osiągalni, każdy próg)",0,17561,OK,
+Trójmiasto,"bez limitu przesiadek ≥ maks. 2 przesiadki (osiągalni, każdy próg)",0,17561,OK,
+Trójmiasto,"wszystkie feedy ≥ oficjalne (osiągalni, każdy próg)",0,17561,OK,
