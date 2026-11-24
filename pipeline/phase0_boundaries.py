@@ -395,11 +395,11 @@ def write_web() -> None:
     planned = [
         ("density_250m", "Gęstość zaludnienia 250 m (GHSL 2020)", "density"),
         ("frequent_transport", "Zasięg częstej komunikacji", "access"),
-        ("transport_performance_30", "Transport performance 30 min", "access"),
-        ("gtfs_nodata", "Maska braku danych GTFS", "mask"),
+        ("transport_performance_30", "Zasięg w 30 minut (komunikacja i pieszo)", "access"),
+        ("gtfs_nodata", "Brak danych o rozkładach", "mask"),
         ("density_service", "Gęstość × częstotliwość komunikacji", "access"),
     ]
-    layers = [{"id": "fua", "title": "Granice FUA i rdzeni", "type": "geojson", "url": "data/fua.geojson", "kind": "boundary",
+    layers = [{"id": "fua", "title": "Granice miast", "type": "geojson", "url": "data/fua.geojson", "kind": "boundary",
                "status": "ready", "attribution": "© EuroGeographics / Eurostat GISCO, Urban Audit 2021",
                "population_date": None, "timetable_date": None,
                "note": "Granice uproszczone (tolerancja ok. 100 m). GZM: suma czterech FUA; Trójmiasto: suma dwóch FUA."}]

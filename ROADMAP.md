@@ -72,6 +72,10 @@ Method and data
 - Street-running detection for tram track misreads some streets (lower bound); kinematic parameters are assumptions.
 - No Sunday reference day (several feeds end on 2026-11-28).
 - No expert review of the method.
+- Plain labels: `pipeline/transfer_web.py` still writes "wydawcy GTFS" and "poza pokryciem GTFS"; the catalog was
+  patched by hand on 2026-11-24, so change the source when the transfer revisions are integrated.
+- Independent first-use UX review: `reports/UX review 2026-11-24.md` (55 findings); the restructuring that follows
+  it is in progress.
 
 ## Decided against, or shelved
 

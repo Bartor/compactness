@@ -29,7 +29,7 @@ CELL_KM2 = CELL * CELL / 1e6
 POP_DATE = "2021-03-31 (NSP 2021, wzór GHSL 2020)"
 
 ATTR_DENSITY = "GUS NSP 2021, JRC GHSL"
-ATTR_TRANSIT = "wydawcy GTFS (lista w „O danych”), © współtwórcy OpenStreetMap, GUS, JRC GHSL"
+ATTR_TRANSIT = "wydawcy rozkładów jazdy (lista w „O danych”), © współtwórcy OpenStreetMap, GUS, JRC GHSL"
 
 # Ramps.  The first colour is the one below the first stop (rampClasses in web/src/ramp.js).
 # Dark basemap (land #1c1f26): every sequential ramp runs from a dim colour (OKLCH L 0.45, still >= 2:1 against the
@@ -158,7 +158,7 @@ def load_frequent(cfg) -> Built | None:
     grid, aggs = _grid(xll, yll, code, list(d.agglomeration.unique()), d.agglomeration)
     props, classes = _classes(HEADWAY_LABELS, HEADWAY_V)
     props[NODATA] = {}
-    classes.insert(0, {"code": NODATA, "label": "brak danych GTFS", "v": None})
+    classes.insert(0, {"code": NODATA, "label": "brak danych o rozkładach", "v": None})
     return Built(grid, aggs, props, classes, {"cells": int(len(d)), "dropped_zero_pop": n_all - len(d)})
 
 
@@ -184,7 +184,7 @@ def load_density_service(cfg) -> Built | None:
     grid, aggs = _grid(xll, yll, code, list(d.agglomeration.unique()), d.agglomeration)
     props, classes = _classes([lab for lab, _ in DS.MAP_CLASSES], list(range(len(DS.MAP_CLASSES))))
     props[NODATA] = {}
-    classes.insert(0, {"code": NODATA, "label": "brak danych GTFS", "v": None})
+    classes.insert(0, {"code": NODATA, "label": "brak danych o rozkładach", "v": None})
     return Built(grid, aggs, props, classes, {"cells": int(len(d)), "dropped_zero_pop": n_all - len(d)})
 
 
@@ -205,7 +205,7 @@ def load_performance(cfg) -> Built | None:
     grid, aggs = _grid(xll, yll, code, list(d.agglomeration.unique()), d.agglomeration)
     props, classes = _classes(_perf_labels(), PERF_REPS)
     props[NODATA] = {}
-    classes.insert(0, {"code": NODATA, "label": "brak danych GTFS", "v": None})
+    classes.insert(0, {"code": NODATA, "label": "brak danych o rozkładach", "v": None})
     return Built(grid, aggs, props, classes, {"cells": int(len(d)), "present": aggs})
 
 
@@ -262,7 +262,7 @@ def load_mask(cfg) -> Built | None:
     yll = y1 - (rows + 1) * int(CELL)
     grid = ClassGrid.from_cells(xll, yll, np.full(len(rows), NODATA, np.uint8), ras[rows, cols] - 1)
     area_src = {a: float(g[g.agglomeration == a].area.sum() / 1e6) for a in aggs}
-    return Built(grid, aggs, {NODATA: {}}, [{"code": NODATA, "label": "brak danych GTFS", "v": None}],
+    return Built(grid, aggs, {NODATA: {}}, [{"code": NODATA, "label": "brak danych o rozkładach", "v": None}],
                  {"cells": int(len(rows)), "source_area_km2": area_src})
 
 
@@ -306,7 +306,7 @@ def describe_performance(cfg, built: Built, names: dict, url: str, expected: lis
     if pending:
         done = ", ".join(names.get(a, a) for a in present)
         note += f" Policzono: {done}. W trakcie obliczeń: {', '.join(pending)}."
-    return _base(cfg, "Transport performance 30 min", ATTR_TRANSIT, note, kind="choropleth", type="pmtiles", url=url,
+    return _base(cfg, "Zasięg w 30 minut (komunikacja i pieszo)", ATTR_TRANSIT, note, kind="choropleth", type="pmtiles", url=url,
                  source_layer="performance30", property="v", unit="% ludności osiągalnej w 30 min; jaśniej = więcej",
                  has_nodata=True, population_date=POP_DATE, timetable_date=day,
                  ramp={"stops": PERF_STOPS, "colors": PERF_COLORS})
@@ -352,5 +352,5 @@ def describe_mask(cfg, built: Built, names: dict, url: str) -> dict:
             "przystanków z OpenStreetMap ma odpowiednik w rozkładach GTFS (brak feedu albo luki w nim), więc brak "
             "kursów na mapie nie oznacza ich braku w rzeczywistości. Komórki bez żadnego przystanku w promieniu 1 km "
             "mają dane i nie są kreskowane. Wszystkie feedy, w tym nieoficjalne.")
-    return _base(cfg, "Brak danych GTFS", ATTR_TRANSIT, note, kind="mask", type="pmtiles", url=url,
-                 source_layer="gtfs_nodata", legend="obszar bez danych o rozkładach (GTFS)", timetable_date=day)
+    return _base(cfg, "Brak danych o rozkładach", ATTR_TRANSIT, note, kind="mask", type="pmtiles", url=url,
+                 source_layer="gtfs_nodata", legend="obszar bez danych o rozkładach jazdy", timetable_date=day)
