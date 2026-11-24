@@ -1,0 +1,106 @@
+agglomeration,measure,step,value,delta
+warszawa,PT 30,"0. Nasz wynik opublikowany: starty w mieście (rdzeń), cele i mianownik FUA + 15 km, średnia stosunków",33.85223481453732,
+warszawa,PT 30,1. Starty tylko w urban centre 2011 (cele i mianownik bez zmian),34.95860857668443,1.1063737621471148
+warszawa,PT 30,"2. Cele i mianownik też tylko w urban centre (nowy routing, parametry produkcyjne)",37.75754356524045,2.798934988556013
+warszawa,PT 30,3. Agregacja jak DG REGIO: stosunek średnich ważonych,38.24697503786659,0.48943147262614417
+warszawa,PT 30,4. Dojście i odejście do 5 km (OTP maxWalkDistance 5000 m) zamiast 1 km,38.69567271714596,0.44869767927936977
+warszawa,PT 30,5. Średnia z 9 odjazdów co 15 min 7:00–9:00 zamiast mediany z odjazdów co minutę (różnica z próby 800 startów),37.086234674320714,-1.6094380428252464
+warszawa,PT 30,"DG REGIO (aneks, tabela 2)",30.90503487993838,
+warszawa,PT 30,Reszta niewyjaśniona (DG REGIO − ostatni krok),,-6.181199794382334
+warszawa,PT 45,"0. Nasz wynik opublikowany: starty w mieście (rdzeń), cele i mianownik FUA + 15 km, średnia stosunków",58.75800362601595,
+warszawa,PT 45,1. Starty tylko w urban centre 2011 (cele i mianownik bez zmian),60.281695809856274,1.5236921838403248
+warszawa,PT 45,"2. Cele i mianownik też tylko w urban centre (nowy routing, parametry produkcyjne)",65.27430082634854,4.992605016492263
+warszawa,PT 45,3. Agregacja jak DG REGIO: stosunek średnich ważonych,66.88479759686544,1.610496770516903
+warszawa,PT 45,4. Dojście i odejście do 5 km (OTP maxWalkDistance 5000 m) zamiast 1 km,67.70439405893485,0.8195964620694127
+warszawa,PT 45,5. Średnia z 9 odjazdów co 15 min 7:00–9:00 zamiast mediany z odjazdów co minutę (różnica z próby 800 startów),66.0010071163223,-1.7033869426125534
+warszawa,PT 45,"DG REGIO (aneks, tabela 2)",61.681316951466684,
+warszawa,PT 45,Reszta niewyjaśniona (DG REGIO − ostatni krok),,-4.319690164855615
+warszawa,pieszo 30,"0. Nasz wynik opublikowany (rdzeń, cele FUA + 15 km, średnia stosunków)",66.41012621391766,
+warszawa,pieszo 30,1. Starty tylko w urban centre,68.05485021314477,1.6447239992271108
+warszawa,pieszo 30,2. Cele i mianownik tylko w urban centre (czasy z produkcyjnej pamięci spacerów),68.91500034572604,0.8601501325812677
+warszawa,pieszo 30,3. Stosunek średnich,68.62958801792261,-0.28541232780342796
+warszawa,pieszo 30,"4. Prędkość 4,8 km/h (OTP domyślnie 1,33 m/s): próg 28 min przy 5 km/h",61.126956245097254,-7.50263177282536
+warszawa,pieszo 30,"DG REGIO (aneks, tabela 2)",49.043901008608174,
+warszawa,pieszo 30,Reszta niewyjaśniona (DG REGIO − ostatni krok),,-12.08305523648908
+warszawa,rower 30 LTS 3,"0. Nasz wynik opublikowany, LTS ≤ 3",45.16210620341691,
+warszawa,rower 30 LTS 3,1. Starty tylko w urban centre,46.541573776530605,1.3794675731136934
+warszawa,rower 30 LTS 3,2. Cele i mianownik tylko w urban centre (nowy routing),48.84101512942791,2.299441352897304
+warszawa,rower 30 LTS 3,3. Stosunek średnich,47.16482778251861,-1.6761873469093018
+warszawa,rower 30 LTS 3,"DG REGIO (aneks, tabela 2)",70.43039941356592,
+warszawa,rower 30 LTS 3,Reszta niewyjaśniona (DG REGIO − ostatni krok),,23.265571631047315
+warszawa,rower 30 LTS 4,"0. Nasz wynik opublikowany, LTS ≤ 4",52.38794982553519,
+warszawa,rower 30 LTS 4,1. Starty tylko w urban centre,53.25927220232097,0.8713223767857841
+warszawa,rower 30 LTS 4,2. Cele i mianownik tylko w urban centre (nowy routing),55.15430652931224,1.895034326991265
+warszawa,rower 30 LTS 4,3. Stosunek średnich,53.82762190580441,-1.3266846235078233
+warszawa,rower 30 LTS 4,"DG REGIO (aneks, tabela 2)",70.43039941356592,
+warszawa,rower 30 LTS 4,Reszta niewyjaśniona (DG REGIO − ostatni krok),,16.60277750776151
+poznan,PT 30,"0. Nasz wynik opublikowany: starty w mieście (rdzeń), cele i mianownik FUA + 15 km, średnia stosunków",29.987474028810347,
+poznan,PT 30,1. Starty tylko w urban centre 2011 (cele i mianownik bez zmian),31.491257485994318,1.503783457183971
+poznan,PT 30,"2. Cele i mianownik też tylko w urban centre (nowy routing, parametry produkcyjne)",34.99802949443128,3.506772008436961
+poznan,PT 30,3. Agregacja jak DG REGIO: stosunek średnich ważonych,36.62524160663622,1.627212112204944
+poznan,PT 30,4. Dojście i odejście do 5 km (OTP maxWalkDistance 5000 m) zamiast 1 km,37.42190717129676,0.7966655646605361
+poznan,PT 30,5. Średnia z 9 odjazdów co 15 min 7:00–9:00 zamiast mediany z odjazdów co minutę (różnica z próby 800 startów),36.12324120589893,-1.2986659653978307
+poznan,PT 30,"DG REGIO (aneks, tabela 2)",26.310530176418563,
+poznan,PT 30,Reszta niewyjaśniona (DG REGIO − ostatni krok),,-9.812711029480365
+poznan,PT 45,"0. Nasz wynik opublikowany: starty w mieście (rdzeń), cele i mianownik FUA + 15 km, średnia stosunków",54.63597645164683,
+poznan,PT 45,1. Starty tylko w urban centre 2011 (cele i mianownik bez zmian),56.55224365722236,1.9162672055755294
+poznan,PT 45,"2. Cele i mianownik też tylko w urban centre (nowy routing, parametry produkcyjne)",69.08892235862014,12.536678701397776
+poznan,PT 45,3. Agregacja jak DG REGIO: stosunek średnich ważonych,69.8637233000509,0.7748009414307688
+poznan,PT 45,4. Dojście i odejście do 5 km (OTP maxWalkDistance 5000 m) zamiast 1 km,71.38120465660509,1.5174813565541854
+poznan,PT 45,5. Średnia z 9 odjazdów co 15 min 7:00–9:00 zamiast mediany z odjazdów co minutę (różnica z próby 800 startów),70.25867236974679,-1.122532286858302
+poznan,PT 45,"DG REGIO (aneks, tabela 2)",74.77746491851249,
+poznan,PT 45,Reszta niewyjaśniona (DG REGIO − ostatni krok),,4.518792548765703
+poznan,pieszo 30,"0. Nasz wynik opublikowany (rdzeń, cele FUA + 15 km, średnia stosunków)",64.93238827426084,
+poznan,pieszo 30,1. Starty tylko w urban centre,67.28385225680077,2.3514639825399257
+poznan,pieszo 30,2. Cele i mianownik tylko w urban centre (czasy z produkcyjnej pamięci spacerów),68.19633069618004,0.9124784393792709
+poznan,pieszo 30,3. Stosunek średnich,68.16639877317407,-0.029931923005975136
+poznan,pieszo 30,"4. Prędkość 4,8 km/h (OTP domyślnie 1,33 m/s): próg 28 min przy 5 km/h",60.420746108953374,-7.745652664220692
+poznan,pieszo 30,"DG REGIO (aneks, tabela 2)",42.962781509178164,
+poznan,pieszo 30,Reszta niewyjaśniona (DG REGIO − ostatni krok),,-17.45796459977521
+poznan,rower 30 LTS 3,"0. Nasz wynik opublikowany, LTS ≤ 3",61.795407223630264,
+poznan,rower 30 LTS 3,1. Starty tylko w urban centre,64.44897490392277,2.653567680292511
+poznan,rower 30 LTS 3,2. Cele i mianownik tylko w urban centre (nowy routing),68.80156284202823,4.352587938105458
+poznan,rower 30 LTS 3,3. Stosunek średnich,70.32373066072786,1.5221678186996286
+poznan,rower 30 LTS 3,"DG REGIO (aneks, tabela 2)",81.43986124203288,
+poznan,rower 30 LTS 3,Reszta niewyjaśniona (DG REGIO − ostatni krok),,11.116130581305015
+poznan,rower 30 LTS 4,"0. Nasz wynik opublikowany, LTS ≤ 4",69.59020008897883,
+poznan,rower 30 LTS 4,1. Starty tylko w urban centre,71.17135347174963,1.5811533827707933
+poznan,rower 30 LTS 4,2. Cele i mianownik tylko w urban centre (nowy routing),74.4535672596545,3.2822137879048796
+poznan,rower 30 LTS 4,3. Stosunek średnich,75.87076652334255,1.4171992636880475
+poznan,rower 30 LTS 4,"DG REGIO (aneks, tabela 2)",81.43986124203288,
+poznan,rower 30 LTS 4,Reszta niewyjaśniona (DG REGIO − ostatni krok),,5.569094718690323
+lodz,PT 30,"0. Nasz wynik opublikowany: starty w mieście (rdzeń), cele i mianownik FUA + 15 km, średnia stosunków",26.867106505102345,
+lodz,PT 30,1. Starty tylko w urban centre 2011 (cele i mianownik bez zmian),28.60366040691855,1.7365539018162046
+lodz,PT 30,"2. Cele i mianownik też tylko w urban centre (nowy routing, parametry produkcyjne)",30.52549747234474,1.921837065426189
+lodz,PT 30,3. Agregacja jak DG REGIO: stosunek średnich ważonych,31.374369076433076,0.8488716040883375
+lodz,PT 30,4. Dojście i odejście do 5 km (OTP maxWalkDistance 5000 m) zamiast 1 km,32.23656731687389,0.8621982404408115
+lodz,PT 30,5. Średnia z 9 odjazdów co 15 min 7:00–9:00 zamiast mediany z odjazdów co minutę (różnica z próby 800 startów),31.70679058290762,-0.5297767339662691
+lodz,PT 30,"DG REGIO (aneks, tabela 2)",25.437013814801073,
+lodz,PT 30,Reszta niewyjaśniona (DG REGIO − ostatni krok),,-6.269776768106546
+lodz,PT 45,"0. Nasz wynik opublikowany: starty w mieście (rdzeń), cele i mianownik FUA + 15 km, średnia stosunków",51.31327978607713,
+lodz,PT 45,1. Starty tylko w urban centre 2011 (cele i mianownik bez zmian),54.31828163818741,3.0050018521102757
+lodz,PT 45,"2. Cele i mianownik też tylko w urban centre (nowy routing, parametry produkcyjne)",62.714265044195436,8.395983406008028
+lodz,PT 45,3. Agregacja jak DG REGIO: stosunek średnich ważonych,63.17620983602964,0.4619447918342061
+lodz,PT 45,4. Dojście i odejście do 5 km (OTP maxWalkDistance 5000 m) zamiast 1 km,64.91097520223863,1.7347653662089897
+lodz,PT 45,5. Średnia z 9 odjazdów co 15 min 7:00–9:00 zamiast mediany z odjazdów co minutę (różnica z próby 800 startów),63.82051958489008,-1.0904556173485531
+lodz,PT 45,"DG REGIO (aneks, tabela 2)",74.84010878691734,
+lodz,PT 45,Reszta niewyjaśniona (DG REGIO − ostatni krok),,11.019589202027262
+lodz,pieszo 30,"0. Nasz wynik opublikowany (rdzeń, cele FUA + 15 km, średnia stosunków)",69.05403439028922,
+lodz,pieszo 30,1. Starty tylko w urban centre,70.55715735616192,1.5031229658727057
+lodz,pieszo 30,2. Cele i mianownik tylko w urban centre (czasy z produkcyjnej pamięci spacerów),71.2074232844068,0.6502659282448775
+lodz,pieszo 30,3. Stosunek średnich,70.85537391346045,-0.3520493709463466
+lodz,pieszo 30,"4. Prędkość 4,8 km/h (OTP domyślnie 1,33 m/s): próg 28 min przy 5 km/h",63.40931207358183,-7.446061839878624
+lodz,pieszo 30,"DG REGIO (aneks, tabela 2)",54.304824677220566,
+lodz,pieszo 30,Reszta niewyjaśniona (DG REGIO − ostatni krok),,-9.104487396361264
+lodz,rower 30 LTS 3,"0. Nasz wynik opublikowany, LTS ≤ 3",53.719959109442065,
+lodz,rower 30 LTS 3,1. Starty tylko w urban centre,55.92915446311861,2.2091953536765416
+lodz,rower 30 LTS 3,2. Cele i mianownik tylko w urban centre (nowy routing),58.55308014578128,2.623925682662673
+lodz,rower 30 LTS 3,3. Stosunek średnich,60.011926126777006,1.4588459809957257
+lodz,rower 30 LTS 3,"DG REGIO (aneks, tabela 2)",81.13175380187806,
+lodz,rower 30 LTS 3,Reszta niewyjaśniona (DG REGIO − ostatni krok),,21.119827675101057
+lodz,rower 30 LTS 4,"0. Nasz wynik opublikowany, LTS ≤ 4",64.8353167772467,
+lodz,rower 30 LTS 4,1. Starty tylko w urban centre,66.23015174221877,1.3948349649720626
+lodz,rower 30 LTS 4,2. Cele i mianownik tylko w urban centre (nowy routing),67.97810402077708,1.7479522785583157
+lodz,rower 30 LTS 4,3. Stosunek średnich,69.02111107778046,1.0430070570033791
+lodz,rower 30 LTS 4,"DG REGIO (aneks, tabela 2)",81.13175380187806,
+lodz,rower 30 LTS 4,Reszta niewyjaśniona (DG REGIO − ostatni krok),,12.110642724097602

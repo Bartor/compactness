@@ -1,0 +1,7 @@
+źródło,adres,wynik
+"ZTM Poznań, lista plików GTFS (otwarte-dane/gtfsfiles)",https://www.ztm.poznan.pl/otwarte-dane/gtfsfiles/,"lista obejmuje 483 pliki, najstarszy 20230101_20230104.zip; brak plików z 2018 r."
+"ZTM Poznań, getGTFSFile z nazwą pliku z 2018 r.",https://www.ztm.poznan.pl/pl/dla-deweloperow/getGTFSFile/?file=20181214_20181216.zip,serwer zwraca bieżący feed (feed_info 20261124–20261205) niezależnie od nazwy; pobrany plik usunięto
+"Internet Archive, indeks CDX adresów getGTFSFile",web.archive.org/cdx/search/cdx?url=ztm.poznan.pl/pl/dla-deweloperow/getGTFSFile*,"617 zarchiwizowanych plików, z 2018 r. tylko 3: 20181214_20181216, 20181224_20181225, 20181228_20181228 (pierwsze kopie z 2019 r.)"
+"Internet Archive, kopie plików z grudnia 2018 r.",web.archive.org/web/<ts>id_/…getGTFSFile/?file=…,"każda kopia ucięta przez archiwum na 1 MiB: kompletne są agency, calendar, routes (i w 20181228 shapes, stops); stop_times i trips brak, więc wozkm i routing niemożliwe; to samo dla sprawdzonych plików z 2019 r."
+transitfeeds.com (OpenMobilityData) i jego magazyn S3,https://transitfeeds.com/p/ztm-poznan/731,"HTTP 403 z wyzwaniem Cloudflare (ochrona przed botami, nie obchodzono); listing S3 openmobilitydata-data: AccessDenied; brak kopii w Internet Archive"
+Mobility Database,https://mobilitydatabase.org/feeds/gtfs/mdb-982,historia tylko od ok. 2024 r. według strony katalogu (nie sprawdzano API wymagającego konta)

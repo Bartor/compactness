@@ -1,0 +1,171 @@
+{
+ "code_version": "dgregio-2026-11-24.1",
+ "duration_s": 11.5,
+ "git_sha": "37c16f54376869733a3fe058db298672529c44e9",
+ "inputs": {},
+ "missing_inputs": [],
+ "reference_day": "2026-11-25",
+ "routing_log": [
+  "2026-11-24 08:17:50 poznan pt_base: 60 origins x 1 searches in 1 s (20 ms/origin, 6 threads)",
+  "2026-11-24 08:17:52 poznan pt_walk5km: 60 origins x 1 searches in 2 s (29 ms/origin, 6 threads)",
+  "2026-11-24 08:18:01 poznan pt_walk5km_9dep: 60 origins x 9 searches in 8 s (140 ms/origin, 6 threads)",
+  "2026-11-24 08:18:05 poznan bike_lts4: 60 origins x 1 searches in 5 s (75 ms/origin, 6 threads)",
+  "2026-11-24 08:19:06 poznan pt_base: 1824 origins x 1 searches in 27 s (15 ms/origin, 6 threads)",
+  "2026-11-24 08:20:15 poznan pt_walk5km: 1824 origins x 1 searches in 69 s (38 ms/origin, 6 threads)",
+  "2026-11-24 08:22:49 poznan bike_lts3: 1824 origins x 1 searches in 154 s (84 ms/origin, 6 threads)",
+  "2026-11-24 08:25:19 poznan bike_lts4: 1824 origins x 1 searches in 151 s (83 ms/origin, 6 threads)",
+  "2026-11-24 08:25:54 lodz pt_base: 1858 origins x 1 searches in 32 s (17 ms/origin, 6 threads)",
+  "2026-11-24 08:27:17 lodz pt_walk5km: 1858 origins x 1 searches in 83 s (45 ms/origin, 6 threads)",
+  "2026-11-24 08:30:16 lodz bike_lts3: 1858 origins x 1 searches in 179 s (96 ms/origin, 6 threads)",
+  "2026-11-24 08:33:23 lodz bike_lts4: 1858 origins x 1 searches in 188 s (101 ms/origin, 6 threads)",
+  "2026-11-24 08:33:54 poznan pt_base_9dep: 800 origins x 9 searches in 11 s (14 ms/origin, 6 threads)",
+  "2026-11-24 08:35:37 poznan pt_walk5km_9dep: 800 origins x 9 searches in 102 s (128 ms/origin, 6 threads)",
+  "2026-11-24 08:35:53 lodz pt_base_9dep: 800 origins x 9 searches in 14 s (17 ms/origin, 6 threads)",
+  "2026-11-24 08:38:26 lodz pt_walk5km_9dep: 800 origins x 9 searches in 152 s (190 ms/origin, 6 threads)",
+  "2026-11-24 08:38:59 warszawa pt_base_9dep: 800 origins x 9 searches in 25 s (32 ms/origin, 6 threads)",
+  "2026-11-24 08:41:36 warszawa pt_walk5km_9dep: 800 origins x 9 searches in 156 s (195 ms/origin, 6 threads)",
+  "2026-11-24 08:42:45 warszawa pt_base: 800 origins x 1 searches in 37 s (46 ms/origin, 6 threads)",
+  "2026-11-24 08:43:51 warszawa pt_walk5km: 800 origins x 1 searches in 66 s (82 ms/origin, 6 threads)",
+  "2026-11-24 08:45:02 warszawa pt_walk5km_slow4: 800 origins x 1 searches in 71 s (88 ms/origin, 6 threads)",
+  "2026-11-24 08:46:52 warszawa bike_lts3: 800 origins x 1 searches in 110 s (137 ms/origin, 6 threads)",
+  "2026-11-24 08:48:52 warszawa bike_lts4: 800 origins x 1 searches in 120 s (150 ms/origin, 6 threads)",
+  "2026-11-24 08:50:05 poznan pt_walk5km_slow4: 1824 origins x 1 searches in 61 s (33 ms/origin, 6 threads)",
+  "2026-11-24 08:51:26 lodz pt_walk5km_slow4: 1858 origins x 1 searches in 79 s (42 ms/origin, 6 threads)"
+ ],
+ "run_at": "2026-11-24T09:11:07+01:00",
+ "sample_9dep_origins_per_city": 800,
+ "scenarios": {
+  "bike_lts3": {
+   "kind": "bike",
+   "lts": 3
+  },
+  "bike_lts4": {
+   "kind": "bike",
+   "lts": 4
+  },
+  "pt_base": {
+   "access_min": 12,
+   "deps": null,
+   "kind": "transit"
+  },
+  "pt_base_9dep": {
+   "access_min": 12,
+   "deps": [
+    [
+     7,
+     0
+    ],
+    [
+     7,
+     15
+    ],
+    [
+     7,
+     30
+    ],
+    [
+     7,
+     45
+    ],
+    [
+     8,
+     0
+    ],
+    [
+     8,
+     15
+    ],
+    [
+     8,
+     30
+    ],
+    [
+     8,
+     45
+    ],
+    [
+     9,
+     0
+    ]
+   ],
+   "kind": "transit"
+  },
+  "pt_walk5km": {
+   "access_min": 60,
+   "deps": null,
+   "kind": "transit"
+  },
+  "pt_walk5km_9dep": {
+   "access_min": 60,
+   "deps": [
+    [
+     7,
+     0
+    ],
+    [
+     7,
+     15
+    ],
+    [
+     7,
+     30
+    ],
+    [
+     7,
+     45
+    ],
+    [
+     8,
+     0
+    ],
+    [
+     8,
+     15
+    ],
+    [
+     8,
+     30
+    ],
+    [
+     8,
+     45
+    ],
+    [
+     9,
+     0
+    ]
+   ],
+   "kind": "transit"
+  },
+  "pt_walk5km_slow4": {
+   "access_min": 75,
+   "deps": null,
+   "kind": "transit",
+   "walk_kmh": 4.0
+  }
+ },
+ "sources": {
+  "dgregio_data_annex": {
+   "path": "data/raw/dgregio_wp2020/wp_low_carbon_urban_accessibility_data_annex.xlsx",
+   "url": "https://ec.europa.eu/regional_policy/sources/work/wp_low_carbon_urban_accessibility_data_annex.xlsx"
+  },
+  "dgregio_wp_01_2020": {
+   "path": "data/raw/dgregio_wp2020/012020_low_carbon_urban.pdf",
+   "url": "https://ec.europa.eu/regional_policy/sources/work/012020_low_carbon_urban.pdf"
+  },
+  "eurostat_hdens_clst_2011": {
+   "licence": "Eurostat GISCO population-distribution download rules; (c) European Union, re-use with attribution",
+   "path": "data/raw/eurostat_hdens_2011/HDENS_CLST_2011.zip",
+   "url": "https://ec.europa.eu/eurostat/cache/GISCO/geodatafiles/HDENS_CLST_2011.zip"
+  },
+  "mpk_poznan_annual_reports": {
+   "path": "data/raw/mpk_poznan_annual_reports/",
+   "url": "https://www.mpk.poznan.pl/wp-content/uploads/2022/10/raport-roczny-2017.pdf; .../2025/12/raport-roczny-2024-PL.pdf"
+  },
+  "wayback_ztm_poznan_gtfs_2018_truncated": {
+   "note": "Internet Archive copies of ZTM Poznań GTFS, truncated at 1 MiB; only routes/calendar usable",
+   "path": "data/raw/wayback_ztm_poznan_gtfs_truncated_20181214_20181216/, data/raw/wayback_ztm_poznan_gtfs_truncated_20181228_20181228/"
+  }
+ },
+ "step": "access_dgregio"
+}

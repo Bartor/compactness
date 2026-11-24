@@ -1,0 +1,31 @@
+agglomeration,measure,item,delta
+warszawa,PT 30,krok 1 na pełnym UC zamiast próby (błąd próby),-0.3183745135026399
+warszawa,PT 30,9 odjazdów: para liczona przy brakach (średnia tylko z odjazdów z wynikiem ≤ 60 min) zamiast wykluczenia,0.0
+warszawa,PT 30,"9 odjazdów przy dojściu 1 km (zamiast 5 km), ta sama próba",-1.6292574038621197
+warszawa,PT 30,"co by było, gdyby: odcinki piesze 4 km/h zamiast 5 km/h (krok 4, te same starty)",-9.603328779149983
+warszawa,PT 30,siatka ludności GHSL 2020 surowa zamiast NSP 2021 (krok 4),0.6940625479042808
+warszawa,PT 45,krok 1 na pełnym UC zamiast próby (błąd próby),-0.4421701749103164
+warszawa,PT 45,9 odjazdów: para liczona przy brakach (średnia tylko z odjazdów z wynikiem ≤ 60 min) zamiast wykluczenia,0.010444817962280695
+warszawa,PT 45,"9 odjazdów przy dojściu 1 km (zamiast 5 km), ta sama próba",-1.7986978720614104
+warszawa,PT 45,"co by było, gdyby: odcinki piesze 4 km/h zamiast 5 km/h (krok 4, te same starty)",-11.391270368501722
+warszawa,PT 45,siatka ludności GHSL 2020 surowa zamiast NSP 2021 (krok 4),2.048889646352464
+poznan,PT 30,krok 4: próba 800 startów zamiast pełnego UC (błąd próby),0.05254999513091718
+poznan,PT 45,krok 4: próba 800 startów zamiast pełnego UC (błąd próby),0.13141033351651288
+poznan,PT 30,9 odjazdów: para liczona przy brakach (średnia tylko z odjazdów z wynikiem ≤ 60 min) zamiast wykluczenia,0.0
+poznan,PT 30,"9 odjazdów przy dojściu 1 km (zamiast 5 km), ta sama próba",-1.2673280028022944
+poznan,PT 30,"co by było, gdyby: odcinki piesze 4 km/h zamiast 5 km/h (krok 4, te same starty)",-8.848636303302502
+poznan,PT 30,siatka ludności GHSL 2020 surowa zamiast NSP 2021 (krok 4),0.6009564262960296
+poznan,PT 45,9 odjazdów: para liczona przy brakach (średnia tylko z odjazdów z wynikiem ≤ 60 min) zamiast wykluczenia,0.04792234809282547
+poznan,PT 45,"9 odjazdów przy dojściu 1 km (zamiast 5 km), ta sama próba",-1.1740521359274538
+poznan,PT 45,"co by było, gdyby: odcinki piesze 4 km/h zamiast 5 km/h (krok 4, te same starty)",-8.863143841001872
+poznan,PT 45,siatka ludności GHSL 2020 surowa zamiast NSP 2021 (krok 4),-0.9474246103756485
+lodz,PT 30,krok 4: próba 800 startów zamiast pełnego UC (błąd próby),-0.20854420901950022
+lodz,PT 45,krok 4: próba 800 startów zamiast pełnego UC (błąd próby),-0.2475261642086366
+lodz,PT 30,9 odjazdów: para liczona przy brakach (średnia tylko z odjazdów z wynikiem ≤ 60 min) zamiast wykluczenia,0.0
+lodz,PT 30,"9 odjazdów przy dojściu 1 km (zamiast 5 km), ta sama próba",-0.43003778098238143
+lodz,PT 30,"co by było, gdyby: odcinki piesze 4 km/h zamiast 5 km/h (krok 4, te same starty)",-7.494246489041924
+lodz,PT 30,siatka ludności GHSL 2020 surowa zamiast NSP 2021 (krok 4),0.025166144679261038
+lodz,PT 45,9 odjazdów: para liczona przy brakach (średnia tylko z odjazdów z wynikiem ≤ 60 min) zamiast wykluczenia,0.1276244267339024
+lodz,PT 45,"9 odjazdów przy dojściu 1 km (zamiast 5 km), ta sama próba",-0.9769559355849182
+lodz,PT 45,"co by było, gdyby: odcinki piesze 4 km/h zamiast 5 km/h (krok 4, te same starty)",-9.481205966538077
+lodz,PT 45,siatka ludności GHSL 2020 surowa zamiast NSP 2021 (krok 4),-0.06933953612023913
