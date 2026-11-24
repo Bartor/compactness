@@ -20,6 +20,21 @@ Obstacles on a path
   of the path that is).
 * steps: an edge of class steps (or conveying=*); tunnel: a walkable way with tunnel=* (not building_passage);
   bridge: a walkable way with bridge=* that is not itself a carriageway (sidewalks mapped on road bridges count too).
+
+Crossing classes on the AMPTI W6 scale (Czekała and Bryniarska, TMiR 6/2017; W6 = traffic safety of pedestrian
+crossings by type).  Each at-grade crossing (group of events above) gets the class of its tags, node tags and the
+adjacent footway=crossing way taken together, in this order of precedence:
+* ``signal`` (W6 70 % without turning conflicts, 50 % with them; OSM does not say which, so both are kept):
+  crossing=traffic_signals / pelican / toucan / pegasus, crossing:signals=yes, crossing_ref=pelican / toucan /
+  puffin, highway=traffic_signals;
+* ``zebra`` (30 %): crossing=marked / zebra / uncontrolled, crossing_ref=zebra, crossing:markings=* other than no;
+* ``unmarked`` (0 %): crossing=unmarked / informal, crossing:markings=no;
+* ``unknown``: anything else (an untagged node where the walk crosses a carriageway or track, highway=crossing or a
+  railway crossing without one of the values above).  Not scored; its share is the coverage of the mapping.
+Grade-separated crossings (``grade``, W6 100 %) have no at-grade event: each maximal run of tunnel edges along the
+path counts as one, and each run of bridge edges that intersects a carriageway edge of the graph in plan counts as
+one (a sidewalk on a road bridge or a footbridge over a river does not).  Footbridges over railway tracks are not
+detected (tracks are not in the walk graph), so they are missing, not scored.
 """
 from __future__ import annotations
 
@@ -38,6 +53,13 @@ GROUP_GAP_M = 40.0
 CARRIAGEWAY = {"residential", "service", "unclassified", "tertiary", "tertiary_link", "secondary", "secondary_link",
                "primary", "primary_link", "living_street", "trunk", "trunk_link", "road", "motorway", "motorway_link"}
 SIGNAL_VALUES = {"traffic_signals", "pelican", "toucan", "pegasus"}
+MARKED_VALUES = {"marked", "zebra", "uncontrolled"}
+UNMARKED_VALUES = {"unmarked", "informal"}
+# AMPTI W6 scores (%) per class; the signal class has a high (no turning conflicts) and a low (conflicts) value
+W6_HI = {"grade": 100.0, "signal": 70.0, "zebra": 30.0, "unmarked": 0.0}
+W6_LO = {"grade": 100.0, "signal": 50.0, "zebra": 30.0, "unmarked": 0.0}
+W6_CLASSES = ("grade", "signal", "zebra", "unmarked", "unknown")
+GRADE_MIN_RUN_M = 5.0
 
 
 class CityGraph:
@@ -68,6 +90,12 @@ class CityGraph:
         wsg = m.crossing_signals.astype(object).to_numpy()
         self.w_value = pd.notna(wcv)
         self.w_signal = np.isin(wcv.astype(str), list(SIGNAL_VALUES)) | (wsg.astype(str) == "yes")
+        wmk = (m.crossing_markings if "crossing_markings" in m else pd.Series([None] * len(m))).astype(object).to_numpy()
+        wrf = (m.crossing_ref if "crossing_ref" in m else pd.Series([None] * len(m))).astype(object).to_numpy()
+        self.w_signal |= np.isin(wrf.astype(str), ["pelican", "toucan", "puffin"])
+        self.w_marked = (np.isin(wcv.astype(str), list(MARKED_VALUES)) | (wrf.astype(str) == "zebra")
+                         | (pd.notna(wmk) & (wmk.astype(str) != "no")))
+        self.w_unmarked = np.isin(wcv.astype(str), list(UNMARKED_VALUES)) | (wmk.astype(str) == "no")
         # node attributes
         idx = pd.Series(np.arange(len(oid)), index=oid)
         n = len(oid)
@@ -91,6 +119,11 @@ class CityGraph:
         self.n_value[jj[(cr.notna() | (hw == "traffic_signals")).to_numpy()]] = True
         self.n_signal[jj[sig.to_numpy()]] = True
         self.n_hwcross[jj[(hw == "crossing").to_numpy()]] = True
+        mk = nd["crossing:markings"].astype(object)
+        self.n_signal[jj[cref.isin(["puffin"]).to_numpy()]] = True
+        self.n_marked = np.zeros(n, bool); self.n_unmarked = np.zeros(n, bool)
+        self.n_marked[jj[(cr.isin(list(MARKED_VALUES)) | (cref == "zebra") | (mk.notna() & (mk != "no"))).to_numpy()]] = True
+        self.n_unmarked[jj[(cr.isin(list(UNMARKED_VALUES)) | (mk == "no")).to_numpy()]] = True
         self.n_elev = np.zeros(n, bool)
         self.n_elev[jj[(hw == "elevator").to_numpy()]] = True
         self.n_hwcross_value = np.zeros(n, bool)
@@ -129,16 +162,47 @@ class CityGraph:
                 "footway_road_nodes": int(cand.sum()),
                 "footway_road_nodes_tagged": int((cand & self.n_tag).sum()),
                 "footway_road_nodes_with_value": int((cand & self.n_value).sum()),
+                "footway_road_nodes_w6_class": int((cand & (self.n_signal | self.n_marked | self.n_unmarked)).sum()),
                 "highway_crossing_nodes": int(self.n_hwcross.sum()),
                 "highway_crossing_nodes_with_crossing_value": int(self.n_hwcross_value.sum())}
 
 
+def _grade_runs(G: CityGraph, ge: np.ndarray, cum: np.ndarray) -> list[int]:
+    """Indices (into the path's edge list) of the first edge of each grade-separated crossing: a maximal run of tunnel
+    edges, or a run of bridge edges that intersects a carriageway edge in plan (see the module docstring)."""
+    out = []
+    for flag, need_road in ((G.tunnel, False), (G.bridge, True)):
+        on = np.array([x >= 0 and bool(flag[x]) for x in ge], dtype=bool)
+        if not on.any():
+            continue
+        idx = np.flatnonzero(on)
+        starts = idx[np.r_[True, np.diff(idx) > 1]]
+        ends = idx[np.r_[np.diff(idx) > 1, True]]
+        for a, b in zip(starts, ends):
+            if cum[b + 1] - cum[a] < GRADE_MIN_RUN_M:
+                continue
+            if need_road:
+                run = ge[a:b + 1]
+                hit = G.tree.query(G.segs[run], predicate="intersects")[1]
+                hit = np.unique(hit)
+                hit = hit[G.road[hit]]
+                nodes = set(G.eu[run]) | set(G.ev[run])
+                hit = [h for h in hit if G.eu[h] not in nodes and G.ev[h] not in nodes]
+                if not hit:
+                    continue
+            out.append(int(a))
+    return sorted(out)
+
+
 def area_paths(G: CityGraph, stop_xy: np.ndarray, snap_e: np.ndarray, snap_t: np.ndarray, snap_d: np.ndarray,
-               pairs: list[tuple[int, int]], all_pairs: bool = False) -> dict:
+               pairs: list[tuple[int, int]], all_pairs: bool = False, geom: bool = False) -> dict:
     """Shortest paths between the given (source, target) stop index pairs of one area.
 
     Returns per pair: dist_m, dist_stepfree_m (inf when none within the limit) and the obstacle summary of the
-    shortest path (crossings, signalised, tagged, with value, track crossings, steps, tunnel, bridge, road_m)."""
+    shortest path (crossings, signalised, tagged, with value, track crossings, steps, tunnel, bridge, road_m), the
+    W6 classes of its crossings (``w6_counts`` per class, ``w6_hi_sum`` / ``w6_lo_sum`` over the scored ones,
+    ``w6_n`` scored crossings).  With ``geom``: ``xy`` (path vertices, EPSG:2180, float64 n x 2), ``xings``
+    [(x, y, class)] and ``steps_xy`` [(x, y)] (start of each run of steps)."""
     k = len(stop_xy)
     xmin, ymin = stop_xy.min(axis=0) - LOCAL_MARGIN_M
     xmax, ymax = stop_xy.max(axis=0) + LOCAL_MARGIN_M
@@ -197,6 +261,17 @@ def area_paths(G: CityGraph, stop_xy: np.ndarray, snap_e: np.ndarray, snap_t: np
         Df = dijkstra(g_free, directed=False, indices=leaf[srcs], limit=DIJKSTRA_LIMIT_M)
         row = {s: r for r, s in enumerate(srcs)}
     gnode_of = np.r_[gnodes, np.full(n - n0, -1)]
+    # vertex positions of the local graph: OSM nodes, split points on edges, stops
+    node_xy = np.zeros((n, 2))
+    node_xy[:n0, 0], node_xy[:n0, 1] = G.nx[gnodes], G.ny[gnodes]
+    if len(sp):
+        ge_sp = E[sp.e.to_numpy()]
+        x0, y0 = G.nx[G.eu[ge_sp]], G.ny[G.eu[ge_sp]]
+        x1, y1 = G.nx[G.ev[ge_sp]], G.ny[G.ev[ge_sp]]
+        L = np.hypot(x1 - x0, y1 - y0)
+        f = np.where(L > 0, np.clip(sp.t.to_numpy() / np.where(L > 0, L, 1), 0, 1), 0)
+        node_xy[n0:n1, 0], node_xy[n0:n1, 1] = x0 + f * (x1 - x0), y0 + f * (y1 - y0)
+    node_xy[n1:n1 + k] = stop_xy
     if all_pairs:
         out["_all"] = {"n": 0, "mean_net_m": None, "mean_straight_m": None}
     if all_pairs and srcs:
@@ -232,7 +307,7 @@ def area_paths(G: CityGraph, stop_xy: np.ndarray, snap_e: np.ndarray, snap_t: np
         ge = gE[ej]
         isroad = np.where(ge >= 0, G.road[np.maximum(ge, 0)], False)
         cum = np.r_[0.0, np.cumsum(W[ej])]
-        ev_pos, ev_sig, ev_tag, ev_val, ev_trk = [], [], [], [], []
+        ev_pos, ev_sig, ev_tag, ev_val, ev_trk, ev_mk, ev_um, ev_node = [], [], [], [], [], [], [], []
         for i in range(1, len(seq) - 1):
             gn = gnode_of[seq[i]]
             if gn < 0:
@@ -248,14 +323,35 @@ def area_paths(G: CityGraph, stop_xy: np.ndarray, snap_e: np.ndarray, snap_t: np
             ev_tag.append(bool(tagged_node or any(G.fwc[x] for x in adj)))
             ev_val.append(bool(G.n_value[gn] or any(G.w_value[x] for x in adj)))
             ev_trk.append(bool(G.on_track[gn]))
+            ev_mk.append(bool(G.n_marked[gn] or any(G.w_marked[x] for x in adj)))
+            ev_um.append(bool(G.n_unmarked[gn] or any(G.w_unmarked[x] for x in adj)))
+            ev_node.append(seq[i])
         groups = []
         for j, p in enumerate(ev_pos):
             if groups and p - groups[-1]["end"] < GROUP_GAP_M:
                 g = groups[-1]
                 g["end"] = p; g["sig"] |= ev_sig[j]; g["tag"] |= ev_tag[j]; g["val"] |= ev_val[j]; g["trk"] |= ev_trk[j]
+                g["mk"] |= ev_mk[j]; g["um"] |= ev_um[j]
             else:
-                groups.append({"end": p, "sig": ev_sig[j], "tag": ev_tag[j], "val": ev_val[j], "trk": ev_trk[j]})
+                groups.append({"end": p, "sig": ev_sig[j], "tag": ev_tag[j], "val": ev_val[j], "trk": ev_trk[j],
+                               "mk": ev_mk[j], "um": ev_um[j], "node": ev_node[j]})
         real = ge >= 0
+        # W6 classes: at-grade groups by their tags, grade-separated runs of tunnel / bridge edges
+        cls = ["signal" if g["sig"] else "zebra" if g["mk"] else "unmarked" if g["um"] else "unknown" for g in groups]
+        grade_at = _grade_runs(G, ge, cum)
+        allc = cls + ["grade"] * len(grade_at)
+        scored = [c for c in allc if c != "unknown"]
+        w6 = {"w6_counts": {c: allc.count(c) for c in W6_CLASSES},
+              "w6_n": len(scored), "w6_hi_sum": float(sum(W6_HI[c] for c in scored)),
+              "w6_lo_sum": float(sum(W6_LO[c] for c in scored))}
+        if geom:
+            xings = [(float(node_xy[g["node"], 0]), float(node_xy[g["node"], 1]), c) for g, c in zip(groups, cls)]
+            for a in grade_at:
+                xings.append((float(node_xy[seq[a], 0]), float(node_xy[seq[a], 1]), "grade"))
+            st_on = np.array([x >= 0 and bool(G.steps[x]) for x in ge], dtype=bool)
+            st_first = np.flatnonzero(st_on & ~np.r_[False, st_on[:-1]])
+            w6.update({"xy": node_xy[seq].copy(), "xings": xings,
+                       "steps_xy": [(float(node_xy[seq[a], 0]), float(node_xy[seq[a], 1])) for a in st_first]})
         out[(s, t)] = {
             "dist_m": float(d), "dist_stepfree_m": float(df),
             "crossings": len(groups), "crossings_signal": sum(g["sig"] for g in groups),
@@ -263,6 +359,6 @@ def area_paths(G: CityGraph, stop_xy: np.ndarray, snap_e: np.ndarray, snap_t: np
             "crossings_track": sum(g["trk"] for g in groups),
             "steps": bool(np.any(G.steps[ge[real]])), "tunnel": bool(np.any(G.tunnel[ge[real]])),
             "bridge": bool(np.any(G.bridge[ge[real]])),
-            "road_m": float(W[ej][isroad].sum()), "len_m": float(W[ej].sum()),
+            "road_m": float(W[ej][isroad].sum()), "len_m": float(W[ej].sum()), **w6,
         }
     return out

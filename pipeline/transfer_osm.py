@@ -9,7 +9,8 @@ for the nodes of the seven phase-1 walk graphs, what the transfer step needs to 
   ``crossing``, ``crossing:signals``, ``crossing_ref``, ``railway`` (crossing, tram_crossing, level_crossing, ...)
 * ``osm_wayflags.parquet``  consecutive node pairs (OSM ids, unordered) of walkable ways (pipeline.walk_network.walk_class)
   with a flag of interest: tunnel (any value except no / building_passage), bridge (any value except no),
-  footway=crossing with its ``crossing`` / ``crossing:signals`` value, conveying (escalators)
+  footway=crossing with its ``crossing`` / ``crossing:signals`` / ``crossing:markings`` / ``crossing_ref`` value,
+  conveying (escalators)
 * ``osm_roadnodes.parquet``  OSM ids of walk-graph nodes that lie on a carriageway (highway in ROAD) or on a track
   (railway in TRACK), with the highest road class and the track kind; used to find where a walk crosses a road
 
@@ -30,7 +31,7 @@ from pipeline.walk_network import AGGS, load_graph, walk_class
 
 PBF = RAW / "osm" / "poland-latest.osm.pbf"
 OUT = INTERIM / "transfer"
-CODE_VERSION = "transfer-osm-2026-11-24.1"
+CODE_VERSION = "transfer-osm-2026-11-24.2"   # .2: crossing:markings and crossing_ref of footway=crossing ways (W6 classes)
 
 # carriageways a pedestrian has to cross (service roads, living streets and tracks for farm use are not counted)
 ROAD = {"motorway": 7, "trunk": 6, "primary": 5, "secondary": 4, "tertiary": 3, "unclassified": 2, "residential": 1,
@@ -58,7 +59,7 @@ def extract() -> dict:
     trk_ref, trk_cls = array("q"), array("b")
     wf = {"a": array("q"), "b": array("q"), "tunnel": array("b"), "bridge": array("b"), "conveying": array("b"),
           "fw_crossing": array("b")}
-    wf_cross, wf_sig = [], []
+    wf_cross, wf_sig, wf_mark, wf_ref = [], [], [], []
     fp = (osmium.FileProcessor(str(PBF), osmium.osm.NODE | osmium.osm.WAY)
           .with_filter(osmium.filter.KeyFilter("highway", "railway", "crossing", "public_transport")))
     for o in fp:
@@ -93,6 +94,7 @@ def extract() -> dict:
         wf["tunnel"].extend([tunnel] * n); wf["bridge"].extend([bridge] * n)
         wf["conveying"].extend([conv] * n); wf["fw_crossing"].extend([fwc] * n)
         wf_cross.extend([t.get("crossing")] * n); wf_sig.extend([t.get("crossing:signals")] * n)
+        wf_mark.extend([t.get("crossing:markings")] * n); wf_ref.extend([t.get("crossing_ref")] * n)
     nd = pd.DataFrame(nodes)
     nd = nd[np.isin(nd["id"].to_numpy(), gid)].sort_values("id").drop_duplicates("id").reset_index(drop=True)
     rr = pd.DataFrame({"id": np.frombuffer(road_ref, dtype=np.int64), "road": np.frombuffer(road_cls, dtype=np.int8)})
@@ -104,6 +106,8 @@ def extract() -> dict:
     w = pd.DataFrame({k: np.frombuffer(v, dtype=np.int64 if k in ("a", "b") else np.int8) for k, v in wf.items()})
     w["crossing"] = wf_cross
     w["crossing_signals"] = wf_sig
+    w["crossing_markings"] = wf_mark
+    w["crossing_ref"] = wf_ref
     lo, hi = np.minimum(w["a"], w["b"]), np.maximum(w["a"], w["b"])
     w["a"], w["b"] = lo, hi
     w = w[np.isin(w["a"].to_numpy(), gid) & np.isin(w["b"].to_numpy(), gid)]
@@ -113,7 +117,8 @@ def extract() -> dict:
          .groupby(["a", "b"], sort=True)
          .agg(tunnel=("tunnel", "max"), bridge=("bridge", "max"), conveying=("conveying", "max"),
               fw_crossing=("fw_crossing", "max"), crossing=("crossing", "first"),
-              crossing_signals=("crossing_signals", "first")).reset_index())
+              crossing_signals=("crossing_signals", "first"), crossing_markings=("crossing_markings", "first"),
+              crossing_ref=("crossing_ref", "first")).reset_index())
     return {"nodes": nd, "roadnodes": rn, "wayflags": w}
 
 

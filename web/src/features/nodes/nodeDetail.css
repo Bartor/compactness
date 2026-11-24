@@ -1,0 +1,28 @@
+/* Node detail card (features/nodes/NodeDetail.jsx); colours from the kit's custom properties. */
+.nd { display: flex; flex-direction: column; gap: 0.9rem; padding: 0.25rem 0 1rem; }
+.nd-lead { font-size: 1.15rem; margin: 0; }
+.nd-sub, .nd-muted, .nd-foot { margin: 0; color: var(--kit-dim); }
+.nd-foot { font-size: 0.85rem; margin-top: 0.4rem; }
+.nd-block h3 { font-size: 1rem; margin: 0 0 0.35rem; }
+.nd-rows { margin: 0; display: grid; gap: 0.2rem; }
+.nd-rows > div { display: flex; justify-content: space-between; gap: 1rem; }
+.nd-rows dt { color: var(--kit-dim); }
+.nd-rows dd { margin: 0; text-align: right; }
+.nd-rows dd.missing, .nd .missing { color: var(--kit-dim); font-style: italic; }
+.nd-w6 { list-style: none; padding: 0; margin: 0.5rem 0 0; display: flex; flex-wrap: wrap; gap: 0.3rem 1rem; font-size: 0.9rem; }
+.nd-dot { display: inline-block; width: 0.7rem; height: 0.7rem; border-radius: 50%; margin-right: 0.35rem; vertical-align: -0.05rem; border: 1px solid #1c1f26; }
+.nd-dot.nd-steps { background: #C9A7F5; }
+.nd-matrix-wrap { overflow: auto; max-height: min(26rem, 55dvh); max-width: 100%; }
+.nd-matrix { border-collapse: collapse; font-size: 0.85rem; }
+.nd-matrix th, .nd-matrix td { padding: 0.25rem 0.4rem; border: 1px solid var(--kit-line); }
+.nd-matrix thead th { position: sticky; top: 0; background: var(--kit-panel); vertical-align: bottom; max-width: 7rem; }
+.nd-matrix thead th span { display: block; white-space: normal; text-align: left; }
+.nd-matrix tbody th { position: sticky; left: 0; background: var(--kit-panel); text-align: left; white-space: nowrap; max-width: 12rem; overflow: hidden; text-overflow: ellipsis; }
+.nd-matrix .nd-corner { left: 0; z-index: 1; color: var(--kit-dim); font-weight: normal; }
+.nd-matrix td { text-align: right; cursor: default; min-width: 4.2rem; }
+.nd-matrix td b { display: block; }
+.nd-matrix td small { display: block; color: var(--kit-dim); white-space: nowrap; }
+.nd-matrix td.nd-empty { color: var(--kit-dim); text-align: center; }
+.nd-matrix td.hot, .nd-matrix td:focus-visible { outline: 2px solid #FCD76B; outline-offset: -2px; }
+.nd-cell { display: block; }
+.nd-cell.hot { color: #FCD76B; }

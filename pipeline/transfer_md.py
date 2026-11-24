@@ -7,6 +7,7 @@ import pandas as pd
 from pipeline import transfer_ease as T
 from pipeline import transfer_report as TR
 from pipeline import transfer_walk as W
+from pipeline import transfer_md_rev as MR
 from pipeline.transfer_text import (AMPTI, CHECKS, CRITICAL, INTRO, LIMITS, NOT_VERIFIED, SAMPLE, STATIONS, TIMED,
                                     RULE_CHOICE, RULE_FAILS)
 
@@ -52,6 +53,10 @@ def write_md(ctx: dict) -> None:
     main = ctx["tabs"]["nodes"]["main"]
     L = ["# Łatwość przesiadki w zespołach przystanków (warstwa dodatkowa, 2026-11-24)", ""]
     L += INTRO + [""]
+    L += ["**Rewizje po przeglądzie literatury (2026-11-24):** czekanie na przesiadkę po rzeczywistym przyjeździe, "
+          "pasmo uogólnionego czasu przesiadki z opublikowanych wag, przejścia w skali AMPTI W6, udział ruchów "
+          "„częste × częste” i test skomunikowań ograniczony do linii rzadkich z kontrolą dodatnią; reguły 10–15, "
+          "sekcje 13–18 i dodatkowa tabela w sekcji 4. Wcześniejsze kolumny i miary nie zmieniły definicji.", ""]
     L += ["## 1. Dane i daty", "",
           f"- Rozkłady: środa {T.DAY}, wszystkie feedy (wariant „all”), kursy po regułach `pipeline/gtfs_service.py` "
           "(deduplikacja, przycięcie kolei).",
@@ -106,7 +111,7 @@ def write_md(ctx: dict) -> None:
           "liczbą kursów (przyjazdy A × odjazdy B), bo rzadkie linie liczą się w zwykłej medianie tak samo jak częste.",
           "7. **Znaczenie węzła.** Linie, pary, odjazdy na godzinę (wszystkie linie, 6–20 i 7–9).",
           "8. **Kolej i metro.** " + STATIONS,
-          "9. **Możliwe skomunikowania (przybliżone).** " + TIMED, ""]
+          "9. **Możliwe skomunikowania (przybliżone).** " + TIMED] + MR.rules_items() + [""]
     # ---- city table
     L += ["## 3. Wyniki dla miast (reguła główna)", "",
           f"„Łatwe” = mediana dojścia między liniami ≤ {TR.WALK_EASY_MIN:.0f} min; udział liczony po odjazdach 6–20 "
@@ -175,6 +180,7 @@ def write_md(ctx: dict) -> None:
                 "Dojście z kierunkami + czekanie 7–9: mediana, min", "Najlepsza para + czekanie, ważone kursami, min",
                 "Średnia odległość między słupkami po sieci, m", "Możliwe skomunikowania / pary sprawdzone"], rows2)
     L += CHECKS + [""]
+    L += MR.known_extension(kn)
     # ---- AMPTI
     L += ["## 5. Porównanie z oceną AMPTI dla Krakowa", ""] + AMPTI(kn) + [""]
     # ---- sensitivity
@@ -246,6 +252,10 @@ def write_md(ctx: dict) -> None:
           "- Kod: `pipeline/transfer_ease.py`, `transfer_osm.py`, `transfer_walk.py`, `transfer_report.py`, "
           "`transfer_md.py`, `transfer_text.py`; reguła `transfer_ease` w `Snakefile`.",
           "- Czas obliczeń: w `_meta.json` tego katalogu (`seconds_per_agglomeration`, `duration_s`); nie w tej "
-          "nocie, żeby była identyczna przy każdym przebiegu.", ""]
+          "nocie, żeby była identyczna przy każdym przebiegu.",
+          "- Po rewizjach: `timed_both15_mode_pairs.csv`, `timed_both15_nodes.csv`, `timed_night_control.csv`, "
+          "`pulse_nodes.csv`; szczegóły węzłów `results/web/transfer_detail/`; kod `pipeline/transfer_detail.py`, "
+          "`transfer_md_rev.py`.", ""]
+    L += MR.sections(ctx)
     T.QA.mkdir(parents=True, exist_ok=True)
     (T.QA / "transfer.md").write_text("\n".join(L) + "\n", encoding="utf-8", newline="\n")

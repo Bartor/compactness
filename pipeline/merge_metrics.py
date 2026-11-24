@@ -97,6 +97,15 @@ for _dom in ("core", "covered"):
     PANEL[(_dom, "tp_pt_am_direct_30min")] = (235, "zasięg w 30 min bez przesiadek")
     PANEL[(_dom, "transfer_dependence_pt_am_45min_ratio_of_sums")] = (236, "Zasięg 45 min wymagający przesiadki")
     PANEL[(_dom, "tp_pt_am_direct_45min")] = (237, "zasięg w 45 min bez przesiadek")
+    # revisions after the literature review: connection wait beside the random-arrival wait, the generalised-time
+    # band (never a ranking), crossings on the AMPTI W6 scale, movements between two frequent lines.  The 10-minute
+    # share stays in the tables only: it needs exactly 12 trips in two hours, so 12-minute trams drop out.
+    PANEL[(_dom, "transfer_top20_connwait_w_am_mean_min")] = (238, "czekanie po rzeczywistym przyjeździe linii dowożącej")
+    PANEL[(_dom, "transfer_top20_connwait_am_p90_min")] = (239, "co dziesiąta przesiadka czeka dłużej niż")
+    PANEL[(_dom, "transfer_top20_gtt_low_am_min")] = (240, "Uogólniony czas przesiadki, wariant niski (min równoważne jeździe)")
+    PANEL[(_dom, "transfer_top20_gtt_high_am_min")] = (241, "wariant wysoki")
+    PANEL[(_dom, "transfer_crossing_w6_hi_mean_pct")] = (242, "Bezpieczeństwo przejść na dojściach, skala AMPTI W6")
+    PANEL[(_dom, "transfer_movements_freq15_share")] = (244, "Przesiadki między liniami co ≤ 15 min (obie)")
 # accessibility (phase 3): transport performance, Wednesday 07-09, all feeds, census-scaled grid.  Headline: the
 # ratio of means (as DG REGIO), directly followed by the mean of per-cell ratios as the value for a typical resident.
 _TYP = "dla typowego mieszkańca"

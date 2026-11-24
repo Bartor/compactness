@@ -40,7 +40,9 @@ export const METRIC_GROUPS = [
   {
     id: 'transfer', title: 'Przesiadki',
     metrics: ['transfer_top20_walkwait_w_am_mean_min', 'transfer_top20_walk_w_am_mean_min',
-      'transfer_top20_wait_w_am_mean_min', 'transfer_dep_share_walkdir_le2min',
+      'transfer_top20_wait_w_am_mean_min', 'transfer_top20_connwait_w_am_mean_min',
+      'transfer_top20_connwait_am_p90_min', 'transfer_top20_gtt_low_am_min', 'transfer_top20_gtt_high_am_min',
+      'transfer_crossing_w6_hi_mean_pct', 'transfer_movements_freq15_share', 'transfer_dep_share_walkdir_le2min',
       'transfer_dependence_pt_am_30min_ratio_of_sums', 'tp_pt_am_direct_30min',
       'transfer_dependence_pt_am_45min_ratio_of_sums', 'tp_pt_am_direct_45min'],
   },
@@ -354,6 +356,81 @@ export const METRIC_INFO = {
       + 'pokazuje także różnice danych, nie tylko zmianę komunikacji.',
     ],
     method: ['Średnia wyników komórek 200 m z przeglądarki DG REGIO, ważona ludnością 2018.'],
+  },
+  transfer_top20_connwait_w_am_mean_min: {
+    short: 'czekanie po przyjeździe linii dowożącej',
+    better: 'lower',
+    layer: 'transfer_wait',
+    read: [
+      'Ile czeka pasażer, który przyjechał jedną linią i przeszedł do drugiej, licząc od rzeczywistego przyjazdu z '
+      + 'rozkładu. Jeśli rozkłady są skomunikowane, ta liczba jest mniejsza niż czekanie przy przyjściu w losowej chwili.',
+      'We wszystkich siedmiu miastach obie liczby są prawie równe (różnica poniżej 0,1 min): przyjazdy nie są '
+      + 'dopasowane do odjazdów, więc czekanie zależy od częstotliwości drugiej linii.',
+    ],
+    method: [
+      'Dla każdego przyjazdu linii A w godzinach 7–9: czas do najbliższego odjazdu linii B w potrzebnym kierunku po '
+      + 'przejściu między przystankami. Średnia ważona liczbą kursów obu linii, potem średnia po 20 największych węzłach.',
+    ],
+  },
+  transfer_top20_connwait_am_p90_min: {
+    short: 'co dziesiąta przesiadka czeka dłużej niż',
+    better: 'lower',
+    read: [
+      'Dziewięć na dziesięć przesiadek w największych węzłach kończy się w tym czasie; reszta czeka dłużej. To mówi o '
+      + 'pechowych przesiadkach na rzadkie linie, których średnia nie pokazuje.',
+    ],
+    method: ['90. percentyl czekania po rzeczywistym przyjeździe w węźle (ważony kursami), mediana po 20 węzłach.'],
+  },
+  transfer_top20_gtt_low_am_min: {
+    short: 'Uogólniony czas przesiadki, od',
+    better: null,
+    read: [
+      'Ile „kosztuje” typowa przesiadka w minutach jazdy pojazdem, według wag z badań pasażerów: minuta dojścia i '
+      + 'czekania liczy się bardziej niż minuta jazdy, a sama przesiadka dodaje stałą karę. Wiersz poniżej to górna '
+      + 'granica pasma.',
+      'Pasmo jest szerokie, bo badania różnią się co do kary (5–18 min). Różnice między miastami wynikają prawie tylko z '
+      + 'czekania. Nie jest to ocena węzłów i nie służy do rankingu.',
+    ],
+    method: [
+      'Dojście × 1,2 + czekanie × 1,47 + 5 min (wariant niski); dojście × 1,66 + czekanie × 1,47 + 18 min (wysoki). '
+      + 'Wagi: Wardman 1998, Ortelli i in. 2026, Jara-Díaz i in. 2022. Dojście i czekanie z typowej przesiadki 7–9.',
+    ],
+  },
+  transfer_top20_gtt_high_am_min: {
+    short: 'do',
+    better: null,
+    read: ['Górna granica pasma uogólnionego czasu przesiadki (wyjaśnienie wiersz wyżej).'],
+    method: ['Dojście × 1,66 + czekanie × 1,47 + 18 min.'],
+  },
+  transfer_crossing_w6_hi_mean_pct: {
+    short: 'Bezpieczeństwo przejść (AMPTI W6)',
+    better: 'higher',
+    read: [
+      'Jak bezpieczne są przejścia przez jezdnię na drogach przesiadkowych, w skali używanej w polskich ocenach węzłów: '
+      + 'przejście podziemne lub kładka 100, sygnalizacja 70, zebra 30, przejście niewyznakowane 0. Wyżej znaczy '
+      + 'bezpieczniej.',
+      'Rodzaj przejścia pochodzi z OpenStreetMap; około 3–8 % przejść nie ma tam opisu i nie jest liczonych.',
+    ],
+    method: [
+      'Średnia ocena przejść na najkrótszej drodze pieszej każdej przesiadki, ważona liczbą kursów. Sygnalizacja liczona '
+      + 'jako 70; przy 50 (gdy piesi kolidują ze skręcającymi, czego OSM nie mówi) wynik jest o 6–14 punktów niższy.',
+    ],
+  },
+  transfer_movements_freq10_share: {
+    short: 'Przesiadki między liniami co ≤ 10 min',
+    better: 'higher',
+    read: [
+      'Jaka część możliwych przesiadek łączy dwie linie, które obie kursują w szczycie co 10 minut lub częściej. Na '
+      + 'takiej przesiadce nie trzeba patrzeć w rozkład.',
+      'Poza Warszawą (10 %) i Poznaniem (7 %) takich przesiadek prawie nie ma; wiersz niżej podaje próg 15 minut.',
+    ],
+    method: ['Kursy obu linii w ich kierunkach w godzinach 7–9 (co najmniej 12 w 2 godziny); udział wszystkich ruchów przesiadkowych, bez wag.'],
+  },
+  transfer_movements_freq15_share: {
+    short: 'to samo, co ≤ 15 min',
+    better: 'higher',
+    read: ['Jak wyżej, dla linii kursujących co 15 minut lub częściej.'],
+    method: ['Co najmniej 8 kursów obu linii w 2 godziny szczytu.'],
   },
   freq_seg_net_le5min: freq(5),
   freq_seg_net_le10min: freq(10),

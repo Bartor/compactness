@@ -26,6 +26,10 @@ Last updated 2026-11-24.
   dock and linked with the tables, legend and map.
 - Comparison by the rules of the DG REGIO grid study: under like-for-like rules the Polish cities sit near the
   EU means for their size (GZM below at 45 minutes); DG REGIO's own values for four centres read from its map.
+- Transfer revisions after the review: wait after the actual connecting arrival (it equals the random-arrival
+  wait: timetables are not coordinated by day; the test does find night-line meeting points), a generalised-time
+  band from published weights, crossings on the AMPTI W6 scale, frequent x frequent movements, and a detail
+  export for 1 757 nodes (stops, walking paths, crossings, line-to-line movements).
 - Urban form additions: residents by 250 m density class, official Eurostat 2021 urban-centre shares, polycentricity
   (eta and density hotspots) in the tables; Angel's proximity index in the tables only (not robust among
   single-centre cities).
@@ -52,9 +56,8 @@ Site
    estimate per first visit. On a phone the city sheet covers most of the fitted city.
 
 Method and data
-9. Transfer layer revisions from the review: generalised-time band (walk x1.2–1.7, wait x1.5, penalty 5/13/18 min),
-   crossing score on the AMPTI W6 scale, wait after the actual connecting arrival, share of frequent x frequent pairs,
-   coordination test only for lines every 15 min or less often.
+9. Transfer revisions, remaining: wire the node detail view and popup rows (connection wait, generalised-time
+   band, W6 crossing score); an optional W6 map layer; W6 classes not checked on the ground.
 10. Speed: show time above free running in s/km with a range; fixed colour breaks; a Puls Gdańska-style check.
 11. DG REGIO grid-study variant, remaining: the cause of Warszawa's 8-point gap to DG REGIO's own value; the
     total-walk limit (R5 limits each leg, not the trip); register `data/raw/dgregio_gridstudy/` in the manifest.
@@ -75,8 +78,6 @@ Method and data
 - Street-running detection for tram track misreads some streets (lower bound); kinematic parameters are assumptions.
 - No Sunday reference day (several feeds end on 2026-11-28).
 - No expert review of the method.
-- Plain labels: `pipeline/transfer_web.py` still writes "wydawcy GTFS" and "poza pokryciem GTFS"; the catalog was
-  patched by hand on 2026-11-24, so change the source when the transfer revisions are integrated.
 - Independent first-use UX review: `reports/UX review 2026-11-24.md` (55 findings); the restructuring that follows
   it is in progress.
 

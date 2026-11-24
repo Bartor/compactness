@@ -65,6 +65,7 @@ LAYER_COLS = [
     "walkwait_day_median", "walkwait_am_median_w",
     "walk_w_am_min", "wait_w_am_min", "walkwait_w_am_min", "n_movements_am",
     "walk_w_day_min", "wait_w_day_min", "walkwait_w_day_min", "n_movements_day", "stops_mean_walk_m", "stops_mean_straight_m",
+    *T.REVISION_COLS,
     "timed_pairs_checked", "timed_pairs", "rail_pair_share",
     "in_fua", "in_core", "in_mask", "flag",
 ]
@@ -189,7 +190,66 @@ def build_tables(results: list[dict]) -> dict:
     return out
 
 
-def city_values(nt: pd.DataFrame, pairs_by_agg: dict, agg: str, dom: str) -> dict:
+def _wmean(x, w):
+    x, w = np.asarray(x, float), np.asarray(w, float)
+    ok = np.isfinite(x) & (w > 0)
+    return float((x[ok] * w[ok]).sum() / w[ok].sum()) if ok.any() else None
+
+
+def _mean(s: pd.Series):
+    x = pd.to_numeric(s, errors="coerce").dropna()
+    return float(x.mean()) if len(x) else None
+
+
+def _median(s: pd.Series):
+    x = pd.to_numeric(s, errors="coerce").dropna()
+    return float(x.median()) if len(x) else None
+
+
+def revision_values(top: pd.DataFrame, d: pd.DataFrame, v: dict, extra: dict | None) -> dict:
+    """City values of the review revisions: top-20 node means / medians and pooled movement values of the area."""
+    out = {"top_conn_w_am": _mean(top.conn_wait_w_am_min), "top_conn_delta_am": _mean(top.conn_delta_w_am_min),
+           "top_conn_med_am": _median(top.conn_wait_am_median), "top_conn_p90_am": _median(top.conn_wait_am_p90),
+           "top_w6_hi": _mean(top.w6_hi_mean), "top_w6_lo": _mean(top.w6_lo_mean)}
+    for k in ("low", "central", "high"):
+        out[f"top_gtt_{k}_am"] = T.gtt(v.get("top_add_walk_am"), v.get("top_add_wait_am"), k)
+    keys = ("w6_hi", "w6_lo", "w6_scored_share", "crossings_grade_share", "freq10_share", "freq15_share",
+            "top_freq10_share", "top_freq15_share", "movements_n", "timed15_n", "timed15_top10_share",
+            "timed15_candidates", "x_grade", "x_signal", "x_zebra", "x_unmarked", "x_unknown")
+    out.update({k: None for k in keys})
+    if not extra:
+        return out
+    mv = extra["mv"]
+    m = mv[mv.area.isin(set(d.area))] if len(mv) else mv
+    out["movements_n"] = int(len(m))
+    if len(m):
+        sc = m[m.w6_n > 0]
+        out["w6_hi"] = _wmean(sc.w6_hi_sum / sc.w6_n, sc.weight) if len(sc) else None
+        out["w6_lo"] = _wmean(sc.w6_lo_sum / sc.w6_n, sc.weight) if len(sc) else None
+        cnt = {c: float(m[f"x_{c}"].sum()) for c in ("grade", "signal", "zebra", "unmarked", "unknown")}
+        tot = sum(cnt.values())
+        out.update({f"x_{c}": int(cnt[c]) for c in cnt})
+        if tot > 0:
+            out["w6_scored_share"] = (1 - cnt["unknown"] / tot) * 100
+            out["crossings_grade_share"] = cnt["grade"] / tot * 100
+        win_min = (T.WIN_AM[1] - T.WIN_AM[0]) / 60
+        mt = m[m.area.isin(set(top.area))]
+        for h, col in zip(T.FREQ_HEADWAYS, ("freq10_share", "freq15_share")):
+            need = win_min / h - 1e-9
+            f = (m.n_a_am >= need) & (m.n_b_am >= need)
+            out[col] = float(f.mean() * 100)
+            ft = (mt.n_a_am >= need) & (mt.n_b_am >= need)
+            out[f"top_{col}"] = float(ft.mean() * 100) if len(mt) else None
+    tm = extra["timed"]
+    tm = tm[tm.area.isin(set(d.area)) & tm.both_infrequent.astype(bool)] if len(tm) else tm
+    out["timed15_n"] = int(len(tm))
+    if len(tm):
+        out["timed15_top10_share"] = float((tm["rank"] <= 0.1).mean() * 100)
+        out["timed15_candidates"] = int(tm.timed.sum())
+    return out
+
+
+def city_values(nt: pd.DataFrame, pairs_by_agg: dict, agg: str, dom: str, extra: dict | None = None) -> dict:
     n = nt[(nt.agglomeration == agg)]
     base = n[n.in_core] if dom == "core" else n[n.in_fua]
     cov = (base.loc[base.in_mask, "dep_per_h_day"].sum() / base.dep_per_h_day.sum()) if base.dep_per_h_day.sum() > 0 else None
@@ -230,6 +290,7 @@ def city_values(nt: pd.DataFrame, pairs_by_agg: dict, agg: str, dom: str) -> dic
     v["crossing_signal_share"] = float(pa.crossings_signal.sum() / nx * 100) if nx > 0 else None
     v["road_share"] = float((pa.road_m.sum() / pa.len_m.sum()) * 100) if len(pa) and pa.len_m.sum() > 0 else None
     v["pairs_n"] = int(len(pa))
+    v.update(revision_values(top, d, v, extra))
     return v
 
 
@@ -288,6 +349,42 @@ METRIC_SPEC = [
      "Pary linii, dla których najlepsza para słupków to ten sam słupek"),
     ("transfer_nodes_n", "nodes_n", "zespołów", "table",
      "Liczba zespołów przystanków z co najmniej jedną parą linii do przesiadki"),
+    # revisions after the literature review (2026-11-24, code version .3)
+    ("transfer_top20_connwait_w_am_mean_min", "top_conn_w_am", "min", "table",
+     "20 zespołów z największą liczbą odjazdów: czekanie po rzeczywistym przyjeździe linii dowożącej i dojściu, 7–9 "
+     "(średnia ważona liczbą kursów, potem średnia po zespołach); obok oczekiwanego czekania przy losowym przyjściu "
+     "(transfer_top20_wait_w_am_mean_min), nie zamiast niego"),
+    ("transfer_top20_connwait_am_median_min", "top_conn_med_am", "min", "table",
+     "20 zespołów z największą liczbą odjazdów: mediana czekania na przesiadkę po rzeczywistym przyjeździe, 7–9 "
+     "(ważona mediana zespołu, potem mediana po zespołach)"),
+    ("transfer_top20_connwait_am_p90_min", "top_conn_p90_am", "min", "table",
+     "20 zespołów z największą liczbą odjazdów: 90. percentyl czekania na przesiadkę po rzeczywistym przyjeździe, "
+     "7–9 (ważony percentyl zespołu, potem mediana po zespołach)"),
+    ("transfer_top20_gtt_low_am_min", "top_gtt_low_am", "min równoważnych", "table",
+     "20 zespołów z największą liczbą odjazdów: uogólniony czas przesiadki 7–9, wariant niski: dojście × 1,2 + "
+     "czekanie × 1,47 + 5 min, w minutach równoważnych jeździe (wagi z literatury; nie do rankingu węzłów)"),
+    ("transfer_top20_gtt_central_am_min", "top_gtt_central_am", "min równoważnych", "table",
+     "20 zespołów z największą liczbą odjazdów: uogólniony czas przesiadki 7–9, wariant środkowy: dojście × 1,66 + "
+     "czekanie × 1,47 + 13 min (Wardman 1998; Jara-Díaz i in. 2022); nie do rankingu węzłów"),
+    ("transfer_top20_gtt_high_am_min", "top_gtt_high_am", "min równoważnych", "table",
+     "20 zespołów z największą liczbą odjazdów: uogólniony czas przesiadki 7–9, wariant wysoki: dojście × 1,66 + "
+     "czekanie × 1,47 + 18 min; nie do rankingu węzłów"),
+    ("transfer_crossing_w6_hi_mean_pct", "w6_hi", "%", "table",
+     "Bezpieczeństwo przejść na dojściach w skali AMPTI W6 (bezkolizyjne 100, z sygnalizacją 70, zebra 30, "
+     "niewyznakowane 0): średnia po ruchach przesiadkowych ważona liczbą kursów; sygnalizacja liczona jako 70 "
+     "(bez kolizji ze skrętami)"),
+    ("transfer_crossing_w6_lo_mean_pct", "w6_lo", "%", "table",
+     "To samo, sygnalizacja liczona jako 50 (z kolizjami ze skrętami); OSM nie mówi, który przypadek zachodzi"),
+    ("transfer_crossing_w6_scored_share", "w6_scored_share", "%", "qa",
+     "Kontrola danych OSM: odsetek przejść na dojściach, którym tagi OSM pozwalają nadać klasę W6"),
+    ("transfer_movements_freq10_share", "freq10_share", "%", "table",
+     "Ruchy przesiadkowe, w których obie linie (przyjazdowa w swoim kierunku i odjazdowa w swoim) kursują w "
+     "godzinach 7–9 średnio co 10 min lub częściej; odsetek ruchów"),
+    ("transfer_movements_freq15_share", "freq15_share", "%", "table",
+     "To samo dla progu 15 min"),
+    ("transfer_timed_both15_top10_share", "timed15_top10_share", "%", "qa",
+     "Test skomunikowań ograniczony do par, w których obie linie kursują średnio co 15 min lub rzadziej (6–20): "
+     "odsetek par w najlepszych 10 % przesunięć rozkładu (bez koordynacji ok. 10 %)"),
     ("transfer_osm_crossing_value_share", "crossing_value_share", "%", "qa",
      "Kontrola danych OSM: odsetek przejść na policzonych dojściach z wartością crossing=* lub sygnalizacją"),
     ("transfer_osm_road_centerline_share", "road_share", "%", "qa",
@@ -295,13 +392,13 @@ METRIC_SPEC = [
 ]
 
 
-def metric_rows(nodes: pd.DataFrame, pairs_by_agg: dict) -> list[dict]:
+def metric_rows(nodes: pd.DataFrame, pairs_by_agg: dict, extra_by_agg: dict | None = None) -> list[dict]:
     rows = []
     src = (f"GTFS (feedy wg config.yaml, wariant wszystkie feedy, dzień {T.DAY}, warstwa usług pipeline.gtfs_service); "
            "OSM 2026-11-22 (sieć piesza pipeline.walk_network, tagi przejść); bez danych o ludności")
     for agg in T.AGGS:
         for dom in ("core", "covered"):
-            v = city_values(nodes, pairs_by_agg, agg, dom)
+            v = city_values(nodes, pairs_by_agg, agg, dom, (extra_by_agg or {}).get(agg))
             cov = v["coverage"]
             for mid, key, unit, tier, label in METRIC_SPEC:
                 flag = []
@@ -381,7 +478,9 @@ def write_all(results: list[dict], t0: float) -> None:
     tabs = build_tables(results)
     pairs = {rn: {R["agg"]: R["rules"][rn]["pairs"] for R in results} for rn in T.RULES}
     main = tabs["nodes"]["main"]
-    rows = metric_rows(main, pairs["main"])
+    extra = {rn: {R["agg"]: {"mv": R["rules"][rn]["movements"], "timed": R["rules"][rn]["timed"]} for R in results}
+             for rn in T.RULES}
+    rows = metric_rows(main, pairs["main"], extra["main"])
     write_metrics(rows)
     n_layer = write_layer(main)
     T.QA.mkdir(parents=True, exist_ok=True)
@@ -417,7 +516,7 @@ def write_all(results: list[dict], t0: float) -> None:
     for rn in T.RULES:
         for agg in T.AGGS:
             for dom in ("core", "covered"):
-                v = city_values(tabs["nodes"][rn], pairs[rn], agg, dom)
+                v = city_values(tabs["nodes"][rn], pairs[rn], agg, dom, extra[rn][agg])
                 cs.append({"rule": rn, "agglomeration": agg, "domain": dom, **v})
     cs = pd.DataFrame(cs)
     write_csv(cs, T.QA / "city_summary_rules.csv")
@@ -425,7 +524,9 @@ def write_all(results: list[dict], t0: float) -> None:
     ot = []
     for R in results:
         c = R["census"]
-        v = city_values(main, pairs["main"], R["agg"], "covered")
+        v = city_values(main, pairs["main"], R["agg"], "covered", extra["main"][R["agg"]])
+        xs = {k: v[f"x_{k}"] or 0 for k in ("grade", "signal", "zebra", "unmarked", "unknown")}
+        xt = sum(xs.values())
         ot.append({"agglomeration": R["agg"], **c,
                    "share_footway_road_nodes_tagged": c["footway_road_nodes_tagged"] / c["footway_road_nodes"] * 100,
                    "share_footway_road_nodes_with_value": c["footway_road_nodes_with_value"] / c["footway_road_nodes"] * 100,
@@ -433,7 +534,10 @@ def write_all(results: list[dict], t0: float) -> None:
                    "paths_crossing_value_share": v["crossing_value_share"], "paths_crossing_signal_share": v["crossing_signal_share"],
                    "paths_road_centerline_share": v["road_share"],
                    "share_elevator_dead_end": c["elevator_nodes_dead_end"] / c["elevator_nodes"] * 100
-                   if c["elevator_nodes"] else None})
+                   if c["elevator_nodes"] else None,
+                   "share_footway_road_nodes_w6_class": c["footway_road_nodes_w6_class"] / c["footway_road_nodes"] * 100,
+                   "paths_w6_scored_share": v["w6_scored_share"], "paths_crossings_n": xt,
+                   **{f"paths_x_{k}_share": (xs[k] / xt * 100 if xt else None) for k in xs}})
     ot = pd.DataFrame(ot)
     write_csv(ot, T.QA / "osm_tag_completeness.csv")
     # timed connections
@@ -452,9 +556,12 @@ def write_all(results: list[dict], t0: float) -> None:
            .groupby("agglomeration").head(TOPN))
     write_csv(top[["agglomeration", "node_id", "name", "n_stops", "diameter_m", "modes", "n_lines", "n_pairs",
                    "dep_per_h_day"] + COMPONENTS[:-1] + ["flag"]], T.QA / "top_nodes.csv")
+    rev = write_revision_tables(results, main)
     secs = {R["agg"]: round(R["seconds"], 1) for R in results}
     add_check = check_additive(main, cs)
-    ctx = {"additive_check": add_check, "tabs": tabs, "known": kn, "pairs_known": pk, "city": cs, "osm": ot, "timed": tm, "top": top,
+    from pipeline.transfer_detail import write_detail
+    detail = write_detail(results, main)
+    ctx = {"rev": rev, "detail": detail, "additive_check": add_check, "tabs": tabs, "known": kn, "pairs_known": pk, "city": cs, "osm": ot, "timed": tm, "top": top,
            "rows": rows, "n_layer": n_layer, "seconds": secs, "results": results}
     write_md(ctx)
     # _meta files
@@ -478,6 +585,71 @@ def write_all(results: list[dict], t0: float) -> None:
     shutil.rmtree(tmp, ignore_errors=True)
 
 
+def _binom_p(k: int, n: int, p: float = 0.1) -> float | None:
+    """One-sided binomial p-value P(X >= k) for X ~ Bin(n, p)."""
+    if n <= 0:
+        return None
+    from scipy.stats import binom
+    return float(binom.sf(k - 1, n, p))
+
+
+def _share_row(g: pd.DataFrame) -> dict:
+    k, n = int((g["rank"] <= 0.1).sum()), int(len(g))
+    return {"pairs": n, "top10": k, "top10_share": k / n * 100, "p_value": _binom_p(k, n),
+            "candidates": int(g.timed.sum()), "obs_wait_mean": float(g.obs_wait.mean()),
+            "rand_wait_mean": float(g.rand_wait.mean())}
+
+
+def write_revision_tables(results: list[dict], main: pd.DataFrame) -> dict:
+    """QA tables of the coordination test revisions: pairs where both lines run every >= 15 min (per city and mode
+    pair, per node), the night-window positive control, and the node pulse test.  Returns what the note needs."""
+    mp, nodes15, night, pulse = [], [], [], []
+    for R in results:
+        agg = R["agg"]
+        rr = R["rules"]["main"]
+        nt = main[main.agglomeration == agg].set_index("area")
+        names = rr["stops"].groupby("area").stop_name.first()
+
+        def name_of(a):
+            return nt["name"].get(a) if a in nt.index else names.get(a)
+        d_areas = set(nt.index[nt.in_mask & nt.in_fua])
+        t = rr["timed"]
+        t = t[t.both_infrequent.astype(bool) & t.area.isin(d_areas)] if len(t) else t
+        if len(t):
+            for (ma, mb), g in t.groupby(["mode_a", "mode_b"], sort=True):
+                mp.append({"agglomeration": agg, "mode_a": ma, "mode_b": mb, **_share_row(g)})
+            mp.append({"agglomeration": agg, "mode_a": "all", "mode_b": "all", **_share_row(t)})
+            for area, g in t.groupby("area", sort=True):
+                nodes15.append({"agglomeration": agg, "node_id": nt.node_id.get(area), "name": name_of(area),
+                                **_share_row(g)})
+        ng = rr.get("night")
+        if ng is not None and len(ng):
+            for area, g in ng.groupby("area", sort=True):
+                night.append({"agglomeration": agg, "node_id": nt.node_id.get(area), "name": name_of(area),
+                              **_share_row(g)})
+            night.append({"agglomeration": agg, "node_id": None, "name": "(wszystkie)", **_share_row(ng)})
+        pu = rr.get("pulse")
+        if pu is not None and len(pu):
+            pu = pu.copy()
+            pu.insert(0, "agglomeration", agg)
+            pu.insert(1, "node_id", pu.area.map(nt.node_id))
+            pu.insert(2, "name", [name_of(a) for a in pu.area])
+            pu["in_area"] = pu.area.isin(d_areas)
+            pulse.append(pu.drop(columns="area"))
+    mp = pd.DataFrame(mp)
+    nodes15 = pd.DataFrame(nodes15)
+    night = pd.DataFrame(night)
+    pulse = pd.concat(pulse, ignore_index=True) if pulse else pd.DataFrame()
+    write_csv(mp, T.QA / "timed_both15_mode_pairs.csv")
+    write_csv(nodes15.sort_values(["agglomeration", "node_id"], na_position="last"), T.QA / "timed_both15_nodes.csv")
+    write_csv(night.sort_values(["agglomeration", "name", "node_id"], na_position="last"), T.QA / "timed_night_control.csv")
+    if len(pulse):
+        pulse = pulse.sort_values(["win", "agglomeration", "name", "node_id", "n_dep"], na_position="last",
+                                  kind="stable").reset_index(drop=True)
+    write_csv(pulse, T.QA / "pulse_nodes.csv")
+    return {"mode_pairs": mp, "nodes15": nodes15, "night": night, "pulse": pulse}
+
+
 def params() -> dict:
     from pipeline import transfer_walk as W
     return {"walk_kmh": T.WALK_KMH, "window_day": "06:00-20:00", "window_am": "07:00-09:00",
@@ -486,4 +658,10 @@ def params() -> dict:
             "timed": {"min_headway_min": T.TIMED_MIN_HEADWAY, "ratio": T.TIMED_RATIO, "min_arrivals": T.TIMED_MIN_ARR},
             "stop_max_snap_m": T.STOP_MAX_SNAP_M, "local_margin_m": W.LOCAL_MARGIN_M,
             "dijkstra_limit_m": W.DIJKSTRA_LIMIT_M, "crossing_group_gap_m": W.GROUP_GAP_M,
-            "top_n": TOPN, "walk_easy_min": WALK_EASY_MIN, "walk_hard_min": WALK_HARD_MIN}
+            "top_n": TOPN, "walk_easy_min": WALK_EASY_MIN, "walk_hard_min": WALK_HARD_MIN,
+            "gtt_band": {k: {"walk_weight": a, "wait_weight": b, "penalty_min": c} for k, (a, b, c) in T.GTT_BAND.items()},
+            "w6": {"hi": W.W6_HI, "lo": W.W6_LO}, "freq_headways_min": list(T.FREQ_HEADWAYS),
+            "night_window": "23:00-04:30", "night_max_headway_min": T.NIGHT_MAX_HEADWAY,
+            "pulse": {"cycle_min": T.PULSE_CYCLE_MIN, "bin_min": T.PULSE_BIN_MIN, "quantile": T.PULSE_Q,
+                      "min_departures": T.PULSE_MIN_DEP, "rotations": T.PULSE_SIMS},
+            "detail_min_dep_h": T.DETAIL_MIN_DEP_H}
