@@ -1,6 +1,6 @@
 # Faza 3: dostępność i transport performance (§4.6)
 
-Stan: 98/98 jednostek policzonych. Plik generuje `python -m pipeline.access aggregate` z tego, co jest gotowe; jednostki niepoliczone są wymienione na końcu jako „oczekuje”, a ich wyniki nie trafiają do tabel ani do `metrics_access.csv` (nie są zerami ani brakami danych). Kosztorys i benchmark: [`plan.md`](plan.md).
+Stan: 105/105 jednostek policzonych. Plik generuje `python -m pipeline.access aggregate` z tego, co jest gotowe; jednostki niepoliczone są wymienione na końcu jako „oczekuje”, a ich wyniki nie trafiają do tabel ani do `metrics_access.csv` (nie są zerami ani brakami danych). Kosztorys i benchmark: [`plan.md`](plan.md).
 
 Daty: ludność NSP 2021 (31.03.2021) w układzie GHSL 2020 (wariant surowy GHSL 2020 obok); rozkłady środa 2026-11-25 i sobota 2026-11-28 (feedy pobrane 2026-11-23); OSM 2026-11-22; miejsca pracy Goliszek 2026 (horyzont 2025).
 
@@ -12,7 +12,7 @@ Daty: ludność NSP 2021 (31.03.2021) w układzie GHSL 2020 (wariant surowy GHSL
 - **Performance komórki = accessibility / proximity × 100.** Wynik główny (brief): średnia stosunków po komórkach ważona ludnością komórki. Obok (`*_ratio_of_means`, tier `table`): stosunek średnich ważonych; różni się nawet o 10–15 pkt, bo komórki podmiejskie mają mały mianownik.
 - **Komunikacja + pieszo:** R5 v7.5.1 (r5py 1.1.7), odjazdy co minutę w oknie, mediana (50. percentyl) z odjazdów, maks. 60 min podróży, pieszo 5 km/h, dojście i odejście ≤ 12 min (= 1 km) na odcinek, przesiadki piesze wg R5. **Reguła: komunikacja + pieszo nigdy nie jest gorsza od samego spaceru.** Limit dojścia 12 min ogranicza w R5 także podróż wyłącznie pieszą wewnątrz zapytania komunikacyjnego, więc dla każdej pary start–cel bierzemy min(czas R5 komunikacją, czas samego spaceru bez limitu 12 min, 5 km/h) **przed** zastosowaniem progów 30/45 min. Minimum ze stałą jest przemienne z medianą po odjazdach, więc to to samo, co mediana z minimum dla każdego odjazdu. Wariant bez tej reguły (`*_without_walk_rule`, tier `qa`) pokazuje jej wpływ.
 - **Pieszo:** 5 km/h, do 60 min. **Rower:** 15 km/h, do 60 min, dwa warianty poziomu stresu ruchu R5: LTS ≤ 3 (domyślne r5py) i LTS ≤ 4; wybór wariantu głównego należy do właściciela, oba mają tier `table`. Samochodu nie liczono (brief §11).
-- **Okna:** środa 7:00–9:00 (główne), 10:00–14:00, 20:00–22:00, sobota 10:00–14:00. **Max 2 przesiadki:** R5 `maxRides` = 3, okno 7–9, podawane jako różnica do wyniku głównego.
+- **Okna:** środa 7:00–9:00 (główne), 10:00–14:00, 20:00–22:00, sobota 10:00–14:00. **Max 2 przesiadki:** R5 `maxRides` = 3, okno 7–9, podawane jako różnica do wyniku głównego. **Bez przesiadek:** R5 `maxRides` = 1, okno 7–9, pozostałe parametry i reguła min(komunikacja, pieszo) jak w wyniku głównym (§14).
 - **Feedy:** wariant „wszystkie” (główny) i „oficjalne”, osobne sieci R5. Wariant „sieć wspólnego biletu” jest odłożony (tabela taryf niepotwierdzona); kod przewiduje go jako kolejny wariant sieci (`fare_<nazwa>`), bez przeliczania czegokolwiek innego.
 - **Maska pokrycia GTFS (§6):** maska fazy 2 dla tego samego wariantu feedów (`results/layers/frequent_cells.parquet`, w postaci poligonów `gtfs_coverage_mask.parquet`). W warstwie komórek wynik komunikacji poza maską to brak danych, nie 0. Wartości dla FUA i rdzenia obejmują wszystkie komórki (jak w fazie 2), mają `coverage_share` i oznaczenie „niepełne pokrycie GTFS”, gdy w masce jest < 85 % ludności; do porównań służy „obszar pokryty” i „rdzeń”. **Niekompletność po stronie celów** (miejsca obsługiwane tylko przez przewoźników bez GTFS) obniża dostępność także wewnątrz maski; maska tego nie usuwa. Pieszo i rower nie są maskowane.
 - **Miejsca pracy** („miejsca pracy w granicach miasta”): zbiór Goliszek (IGiPZ PAN, CC BY 4.0) rozdzielony z komórek 100 m (część wieloczęściowych i niepełnych) na siatkę 250 m proporcjonalnie do pola przecięcia; sumy zgadzają się co do 1e-6. Zbiór obejmuje tylko miasta w granicach administracyjnych (w Trójmieście tylko Gdańsk, GZM brak → wynik pusty). Starty z całego FUA. Performance miejsc pracy to **stosunek średnich**: na skraju zasięgu zbioru mianownik (miejsca pracy w promieniu) wynosi kilka miejsc i stosunki komórek przekraczają 1000, więc średnia stosunków jest dla miejsc pracy bezużyteczna (zostaje jako kontrola `*_mean_of_ratios` dla startów w granicach miasta).
@@ -184,6 +184,10 @@ DG REGIO: Poelman, Dijkstra, Ackermans (2020), WP 01/2020. Średnie próby 42 mi
 | Warszawa | all/pt_am: performance 30 min w [0, 100] | 0 | 88926 | OK | maks. 88,0; > 100 to cele dalej niż promień (szybki środek transportu); 0 linkowania: 0 komórek, ludność 0 |
 | Warszawa | all/pt_am: KZ + pieszo ≥ sam spacer (każda komórka, każdy próg) | 0 | 88926 | OK |  |
 | Warszawa | all/pt_am: reguła min(KZ, pieszo) nigdy nie obniża wyniku R5 | 0 | 88926 | OK | podnosi osiągalnych w 30 min w 88250 komórkach |
+| Warszawa | all/pt_am_direct: osiągalni rosną z progiem 5→60 min | 0 | 88926 | OK |  |
+| Warszawa | all/pt_am_direct: performance 30 min w [0, 100] | 0 | 88926 | OK | maks. 80,4; > 100 to cele dalej niż promień (szybki środek transportu); 0 linkowania: 0 komórek, ludność 0 |
+| Warszawa | all/pt_am_direct: KZ + pieszo ≥ sam spacer (każda komórka, każdy próg) | 0 | 88926 | OK |  |
+| Warszawa | all/pt_am_direct: reguła min(KZ, pieszo) nigdy nie obniża wyniku R5 | 0 | 88926 | OK | podnosi osiągalnych w 30 min w 88650 komórkach |
 | Warszawa | all/pt_am_max3rides: osiągalni rosną z progiem 5→60 min | 0 | 88926 | OK |  |
 | Warszawa | all/pt_am_max3rides: performance 30 min w [0, 100] | 0 | 88926 | OK | maks. 88,0; > 100 to cele dalej niż promień (szybki środek transportu); 0 linkowania: 0 komórek, ludność 0 |
 | Warszawa | all/pt_am_max3rides: KZ + pieszo ≥ sam spacer (każda komórka, każdy próg) | 0 | 88926 | OK |  |
@@ -224,11 +228,16 @@ DG REGIO: Poelman, Dijkstra, Ackermans (2020), WP 01/2020. Średnie próby 42 mi
 | Warszawa | street/walk: performance 30 min w [0, 100] | 0 | 88926 | OK | maks. 99,9; > 100 to cele dalej niż promień (szybki środek transportu); 0 linkowania: 0 komórek, ludność 0 |
 | Warszawa | rower LTS 4 ≥ LTS 3 (osiągalni, każdy próg) | 0 | 88926 | OK |  |
 | Warszawa | bez limitu przesiadek ≥ maks. 2 przesiadki (osiągalni, każdy próg) | 0 | 88926 | OK |  |
+| Warszawa | bez limitu przesiadek ≥ bez przesiadek (osiągalni, każdy próg) | 0 | 88926 | OK |  |
 | Warszawa | wszystkie feedy ≥ oficjalne (osiągalni, każdy próg) | 730 | 88926 | UWAGA | ludność komórek z naruszeniem: 57440 |
 | Kraków | all/pt_am: osiągalni rosną z progiem 5→60 min | 0 | 37817 | OK |  |
 | Kraków | all/pt_am: performance 30 min w [0, 100] | 0 | 37817 | OK | maks. 64,4; > 100 to cele dalej niż promień (szybki środek transportu); 0 linkowania: 0 komórek, ludność 0 |
 | Kraków | all/pt_am: KZ + pieszo ≥ sam spacer (każda komórka, każdy próg) | 0 | 37817 | OK |  |
 | Kraków | all/pt_am: reguła min(KZ, pieszo) nigdy nie obniża wyniku R5 | 0 | 37817 | OK | podnosi osiągalnych w 30 min w 37581 komórkach |
+| Kraków | all/pt_am_direct: osiągalni rosną z progiem 5→60 min | 0 | 37817 | OK |  |
+| Kraków | all/pt_am_direct: performance 30 min w [0, 100] | 0 | 37817 | OK | maks. 55,9; > 100 to cele dalej niż promień (szybki środek transportu); 0 linkowania: 0 komórek, ludność 0 |
+| Kraków | all/pt_am_direct: KZ + pieszo ≥ sam spacer (każda komórka, każdy próg) | 0 | 37817 | OK |  |
+| Kraków | all/pt_am_direct: reguła min(KZ, pieszo) nigdy nie obniża wyniku R5 | 0 | 37817 | OK | podnosi osiągalnych w 30 min w 37740 komórkach |
 | Kraków | all/pt_am_max3rides: osiągalni rosną z progiem 5→60 min | 0 | 37817 | OK |  |
 | Kraków | all/pt_am_max3rides: performance 30 min w [0, 100] | 0 | 37817 | OK | maks. 64,4; > 100 to cele dalej niż promień (szybki środek transportu); 0 linkowania: 0 komórek, ludność 0 |
 | Kraków | all/pt_am_max3rides: KZ + pieszo ≥ sam spacer (każda komórka, każdy próg) | 0 | 37817 | OK |  |
@@ -269,11 +278,16 @@ DG REGIO: Poelman, Dijkstra, Ackermans (2020), WP 01/2020. Średnie próby 42 mi
 | Kraków | street/walk: performance 30 min w [0, 100] | 0 | 37813 | OK | maks. 96,6; > 100 to cele dalej niż promień (szybki środek transportu); 0 linkowania: 0 komórek, ludność 0 |
 | Kraków | rower LTS 4 ≥ LTS 3 (osiągalni, każdy próg) | 0 | 37817 | OK |  |
 | Kraków | bez limitu przesiadek ≥ maks. 2 przesiadki (osiągalni, każdy próg) | 0 | 37817 | OK |  |
+| Kraków | bez limitu przesiadek ≥ bez przesiadek (osiągalni, każdy próg) | 0 | 37817 | OK |  |
 | Kraków | wszystkie feedy ≥ oficjalne (osiągalni, każdy próg) | 20 | 37817 | UWAGA | ludność komórek z naruszeniem: 835 |
 | Łódź | all/pt_am: osiągalni rosną z progiem 5→60 min | 0 | 26274 | OK |  |
 | Łódź | all/pt_am: performance 30 min w [0, 100] | 0 | 26274 | OK | maks. 69,4; > 100 to cele dalej niż promień (szybki środek transportu); 0 linkowania: 0 komórek, ludność 0 |
 | Łódź | all/pt_am: KZ + pieszo ≥ sam spacer (każda komórka, każdy próg) | 0 | 26274 | OK |  |
 | Łódź | all/pt_am: reguła min(KZ, pieszo) nigdy nie obniża wyniku R5 | 0 | 26274 | OK | podnosi osiągalnych w 30 min w 26096 komórkach |
+| Łódź | all/pt_am_direct: osiągalni rosną z progiem 5→60 min | 0 | 26274 | OK |  |
+| Łódź | all/pt_am_direct: performance 30 min w [0, 100] | 0 | 26274 | OK | maks. 69,3; > 100 to cele dalej niż promień (szybki środek transportu); 0 linkowania: 0 komórek, ludność 0 |
+| Łódź | all/pt_am_direct: KZ + pieszo ≥ sam spacer (każda komórka, każdy próg) | 0 | 26274 | OK |  |
+| Łódź | all/pt_am_direct: reguła min(KZ, pieszo) nigdy nie obniża wyniku R5 | 0 | 26274 | OK | podnosi osiągalnych w 30 min w 26213 komórkach |
 | Łódź | all/pt_am_max3rides: osiągalni rosną z progiem 5→60 min | 0 | 26274 | OK |  |
 | Łódź | all/pt_am_max3rides: performance 30 min w [0, 100] | 0 | 26274 | OK | maks. 69,4; > 100 to cele dalej niż promień (szybki środek transportu); 0 linkowania: 0 komórek, ludność 0 |
 | Łódź | all/pt_am_max3rides: KZ + pieszo ≥ sam spacer (każda komórka, każdy próg) | 0 | 26274 | OK |  |
@@ -314,11 +328,16 @@ DG REGIO: Poelman, Dijkstra, Ackermans (2020), WP 01/2020. Średnie próby 42 mi
 | Łódź | street/walk: performance 30 min w [0, 100] | 0 | 26274 | OK | maks. 98,3; > 100 to cele dalej niż promień (szybki środek transportu); 0 linkowania: 0 komórek, ludność 0 |
 | Łódź | rower LTS 4 ≥ LTS 3 (osiągalni, każdy próg) | 0 | 26274 | OK |  |
 | Łódź | bez limitu przesiadek ≥ maks. 2 przesiadki (osiągalni, każdy próg) | 0 | 26274 | OK |  |
+| Łódź | bez limitu przesiadek ≥ bez przesiadek (osiągalni, każdy próg) | 0 | 26274 | OK |  |
 | Łódź | wszystkie feedy ≥ oficjalne (osiągalni, każdy próg) | 159 | 26274 | UWAGA | ludność komórek z naruszeniem: 2278 |
 | GZM | all/pt_am: osiągalni rosną z progiem 5→60 min | 0 | 24869 | OK |  |
 | GZM | all/pt_am: performance 30 min w [0, 100] | 0 | 24869 | OK | maks. 77,6; > 100 to cele dalej niż promień (szybki środek transportu); 0 linkowania: 0 komórek, ludność 0 |
 | GZM | all/pt_am: KZ + pieszo ≥ sam spacer (każda komórka, każdy próg) | 0 | 24869 | OK |  |
 | GZM | all/pt_am: reguła min(KZ, pieszo) nigdy nie obniża wyniku R5 | 0 | 24869 | OK | podnosi osiągalnych w 30 min w 24806 komórkach |
+| GZM | all/pt_am_direct: osiągalni rosną z progiem 5→60 min | 0 | 24869 | OK |  |
+| GZM | all/pt_am_direct: performance 30 min w [0, 100] | 0 | 24869 | OK | maks. 77,2; > 100 to cele dalej niż promień (szybki środek transportu); 0 linkowania: 0 komórek, ludność 0 |
+| GZM | all/pt_am_direct: KZ + pieszo ≥ sam spacer (każda komórka, każdy próg) | 0 | 24869 | OK |  |
+| GZM | all/pt_am_direct: reguła min(KZ, pieszo) nigdy nie obniża wyniku R5 | 0 | 24869 | OK | podnosi osiągalnych w 30 min w 24814 komórkach |
 | GZM | all/pt_am_max3rides: osiągalni rosną z progiem 5→60 min | 0 | 24869 | OK |  |
 | GZM | all/pt_am_max3rides: performance 30 min w [0, 100] | 0 | 24869 | OK | maks. 77,6; > 100 to cele dalej niż promień (szybki środek transportu); 0 linkowania: 0 komórek, ludność 0 |
 | GZM | all/pt_am_max3rides: KZ + pieszo ≥ sam spacer (każda komórka, każdy próg) | 0 | 24869 | OK |  |
@@ -359,11 +378,16 @@ DG REGIO: Poelman, Dijkstra, Ackermans (2020), WP 01/2020. Średnie próby 42 mi
 | GZM | street/walk: performance 30 min w [0, 100] | 0 | 24868 | OK | maks. 100,0; > 100 to cele dalej niż promień (szybki środek transportu); 0 linkowania: 0 komórek, ludność 0 |
 | GZM | rower LTS 4 ≥ LTS 3 (osiągalni, każdy próg) | 0 | 24869 | OK |  |
 | GZM | bez limitu przesiadek ≥ maks. 2 przesiadki (osiągalni, każdy próg) | 0 | 24869 | OK |  |
+| GZM | bez limitu przesiadek ≥ bez przesiadek (osiągalni, każdy próg) | 0 | 24869 | OK |  |
 | GZM | wszystkie feedy ≥ oficjalne (osiągalni, każdy próg) | 1 | 24869 | UWAGA | ludność komórek z naruszeniem: 3 |
 | Wrocław | all/pt_am: osiągalni rosną z progiem 5→60 min | 0 | 20153 | OK |  |
 | Wrocław | all/pt_am: performance 30 min w [0, 100] | 0 | 20153 | OK | maks. 69,4; > 100 to cele dalej niż promień (szybki środek transportu); 0 linkowania: 0 komórek, ludność 0 |
 | Wrocław | all/pt_am: KZ + pieszo ≥ sam spacer (każda komórka, każdy próg) | 0 | 20153 | OK |  |
 | Wrocław | all/pt_am: reguła min(KZ, pieszo) nigdy nie obniża wyniku R5 | 0 | 20153 | OK | podnosi osiągalnych w 30 min w 20089 komórkach |
+| Wrocław | all/pt_am_direct: osiągalni rosną z progiem 5→60 min | 0 | 20153 | OK |  |
+| Wrocław | all/pt_am_direct: performance 30 min w [0, 100] | 0 | 20153 | OK | maks. 69,4; > 100 to cele dalej niż promień (szybki środek transportu); 0 linkowania: 0 komórek, ludność 0 |
+| Wrocław | all/pt_am_direct: KZ + pieszo ≥ sam spacer (każda komórka, każdy próg) | 0 | 20153 | OK |  |
+| Wrocław | all/pt_am_direct: reguła min(KZ, pieszo) nigdy nie obniża wyniku R5 | 0 | 20153 | OK | podnosi osiągalnych w 30 min w 20104 komórkach |
 | Wrocław | all/pt_am_max3rides: osiągalni rosną z progiem 5→60 min | 0 | 20153 | OK |  |
 | Wrocław | all/pt_am_max3rides: performance 30 min w [0, 100] | 0 | 20153 | OK | maks. 69,4; > 100 to cele dalej niż promień (szybki środek transportu); 0 linkowania: 0 komórek, ludność 0 |
 | Wrocław | all/pt_am_max3rides: KZ + pieszo ≥ sam spacer (każda komórka, każdy próg) | 0 | 20153 | OK |  |
@@ -404,11 +428,16 @@ DG REGIO: Poelman, Dijkstra, Ackermans (2020), WP 01/2020. Średnie próby 42 mi
 | Wrocław | street/walk: performance 30 min w [0, 100] | 0 | 20149 | OK | maks. 100,0; > 100 to cele dalej niż promień (szybki środek transportu); 0 linkowania: 0 komórek, ludność 0 |
 | Wrocław | rower LTS 4 ≥ LTS 3 (osiągalni, każdy próg) | 0 | 20153 | OK |  |
 | Wrocław | bez limitu przesiadek ≥ maks. 2 przesiadki (osiągalni, każdy próg) | 0 | 20153 | OK |  |
+| Wrocław | bez limitu przesiadek ≥ bez przesiadek (osiągalni, każdy próg) | 0 | 20153 | OK |  |
 | Wrocław | wszystkie feedy ≥ oficjalne (osiągalni, każdy próg) | 26 | 20153 | UWAGA | ludność komórek z naruszeniem: 416 |
 | Poznań | all/pt_am: osiągalni rosną z progiem 5→60 min | 0 | 19201 | OK |  |
 | Poznań | all/pt_am: performance 30 min w [0, 100] | 0 | 19201 | OK | maks. 68,0; > 100 to cele dalej niż promień (szybki środek transportu); 0 linkowania: 18 komórek, ludność 0 |
 | Poznań | all/pt_am: KZ + pieszo ≥ sam spacer (każda komórka, każdy próg) | 0 | 19201 | OK |  |
 | Poznań | all/pt_am: reguła min(KZ, pieszo) nigdy nie obniża wyniku R5 | 0 | 19201 | OK | podnosi osiągalnych w 30 min w 18994 komórkach |
+| Poznań | all/pt_am_direct: osiągalni rosną z progiem 5→60 min | 0 | 19201 | OK |  |
+| Poznań | all/pt_am_direct: performance 30 min w [0, 100] | 0 | 19201 | OK | maks. 63,1; > 100 to cele dalej niż promień (szybki środek transportu); 0 linkowania: 18 komórek, ludność 0 |
+| Poznań | all/pt_am_direct: KZ + pieszo ≥ sam spacer (każda komórka, każdy próg) | 0 | 19201 | OK |  |
+| Poznań | all/pt_am_direct: reguła min(KZ, pieszo) nigdy nie obniża wyniku R5 | 0 | 19201 | OK | podnosi osiągalnych w 30 min w 19084 komórkach |
 | Poznań | all/pt_am_max3rides: osiągalni rosną z progiem 5→60 min | 0 | 19201 | OK |  |
 | Poznań | all/pt_am_max3rides: performance 30 min w [0, 100] | 0 | 19201 | OK | maks. 68,0; > 100 to cele dalej niż promień (szybki środek transportu); 0 linkowania: 18 komórek, ludność 0 |
 | Poznań | all/pt_am_max3rides: KZ + pieszo ≥ sam spacer (każda komórka, każdy próg) | 0 | 19201 | OK |  |
@@ -449,11 +478,16 @@ DG REGIO: Poelman, Dijkstra, Ackermans (2020), WP 01/2020. Średnie próby 42 mi
 | Poznań | street/walk: performance 30 min w [0, 100] | 0 | 19195 | OK | maks. 100,0; > 100 to cele dalej niż promień (szybki środek transportu); 0 linkowania: 18 komórek, ludność 0 |
 | Poznań | rower LTS 4 ≥ LTS 3 (osiągalni, każdy próg) | 0 | 19201 | OK |  |
 | Poznań | bez limitu przesiadek ≥ maks. 2 przesiadki (osiągalni, każdy próg) | 0 | 19201 | OK |  |
+| Poznań | bez limitu przesiadek ≥ bez przesiadek (osiągalni, każdy próg) | 0 | 19201 | OK |  |
 | Poznań | wszystkie feedy ≥ oficjalne (osiągalni, każdy próg) | 2 | 19201 | UWAGA | ludność komórek z naruszeniem: 15 |
 | Trójmiasto | all/pt_am: osiągalni rosną z progiem 5→60 min | 0 | 17561 | OK |  |
 | Trójmiasto | all/pt_am: performance 30 min w [0, 100] | 0 | 17561 | OK | maks. 85,4; > 100 to cele dalej niż promień (szybki środek transportu); 0 linkowania: 0 komórek, ludność 0 |
 | Trójmiasto | all/pt_am: KZ + pieszo ≥ sam spacer (każda komórka, każdy próg) | 0 | 17561 | OK |  |
 | Trójmiasto | all/pt_am: reguła min(KZ, pieszo) nigdy nie obniża wyniku R5 | 0 | 17561 | OK | podnosi osiągalnych w 30 min w 17478 komórkach |
+| Trójmiasto | all/pt_am_direct: osiągalni rosną z progiem 5→60 min | 0 | 17561 | OK |  |
+| Trójmiasto | all/pt_am_direct: performance 30 min w [0, 100] | 0 | 17561 | OK | maks. 81,4; > 100 to cele dalej niż promień (szybki środek transportu); 0 linkowania: 0 komórek, ludność 0 |
+| Trójmiasto | all/pt_am_direct: KZ + pieszo ≥ sam spacer (każda komórka, każdy próg) | 0 | 17561 | OK |  |
+| Trójmiasto | all/pt_am_direct: reguła min(KZ, pieszo) nigdy nie obniża wyniku R5 | 0 | 17561 | OK | podnosi osiągalnych w 30 min w 17498 komórkach |
 | Trójmiasto | all/pt_am_max3rides: osiągalni rosną z progiem 5→60 min | 0 | 17561 | OK |  |
 | Trójmiasto | all/pt_am_max3rides: performance 30 min w [0, 100] | 0 | 17561 | OK | maks. 85,4; > 100 to cele dalej niż promień (szybki środek transportu); 0 linkowania: 0 komórek, ludność 0 |
 | Trójmiasto | all/pt_am_max3rides: KZ + pieszo ≥ sam spacer (każda komórka, każdy próg) | 0 | 17561 | OK |  |
@@ -494,6 +528,7 @@ DG REGIO: Poelman, Dijkstra, Ackermans (2020), WP 01/2020. Średnie próby 42 mi
 | Trójmiasto | street/walk: performance 30 min w [0, 100] | 0 | 17561 | OK | maks. 98,3; > 100 to cele dalej niż promień (szybki środek transportu); 0 linkowania: 0 komórek, ludność 0 |
 | Trójmiasto | rower LTS 4 ≥ LTS 3 (osiągalni, każdy próg) | 0 | 17561 | OK |  |
 | Trójmiasto | bez limitu przesiadek ≥ maks. 2 przesiadki (osiągalni, każdy próg) | 0 | 17561 | OK |  |
+| Trójmiasto | bez limitu przesiadek ≥ bez przesiadek (osiągalni, każdy próg) | 0 | 17561 | OK |  |
 | Trójmiasto | wszystkie feedy ≥ oficjalne (osiągalni, każdy próg) | 0 | 17561 | OK |  |
 
 Performance > 100 nie jest błędem: licznik liczy cele osiągalne także poza promieniem proximity (np. koleją), mianownik tylko te w promieniu.
@@ -546,6 +581,7 @@ Wyszukiwarkę odpytano dla 31 par, porównywalnych (obie strony znalazły trasę
 |---|---|---:|---|---|---|---|
 | Trójmiasto | all/odpairs | 4 | 57,6 |  |  |  |
 | Trójmiasto | all/pt_am | 17561 | 47,4 | 2,70 | 77,5 | 0,61 |
+| Trójmiasto | all/pt_am_direct | 17561 | 43,4 | 2,47 | 46,5 | 0,93 |
 | Trójmiasto | all/pt_am_max3rides | 17561 | 46,6 | 2,65 | 72,2 | 0,64 |
 | Trójmiasto | all/pt_evening | 17561 | 46,4 | 2,64 | 78,9 | 0,59 |
 | Trójmiasto | all/pt_midday | 17561 | 65,3 | 3,72 | 114,7 | 0,57 |
@@ -560,6 +596,7 @@ Wyszukiwarkę odpytano dla 31 par, porównywalnych (obie strony znalazły trasę
 | Trójmiasto | street/walk | 17561 | 31,5 | 1,79 | 26,0 | 1,21 |
 | Poznań | all/odpairs | 4 | 47,4 |  |  |  |
 | Poznań | all/pt_am | 19201 | 77,4 | 4,03 | 112,3 | 0,69 |
+| Poznań | all/pt_am_direct | 19201 | 71,5 | 3,72 | 67,4 | 1,06 |
 | Poznań | all/pt_am_max3rides | 19201 | 77,5 | 4,03 | 116,0 | 0,67 |
 | Poznań | all/pt_evening | 19201 | 75,7 | 3,94 | 119,4 | 0,63 |
 | Poznań | all/pt_midday | 19201 | 103,9 | 5,41 | 152,0 | 0,68 |
@@ -574,6 +611,7 @@ Wyszukiwarkę odpytano dla 31 par, porównywalnych (obie strony znalazły trasę
 | Poznań | street/walk | 19201 | 32,4 | 1,69 | 49,0 | 0,66 |
 | Wrocław | all/odpairs | 7 | 98,2 |  |  |  |
 | Wrocław | all/pt_am | 20153 | 68,1 | 3,38 | 102,6 | 0,66 |
+| Wrocław | all/pt_am_direct | 20153 | 61,5 | 3,05 | 61,5 | 1,00 |
 | Wrocław | all/pt_am_max3rides | 20153 | 59,1 | 2,93 | 91,4 | 0,65 |
 | Wrocław | all/pt_evening | 20153 | 65,4 | 3,24 | 98,7 | 0,66 |
 | Wrocław | all/pt_midday | 20153 | 92,7 | 4,60 | 148,8 | 0,62 |
@@ -588,6 +626,7 @@ Wyszukiwarkę odpytano dla 31 par, porównywalnych (obie strony znalazły trasę
 | Wrocław | street/walk | 20153 | 37,2 | 1,85 | 31,1 | 1,20 |
 | GZM | all/odpairs | 4 | 58,9 |  |  |  |
 | GZM | all/pt_am | 24869 | 223,1 | 8,97 | 380,5 | 0,59 |
+| GZM | all/pt_am_direct | 24869 | 188,9 | 7,59 | 228,3 | 0,83 |
 | GZM | all/pt_am_max3rides | 24869 | 215,8 | 8,68 | 288,3 | 0,75 |
 | GZM | all/pt_evening | 24869 | 230,6 | 9,27 | 343,0 | 0,67 |
 | GZM | all/pt_midday | 24869 | 369,1 | 14,84 | 498,2 | 0,74 |
@@ -602,6 +641,7 @@ Wyszukiwarkę odpytano dla 31 par, porównywalnych (obie strony znalazły trasę
 | GZM | street/walk | 24869 | 59,1 | 2,38 | 71,1 | 0,83 |
 | Łódź | all/odpairs | 4 | 56,7 |  |  |  |
 | Łódź | all/pt_am | 26274 | 111,0 | 4,22 | 177,5 | 0,63 |
+| Łódź | all/pt_am_direct | 26274 | 111,9 | 4,26 | 106,5 | 1,05 |
 | Łódź | all/pt_am_max3rides | 26274 | 112,0 | 4,26 | 157,2 | 0,71 |
 | Łódź | all/pt_evening | 26274 | 109,3 | 4,16 | 180,8 | 0,60 |
 | Łódź | all/pt_midday | 26274 | 148,5 | 5,65 | 221,8 | 0,67 |
@@ -616,6 +656,7 @@ Wyszukiwarkę odpytano dla 31 par, porównywalnych (obie strony znalazły trasę
 | Łódź | street/walk | 26274 | 48,1 | 1,83 | 59,5 | 0,81 |
 | Kraków | all/odpairs | 4 | 55,9 |  |  |  |
 | Kraków | all/pt_am | 37817 | 255,9 | 6,77 | 482,5 | 0,53 |
+| Kraków | all/pt_am_direct | 37817 | 218,4 | 5,78 | 289,5 | 0,75 |
 | Kraków | all/pt_am_max3rides | 37817 | 278,8 | 7,37 | 392,0 | 0,71 |
 | Kraków | all/pt_evening | 37817 | 263,0 | 6,95 | 516,9 | 0,51 |
 | Kraków | all/pt_midday | 37817 | 390,4 | 10,32 | 700,7 | 0,56 |
@@ -630,6 +671,7 @@ Wyszukiwarkę odpytano dla 31 par, porównywalnych (obie strony znalazły trasę
 | Kraków | street/walk | 37817 | 83,2 | 2,20 | 138,0 | 0,60 |
 | Warszawa | all/odpairs | 4 | 59,2 |  |  |  |
 | Warszawa | all/pt_am | 88926 | 987,3 | 11,10 | 2003,5 | 0,49 |
+| Warszawa | all/pt_am_direct | 88926 | 846,3 | 9,52 | 1202,1 | 0,70 |
 | Warszawa | all/pt_am_max3rides | 88926 | 995,3 | 11,19 | 1638,6 | 0,61 |
 | Warszawa | all/pt_evening | 88926 | 1023,6 | 11,51 | 1981,7 | 0,52 |
 | Warszawa | all/pt_midday | 88926 | 1589,8 | 17,88 | 2757,6 | 0,58 |
@@ -661,13 +703,14 @@ Stan na 2026-11-24, po pełnym przebiegu (98 z 98 jednostek, 11 h 20 min routing
 - **DG REGIO (§7).** Różnica 45-minutowa dla Poznania i Łodzi wynika głównie z innego obszaru (urban centre 2011), nie z braków w feedach; po odtworzeniu obszaru i metody zostaje reszta +4,5 pkt (Poznań) i +11,0 pkt (Łódź), której nie wyjaśniono. Pełny opis: `qa/access/dgregio/dgregio.md`.
 - **Miejsca pracy.** Wskaźnik dla miejsc pracy liczony jest jako stosunek średnich, bo w komórkach z małą liczbą miejsc pracy w pobliżu stosunki pojedynczych komórek są niestabilne. Zbiór nie obejmuje GZM (brak danych, nie zero).
 - **Próba tras.** `DetailedItineraries` przy oknie 1 min wyczerpywał pamięć R5, więc trasy w próbie liczono dla losowego 5-minutowego okna odjazdów; liczby przesiadek dotyczą najszybszej trasy w tym oknie.
+- **Przesiadki a zasięg (dopisane 2026-11-24, wariant bez przesiadek, 105 ze 105 jednostek, §14).** Bez przesiadek KZ 30 w rdzeniach spada o 1,6–6,0 pkt, a KZ 45 o 10,2–24,5 pkt. Udział zasięgu, który wymaga przesiadki (średnia komórek, rdzeń): przy 30 min 7–17 %, przy 45 min 25–42 %; najwyżej w Warszawie, najniżej przy 30 min w GZM i Łodzi, przy 45 min we Wrocławiu i Łodzi. To nie przeczy wynikowi „maks. 2 przesiadki prawie nic nie zmienia”: druga i dalsze przesiadki są rzadkie, pierwsza ma znaczenie. Pojedyncze komórki z udziałem do 85 % sprawdzono: to komórki na skraju rdzenia Warszawy przy przystanku dowozowym, z których w 30 min osiąga się 106–340 tys. osób, a bez przesiadki mniej więcej połowę. Kontrole „bez przesiadek ≤ wynik główny” i „bez przesiadek ≥ sam spacer” (każda komórka, każdy próg): 0 naruszeń. Średnia komórek i stosunek sum różnią się wyraźnie tylko na obszarze pokrytym przy 30 min (Warszawa 11,5 wobec 17,8 %), bo komórki podmiejskie, w których komunikacja nic nie dodaje do spaceru, mają udział 0.
 
 
 ## 12. Pliki
 
 - `results/metrics/metrics_access.csv` / `.json` (kolumny jak w innych krokach; JSON ma też `status` jednostek), scalane przez `pipeline.merge_metrics`.
 - `results/charts/access_performance.json`: per miasto KZ 30/45, pieszo, rower (oba LTS), krzywe 5–60 min, benchmark DG REGIO z różnicami metod.
-- `results/layers/access_cells.parquet` (7.33 MB): punkty środków komórek 250 m (EPSG:4326; komórka = kwadrat 250 m w EPSG:2180, `cell_id` = lewy dolny róg), performance KZ 30/45 (null poza maską i dla jednostek oczekujących), pieszo 30, rower 30 LTS 3 i 4.
+- `results/layers/access_cells.parquet` (7.88 MB): punkty środków komórek 250 m (EPSG:4326; komórka = kwadrat 250 m w EPSG:2180, `cell_id` = lewy dolny róg), performance KZ 30/45 (null poza maską i dla jednostek oczekujących), pieszo 30, rower 30 LTS 3 i 4, KZ 30 bez przesiadek i udział zasięgu wymagający przesiadki przy 30 i 45 min (null poza maską i tam, gdzie w wyniku głównym nikt nie jest osiągalny).
 - PNG: [`map_warszawa.png`](map_warszawa.png), [`map_krakow.png`](map_krakow.png), [`map_lodz.png`](map_lodz.png), [`map_gzm.png`](map_gzm.png), [`map_wroclaw.png`](map_wroclaw.png), [`map_poznan.png`](map_poznan.png), [`map_trojmiasto.png`](map_trojmiasto.png), [`curves.png`](curves.png).
 - Dane pośrednie (poza gitem): `data/interim/access/<aglomeracja>/<sieć>/<scenariusz>/chunk_*.parquet`, log `data/interim/access/run.log`.
 
@@ -689,6 +732,7 @@ Stan na 2026-11-24, po pełnym przebiegu (98 z 98 jednostek, 11 h 20 min routing
 | warszawa | 5 | official | pt_midday | 89 | 89 | done |
 | warszawa | 5 | official | pt_evening | 89 | 89 | done |
 | warszawa | 5 | official | pt_saturday | 89 | 89 | done |
+| warszawa | 6 | all | pt_am_direct | 89 | 89 | done |
 | krakow | 1 | street | walk | 38 | 38 | done |
 | krakow | 1 | all | pt_am | 38 | 38 | done |
 | krakow | 1 | street | bike_lts3 | 38 | 38 | done |
@@ -703,6 +747,7 @@ Stan na 2026-11-24, po pełnym przebiegu (98 z 98 jednostek, 11 h 20 min routing
 | krakow | 5 | official | pt_midday | 38 | 38 | done |
 | krakow | 5 | official | pt_evening | 38 | 38 | done |
 | krakow | 5 | official | pt_saturday | 38 | 38 | done |
+| krakow | 6 | all | pt_am_direct | 38 | 38 | done |
 | wroclaw | 1 | street | walk | 21 | 21 | done |
 | wroclaw | 1 | all | pt_am | 21 | 21 | done |
 | wroclaw | 1 | street | bike_lts3 | 21 | 21 | done |
@@ -717,6 +762,7 @@ Stan na 2026-11-24, po pełnym przebiegu (98 z 98 jednostek, 11 h 20 min routing
 | wroclaw | 5 | official | pt_midday | 21 | 21 | done |
 | wroclaw | 5 | official | pt_evening | 21 | 21 | done |
 | wroclaw | 5 | official | pt_saturday | 21 | 21 | done |
+| wroclaw | 6 | all | pt_am_direct | 21 | 21 | done |
 | poznan | 1 | street | walk | 20 | 20 | done |
 | poznan | 1 | all | pt_am | 20 | 20 | done |
 | poznan | 1 | street | bike_lts3 | 20 | 20 | done |
@@ -731,6 +777,7 @@ Stan na 2026-11-24, po pełnym przebiegu (98 z 98 jednostek, 11 h 20 min routing
 | poznan | 5 | official | pt_midday | 20 | 20 | done |
 | poznan | 5 | official | pt_evening | 20 | 20 | done |
 | poznan | 5 | official | pt_saturday | 20 | 20 | done |
+| poznan | 6 | all | pt_am_direct | 20 | 20 | done |
 | lodz | 1 | street | walk | 27 | 27 | done |
 | lodz | 1 | all | pt_am | 27 | 27 | done |
 | lodz | 1 | street | bike_lts3 | 27 | 27 | done |
@@ -745,6 +792,7 @@ Stan na 2026-11-24, po pełnym przebiegu (98 z 98 jednostek, 11 h 20 min routing
 | lodz | 5 | official | pt_midday | 27 | 27 | done |
 | lodz | 5 | official | pt_evening | 27 | 27 | done |
 | lodz | 5 | official | pt_saturday | 27 | 27 | done |
+| lodz | 6 | all | pt_am_direct | 27 | 27 | done |
 | trojmiasto | 1 | street | walk | 18 | 18 | done |
 | trojmiasto | 1 | all | pt_am | 18 | 18 | done |
 | trojmiasto | 1 | street | bike_lts3 | 18 | 18 | done |
@@ -759,6 +807,7 @@ Stan na 2026-11-24, po pełnym przebiegu (98 z 98 jednostek, 11 h 20 min routing
 | trojmiasto | 5 | official | pt_midday | 18 | 18 | done |
 | trojmiasto | 5 | official | pt_evening | 18 | 18 | done |
 | trojmiasto | 5 | official | pt_saturday | 18 | 18 | done |
+| trojmiasto | 6 | all | pt_am_direct | 18 | 18 | done |
 | gzm | 1 | street | walk | 25 | 25 | done |
 | gzm | 1 | all | pt_am | 25 | 25 | done |
 | gzm | 1 | street | bike_lts3 | 25 | 25 | done |
@@ -773,3 +822,79 @@ Stan na 2026-11-24, po pełnym przebiegu (98 z 98 jednostek, 11 h 20 min routing
 | gzm | 5 | official | pt_midday | 25 | 25 | done |
 | gzm | 5 | official | pt_evening | 25 | 25 | done |
 | gzm | 5 | official | pt_saturday | 25 | 25 | done |
+| gzm | 6 | all | pt_am_direct | 25 | 25 | done |
+
+## 14. Ile zasięgu wymaga przesiadki (podróże bez przesiadek)
+
+Wariant wyniku głównego (środa 7–9, wszystkie feedy) z co najwyżej jednym przejazdem, czyli bez przesiadek (R5 `maxRides` = 1); reguła min(komunikacja, pieszo) jak w wyniku głównym. **Udział zasięgu, który wymaga przesiadki** = (1 − osiągalni bez przesiadki / osiągalni w wyniku głównym) × 100; dla obszaru jako średnia udziałów komórek ważona ludnością oraz jako stosunek sum ważonych. Komórki, z których w wyniku głównym nikt nie jest osiągalny, są pomijane (brak danych). Czas rozkładowy, mediana z odjazdów co minutę, siatka spisowa.
+
+| Aglomeracja | Obszar | KZ 30: główny / bez przesiadek | Wymaga przesiadki 30 min, %: średnia komórek / stosunek sum | KZ 45: główny / bez przesiadek | Wymaga przesiadki 45 min, %: średnia komórek / stosunek sum |
+|---|---|---|---|---|---|
+| Warszawa | rdzeń | 33,9 / 27,9 | 16,6 / 18,4 | 58,8 / 34,3 | 41,7 / 41,2 |
+| Warszawa | pokryty | 28,4 / 24,4 | 11,5 / 17,8 | 47,1 / 28,9 | 33,1 / 41,0 |
+| Kraków | rdzeń | 31,6 / 27,4 | 13,3 / 13,7 | 52,8 / 37,8 | 29,5 / 28,2 |
+| Kraków | pokryty | 24,5 / 21,5 | 9,5 / 13,4 | 39,5 / 28,5 | 23,6 / 28,2 |
+| Łódź | rdzeń | 26,9 / 24,3 | 8,8 / 9,5 | 51,3 / 38,8 | 25,3 / 24,3 |
+| Łódź | pokryty | 26,0 / 24,1 | 6,5 / 9,2 | 41,6 / 32,1 | 20,3 / 24,0 |
+| GZM | rdzeń | 23,8 / 22,2 | 7,1 / 8,0 | 36,1 / 25,9 | 28,6 / 30,6 |
+| GZM | pokryty | 22,4 / 20,9 | 6,3 / 7,8 | 33,0 / 24,0 | 26,4 / 30,1 |
+| Wrocław | rdzeń | 27,6 / 24,5 | 11,1 / 11,0 | 53,0 / 41,2 | 24,5 / 21,9 |
+| Wrocław | pokryty | 24,6 / 22,1 | 9,2 / 10,9 | 45,5 / 35,6 | 21,4 / 21,9 |
+| Poznań | rdzeń | 30,0 / 26,0 | 12,7 / 13,2 | 54,6 / 39,1 | 30,6 / 28,3 |
+| Poznań | pokryty | 24,2 / 21,7 | 8,6 / 12,5 | 40,1 / 29,2 | 25,1 / 28,5 |
+| Trójmiasto | rdzeń | 31,8 / 28,6 | 9,8 / 10,3 | 55,4 / 38,4 | 30,5 / 30,6 |
+| Trójmiasto | pokryty | 31,7 / 28,8 | 8,6 / 9,9 | 52,8 / 36,9 | 29,1 / 30,5 |
+
+Rozkład udziału w komórkach (30 min, komórki w masce z ludnością, %; percentyle bez ważenia ludnością):
+
+| Aglomeracja | Komórek | p10 | p25 | p50 | p75 | p90 | Komórek z udziałem 0 |
+|---|---:|---|---|---|---|---|---|
+| Warszawa | 60349 | 0,0 | 0,0 | 0,0 | 0,0 | 5,3 | 84,2 % |
+| Kraków | 23509 | 0,0 | 0,0 | 0,0 | 0,0 | 7,0 | 82,8 % |
+| Łódź | 21194 | 0,0 | 0,0 | 0,0 | 0,0 | 4,0 | 85,6 % |
+| GZM | 20573 | 0,0 | 0,0 | 0,0 | 4,0 | 10,4 | 55,3 % |
+| Wrocław | 11536 | 0,0 | 0,0 | 0,0 | 0,1 | 11,1 | 74,9 % |
+| Poznań | 13058 | 0,0 | 0,0 | 0,0 | 0,0 | 10,1 | 75,0 % |
+| Trójmiasto | 8776 | 0,0 | 0,0 | 0,0 | 5,4 | 12,8 | 58,5 % |
+
+Kontrole (każda komórka, każdy próg 5–60 min; te same wiersze są w §8):
+
+| Aglomeracja | Kontrola | Naruszenia | Komórek | Wynik | Uwagi |
+|---|---|---:|---:|---|---|
+| Warszawa | all/pt_am_direct: osiągalni rosną z progiem 5→60 min | 0 | 88926 | OK |  |
+| Warszawa | all/pt_am_direct: performance 30 min w [0, 100] | 0 | 88926 | OK | maks. 80,4; > 100 to cele dalej niż promień (szybki środek transportu); 0 linkowania: 0 komórek, ludność 0 |
+| Warszawa | all/pt_am_direct: KZ + pieszo ≥ sam spacer (każda komórka, każdy próg) | 0 | 88926 | OK |  |
+| Warszawa | all/pt_am_direct: reguła min(KZ, pieszo) nigdy nie obniża wyniku R5 | 0 | 88926 | OK | podnosi osiągalnych w 30 min w 88650 komórkach |
+| Warszawa | bez limitu przesiadek ≥ bez przesiadek (osiągalni, każdy próg) | 0 | 88926 | OK |  |
+| Kraków | all/pt_am_direct: osiągalni rosną z progiem 5→60 min | 0 | 37817 | OK |  |
+| Kraków | all/pt_am_direct: performance 30 min w [0, 100] | 0 | 37817 | OK | maks. 55,9; > 100 to cele dalej niż promień (szybki środek transportu); 0 linkowania: 0 komórek, ludność 0 |
+| Kraków | all/pt_am_direct: KZ + pieszo ≥ sam spacer (każda komórka, każdy próg) | 0 | 37817 | OK |  |
+| Kraków | all/pt_am_direct: reguła min(KZ, pieszo) nigdy nie obniża wyniku R5 | 0 | 37817 | OK | podnosi osiągalnych w 30 min w 37740 komórkach |
+| Kraków | bez limitu przesiadek ≥ bez przesiadek (osiągalni, każdy próg) | 0 | 37817 | OK |  |
+| Łódź | all/pt_am_direct: osiągalni rosną z progiem 5→60 min | 0 | 26274 | OK |  |
+| Łódź | all/pt_am_direct: performance 30 min w [0, 100] | 0 | 26274 | OK | maks. 69,3; > 100 to cele dalej niż promień (szybki środek transportu); 0 linkowania: 0 komórek, ludność 0 |
+| Łódź | all/pt_am_direct: KZ + pieszo ≥ sam spacer (każda komórka, każdy próg) | 0 | 26274 | OK |  |
+| Łódź | all/pt_am_direct: reguła min(KZ, pieszo) nigdy nie obniża wyniku R5 | 0 | 26274 | OK | podnosi osiągalnych w 30 min w 26213 komórkach |
+| Łódź | bez limitu przesiadek ≥ bez przesiadek (osiągalni, każdy próg) | 0 | 26274 | OK |  |
+| GZM | all/pt_am_direct: osiągalni rosną z progiem 5→60 min | 0 | 24869 | OK |  |
+| GZM | all/pt_am_direct: performance 30 min w [0, 100] | 0 | 24869 | OK | maks. 77,2; > 100 to cele dalej niż promień (szybki środek transportu); 0 linkowania: 0 komórek, ludność 0 |
+| GZM | all/pt_am_direct: KZ + pieszo ≥ sam spacer (każda komórka, każdy próg) | 0 | 24869 | OK |  |
+| GZM | all/pt_am_direct: reguła min(KZ, pieszo) nigdy nie obniża wyniku R5 | 0 | 24869 | OK | podnosi osiągalnych w 30 min w 24814 komórkach |
+| GZM | bez limitu przesiadek ≥ bez przesiadek (osiągalni, każdy próg) | 0 | 24869 | OK |  |
+| Wrocław | all/pt_am_direct: osiągalni rosną z progiem 5→60 min | 0 | 20153 | OK |  |
+| Wrocław | all/pt_am_direct: performance 30 min w [0, 100] | 0 | 20153 | OK | maks. 69,4; > 100 to cele dalej niż promień (szybki środek transportu); 0 linkowania: 0 komórek, ludność 0 |
+| Wrocław | all/pt_am_direct: KZ + pieszo ≥ sam spacer (każda komórka, każdy próg) | 0 | 20153 | OK |  |
+| Wrocław | all/pt_am_direct: reguła min(KZ, pieszo) nigdy nie obniża wyniku R5 | 0 | 20153 | OK | podnosi osiągalnych w 30 min w 20104 komórkach |
+| Wrocław | bez limitu przesiadek ≥ bez przesiadek (osiągalni, każdy próg) | 0 | 20153 | OK |  |
+| Poznań | all/pt_am_direct: osiągalni rosną z progiem 5→60 min | 0 | 19201 | OK |  |
+| Poznań | all/pt_am_direct: performance 30 min w [0, 100] | 0 | 19201 | OK | maks. 63,1; > 100 to cele dalej niż promień (szybki środek transportu); 0 linkowania: 18 komórek, ludność 0 |
+| Poznań | all/pt_am_direct: KZ + pieszo ≥ sam spacer (każda komórka, każdy próg) | 0 | 19201 | OK |  |
+| Poznań | all/pt_am_direct: reguła min(KZ, pieszo) nigdy nie obniża wyniku R5 | 0 | 19201 | OK | podnosi osiągalnych w 30 min w 19084 komórkach |
+| Poznań | bez limitu przesiadek ≥ bez przesiadek (osiągalni, każdy próg) | 0 | 19201 | OK |  |
+| Trójmiasto | all/pt_am_direct: osiągalni rosną z progiem 5→60 min | 0 | 17561 | OK |  |
+| Trójmiasto | all/pt_am_direct: performance 30 min w [0, 100] | 0 | 17561 | OK | maks. 81,4; > 100 to cele dalej niż promień (szybki środek transportu); 0 linkowania: 0 komórek, ludność 0 |
+| Trójmiasto | all/pt_am_direct: KZ + pieszo ≥ sam spacer (każda komórka, każdy próg) | 0 | 17561 | OK |  |
+| Trójmiasto | all/pt_am_direct: reguła min(KZ, pieszo) nigdy nie obniża wyniku R5 | 0 | 17561 | OK | podnosi osiągalnych w 30 min w 17498 komórkach |
+| Trójmiasto | bez limitu przesiadek ≥ bez przesiadek (osiągalni, każdy próg) | 0 | 17561 | OK |  |
+
+**Odczyt (2026-11-24).** Przy 30 min przesiadka jest potrzebna do niewielkiej części zasięgu: w rdzeniach 7–17 % osiągalnej ludności (najwięcej Warszawa, najmniej GZM), bo w pół godziny większość celów leży przy jednej linii albo w zasięgu spaceru. Przy 45 min udział rośnie do 25–42 % i to przesiadki dają dużą część przyrostu między 30 a 45 min: bez nich KZ 45 w rdzeniu Warszawy spada z 58,8 do 34,3. Udział 0 w komórce zwykle nie oznacza dobrej linii bezpośredniej: w 71–90 % takich komórek (30 min; sprawdzono w Warszawie, GZM i Trójmieście) komunikacja nie dodaje nic do samego spaceru. Dlatego komórek z udziałem 0 jest 55–86 %, ale mieszka w nich tylko 10–22 % ludności.

@@ -1,7 +1,7 @@
 {
  "code_version": "access-2026-11-25.1",
- "duration_s": 195.5,
- "git_sha": "c1fc1e4dc0d662506b0f9cb30478d42220d3282e",
+ "duration_s": 217.5,
+ "git_sha": "2c36d9fc92cad33a5e9b92b40549203ad1249aa1",
  "inputs": {
   "ghs_pop_2020_R3_C20": {
    "data_date": "2020",
@@ -274,12 +274,12 @@
  "pending": [],
  "r5": "v7.5.1-r5py",
  "r5_jar_sha256": "d50be106cadd7b636cfc0e209052767d7df570629f79fdf98ecd5cf5d2d89be7",
- "run_at": "2026-11-24T11:51:14+01:00",
+ "run_at": "2026-11-24T14:54:44+01:00",
  "step": "access",
  "timetable_dates": [
   "2026-11-25",
   "2026-11-28"
  ],
- "units_done": 98,
- "units_total": 98
+ "units_done": 105,
+ "units_total": 105
 }
