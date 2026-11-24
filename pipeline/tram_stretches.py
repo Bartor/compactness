@@ -1,5 +1,5 @@
 """Part 3 of the scheduled-speed work: the tram network as stretches along the track, with OSM attributes and the
-time the timetable allows beyond a simple free-running model ("implied slack").
+time the timetable allows beyond a simple free-running model ("time above free running", a model figure).
 
     python -m pipeline.tram_stretches
 
@@ -54,10 +54,16 @@ footway, path or cycleway, merged within 20 m; "standalone" = farther than 30 m 
 Switches: track nodes where three or more track segments meet.  Curves: radius from three points 10 m apart on the
 stretch geometry; n_curves_r50 = runs with radius < 50 m.
 
-Implied slack = scheduled time - free-running time.  Free running per hop of length d: accelerate at A_ACC to at
-most V_CAP, brake at B_BRK, plus DWELL_S per stop; optional curve limit (A_LAT).  Slack mixes signals, speed
-restrictions, shared track, passenger exchange beyond the assumed dwell and timetable padding; it is not a
-measurement of signal delay.
+Time above free running (model) = scheduled time - free-running time, published in seconds per km with a range.
+Free running per hop of length d: accelerate at a_acc to at most the cap, brake at b_brk, plus dwell_s per stop.
+The cap of a stretch: OSM maxspeed (30-100 km/h) of the matched tram track where tagged (railway=tram), the assumed
+v_cap_kmh elsewhere, combined as a time-equivalent (harmonic) mean over the points every SAMPLE_M along the stretch.
+Central value: dwell 20 s, cap 50 km/h; range: min and max over the grid dwell 10/20/30 s x cap 40/50/70 km/h (the
+cap of the grid applies only where OSM has no maxspeed).  Where the timetable is faster than free running (fast
+separated track; the real cap is higher than assumed) the stretch carries faster_than_model = true and no value,
+never a negative one.  The measure mixes signals, speed restrictions, shared track, passenger exchange beyond the
+assumed dwell and timetable padding; it is not a measurement of signal delay.  (The earlier curve-limit variant
+is dropped: radii from GTFS shapes are too noisy.)
 """
 from __future__ import annotations
 
@@ -78,7 +84,7 @@ from pipeline.common import RESULTS, sig, write_json, write_meta
 QA = RESULTS / "qa" / "speed" / "stretches"
 TABLES = RESULTS / "tables"
 LAYERS = RESULTS / "layers"
-CODE_VERSION = "tram-stretches-2026-11-24.3"
+CODE_VERSION = "tram-stretches-2026-11-24.4"
 CITIES = [("warszawa", "warsaw_ztm", "Warszawa"), ("krakow", "krakow_tram", "Kraków"), ("wroclaw", "wroclaw", "Wrocław"),
           ("poznan", "poznan", "Poznań"), ("lodz", "lodz", "Łódź"), ("trojmiasto", "gdansk", "Gdańsk"),
           ("gzm", "gzm", "GZM")]
@@ -104,15 +110,35 @@ INTERSECTION_M, SIGNAL_M = 40.0, 35.0
 # free-running model (assumptions; see speed.md for the ranges they come from)
 KIN = {"a_acc": 1.0,          # m/s2, mean acceleration 0 -> cap (modern low-floor trams: 1.0-1.3 starting; assumption)
        "b_brk": 1.0,          # m/s2, service braking used in normal stops (service 1.0-1.5; emergency > 2.5; assumption)
-       "v_cap_kmh": 50.0,     # km/h, typical speed limit of Polish urban tram track (40-70 by section; assumption)
+       "v_cap_kmh": 50.0,     # km/h, speed limit where OSM has no maxspeed on the track (40-70 by section; assumption)
        "dwell_s": 20.0,       # s per stop (assumption; GTFS carries no dwell)
-       "a_lat": None}         # m/s2 lateral limit in curves; None = no curve limit (variant 0.65)
+       "osm_maxspeed": True}  # use railway=tram maxspeed from OSM where tagged
 SENS = [("główny", {}),
+        ("bez maxspeed z OSM", {"osm_maxspeed": False}),
         ("przysp. 0,7 m/s²", {"a_acc": 0.7}), ("przysp. 1,3 m/s²", {"a_acc": 1.3}),
         ("hamowanie 0,8 m/s²", {"b_brk": 0.8}), ("hamowanie 1,3 m/s²", {"b_brk": 1.3}),
         ("limit 40 km/h", {"v_cap_kmh": 40.0}), ("limit 60 km/h", {"v_cap_kmh": 60.0}), ("limit 70 km/h", {"v_cap_kmh": 70.0}),
-        ("postój 10 s", {"dwell_s": 10.0}), ("postój 30 s", {"dwell_s": 30.0}),
-        ("łuki: 0,65 m/s²", {"a_lat": 0.65})]
+        ("postój 10 s", {"dwell_s": 10.0}), ("postój 30 s", {"dwell_s": 30.0})]
+# the published range of the time above free running: every combination of these dwells and caps
+RANGE_DWELL_S, RANGE_CAP_KMH = (10.0, 20.0, 30.0), (40.0, 50.0, 70.0)
+# OSM maxspeed outside this range is ignored.  Values below 30 km/h are restrictions of switches, curves and loops;
+# matching points every 10 m to the nearest track piece picks turning tracks at junctions, so these are not used
+# (the cap describes the line speed of the track, 30-70 km/h).
+MAXSPEED_MIN, MAXSPEED_MAX = 30.0, 100.0
+
+
+def parse_maxspeed(v) -> float:
+    """km/h from an OSM maxspeed value: a number ("50", "50 km/h") or PL:urban (50); anything else NaN."""
+    if v is None or (isinstance(v, float) and not np.isfinite(v)):
+        return float("nan")
+    t = str(v).strip().lower().replace("km/h", "").strip()
+    if t == "pl:urban":
+        return 50.0
+    try:
+        x = float(t)
+    except ValueError:
+        return float("nan")
+    return x if MAXSPEED_MIN <= x <= MAXSPEED_MAX else float("nan")
 
 
 def _h(s: str, n: int = 8) -> str:
@@ -131,18 +157,17 @@ def free_time(d, p: dict) -> np.ndarray:
     return np.where(d >= full, t_full, t_short) + p["dwell_s"]
 
 
-def curve_penalty(curves: list[tuple[float, float]], p: dict) -> float:
-    """Extra seconds for curves (length m, min radius m) when a lateral limit is set; approach speed = cap."""
-    if not p.get("a_lat"):
-        return 0.0
-    a, b, v = p["a_acc"], p["b_brk"], p["v_cap_kmh"] / 3.6
-    t = 0.0
-    for L, R in curves:
-        vc = min(v, np.sqrt(p["a_lat"] * R))
-        if vc >= v:
-            continue
-        t += L * (1 / vc - 1 / v) + (v - vc) ** 2 / (2 * v) * (1 / a + 1 / b)
-    return t
+def cap_kmh(ms, p: dict) -> float:
+    """Time-equivalent cap of a stretch: harmonic mean over its sample points of the OSM maxspeed where tagged and
+    p["v_cap_kmh"] elsewhere (``ms``: per-point maxspeed, NaN = untagged; None = no OSM)."""
+    v0 = p["v_cap_kmh"]
+    if ms is None or not p.get("osm_maxspeed", True):
+        return v0
+    ms = np.asarray(ms, float)
+    if len(ms) == 0:
+        return v0
+    v = np.where(np.isfinite(ms), ms, v0)
+    return float(1.0 / np.mean(1.0 / v))
 
 
 # ------------------------------------------------------------------ places and graph
@@ -458,6 +483,7 @@ def osm_city(agg: str, osm: dict) -> dict:
     reason[(reason == "") & near_ok] = "oś jezdni blisko toru"
     piece_geom = shapely.linestrings(np.stack([pa, pb], axis=1))
     ptree = shapely.STRtree(piece_geom)
+    way_ms = np.array([parse_maxspeed(v) for v in tw["maxspeed"]], dtype=float)
     # ---- points: switches, crossings
     deg = pd.Series(np.r_[tNA, tNB]).value_counts()
     node_xy = {}
@@ -528,7 +554,9 @@ def osm_city(agg: str, osm: dict) -> dict:
             (xn["crossing_signals"] == "yes") | (xn["traffic_signals"].notna())]
     sg = sg[(sg["x"] >= x0) & (sg["x"] <= x1) & (sg["y"] >= y0) & (sg["y"] <= y1)]
     return {"pieces": {"geom": piece_geom, "tree": ptree, "cls": cls, "reason": reason, "seg": pseg,
-                       "way": tW[pseg], "dist": dist, "near_hw": near_hw},
+                       "way": tW[pseg], "dist": dist, "near_hw": near_hw, "maxspeed": way_ms[tW[pseg]]},
+            "track_len_m": float(L.sum()), "track_len_maxspeed_m": float(L[np.isfinite(way_ms[tW])].sum()),
+            "track_len_maxspeed_any_m": float(L[tw["maxspeed"].notna().to_numpy()[tW]].sum()),
             "tram_ways": tw, "points": P, "ptree": shapely.STRtree(shapely.points(P[["x", "y"]].to_numpy())) if len(P) else None,
             "signals": cKDTree(sg[["x", "y"]].to_numpy()) if len(sg) else None,
             "switches": np.array(sw) if sw else np.empty((0, 2)),
@@ -578,7 +606,7 @@ def _cluster_1d(a: np.ndarray, gap: float) -> list[np.ndarray]:
 
 
 OSM_COLS = ["osm_match_share", "osm_match_median_m", "share_street", "share_pedestrian", "share_separated",
-            "share_unmatched", "n_road_crossings", "n_signalised", "n_minor_crossings", "n_ped_crossings",
+            "share_unmatched", "share_maxspeed_tagged", "osm_maxspeed_kmh", "n_road_crossings", "n_signalised", "n_minor_crossings", "n_ped_crossings",
             "n_ped_standalone", "n_switches", "n_curves_r50", "len_curves_r100_m"]
 
 
@@ -586,6 +614,7 @@ def no_osm(coords: np.ndarray) -> dict:
     out = {c: None for c in OSM_COLS}
     out["length_m"] = float(shapely.length(shapely.linestrings(coords)))
     out["_curves"] = []
+    out["_ms"] = None
     return out
 
 
@@ -598,11 +627,16 @@ def osm_attrs(coords: np.ndarray, O: dict) -> dict:
     ip, ig = pc["tree"].query_nearest(pg, max_distance=MATCH_M, return_distance=False, all_matches=False)
     d = np.full(len(pg), np.nan)
     kind = np.full(len(pg), "brak dopasowania", dtype=object)
+    ms = np.full(len(pg), np.nan)
     if len(ip):
         d[ip] = shapely.distance(pg[ip], pc["geom"][ig])
         kind[ip] = pc["cls"][ig]
-    n = len(pg)
+        ms[ip] = pc["maxspeed"][ig]
+    tagged = np.isfinite(ms)
     out = {"length_m": L, "osm_match_share": float(np.isfinite(d).mean()),
+           "share_maxspeed_tagged": float(tagged.mean()),
+           "osm_maxspeed_kmh": float(1.0 / np.mean(1.0 / ms[tagged])) if tagged.any() else None,
+           "_ms": ms,
            "osm_match_median_m": float(np.nanmedian(d)) if np.isfinite(d).any() else None,
            "share_street": float((kind == "street").mean()), "share_pedestrian": float((kind == "pedestrian").mean()),
            "share_separated": float((kind == "separated").mean()), "share_unmatched": float((kind == "brak dopasowania").mean())}
@@ -756,22 +790,41 @@ def _line_key(s: str):
 
 
 # ------------------------------------------------------------------ assembly
-def stretch_metrics(S: pd.DataFrame, ST: pd.DataFrame, p: dict) -> pd.DataFrame:
-    """Per stretch direction x day x band: speed, scheduled time, free time, slack (model parameters p)."""
-    base = S.set_index("stretch_dir_id")
+def free_minutes(S: pd.DataFrame, p: dict) -> dict:
+    """Free-running time (min) per stretch direction with model parameters p."""
     ft = {}
-    for sd, r in base.iterrows():
-        el = np.asarray(r["edge_lengths_m"], float)
+    for sd, el, ms in zip(S["stretch_dir_id"], S["edge_lengths_m"], S["_ms"]):
+        el = np.asarray(el, float)
         el = el[np.isfinite(el)]
-        ft[sd] = float(free_time(el, p).sum() + curve_penalty(r["_curves"], p)) / 60
+        q = {**p, "v_cap_kmh": cap_kmh(ms, p)}
+        ft[sd] = float(free_time(el, q).sum()) / 60
+    return ft
+
+
+def stretch_metrics(S: pd.DataFrame, ST: pd.DataFrame, p: dict, with_range: bool = True) -> pd.DataFrame:
+    """Per stretch direction x day x band: speed with its +-1 min rounding interval, scheduled time, free-running
+    time and the time above free running (model parameters p; range over RANGE_DWELL_S x RANGE_CAP_KMH)."""
+    base = S.set_index("stretch_dir_id")
     m = ST.copy()
     m["speed_kmh"] = m["len_sum"] / m["t_sum"] * 3.6
     L = m["sd"].map(base["length_m"])
-    m["sched_min"] = L / (m["speed_kmh"] / 3.6) / 60
-    m["free_min"] = m["sd"].map(ft)
-    m["slack_min"] = m["sched_min"] - m["free_min"]
-    m["slack_min_per_km"] = m["slack_min"] / (L / 1000)
     m["length_m"] = L
+    m["sched_min"] = L / (m["speed_kmh"] / 3.6) / 60
+    # whole-minute timetables: the stretch time may be off by up to a minute
+    m["speed_lo_kmh"] = L / 1000 / ((m["sched_min"] + 1) / 60)
+    m["speed_hi_kmh"] = (L / 1000 / ((m["sched_min"] - 1) / 60)).where(m["sched_min"] > 1)
+    m["free_min"] = m["sd"].map(free_minutes(S, p))
+    m["slack_min"] = m["sched_min"] - m["free_min"]           # raw difference, may be negative (internal only)
+    km = L / 1000
+    m["faster_than_model"] = m["slack_min"] < 0
+    m["taf_s_per_km"] = (m["slack_min"] * 60 / km).where(~m["faster_than_model"])
+    if with_range:
+        grid = [free_minutes(S, {**p, "dwell_s": d, "v_cap_kmh": c}) for d in RANGE_DWELL_S for c in RANGE_CAP_KMH]
+        vals = np.column_stack([(m["sched_min"] - m["sd"].map(g)).to_numpy() * 60 / km.to_numpy() for g in grid])
+        lo, hi = np.nanmin(vals, axis=1), np.nanmax(vals, axis=1)
+        ok = ~m["faster_than_model"].to_numpy()
+        m["taf_lo_s_per_km"] = np.where(ok, np.maximum(lo, 0.0), np.nan)
+        m["taf_hi_s_per_km"] = np.where(ok, np.maximum(hi, 0.0), np.nan)
     return m
 
 
@@ -801,7 +854,10 @@ def run() -> dict:
                      "share_street_len": float((S["share_street"] * S["length_m"]).sum() / S["length_m"].sum()),
                      "share_pedestrian_len": float((S["share_pedestrian"] * S["length_m"]).sum() / S["length_m"].sum()),
                      "share_separated_len": float((S["share_separated"] * S["length_m"]).sum() / S["length_m"].sum()),
-                     "share_unmatched_len": float((S["share_unmatched"] * S["length_m"]).sum() / S["length_m"].sum())})
+                     "share_unmatched_len": float((S["share_unmatched"] * S["length_m"]).sum() / S["length_m"].sum()),
+                     "share_track_len_maxspeed_any_osm": R["O"]["track_len_maxspeed_any_m"] / R["O"]["track_len_m"],
+                     "share_track_len_maxspeed_used": R["O"]["track_len_maxspeed_m"] / R["O"]["track_len_m"],
+                     "share_stretch_len_maxspeed": float((S["share_maxspeed_tagged"] * S["length_m"]).sum() / S["length_m"].sum())})
         print(f"  {city}: {S['stretch_id'].nunique()} stretches, {len(S)} directions, {time.time() - t0:.0f} s", flush=True)
     S = pd.concat(allS, ignore_index=True)
     ST = pd.concat(allST, ignore_index=True)
@@ -844,7 +900,7 @@ def run_bus(t0: float) -> dict:
             print(f"  {sc.AGG_NAMES[agg]} {mode}: {len(S)} directions, {time.time() - t0:.0f} s", flush=True)
     S = pd.concat(allS, ignore_index=True)
     ST = pd.concat(allST, ignore_index=True)
-    M = stretch_metrics(S, ST, KIN)
+    M = stretch_metrics(S, ST, KIN, with_range=False)
     return out.write_bus(S, M, geoms, pd.DataFrame(diag), t0)
 
 

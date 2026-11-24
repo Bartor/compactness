@@ -85,11 +85,14 @@ def metrics(city: pd.DataFrame, gap: pd.DataFrame, share: pd.DataFrame) -> list[
                 f"Udział wozokilometrów tramwajów na odcinkach z prędkością rozkładową < 15 km/h, szczyt poranny (śr. {days['weekday']}), {c}",
                 float(s["share_vkm_below_15kmh"].iloc[0]) * 100, "%", days["weekday"], "main", src=SRC_STRETCH,
                 flag=FLAG + "; tylko odcinki o czasie przejazdu >= 5 min (krótsze: osobny udział)")
-            add(agg, "city_tram_network", "tram_slack_share_am_peak",
-                f"Zapas rozkładowy tramwajów ponad prosty model jazdy, udział czasu rozkładowego, szczyt poranny (śr. {days['weekday']}), {c}",
-                float(s["slack_share_of_scheduled_time"].iloc[0]) * 100, "%", days["weekday"], "table", src=SRC_STRETCH,
-                flag="szacunek z modelu (przyspieszenie 1,0 m/s², hamowanie 1,0 m/s², limit 50 km/h, postój 20 s); "
-                     "zawiera sygnalizację, ograniczenia prędkości, wymianę pasażerów i rezerwy rozkładu; nie jest pomiarem strat na światłach")
+            lo, hi = float(s["taf_lo_s_per_km"].iloc[0]), float(s["taf_hi_s_per_km"].iloc[0])
+            add(agg, "city_tram_network", "tram_time_above_free_running_s_per_km_am_peak",
+                f"Czas ponad jazdę swobodną (model) tramwajów, s/km, szczyt poranny (śr. {days['weekday']}), {c}",
+                float(s["taf_s_per_km"].iloc[0]), "s/km", days["weekday"], "table", src=SRC_STRETCH,
+                flag=f"model, nie pomiar; przedział {fnum(lo, 0)}–{fnum(hi, 0)} s/km (postój 10–30 s, limit 40–70 km/h tam, "
+                     "gdzie OSM nie podaje maxspeed); wartość środkowa: przyspieszenie i hamowanie 1,0 m/s², limit 50 km/h "
+                     "albo maxspeed z OSM, postój 20 s; zawiera sygnalizację, ograniczenia prędkości, wymianę pasażerów "
+                     "i rezerwy rozkładu")
             add(agg, "city_tram_network", "tram_vkm_share_short_stretches",
                 f"Udział wozokilometrów tramwajów na odcinkach krótszych niż 5 min (poza rankingami), szczyt poranny, {c}",
                 float(s["share_vkm_below_min_stretches"].iloc[0]) * 100, "%", days["weekday"], "table", src=SRC_STRETCH)
@@ -128,7 +131,7 @@ def note(D: dict) -> str:
     o.append(f"Rozkłady: środa {days['weekday']} i sobota {days['saturday']} (feedy pobrane 2026-11-23); OSM 2026-11-22; "
              "ludność NSP 2021 w układzie GHSL 2020 (tylko do grup gęstości w części 2). Kod: `pipeline/speed_core.py`, "
              "`speed_tables.py`, `speed_areas.py` (+ `speed_areas_out.py`), `tram_stretches.py` (+ `tram_stretches_out.py`), "
-             "`speed_osm.py`, `speed_report.py`, `speed_text.py`.\n")
+             "`speed_osm.py`, `speed_report.py`, `speed_text.py`; pliki mapy: `speed_web.py`.\n")
     o.append(TX.INTRO)
     o.append(TX.BANDS)
     o.append(TX.FOUNDATION)
@@ -194,6 +197,20 @@ def note(D: dict) -> str:
     o.append(md_table(pd.DataFrame(rows)))
     o.append(TX.QUICK_READING)
     o.append(TX.PUBLISHED)
+    pc = D["puls"]
+    city = D["city"]
+    rows = []
+    for r in pc.itertuples(index=False):
+        a = city[(city["agglomeration"] == r.agglomeration) & (city["mode"] == "tram") & (city["variant"] == "all") &
+                 (city["day_type"] == "weekday") & (city["band"] == "all_day")]
+        rows.append({"Miasto": TRAM_CITY[r.agglomeration], "Linie (po 21:00)": f"{r.n_lines} ({r.n_lines_offpeak})",
+                     "Puls 2023: średnia / 15:00 / 21:00": f"{fnum(r.puls_2023_overall_kmh)} / {fnum(r.puls_2023_peak_kmh)} / {fnum(r.puls_2023_offpeak_kmh)}",
+                     "Ta metoda Pulsu, 2026: średnia / 15:00 / 21:00": f"{fnum(r.puls_style_overall_kmh)} / {fnum(r.puls_style_peak_kmh)} / {fnum(r.puls_style_offpeak_kmh)}",
+                     "Różnica (średnia)": fnum(r.diff_overall_kmh),
+                     "Wszystkie kursy, cała doba": fnum(a["speed_kmh"].iloc[0]) if len(a) else "brak danych"})
+    o.append(md_table(pd.DataFrame(rows)))
+    o.append(TX.PULS_READING)
+    o.append(TX.DEFINITIONS)
     # ---- part 3
     o.append("## 3. Odcinki sieci tramwajowej\n")
     o.append(TX.STRETCH_RULE)
@@ -216,23 +233,31 @@ def note(D: dict) -> str:
     o.append(TX.ROUNDING_READING)
     o.append("### 3.2 Torowisko w jezdni czy wydzielone: reguła i sprawdzenie\n")
     o.append(TX.SEPARATION)
-    o.append("### 3.3 Zapas rozkładowy (model jazdy swobodnej)\n")
+    o.append("### 3.3 Czas ponad jazdę swobodną (model)\n")
     o.append(TX.KINEMATICS)
+    dg2 = D["sdiag"]
+    o.append("Pokrycie tagiem `maxspeed` (tory `railway=tram` w FUA + 2 km, OSM 2026-11-22):\n\n" + md_table(pd.DataFrame({
+        "Miasto": dg2["city"], "Długość torów z dowolnym maxspeed": [pct(x, 0) for x in dg2["share_track_len_maxspeed_any_osm"]],
+        "Z maxspeed 30–100 km/h (użyte)": [pct(x, 0) for x in dg2["share_track_len_maxspeed_used"]],
+        "Długość odcinków z użytym maxspeed": [pct(x, 0) for x in dg2["share_stretch_len_maxspeed"]]})))
+    o.append(TX.MAXSPEED_READING)
     sens = D["sens"]
-    pv = sens.pivot_table(index="variant", columns="agglomeration", values="slack_share_of_scheduled_time", sort=False)
+    pv = sens.pivot_table(index="variant", columns="agglomeration", values="taf_s_per_km", sort=False)
     pv = pv[[a for a in sc.AGGS if a in pv.columns]]
     tbl = pd.DataFrame({"Wariant": pv.index})
     for a in pv.columns:
-        tbl[TRAM_CITY[a]] = [pct(x, 0) for x in pv[a]]
+        tbl[TRAM_CITY[a]] = [fnum(x, 0) for x in pv[a]]
     rk = sens.groupby("variant", sort=False).agg(rc=("rank_corr_with_main", "min"), ov=("top10_overlap_with_main", "min"),
-                                                  neg=("share_stretches_negative_slack", "max")).reindex(pv.index)
+                                                  neg=("share_stretches_faster_than_model", "max")).reindex(pv.index)
     tbl["Min. korelacja rang z głównym"] = [fnum(x, 2) for x in rk["rc"]]
     tbl["Min. wspólnych w top 10"] = [int(x) for x in rk["ov"]]
-    tbl["Maks. udział odcinków z ujemnym zapasem"] = [pct(x, 0) for x in rk["neg"]]
-    o.append("Udział zapasu w czasie rozkładowym, szczyt poranny w środę (odcinki ≥ 5 min):\n\n" + md_table(tbl))
+    tbl["Maks. udział odcinków szybszych niż model"] = [pct(x, 0) for x in rk["neg"]]
+    o.append("Czas ponad jazdę swobodną w mieście, s/km (suma czasu rozkładowego minus suma czasu swobodnego, na wozokilometr), "
+             "szczyt poranny w środę, odcinki ≥ 5 min; wariant zmienia jeden parametr modelu:\n\n" + md_table(tbl))
     o.append(TX.SENS_READING)
     sh = D["share"]
-    o.append("### 3.4 Miasta: prędkość na odcinkach i udział wolnych odcinków (środa)\n")
+    o.append("### 3.4 Miasta: prędkość na odcinkach według stałych klas (środa)\n")
+    o.append(TX.CLASSES)
     rows = []
     for agg in sc.AGGS:
         for band in ("am_peak", "midday", "evening"):
@@ -240,22 +265,29 @@ def note(D: dict) -> str:
             if not len(x):
                 continue
             x = x.iloc[0]
-            rows.append({"Miasto": TRAM_CITY[agg], "Pasmo": sc.band_label("weekday", band), "Prędkość, km/h": fnum(x.speed_kmh_all_stretches),
-                         "Wozokm < 12 km/h": pct(x.share_vkm_below_12kmh), "< 15 km/h": pct(x.share_vkm_below_15kmh),
-                         "< 18 km/h": pct(x.share_vkm_below_18kmh), "Zapas / czas rozkładowy": pct(x.slack_share_of_scheduled_time),
-                         "Wozokm na odcinkach < 5 min": pct(x.share_vkm_below_min_stretches)})
-    o.append(md_table(pd.DataFrame(rows)))
-    o.append("### 3.5 Najwolniejsze odcinki i największy zapas na km, szczyt poranny w środę\n")
+            r = {"Miasto": TRAM_CITY[agg], "Pasmo": sc.band_label("weekday", band), "Prędkość, km/h": fnum(x.speed_kmh_all_stretches)}
+            for i, lab in enumerate(sc.CLASS_LABELS):
+                r[lab] = pct(getattr(x, f"share_vkm_class_{i}"), 0)
+            r["Ponad jazdę swobodną, s/km (przedział)"] = (f"{fnum(x.taf_s_per_km, 0)} ({fnum(x.taf_lo_s_per_km, 0)}–"
+                                                          f"{fnum(x.taf_hi_s_per_km, 0)})")
+            r["Wozokm na odcinkach < 5 min"] = pct(x.share_vkm_below_min_stretches)
+            rows.append(r)
+    o.append("Udział wozokilometrów w klasach prędkości (odcinki ≥ 5 min):\n\n" + md_table(pd.DataFrame(rows)))
+    o.append("### 3.5 Najwolniejsze odcinki i największy czas ponad jazdę swobodną, szczyt poranny w środę\n")
     o.append(TX.RANK_RULE)
     rk = D["rank"]
     for agg in ("wroclaw",) + TX.RANK_CITIES:
-        for kind in ("najniższa prędkość", "największy zapas na km"):
+        for kind in ("najniższa prędkość", "największy czas ponad jazdę swobodną"):
             x = rk[(rk["agglomeration"] == agg) & (rk["ranking"] == kind)]
             o.append(f"**{TRAM_CITY[agg]}: {kind}**\n\n")
             o.append(md_table(pd.DataFrame({
                 "#": x["rank"], "Odcinek": x["name"], "Linie": x["lines"], "Długość, m": [fnum(v, 0) for v in x["length_m"]],
-                "km/h 07–09": [fnum(v) for v in x["speed_kmh_am_peak"]], "km/h 20–23": [fnum(v) for v in x["speed_kmh_evening"]],
-                "Zapas, min/km": [fnum(v, 2) for v in x["slack_min_per_km_am_peak"]],
+                "km/h 07–09 (±1 min)": [f"{fnum(v)} ({fnum(a)}–{fnum(b)})" for v, a, b in
+                                        zip(x["speed_kmh_am_peak"], x["speed_lo_kmh_am_peak"], x["speed_hi_kmh_am_peak"])],
+                "km/h 20–23": [fnum(v) for v in x["speed_kmh_evening"]],
+                "Ponad jazdę swobodną, s/km (przedział)": [f"{fnum(v, 0)} ({fnum(a, 0)}–{fnum(b, 0)})" for v, a, b in
+                                                           zip(x["taf_s_per_km_am_peak"], x["taf_lo_s_per_km_am_peak"],
+                                                               x["taf_hi_s_per_km_am_peak"])],
                 "W jezdni": [pct(v, 0) for v in x["share_street"]], "Skrzyżowania (z sygn.)": [f"{a} ({b})" for a, b in zip(x["n_road_crossings"], x["n_signalised"])],
                 "Przejścia poza skrzyż.": x["n_ped_standalone"], "Rozjazdy": x["n_switches"]})))
             o.append("\n")
@@ -300,6 +332,15 @@ def note(D: dict) -> str:
     o.append("## 5. Pliki\n")
     sz = D["sizes"]
     o.append(md_table(pd.DataFrame({"Plik": list(sz), "MB": [fnum(v, 2) for v in sz.values()]})))
+    o.append(TX.WEB)
+    wm = D.get("web")
+    if wm:
+        names = sorted(wm["sizes_mb"])
+        o.append(md_table(pd.DataFrame({"Plik (results/web/speed/)": names,
+                                        "Obiekty": [wm["features"].get(n) for n in names],
+                                        "MB": [fnum(wm["sizes_mb"][n], 2) for n in names]})))
+        o.append(f"Razem {fnum(wm['total_mb'], 2)} MB (cele: tramwaje < 1,5 MB, autobusy < 4 MB na plik, tabela linii "
+                 f"< 2 MB, razem < 25 MB; przekroczone: {', '.join(wm['over_target']) or 'żaden'}).\n")
     o.append(TX.LIMITS)
     o.append(TX.UNVERIFIED)
     return "".join(x.strip("\n") + "\n\n" for x in o).rstrip("\n") + "\n"
@@ -318,6 +359,7 @@ def main() -> None:
          "share": pd.read_csv(QA / "stretches" / "city_stretch_summary.csv"),
          "rank": pd.read_csv(QA / "stretches" / "ranking_am_peak.csv"),
          "busq": pd.read_csv(QA / "stretches" / "bus_stretch_quality.csv"),
+         "puls": pd.read_csv(QA / "tables" / "puls_style_city.csv"),
          "cov": pd.read_csv(QA / "areas" / "coverage.csv"),
          "sdh": pd.read_csv(QA / "areas" / "diag_straight_hops.csv"),
          "dens": pd.read_csv(QA / "areas" / "city_by_density.csv"),
@@ -327,6 +369,9 @@ def main() -> None:
              "tables/tram_stretch_stop_pairs.csv", "tables/tram_stretch_stops.csv", "tables/bus_stretches.csv",
              "layers/tram_stretches.parquet", "layers/bus_stretches.parquet", "layers/rail_metro_lines.parquet",
              "layers/speed_areas.parquet", "metrics/metrics_speed.csv", "metrics/metrics_speed.json"]
+    import json
+    wmp = RESULTS / "web" / "speed" / "_meta.json"
+    D["web"] = json.loads(wmp.read_text(encoding="utf-8")) if wmp.exists() else None
     rows = metrics(D["city"], D["gap"], D["share"])
     write_metrics(rows)
     D["sizes"] = {f: round((RESULTS / f).stat().st_size / 1e6, 2) for f in files if (RESULTS / f).exists()}

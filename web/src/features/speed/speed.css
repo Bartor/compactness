@@ -1,0 +1,21 @@
+/* Scheduled-speed overlay and table. Uses the app's tokens where they exist, with fallbacks. */
+.speed-filters { display: flex; flex-wrap: wrap; gap: 0.4rem 0.8rem; margin-bottom: 0.4rem; }
+.speed-caption { margin: 0 0 0.5rem; font-size: 0.85rem; opacity: 0.85; }
+.speed-cell { display: inline-flex; align-items: center; gap: 0.35rem; }
+.speed-swatch { display: inline-block; width: 0.7rem; height: 0.7rem; border-radius: 2px; }
+.speed-line {
+  font: inherit; color: inherit; background: none; border: 1px solid transparent; border-radius: 4px;
+  padding: 0 0.35rem; cursor: pointer; min-width: 2.2rem; text-align: left;
+}
+.speed-line.hot, .speed-table tr:hover .speed-line { border-color: currentColor; }
+.speed-line.pinned { background: rgba(255, 255, 255, 0.16); border-color: currentColor; font-weight: 600; }
+.speed-table tr:has(.speed-line.hot) td, .speed-table tr:has(.speed-line.pinned) td { background: rgba(255, 255, 255, 0.06); }
+
+.line-key { display: inline-block; width: 1.4rem; height: 4px; border-radius: 2px; margin-right: 0.4rem; vertical-align: middle; }
+.line-key.dashed { background: repeating-linear-gradient(90deg, currentColor 0 6px, transparent 6px 10px); }
+
+.speed-popup .sp-stops { font-size: 0.78rem; opacity: 0.8; margin: 0.2rem 0 0.4rem; }
+.speed-popup .sp-bars { display: flex; align-items: flex-end; gap: 2px; height: 28px; margin: 0.3rem 0 0.5rem; }
+.speed-popup .sp-bar { flex: 1; height: 100%; display: flex; align-items: flex-end; background: rgba(255, 255, 255, 0.06); }
+.speed-popup .sp-bar i { display: block; width: 100%; }
+.speed-popup .sp-bar.missing { background: repeating-linear-gradient(45deg, rgba(255,255,255,0.12) 0 2px, transparent 2px 5px); }

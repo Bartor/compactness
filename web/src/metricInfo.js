@@ -13,7 +13,9 @@ export const METRIC_GROUPS = [
   { id: 'poly', title: 'Kilka ośrodków czy jeden', metrics: ['poly_eta_mask_t20', 'hotspots_n', 'hotspots_largest_share'] },
   {
     id: 'supply', title: 'Oferta komunikacji',
-    metrics: ['vkm_per_cap_day_total', 'tram_speed_median', 'freq_seg_net_le5min', 'freq_seg_net_le10min',
+    metrics: ['vkm_per_cap_day_total', 'tram_speed_median', 'tram_speed_sched_am_peak', 'tram_speed_sched_evening',
+      'tram_vkm_share_below15_am_peak', 'tram_time_above_free_running_s_per_km_am_peak',
+      'freq_seg_net_le5min', 'freq_seg_net_le10min',
       'freq_seg_net_le15min', 'freq_seg_net_le20min', 'freq_seg_net_le30min', 'rail_ge4dph_net_1km'],
   },
   { id: 'match', title: 'Gęstość a oferta', metrics: ['dxs_dense_underserved_share', 'dxs_rank_correlation'] },
@@ -248,6 +250,57 @@ export const METRIC_INFO = {
     method: [
       'Dla każdego kursu długość trasy podzielona przez czas od pierwszego odjazdu do ostatniego przyjazdu; mediana '
       + 'po kursach w środę 2026-11-25.',
+    ],
+  },
+  tram_speed_sched_am_peak: {
+    short: 'Prędkość tramwajów w szczycie (7–9)',
+    better: 'higher',
+    read: [
+      'Jak szybko tramwaje jeżdżą według rozkładu w porannym szczycie, z postojami na przystankach. To prędkość '
+      + 'planowana, nie zmierzona.',
+      'Porównaj z wierszem „wieczorem”: różnica pokazuje, ile rozkład dolicza na ruch i tłok w szczycie.',
+    ],
+    method: ['Długość trasy podzielona przez czas przejazdu z rozkładu, razem z postojami na przystankach, dla wszystkich kursów tramwajów w danym paśmie godzin (środa 2026-11-25); kurs należy do pasma według godziny pierwszego odjazdu. To suma kilometrów podzielona przez sumę godzin, więc linie z wieloma kursami ważą więcej.'],
+  },
+  tram_speed_sched_evening: {
+    short: 'Prędkość tramwajów wieczorem (20–23)',
+    better: 'higher',
+    read: [
+      'Ta sama prędkość z rozkładu, ale dla kursów zaczynających się między 20:00 a 23:00, gdy ulice są puste, '
+      + 'a wymiana pasażerów krótka.',
+      'Jeśli wieczorem jest wyraźnie szybciej niż w szczycie (we Wrocławiu o ok. 1,7 km/h), to w szczycie tramwaje '
+      + 'tracą czas na skrzyżowaniach i przystankach, a nie na samej trasie.',
+    ],
+    method: ['Długość trasy podzielona przez czas przejazdu z rozkładu, razem z postojami na przystankach, dla wszystkich kursów tramwajów w danym paśmie godzin (środa 2026-11-25); kurs należy do pasma według godziny pierwszego odjazdu. To suma kilometrów podzielona przez sumę godzin, więc linie z wieloma kursami ważą więcej.'],
+  },
+  tram_vkm_share_below15_am_peak: {
+    short: 'Jazda tramwajów poniżej 15 km/h',
+    better: 'lower',
+    read: [
+      'Jaka część kilometrów przejeżdżanych przez tramwaje w porannym szczycie przypada na odcinki, na których '
+      + 'rozkład zakłada mniej niż 15 km/h. To odcinki, gdzie tramwaj jedzie wolniej niż rowerzysta.',
+      'Niżej znaczy lepiej. Liczą się odcinki o czasie przejazdu co najmniej 5 minut; krótsze są zbyt wrażliwe na '
+      + 'zaokrąglenie rozkładu do pełnych minut.',
+    ],
+    method: [
+      'Sieć tramwajowa podzielona na odcinki między węzłami; dla każdego prędkość z rozkładu w paśmie 7–9 '
+      + '(środa 2026-11-25) i liczba wozokilometrów. Rozkład, nie pomiar.',
+    ],
+  },
+  tram_time_above_free_running_s_per_km_am_peak: {
+    short: 'Czas ponad jazdę swobodną (model)',
+    better: 'lower',
+    read: [
+      'Ile sekund na każdy kilometr rozkład dolicza ponad czas, w jakim tramwaj przejechałby trasę bez przeszkód: '
+      + 'ruszając, jadąc z dozwoloną prędkością i hamując przed każdym przystankiem. W tym czasie mieszczą się '
+      + 'światła, ograniczenia prędkości, dłuższa wymiana pasażerów i rezerwy rozkładu.',
+      'To wynik modelu, nie pomiar. Przedział przy liczbie (w objaśnieniu wiersza) pokazuje, jak bardzo zależy od '
+      + 'założeń; porównuj miasta, nie czytaj pojedynczej wartości dosłownie.',
+    ],
+    method: [
+      'Czas z rozkładu minus czas jazdy swobodnej: przyspieszenie i hamowanie 1,0 m/s², prędkość do 50 km/h albo '
+      + 'do ograniczenia zapisanego w OpenStreetMap, postój 20 s na przystanku. Przedział: postój 10–30 s i limit '
+      + '40–70 km/h. Odcinki, na których rozkład jest szybszy od modelu, nie dostają wartości.',
     ],
   },
   freq_seg_net_le5min: freq(5),

@@ -2,7 +2,8 @@
 
 Files
 * results/tables/tram_stretches.csv          one row per stretch direction: ids, names, stop sequence, lines, length,
-                                             OSM attributes, per-band speed / scheduled time / slack / trips
+                                             OSM attributes, per-band speed (+-1 min interval, fixed class) / scheduled
+                                             time / time above free running (s/km, central, low, high) / trips
 * results/tables/tram_stretch_bands.csv      long form (stretch direction x day x band) for scenarios
 * results/tables/tram_stretch_stop_pairs.csv GTFS stop pair -> stretch direction and edge index (scenario mapping)
 * results/tables/tram_stretch_stops.csv      stop places of each stretch direction in order, with member stop ids
@@ -44,29 +45,38 @@ def below_min(S: pd.DataFrame, M: pd.DataFrame) -> pd.Series:
     return (t < T.MIN_MIN) | (S["n_hops"] < T.MIN_HOPS) | t.isna()
 
 
-def wide(S: pd.DataFrame, M: pd.DataFrame) -> pd.DataFrame:
-    out = S.drop(columns=["edge_lengths_m", "_curves"]).copy()
+def wide(S: pd.DataFrame, M: pd.DataFrame, model: bool = True) -> pd.DataFrame:
+    """One row per stretch direction; per band: speed with its +-1 min interval and fixed class, scheduled time, trips
+    and (model=True, trams) the time above free running in s/km with its range and the faster-than-model flag."""
+    out = S.drop(columns=["edge_lengths_m", "_curves", "_ms"]).copy()
     out["below_min"] = below_min(S, M).to_numpy()
-    fm = M.drop_duplicates("sd").set_index("sd")["free_min"]
-    out["free_running_min"] = out["stretch_dir_id"].map(fm)
+    if model:
+        fm = M.drop_duplicates("sd").set_index("sd")["free_min"]
+        out["free_running_min"] = out["stretch_dir_id"].map(fm)
     wd = M[(M["day_type"] == "weekday") & (M["band"] == "all_day")].set_index("sd")
     out["lines_weekday"] = out["stretch_dir_id"].map(wd["lines"])
     out["vehicle_km_weekday"] = out["stretch_dir_id"].map(wd["len_sum"] / 1000)
+    cols = {}
     for dt in sc.days():
         for b in sc.band_ids(dt) + ["all_day"]:
             m = M[(M["day_type"] == dt) & (M["band"] == b)].set_index("sd")
             p = f"{DAYCODE[dt]}_{b}"
-            out[f"speed_kmh_{p}"] = out["stretch_dir_id"].map(m["speed_kmh"])
-            out[f"sched_min_{p}"] = out["stretch_dir_id"].map(m["sched_min"])
-            out[f"slack_min_{p}"] = out["stretch_dir_id"].map(m["slack_min"])
-            out[f"slack_min_per_km_{p}"] = out["stretch_dir_id"].map(m["slack_min_per_km"])
-            out[f"trips_{p}"] = out["stretch_dir_id"].map(m["n_trips"]).astype("Int64")
+            sd = out["stretch_dir_id"]
+            cols[f"speed_kmh_{p}"] = sd.map(m["speed_kmh"])
+            cols[f"speed_lo_kmh_{p}"] = sd.map(m["speed_lo_kmh"])
+            cols[f"speed_hi_kmh_{p}"] = sd.map(m["speed_hi_kmh"])
+            c = sc.speed_class(cols[f"speed_kmh_{p}"].to_numpy())
+            cols[f"speed_class_{p}"] = pd.array(np.where(c >= 0, c, None), dtype="Int64")
+            cols[f"sched_min_{p}"] = sd.map(m["sched_min"])
+            if model:
+                cols[f"taf_s_per_km_{p}"] = sd.map(m["taf_s_per_km"])
+                cols[f"taf_lo_s_per_km_{p}"] = sd.map(m["taf_lo_s_per_km"])
+                cols[f"taf_hi_s_per_km_{p}"] = sd.map(m["taf_hi_s_per_km"])
+                cols[f"faster_than_model_{p}"] = sd.map(m["faster_than_model"]).astype("boolean")
+            cols[f"trips_{p}"] = sd.map(m["n_trips"]).astype("Int64")
             if b != "all_day":
-                out[f"tph_{p}"] = out[f"trips_{p}"].astype(float) / (sc.band_minutes(dt, b) / 60)
-    am = M[(M["day_type"] == "weekday") & (M["band"] == "am_peak")].set_index("sd")
-    sl = out["stretch_dir_id"].map(am["slack_min"])
-    nrc = pd.to_numeric(out["n_road_crossings"], errors="coerce")
-    out["slack_s_per_road_crossing_wd_am_peak"] = sl * 60 / nrc.where(nrc > 0)
+                cols[f"tph_{p}"] = cols[f"trips_{p}"].astype(float) / (sc.band_minutes(dt, b) / 60)
+    out = pd.concat([out, pd.DataFrame(cols, index=out.index)], axis=1)
     return out.sort_values(["agglomeration", "stretch_id", "dir"], kind="stable").reset_index(drop=True)
 
 
@@ -75,14 +85,17 @@ def ranking(W: pd.DataFrame) -> pd.DataFrame:
     for agg, g in W.groupby("agglomeration", sort=True):
         ok = g[~g["below_min"] & (g["trips_wd_am_peak"].fillna(0) >= T.RANK_MIN_TRIPS)]
         for kind, col, asc in (("najniższa prędkość", "speed_kmh_wd_am_peak", True),
-                               ("największy zapas na km", "slack_min_per_km_wd_am_peak", False)):
-            r = ok.sort_values([col, "stretch_dir_id"], ascending=[asc, True], kind="stable").head(10)
+                               ("największy czas ponad jazdę swobodną", "taf_s_per_km_wd_am_peak", False)):
+            r = ok[ok[col].notna()].sort_values([col, "stretch_dir_id"], ascending=[asc, True], kind="stable").head(10)
             for i, x in enumerate(r.itertuples(index=False), start=1):
                 rows.append({"agglomeration": agg, "ranking": kind, "rank": i, "stretch_dir_id": x.stretch_dir_id,
                              "name": x.name, "lines": x.lines_weekday, "length_m": x.length_m, "n_stops": x.n_stops,
-                             "speed_kmh_am_peak": x.speed_kmh_wd_am_peak, "speed_kmh_evening": x.speed_kmh_wd_evening,
+                             "speed_kmh_am_peak": x.speed_kmh_wd_am_peak, "speed_lo_kmh_am_peak": x.speed_lo_kmh_wd_am_peak,
+                             "speed_hi_kmh_am_peak": x.speed_hi_kmh_wd_am_peak, "speed_kmh_evening": x.speed_kmh_wd_evening,
                              "sched_min_am_peak": x.sched_min_wd_am_peak, "free_running_min": x.free_running_min,
-                             "slack_min_am_peak": x.slack_min_wd_am_peak, "slack_min_per_km_am_peak": x.slack_min_per_km_wd_am_peak,
+                             "taf_s_per_km_am_peak": x.taf_s_per_km_wd_am_peak,
+                             "taf_lo_s_per_km_am_peak": x.taf_lo_s_per_km_wd_am_peak,
+                             "taf_hi_s_per_km_am_peak": x.taf_hi_s_per_km_wd_am_peak,
                              "trips_am_peak": x.trips_wd_am_peak, "share_street": x.share_street,
                              "share_pedestrian": x.share_pedestrian, "share_separated": x.share_separated,
                              "n_road_crossings": x.n_road_crossings, "n_signalised": x.n_signalised,
@@ -92,7 +105,17 @@ def ranking(W: pd.DataFrame) -> pd.DataFrame:
     return pd.DataFrame(rows)
 
 
-def city_slow_share(W: pd.DataFrame, M: pd.DataFrame, thresholds=(12.0, T.SLOW_KMH, 18.0)) -> pd.DataFrame:
+def _city_taf(ok: pd.DataFrame, free: pd.Series) -> float:
+    """City time above free running, s/km: (sum of scheduled - free-running time over traversals) / vehicle-km.
+    An aggregate of times, so stretches faster than the model lower it; it is never shown per stretch as negative."""
+    te = ok["len_sum"] / ok["length_m"]
+    vkm = ok["len_sum"].sum() / 1000
+    return float((te * (ok["sched_min"] - free)).sum() * 60 / vkm) if vkm else float("nan")
+
+
+def city_slow_share(W: pd.DataFrame, M: pd.DataFrame, grid_free: list[dict] | None = None) -> pd.DataFrame:
+    """Per city, day and band: speed on all stretches, vehicle-km share per fixed speed class (stretches >= 5 min),
+    share below 15 km/h, time above free running (central and range over grid_free) and its share of scheduled time."""
     rows = []
     bm = W.set_index("stretch_dir_id")["below_min"]
     for (agg, dt, band), g in M.assign(agg=M["sd"].str[:3]).groupby(["agg", "day_type", "band"], sort=True):
@@ -102,11 +125,17 @@ def city_slow_share(W: pd.DataFrame, M: pd.DataFrame, thresholds=(12.0, T.SLOW_K
         r = {"city_code": agg, "day_type": dt, "band": band, "vehicle_km": float(g["len_sum"].sum() / 1000),
              "share_vkm_below_min_stretches": float(g.loc[g["bm"], "len_sum"].sum() / g["len_sum"].sum()),
              "speed_kmh_all_stretches": float(g["len_sum"].sum() / g["t_sum"].sum() * 3.6)}
-        for th in thresholds:
-            r[f"share_vkm_below_{int(th)}kmh"] = float(ok.loc[ok["speed_kmh"] < th, "len_sum"].sum() / tot) if tot else None
-        # slack share: traversal-equivalents x slack over traversal-equivalents x scheduled time
+        cls = sc.speed_class(ok["speed_kmh"].to_numpy())
+        for i in range(len(sc.CLASS_LABELS)):
+            r[f"share_vkm_class_{i}"] = float(ok["len_sum"].to_numpy()[cls == i].sum() / tot) if tot else None
+        r["share_vkm_below_15kmh"] = float(ok.loc[ok["speed_kmh"] < 15.0, "len_sum"].sum() / tot) if tot else None
+        r["taf_s_per_km"] = _city_taf(ok, ok["free_min"])
+        if grid_free:
+            v = [_city_taf(ok, ok["sd"].map(f)) for f in grid_free]
+            r["taf_lo_s_per_km"], r["taf_hi_s_per_km"] = float(np.nanmin(v)), float(np.nanmax(v))
         te = ok["len_sum"] / ok["length_m"]
-        r["slack_share_of_scheduled_time"] = float((te * ok["slack_min"]).sum() / (te * ok["sched_min"]).sum())
+        r["taf_share_of_scheduled_time"] = float((te * ok["slack_min"]).sum() / (te * ok["sched_min"]).sum()) if tot else None
+        r["share_vkm_faster_than_model"] = float(ok.loc[ok["faster_than_model"], "len_sum"].sum() / tot) if tot else None
         rows.append(r)
     out = pd.DataFrame(rows)
     inv = {v: k for k, v in T.CITY_CODE.items()}
@@ -120,22 +149,25 @@ def sensitivity(S: pd.DataFrame, ST: pd.DataFrame, W: pd.DataFrame) -> pd.DataFr
     base = None
     for name, ch in T.SENS:
         p = {**T.KIN, **ch}
-        M = T.stretch_metrics(S, ST, p)
+        M = T.stretch_metrics(S, ST, p, with_range=False)
         am = M[(M["day_type"] == "weekday") & (M["band"] == "am_peak")].copy()
         am = am[~am["sd"].map(bm).fillna(True)]
         am["agg"] = am["sd"].str[:3]
+        # ranks use the raw difference per km (stretches faster than the model rank last, they are not dropped)
+        am["raw_s_per_km"] = am["slack_min"] * 60 / (am["length_m"] / 1000)
         if base is None:
-            base = am.set_index("sd")["slack_min_per_km"]
+            base = am.set_index("sd")["raw_s_per_km"]
         for agg, g in am.groupby("agg", sort=True):
             te = g["len_sum"] / g["length_m"]
             b = base.reindex(g["sd"]).to_numpy()
-            rk = pd.Series(g["slack_min_per_km"].to_numpy()).rank().corr(pd.Series(b).rank())
+            rk = pd.Series(g["raw_s_per_km"].to_numpy()).rank().corr(pd.Series(b).rank())
             top_main = set(g.assign(b=b).sort_values(["b", "sd"], ascending=[False, True]).head(10)["sd"])
-            top_now = set(g.sort_values(["slack_min_per_km", "sd"], ascending=[False, True]).head(10)["sd"])
+            top_now = set(g.sort_values(["raw_s_per_km", "sd"], ascending=[False, True]).head(10)["sd"])
             rows.append({"variant": name, "city_code": agg,
-                         "slack_share_of_scheduled_time": float((te * g["slack_min"]).sum() / (te * g["sched_min"]).sum()),
-                         "median_slack_min_per_km": float(g["slack_min_per_km"].median()),
-                         "share_stretches_negative_slack": float((g["slack_min"] < 0).mean()),
+                         "taf_s_per_km": _city_taf(g, g["free_min"]),
+                         "taf_share_of_scheduled_time": float((te * g["slack_min"]).sum() / (te * g["sched_min"]).sum()),
+                         "median_stretch_taf_s_per_km": float(g["taf_s_per_km"].median()),
+                         "share_stretches_faster_than_model": float(g["faster_than_model"].mean()),
                          "rank_corr_with_main": float(rk), "top10_overlap_with_main": len(top_main & top_now)})
     out = pd.DataFrame(rows)
     inv = {v: k for k, v in T.CITY_CODE.items()}
@@ -240,8 +272,11 @@ def write_all(S, M, ST, geoms, pairs, diag, per_city, t0) -> dict:
     lg = M.rename(columns={"sd": "stretch_dir_id", "n_hops": "hop_traversals"}).copy()
     lg["below_min"] = lg["stretch_dir_id"].map(bm)
     lg["timetable_date"] = lg["day_type"].map(sc.days())
-    lg = lg[["stretch_dir_id", "day_type", "timetable_date", "band", "length_m", "speed_kmh", "sched_min", "free_min",
-             "slack_min", "slack_min_per_km", "hop_traversals", "n_trips", "len_sum", "t_sum", "lines", "below_min"]]
+    c = sc.speed_class(lg["speed_kmh"].to_numpy())
+    lg["speed_class"] = pd.array(np.where(c >= 0, c, None), dtype="Int64")
+    lg = lg[["stretch_dir_id", "day_type", "timetable_date", "band", "length_m", "speed_kmh", "speed_lo_kmh", "speed_hi_kmh",
+             "speed_class", "sched_min", "free_min", "taf_s_per_km", "taf_lo_s_per_km", "taf_hi_s_per_km",
+             "faster_than_model", "hop_traversals", "n_trips", "len_sum", "t_sum", "lines", "below_min"]]
     order = {b: i for i, b in enumerate(["night", "early", "am_peak", "midday", "pm_peak", "early_eve", "evening",
                                          "morning", "day", "all_day"])}
     lg = lg.assign(_o=lg["band"].map(order)).sort_values(["stretch_dir_id", "day_type", "_o"], kind="stable").drop(columns="_o")
@@ -271,7 +306,8 @@ def write_all(S, M, ST, geoms, pairs, diag, per_city, t0) -> dict:
     # QA
     rk = ranking(W)
     _fmt(rk).to_csv(QA / "ranking_am_peak.csv", index=False, lineterminator="\n")
-    sh = city_slow_share(W, M)
+    grid = [T.free_minutes(S, {**T.KIN, "dwell_s": d, "v_cap_kmh": c}) for d in T.RANGE_DWELL_S for c in T.RANGE_CAP_KMH]
+    sh = city_slow_share(W, M, grid)
     _fmt(sh).to_csv(QA / "city_stretch_summary.csv", index=False, lineterminator="\n")
     sens = sensitivity(S, ST, W)
     _fmt(sens).to_csv(QA / "sensitivity_kinematics.csv", index=False, lineterminator="\n")
@@ -288,6 +324,12 @@ def write_all(S, M, ST, geoms, pairs, diag, per_city, t0) -> dict:
     inputs = sorted({f"gtfs_{f}" for _, f, _ in T.CITIES} | {"osm_poland_pbf"})
     extra = {"timetable_dates": sc.days(), "osm_date": "2026-11-22", "code_version": T.CODE_VERSION,
              "rules_version": gs.RULES_VERSION, "kinematics": T.KIN, "sizes_mb": sizes,
+             "time_above_free_running": {"unit": "s/km", "label": "czas ponad jazdę swobodną (model)",
+                                         "range_dwell_s": list(T.RANGE_DWELL_S), "range_cap_kmh": list(T.RANGE_CAP_KMH),
+                                         "range_rule": "min and max over every dwell x cap; cap only where OSM has no maxspeed; "
+                                                       "low clipped at 0; faster_than_model = scheduled < free running (no value)"},
+             "speed_classes_kmh": {"breaks": sc.CLASS_BREAKS, "labels": sc.CLASS_LABELS},
+             "speed_interval": "speed_lo = length / (scheduled time + 1 min), speed_hi = length / (scheduled time - 1 min)",
              "stretch_rule": {"min_min": T.MIN_MIN, "min_hops": T.MIN_HOPS, "target_min": T.TARGET_MIN,
                               "merge_share": T.MERGE_SHARE, "top_places": T.TOP_PLACES,
                               "term_min_trips": T.TERM_MIN_TRIPS, "term_share": T.TERM_SHARE},
@@ -300,16 +342,14 @@ def write_all(S, M, ST, geoms, pairs, diag, per_city, t0) -> dict:
 
 
 BUS_DOC = ("Autobusy i trolejbusy, feedy oficjalne z kształtami tras (shapes); ta sama reguła odcinków co dla tramwajów, "
-           "bez atrybutów OSM i bez zapasu (model ruchu dotyczy tramwaju).")
+           "bez atrybutów OSM i bez czasu ponad jazdę swobodną (model ruchu dotyczy tramwaju).")
 
 
 def write_bus(S: pd.DataFrame, M: pd.DataFrame, geoms: list, diag: pd.DataFrame, t0: float) -> dict:
-    """results/tables/bus_stretches.csv + results/layers/bus_stretches.parquet (same columns as the tram files; OSM,
-    slack and free-running columns are null)."""
+    """results/tables/bus_stretches.csv + results/layers/bus_stretches.parquet (the tram columns without the model
+    columns; OSM columns are null)."""
     QA, TB, LY = T.QA, T.TABLES, T.LAYERS
-    W = wide(S, M)
-    for c in [c for c in W.columns if c.startswith(("slack_", "free_running"))]:
-        W[c] = np.nan
+    W = wide(S, M, model=False)
     W["geometry_quality"] = np.where(W["share_hops_shape"] >= 0.95, "kształt trasy",
                                      np.where(W["share_hops_shape"] >= 0.5, "kształt, część odcinków prosto",
                                               "głównie odcinki proste"))

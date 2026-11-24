@@ -9,7 +9,11 @@ ani prędkość jazdy między przystankami. Każda liczba w tej nocie i w plikac
 
 Trzy części na jednej podstawie danych: (1) tabele prędkości linii według typu dnia i pasma godzin, wszystkie środki;
 (2) prędkość w obszarach (bloki 1 km); (3) sieć tramwajowa podzielona na odcinki wzdłuż toru, z atrybutami z OSM
-i szacunkiem, ile czasu rozkład daje ponad swobodną jazdę. Kolejność w nocie: 1, 3, 2.
+i szacunkiem z modelu, ile czasu rozkład daje ponad swobodną jazdę. Kolejność w nocie: 1, 3, 2.
+
+**Stałe klasy prędkości** we wszystkich wynikach (mapa, tabele, podsumowania miast), te same dla każdego miasta:
+poniżej 12, 12–15, 15–18, 18–22, 22–26, 26 km/h i więcej (wartość na granicy należy do wyższej klasy;
+`speed_core.CLASS_BREAKS`).
 """
 
 BANDS = """
@@ -129,37 +133,60 @@ Pliki: [`../../tables/tram_stretches.csv`](../../tables/tram_stretches.csv) (wie
 7. Prędkość odcinka w paśmie = suma długości / suma czasów wszystkich przejazdów na jego krawędziach (kursy
    przejeżdżające tylko część odcinka liczą się w tej części); czas rozkładowy = długość reprezentatywna (suma median
    długości krawędzi) / prędkość.
+8. **Przedział zaokrąglenia ±1 min** przy każdej prędkości odcinka (kolumny `speed_lo_kmh_*`, `speed_hi_kmh_*`):
+   długość / (czas + 1 min) do długości / (czas − 1 min); przy czasie do 1 min bez górnej granicy. To granica
+   najgorszego przypadku (oba końce zaokrąglone w tę samą stronę), szersza niż odchylenie z punktu 5. Odcinki
+   krótsze niż 5 min nadal mają `below_min = true` i są na mapie rysowane linią przerywaną.
 
 Geometria: dla każdej krawędzi najczęstszy kawałek kształtu GTFS, sklejone; dopasowanie do toru OSM: punkty co 10 m
 wzdłuż odcinka do najbliższego toru `railway=tram` w promieniu 15 m.
 """
 
 KINEMATICS = """
+**Co to jest.** Czas ponad jazdę swobodną = czas rozkładowy odcinka − czas jazdy swobodnej z prostego modelu,
+podawany w **sekundach na kilometr** i zawsze z przedziałem. Jest to **liczba z modelu, nie pomiar**. Wcześniej
+nazywana tu „zapasem”; nazwa zmieniona po przeglądzie literatury, bo w publikacjach „padding” liczy się względem
+najlepszego czasu zmierzonego (AVL), nie względem modelu.
+
 **Model jazdy swobodnej** dla przejazdu o długości d: rozpędzanie ze stałym przyspieszeniem do limitu, jazda z
 limitem, hamowanie; gdy przejazd jest za krótki, by osiągnąć limit, trójkątny przebieg prędkości; do tego postój na
-przystanku. Czas swobodny odcinka = suma po krawędziach (mediana długości krawędzi). **Zapas = czas rozkładowy − czas
-swobodny**; zapas na km = zapas / długość; zapas na skrzyżowanie = zapas / liczba skrzyżowań z drogą (tylko jako
-liczba pochodna, z zastrzeżeniem poniżej).
+przystanku. Czas swobodny odcinka = suma po krawędziach (mediana długości krawędzi).
 
-| Parametr | Wartość główna | Wrażliwość | Skąd |
-|---|---|---|---|
-| przyspieszenie średnie 0 → limit | 1,0 m/s² | 0,7 / 1,3 | założenie; nowe tramwaje niskopodłogowe mają przyspieszenie rozruchu ok. 1,0–1,3 m/s² (dane producentów, nie zweryfikowano), średnie do 50 km/h jest niższe |
-| hamowanie służbowe | 1,0 m/s² | 0,8 / 1,3 | założenie; hamowanie służbowe tramwajów 1,0–1,5 m/s², nagłe powyżej 2,5 m/s² (nie zweryfikowano) |
-| limit prędkości | 50 km/h | 40 / 60 / 70 | założenie; w miastach tramwaje jeżdżą zwykle z limitem 30–50 km/h, na torowiskach wydzielonych do 60–70 km/h; limitów z OSM (`maxspeed` na torach) nie użyto, bo są rzadko podane |
-| postój na przystanku | 20 s | 10 / 30 | założenie; GTFS nie podaje postojów |
-| łuki (wariant) | bez ograniczenia | przyspieszenie boczne 0,65 m/s² | założenie; promień z geometrii kształtu GTFS |
+| Parametr | Wartość środkowa | Przedział publikowany | Wrażliwość (tylko w tej nocie) | Skąd |
+|---|---|---|---|---|
+| przyspieszenie średnie 0 → limit | 1,0 m/s² | – | 0,7 / 1,3 | założenie; specyfikacja przetargowa Tramwajów Śląskich podaje 1,1 m/s² rozruchu (fragment w wyszukiwarce, nie otwarto) |
+| hamowanie służbowe | 1,0 m/s² | – | 0,8 / 1,3 | założenie; ta sama specyfikacja: 1,14 m/s² (nie otwarto) |
+| limit prędkości tam, gdzie OSM nie podaje `maxspeed` | 50 km/h | 40 / 50 / 70 km/h | 40 / 60 / 70 | założenie |
+| limit z OSM | `maxspeed` toru `railway=tram`, 30–100 km/h | – | wariant „bez maxspeed z OSM” | OSM 2026-11-22 |
+| postój na przystanku | 20 s | 10 / 20 / 30 s | 10 / 30 | założenie; GTFS nie podaje postojów |
+
+- **Limit z OSM**: punkty co 10 m wzdłuż odcinka dostają `maxspeed` dopasowanego toru; limit odcinka to średnia
+  harmoniczna (równoważna czasowo) z `maxspeed` tam, gdzie jest, i z limitu założonego gdzie indziej. Wartości poniżej
+  30 km/h (rozjazdy, łuki, pętle) są pomijane: na skrzyżowaniach najbliższym torem bywa tor skrętny, więc dopasowanie
+  przypisywało je odcinkom jadącym prosto (w Krakowie dawało to medianę limitu ok. 35 km/h).
+- **Przedział** = najmniejsza i największa wartość z 9 kombinacji postój 10 / 20 / 30 s × limit 40 / 50 / 70 km/h
+  (limit tylko tam, gdzie OSM go nie podaje). Dolna granica jest obcinana do 0.
+- **Rozkład szybszy niż model** (czas rozkładowy krótszy niż czas swobodny przy wartościach środkowych): odcinek ma
+  `faster_than_model = true` i **nie ma wartości** – nie podajemy ujemnych liczb. Tak jest głównie na szybkich
+  torowiskach wydzielonych, gdzie rzeczywisty limit jest wyższy niż 50 km/h, a OSM go nie podaje.
+- **Wariant z ograniczeniem na łukach usunięto** z publikowanych wyników: promienie liczone z kształtów GTFS są
+  zaszumione (zmieniał ranking najbardziej ze wszystkich wariantów).
+- W mieście: suma czasu rozkładowego minus suma czasu swobodnego po wszystkich przejazdach odcinków ≥ 5 min,
+  podzielona przez wozokilometry (tu odcinki szybsze niż model obniżają średnią; to suma czasów, nie lista odcinków).
 
 Model jest celowo prosty i „optymistyczny”: tramwaj zawsze rusza i hamuje jak najszybciej, nigdy nie czeka.
-**Zapas miesza wszystko, czego model nie zawiera:** czekanie na sygnalizacji, ograniczenia prędkości (rozjazdy, łuki,
-skrzyżowania, odcinki w złym stanie), jazdę we wspólnym ruchu i za innym tramwajem, dłuższą wymianę pasażerów niż
-20 s i rezerwy wpisane w rozkład. **Nie jest to pomiar strat na sygnalizacji** i „zapas na skrzyżowanie” nie mówi,
-ile kosztuje jedno skrzyżowanie; to tylko zapas odcinka podzielony przez liczbę skrzyżowań, przydatny do
-porównywania odcinków podobnego typu.
+**Czas ponad jazdę swobodną miesza wszystko, czego model nie zawiera:** czekanie na sygnalizacji, ograniczenia
+prędkości (rozjazdy, łuki, skrzyżowania, odcinki w złym stanie), jazdę we wspólnym ruchu i za innym tramwajem,
+dłuższą wymianę pasażerów niż postój z modelu i rezerwy wpisane w rozkład. Badania francuskie (Wu, McDonald i in.)
+przypisują postojom 22–27 % czasu jazdy tramwaju, a sygnalizacji 7–8 %, więc znaczna część tej wielkości to zwykłe
+postoje i geometria toru. **Nie jest to pomiar strat na sygnalizacji.** Poprzednia liczba pochodna „zapas na
+skrzyżowanie” nie jest już publikowana.
 """
 
 RANK_RULE = """
 Ranking: odcinki co najmniej 5-minutowe (`below_min = false`) z co najmniej 8 kursami w paśmie 07–09; dwie listy po 10:
-najniższa prędkość i największy zapas na km. Kolumny OSM: udział długości w jezdni, skrzyżowania z drogą (w nawiasie
+najniższa prędkość (z przedziałem ±1 min) i największy czas ponad jazdę swobodną w s/km (z przedziałem z modelu;
+odcinki szybsze niż model nie wchodzą do tej listy). Kolumny OSM: udział długości w jezdni, skrzyżowania z drogą (w nawiasie
 z sygnalizacją w promieniu 35 m), przejścia dla pieszych przez tor dalej niż 30 m od skrzyżowania, rozjazdy.
 """
 
@@ -193,14 +220,17 @@ CHECKS = """
 - Rzutowanie przystanków na kształty: 96–100 % przejazdów tramwajowych ma długość z kształtu (wyjątek: krańcówki
   `lodz` i `gzm`, 3–4 %).
 - Dopasowanie odcinków do toru OSM i reguła torowiska w jezdni: 3.2.
+- Kontrola metodą Pulsu Gdańska (jeden kurs linii po 15:00 i po 21:00): 1.6.
+- Pliki mapy: rozmiary w 5; funkcje strony (`web/src/features/speed`) mają testy jednostkowe, ale nakładka nie jest
+  jeszcze podłączona do mapy, więc jej wyglądu nie oglądano.
 """
 
 BUS_STRETCHES = """
 ### 3.6 Odcinki autobusowe i trolejbusowe (nakładka „prędkość linii” na mapę)
 
 Ta sama reguła odcinków zastosowana do autobusów i trolejbusów feedów oficjalnych z kształtami tras
-(`layers/bus_stretches.parquet`, `tables/bus_stretches.csv`, te same kolumny co dla tramwajów; kolumny OSM, czasu
-swobodnego i zapasu są puste, bo model jazdy i dopasowanie do toru dotyczą tramwajów). Pominięte: `krakow_ald` (brak
+(`layers/bus_stretches.parquet`, `tables/bus_stretches.csv`, te same kolumny co dla tramwajów poza kolumnami modelu
+jazdy, które dotyczą tylko tramwajów; kolumny OSM są puste). Pominięte: `krakow_ald` (brak
 kształtów) i feedy nieoficjalne. Kolumna `geometry_quality` mówi, czy geometria odcinka pochodzi z kształtu
 (`share_hops_shape`). Metro i kolej: jedna geometria na linię (najczęstszy wzorzec przystanków w środę, przycięty do
 FUA + 15 km) z prędkością linii z części 1 (`layers/rail_metro_lines.parquet`); dla kolei „linia” to
@@ -219,7 +249,8 @@ LIMITS = """
 - Długość z kształtu GTFS: kształty autobusów w `warsaw_ztm` wywiedziono z OSM; kształty innych feedów od
   wydawców. Jakość kształtów sprawdzono tylko pośrednio (rzuty przystanków, dopasowanie do torów OSM).
 - Torowisko w jezdni czy wydzielone: wniosek z geometrii OSM (3.2), nie ze stanu faktycznego.
-- Model jazdy swobodnej jest prosty; zapas nie jest pomiarem strat na sygnalizacji.
+- Model jazdy swobodnej jest prosty; czas ponad jazdę swobodną nie jest pomiarem strat na sygnalizacji, a jego
+  poziom zależy od założonego postoju (przedział w tabelach).
 - Jeden dzień roboczy i jedna sobota, bez niedzieli (GZM); rozkłady z okresu remontów pokazują stan na ten dzień.
 """
 
@@ -227,13 +258,17 @@ UNVERIFIED = """
 ## 7. Nie zweryfikowano
 
 - Parametrów modelu jazdy (przyspieszenie, hamowanie, limity, postoje) z danymi przewoźników ani z pomiarem.
-- Rzeczywistych limitów prędkości na torach (OSM `maxspeed` na torach tramwajowych jest rzadki; nie użyto).
+- Limitów prędkości z OSM (`maxspeed`): oznaczenie jest nierówne między miastami (3.3), wartości nie porównano
+  z instrukcjami przewoźników; wartości poniżej 30 km/h pominięto z powodu dopasowania na skrzyżowaniach.
 - Reguły „torowisko w jezdni” poza przykładami z 3.2; w szczególności odcinków, gdzie tor biegnie środkiem ulicy
   narysowanej jedną linią, ale jest oddzielony krawężnikiem (reguła uzna je za jezdnię).
 - Liczby skrzyżowań z sygnalizacją dla tramwaju (sygnalizator w promieniu 35 m może dotyczyć innej jezdni).
-- Wariantu z łukami: promienie z kształtów GTFS są zaszumione (zagęszczone punkty, skróty na rozjazdach).
-- Zestawień prędkości z innych źródeł (1.6) co do definicji i dat rozkładów.
+- Ograniczeń na łukach (wariant usunięty; promienie z kształtów GTFS są zaszumione).
+- Zestawienia Pulsu Gdańska (1.6) poza artykułem: wag średniej, długości linii organizatorów i doboru linii
+  (np. linii zastępczych) nie sprawdzono; liczby z 2023 r. przepisano z notatek przeglądu literatury.
+- Definicji „prędkość eksploatacyjna” w źródle pierwotnym (1.7).
 - Zgodności feedów nieoficjalnych z rozkładami przewoźników.
+- Wyglądu nakładki prędkości na mapie i jej działania w przeglądarce (niepodłączona; tylko testy jednostkowe).
 - Przyczyn pojedynczych wolnych odcinków (remonty, objazdy, przystanki na żądanie) poza tymi opisanymi w 3.5.
 """
 
@@ -256,7 +291,7 @@ kształt jest o 5–7 % dłuższy od linii prostej). Hipoteza o centrum Wrocław
 """
 
 PUBLISHED = """
-### 1.6 Porównanie z opublikowanymi zestawieniami
+### 1.6 Porównanie z opublikowanymi zestawieniami i kontrola „metodą Pulsu Gdańska”
 
 Znalezione samodzielnie (wyszukiwarka, 2026-11-24), oba oparte na raporcie portalu Puls Gdańska liczonym z rozkładów:
 - bankier.pl, 11.05.2021 („Polskie tramwaje nie są demonami prędkości”), średnie całodobowe: Poznań 20,8, Warszawa 18,9,
@@ -264,12 +299,15 @@ Znalezione samodzielnie (wyszukiwarka, 2026-11-24), oba oparte na raporcie porta
 - antyweb.pl, 25.07.2022 („Prędkość tramwajów w Polsce”, raport Pulsu Gdańska za 2022 r.): Poznań 19,85, Warszawa 19,33,
   Kraków 19,21, GOP 17,86, Gdańsk 17,48, Łódź 16,86, Wrocław 16,65 km/h; w szczycie Wrocław 15,87, poza szczytem 17,51.
 
-Ta warstwa (cała doba, środa): Kraków 20,0, Poznań 20,0, Warszawa 18,7, GZM 18,3, Gdańsk 17,8, Łódź 17,2, Wrocław 16,5.
-Kolejność jest podobna do zestawienia z 2022 r. (Wrocław i Łódź na końcu, Poznań i Kraków na początku, Warszawa
-pośrodku), poziomy różnią się o mniej niż 1 km/h (Kraków +0,8, Warszawa −0,6). Różnica Wrocławia między szczytem a resztą
-dnia (ok. 1,6 km/h w 2022 r.) jest tego samego rzędu co tutaj. Nie sprawdzono, jak raport definiuje średnią (po liniach
-czy po kursach) ani z jakich dat są rozkłady; liczby z artykułów odczytano narzędziem do pobierania stron, nie
-z samego raportu.
+Raport Pulsu Gdańska za 2023 r. (pulsgdanska.pl, 25.07.2023, rozkłady z 30.05.2023; przeczytany w całości przy
+przeglądzie literatury) opisuje metodę: dla każdej linii pierwszy kurs w dzień roboczy na trasie podstawowej po 15:00
+(„szczyt”) i po 21:00 („poza szczytem”), długości linii od organizatorów, średnia z obu (wagi niepodane), bez linii
+nocnych, weekendowych i turystycznych. **Kontrola tą metodą** (`qa/speed/tables/puls_style_lines.csv`,
+`puls_style_city.csv`): w środę 2026-11-25, w oficjalnym feedzie tramwajowym miasta, dla każdej linii trasa
+podstawowa = najczęstsza para przystanek początkowy → końcowy, pierwszy kurs tej trasy odjeżdżający o 15:00 lub
+później i o 21:00 lub później; średnia linii = średnia obu; miasto = zwykła średnia po liniach. Pominięte linie
+nocne (bez odjazdu 06–20); linia bez kursu po 21:00 liczy się tylko w średniej „15:00”. Długość: nasza, wzdłuż
+kształtu trasy (nie od organizatora).
 """
 
 MATCH_READING = """
@@ -325,14 +363,28 @@ we Wrocławiu, prawdopodobnie Święty Marcin w Poznaniu). Udziały w jezdni (Wa
 """
 
 SENS_READING = """
-**Odczyt.** Poziom zapasu zależy od parametrów (postój 10–30 s zmienia udział o ok. ±10 pkt proc.), ale **kolejność
-odcinków prawie nie** (korelacja rang ≥ 0,98 dla wszystkich wariantów poza łukami, w top 10 zostaje 8–10 tych samych
-odcinków). Rankingi zapasu są więc odporne na wybór parametrów, liczby bezwzględne nie. Ujemny zapas (rozkład szybszy
-niż model) mają głównie szybkie torowiska wydzielone (PST w Poznaniu 34 km/h, Pleszów w Krakowie 34–36 km/h, trasy
-do Franowa, Miłostowa, Żerania): tam realny limit jest wyższy niż 50 km/h, co wariant 70 km/h potwierdza (Poznań bez
-ujemnych). Wariant z łukami mocno zmienia wynik (GZM i Poznań: udział zapasu spada do ok. 6 %, ok. 35 % odcinków
-ujemnych), bo promienie z kształtów GTFS są zaszumione; tego wariantu nie należy używać, dopóki promienie nie będą
-liczone na torach OSM.
+**Odczyt.** Wartości środkowe w szczycie porannym: Kraków i Poznań ok. 42–44 s/km, Warszawa, GZM i Gdańsk 54–59,
+Łódź 73, Wrocław 77 s/km. **Poziom zależy przede wszystkim od założonego postoju** (10 s: 62–99 s/km, 30 s:
+23–55 s/km) i w drugiej kolejności od limitu prędkości; dlatego publikujemy przedział (postój 10–30 s × limit
+40–70 km/h): np. Wrocław 44–107, Kraków 25–64 s/km. **Kolejność odcinków prawie się nie zmienia** (korelacja rang
+z wariantem środkowym ≥ 0,97, w top 10 zostaje 8–10 tych samych odcinków), więc listy w 3.5 są odporne na wybór
+parametrów, a liczby bezwzględne nie. Kolejność miast też jest stała we wszystkich wariantach (Wrocław i Łódź
+najwyżej, Kraków i Poznań najniżej). Wrocław: 77 s/km w szczycie porannym wobec 56 wieczorem; model i geometria są
+te same, więc różnica pochodzi wyłącznie z rozkładu, który w szczycie daje dłuższe czasy przejazdu.
+
+**Rozkład szybszy niż model**: 0–8 % odcinków w wariancie środkowym. W szczycie porannym (odcinki ≥ 5 min) są to
+w Poznaniu Franowo – os. Czecha i Kórnicka – Piaśnicka Rynek (8 % wozokilometrów, wieczorem 15 %), w Krakowie
+Plac Centralny – Fort Mogiła – Pleszów i Nowy Bieżanów (5 %), w Warszawie Żerań FSO – rondo Starzyńskiego i Winnica –
+Mehoffera; wszystkie 25–36 km/h z rozkładu. Bez `maxspeed` z OSM udział rośnie do 16 % odcinków (Kraków), bo OSM
+podaje tam 60–70 km/h. Przy postoju 30 s takich odcinków jest do 27 %.
+"""
+
+MAXSPEED_READING = """
+**`maxspeed` na torach**: oznaczenie jest bardzo nierówne. Kraków ma `maxspeed` na całym torowisku, Gdańsk na 92 %,
+Warszawa na 33 %, Poznań na 17 %, GZM na 12 %, Wrocław na 8 %, Łódź na żadnym. Część wartości to ograniczenia
+rozjazdów i pętli (5–25 km/h; w Krakowie stanowią ok. 26 % długości torów), których nie używamy (3.3). Limit z OSM
+zmienia wynik głównie w Krakowie i Gdańsku; w pozostałych miastach model opiera się na założeniu 50 km/h
+(przedział 40–70).
 """
 
 RANK_READING = """
@@ -355,6 +407,8 @@ RANK_READING = """
 - Odcinki przy krańcach z jednym kursem co 10–15 min (8–10 kursów w paśmie) są w rankingach, ale ich wartość opiera się
   na jednym rozkładzie jednej linii.
 - Kolumna „W jezdni” jest dolnym oszacowaniem (3.2): na Świdnickiej we Wrocławiu zaniżona.
+- Lista „największy czas ponad jazdę swobodną” pokrywa się w dużej części z listą najwolniejszych; przedziały
+  w nawiasach są szerokie (zwykle ±20–30 s/km), ale kolejność w obrębie miasta jest stała (3.3).
 """
 
 AREA_READING = """
@@ -378,4 +432,50 @@ krótszych niż 5 min, bo sieć autobusowa ma znacznie więcej rozgałęzień ni
 przystanków. Te odcinki są w warstwie z `below_min = true` i powinny być rysowane jako „niepewne” albo pomijane.
 Wspólne korytarze (wiele linii na jednej ulicy) nie są problemem: odcinek zbiera wszystkie linie, które nim jadą.
 Geometria pochodzi z kształtów w 85–100 % wozokilometrów (Łódź najniżej, bo kształty `lodz` pomijają pętle).
+"""
+
+DEFINITIONS = """
+### 1.7 Nazwy prędkości: co udało się sprawdzić
+
+Szukano (2026-11-24, wyszukiwarka i pobieranie stron) definicji w źródle pierwotnym. Wynik:
+- **Prędkość komunikacyjna** (zwana też handlową) = długość trasy / czas przejazdu **z postojami na przystankach
+  pośrednich**; **prędkość techniczna** = bez czasu postojów na przystankach. Tak opisują je artykuły w „Transporcie
+  Miejskim i Regionalnym” (np. Oskarbski, TMiR 5/2016; Wołek, TMiR 2/2016), ale widziane **tylko jako fragmenty
+  w wynikach wyszukiwania**: plik PDF Wołka zwrócił błąd 403, a innego PDF (Politechnika Warszawska, „Miasto
+  i Transport”) nie dało się odczytać (skompresowany tekst, brak narzędzia do PDF w środowisku). Strony nie sprawdzono.
+- **Prędkość eksploatacyjna**: nie znaleziono definicji w źródle pierwotnym (podręcznik Wyszomirskiego czy Rudnickiego,
+  norma). Wyszukiwarka streściła jeden niezidentyfikowany wynik jako wyliczenie składników „czasu eksploatacyjnego”
+  (jazda, postoje na przystankach pośrednich i na dworcach, postoje i przejazdy techniczne na pętlach), co zgadza się
+  z opisem w raporcie (§15.3: eksploatacyjna obejmuje postoje na pętlach), ale **nie jest to cytat ze źródła**.
+  W innych znalezionych tekstach termin oznacza „maksymalną prędkość eksploatacyjną” pojazdu, czyli co innego.
+- Wniosek: nazwa „rozkładowa prędkość komunikacyjna” dla tego, co tu liczymy (z postojami na przystankach, bez postojów
+  na pętlach), jest zgodna ze wszystkimi znalezionymi opisami; twierdzenie o prędkości eksploatacyjnej z pętlami
+  pozostaje bez cytatu ze źródła pierwotnego.
+"""
+
+CLASSES = """
+Klasy są stałe i jednakowe dla wszystkich miast: poniżej 12, 12–15, 15–18, 18–22, 22–26, 26 km/h i więcej. Te same
+granice mają kolory na mapie (`results/web/speed`), kolumny `speed_class_*` w tabelach odcinków i `speed_class`
+w tabeli linii. W kolumnie „ponad jazdę swobodną” wartość środkowa i przedział z modelu (3.3).
+"""
+
+WEB = """
+**Pliki mapy** (`python -m pipeline.speed_web`, `results/web/speed/`): odcinki tramwajowe wszystkich miast w jednym
+pliku, odcinki autobusowe i trolejbusowe po jednym pliku na aglomerację, metro i kolej w jednym pliku, tabela linii
+`lines.json`. Geometria uproszczona do ok. 5 m, współrzędne do 5 miejsc po przecinku; właściwości krótkie
+(`v_w_am` = prędkość w środę 07–09, `t_` = kursy na godzinę, `a_` / `al_` / `ah_` = czas ponad jazdę swobodną
+w s/km: środek / dół / góra, `fm_` = rozkład szybszy niż model, `c` = klasy we wszystkich pasmach); brak wartości
+= brak pola, nigdy 0. Opis pól: nagłówek `pipeline/speed_web.py`.
+"""
+
+PULS_READING = """
+**Odczyt.** Liczone metodą Pulsu, nasze wartości z 2026 r. różnią się od Pulsu 2023 o −0,2 do +0,9 km/h (średnia),
+w Warszawie, Wrocławiu, Poznaniu, GZM i Gdańsku o nie więcej niż 0,2 km/h. **Różnica Poznania z wcześniejszego
+porównania (19,5 wobec 20,5 km/h) znika** (20,4 wobec 20,5): wynikała z metody, bo Puls liczy każdą linię raz,
+a szybkie linie PST (14: 27–30 km/h, 15, 16, 12) ważą tam tyle co wolne linie śródmiejskie. Większe różnice
+zostają w Łodzi (+0,9) i Krakowie (+0,8); w Łodzi rozkład 2026 obejmuje linię zastępczą Z1 i inne trasy niż w maju
+2023 r.; przyczyny różnicy w Krakowie nie sprawdzono (z 23 linii tylko 18 ma kurs trasy podstawowej po 21:00). Różnica Wrocławia między 15:00 a 21:00 (15,8 wobec 17,7 km/h)
+jest tego samego rzędu co w raporcie (16,2 wobec 17,6). Na tych samych rozkładach metoda Pulsu daje od −0,2 (GZM)
+do +0,4 km/h (Poznań) więcej niż suma długości przez sumę czasu wszystkich kursów doby. Długości są nasze, nie od
+organizatorów; rozkłady są z innego roku.
 """

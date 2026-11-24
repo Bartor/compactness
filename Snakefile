@@ -377,7 +377,7 @@ rule speed_areas:
 
 
 rule speed_report:
-    # metrics_speed.csv/json and results/qa/speed/speed.md from the three speed steps.  Not yet an input of merge_metrics.
+    # metrics_speed.csv/json and results/qa/speed/speed.md from the three speed steps.
     input:
         "pipeline/speed_report.py",
         "pipeline/speed_text.py",
@@ -388,6 +388,18 @@ rule speed_report:
         touch(stamp("speed_report")),
     shell:
         '"{PY}" -m pipeline.speed_report'
+
+
+rule speed_web:
+    # scheduled-speed overlay for the map: results/web/speed/{trams,rail,bus_<agg>}.geojson, lines.json
+    input:
+        "pipeline/speed_web.py",
+        stamp("tram_stretches"),
+        stamp("speed_tables"),
+    output:
+        touch(stamp("speed_web")),
+    shell:
+        '"{PY}" -m pipeline.speed_web'
 
 
 rule r5_inputs:
@@ -519,6 +531,7 @@ rule merge_metrics:
         stamp("access_uc"),
         stamp("distribution"),
         stamp("form"),
+        stamp("speed_report"),
     output:
         touch(stamp("merge_metrics")),
     shell:

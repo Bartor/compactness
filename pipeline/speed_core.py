@@ -54,6 +54,16 @@ MAX_OFF = {"tram": 80.0, "bus": 80.0, "trolleybus": 80.0, "metro": 250.0, "rail"
 BACK_TOL_M = 5.0
 N_CAND = 6
 WORKERS = 18
+# fixed, city-independent speed classes (km/h) for every output: below 12, 12-15, 15-18, 18-22, 22-26, 26 and above
+CLASS_BREAKS = [12.0, 15.0, 18.0, 22.0, 26.0]
+CLASS_LABELS = ["poniżej 12", "12–15", "15–18", "18–22", "22–26", "26 i więcej"]
+
+
+def speed_class(v) -> np.ndarray:
+    """Class index 0..5 of speeds (km/h) on CLASS_BREAKS (a value on a break belongs to the upper class); NaN -> -1."""
+    v = np.asarray(v, dtype=float)
+    out = np.searchsorted(np.asarray(CLASS_BREAKS), v, side="right").astype(int)
+    return np.where(np.isfinite(v), out, -1)
 
 
 # ------------------------------------------------------------------ config: days and bands

@@ -9,6 +9,7 @@ Inputs  (one pair per step, all in results/metrics/)
 * metrics_access_uc.csv/json phase 3 on the urban-centre domain (domain "urban_centre"; same conventions)
 * metrics_transfer.csv/json  ease of transfer in stop areas (no population grid; feed_variant "all")
 * metrics_distribution.csv/json  distribution of cell values: share below the access floor, FGT, percentiles
+* metrics_speed.csv/json     scheduled speeds by time band, slow tram stretches (feed_variant all / official)
 * metrics_form.csv/json      urban form: Angel's indices, polycentricity, Eurostat 2021 urban-centre shares,
                              residents by 250 m density class (no feed variant)
 
@@ -34,7 +35,7 @@ from pipeline.common import RESULTS, load_config, write_json, write_meta
 
 METRICS = RESULTS / "metrics"
 WEB = RESULTS / "web"
-STEPS = ["density", "supply", "frequent", "density_service", "access", "access_uc", "transfer", "distribution", "form"]
+STEPS = ["density", "supply", "frequent", "density_service", "access", "access_uc", "transfer", "distribution", "form", "speed"]
 ACCESS_STEPS = ("access", "access_uc")
 
 COLUMNS = ["agglomeration", "domain", "metric", "label", "value", "unit", "grid", "source", "population_date",
@@ -64,6 +65,12 @@ for _dom in ("fua", "core"):
     PANEL[(_dom, "vkm_per_cap_day_total")] = (_o + 8, "Wozokilometry na mieszkańca na dobę (wszystkie środki)")
 # supply: tram operating speed of the city's tram network (its own domain)
 PANEL[("city_tram_network", "tram_speed_median")] = (1, "Prędkość komunikacyjna tramwajów (mediana kursów)")
+# scheduled speeds by time band and slow stretches (pipeline.speed_report)
+PANEL[("city_tram_network", "tram_speed_sched_am_peak")] = (2, "Prędkość tramwajów w szczycie porannym (7–9)")
+PANEL[("city_tram_network", "tram_speed_sched_evening")] = (3, "Prędkość tramwajów wieczorem (20–23)")
+PANEL[("city_tram_network", "tram_vkm_share_below15_am_peak")] = (4, "Jazda tramwajów poniżej 15 km/h w szczycie")
+PANEL[("city_tram_network", "tram_time_above_free_running_s_per_km_am_peak")] = (
+    5, "Czas tramwajów ponad jazdę swobodną w szczycie (model)")
 # frequent transit (tier "main"): population within 500 m of service at least every N minutes
 for _dom in ("core", "covered"):
     for _i, (_n, _s) in enumerate(_FREQ):

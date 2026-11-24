@@ -141,7 +141,8 @@ def line_rows(t: pd.DataFrame, agg: str, day_type: str, names: dict, detour: dic
             rows.append({"agglomeration": agg, "mode": mode, "feed": feed, "official": bool(gb["official"].iloc[0]),
                          "line": str(line), "terminals": term, "day_type": day_type, "timetable_date": day, "band": bid,
                          "band_label": "cała doba" if bid == "all_day" else sc.band_label(day_type, bid),
-                         "speed_kmh": _speed(gb), "median_trip_speed_kmh": float(gb["speed_kmh"].median()),
+                         "speed_kmh": _speed(gb), "speed_class": int(sc.speed_class([_speed(gb)])[0]),
+                         "median_trip_speed_kmh": float(gb["speed_kmh"].median()),
                          "n_trips": int(len(gb)), "headway_min": hw if bid != "all_day" else None,
                          "headway_rule": hw_rule if bid != "all_day" else None,
                          "mean_trip_km": float(gb["len_m"].mean() / 1000),
@@ -227,6 +228,59 @@ def quick_check(days: dict) -> pd.DataFrame:
     return pd.DataFrame(rows)
 
 
+# Puls Gdańska, "Raport tramwajowy 2023" (pulsgdanska.pl, 25 July 2023; timetables of 30 May 2023), km/h:
+# overall / peak (first weekday trip on the main route after 15:00) / off-peak (first trip after 21:00); quoted in
+# research_notes/Urban transit metrics research review/transit_speed_and_priority.md.  GOP = the GZM tram network.
+PULS_2023 = {"poznan": (20.5, 20.0, 21.1), "krakow": (19.3, 19.2, 19.5), "warszawa": (18.9, 18.4, 19.4),
+             "gzm": (18.2, 18.2, 18.1), "trojmiasto": (17.7, 17.8, 17.7), "wroclaw": (16.9, 16.2, 17.6),
+             "lodz": (16.5, 16.3, 16.7)}
+PULS_FEED = {"warszawa": "warsaw_ztm", "krakow": "krakow_tram", "wroclaw": "wroclaw", "poznan": "poznan", "lodz": "lodz",
+             "trojmiasto": "gdansk", "gzm": "gzm"}
+PULS_HOURS = {"peak": 15, "offpeak": 21}
+
+
+def puls_check(names_of) -> tuple[pd.DataFrame, pd.DataFrame]:
+    """Puls Gdańska-style check on the reference Wednesday: per tram line of the city's official tram feed, the main
+    route (the most frequent first stop -> last stop pair), its first trip departing at or after 15:00 ("peak") and
+    at or after 21:00 ("off-peak"); line overall = mean of the two; city = unweighted mean over lines.  Night lines
+    (no trip departing 06-20) are left out; lines without a trip after 21:00 count only in the peak mean."""
+    rows = []
+    for agg, feed in PULS_FEED.items():
+        t = trip_table(agg, "weekday")
+        u = t[(t["mode"] == "tram") & (t["feed"] == feed) & (t["why_excluded"] == "")]
+        names = names_of(agg)
+        for line, g in u.groupby("line", sort=True):
+            hr = np.mod(g["dep_s"], 86400) / 3600
+            if not ((hr >= 6) & (hr < 20)).any():
+                continue
+            tp = g.groupby(["from_suid", "to_suid"]).size().reset_index(name="n")
+            tp = tp.sort_values(["n", "from_suid", "to_suid"], ascending=[False, True, True], kind="stable")
+            a, b = tp["from_suid"].iloc[0], tp["to_suid"].iloc[0]
+            gm = g[(g["from_suid"] == a) & (g["to_suid"] == b)].sort_values(["dep_s", "uid"], kind="stable")
+            r = {"agglomeration": agg, "feed": feed, "line": str(line), "terminals": f"{names.get(a, a)} – {names.get(b, b)}",
+                 "main_route_trips": int(len(gm)), "main_route_km": float(gm["len_m"].median() / 1000)}
+            for key, h in PULS_HOURS.items():
+                x = gm[gm["dep_s"] >= h * 3600].head(1)
+                r[f"{key}_departure"] = (f"{int(x['dep_s'].iloc[0] // 3600):02d}:{int(x['dep_s'].iloc[0] % 3600 // 60):02d}"
+                                         if len(x) else None)
+                r[f"{key}_kmh"] = float(x["speed_kmh"].iloc[0]) if len(x) else float("nan")
+            r["overall_kmh"] = float(np.nanmean([r["peak_kmh"], r["offpeak_kmh"]])) if np.isfinite(r["peak_kmh"]) else float("nan")
+            r["replacement_line"] = str(line).upper().startswith("Z")
+            rows.append(r)
+    lines = pd.DataFrame(rows)
+    city = []
+    for agg, g in lines.groupby("agglomeration", sort=False):
+        pv = PULS_2023[agg]
+        ours = {k: float(g[f"{k}_kmh"].mean()) for k in ("overall", "peak", "offpeak")}
+        city.append({"agglomeration": agg, "n_lines": int(len(g)), "n_lines_offpeak": int(g["offpeak_kmh"].notna().sum()),
+                     "puls_style_overall_kmh": ours["overall"], "puls_style_peak_kmh": ours["peak"],
+                     "puls_style_offpeak_kmh": ours["offpeak"],
+                     "puls_2023_overall_kmh": pv[0], "puls_2023_peak_kmh": pv[1], "puls_2023_offpeak_kmh": pv[2],
+                     "diff_overall_kmh": ours["overall"] - pv[0], "diff_peak_kmh": ours["peak"] - pv[1],
+                     "diff_offpeak_kmh": ours["offpeak"] - pv[2]})
+    return lines, pd.DataFrame(city)
+
+
 def _fmt(df: pd.DataFrame) -> pd.DataFrame:
     o = df.copy()
     for c in o.columns:
@@ -301,6 +355,9 @@ def run() -> dict:
     gap = pd.DataFrame(gap)
     chk = tram_check(days)
     qc = quick_check(days)
+    pl_lines, pl_city = puls_check(stop_names)
+    _fmt(pl_lines).to_csv(QA / "puls_style_lines.csv", index=False, lineterminator="\n")
+    _fmt(pl_city).to_csv(QA / "puls_style_city.csv", index=False, lineterminator="\n")
     _fmt(lines).to_csv(TABLES / "speed_lines.csv", index=False, lineterminator="\n")
     write_json(TABLES / "speed_lines.json", lines_json(lines))
     _fmt(city).to_csv(QA / "speed_city_mode_band.csv", index=False, lineterminator="\n")
