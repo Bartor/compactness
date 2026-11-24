@@ -1,8 +1,8 @@
-agglomeration,city,feed,places,tram_stops,break_places,stretches,stretch_directions,median_length_m,median_stops,hops_unmapped_weekday,hops_unmapped_saturday,osm_match_share_median,osm_match_share_p10,osm_match_distance_median_m,share_street_len,share_pedestrian_len,share_separated_len,share_unmatched_len
-warszawa,Warszawa,warsaw_ztm,278,608,121,78,141,2092.0,6.0,1.945e-05,3.174e-05,1.0,0.9236,1.45,0.07117,6.523e-05,0.9099,0.01884
-krakow,Kraków,krakow_tram,163,352,55,38,74,2514.0,5.0,0.002636,0.002732,1.0,1.0,0.01656,0.1458,0.0001034,0.8494,0.004716
-wroclaw,Wrocław,wroclaw,213,447,98,61,116,1975.0,5.0,0.00346,0.003105,1.0,0.9186,1.407,0.2808,0.0,0.6943,0.02487
-poznan,Poznań,poznan,144,303,70,44,80,1825.0,5.0,0.0,0.0,1.0,0.9436,1.207,0.1437,0.0,0.8388,0.01749
-lodz,Łódź,lodz,255,464,126,86,144,1712.0,5.0,0.0,3.251e-05,1.0,0.8287,0.9635,0.189,0.0002719,0.7219,0.08886
-trojmiasto,Gdańsk,gdansk,125,245,46,32,57,2199.0,6.0,0.0,0.0,1.0,1.0,1.023,0.09699,0.0,0.896,0.00696
-gzm,GZM,gzm,365,712,110,74,137,2390.0,7.0,5.007e-05,3.202e-05,1.0,0.8995,1.297,0.2002,0.001115,0.7695,0.02914
+agglomeration,city,feed,places,tram_stops,break_places,stretches,stretch_directions,median_length_m,median_stops,hops_unmapped_weekday,hops_unmapped_saturday,osm_match_share_median,osm_match_share_p10,osm_match_distance_median_m,share_street_len,share_pedestrian_len,share_separated_len,share_unmatched_len,share_track_len_maxspeed_any_osm,share_track_len_maxspeed_used,share_stretch_len_maxspeed
+warszawa,Warszawa,warsaw_ztm,278,608,121,78,141,2092.0,6.0,1.945e-05,3.174e-05,1.0,0.9236,1.45,0.07117,6.523e-05,0.9099,0.01884,0.3265,0.285,0.3276
+krakow,Kraków,krakow_tram,163,352,55,38,74,2514.0,5.0,0.002636,0.002732,1.0,1.0,0.01656,0.1458,0.0001034,0.8494,0.004716,0.9995,0.7398,0.879
+wroclaw,Wrocław,wroclaw,213,447,98,61,116,1975.0,5.0,0.00346,0.003105,1.0,0.9186,1.407,0.2808,0.0,0.6943,0.02487,0.07899,0.02199,0.02646
+poznan,Poznań,poznan,144,303,70,44,80,1825.0,5.0,0.0,0.0,1.0,0.9436,1.207,0.1437,0.0,0.8388,0.01749,0.1694,0.1632,0.1671
+lodz,Łódź,lodz,255,464,126,86,144,1712.0,5.0,0.0,3.251e-05,1.0,0.8287,0.9635,0.189,0.0002719,0.7219,0.08886,0.0,0.0,0.0
+trojmiasto,Gdańsk,gdansk,125,245,46,32,57,2199.0,6.0,0.0,0.0,1.0,1.0,1.023,0.09699,0.0,0.896,0.00696,0.9201,0.8718,0.9335
+gzm,GZM,gzm,365,712,110,74,137,2390.0,7.0,5.007e-05,3.202e-05,1.0,0.8995,1.297,0.2002,0.001115,0.7695,0.02914,0.1207,0.1052,0.1284

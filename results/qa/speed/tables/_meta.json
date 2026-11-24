@@ -1,7 +1,7 @@
 {
  "code_version": "speed-core-2026-11-24.3",
- "duration_s": 143.3,
- "git_sha": "f182aca420893b8fea20a6f77201584badaf73c3",
+ "duration_s": 256.2,
+ "git_sha": "69bdd60c377da0258d5ad36c60898ec90f6ec799",
  "inputs": {
   "gtfs_gdansk": {
    "data_date": "20261123/20261207",
@@ -221,7 +221,7 @@
   "results/tables/speed_lines.json"
  ],
  "rules_version": "2026-11-24.4",
- "run_at": "2026-11-24T14:44:11+01:00",
+ "run_at": "2026-11-24T17:53:19+01:00",
  "step": "speed_tables",
  "timetable_dates": {
   "saturday": "2026-11-28",

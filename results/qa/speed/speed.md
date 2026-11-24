@@ -1,6 +1,6 @@
 # Rozkładowa prędkość komunikacyjna: linie, obszary, odcinki tramwajowe
 
-Rozkłady: środa 2026-11-25 i sobota 2026-11-28 (feedy pobrane 2026-11-23); OSM 2026-11-22; ludność NSP 2021 w układzie GHSL 2020 (tylko do grup gęstości w części 2). Kod: `pipeline/speed_core.py`, `speed_tables.py`, `speed_areas.py` (+ `speed_areas_out.py`), `tram_stretches.py` (+ `tram_stretches_out.py`), `speed_osm.py`, `speed_report.py`, `speed_text.py`.
+Rozkłady: środa 2026-11-25 i sobota 2026-11-28 (feedy pobrane 2026-11-23); OSM 2026-11-22; ludność NSP 2021 w układzie GHSL 2020 (tylko do grup gęstości w części 2). Kod: `pipeline/speed_core.py`, `speed_tables.py`, `speed_areas.py` (+ `speed_areas_out.py`), `tram_stretches.py` (+ `tram_stretches_out.py`), `speed_osm.py`, `speed_report.py`, `speed_text.py`; pliki mapy: `speed_web.py`.
 
 **Co to jest.** Rozkładowa prędkość komunikacyjna: długość drogi pojazdu podzielona przez czas z rozkładu jazdy,
 z postojami na przystankach. To nie jest prędkość rzeczywista (opóźnienia, korki i punktualność nie są w danych)
@@ -9,7 +9,11 @@ ani prędkość jazdy między przystankami. Każda liczba w tej nocie i w plikac
 
 Trzy części na jednej podstawie danych: (1) tabele prędkości linii według typu dnia i pasma godzin, wszystkie środki;
 (2) prędkość w obszarach (bloki 1 km); (3) sieć tramwajowa podzielona na odcinki wzdłuż toru, z atrybutami z OSM
-i szacunkiem, ile czasu rozkład daje ponad swobodną jazdę. Kolejność w nocie: 1, 3, 2.
+i szacunkiem z modelu, ile czasu rozkład daje ponad swobodną jazdę. Kolejność w nocie: 1, 3, 2.
+
+**Stałe klasy prędkości** we wszystkich wynikach (mapa, tabele, podsumowania miast), te same dla każdego miasta:
+poniżej 12, 12–15, 15–18, 18–22, 22–26, 26 km/h i więcej (wartość na granicy należy do wyższej klasy;
+`speed_core.CLASS_BREAKS`).
 
 ## 0. Pasma godzin i dni
 
@@ -214,7 +218,7 @@ Szybkie spojrzenie (16,1 w szczytach wobec 18,0 km/h po 20:00 we Wrocławiu, naj
 (20–23). Odcinki proste × 1,04 dawały prawie to samo (różnica 0–0,5 km/h, największa w Krakowie i Gdańsku, gdzie
 kształt jest o 5–7 % dłuższy od linii prostej). Hipoteza o centrum Wrocławia (część 2) też się potwierdza.
 
-### 1.6 Porównanie z opublikowanymi zestawieniami
+### 1.6 Porównanie z opublikowanymi zestawieniami i kontrola „metodą Pulsu Gdańska”
 
 Znalezione samodzielnie (wyszukiwarka, 2026-11-24), oba oparte na raporcie portalu Puls Gdańska liczonym z rozkładów:
 - bankier.pl, 11.05.2021 („Polskie tramwaje nie są demonami prędkości”), średnie całodobowe: Poznań 20,8, Warszawa 18,9,
@@ -222,12 +226,52 @@ Znalezione samodzielnie (wyszukiwarka, 2026-11-24), oba oparte na raporcie porta
 - antyweb.pl, 25.07.2022 („Prędkość tramwajów w Polsce”, raport Pulsu Gdańska za 2022 r.): Poznań 19,85, Warszawa 19,33,
   Kraków 19,21, GOP 17,86, Gdańsk 17,48, Łódź 16,86, Wrocław 16,65 km/h; w szczycie Wrocław 15,87, poza szczytem 17,51.
 
-Ta warstwa (cała doba, środa): Kraków 20,0, Poznań 20,0, Warszawa 18,7, GZM 18,3, Gdańsk 17,8, Łódź 17,2, Wrocław 16,5.
-Kolejność jest podobna do zestawienia z 2022 r. (Wrocław i Łódź na końcu, Poznań i Kraków na początku, Warszawa
-pośrodku), poziomy różnią się o mniej niż 1 km/h (Kraków +0,8, Warszawa −0,6). Różnica Wrocławia między szczytem a resztą
-dnia (ok. 1,6 km/h w 2022 r.) jest tego samego rzędu co tutaj. Nie sprawdzono, jak raport definiuje średnią (po liniach
-czy po kursach) ani z jakich dat są rozkłady; liczby z artykułów odczytano narzędziem do pobierania stron, nie
-z samego raportu.
+Raport Pulsu Gdańska za 2023 r. (pulsgdanska.pl, 25.07.2023, rozkłady z 30.05.2023; przeczytany w całości przy
+przeglądzie literatury) opisuje metodę: dla każdej linii pierwszy kurs w dzień roboczy na trasie podstawowej po 15:00
+(„szczyt”) i po 21:00 („poza szczytem”), długości linii od organizatorów, średnia z obu (wagi niepodane), bez linii
+nocnych, weekendowych i turystycznych. **Kontrola tą metodą** (`qa/speed/tables/puls_style_lines.csv`,
+`puls_style_city.csv`): w środę 2026-11-25, w oficjalnym feedzie tramwajowym miasta, dla każdej linii trasa
+podstawowa = najczęstsza para przystanek początkowy → końcowy, pierwszy kurs tej trasy odjeżdżający o 15:00 lub
+później i o 21:00 lub później; średnia linii = średnia obu; miasto = zwykła średnia po liniach. Pominięte linie
+nocne (bez odjazdu 06–20); linia bez kursu po 21:00 liczy się tylko w średniej „15:00”. Długość: nasza, wzdłuż
+kształtu trasy (nie od organizatora).
+
+| Miasto | Linie (po 21:00) | Puls 2023: średnia / 15:00 / 21:00 | Ta metoda Pulsu, 2026: średnia / 15:00 / 21:00 | Różnica (średnia) | Wszystkie kursy, cała doba |
+|---|---|---|---|---|---|
+| Warszawa | 26 (24) | 18,9 / 18,4 / 19,4 | 18,8 / 18,4 / 19,3 | -0,1 | 18,7 |
+| Kraków | 23 (18) | 19,3 / 19,2 / 19,5 | 20,1 / 20,0 / 19,8 | 0,8 | 20,0 |
+| Wrocław | 24 (24) | 16,9 / 16,2 / 17,6 | 16,7 / 15,8 / 17,7 | -0,2 | 16,5 |
+| Poznań | 19 (19) | 20,5 / 20,0 / 21,1 | 20,4 / 20,0 / 20,9 | -0,1 | 20,0 |
+| Łódź | 24 (24) | 16,5 / 16,3 / 16,7 | 17,4 / 17,3 / 17,6 | 0,9 | 17,2 |
+| Gdańsk | 10 (8) | 17,7 / 17,8 / 17,7 | 17,9 / 17,9 / 17,7 | 0,2 | 17,8 |
+| GZM | 27 (21) | 18,2 / 18,2 / 18,1 | 18,1 / 18,0 / 18,2 | -0,1 | 18,3 |
+
+**Odczyt.** Liczone metodą Pulsu, nasze wartości z 2026 r. różnią się od Pulsu 2023 o −0,2 do +0,9 km/h (średnia),
+w Warszawie, Wrocławiu, Poznaniu, GZM i Gdańsku o nie więcej niż 0,2 km/h. **Różnica Poznania z wcześniejszego
+porównania (19,5 wobec 20,5 km/h) znika** (20,4 wobec 20,5): wynikała z metody, bo Puls liczy każdą linię raz,
+a szybkie linie PST (14: 27–30 km/h, 15, 16, 12) ważą tam tyle co wolne linie śródmiejskie. Większe różnice
+zostają w Łodzi (+0,9) i Krakowie (+0,8); w Łodzi rozkład 2026 obejmuje linię zastępczą Z1 i inne trasy niż w maju
+2023 r.; przyczyny różnicy w Krakowie nie sprawdzono (z 23 linii tylko 18 ma kurs trasy podstawowej po 21:00). Różnica Wrocławia między 15:00 a 21:00 (15,8 wobec 17,7 km/h)
+jest tego samego rzędu co w raporcie (16,2 wobec 17,6). Na tych samych rozkładach metoda Pulsu daje od −0,2 (GZM)
+do +0,4 km/h (Poznań) więcej niż suma długości przez sumę czasu wszystkich kursów doby. Długości są nasze, nie od
+organizatorów; rozkłady są z innego roku.
+
+### 1.7 Nazwy prędkości: co udało się sprawdzić
+
+Szukano (2026-11-24, wyszukiwarka i pobieranie stron) definicji w źródle pierwotnym. Wynik:
+- **Prędkość komunikacyjna** (zwana też handlową) = długość trasy / czas przejazdu **z postojami na przystankach
+  pośrednich**; **prędkość techniczna** = bez czasu postojów na przystankach. Tak opisują je artykuły w „Transporcie
+  Miejskim i Regionalnym” (np. Oskarbski, TMiR 5/2016; Wołek, TMiR 2/2016), ale widziane **tylko jako fragmenty
+  w wynikach wyszukiwania**: plik PDF Wołka zwrócił błąd 403, a innego PDF (Politechnika Warszawska, „Miasto
+  i Transport”) nie dało się odczytać (skompresowany tekst, brak narzędzia do PDF w środowisku). Strony nie sprawdzono.
+- **Prędkość eksploatacyjna**: nie znaleziono definicji w źródle pierwotnym (podręcznik Wyszomirskiego czy Rudnickiego,
+  norma). Wyszukiwarka streściła jeden niezidentyfikowany wynik jako wyliczenie składników „czasu eksploatacyjnego”
+  (jazda, postoje na przystankach pośrednich i na dworcach, postoje i przejazdy techniczne na pętlach), co zgadza się
+  z opisem w raporcie (§15.3: eksploatacyjna obejmuje postoje na pętlach), ale **nie jest to cytat ze źródła**.
+  W innych znalezionych tekstach termin oznacza „maksymalną prędkość eksploatacyjną” pojazdu, czyli co innego.
+- Wniosek: nazwa „rozkładowa prędkość komunikacyjna” dla tego, co tu liczymy (z postojami na przystankach, bez postojów
+  na pętlach), jest zgodna ze wszystkimi znalezionymi opisami; twierdzenie o prędkości eksploatacyjnej z pętlami
+  pozostaje bez cytatu ze źródła pierwotnego.
 
 ## 3. Odcinki sieci tramwajowej
 
@@ -260,6 +304,10 @@ Pliki: [`../../tables/tram_stretches.csv`](../../tables/tram_stretches.csv) (wie
 7. Prędkość odcinka w paśmie = suma długości / suma czasów wszystkich przejazdów na jego krawędziach (kursy
    przejeżdżające tylko część odcinka liczą się w tej części); czas rozkładowy = długość reprezentatywna (suma median
    długości krawędzi) / prędkość.
+8. **Przedział zaokrąglenia ±1 min** przy każdej prędkości odcinka (kolumny `speed_lo_kmh_*`, `speed_hi_kmh_*`):
+   długość / (czas + 1 min) do długości / (czas − 1 min); przy czasie do 1 min bez górnej granicy. To granica
+   najgorszego przypadku (oba końce zaokrąglone w tę samą stronę), szersza niż odchylenie z punktu 5. Odcinki
+   krótsze niż 5 min nadal mają `below_min = true` i są na mapie rysowane linią przerywaną.
 
 Geometria: dla każdej krawędzi najczęstszy kawałek kształtu GTFS, sklejone; dopasowanie do toru OSM: punkty co 10 m
 wzdłuż odcinka do najbliższego toru `railway=tram` w promieniu 15 m.
@@ -332,185 +380,234 @@ jazdy w jezdni na szerokich ulicach**, gdzie tory narysowano kilka metrów od os
 we Wrocławiu, prawdopodobnie Święty Marcin w Poznaniu). Udziały w jezdni (Warszawa 7 %, Gdańsk 10 %, Kraków i Poznań
 14–15 %, Łódź 19 %, GZM 20 %, Wrocław 28 % długości) są więc dolnym oszacowaniem; kolejność miast wydaje się wiarygodna.
 
-### 3.3 Zapas rozkładowy (model jazdy swobodnej)
+### 3.3 Czas ponad jazdę swobodną (model)
+
+**Co to jest.** Czas ponad jazdę swobodną = czas rozkładowy odcinka − czas jazdy swobodnej z prostego modelu,
+podawany w **sekundach na kilometr** i zawsze z przedziałem. Jest to **liczba z modelu, nie pomiar**. Wcześniej
+nazywana tu „zapasem”; nazwa zmieniona po przeglądzie literatury, bo w publikacjach „padding” liczy się względem
+najlepszego czasu zmierzonego (AVL), nie względem modelu.
 
 **Model jazdy swobodnej** dla przejazdu o długości d: rozpędzanie ze stałym przyspieszeniem do limitu, jazda z
 limitem, hamowanie; gdy przejazd jest za krótki, by osiągnąć limit, trójkątny przebieg prędkości; do tego postój na
-przystanku. Czas swobodny odcinka = suma po krawędziach (mediana długości krawędzi). **Zapas = czas rozkładowy − czas
-swobodny**; zapas na km = zapas / długość; zapas na skrzyżowanie = zapas / liczba skrzyżowań z drogą (tylko jako
-liczba pochodna, z zastrzeżeniem poniżej).
+przystanku. Czas swobodny odcinka = suma po krawędziach (mediana długości krawędzi).
 
-| Parametr | Wartość główna | Wrażliwość | Skąd |
-|---|---|---|---|
-| przyspieszenie średnie 0 → limit | 1,0 m/s² | 0,7 / 1,3 | założenie; nowe tramwaje niskopodłogowe mają przyspieszenie rozruchu ok. 1,0–1,3 m/s² (dane producentów, nie zweryfikowano), średnie do 50 km/h jest niższe |
-| hamowanie służbowe | 1,0 m/s² | 0,8 / 1,3 | założenie; hamowanie służbowe tramwajów 1,0–1,5 m/s², nagłe powyżej 2,5 m/s² (nie zweryfikowano) |
-| limit prędkości | 50 km/h | 40 / 60 / 70 | założenie; w miastach tramwaje jeżdżą zwykle z limitem 30–50 km/h, na torowiskach wydzielonych do 60–70 km/h; limitów z OSM (`maxspeed` na torach) nie użyto, bo są rzadko podane |
-| postój na przystanku | 20 s | 10 / 30 | założenie; GTFS nie podaje postojów |
-| łuki (wariant) | bez ograniczenia | przyspieszenie boczne 0,65 m/s² | założenie; promień z geometrii kształtu GTFS |
+| Parametr | Wartość środkowa | Przedział publikowany | Wrażliwość (tylko w tej nocie) | Skąd |
+|---|---|---|---|---|
+| przyspieszenie średnie 0 → limit | 1,0 m/s² | – | 0,7 / 1,3 | założenie; specyfikacja przetargowa Tramwajów Śląskich podaje 1,1 m/s² rozruchu (fragment w wyszukiwarce, nie otwarto) |
+| hamowanie służbowe | 1,0 m/s² | – | 0,8 / 1,3 | założenie; ta sama specyfikacja: 1,14 m/s² (nie otwarto) |
+| limit prędkości tam, gdzie OSM nie podaje `maxspeed` | 50 km/h | 40 / 50 / 70 km/h | 40 / 60 / 70 | założenie |
+| limit z OSM | `maxspeed` toru `railway=tram`, 30–100 km/h | – | wariant „bez maxspeed z OSM” | OSM 2026-11-22 |
+| postój na przystanku | 20 s | 10 / 20 / 30 s | 10 / 30 | założenie; GTFS nie podaje postojów |
+
+- **Limit z OSM**: punkty co 10 m wzdłuż odcinka dostają `maxspeed` dopasowanego toru; limit odcinka to średnia
+  harmoniczna (równoważna czasowo) z `maxspeed` tam, gdzie jest, i z limitu założonego gdzie indziej. Wartości poniżej
+  30 km/h (rozjazdy, łuki, pętle) są pomijane: na skrzyżowaniach najbliższym torem bywa tor skrętny, więc dopasowanie
+  przypisywało je odcinkom jadącym prosto (w Krakowie dawało to medianę limitu ok. 35 km/h).
+- **Przedział** = najmniejsza i największa wartość z 9 kombinacji postój 10 / 20 / 30 s × limit 40 / 50 / 70 km/h
+  (limit tylko tam, gdzie OSM go nie podaje). Dolna granica jest obcinana do 0.
+- **Rozkład szybszy niż model** (czas rozkładowy krótszy niż czas swobodny przy wartościach środkowych): odcinek ma
+  `faster_than_model = true` i **nie ma wartości** – nie podajemy ujemnych liczb. Tak jest głównie na szybkich
+  torowiskach wydzielonych, gdzie rzeczywisty limit jest wyższy niż 50 km/h, a OSM go nie podaje.
+- **Wariant z ograniczeniem na łukach usunięto** z publikowanych wyników: promienie liczone z kształtów GTFS są
+  zaszumione (zmieniał ranking najbardziej ze wszystkich wariantów).
+- W mieście: suma czasu rozkładowego minus suma czasu swobodnego po wszystkich przejazdach odcinków ≥ 5 min,
+  podzielona przez wozokilometry (tu odcinki szybsze niż model obniżają średnią; to suma czasów, nie lista odcinków).
 
 Model jest celowo prosty i „optymistyczny”: tramwaj zawsze rusza i hamuje jak najszybciej, nigdy nie czeka.
-**Zapas miesza wszystko, czego model nie zawiera:** czekanie na sygnalizacji, ograniczenia prędkości (rozjazdy, łuki,
-skrzyżowania, odcinki w złym stanie), jazdę we wspólnym ruchu i za innym tramwajem, dłuższą wymianę pasażerów niż
-20 s i rezerwy wpisane w rozkład. **Nie jest to pomiar strat na sygnalizacji** i „zapas na skrzyżowanie” nie mówi,
-ile kosztuje jedno skrzyżowanie; to tylko zapas odcinka podzielony przez liczbę skrzyżowań, przydatny do
-porównywania odcinków podobnego typu.
+**Czas ponad jazdę swobodną miesza wszystko, czego model nie zawiera:** czekanie na sygnalizacji, ograniczenia
+prędkości (rozjazdy, łuki, skrzyżowania, odcinki w złym stanie), jazdę we wspólnym ruchu i za innym tramwajem,
+dłuższą wymianę pasażerów niż postój z modelu i rezerwy wpisane w rozkład. Badania francuskie (Wu, McDonald i in.)
+przypisują postojom 22–27 % czasu jazdy tramwaju, a sygnalizacji 7–8 %, więc znaczna część tej wielkości to zwykłe
+postoje i geometria toru. **Nie jest to pomiar strat na sygnalizacji.** Poprzednia liczba pochodna „zapas na
+skrzyżowanie” nie jest już publikowana.
 
-Udział zapasu w czasie rozkładowym, szczyt poranny w środę (odcinki ≥ 5 min):
+Pokrycie tagiem `maxspeed` (tory `railway=tram` w FUA + 2 km, OSM 2026-11-22):
 
-| Wariant | Warszawa | Kraków | Wrocław | Poznań | Łódź | Gdańsk | GZM | Min. korelacja rang z głównym | Min. wspólnych w top 10 | Maks. udział odcinków z ujemnym zapasem |
+| Miasto | Długość torów z dowolnym maxspeed | Z maxspeed 30–100 km/h (użyte) | Długość odcinków z użytym maxspeed |
+|---|---|---|---|
+| Warszawa | 33 % | 28 % | 33 % |
+| Kraków | 100 % | 74 % | 88 % |
+| Wrocław | 8 % | 2 % | 3 % |
+| Poznań | 17 % | 16 % | 17 % |
+| Łódź | 0 % | 0 % | 0 % |
+| Gdańsk | 92 % | 87 % | 93 % |
+| GZM | 12 % | 11 % | 13 % |
+
+**`maxspeed` na torach**: oznaczenie jest bardzo nierówne. Kraków ma `maxspeed` na całym torowisku, Gdańsk na 92 %,
+Warszawa na 33 %, Poznań na 17 %, GZM na 12 %, Wrocław na 8 %, Łódź na żadnym. Część wartości to ograniczenia
+rozjazdów i pętli (5–25 km/h; w Krakowie stanowią ok. 26 % długości torów), których nie używamy (3.3). Limit z OSM
+zmienia wynik głównie w Krakowie i Gdańsku; w pozostałych miastach model opiera się na założeniu 50 km/h
+(przedział 40–70).
+
+Czas ponad jazdę swobodną w mieście, s/km (suma czasu rozkładowego minus suma czasu swobodnego, na wozokilometr), szczyt poranny w środę, odcinki ≥ 5 min; wariant zmienia jeden parametr modelu:
+
+| Wariant | Warszawa | Kraków | Wrocław | Poznań | Łódź | Gdańsk | GZM | Min. korelacja rang z głównym | Min. wspólnych w top 10 | Maks. udział odcinków szybszych niż model |
 |---|---|---|---|---|---|---|---|---|---|---|
-| główny | 28 % | 25 % | 35 % | 23 % | 36 % | 30 % | 28 % | 1,00 | 10 | 16 % |
-| przysp. 0,7 m/s² | 25 % | 22 % | 32 % | 20 % | 33 % | 27 % | 24 % | 0,99 | 9 | 20 % |
-| przysp. 1,3 m/s² | 30 % | 27 % | 37 % | 25 % | 37 % | 31 % | 29 % | 1,00 | 9 | 6 % |
-| hamowanie 0,8 m/s² | 27 % | 24 % | 33 % | 21 % | 34 % | 28 % | 26 % | 0,99 | 9 | 16 % |
-| hamowanie 1,3 m/s² | 30 % | 27 % | 37 % | 25 % | 37 % | 31 % | 29 % | 1,00 | 9 | 6 % |
-| limit 40 km/h | 22 % | 18 % | 30 % | 16 % | 30 % | 24 % | 22 % | 1,00 | 9 | 24 % |
-| limit 60 km/h | 32 % | 29 % | 38 % | 26 % | 38 % | 33 % | 31 % | 0,99 | 9 | 4 % |
-| limit 70 km/h | 33 % | 31 % | 39 % | 28 % | 40 % | 34 % | 32 % | 0,99 | 9 | 4 % |
-| postój 10 s | 39 % | 36 % | 45 % | 34 % | 45 % | 40 % | 38 % | 0,99 | 9 | 3 % |
-| postój 30 s | 18 % | 15 % | 25 % | 12 % | 26 % | 19 % | 17 % | 0,97 | 8 | 29 % |
-| łuki: 0,65 m/s² | 19 % | 16 % | 22 % | 6 % | 25 % | 14 % | 7 % | 0,81 | 6 | 36 % |
+| główny | 55 | 44 | 77 | 42 | 73 | 59 | 54 | 1,00 | 10 | 8 % |
+| bez maxspeed z OSM | 55 | 45 | 78 | 41 | 73 | 60 | 54 | 0,99 | 9 | 16 % |
+| przysp. 0,7 m/s² | 49 | 39 | 71 | 36 | 67 | 53 | 48 | 0,99 | 9 | 16 % |
+| przysp. 1,3 m/s² | 59 | 47 | 80 | 46 | 76 | 63 | 57 | 1,00 | 9 | 5 % |
+| hamowanie 0,8 m/s² | 52 | 41 | 73 | 39 | 69 | 56 | 50 | 1,00 | 9 | 8 % |
+| hamowanie 1,3 m/s² | 59 | 47 | 80 | 46 | 76 | 63 | 57 | 1,00 | 9 | 5 % |
+| limit 40 km/h | 48 | 43 | 66 | 34 | 61 | 59 | 43 | 0,99 | 9 | 14 % |
+| limit 60 km/h | 59 | 45 | 83 | 47 | 78 | 60 | 60 | 0,99 | 9 | 7 % |
+| limit 70 km/h | 61 | 46 | 86 | 49 | 81 | 60 | 62 | 0,99 | 9 | 7 % |
+| postój 10 s | 76 | 62 | 99 | 62 | 92 | 80 | 75 | 0,99 | 9 | 3 % |
+| postój 30 s | 35 | 26 | 55 | 23 | 54 | 39 | 33 | 0,97 | 8 | 27 % |
 
-**Odczyt.** Poziom zapasu zależy od parametrów (postój 10–30 s zmienia udział o ok. ±10 pkt proc.), ale **kolejność
-odcinków prawie nie** (korelacja rang ≥ 0,98 dla wszystkich wariantów poza łukami, w top 10 zostaje 8–10 tych samych
-odcinków). Rankingi zapasu są więc odporne na wybór parametrów, liczby bezwzględne nie. Ujemny zapas (rozkład szybszy
-niż model) mają głównie szybkie torowiska wydzielone (PST w Poznaniu 34 km/h, Pleszów w Krakowie 34–36 km/h, trasy
-do Franowa, Miłostowa, Żerania): tam realny limit jest wyższy niż 50 km/h, co wariant 70 km/h potwierdza (Poznań bez
-ujemnych). Wariant z łukami mocno zmienia wynik (GZM i Poznań: udział zapasu spada do ok. 6 %, ok. 35 % odcinków
-ujemnych), bo promienie z kształtów GTFS są zaszumione; tego wariantu nie należy używać, dopóki promienie nie będą
-liczone na torach OSM.
+**Odczyt.** Wartości środkowe w szczycie porannym: Kraków i Poznań ok. 42–44 s/km, Warszawa, GZM i Gdańsk 54–59,
+Łódź 73, Wrocław 77 s/km. **Poziom zależy przede wszystkim od założonego postoju** (10 s: 62–99 s/km, 30 s:
+23–55 s/km) i w drugiej kolejności od limitu prędkości; dlatego publikujemy przedział (postój 10–30 s × limit
+40–70 km/h): np. Wrocław 44–107, Kraków 25–64 s/km. **Kolejność odcinków prawie się nie zmienia** (korelacja rang
+z wariantem środkowym ≥ 0,97, w top 10 zostaje 8–10 tych samych odcinków), więc listy w 3.5 są odporne na wybór
+parametrów, a liczby bezwzględne nie. Kolejność miast też jest stała we wszystkich wariantach (Wrocław i Łódź
+najwyżej, Kraków i Poznań najniżej). Wrocław: 77 s/km w szczycie porannym wobec 56 wieczorem; model i geometria są
+te same, więc różnica pochodzi wyłącznie z rozkładu, który w szczycie daje dłuższe czasy przejazdu.
 
-### 3.4 Miasta: prędkość na odcinkach i udział wolnych odcinków (środa)
+**Rozkład szybszy niż model**: 0–8 % odcinków w wariancie środkowym. W szczycie porannym (odcinki ≥ 5 min) są to
+w Poznaniu Franowo – os. Czecha i Kórnicka – Piaśnicka Rynek (8 % wozokilometrów, wieczorem 15 %), w Krakowie
+Plac Centralny – Fort Mogiła – Pleszów i Nowy Bieżanów (5 %), w Warszawie Żerań FSO – rondo Starzyńskiego i Winnica –
+Mehoffera; wszystkie 25–36 km/h z rozkładu. Bez `maxspeed` z OSM udział rośnie do 16 % odcinków (Kraków), bo OSM
+podaje tam 60–70 km/h. Przy postoju 30 s takich odcinków jest do 27 %.
 
-| Miasto | Pasmo | Prędkość, km/h | Wozokm < 12 km/h | < 15 km/h | < 18 km/h | Zapas / czas rozkładowy | Wozokm na odcinkach < 5 min |
-|---|---|---|---|---|---|---|---|
-| Warszawa | szczyt poranny 07–09 | 18,6 | 3,8 % | 13,9 % | 36,2 % | 28,5 % | 7,3 % |
-| Warszawa | międzyszczyt 09–15 | 18,8 | 3,2 % | 12,6 % | 34,9 % | 27,3 % | 7,5 % |
-| Warszawa | wieczór 20–23 | 19,3 | 1,7 % | 12,3 % | 31,7 % | 25,2 % | 7,4 % |
-| Kraków | szczyt poranny 07–09 | 20,1 | 0,3 % | 5,9 % | 24,3 % | 25,4 % | 7,0 % |
-| Kraków | międzyszczyt 09–15 | 20,0 | 0,3 % | 6,2 % | 25,7 % | 25,8 % | 6,9 % |
-| Kraków | wieczór 20–23 | 20,1 | 0,3 % | 6,3 % | 26,2 % | 25,4 % | 7,3 % |
-| Wrocław | szczyt poranny 07–09 | 16,2 | 8,4 % | 34,5 % | 65,0 % | 35,1 % | 6,8 % |
-| Wrocław | międzyszczyt 09–15 | 16,4 | 5,9 % | 32,7 % | 64,2 % | 34,1 % | 6,9 % |
-| Wrocław | wieczór 20–23 | 17,9 | 3,3 % | 20,3 % | 44,5 % | 28,4 % | 7,1 % |
-| Poznań | szczyt poranny 07–09 | 19,7 | 0,1 % | 5,7 % | 29,4 % | 23,0 % | 13,0 % |
-| Poznań | międzyszczyt 09–15 | 19,8 | 0,1 % | 5,7 % | 29,4 % | 23,0 % | 13,0 % |
-| Poznań | wieczór 20–23 | 20,6 | 0,1 % | 3,9 % | 24,7 % | 19,2 % | 13,0 % |
-| Łódź | szczyt poranny 07–09 | 17,3 | 3,4 % | 21,9 % | 44,5 % | 35,5 % | 12,3 % |
-| Łódź | międzyszczyt 09–15 | 17,3 | 3,5 % | 21,9 % | 48,1 % | 35,6 % | 12,4 % |
-| Łódź | wieczór 20–23 | 17,7 | 2,1 % | 16,6 % | 44,1 % | 33,9 % | 12,7 % |
-| Gdańsk | szczyt poranny 07–09 | 17,9 | 1,7 % | 8,2 % | 54,7 % | 29,8 % | 5,0 % |
-| Gdańsk | międzyszczyt 09–15 | 17,7 | 2,0 % | 9,7 % | 55,1 % | 29,8 % | 5,2 % |
-| Gdańsk | wieczór 20–23 | 17,8 | 1,5 % | 11,5 % | 51,4 % | 29,2 % | 4,9 % |
-| GZM | szczyt poranny 07–09 | 18,2 | 1,3 % | 12,6 % | 47,4 % | 27,5 % | 4,5 % |
-| GZM | międzyszczyt 09–15 | 18,1 | 1,2 % | 12,7 % | 47,8 % | 27,7 % | 4,5 % |
-| GZM | wieczór 20–23 | 18,2 | 1,7 % | 14,9 % | 47,1 % | 27,5 % | 3,7 % |
+### 3.4 Miasta: prędkość na odcinkach według stałych klas (środa)
 
-### 3.5 Najwolniejsze odcinki i największy zapas na km, szczyt poranny w środę
+Klasy są stałe i jednakowe dla wszystkich miast: poniżej 12, 12–15, 15–18, 18–22, 22–26, 26 km/h i więcej. Te same
+granice mają kolory na mapie (`results/web/speed`), kolumny `speed_class_*` w tabelach odcinków i `speed_class`
+w tabeli linii. W kolumnie „ponad jazdę swobodną” wartość środkowa i przedział z modelu (3.3).
+
+Udział wozokilometrów w klasach prędkości (odcinki ≥ 5 min):
+
+| Miasto | Pasmo | Prędkość, km/h | poniżej 12 | 12–15 | 15–18 | 18–22 | 22–26 | 26 i więcej | Ponad jazdę swobodną, s/km (przedział) | Wozokm na odcinkach < 5 min |
+|---|---|---|---|---|---|---|---|---|---|---|
+| Warszawa | szczyt poranny 07–09 | 18,6 | 4 % | 10 % | 22 % | 35 % | 22 % | 7 % | 55 (28–82) | 7,3 % |
+| Warszawa | międzyszczyt 09–15 | 18,8 | 3 % | 9 % | 22 % | 32 % | 26 % | 7 % | 52 (25–79) | 7,5 % |
+| Warszawa | wieczór 20–23 | 19,3 | 2 % | 11 % | 19 % | 26 % | 35 % | 8 % | 47 (19–74) | 7,4 % |
+| Kraków | szczyt poranny 07–09 | 20,1 | 0 % | 6 % | 18 % | 31 % | 39 % | 5 % | 44 (25–64) | 7,0 % |
+| Kraków | międzyszczyt 09–15 | 20,0 | 0 % | 6 % | 19 % | 34 % | 36 % | 5 % | 45 (26–65) | 6,9 % |
+| Kraków | wieczór 20–23 | 20,1 | 0 % | 6 % | 20 % | 33 % | 33 % | 7 % | 44 (25–64) | 7,3 % |
+| Wrocław | szczyt poranny 07–09 | 16,2 | 8 % | 26 % | 30 % | 17 % | 17 % | 1 % | 77 (44–107) | 6,8 % |
+| Wrocław | międzyszczyt 09–15 | 16,4 | 6 % | 27 % | 32 % | 20 % | 14 % | 1 % | 74 (41–104) | 6,9 % |
+| Wrocław | wieczór 20–23 | 17,9 | 3 % | 17 % | 24 % | 28 % | 19 % | 9 % | 56 (23–87) | 7,1 % |
+| Poznań | szczyt poranny 07–09 | 19,7 | 0 % | 6 % | 24 % | 26 % | 29 % | 15 % | 42 (14–69) | 13,0 % |
+| Poznań | międzyszczyt 09–15 | 19,8 | 0 % | 6 % | 24 % | 26 % | 26 % | 19 % | 42 (14–69) | 13,0 % |
+| Poznań | wieczór 20–23 | 20,6 | 0 % | 4 % | 21 % | 21 % | 40 % | 14 % | 34 (5–60) | 13,0 % |
+| Łódź | szczyt poranny 07–09 | 17,3 | 3 % | 18 % | 23 % | 38 % | 17 % | 1 % | 73 (42–100) | 12,3 % |
+| Łódź | międzyszczyt 09–15 | 17,3 | 4 % | 18 % | 26 % | 34 % | 17 % | 1 % | 73 (42–101) | 12,4 % |
+| Łódź | wieczór 20–23 | 17,7 | 2 % | 15 % | 27 % | 37 % | 18 % | 1 % | 67 (37–95) | 12,7 % |
+| Gdańsk | szczyt poranny 07–09 | 17,9 | 2 % | 6 % | 46 % | 28 % | 15 % | 2 % | 59 (38–81) | 5,0 % |
+| Gdańsk | międzyszczyt 09–15 | 17,7 | 2 % | 8 % | 45 % | 31 % | 12 % | 2 % | 59 (38–81) | 5,2 % |
+| Gdańsk | wieczór 20–23 | 17,8 | 1 % | 10 % | 40 % | 35 % | 12 % | 1 % | 58 (36–80) | 4,9 % |
+| GZM | szczyt poranny 07–09 | 18,2 | 1 % | 11 % | 35 % | 23 % | 23 % | 6 % | 54 (22–84) | 4,5 % |
+| GZM | międzyszczyt 09–15 | 18,1 | 1 % | 11 % | 35 % | 23 % | 23 % | 6 % | 54 (22–84) | 4,5 % |
+| GZM | wieczór 20–23 | 18,2 | 2 % | 13 % | 32 % | 24 % | 23 % | 6 % | 54 (22–84) | 3,7 % |
+
+### 3.5 Najwolniejsze odcinki i największy czas ponad jazdę swobodną, szczyt poranny w środę
 
 Ranking: odcinki co najmniej 5-minutowe (`below_min = false`) z co najmniej 8 kursami w paśmie 07–09; dwie listy po 10:
-najniższa prędkość i największy zapas na km. Kolumny OSM: udział długości w jezdni, skrzyżowania z drogą (w nawiasie
+najniższa prędkość (z przedziałem ±1 min) i największy czas ponad jazdę swobodną w s/km (z przedziałem z modelu;
+odcinki szybsze niż model nie wchodzą do tej listy). Kolumny OSM: udział długości w jezdni, skrzyżowania z drogą (w nawiasie
 z sygnalizacją w promieniu 35 m), przejścia dla pieszych przez tor dalej niż 30 m od skrzyżowania, rozjazdy.
 
 **Wrocław: najniższa prędkość**
 
-| # | Odcinek | Linie | Długość, m | km/h 07–09 | km/h 20–23 | Zapas, min/km | W jezdni | Skrzyżowania (z sygn.) | Przejścia poza skrzyż. | Rozjazdy |
+| # | Odcinek | Linie | Długość, m | km/h 07–09 (±1 min) | km/h 20–23 | Ponad jazdę swobodną, s/km (przedział) | W jezdni | Skrzyżowania (z sygn.) | Przejścia poza skrzyż. | Rozjazdy |
 |---|---|---|---|---|---|---|---|---|---|---|
-| 1 | Opera → GALERIA DOMINIKAŃSKA | 3, 6, 17 | 794 | 9,5 | 9,5 | 3,67 | 56 % | 4 (2) | 0 | 11 |
-| 2 | Mosty Pomorskie → Opera | 3, 5, 7, 10, 11, 12, 13, 18, 24 | 1 595 | 9,8 | 10,6 | 3,48 | 19 % | 8 (6) | 3 | 14 |
-| 3 | Oławska → Arkady (Capitol) | 6, 7, 13, 19, 20, 24 | 935 | 9,9 | 9,9 | 5,04 | 32 % | 4 (4) | 3 | 5 |
-| 4 | Pl. Wróblewskiego → Oławska | 3, 5 | 1 277 | 10,0 | 13,3 | 3,92 | 29 % | 7 (6) | 2 | 14 |
-| 5 | Świdnicka → DWORZEC GŁÓWNY | 10, 12, 18 | 1 199 | 10,2 | 13,6 | 4,30 | 32 % | 6 (3) | 1 | 9 |
-| 6 | Rynek → Renoma | 5, 6, 7, 13, 24 | 870 | 10,4 | 10,4 | 3,25 | 83 % | 5 (3) | 1 | 5 |
-| 7 | Oławska → Pomorska | 3, 5, 7, 18, 24 | 1 496 | 10,5 | 10,5 | 2,62 | 73 % | 6 (5) | 6 | 3 |
-| 8 | Oławska → Pl. Wróblewskiego | 3, 5 | 1 126 | 10,6 | 14,2 | 4,39 | 22 % | 4 (3) | 0 | 8 |
-| 9 | Zajezdnia OŁBIN → Pl. Bema | 1, 2, 3, 4, 6, 8, 9, 10, 11, 12, 13, 16, 17, 19, 23 | 1 120 | 10,7 | 16,7 | 2,42 | 71 % | 10 (3) | 0 | 9 |
-| 10 | Arkady (Capitol) → Oławska | 3, 6, 7, 10, 12, 13, 17, 18, 19, 20, 24 | 1 017 | 10,9 | 10,9 | 2,07 | 19 % | 7 (4) | 3 | 10 |
+| 1 | Opera → GALERIA DOMINIKAŃSKA | 3, 6, 17 | 794 | 9,5 (7,9–11,9) | 9,5 | 220 (184–252) | 56 % | 4 (2) | 0 | 11 |
+| 2 | Mosty Pomorskie → Opera | 3, 5, 7, 10, 11, 12, 13, 18, 24 | 1 595 | 9,8 (8,9–11,0) | 10,6 | 205 (170–239) | 19 % | 8 (6) | 3 | 14 |
+| 3 | Oławska → Arkady (Capitol) | 6, 7, 13, 19, 20, 24 | 935 | 9,9 (8,4–12,0) | 9,9 | 302 (288–314) | 32 % | 4 (4) | 3 | 5 |
+| 4 | Pl. Wróblewskiego → Oławska | 3, 5 | 1 277 | 10,0 (8,8–11,5) | 13,3 | 235 (206–263) | 29 % | 7 (6) | 2 | 14 |
+| 5 | Świdnicka → DWORZEC GŁÓWNY | 10, 12, 18 | 1 199 | 10,2 (8,9–11,8) | 13,6 | 257 (234–279) | 32 % | 6 (3) | 1 | 9 |
+| 6 | Rynek → Renoma | 5, 6, 7, 13, 24 | 870 | 10,4 (8,7–13,0) | 10,4 | 195 (160–227) | 83 % | 5 (3) | 1 | 5 |
+| 7 | Oławska → Pomorska | 3, 5, 7, 18, 24 | 1 496 | 10,5 (9,4–11,9) | 10,5 | 157 (115–194) | 73 % | 6 (5) | 6 | 3 |
+| 8 | Oławska → Pl. Wróblewskiego | 3, 5 | 1 126 | 10,6 (9,2–12,6) | 14,2 | 264 (246–280) | 22 % | 4 (3) | 0 | 8 |
+| 9 | Zajezdnia OŁBIN → Pl. Bema | 1, 2, 3, 4, 6, 8, 9, 10, 11, 12, 13, 16, 17, 19, 23 | 1 120 | 10,7 (9,2–12,7) | 16,7 | 145 (101–183) | 71 % | 10 (3) | 0 | 9 |
+| 10 | Arkady (Capitol) → Oławska | 3, 6, 7, 10, 12, 13, 17, 18, 19, 20, 24 | 1 017 | 10,9 (9,3–13,3) | 10,9 | 124 (78–165) | 19 % | 7 (4) | 3 | 10 |
 
 
 
-**Wrocław: największy zapas na km**
+**Wrocław: największy czas ponad jazdę swobodną**
 
-| # | Odcinek | Linie | Długość, m | km/h 07–09 | km/h 20–23 | Zapas, min/km | W jezdni | Skrzyżowania (z sygn.) | Przejścia poza skrzyż. | Rozjazdy |
+| # | Odcinek | Linie | Długość, m | km/h 07–09 (±1 min) | km/h 20–23 | Ponad jazdę swobodną, s/km (przedział) | W jezdni | Skrzyżowania (z sygn.) | Przejścia poza skrzyż. | Rozjazdy |
 |---|---|---|---|---|---|---|---|---|---|---|
-| 1 | Oławska → Arkady (Capitol) | 6, 7, 13, 19, 20, 24 | 935 | 9,9 | 9,9 | 5,04 | 32 % | 4 (4) | 3 | 5 |
-| 2 | Oławska → Pl. Wróblewskiego | 3, 5 | 1 126 | 10,6 | 14,2 | 4,39 | 22 % | 4 (3) | 0 | 8 |
-| 3 | Świdnicka → DWORZEC GŁÓWNY | 10, 12, 18 | 1 199 | 10,2 | 13,6 | 4,30 | 32 % | 6 (3) | 1 | 9 |
-| 4 | Pl. Wróblewskiego → Arkady (Capitol) | 3, 4, 16, 19 | 1 904 | 11,0 | 14,6 | 4,02 | 34 % | 11 (6) | 3 | 4 |
-| 5 | Pl. Wróblewskiego → Oławska | 3, 5 | 1 277 | 10,0 | 13,3 | 3,92 | 29 % | 7 (6) | 2 | 14 |
-| 6 | Opera → GALERIA DOMINIKAŃSKA | 3, 6, 17 | 794 | 9,5 | 9,5 | 3,67 | 56 % | 4 (2) | 0 | 11 |
-| 7 | Mosty Pomorskie → Opera | 3, 5, 7, 10, 11, 12, 13, 18, 24 | 1 595 | 9,8 | 10,6 | 3,48 | 19 % | 8 (6) | 3 | 14 |
-| 8 | Rynek → Renoma | 5, 6, 7, 13, 24 | 870 | 10,4 | 10,4 | 3,25 | 83 % | 5 (3) | 1 | 5 |
-| 9 | Zajezdnia GAJ → Arkady (Capitol) | 2, 3, 4, 5, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 20, 22, 23 | 1 622 | 12,4 | 15,5 | 3,06 | 3 % | 5 (5) | 3 | 9 |
-| 10 | Gajowa → Kościuszki | 16 | 1 427 | 11,9 | 15,9 | 3,04 | 90 % | 9 (4) | 0 | 6 |
+| 1 | Oławska → Arkady (Capitol) | 6, 7, 13, 19, 20, 24 | 935 | 9,9 (8,4–12,0) | 9,9 | 302 (288–314) | 32 % | 4 (4) | 3 | 5 |
+| 2 | Oławska → Pl. Wróblewskiego | 3, 5 | 1 126 | 10,6 (9,2–12,6) | 14,2 | 264 (246–280) | 22 % | 4 (3) | 0 | 8 |
+| 3 | Świdnicka → DWORZEC GŁÓWNY | 10, 12, 18 | 1 199 | 10,2 (8,9–11,8) | 13,6 | 257 (234–279) | 32 % | 6 (3) | 1 | 9 |
+| 4 | Pl. Wróblewskiego → Arkady (Capitol) | 3, 4, 16, 19 | 1 904 | 11,0 (10,0–12,1) | 14,6 | 241 (221–259) | 34 % | 11 (6) | 3 | 4 |
+| 5 | Pl. Wróblewskiego → Oławska | 3, 5 | 1 277 | 10,0 (8,8–11,5) | 13,3 | 235 (206–263) | 29 % | 7 (6) | 2 | 14 |
+| 6 | Opera → GALERIA DOMINIKAŃSKA | 3, 6, 17 | 794 | 9,5 (7,9–11,9) | 9,5 | 220 (184–252) | 56 % | 4 (2) | 0 | 11 |
+| 7 | Mosty Pomorskie → Opera | 3, 5, 7, 10, 11, 12, 13, 18, 24 | 1 595 | 9,8 (8,9–11,0) | 10,6 | 205 (170–239) | 19 % | 8 (6) | 3 | 14 |
+| 8 | Rynek → Renoma | 5, 6, 7, 13, 24 | 870 | 10,4 (8,7–13,0) | 10,4 | 195 (160–227) | 83 % | 5 (3) | 1 | 5 |
+| 9 | Zajezdnia GAJ → Arkady (Capitol) | 2, 3, 4, 5, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 20, 22, 23 | 1 622 | 12,4 (11,0–14,2) | 15,5 | 184 (157–208) | 3 % | 5 (5) | 3 | 9 |
+| 10 | DWORZEC GŁÓWNY → Świdnicka | 2, 3, 5, 8, 9, 10, 12, 13, 17, 18, 23 | 1 087 | 12,7 (10,6–15,8) | 12,8 | 177 (153–200) | 29 % | 5 (4) | 2 | 5 |
 
 
 
 **Kraków: najniższa prędkość**
 
-| # | Odcinek | Linie | Długość, m | km/h 07–09 | km/h 20–23 | Zapas, min/km | W jezdni | Skrzyżowania (z sygn.) | Przejścia poza skrzyż. | Rozjazdy |
+| # | Odcinek | Linie | Długość, m | km/h 07–09 (±1 min) | km/h 20–23 | Ponad jazdę swobodną, s/km (przedział) | W jezdni | Skrzyżowania (z sygn.) | Przejścia poza skrzyż. | Rozjazdy |
 |---|---|---|---|---|---|---|---|---|---|---|
-| 1 | Łagiewniki → Lipińskiego | 11, 17, 22 | 976 | 11,2 | 11,4 | 1,85 | 2 % | 6 (4) | 5 | 10 |
-| 2 | Plac Bohaterów Getta → Starowiślna | 3, 17, 74 | 1 411 | 12,5 | 12,6 | 2,41 | 63 % | 10 (1) | 3 | 9 |
-| 3 | Stradom → Filharmonia | 1, 3, 12, 13, 18, 22, 70, 71, 74, 78 | 1 677 | 13,3 | 13,0 | 1,97 | 35 % | 13 (1) | 5 | 7 |
-| 4 | Starowiślna → Plac Bohaterów Getta | 3, 17, 74 | 1 349 | 13,6 | 13,7 | 1,96 | 69 % | 9 (1) | 3 | 8 |
-| 5 | Stary Kleparz → Dworzec Towarowy | 5, 18, 75 | 1 406 | 14,0 | 14,1 | 1,89 | 74 % | 14 (5) | 1 | 6 |
-| 6 | Filharmonia → Stradom | 1, 3, 12, 13, 18, 22, 70, 71, 74, 78 | 1 639 | 14,2 | 14,3 | 1,65 | 47 % | 14 (0) | 5 | 8 |
-| 7 | Plac Bohaterów Getta → Łagiewniki SKA | 17, 70, 76, 78 | 3 574 | 15,3 | 17,7 | 2,31 | 41 % | 20 (8) | 4 | 9 |
-| 8 | Stradom → Podgórze SKA | 13, 70, 76, 78 | 2 166 | 16,0 | 15,9 | 1,51 | 78 % | 19 (4) | 2 | 5 |
-| 9 | Rondo Mogilskie → Poczta Główna | 3, 5, 12, 14, 72, 74, 78 | 1 639 | 16,0 | 15,8 | 1,52 | 66 % | 12 (2) | 1 | 5 |
-| 10 | Filharmonia → Teatr Słowackiego | 5, 14, 18, 72, 74, 75, 78 | 1 586 | 16,0 | 15,9 | 1,48 | 97 % | 13 (0) | 1 | 6 |
+| 1 | Łagiewniki → Lipińskiego | 11, 17, 22 | 976 | 11,2 (9,4–13,8) | 11,4 | 111 (67–153) | 2 % | 6 (4) | 5 | 10 |
+| 2 | Plac Bohaterów Getta → Starowiślna | 3, 17, 74 | 1 411 | 12,5 (10,9–14,6) | 12,6 | 135 (112–159) | 63 % | 10 (1) | 3 | 9 |
+| 3 | Stradom → Filharmonia | 1, 3, 12, 13, 18, 22, 70, 71, 74, 78 | 1 677 | 13,3 (11,7–15,3) | 13,0 | 118 (91–145) | 35 % | 13 (1) | 5 | 7 |
+| 4 | Starowiślna → Plac Bohaterów Getta | 3, 17, 74 | 1 349 | 13,6 (11,6–16,3) | 13,7 | 108 (83–132) | 69 % | 9 (1) | 3 | 8 |
+| 5 | Stary Kleparz → Dworzec Towarowy | 5, 18, 75 | 1 406 | 14,0 (12,0–16,8) | 14,1 | 113 (91–136) | 74 % | 14 (5) | 1 | 6 |
+| 6 | Filharmonia → Stradom | 1, 3, 12, 13, 18, 22, 70, 71, 74, 78 | 1 639 | 14,2 (12,4–16,6) | 14,3 | 99 (70–127) | 47 % | 14 (0) | 5 | 8 |
+| 7 | Plac Bohaterów Getta → Łagiewniki SKA | 17, 70, 76, 78 | 3 574 | 15,3 (14,3–16,5) | 17,7 | 137 (122–152) | 41 % | 20 (8) | 4 | 9 |
+| 8 | Stradom → Podgórze SKA | 13, 70, 76, 78 | 2 166 | 16,0 (14,2–18,2) | 15,9 | 91 (71–110) | 78 % | 19 (4) | 2 | 5 |
+| 9 | Rondo Mogilskie → Poczta Główna | 3, 5, 12, 14, 72, 74, 78 | 1 639 | 16,0 (13,8–19,1) | 15,8 | 80 (59–102) | 66 % | 12 (2) | 1 | 5 |
+| 10 | Filharmonia → Teatr Słowackiego | 5, 14, 18, 72, 74, 75, 78 | 1 586 | 16,0 (13,7–19,3) | 15,9 | 80 (60–101) | 97 % | 13 (0) | 1 | 6 |
 
 
 
-**Kraków: największy zapas na km**
+**Kraków: największy czas ponad jazdę swobodną**
 
-| # | Odcinek | Linie | Długość, m | km/h 07–09 | km/h 20–23 | Zapas, min/km | W jezdni | Skrzyżowania (z sygn.) | Przejścia poza skrzyż. | Rozjazdy |
+| # | Odcinek | Linie | Długość, m | km/h 07–09 (±1 min) | km/h 20–23 | Ponad jazdę swobodną, s/km (przedział) | W jezdni | Skrzyżowania (z sygn.) | Przejścia poza skrzyż. | Rozjazdy |
 |---|---|---|---|---|---|---|---|---|---|---|
-| 1 | Plac Bohaterów Getta → Starowiślna | 3, 17, 74 | 1 411 | 12,5 | 12,6 | 2,41 | 63 % | 10 (1) | 3 | 9 |
-| 2 | Plac Bohaterów Getta → Łagiewniki SKA | 17, 70, 76, 78 | 3 574 | 15,3 | 17,7 | 2,31 | 41 % | 20 (8) | 4 | 9 |
-| 3 | Łagiewniki → Borek Fałęcki | 7, 22, 78 | 2 408 | 17,0 | 16,9 | 2,13 | 2 % | 7 (4) | 8 | 7 |
-| 4 | Stradom → Filharmonia | 1, 3, 12, 13, 18, 22, 70, 71, 74, 78 | 1 677 | 13,3 | 13,0 | 1,97 | 35 % | 13 (1) | 5 | 7 |
-| 5 | Starowiślna → Plac Bohaterów Getta | 3, 17, 74 | 1 349 | 13,6 | 13,7 | 1,96 | 69 % | 9 (1) | 3 | 8 |
-| 6 | Stary Kleparz → Dworzec Towarowy | 5, 18, 75 | 1 406 | 14,0 | 14,1 | 1,89 | 74 % | 14 (5) | 1 | 6 |
-| 7 | Łagiewniki → Lipińskiego | 11, 17, 22 | 976 | 11,2 | 11,4 | 1,85 | 2 % | 6 (4) | 5 | 10 |
-| 8 | Filharmonia → Stradom | 1, 3, 12, 13, 18, 22, 70, 71, 74, 78 | 1 639 | 14,2 | 14,3 | 1,65 | 47 % | 14 (0) | 5 | 8 |
-| 9 | Rondo Mogilskie → Poczta Główna | 3, 5, 12, 14, 72, 74, 78 | 1 639 | 16,0 | 15,8 | 1,52 | 66 % | 12 (2) | 1 | 5 |
-| 10 | Stradom → Podgórze SKA | 13, 70, 76, 78 | 2 166 | 16,0 | 15,9 | 1,51 | 78 % | 19 (4) | 2 | 5 |
+| 1 | Plac Bohaterów Getta → Łagiewniki SKA | 17, 70, 76, 78 | 3 574 | 15,3 (14,3–16,5) | 17,7 | 137 (122–152) | 41 % | 20 (8) | 4 | 9 |
+| 2 | Plac Bohaterów Getta → Starowiślna | 3, 17, 74 | 1 411 | 12,5 (10,9–14,6) | 12,6 | 135 (112–159) | 63 % | 10 (1) | 3 | 9 |
+| 3 | Łagiewniki → Borek Fałęcki | 7, 22, 78 | 2 408 | 17,0 (15,2–19,3) | 16,9 | 128 (113–143) | 2 % | 7 (4) | 8 | 7 |
+| 4 | Stradom → Filharmonia | 1, 3, 12, 13, 18, 22, 70, 71, 74, 78 | 1 677 | 13,3 (11,7–15,3) | 13,0 | 118 (91–145) | 35 % | 13 (1) | 5 | 7 |
+| 5 | Stary Kleparz → Dworzec Towarowy | 5, 18, 75 | 1 406 | 14,0 (12,0–16,8) | 14,1 | 113 (91–136) | 74 % | 14 (5) | 1 | 6 |
+| 6 | Łagiewniki → Lipińskiego | 11, 17, 22 | 976 | 11,2 (9,4–13,8) | 11,4 | 111 (67–153) | 2 % | 6 (4) | 5 | 10 |
+| 7 | Starowiślna → Plac Bohaterów Getta | 3, 17, 74 | 1 349 | 13,6 (11,6–16,3) | 13,7 | 108 (83–132) | 69 % | 9 (1) | 3 | 8 |
+| 8 | Filharmonia → Stradom | 1, 3, 12, 13, 18, 22, 70, 71, 74, 78 | 1 639 | 14,2 (12,4–16,6) | 14,3 | 99 (70–127) | 47 % | 14 (0) | 5 | 8 |
+| 9 | Stradom → Podgórze SKA | 13, 70, 76, 78 | 2 166 | 16,0 (14,2–18,2) | 15,9 | 91 (71–110) | 78 % | 19 (4) | 2 | 5 |
+| 10 | Poczta Główna → Rondo Mogilskie | 3, 5, 12, 14, 72, 74, 78 | 1 738 | 17,0 (14,6–20,3) | 16,8 | 81 (61–101) | 79 % | 13 (2) | 1 | 7 |
 
 
 
 **Łódź: najniższa prędkość**
 
-| # | Odcinek | Linie | Długość, m | km/h 07–09 | km/h 20–23 | Zapas, min/km | W jezdni | Skrzyżowania (z sygn.) | Przejścia poza skrzyż. | Rozjazdy |
+| # | Odcinek | Linie | Długość, m | km/h 07–09 (±1 min) | km/h 20–23 | Ponad jazdę swobodną, s/km (przedział) | W jezdni | Skrzyżowania (z sygn.) | Przejścia poza skrzyż. | Rozjazdy |
 |---|---|---|---|---|---|---|---|---|---|---|
-| 1 | Gdańska-Legionów → Nowomiejska-Północna | 15, 17, 45 | 699 | 7,0 | 8,4 | 4,96 | 100 % | 2 (1) | 5 | 4 |
-| 2 | Nowomiejska-Północna → Gdańska-Legionów | 15, 17, 45 | 728 | 7,6 | 7,6 | 5,69 | 74 % | 3 (2) | 0 | 2 |
-| 3 | Limanowskiego-Zachodnia → Wojska Polskiego-Franciszkańska | Z1 | 1 078 | 9,2 | 10,8 | 3,72 | 93 % | 5 (3) | 5 | 3 |
-| 4 | Wojska Polskiego-Franciszkańska → Limanowskiego-Zachodnia | Z1 | 1 075 | 9,5 | 10,8 | 3,57 | 62 % | 5 (3) | 4 | 3 |
-| 5 | Piotrkowska-Brzeźna → Kościuszki-Mickiewicza | 2, 3, 6, 7, 11 | 895 | 10,7 | 10,7 | 3,13 | 66 % | 4 (3) | 5 | 0 |
-| 6 | Rodziny Poznańskich-Dw. Łódź Fabryczna → Kopcińskiego-Narutowicza | 3, 4, 6, 9, 19 | 1 236 | 11,5 | 11,5 | 4,38 | 31 % | 5 (3) | 4 | 2 |
-| 7 | Włókniarzy-Karolewska (Dw. Ł. Kaliska) → Żeromskiego-Kopernika | 6, 12, 13, 16, 18, Z1 | 1 200 | 11,6 | 11,6 | 3,44 | 67 % | 6 (3) | 2 | 3 |
-| 8 | pl. Niepodległości → Niższa-Broniewskiego | 1, 2, 5, 6, 7, 11, 13, 16 | 2 418 | 11,8 | 13,3 | 2,93 | 10 % | 13 (9) | 9 | 7 |
-| 9 | Zachodnia-Próchnika → Gdańska-Struga | 7, 15, 17, 45 | 1 809 | 11,8 | 13,5 | 2,77 | 86 % | 8 (6) | 12 | 3 |
-| 10 | Żeromskiego-Kopernika → Włókniarzy-Karolewska (Dw. Ł. Kaliska) | 6, 12, 13, 16, 18, Z1 | 1 269 | 12,7 | 15,2 | 2,19 | 88 % | 8 (4) | 5 | 6 |
+| 1 | Gdańska-Legionów → Nowomiejska-Północna | 15, 17, 45 | 699 | 7,0 (6,0–8,4) | 8,4 | 298 (249–342) | 100 % | 2 (1) | 5 | 4 |
+| 2 | Nowomiejska-Północna → Gdańska-Legionów | 15, 17, 45 | 728 | 7,6 (6,5–9,2) | 7,6 | 342 (312–370) | 74 % | 3 (2) | 0 | 2 |
+| 3 | Limanowskiego-Zachodnia → Wojska Polskiego-Franciszkańska | Z1 | 1 078 | 9,2 (8,1–10,8) | 10,8 | 223 (185–257) | 93 % | 5 (3) | 5 | 3 |
+| 4 | Wojska Polskiego-Franciszkańska → Limanowskiego-Zachodnia | Z1 | 1 075 | 9,5 (8,2–11,1) | 10,8 | 214 (176–248) | 62 % | 5 (3) | 4 | 3 |
+| 5 | Piotrkowska-Brzeźna → Kościuszki-Mickiewicza | 2, 3, 6, 7, 11 | 895 | 10,7 (8,9–13,4) | 10,7 | 188 (153–218) | 66 % | 4 (3) | 5 | 0 |
+| 6 | Rodziny Poznańskich-Dw. Łódź Fabryczna → Kopcińskiego-Narutowicza | 3, 4, 6, 9, 19 | 1 236 | 11,5 (10,0–13,7) | 11,5 | 263 (251–272) | 31 % | 5 (3) | 4 | 2 |
+| 7 | Włókniarzy-Karolewska (Dw. Ł. Kaliska) → Żeromskiego-Kopernika | 6, 12, 13, 16, 18, Z1 | 1 200 | 11,6 (10,0–13,9) | 11,6 | 206 (183–227) | 67 % | 6 (3) | 2 | 3 |
+| 8 | pl. Niepodległości → Niższa-Broniewskiego | 1, 2, 5, 6, 7, 11, 13, 16 | 2 418 | 11,8 (10,9–12,9) | 13,3 | 176 (146–204) | 10 % | 13 (9) | 9 | 7 |
+| 9 | Zachodnia-Próchnika → Gdańska-Struga | 7, 15, 17, 45 | 1 809 | 11,8 (10,7–13,3) | 13,5 | 166 (134–194) | 86 % | 8 (6) | 12 | 3 |
+| 10 | Żeromskiego-Kopernika → Włókniarzy-Karolewska (Dw. Ł. Kaliska) | 6, 12, 13, 16, 18, Z1 | 1 269 | 12,7 (10,9–15,2) | 15,2 | 132 (97–163) | 88 % | 8 (4) | 5 | 6 |
 
 
 
-**Łódź: największy zapas na km**
+**Łódź: największy czas ponad jazdę swobodną**
 
-| # | Odcinek | Linie | Długość, m | km/h 07–09 | km/h 20–23 | Zapas, min/km | W jezdni | Skrzyżowania (z sygn.) | Przejścia poza skrzyż. | Rozjazdy |
+| # | Odcinek | Linie | Długość, m | km/h 07–09 (±1 min) | km/h 20–23 | Ponad jazdę swobodną, s/km (przedział) | W jezdni | Skrzyżowania (z sygn.) | Przejścia poza skrzyż. | Rozjazdy |
 |---|---|---|---|---|---|---|---|---|---|---|
-| 1 | Nowomiejska-Północna → Gdańska-Legionów | 15, 17, 45 | 728 | 7,6 | 7,6 | 5,69 | 74 % | 3 (2) | 0 | 2 |
-| 2 | Gdańska-Legionów → Nowomiejska-Północna | 15, 17, 45 | 699 | 7,0 | 8,4 | 4,96 | 100 % | 2 (1) | 5 | 4 |
-| 3 | Rodziny Poznańskich-Dw. Łódź Fabryczna → Kopcińskiego-Narutowicza | 3, 4, 6, 9, 19 | 1 236 | 11,5 | 11,5 | 4,38 | 31 % | 5 (3) | 4 | 2 |
-| 4 | Limanowskiego-Zachodnia → Wojska Polskiego-Franciszkańska | Z1 | 1 078 | 9,2 | 10,8 | 3,72 | 93 % | 5 (3) | 5 | 3 |
-| 5 | Wojska Polskiego-Franciszkańska → Limanowskiego-Zachodnia | Z1 | 1 075 | 9,5 | 10,8 | 3,57 | 62 % | 5 (3) | 4 | 3 |
-| 6 | Włókniarzy-Karolewska (Dw. Ł. Kaliska) → Żeromskiego-Kopernika | 6, 12, 13, 16, 18, Z1 | 1 200 | 11,6 | 11,6 | 3,44 | 67 % | 6 (3) | 2 | 3 |
-| 7 | Piotrkowska-Brzeźna → Kościuszki-Mickiewicza | 2, 3, 6, 7, 11 | 895 | 10,7 | 10,7 | 3,13 | 66 % | 4 (3) | 5 | 0 |
-| 8 | pl. Niepodległości → Niższa-Broniewskiego | 1, 2, 5, 6, 7, 11, 13, 16 | 2 418 | 11,8 | 13,3 | 2,93 | 10 % | 13 (9) | 9 | 7 |
-| 9 | Kościuszki-Mickiewicza → Zachodnia-Legionów | 2, 3, 6, 7, 11, 17, 19, 45 | 2 020 | 13,7 | 13,7 | 2,86 | 3 % | 10 (8) | 3 | 6 |
-| 10 | Pabianicka- ET-2 → Konstantynowska-Krakowska | 43 | 8 191 | 13,9 | 13,8 | 2,85 | 0 % | 2 (2) | 2 | 4 |
+| 1 | Nowomiejska-Północna → Gdańska-Legionów | 15, 17, 45 | 728 | 7,6 (6,5–9,2) | 7,6 | 342 (312–370) | 74 % | 3 (2) | 0 | 2 |
+| 2 | Gdańska-Legionów → Nowomiejska-Północna | 15, 17, 45 | 699 | 7,0 (6,0–8,4) | 8,4 | 298 (249–342) | 100 % | 2 (1) | 5 | 4 |
+| 3 | Rodziny Poznańskich-Dw. Łódź Fabryczna → Kopcińskiego-Narutowicza | 3, 4, 6, 9, 19 | 1 236 | 11,5 (10,0–13,7) | 11,5 | 263 (251–272) | 31 % | 5 (3) | 4 | 2 |
+| 4 | Limanowskiego-Zachodnia → Wojska Polskiego-Franciszkańska | Z1 | 1 078 | 9,2 (8,1–10,8) | 10,8 | 223 (185–257) | 93 % | 5 (3) | 5 | 3 |
+| 5 | Wojska Polskiego-Franciszkańska → Limanowskiego-Zachodnia | Z1 | 1 075 | 9,5 (8,2–11,1) | 10,8 | 214 (176–248) | 62 % | 5 (3) | 4 | 3 |
+| 6 | Włókniarzy-Karolewska (Dw. Ł. Kaliska) → Żeromskiego-Kopernika | 6, 12, 13, 16, 18, Z1 | 1 200 | 11,6 (10,0–13,9) | 11,6 | 206 (183–227) | 67 % | 6 (3) | 2 | 3 |
+| 7 | Piotrkowska-Brzeźna → Kościuszki-Mickiewicza | 2, 3, 6, 7, 11 | 895 | 10,7 (8,9–13,4) | 10,7 | 188 (153–218) | 66 % | 4 (3) | 5 | 0 |
+| 8 | pl. Niepodległości → Niższa-Broniewskiego | 1, 2, 5, 6, 7, 11, 13, 16 | 2 418 | 11,8 (10,9–12,9) | 13,3 | 176 (146–204) | 10 % | 13 (9) | 9 | 7 |
+| 9 | Kościuszki-Mickiewicza → Zachodnia-Legionów | 2, 3, 6, 7, 11, 17, 19, 45 | 2 020 | 13,7 (12,3–15,5) | 13,7 | 171 (151–190) | 3 % | 10 (8) | 3 | 6 |
+| 10 | Pabianicka- ET-2 → Konstantynowska-Krakowska | 43 | 8 191 | 13,9 (13,5–14,3) | 13,8 | 171 (149–194) | 0 % | 2 (2) | 2 | 4 |
 
 
 
@@ -533,14 +630,16 @@ z sygnalizacją w promieniu 35 m), przejścia dla pieszych przez tor dalej niż 
 - Odcinki przy krańcach z jednym kursem co 10–15 min (8–10 kursów w paśmie) są w rankingach, ale ich wartość opiera się
   na jednym rozkładzie jednej linii.
 - Kolumna „W jezdni” jest dolnym oszacowaniem (3.2): na Świdnickiej we Wrocławiu zaniżona.
+- Lista „największy czas ponad jazdę swobodną” pokrywa się w dużej części z listą najwolniejszych; przedziały
+  w nawiasach są szerokie (zwykle ±20–30 s/km), ale kolejność w obrębie miasta jest stała (3.3).
 
 Rankingi wszystkich siedmiu miast: `stretches/ranking_am_peak.csv`.
 
 ### 3.6 Odcinki autobusowe i trolejbusowe (nakładka „prędkość linii” na mapę)
 
 Ta sama reguła odcinków zastosowana do autobusów i trolejbusów feedów oficjalnych z kształtami tras
-(`layers/bus_stretches.parquet`, `tables/bus_stretches.csv`, te same kolumny co dla tramwajów; kolumny OSM, czasu
-swobodnego i zapasu są puste, bo model jazdy i dopasowanie do toru dotyczą tramwajów). Pominięte: `krakow_ald` (brak
+(`layers/bus_stretches.parquet`, `tables/bus_stretches.csv`, te same kolumny co dla tramwajów poza kolumnami modelu
+jazdy, które dotyczą tylko tramwajów; kolumny OSM są puste). Pominięte: `krakow_ald` (brak
 kształtów) i feedy nieoficjalne. Kolumna `geometry_quality` mówi, czy geometria odcinka pochodzi z kształtu
 (`share_hops_shape`). Metro i kolej: jedna geometria na linię (najczęstszy wzorzec przystanków w środę, przycięty do
 FUA + 15 km) z prędkością linii z części 1 (`layers/rail_metro_lines.parquet`); dla kolei „linia” to
@@ -718,24 +817,49 @@ Przejazdy pominięte, bo ich droga nie jest znana (środa):
 - Rzutowanie przystanków na kształty: 96–100 % przejazdów tramwajowych ma długość z kształtu (wyjątek: krańcówki
   `lodz` i `gzm`, 3–4 %).
 - Dopasowanie odcinków do toru OSM i reguła torowiska w jezdni: 3.2.
+- Kontrola metodą Pulsu Gdańska (jeden kurs linii po 15:00 i po 21:00): 1.6.
+- Pliki mapy: rozmiary w 5; funkcje strony (`web/src/features/speed`) mają testy jednostkowe, ale nakładka nie jest
+  jeszcze podłączona do mapy, więc jej wyglądu nie oglądano.
 
 ## 5. Pliki
 
 | Plik | MB |
 |---|---|
-| tables/speed_lines.csv | 5,25 |
+| tables/speed_lines.csv | 5,29 |
 | tables/speed_lines.json | 4,36 |
-| tables/tram_stretches.csv | 0,70 |
-| tables/tram_stretch_bands.csv | 1,15 |
+| tables/tram_stretches.csv | 0,93 |
+| tables/tram_stretch_bands.csv | 1,38 |
 | tables/tram_stretch_stop_pairs.csv | 0,23 |
 | tables/tram_stretch_stops.csv | 0,36 |
-| tables/bus_stretches.csv | 6,25 |
-| layers/tram_stretches.parquet | 1,19 |
-| layers/bus_stretches.parquet | 10,91 |
+| tables/bus_stretches.csv | 7,45 |
+| layers/tram_stretches.parquet | 1,36 |
+| layers/bus_stretches.parquet | 11,68 |
 | layers/rail_metro_lines.parquet | 0,47 |
 | layers/speed_areas.parquet | 1,13 |
 | metrics/metrics_speed.csv | 0,05 |
 | metrics/metrics_speed.json | 0,07 |
+
+**Pliki mapy** (`python -m pipeline.speed_web`, `results/web/speed/`): odcinki tramwajowe wszystkich miast w jednym
+pliku, odcinki autobusowe i trolejbusowe po jednym pliku na aglomerację, metro i kolej w jednym pliku, tabela linii
+`lines.json`. Geometria uproszczona do ok. 5 m, współrzędne do 5 miejsc po przecinku; właściwości krótkie
+(`v_w_am` = prędkość w środę 07–09, `t_` = kursy na godzinę, `a_` / `al_` / `ah_` = czas ponad jazdę swobodną
+w s/km: środek / dół / góra, `fm_` = rozkład szybszy niż model, `c` = klasy we wszystkich pasmach); brak wartości
+= brak pola, nigdy 0. Opis pól: nagłówek `pipeline/speed_web.py`.
+
+| Plik (results/web/speed/) | Obiekty | MB |
+|---|---|---|
+| bus_gzm.geojson | 2737 | 2,53 |
+| bus_krakow.geojson | 797 | 0,86 |
+| bus_lodz.geojson | 815 | 0,62 |
+| bus_poznan.geojson | 1056 | 0,92 |
+| bus_trojmiasto.geojson | 959 | 0,86 |
+| bus_warszawa.geojson | 1723 | 1,49 |
+| bus_wroclaw.geojson | 671 | 0,60 |
+| lines.json | 2204 | 0,65 |
+| rail.geojson | 157 | 0,39 |
+| trams.geojson | 749 | 1,10 |
+
+Razem 10,02 MB (cele: tramwaje < 1,5 MB, autobusy < 4 MB na plik, tabela linii < 2 MB, razem < 25 MB; przekroczone: żaden).
 
 ## 6. Ograniczenia
 
@@ -746,17 +870,22 @@ Przejazdy pominięte, bo ich droga nie jest znana (środa):
 - Długość z kształtu GTFS: kształty autobusów w `warsaw_ztm` wywiedziono z OSM; kształty innych feedów od
   wydawców. Jakość kształtów sprawdzono tylko pośrednio (rzuty przystanków, dopasowanie do torów OSM).
 - Torowisko w jezdni czy wydzielone: wniosek z geometrii OSM (3.2), nie ze stanu faktycznego.
-- Model jazdy swobodnej jest prosty; zapas nie jest pomiarem strat na sygnalizacji.
+- Model jazdy swobodnej jest prosty; czas ponad jazdę swobodną nie jest pomiarem strat na sygnalizacji, a jego
+  poziom zależy od założonego postoju (przedział w tabelach).
 - Jeden dzień roboczy i jedna sobota, bez niedzieli (GZM); rozkłady z okresu remontów pokazują stan na ten dzień.
 
 ## 7. Nie zweryfikowano
 
 - Parametrów modelu jazdy (przyspieszenie, hamowanie, limity, postoje) z danymi przewoźników ani z pomiarem.
-- Rzeczywistych limitów prędkości na torach (OSM `maxspeed` na torach tramwajowych jest rzadki; nie użyto).
+- Limitów prędkości z OSM (`maxspeed`): oznaczenie jest nierówne między miastami (3.3), wartości nie porównano
+  z instrukcjami przewoźników; wartości poniżej 30 km/h pominięto z powodu dopasowania na skrzyżowaniach.
 - Reguły „torowisko w jezdni” poza przykładami z 3.2; w szczególności odcinków, gdzie tor biegnie środkiem ulicy
   narysowanej jedną linią, ale jest oddzielony krawężnikiem (reguła uzna je za jezdnię).
 - Liczby skrzyżowań z sygnalizacją dla tramwaju (sygnalizator w promieniu 35 m może dotyczyć innej jezdni).
-- Wariantu z łukami: promienie z kształtów GTFS są zaszumione (zagęszczone punkty, skróty na rozjazdach).
-- Zestawień prędkości z innych źródeł (1.6) co do definicji i dat rozkładów.
+- Ograniczeń na łukach (wariant usunięty; promienie z kształtów GTFS są zaszumione).
+- Zestawienia Pulsu Gdańska (1.6) poza artykułem: wag średniej, długości linii organizatorów i doboru linii
+  (np. linii zastępczych) nie sprawdzono; liczby z 2023 r. przepisano z notatek przeglądu literatury.
+- Definicji „prędkość eksploatacyjna” w źródle pierwotnym (1.7).
 - Zgodności feedów nieoficjalnych z rozkładami przewoźników.
+- Wyglądu nakładki prędkości na mapie i jej działania w przeglądarce (niepodłączona; tylko testy jednostkowe).
 - Przyczyn pojedynczych wolnych odcinków (remonty, objazdy, przystanki na żądanie) poza tymi opisanymi w 3.5.

@@ -1,0 +1,124 @@
+{
+ "bands": {
+  "s_all": [
+   "saturday",
+   "all_day"
+  ],
+  "s_d": [
+   "saturday",
+   "day"
+  ],
+  "s_ev": [
+   "saturday",
+   "evening"
+  ],
+  "s_mo": [
+   "saturday",
+   "morning"
+  ],
+  "s_n": [
+   "saturday",
+   "night"
+  ],
+  "w_all": [
+   "weekday",
+   "all_day"
+  ],
+  "w_am": [
+   "weekday",
+   "am_peak"
+  ],
+  "w_e": [
+   "weekday",
+   "early"
+  ],
+  "w_ee": [
+   "weekday",
+   "early_eve"
+  ],
+  "w_ev": [
+   "weekday",
+   "evening"
+  ],
+  "w_md": [
+   "weekday",
+   "midday"
+  ],
+  "w_n": [
+   "weekday",
+   "night"
+  ],
+  "w_pm": [
+   "weekday",
+   "pm_peak"
+  ]
+ },
+ "coord_decimals": 5,
+ "duration_s": 18.1,
+ "features": {
+  "bus_gzm.geojson": 2737,
+  "bus_krakow.geojson": 797,
+  "bus_lodz.geojson": 815,
+  "bus_poznan.geojson": 1056,
+  "bus_trojmiasto.geojson": 959,
+  "bus_warszawa.geojson": 1723,
+  "bus_wroclaw.geojson": 671,
+  "lines.json": 2204,
+  "rail.geojson": 157,
+  "trams.geojson": 749
+ },
+ "git_sha": "ef49ec26cf22bd14baf134abf282134e405b76dd",
+ "inputs": {},
+ "label": "rozkładowa prędkość komunikacyjna (z rozkładu, nie pomiar)",
+ "missing_inputs": [],
+ "over_target": [],
+ "run_at": "2026-11-24T18:02:21+01:00",
+ "simplify_m": 5.0,
+ "sizes_mb": {
+  "bus_gzm.geojson": 2.528,
+  "bus_krakow.geojson": 0.86,
+  "bus_lodz.geojson": 0.62,
+  "bus_poznan.geojson": 0.923,
+  "bus_trojmiasto.geojson": 0.861,
+  "bus_warszawa.geojson": 1.485,
+  "bus_wroclaw.geojson": 0.605,
+  "lines.json": 0.649,
+  "rail.geojson": 0.392,
+  "trams.geojson": 1.1
+ },
+ "sources": [
+  "results/layers/tram_stretches.parquet",
+  "results/layers/bus_stretches.parquet",
+  "results/layers/rail_metro_lines.parquet",
+  "results/tables/speed_lines.csv"
+ ],
+ "speed_classes_kmh": {
+  "breaks": [
+   12.0,
+   15.0,
+   18.0,
+   22.0,
+   26.0
+  ],
+  "labels": [
+   "poniżej 12",
+   "12–15",
+   "15–18",
+   "18–22",
+   "22–26",
+   "26 i więcej"
+  ]
+ },
+ "step": "speed_web",
+ "targets_mb": {
+  "bus": 4.0,
+  "lines": 2.0,
+  "total": 25.0,
+  "trams": 1.5
+ },
+ "timetable_dates": {
+  "saturday": "2026-11-28",
+  "weekday": "2026-11-25"
+ },
+ "total_mb": 10.023
+}

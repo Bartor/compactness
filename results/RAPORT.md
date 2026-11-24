@@ -765,6 +765,31 @@ Liczona jest tylko część kursu wewnątrz obszaru (odcinki przecinające grani
 
 **Przystanki o największej liczbie odjazdów (§7.3).** Klastry do 100 m niezależnie od feedu i stacji nadrzędnej, więc metro i kolej łączą się z przystankami naziemnymi tego samego węzła (Ratusz Arsenał: 608 odjazdów metra; Warszawa Centralna i Katowice Dworzec: kolej z autobusami). Maksimum 173 odjazdy/h w Warszawie, 116–167/h w pierwszym klastrze pozostałych miast; wszystkie listy to wiarygodne węzły. Po poprawce klucza porównania (linie ALD nie mają `direction_id`) podejrzenie duplikatów zostaje tylko na dwóch przystankach w Katowicach (Sądowa 3,4 %, Chorzowska 4,2 %), poniżej progu 5 %; nie wyjaśniono.
 
+#### Uzupełnienie 2026-11-24: prędkości według pór dnia, odcinki, sprawdzenie metodą „Pulsu Gdańska”
+
+Nota: [`qa/speed/speed.md`](qa/speed/speed.md); liczby: `metrics/metrics_speed.csv`, `tables/speed_lines.csv`,
+`tables/tram_stretches.csv`; pliki na mapę: `web/speed/` (jeszcze niepodłączone na stronie).
+
+- **Prędkości z rozkładu się nie zmieniły.** Doszły stałe klasy prędkości wspólne dla wszystkich miast (poniżej 12,
+  12–15, 15–18, 18–22, 22–26, od 26 km/h) i przedział ±1 minuty zaokrąglenia rozkładu przy każdym odcinku.
+- **„Zapas rozkładowy” zastąpił „czas ponad jazdę swobodną (model)”**, w sekundach na kilometr, z przedziałem z
+  wariantów (postój 10–30 s, limit 40–70 km/h tam, gdzie OpenStreetMap nie podaje ograniczenia). Szczyt poranny,
+  wartość środkowa (przedział): Warszawa 55 (28–82), Kraków 44 (25–64), Wrocław 77 (44–107), Poznań 42 (14–69),
+  Łódź 73 (42–100), Gdańsk 59 (38–81), GZM 54 (22–84). Odcinki, na których rozkład jest szybszy od modelu (szybkie
+  wydzielone torowiska), są oznaczone i nie dostają wartości ujemnej. Kolejność odcinków jest stabilna między
+  wariantami (korelacja rang ≥ 0,97). To model, nie pomiar.
+- **Ograniczenia prędkości z OpenStreetMap** są zapisane bardzo nierówno: Kraków 100 % długości torów, Gdańsk 92 %,
+  Warszawa 33 %, Poznań 17 %, GZM 12 %, Wrocław 8 %, Łódź 0 %; wartości poniżej 30 km/h (zwrotnice, pętle) nie są
+  używane.
+- **Sprawdzenie metodą rankingu „Pulsu Gdańska”** (po jednym kursie każdej linii po 15:00 i po 21:00, średnia po
+  liniach): wyniki projektu z rozkładów 2026 różnią się od rankingu 2023 o −0,2 do +0,9 km/h (Warszawa 18,8 wobec
+  18,9; Kraków 20,1 wobec 19,3; Wrocław 16,7 wobec 16,9; Poznań 20,4 wobec 20,5; Łódź 17,4 wobec 16,5; Gdańsk 17,9
+  wobec 17,7; GZM 18,1 wobec 18,2). Wcześniejsza różnica dla Poznania wynikała z metody: ranking liczy każdą linię
+  raz, więc szybkie linie PST ważą tyle samo co wolne. Liczby rankingu pochodzą z notatek, nie z ponownej lektury.
+- **Nie zweryfikowano:** definicji prędkości technicznej, komunikacyjnej i eksploatacyjnej w źródle pierwotnym
+  (zdanie o postojach na pętlach w prędkości eksploatacyjnej nadal bez cytatu); parametrów modelu i ograniczeń z
+  OpenStreetMap z danymi przewoźników.
+
 ### 15.4 Nie zweryfikowano i ograniczenia
 
 - Zgodności 28 nieoficjalnych feedów z oficjalnymi rozkładami.

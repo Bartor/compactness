@@ -1,6 +1,6 @@
 {
- "code_version": "tram-stretches-2026-11-24.3",
- "duration_s": 106.1,
+ "code_version": "tram-stretches-2026-11-24.4",
+ "duration_s": 225.5,
  "files": {
   "tram_stretches.parquet": {
    "crs": "EPSG:4326",
@@ -8,7 +8,7 @@
    "rows": "one per stretch direction (tram)"
   }
  },
- "git_sha": "f182aca420893b8fea20a6f77201584badaf73c3",
+ "git_sha": "4c38b4ed307d30483195bc07f63d2672b2785314",
  "inputs": {
   "gtfs_gdansk": {
    "data_date": "20261123/20261207",
@@ -53,22 +53,40 @@
  },
  "kinematics": {
   "a_acc": 1.0,
-  "a_lat": null,
   "b_brk": 1.0,
   "dwell_s": 20.0,
+  "osm_maxspeed": true,
   "v_cap_kmh": 50.0
  },
  "missing_inputs": [],
  "osm_date": "2026-11-22",
  "rules_version": "2026-11-24.4",
- "run_at": "2026-11-24T14:45:59+01:00",
+ "run_at": "2026-11-24T17:57:11+01:00",
  "sizes_mb": {
-  "tram_stretch_bands.csv": 1.15,
+  "tram_stretch_bands.csv": 1.38,
   "tram_stretch_stop_pairs.csv": 0.23,
   "tram_stretch_stops.csv": 0.36,
-  "tram_stretches.csv": 0.7,
-  "tram_stretches.parquet": 1.19
+  "tram_stretches.csv": 0.93,
+  "tram_stretches.parquet": 1.36
  },
+ "speed_classes_kmh": {
+  "breaks": [
+   12.0,
+   15.0,
+   18.0,
+   22.0,
+   26.0
+  ],
+  "labels": [
+   "poniżej 12",
+   "12–15",
+   "15–18",
+   "18–22",
+   "22–26",
+   "26 i więcej"
+  ]
+ },
+ "speed_interval": "speed_lo = length / (scheduled time + 1 min), speed_hi = length / (scheduled time - 1 min)",
  "step": "tram_stretches",
  "stretch_rule": {
   "merge_share": 0.5,
@@ -78,6 +96,21 @@
   "term_min_trips": 20,
   "term_share": 0.05,
   "top_places": 10
+ },
+ "time_above_free_running": {
+  "label": "czas ponad jazdę swobodną (model)",
+  "range_cap_kmh": [
+   40.0,
+   50.0,
+   70.0
+  ],
+  "range_dwell_s": [
+   10.0,
+   20.0,
+   30.0
+  ],
+  "range_rule": "min and max over every dwell x cap; cap only where OSM has no maxspeed; low clipped at 0; faster_than_model = scheduled < free running (no value)",
+  "unit": "s/km"
  },
  "timetable_dates": {
   "saturday": "2026-11-28",
