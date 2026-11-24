@@ -3,7 +3,7 @@ import {
   NODATA_GREY, ZOOM_BANDS, bandFilter, drawnAt, focusPaint, pointLayerIds, pointSpecs, radiusExpression, sizeClasses,
 } from './pointLayers'
 import { layerSpecs, sourceSpec } from './mapLayers'
-import { NO_DATA, modesText, nodePopupModel, num, pct, renderNodePopup } from './nodePopup'
+import { NO_DATA, SUM_LABEL, modesText, nodePopupModel, num, pct, renderNodePopup, transferSumText } from './nodePopup'
 import { classIndex } from './ramp'
 
 const layer = {
@@ -91,14 +91,21 @@ describe('stop-area popup', () => {
     id: 'w-T1', agg: 'warszawa', name: 'Centrum', modes: 'bus,metro,tram', lines: 29, pairs: 804, pairs_excl: 12,
     dep_h: 313.4, dep_h_am: 340, walk_dir: 3.6, walk_dir_p90: 4.3, walk_best: 1.8, cross: 0.5, cross_signal: 0.59,
     steps: 0.83, stepfree: 0.5, wait_am: 5.3, wait_day: 6, walkwait_am: 8.8, walkwait_am_w: 5.7,
+    walk_w: 2.64, wait_w: 5.66, walkwait_w: 8.3,
   }
   const rows = (m) => Object.fromEntries(m.sections.flatMap((s) => s.rows))
   it('groups the components under the Polish headings', () => {
     const m = nodePopupModel(p, '2026-11-25')
     expect(m.title).toBe('Centrum')
     expect(m.modes).toBe('autobus, metro, tramwaj')
-    expect(m.sections.map((s) => s.title)).toEqual(['Znaczenie', 'Dojście', 'Przeszkody', 'Czekanie', 'Dojście + czekanie 7–9'])
+    expect(m.sections.map((s) => s.title)).toEqual([
+      'Typowa przesiadka', 'Znaczenie', 'Dojście (mediany)', 'Przeszkody', 'Czekanie (mediany)',
+      'Dojście + czekanie 7–9 (mediany, nie sumują się z wierszami wyżej)',
+    ])
+    expect(m.sections[0].rows[0][0]).toBe(SUM_LABEL)
     const r = rows(m)
+    expect(flat(r[SUM_LABEL])).toBe('dojście 2,6 min + czekanie 5,7 min = 8,3 min')
+    expect(flat(r['7–9, mediana'])).toBe('5,3 min')
     expect(flat(r.Linie)).toBe('29')
     expect(flat(r['Pary przesiadkowe'])).toBe('804 (pominięto równoległych: 12)')
     expect(flat(r['Odjazdy na godzinę, 6–20'])).toBe('313,4')
@@ -106,7 +113,7 @@ describe('stop-area popup', () => {
     expect(flat(r['Przejścia z sygnalizacją'])).toBe('59 %')
     expect(flat(r['Ruchy ze schodami'])).toBe('83 %')
     expect(flat(r['Droga bez schodów w OSM'])).toBe('50 % ruchów')
-    expect(flat(r['Ważona liczbą kursów'])).toBe('5,7 min')
+    expect(flat(r['Najlepsza para, mediana ważona liczbą kursów'])).toBe('5,7 min')
     expect(m.notes).toEqual([])
     expect(m.footer).toBe('Rozkład 2026-11-25, OSM 2026-11-22; miara własna, składowe osobno')
   })
@@ -115,13 +122,21 @@ describe('stop-area popup', () => {
     const r = rows(m)
     expect(r['Z kierunkami, mediana']).toBe(NO_DATA)
     expect(r['Pary przesiadkowe']).toBe(NO_DATA)
-    expect(r['7–9']).toBe(NO_DATA)
+    expect(r['7–9, mediana']).toBe(NO_DATA)
+    expect(r[SUM_LABEL]).toBe(NO_DATA)
     expect(flat(r.Linie)).toBe('3')
     expect(m.notes).toHaveLength(2)
     expect(num(0, 'min')).toBe('0 min')
     expect(num(null)).toBe(NO_DATA)
     expect(pct(0)).toBe('0 %')
     expect(pct(undefined)).toBe(NO_DATA)
+  })
+  it('the sum line always adds up in the printed digits', () => {
+    // 1.04 + 1.04 = 2.08 would print as 2,1 if rounded on its own; the line prints the sum of the printed parts
+    expect(flat(transferSumText(1.04, 1.04))).toBe('dojście 1 min + czekanie 1 min = 2 min')
+    expect(flat(transferSumText(1.26, 2.26))).toBe('dojście 1,3 min + czekanie 2,3 min = 3,6 min')
+    expect(transferSumText(1, null)).toBe(NO_DATA)
+    expect(transferSumText(undefined, 2)).toBe(NO_DATA)
   })
   it('names the modes in Polish and keeps unknown ones', () => {
     expect(modesText('bus,rail,trolleybus')).toBe('autobus, kolej, trolejbus')

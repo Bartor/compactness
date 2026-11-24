@@ -1,8 +1,15 @@
+import { useEffect } from 'react'
 import { Hint, Modal, TextTable } from '@bartor-net/ui-kit'
 import { dataDates } from './layerInfo'
 
-/** Placeholder for the full methodology: sources and the date mismatch. */
-export default function About({ catalog, metrics, attributions, onClose }) {
+/**
+ * Placeholder for the full methodology: sources and the date mismatch. `toLimits` opens it scrolled to the list of
+ * what the numbers do not say.
+ */
+export default function About({ catalog, metrics, attributions, onClose, toLimits = false }) {
+  useEffect(() => {
+    if (toLimits) document.getElementById('about-limits')?.scrollIntoView({ block: 'start' })
+  }, [toLimits])
   const feeds = attributions?.gtfs_feeds || []
   const rows = catalog.layers.map((l) => [
     <>{l.title}{l.status !== 'ready' && <small>w przygotowaniu</small>}</>,
@@ -18,7 +25,7 @@ export default function About({ catalog, metrics, attributions, onClose }) {
         odtworzyć z publicznych danych; metoda i kontrole są opisane w raporcie w repozytorium.
       </p>
 
-      <h3>Czego te liczby nie mówią</h3>
+      <h3 id="about-limits">Czego te liczby nie mówią</h3>
       <ul className="about-limits">
         <li>Liczymy z rozkładów jazdy, nie z rzeczywistych przejazdów: bez opóźnień, korków i zatłoczenia.</li>
         <li>

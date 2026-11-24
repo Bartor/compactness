@@ -5,8 +5,6 @@ import {
 } from './classFocus'
 import { legendRows } from './layerInfo'
 import { KIND_ORDER } from './mapLayers'
-import { oneOfEachGroup, toggleLayer } from './layerState'
-import { resolveHash } from './urlState'
 
 describe('focus of several layers at once', () => {
   it('keeps one focus per layer, so a value layer and a points layer can both be pinned', () => {
@@ -53,25 +51,7 @@ describe('focus of several layers at once', () => {
   })
 })
 
-describe('layer switches with point layers', () => {
-  const layers = [
-    { id: 'fua', kind: 'boundary' }, { id: 'a', kind: 'choropleth' }, { id: 'b', kind: 'choropleth' },
-    { id: 'p', kind: 'points' }, { id: 'q', kind: 'points' }, { id: 'm', kind: 'mask' },
-  ]
-  it('turning a points layer on turns the other points layer off, not the value layer', () => {
-    const on = toggleLayer(new Set(['fua', 'a', 'p']), 'q', true, layers)
-    expect([...on].sort()).toEqual(['a', 'fua', 'q'])
-  })
-  it('turning a value layer on leaves the points layer alone, and the other way round', () => {
-    expect([...toggleLayer(new Set(['a', 'p']), 'b', true, layers)].sort()).toEqual(['b', 'p'])
-    expect([...toggleLayer(new Set(['a']), 'p', true, layers)].sort()).toEqual(['a', 'p'])
-    expect([...toggleLayer(new Set(['a', 'p']), 'p', false, layers)]).toEqual(['a'])
-  })
-  it('an address keeps the first of each group', () => {
-    expect(oneOfEachGroup(['q', 'a', 'p', 'b', 'fua'], layers)).toEqual(['q', 'a', 'fua'])
-    const catalog = { agglomerations: [], layers: layers.map((l) => ({ ...l, status: 'ready' })) }
-    expect(resolveHash({ layers: ['p', 'q', 'a', 'b'] }, catalog, []).layers).toEqual(['p', 'a'])
-  })
+describe('legend rows and drawing order of point layers', () => {
   it('legend rows of a points layer carry the no-value label', () => {
     const l = { kind: 'points', ramp: { stops: [1], colors: ['#0', '#1'] }, has_nodata: true, nodata_label: 'x', novalue_label: 'y' }
     expect(legendRows(l)).toMatchObject({ noData: 'x', noValue: 'y' })

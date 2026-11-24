@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import * as maplibregl from 'maplibre-gl'
 import { Protocol } from 'pmtiles'
 import { buildStyle, hatchImage } from './mapStyle'
-import { fillId, syncOverlays } from './mapLayers'
+import { applyHot, fillId, syncOverlays } from './mapLayers'
 import { classIndex, focusOpacity } from './ramp'
 import { emphasised, focusOf, hoverOnMap, leaveMap } from './classFocus'
 import { applyFocus, pointLayerIds } from './pointLayers'
@@ -27,12 +27,14 @@ const HIT_PAD = 4
 const POLAND = { center: [19.4, 52.1], zoom: 5.6 }
 const isPhone = () => window.matchMedia('(max-width: 760px)').matches
 
-// Desktop padding for fitBounds: clear of the details panel on the right (the legend is in the sidebar).
-const fitPadding = (detailsOpen) => ({ top: 40, left: 40, right: detailsOpen ? 460 : 40, bottom: 40 })
+// Desktop padding for fitBounds: clear of the details panel on the right (560 px wide; the legend is in the sidebar).
+const fitPadding = (detailsOpen) => ({ top: 40, left: 40, right: detailsOpen ? 600 : 40, bottom: 40 })
 
 // The kit's .kit-map-wrap supplies the sizing: a flex child that fills what
 // the sidebar leaves, and the whole screen behind the sheets on phones.
-export default function MapView({ catalog, active, selectedId, onSelect, fit, detailsOpen, focus }) {
+export default function MapView({
+  catalog, active, selectedId, hot, onHot, onSelect, fit, detailsOpen, focus, nodeRequest, sharesOf,
+}) {
   const { focuses, setFocuses } = focus
   const box = useRef(null)
   const map = useRef(null)
@@ -44,9 +46,10 @@ export default function MapView({ catalog, active, selectedId, onSelect, fit, de
   // colour classes hovered or pinned per layer live in App (useFocuses): the sidebar legend shares them
   // the open stop-area popup and the layer it belongs to
   const popup = useRef(null)
+  const showPopup = useRef(null)   // opens the popup of a node: {layer, feature}
 
   // what the long-lived map handlers need to see
-  latest.current = { catalog, onSelect, active }
+  latest.current = { catalog, onSelect, active, onHot }
 
   useEffect(() => {
     registerPmtiles()
@@ -129,6 +132,7 @@ export default function MapView({ catalog, active, selectedId, onSelect, fit, de
       p.on('close', () => { if (popup.current === p) popup.current = null })
       popup.current = p
     }
+    showPopup.current = openPopup
     m.on('click', (e) => {
       // a click on a node opens its popup and leaves the selected agglomeration alone
       const node = nodeHit(e.point)
@@ -158,11 +162,16 @@ export default function MapView({ catalog, active, selectedId, onSelect, fit, de
     }
     m.on('mousemove', (e) => {
       const { hits, node } = classHits(e.point)
-      m.getCanvas().style.cursor = node || boundaryHits(e.point).some((f) => known(f.properties?.id)) ? 'pointer' : ''
+      const city = boundaryHits(e.point).find((f) => known(f.properties?.id))
+      m.getCanvas().style.cursor = node || city ? 'pointer' : ''
+      latest.current.onHot?.(node ? null : city?.properties?.id ?? null)
       const ids = latest.current.catalog.layers.filter((l) => l.ramp && latest.current.active.has(l.id)).map((l) => l.id)
       setFocuses((f) => hoverOnMap(f, ids, hits))
     })
-    m.on('mouseout', () => setFocuses((f) => leaveMap(f)))
+    m.on('mouseout', () => {
+      setFocuses((f) => leaveMap(f))
+      latest.current.onHot?.(null)
+    })
     m.on('remove', closePopup)
 
     const ro = new ResizeObserver(() => m.resize())
@@ -180,11 +189,17 @@ export default function MapView({ catalog, active, selectedId, onSelect, fit, de
   useEffect(() => {
     if (!ready) return
     try {
-      syncOverlays(ready, catalog.layers, active, selectedId)
+      syncOverlays(ready, catalog.layers, active, selectedId, hot)
     } catch (e) {
       console.warn('map layers:', e)
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [ready, catalog, active, selectedId])
+
+  // the lit city: outline only, no restacking
+  useEffect(() => {
+    if (ready) applyHot(ready, catalog.layers, hot)
+  }, [ready, catalog, active, hot])
 
   // a layer that was switched off takes its popup with it (its highlighting goes in useFocuses)
   useEffect(() => {
@@ -215,6 +230,15 @@ export default function MapView({ catalog, active, selectedId, onSelect, fit, de
     }
   }, [ready, catalog, active, selectedId, focuses])
 
+  // fly to a stop area and open its popup when asked: {layer, props, coordinates, n}
+  useEffect(() => {
+    if (!ready || !nodeRequest) return
+    const { layer, props, coordinates } = nodeRequest
+    ready.flyTo({ center: coordinates, zoom: Math.max(ready.getZoom(), 14), duration: 900, essential: true })
+    showPopup.current?.({ layer, feature: { properties: props, geometry: { coordinates } } })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [ready, nodeRequest])
+
   // fly to an agglomeration when asked: {bbox, animate, n}
   useEffect(() => {
     if (!ready || !fit) return
@@ -238,7 +262,7 @@ export default function MapView({ catalog, active, selectedId, onSelect, fit, de
       {mapError && <div className="map-error">Nie udało się uruchomić mapy: {mapError}</div>}
       <Legend
         layers={shown} focuses={focuses}
-        onHover={focus.onHover} onToggle={focus.onToggle} onClear={focus.onClear}
+        onHover={focus.onHover} onToggle={focus.onToggle} onClear={focus.onClear} sharesOf={sharesOf}
       />
     </div>
   )

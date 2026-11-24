@@ -4,10 +4,10 @@
 export const DATA_BASE_URL = './data/'
 export const TILES_BASE_URL = './tiles/'
 
-export const DATA_FILES = { catalog: 'catalog.json', metrics: 'metrics.json', attributions: 'attributions.json' }
+export const DATA_FILES = { catalog: 'catalog.json', metrics: 'metrics.json', attributions: 'attributions.json', classShares: 'class_shares.json' }
 
 /** Public-transport accent. */
-export const ACCENT = '#1D4ED8'
+export const ACCENT = '#4A6EA9'
 
 /**
  * Where a catalog URL really is. The catalog speaks in repo-relative paths

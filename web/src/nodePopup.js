@@ -16,6 +16,20 @@ export const num = (v, unit = '', d = 1) => (isNum(v) ? `${nf(v, d)}${unit ? ` $
 export const pct = (v) => (isNum(v) ? `${nf(v * 100, 0)} %` : NO_DATA)
 
 /**
+ * The additive 7–9 line: "dojście X min + czekanie Y min = Z min" with the parts rounded to 0.1 min and Z the sum
+ * of the printed parts, so the line always adds up; "brak danych" when a part is missing.
+ */
+export function transferSumText(walk, wait) {
+  if (!isNum(walk) || !isNum(wait)) return NO_DATA
+  const a = Math.round(walk * 10) / 10
+  const b = Math.round(wait * 10) / 10
+  const z = Math.round((a + b) * 10) / 10
+  return `dojście ${nf(a, 1)} min + czekanie ${nf(b, 1)} min = ${nf(z, 1)} min`
+}
+
+export const SUM_LABEL = 'Typowa przesiadka 7–9 (średnia ważona liczbą kursów)'
+
+/**
  * {title, modes, sections: [{title, rows: [[label, value]]}], notes: [text], footer}.
  * Properties are those of results/web/transfer_nodes.geojson (shares are fractions).
  */
@@ -23,6 +37,10 @@ export function nodePopupModel(p, timetableDate) {
   const excl = isNum(p.pairs_excl) && p.pairs_excl > 0 ? ` (pominięto równoległych: ${nf(p.pairs_excl, 0)})` : ''
   const pairs = isNum(p.pairs) ? `${nf(p.pairs, 0)}${excl}` : NO_DATA
   const sections = [
+    {
+      title: 'Typowa przesiadka',
+      rows: [[SUM_LABEL, transferSumText(p.walk_w, p.wait_w)]],
+    },
     {
       title: 'Znaczenie',
       rows: [
@@ -33,7 +51,7 @@ export function nodePopupModel(p, timetableDate) {
       ],
     },
     {
-      title: 'Dojście',
+      title: 'Dojście (mediany)',
       rows: [
         ['Z kierunkami, mediana', num(p.walk_dir, 'min')],
         ['Z kierunkami, 90. percentyl', num(p.walk_dir_p90, 'min')],
@@ -50,17 +68,17 @@ export function nodePopupModel(p, timetableDate) {
       ],
     },
     {
-      title: 'Czekanie',
+      title: 'Czekanie (mediany)',
       rows: [
-        ['7–9', num(p.wait_am, 'min')],
-        ['6–20', num(p.wait_day, 'min')],
+        ['7–9, mediana', num(p.wait_am, 'min')],
+        ['6–20, mediana', num(p.wait_day, 'min')],
       ],
     },
     {
-      title: 'Dojście + czekanie 7–9',
+      title: 'Dojście + czekanie 7–9 (mediany, nie sumują się z wierszami wyżej)',
       rows: [
         ['Mediana po parach linii', num(p.walkwait_am, 'min')],
-        ['Ważona liczbą kursów', num(p.walkwait_am_w, 'min')],
+        ['Najlepsza para, mediana ważona liczbą kursów', num(p.walkwait_am_w, 'min')],
       ],
     },
   ]

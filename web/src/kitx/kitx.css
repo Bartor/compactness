@@ -1,0 +1,68 @@
+/* Parts written like the kit's, for the kit later: classes are kitx-*, colours are the kit's custom properties. */
+
+/* ---- ExpandTable ---- */
+.kitx-scroll { overflow-x: auto; margin: 0 -1rem; padding: 0 1rem; overscroll-behavior-x: contain; }
+.kitx-scroll:focus-visible { outline: 2px solid var(--kit-focus); outline-offset: 2px; }
+.kitx-table { border-collapse: separate; border-spacing: 0; width: 100%; font-size: .82rem; font-variant-numeric: tabular-nums; }
+.kitx-table th, .kitx-table td { padding: .32rem .4rem; border-bottom: 1px solid var(--kit-line); vertical-align: top; }
+.kitx-table thead th {
+  position: sticky; top: 0; z-index: 2; background: var(--kit-panel);
+  font-weight: 600; font-size: .74rem; color: var(--kit-soft); text-align: right; white-space: nowrap;
+  border-bottom: 1px solid var(--kit-line-strong); vertical-align: bottom;
+}
+.kitx-table thead th.kitx-label-head { text-align: left; left: 0; z-index: 3; color: var(--kit-dim); font-weight: 500; }
+.kitx-head { display: inline-flex; align-items: center; gap: .25rem; }
+.kitx-colbtn {
+  background: none; border: 0; padding: 0; margin: 0; font: inherit; color: inherit; cursor: pointer;
+  text-decoration: underline; text-decoration-color: var(--kit-line-strong); text-underline-offset: 3px;
+}
+.kitx-colbtn:hover { color: var(--kit-text); text-decoration-color: var(--kit-link-light); }
+.kitx-colbtn:focus-visible { outline: 2px solid var(--kit-focus); outline-offset: 2px; border-radius: 2px; }
+
+.kitx-table th.kitx-label {
+  position: sticky; left: 0; z-index: 1; background: var(--kit-panel); text-align: left; font-weight: 400;
+  min-width: 9.5rem; max-width: 12rem; color: var(--kit-text);
+}
+.kitx-name { display: flex; align-items: flex-start; justify-content: space-between; gap: .35rem; }
+.kitx-name > span:first-child { min-width: 0; overflow-wrap: anywhere; }
+.kitx-unit { color: var(--kit-faint); font-size: .72rem; }
+.kitx-action {
+  display: inline-block; margin-top: .15rem; padding: 0; border: 0; background: none; cursor: pointer;
+  color: var(--kit-link); font: inherit; font-size: .72rem; text-decoration: underline; text-underline-offset: 2px;
+}
+.kitx-action:hover { color: var(--kit-link-light); }
+.kitx-action:focus-visible { outline: 2px solid var(--kit-focus); outline-offset: 2px; border-radius: 2px; }
+
+.kitx-table td.kitx-col, .kitx-table th.kitx-col { text-align: right; min-width: 3.6rem; }
+.kitx-table .kitx-col.narrow { min-width: 0; width: 3.2rem; }
+.kitx-table td { color: var(--kit-soft); white-space: nowrap; }
+.kitx-table td.kitx-best { color: var(--kit-text); font-weight: 700; }
+.kitx-table td.kitx-weak, .kitx-table td.kitx-dim { color: var(--kit-faint); }
+.kitx-table .kitx-col.hot { background: rgba(122, 162, 227, .14); }
+.kitx-table thead th.kitx-col.hot { color: var(--kit-text); }
+
+.kitx-table tr.kitx-group th {
+  position: static; background: none; text-align: left; padding: 1rem .4rem .3rem 0; border-bottom: 1px solid var(--kit-line-strong);
+  font-size: .7rem; font-weight: 600; letter-spacing: .07em; text-transform: uppercase; color: var(--kit-dim);
+}
+.kitx-table tr.kitx-help-row td { padding: .1rem 0 .5rem; border-bottom: 1px solid var(--kit-line); white-space: normal; }
+.kitx-help {
+  position: sticky; left: 0; width: min(31rem, calc(100vw - 4.5rem)); box-sizing: border-box;
+  background: var(--kit-raised); border: 1px solid var(--kit-line); border-radius: 6px;
+  padding: .55rem .7rem; font-size: .82rem; line-height: 1.5; color: var(--kit-soft); text-align: left;
+}
+.kitx-help h5 {
+  margin: .5rem 0 .15rem; font-size: .68rem; font-weight: 600; letter-spacing: .07em; text-transform: uppercase; color: var(--kit-dim);
+}
+.kitx-help h5:first-child { margin-top: 0; }
+.kitx-help p { margin: 0 0 .4rem; }
+.kitx-help p:last-child { margin-bottom: 0; }
+.kitx-help .kitx-src { color: var(--kit-dim); font-size: .76rem; line-height: 1.45; }
+.kitx-help .kitx-src b { color: var(--kit-soft); font-weight: 600; }
+.kitx-help .kitx-warnline { color: var(--kit-warn); }
+
+/* ---- DockPanel: the details slot made wider ---- */
+@media (min-width: 761px) {
+  .kitx-dock { display: contents; }
+  .kitx-dock > .kit-details { width: min(560px, 100vw); flex-basis: 560px; }
+}

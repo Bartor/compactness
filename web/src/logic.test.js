@@ -6,7 +6,7 @@ import { absoluteUrl, resolveUrl } from './config'
 import { hatchImage } from './mapStyle'
 import { layerSpecs, sourceSpec } from './mapLayers'
 import { legendRows } from './layerInfo'
-import { oneChoropleth, toggleLayer } from './layerState'
+import { activeIds } from './layerControl'
 
 const flat = (s) => s.replace(/\u00a0/g, ' ')
 
@@ -14,12 +14,13 @@ describe('url state', () => {
   const catalog = {
     agglomerations: [{ id: 'wroclaw' }, { id: 'lodz' }],
     layers: [
-      { id: 'fua', status: 'ready' }, { id: 'd', status: 'planned' }, { id: 'x', status: 'ready' },
+      { id: 'fua', kind: 'boundary', status: 'ready' }, { id: 'd', kind: 'choropleth', status: 'planned' },
+      { id: 'x', kind: 'future', status: 'ready' },
     ],
   }
   it('reads agglomeration and layers', () => {
-    expect(readHash('#a=wroclaw&l=fua,x')).toEqual({ agg: 'wroclaw', layers: ['fua', 'x'] })
-    expect(readHash('')).toEqual({ agg: undefined, layers: undefined })
+    expect(readHash('#a=wroclaw&l=fua,x')).toEqual({ agg: 'wroclaw', layers: ['fua', 'x'], variants: {} })
+    expect(readHash('')).toEqual({ agg: undefined, layers: undefined, variants: {} })
     expect(readHash('#l=').layers).toEqual([])
   })
   it('writes only what differs from the defaults', () => {
@@ -32,12 +33,15 @@ describe('url state', () => {
   it('round-trips', () => {
     const d = { layers: ['fua'] }
     const h = hashOf({ agg: 'wroclaw', layers: ['x'] }, d)
-    expect(readHash(h)).toEqual({ agg: 'wroclaw', layers: ['x'] })
+    expect(readHash(h)).toEqual({ agg: 'wroclaw', layers: ['x'], variants: {} })
   })
   it('drops unknown agglomerations and not-ready layers', () => {
-    expect(resolveHash({ agg: 'nope', layers: ['d', 'x', 'zzz'] }, catalog, ['fua']))
-      .toEqual({ agg: null, layers: ['x'] })
-    expect(resolveHash({}, catalog, ['fua'])).toEqual({ agg: null, layers: ['fua'] })
+    const r = resolveHash({ agg: 'nope', layers: ['d', 'x', 'zzz'] }, catalog)
+    expect(r.agg).toBeNull()
+    expect([...activeIds(r.state, catalog.layers)]).toEqual([])   // x is of an unlisted kind here, d is not ready
+    const def = resolveHash({}, catalog)
+    expect(def.agg).toBeNull()
+    expect([...activeIds(def.state, catalog.layers)]).toEqual(['fua'])
   })
 })
 
@@ -182,25 +186,5 @@ describe('legend', () => {
     expect(legendRows({ ...l, has_nodata: true }).noData).toBe('brak danych GTFS')
     expect(legendRows({ ...l, has_nodata: true, nodata_label: 'x' }).noData).toBe('x')
     expect(legendRows({ kind: 'mask' })).toEqual({ rows: [], noData: null })
-  })
-})
-
-describe('layer switches', () => {
-  const layers = [
-    { id: 'fua', kind: 'boundary' }, { id: 'a', kind: 'choropleth' }, { id: 'b', kind: 'choropleth' },
-    { id: 'm', kind: 'mask' },
-  ]
-  it('turning a choropleth on turns the other choropleths off, not boundaries or masks', () => {
-    const on = toggleLayer(new Set(['fua', 'a', 'm']), 'b', true, layers)
-    expect([...on].sort()).toEqual(['b', 'fua', 'm'])
-  })
-  it('turning layers off and on again leaves the rest alone', () => {
-    expect([...toggleLayer(new Set(['fua', 'a']), 'a', false, layers)]).toEqual(['fua'])
-    expect([...toggleLayer(new Set(['a']), 'm', true, layers)].sort()).toEqual(['a', 'm'])
-  })
-  it('an address with two choropleths keeps the first one listed', () => {
-    expect(oneChoropleth(['b', 'fua', 'a', 'm'], layers)).toEqual(['b', 'fua', 'm'])
-    const catalog = { agglomerations: [], layers: layers.map((l) => ({ ...l, status: 'ready' })) }
-    expect(resolveHash({ layers: ['a', 'b', 'fua'] }, catalog, []).layers).toEqual(['a', 'fua'])
   })
 })

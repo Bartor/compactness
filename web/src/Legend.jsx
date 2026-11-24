@@ -2,15 +2,16 @@ import { useState } from 'react'
 import { dataDates, legendRows } from './layerInfo'
 import { emphasised, focusOf, hovered } from './classFocus'
 import { sizeClasses } from './pointLayers'
+import { shareText } from './classShares'
 import { usePhone } from './usePhone'
 
 /**
  * Phone only: a collapsed "Legenda" button over the map that opens the key of the visible layers, with their
  * data dates and sources. On desktop the key is in the sidebar, under each layer (LegendBody), and this
- * renders nothing. `focuses` ({layerId: focus}) says which classes are hovered or pinned, `onHover(layerId,
+ * renders nothing. `sharesOf(layerId)` gives the share of the selected city's residents per class, when known. `focuses` ({layerId: focus}) says which classes are hovered or pinned, `onHover(layerId,
  * index | null)` and `onToggle(layerId, index)` report the pointer and clicks, `onClear(layerId)` unpins all.
  */
-export default function Legend({ layers, focuses, onHover, onToggle, onClear }) {
+export default function Legend({ layers, focuses, onHover, onToggle, onClear, sharesOf }) {
   const phone = usePhone()
   const [open, setOpen] = useState(false)
   if (!phone || !layers.length) return null
@@ -27,7 +28,7 @@ export default function Legend({ layers, focuses, onHover, onToggle, onClear }) 
         return (
           <div key={l.id} className="legend-block">
             <b>{l.title}</b>
-            <LegendBody layer={l} focus={focusOf(focuses || {}, l.id)} onHover={onHover} onToggle={onToggle} onClear={onClear} />
+            <LegendBody layer={l} focus={focusOf(focuses || {}, l.id)} onHover={onHover} onToggle={onToggle} onClear={onClear} shares={sharesOf?.(l.id)} />
             {dates && <small>{dates}</small>}
             {l.attribution && <small>{l.attribution}</small>}
           </div>
@@ -37,8 +38,11 @@ export default function Legend({ layers, focuses, onHover, onToggle, onClear }) 
   )
 }
 
-/** The key of one layer without its title, dates and sources: shared by the sidebar and the phone overlay. */
-export function LegendBody({ layer, focus, onHover, onToggle, onClear }) {
+/**
+ * The key of one layer without its title, dates and sources: shared by the sidebar and the phone overlay.
+ * `shares` (optional): per class, in ramp order, the share of the selected city's residents; shown beside the class when given.
+ */
+export function LegendBody({ layer, focus, onHover, onToggle, onClear, shares }) {
   const { rows, noData, noValue } = legendRows(layer)
   const points = layer.kind === 'points'
   const strong = emphasised(focus, layer.id)
@@ -50,7 +54,7 @@ export function LegendBody({ layer, focus, onHover, onToggle, onClear }) {
     <>
       {layer.kind === 'boundary' && (
         <>
-          <span><i className="line" style={{ background: '#1D4ED8' }} />obszar funkcjonalny (FUA)</span>
+          <span><i className="line" />obszar funkcjonalny (FUA)</span>
           <span><i className="line dashed" />rdzeń miasta</span>
         </>
       )}
@@ -66,6 +70,7 @@ export function LegendBody({ layer, focus, onHover, onToggle, onClear }) {
               onClick={() => onToggle?.(layer.id, i)}
             >
               <i className={points ? 'dot' : 'sq'} style={{ background: r.color }} />{r.label}
+              {shareText(shares, i) && <em className="legend-share">{shareText(shares, i)}</em>}
             </button>
           ))}
           {points && layer.size_stops && (

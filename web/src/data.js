@@ -33,12 +33,27 @@ export async function loadAttributions() {
   }
 }
 
-/** Colour of a layer's checkbox in the sidebar. */
+/** Per-class shares of residents of the selected city; optional, absent until the pipeline writes it. */
+export async function loadClassShares() {
+  try {
+    const s = await getJson(DATA_BASE_URL + DATA_FILES.classShares)
+    return s && typeof s === 'object' && !Array.isArray(s) ? s : {}
+  } catch {
+    return {}
+  }
+}
+
+/** The colour from the middle of a ramp: the dot of a layer in the sidebar. */
+export function rampMid(ramp) {
+  const colors = ramp?.colors
+  return colors?.length ? colors[Math.floor(colors.length / 2)] : undefined
+}
+
+/** Colour of a layer's dot in the sidebar. */
 export function layerColor(layer) {
-  if (layer.kind === 'boundary') return '#1D4ED8'
-  if (layer.kind === 'mask') return '#8A8A84'
-  const colors = layer.ramp?.colors
-  return colors ? colors[Math.min(colors.length - 1, Math.floor(colors.length * 0.7))] : '#1D4ED8'
+  if (layer.kind === 'boundary') return '#9DB8E8'
+  if (layer.kind === 'mask') return '#8A909C'
+  return rampMid(layer.ramp) || '#9DB8E8'
 }
 
 /** Layers listed as available and not yet available. */
