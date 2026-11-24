@@ -1,6 +1,6 @@
 # Zwartość i potencjał transportowy polskich aglomeracji: raport (fazy 0–4)
 
-Stan na 2026-11-24. Sekcje 1–13 opisują fazę 0 (inwentaryzację i decyzje, stan z 2026-11-23); wyniki są w sekcjach 14 (gęstość), 15 (częsta komunikacja i podaż), 17 (dostępność), 18 (mapa), 19 (gęstość × częstotliwość) i 20 (łatwość przesiadki). Liczby w sekcjach 1–13 są liczbami inwentaryzacyjnymi, przepisanymi z plików w `results/qa/phase0/`, `data/manifest.csv` i `config.yaml`; przy każdej podano plik źródłowy. Gdzie czegoś nie sprawdzono, stoi „nie zweryfikowano”; gdzie danych nie ma, „brak danych”.
+Stan na 2026-11-24. Sekcje 1–13 opisują fazę 0 (inwentaryzację i decyzje, stan z 2026-11-23); wyniki są w sekcjach 14 (gęstość), 15 (częsta komunikacja i podaż), 17 (dostępność), 18 (mapa), 19 (gęstość × częstotliwość) i 20 (łatwość przesiadki); sekcja 21 opisuje przegląd literatury z 2026-11-24 i zmiany, które z niego wynikły. Liczby w sekcjach 1–13 są liczbami inwentaryzacyjnymi, przepisanymi z plików w `results/qa/phase0/`, `data/manifest.csv` i `config.yaml`; przy każdej podano plik źródłowy. Gdzie czegoś nie sprawdzono, stoi „nie zweryfikowano”; gdzie danych nie ma, „brak danych”.
 
 Do czego wyniki się nadają, a do czego nie: §16.
 
@@ -16,9 +16,10 @@ Faza 0 jest zakończona. Zgodnie z briefem (§9) potok zatrzymuje się tutaj i c
 | 1. Gęstość | §4.1–4.4 briefu, kontrola GHSL vs NSP (§7.1) | wykonana 2026-11-23 dla 13 aglomeracji; sekcja 14 |
 | 2. Częsta komunikacja i podaż | §4.5, §4.7 | wykonana 2026-11-24 dla 7 aglomeracji fazy 1; sekcja 15 |
 | 3. Dostępność | §4.6 | wykonana 2026-11-24 dla 7 aglomeracji fazy 1; sekcja 17 |
-| 4. Mapa | §8 | wykonana 2026-11-24 (pięć warstw kafli); sekcja 18 |
+| 4. Mapa | §8 | wykonana 2026-11-24 (sześć warstw kafli i warstwa punktowa zespołów przystanków, ciemny motyw); sekcja 18 |
 | 5. Faza 2 miast | §4.1–4.3 dla Szczecina, Bydgoszczy–Torunia, Lublina, Rzeszowa, Kielc, Białegostoku | nie rozpoczęta |
 | 6. Warstwy dodatkowe | §13 briefu | dwie warstwy spoza listy (gęstość × częstotliwość, sekcja 19; łatwość przesiadki, sekcja 20); kolejne zatwierdzone w §12.2; 6b (GTFS-RT) odłożona decyzją właściciela, sekcja 10 |
+| – Przegląd literatury | metody i wyniki na tle literatury i niezależnych źródeł | wykonany 2026-11-24; wynikające z niego zmiany (kolory mapy, próg 5 000 os./km², stosunek średnich jako wynik główny, siatka spisowa w miarach formy, przesiadki jako suma dojścia i czekania): sekcje 20 i 21 |
 
 Dwa elementy fazy 0 pozostały niepełne i są opisane w sekcjach 4 i 9: pełna kontrola GHSL vs NSP należy do fazy 1, a wartości PNFT z Atlasu ITDP dla polskich miast nie zostały uzyskane.
 
@@ -505,6 +506,9 @@ Numeracja zgodna z briefem §12; punkty 10–14 to nowe pytania z fazy 0. Rekome
 - Dodać wariant transport performance w granicach urban centre dla siedmiu miast (§17.5) i opisać ograniczenia wprost (§16).
 - Nazwę „prędkość eksploatacyjna” zastąpić nazwą „prędkość komunikacyjna” (§15.3).
 - Zatwierdzone do wykonania po publikacji fazy 3, w tej kolejności: miara łatwości przesiadki dla zespołu przystanków (wykonana, §20); tabele prędkości linii, prędkości wg obszaru i przeglądarka odcinków sieci tramwajowej; scenariusz „co jeśli” dla tramwajów we Wrocławiu oparty na tych danych.
+- Dane o pojazdach na żywo (GTFS-RT) pozostają odłożone decyzją właściciela. Różnica między rozkładem a rzeczywistością jest więc podawana jako ograniczenie z literatury (zwykle 5–15 %), nie jest mierzona (§16.2, §17.8).
+- Próg gęstości warstwy „gęstość × częstotliwość”: 5 000 os./km² na komórkach 250 m zamiast 2 500; wynik przy 2 500 zostaje jako wariant w tabeli wrażliwości (§19).
+- Wynik główny transport performance do porównań między miastami: stosunek średnich, jak u DG REGIO; średnia stosunków komórek zostaje jako wartość dla typowego mieszkańca (§17).
 
 ## 13. Licencje i atrybucje
 
@@ -529,7 +533,7 @@ Surowych feedów nie redystrybuujemy; w repo trafiają wyniki zagregowane (brief
 
 ## 14. Faza 1: gęstość (2026-11-23)
 
-Pełny opis metody (każda reguła, którą trzeba było doprecyzować), wszystkie tabele, kontrola §7.1, ograniczenia i lista zaskoczeń: [`qa/density/density.md`](qa/density/density.md). Liczby: [`metrics/metrics_density.csv`](metrics/metrics_density.csv) (765 wierszy; od fazy 2 tabela zbiorcza [`metrics/metrics.csv`](metrics/metrics.csv) łączy wszystkie kroki; kolumna `tier` mówi, czy liczba może iść na grafikę: `main`, tylko do tabeli: `table`, czy jest wyłącznie kontrolna: `qa`). Dane pod wykresy: [`charts/pwdens.json`](charts/pwdens.json), [`charts/profile_cumulative_monocentric.json`](charts/profile_cumulative_monocentric.json), [`charts/profile_cumulative_polycentric.json`](charts/profile_cumulative_polycentric.json). Szkice kontrolne: `qa/density/*.png`. Kod: `pipeline/grid250.py`, `density.py`, `density_control.py`, `density_qa.py`. Dwa pełne przebiegi dały pliki identyczne co do bajta (poza `_meta.json` z czasem uruchomienia). Policzono wszystkie 13 aglomeracji (dla sześciu miast fazy 2 to ten sam kod), FUA i rdzeń.
+Pełny opis metody (każda reguła, którą trzeba było doprecyzować), wszystkie tabele, kontrola §7.1, ograniczenia i lista zaskoczeń: [`qa/density/density.md`](qa/density/density.md). Liczby: [`metrics/metrics_density.csv`](metrics/metrics_density.csv) (1 556 wierszy, w tym wariant na surowym GHSL; od fazy 2 tabela zbiorcza [`metrics/metrics.csv`](metrics/metrics.csv) łączy wszystkie kroki; kolumna `tier` mówi, czy liczba może iść na grafikę: `main`, tylko do tabeli: `table`, czy jest wyłącznie kontrolna: `qa`). Dane pod wykresy: [`charts/pwdens.json`](charts/pwdens.json), [`charts/profile_cumulative_monocentric.json`](charts/profile_cumulative_monocentric.json), [`charts/profile_cumulative_polycentric.json`](charts/profile_cumulative_polycentric.json). Szkice kontrolne: `qa/density/*.png`. Kod: `pipeline/grid250.py`, `density.py`, `density_control.py`, `density_qa.py`. Dwa pełne przebiegi dały pliki identyczne co do bajta (poza `_meta.json` z czasem uruchomienia). Policzono wszystkie 13 aglomeracji (dla sześciu miast fazy 2 to ten sam kod), FUA i rdzeń.
 
 ### 14.1 Gęstość ważona populacją (§4.1)
 
@@ -561,33 +565,34 @@ Siatka spisowa 1 km, NSP 2021 (ludność rezydująca, 31.03.2021), os./km². Gwi
 
 ![Profile skumulowane, aglomeracje jednocentrowe](qa/density/summary_profiles_monocentric.png)
 
-Policzono dwa warianty, pierścienie co 1 km do 40 km, GHS-POP 2020 100 m (dane modelowane): (i) ludność w FUA, udział w ludności FUA; (ii) bez granic: cała ludność w promieniu r od centrum. **Rekomendacja agenta na grafikę: wariant (ii) jako bezwzględna ludność skumulowana, dla pięciu jednocentrowych miast fazy 1.** Wariant (i) ustawia miasta według tego, jak duże FUA narysował Eurostat: Warszawa z ogromnym FUA wypada ostatnia na 10 km (46 %), choć w (ii) jest w środku stawki (51 %). Udział w wariancie (ii) wymaga arbitralnego mianownika (ludność do 40 km), a dla Rzeszowa i Kielc mierzy wtedy gęsto zaludniony region wiejski. Zgodność z siatką spisową co 5 km: różnice krzywych do 3–4,5 pkt proc. (Rzeszów 7,4). GZM, Trójmiasto i Bydgoszcz–Toruń są w osobnym pliku, z wariantem „odległość do najbliższego z N centrów”, oznaczonym jako inna miara. Gradient Clarka: tylko tabela i QA.
+Policzono dwa warianty, pierścienie co 1 km do 40 km, GHS-POP 2020 100 m przeskalowany tak, żeby sumy w komórkach spisowych 1 km równały się NSP 2021 (od 2026-11-24; wcześniej surowy GHS-POP, porównanie obu siatek w [`qa/density/density.md`](qa/density/density.md) §5a): (i) ludność w FUA, udział w ludności FUA; (ii) bez granic: cała ludność w promieniu r od centrum. **Rekomendacja agenta na grafikę: wariant (ii) jako bezwzględna ludność skumulowana, dla pięciu jednocentrowych miast fazy 1.** Wariant (i) ustawia miasta według tego, jak duże FUA narysował Eurostat: Warszawa z ogromnym FUA wypada na 10 km na miejscu 5 z 5 (45,5 %), a w (ii) na miejscu 4 z 5 (50,0 %). Udział w wariancie (ii) wymaga arbitralnego mianownika (ludność do 40 km), a dla Rzeszowa i Kielc mierzy wtedy gęsto zaludniony region wiejski. Zgodność z siatką spisową 1 km: największa różnica krzywych wariantu (i) to 2,3 pkt proc. poza Rzeszowem i 0,8 pkt w Rzeszowie (na surowym GHSL było 4,5 i 7,4). GZM, Trójmiasto i Bydgoszcz–Toruń są w osobnym pliku, z wariantem „odległość do najbliższego z N centrów”, oznaczonym jako inna miara. Gradient Clarka: tylko tabela i QA (porównanie z Bertaudem i Malpezzim w §14.3).
 
 ### 14.3 Indeks Bertauda ρ i próg zabudowy (§4.3): do decyzji
 
-ρ dla FUA; maska: komórki GHS-BUILT-S 100 m o udziale zabudowy ≥ X, spójne z centrum. „brak” = w masce jest mniej niż 5 % ludności.
+ρ dla FUA; maska: komórki GHS-BUILT-S 100 m o udziale zabudowy ≥ X, spójne z centrum; ludność z siatki przeskalowanej do NSP 2021 (od 2026-11-24; wcześniej surowy GHS-POP, różnice w [`qa/density/density.md`](qa/density/density.md) §5a). „brak” = w masce jest mniej niż 5 % ludności.
 
 | Aglomeracja | ρ 10 % | ρ 20 % | ρ 30 % | ρ 50 % |
 |---|---|---|---|---|
-| Warszawa | 1,17 | 1,40 | 1,60 | brak |
-| Kraków | 1,35 | 1,46 | 1,85 | brak |
-| Wrocław | 1,05 | 1,23 | 1,53 | brak |
-| Poznań | 1,17 | 1,32 | 1,64 | brak |
-| Łódź | 1,20 | 1,39 | 1,81 | brak |
-| Trójmiasto* | 2,45 | 3,14 | 4,30 | brak |
-| GZM* | 1,68 | 2,12 | 2,98 | brak |
-| Szczecin | 1,54 | 1,68 | 1,63 | brak |
-| Bydgoszcz–Toruń* | 4,05 | 5,18 | 6,53 | brak |
-| Lublin | 1,41 | 1,38 | 1,76 | brak |
-| Rzeszów | 1,55 | 1,52 | 1,51 | brak |
-| Kielce | 1,51 | 1,46 | 1,51 | brak |
-| Białystok | 1,04 | 1,22 | 1,52 | brak |
+| Warszawa | 1,17 | 1,41 | 1,65 | brak |
+| Kraków | 1,32 | 1,44 | 1,87 | brak |
+| Wrocław | 1,10 | 1,29 | 1,58 | brak |
+| Poznań | 1,18 | 1,33 | 1,63 | brak |
+| Łódź | 1,19 | 1,39 | 1,84 | brak |
+| Trójmiasto* | 2,41 | 3,08 | 4,22 | brak |
+| GZM* | 1,66 | 2,10 | 2,92 | brak |
+| Szczecin | 1,53 | 1,67 | 1,72 | brak |
+| Bydgoszcz–Toruń* | 4,10 | 5,29 | 6,62 | brak |
+| Lublin | 1,41 | 1,40 | 1,81 | brak |
+| Rzeszów | 1,65 | 1,65 | 1,58 | brak |
+| Kielce | 1,52 | 1,45 | 1,54 | brak |
+| Białystok | 1,08 | 1,24 | 1,51 | brak |
 
 - **Reguła maski (doprecyzowanie agenta):** komórki z centrum w FUA; zostają skupiska 8-spójne, które sięgają komórek w promieniu 1 km od któregoś ze skonfigurowanych centrów, po zmostkowaniu przerw do ok. 600 m (przy 200 m Wisła odcina całą Pragę, a Szczecin traci Prawobrzeże; ceną 600 m jest przyłączenie Polic do Szczecina i Łańcuta do Rzeszowa przez zabudowę wzdłuż dróg). Wody nie trzeba maskować osobno: mają ok. 0 zabudowy.
-- **Udział ludności FUA w masce:** 69–89 % przy progu 10 %, 46–73 % przy 20 %, 24–46 % przy 30 %; przy 50 % maska ma 0–6 km².
-- **Ranking miast jednocentrowych** jest zgodny między progami 10 % i 20 % (korelacja rang 0,90), a przy 30 % się rozpada (−0,09). **Rekomendacja agenta: 10 % albo 20 %, nie 30 % ani 50 %.** Decyzja należy do Bartora (punkt 4 z sekcji 12).
-- **ρ > 1 prawie wszędzie** (wyjątek: rdzeń Rzeszowa przy 10 %). Sprawdzono mapy masek, wrażliwość na mostkowanie (Warszawa ok. 1,4 dla 0–1400 m) i zakres wartości GHS-BUILT-S; wynik zostaje. Maska netto jest mała i gwiaździsta, więc poziom ρ **nie jest porównywalny z wartościami opublikowanymi przez Bertauda i Malpezziego** i nie należy go tak przedstawiać. Zgodnie z briefem ρ = 1 to walec o równomiernej gęstości, nie optimum.
-- GZM w wariancie „najbliższe z 9 centrów”: 0,60 przy progu 20 % (inna miara). ρ ok. 5 dla Bydgoszczy–Torunia to po prostu dwa ośrodki oddalone o ok. 42 km; tam ma sens tylko wariant „najbliższe z N”. Trójmiasto: wynik z zastrzeżeniem (miasto liniowe).
+- **Udział ludności FUA w masce:** 70–89 % przy progu 10 %, 42–72 % przy 20 %, 20–43 % przy 30 %; przy 50 % maska ma 0–6 km².
+- **Ranking miast jednocentrowych** jest zgodny między progami 10 % i 20 % (korelacja rang 0,89), a przy 30 % się rozpada (0,20 względem 20 %). Próg przyjęty 2026-11-23: 20 % (§12.0); tabela zostaje jako wrażliwość.
+- **ρ > 1 wszędzie** (każda aglomeracja, domena i próg z wartością; na surowym GHSL wyjątkiem był rdzeń Rzeszowa przy 10 %). Sprawdzono mapy masek, wrażliwość na mostkowanie i zakres wartości GHS-BUILT-S; wynik zostaje. Zgodnie z briefem ρ = 1 to walec o równomiernej gęstości, nie optimum.
+- **Porównanie z Bertaudem i Malpezzim (2003; tabela 1, dane z lat 90.)** ([`qa/density/density.md`](qa/density/density.md) §4a): poziom ρ jest porównywalny dla rdzenia przy progu 10 %, czyli przy terenie zabudowanym najbliższym ich definicji (odejmują tylko duże tereny niezabudowane). Tam ρ Warszawy wynosi 1,094 wobec ich 0,99, a Krakowa 1,168 wobec 1,18 (na surowym GHSL 1,054 i 1,178); pole maski (266 i 134 km²) i liczba mieszkańców na hektar maski (68 i 56) są tego samego rzędu co u nich (235 i 112 km², 70 i 65 os./ha), a gradienty Clarka FUA (0,162 i 0,170 na km) różnią się od ich wartości (0,170 i 0,174) o kilka tysięcznych. Wartości FUA przy progu 20 % (Warszawa 1,406, Kraków 1,442) są wyższe z konstrukcji, bo maska netto zachowuje tylko część ludności i ma kształt gwiazdy; tych liczb nie należy zestawiać z wartościami Bertauda i Malpezziego. Zgodność jest wskazówką, nie dowodem: inne dane, inna dekada, inny obszar dopasowania gradientu.
+- GZM w wariancie „najbliższe z 9 centrów”: 0,57 przy progu 20 % (inna miara). ρ ok. 5 dla Bydgoszczy–Torunia to po prostu dwa ośrodki oddalone o ok. 42 km; tam ma sens tylko wariant „najbliższe z N”. Trójmiasto: wynik z zastrzeżeniem (miasto liniowe).
 - Gini i η (§4.4) są w `metrics.csv` z poziomem `qa` i nie idą na grafiki.
 
 ### 14.4 Kontrola GHSL 2020 vs NSP 2021 (§7.1)
@@ -604,7 +609,9 @@ Brief przewiduje GHSL (100 m i 250 m) jako siatkę ludności dla częstej komuni
 
 ### 14.6 Nie zweryfikowano
 
-Danych wejściowych JRC dla Polski; nazw miejsc przy największych różnicach komórek; błędu próbkowania η (próba 4 000 komórek); wrażliwości miar na dokładne współrzędne centrów.
+Danych wejściowych JRC dla Polski; nazw miejsc przy największych różnicach komórek; błędu próbkowania η (próba 4 000 komórek); ratuszy wybranych ręcznie (siedziby prezydentów według wiedzy ogólnej, nie sprawdzane w BIP).
+
+**Wrażliwość na wybór centrum (sprawdzona 2026-11-24, [`qa/density/density.md`](qa/density/density.md) §4b).** Trzy centra: punkt z `config.yaml`, ratusz miasta rdzenia z OSM i środek ciężkości ludności rdzenia; maska bez zmian. W miastach jednocentrowych ρ FUA przy 20 % zmienia się między centrami o 0,004–0,138, czyli mniej więcej tyle, ile dzieli sąsiednie miasta w rankingu: kolejność miast o podobnym ρ zależy od wyboru centrum, większe różnice są na niego odporne. Centrum leży 0,3–2,1 km od środka ciężkości ludności; najdalej: Kraków 2,1 km, Łódź 1,6 km, Poznań 1,1 km. Bertaud i Malpezzi wymieniają Kraków jako miasto z centrum przesuniętym względem ludności, w którym ρ ma mniejsze znaczenie. W aglomeracjach wielomiejskich środek ciężkości leży między miastami, co tylko potwierdza, że ρ jednocentrowe nie ma tam sensu.
 
 ## 15. Faza 2: częsta komunikacja i podaż (2026-11-24)
 
@@ -749,14 +756,14 @@ Ta sekcja mówi, do czego wyniki się nadają, a do czego nie. Dotyczy wszystkic
 
 ### 16.2 Ograniczenia
 
-1. **Rozkład jazdy, nie rzeczywistość.** Opóźnienia, korki i niezawodność nie są uwzględnione. To zwykłe założenie w badaniach tego typu, ale zawyża wynik sieci opartych na autobusach jadących w ruchu ogólnym.
+1. **Rozkład jazdy, nie rzeczywistość.** Opóźnienia, korki i niezawodność nie są uwzględnione. To zwykłe założenie w badaniach tego typu, ale zawyża wynik sieci opartych na autobusach jadących w ruchu ogólnym. W publikowanych badaniach, które porównały rozkład z danymi o rzeczywistych przejazdach, dostępność z rozkładu wypadała zwykle o 5–15 % wyżej niż obserwowana (Wessel i Farber 2019; w Anglii czasy obserwowane były dłuższe od rozkładowych w 79 % małych obszarów, Chen i Botta 2026). Przy wynikach rdzeni dla 45 min to ok. 3–9 pkt, więcej niż różnice między miastami środka tabeli. Tutaj tej różnicy nie mierzono: dane o pojazdach na żywo (GTFS-RT) są odłożone decyzją właściciela (§12.2).
 2. **Porównywalność między miastami.** Transport performance zależy od tego, gdzie przebiega granica obszaru: granice administracyjne miast obejmują bardzo różną ilość przedmieść, a GZM i Trójmiasto są sumami kilku miast. Różnica kilku punktów między miastami nie jest rankingiem. Wariant w granicach urban centre (§17.5) stosuje tę samą regułę obszaru do każdego miasta, ale centra różnią się wielkością trzykrotnie. Wybór siatki ludności przesuwa wynik niektórych miast o 3–7 pkt (§17.3). Porównanie z DG REGIO pokazało, że sama zmiana obszaru przesuwa wynik 45-minutowy o kilkanaście punktów (§16.4).
 3. **Niepełne dane o rozkładach.** 28 z 42 feedów to feedy nieoficjalne, których dokładności nie sprawdzono; prywatni przewoźnicy (busy) są w większości nieobecni; poza pokryciem danych leży od 5 % (GZM) do 21 % (Kraków) ludności FUA. Wyniki dla stref podmiejskich są słabsze niż dla rdzeni.
 4. **Cele podróży są przybliżeniem.** „Osiągalna ludność” zastępuje miejsca pracy i usługi. Wariant z miejscami pracy korzysta ze zbioru modelowanego (§7), który obejmuje tylko miasta w granicach administracyjnych i nie obejmuje GZM, Gdyni ani Sopotu.
 5. **Tylko czas.** Bez taryf, zatłoczenia i uciążliwości przesiadek. Wariant „sieć wspólnego biletu” jest odłożony do potwierdzenia tabeli taryf (§8).
 6. **Jeden dzień.** Środa 2026-11-25 i sobota 2026-11-28; bez sezonowości i bez wakacyjnych rozkładów.
 7. **Brak przedziałów niepewności.** Są warianty wrażliwości (feedy oficjalne i wszystkie, dwie siatki ludności, cztery okna czasu, limit przesiadek), ale nie ma błędów oszacowania.
-8. **Założenia własne.** Pieszo 5 km/h, dojście do przystanku do 1 km, rower 15 km/h, poziom stresu rowerowego (LTS) odczytany z tagów OpenStreetMap, próg zabudowy 20 % w indeksie Bertauda, progi warstwy „gęstość × częstotliwość” (2 500 os./km², kursy co 10 i co 20 min).
+8. **Założenia własne.** Pieszo 5 km/h, dojście do przystanku do 1 km, rower 15 km/h, poziom stresu rowerowego (LTS) odczytany z tagów OpenStreetMap, próg zabudowy 20 % w indeksie Bertauda, progi warstwy „gęstość × częstotliwość” (5 000 os./km², kursy co 10 i co 20 min).
 9. **Różnica dat.** Ludność z lat 2020–2021, rozkłady z 2026 r.; nowe osiedla mogą być widoczne jako obszary bez ludności.
 10. **Brak recenzji.** Metody nie czytał badacz transportu. Kod i obliczenia wykonał asystent AI, z kontrolami opisanymi w notach QA. Jedna kontrola spójności nie przechodzi w niewielkiej liczbie komórek: sieć ze wszystkimi feedami powinna dawać wynik nie gorszy niż sieć z samymi oficjalnymi, a w Warszawie w 730 z 88 926 komórek daje gorszy przy którymś z progów czasu (przyczyny nie ustalono; wynik główny rdzenia Warszawy różni się między tymi sieciami o 0,03 pkt).
 
@@ -784,53 +791,57 @@ Metoda, wszystkie tabele, kontrole i lista zaskoczeń: [`qa/access/access.md`](q
 
 Daty: ludność NSP 2021 (31.03.2021) w układzie GHSL 2020; rozkłady: środa 2026-11-25 i sobota 2026-11-28; OSM 2026-11-22.
 
-**Miara.** Transport performance = ludność osiągalna w czasie T ÷ ludność w promieniu odpowiadającym 15 km/h w linii prostej (7,5 km dla 30 min, 11,25 km dla 45 min; pieszo 2,5 km) × 100. Czas komunikacją to mediana z odjazdów co minutę w oknie, nie gorszy niż sam spacer. Wynik główny to średnia stosunków pojedynczych komórek ważona ludnością; w nawiasach stosunek średnich. Nie podajemy liczby „mieszkańców w zasięgu 30 minut” jako miary jakości.
+**Miara.** Transport performance = ludność osiągalna w czasie T ÷ ludność w promieniu odpowiadającym 15 km/h w linii prostej (7,5 km dla 30 min, 11,25 km dla 45 min; pieszo 2,5 km) × 100. Czas komunikacją to mediana z odjazdów co minutę w oknie, nie gorszy niż sam spacer. **Od 2026-11-24 wynikiem głównym do porównań między miastami jest stosunek średnich**: suma osób osiągalnych ze wszystkich komórek 250 m, ważona ich ludnością, podzielona przez taką samą sumę osób mieszkających w promieniu, czyli jaka część wszystkich połączeń „mieszkaniec – osoba z okolicy” mieści się w czasie T. Tak liczy DG REGIO. W nawiasach średnia stosunków pojedynczych komórek ważona ludnością, czyli wartość dla typowego mieszkańca (do 2026-11-24 była to liczba główna). W rdzeniach obie różnią się najwyżej o 2,6 pkt; w obszarze pokrytym średnia stosunków jest niższa nawet o 11,0 pkt, bo słabszy wynik mieszkańców przedmieść liczy się w niej tak samo jak wynik mieszkańców centrum, a w stosunku średnich przeważają komórki z dużą liczbą ludzi w okolicy. Nie podajemy liczby „mieszkańców w zasięgu 30 minut” jako miary jakości.
 
 ### 17.1 Wynik główny (środa 7:00–9:00, wszystkie feedy, siatka spisowa)
 
+Stosunek średnich, w nawiasie średnia stosunków (typowy mieszkaniec). KZ = komunikacja zbiorowa z dojściem pieszym.
+
 | Aglomeracja | Rdzeń, KZ 30 | Rdzeń, KZ 45 | Obszar pokryty, KZ 30 | Obszar pokryty, KZ 45 | Rdzeń, pieszo 30 | Rdzeń, rower LTS ≤ 3 | Rdzeń, rower LTS ≤ 4 | Ludność FUA w masce, % |
 |---|---|---|---|---|---|---|---|---|
-| Warszawa | 33,9 (35,7) | 58,8 (61,4) | 28,4 (34,2) | 47,1 (58,1) | 66,4 | 45,2 | 52,4 | 82,5 |
-| Kraków | 31,6 (33,0) | 52,8 (54,2) | 24,5 (31,4) | 39,5 (49,3) | 64,8 | 48,5 | 53,4 | 78,8 |
-| Wrocław | 27,6 (29,4) | 53,0 (54,5) | 24,6 (29,1) | 45,5 (52,4) | 65,4 | 58,5 | 70,2 | 79,6 |
-| Poznań | 30,0 (31,7) | 54,6 (55,6) | 24,2 (29,2) | 40,1 (47,4) | 64,9 | 61,8 | 69,6 | 85,5 |
-| Łódź | 26,9 (28,3) | 51,3 (52,1) | 26,0 (28,3) | 41,6 (48,5) | 69,0 | 53,7 | 64,8 | 89,2 |
-| Trójmiasto | 31,8 (32,0) | 55,4 (54,5) | 31,7 (32,0) | 52,8 (53,6) | 69,1 | 50,4 | 65,5 | 83,2 |
-| GZM | 23,8 (22,3) | 36,1 (35,8) | 22,4 (21,7) | 33,0 (34,2) | 67,1 | 45,3 | 60,9 | 95,1 |
+| Warszawa | 35,7 (33,9) | 61,4 (58,8) | 34,2 (28,4) | 58,1 (47,1) | 67,5 (66,4) | 45,3 (45,2) | 52,3 (52,4) | 82,5 |
+| Kraków | 33,0 (31,6) | 54,2 (52,8) | 31,4 (24,5) | 49,3 (39,5) | 67,7 (64,8) | 51,1 (48,5) | 55,7 (53,4) | 78,8 |
+| Wrocław | 29,4 (27,6) | 54,5 (53,0) | 29,1 (24,6) | 52,4 (45,5) | 67,7 (65,4) | 62,0 (58,5) | 72,8 (70,2) | 79,6 |
+| Poznań | 31,7 (30,0) | 55,6 (54,6) | 29,2 (24,2) | 47,4 (40,1) | 66,9 (64,9) | 64,0 (61,8) | 71,2 (69,6) | 85,5 |
+| Łódź | 28,3 (26,9) | 52,1 (51,3) | 28,3 (26,0) | 48,5 (41,6) | 70,1 (69,0) | 55,9 (53,7) | 66,2 (64,8) | 89,2 |
+| Trójmiasto | 32,0 (31,8) | 54,5 (55,4) | 32,0 (31,7) | 53,6 (52,8) | 69,4 (69,1) | 53,1 (50,4) | 67,3 (65,5) | 83,2 |
+| GZM | 22,3 (23,8) | 35,8 (36,1) | 21,7 (22,4) | 34,2 (33,0) | 68,4 (67,1) | 44,5 (45,3) | 59,7 (60,9) | 95,1 |
 
-„Obszar pokryty” to komórki FUA wewnątrz maski pokrycia GTFS; komórki poza maską są brakiem danych, nie zerem. Warszawa prowadzi w rdzeniach, GZM jest wyraźnie ostatnie, a Kraków, Wrocław, Poznań i Łódź mieszczą się przy 45 min w 3,5 pkt: ich kolejności nie należy czytać jako rankingu (§16.2).
+„Obszar pokryty” to komórki FUA wewnątrz maski pokrycia GTFS; komórki poza maską są brakiem danych, nie zerem. Warszawa prowadzi w rdzeniach (35,7 przy 30 min, 61,4 przy 45 min), GZM jest wyraźnie ostatnie (22,3 i 35,8), a Kraków, Wrocław, Poznań i Łódź mieszczą się przy 45 min w 3,5 pkt: ich kolejności nie należy czytać jako rankingu (§16.2, §17.8). Przy średniej stosunków Warszawa także prowadzi, a GZM jest ostatnie.
 
 ### 17.2 Okna czasu (rdzeń, wszystkie feedy)
 
+Stosunek średnich, w nawiasie średnia stosunków.
+
 | Aglomeracja | 30: 7–9 | 30: południe | 30: wieczór | 30: sobota | 45: 7–9 | 45: południe | 45: wieczór | 45: sobota |
 |---|---|---|---|---|---|---|---|---|
-| Warszawa | 33,9 | 31,4 | 31,1 | 29,7 | 58,8 | 55,4 | 55,4 | 52,6 |
-| Kraków | 31,6 | 30,1 | 29,5 | 28,0 | 52,8 | 50,6 | 51,6 | 48,1 |
-| Wrocław | 27,6 | 26,6 | 27,8 | 26,3 | 53,0 | 52,1 | 54,7 | 52,1 |
-| Poznań | 30,0 | 28,2 | 27,8 | 26,8 | 54,6 | 52,4 | 52,3 | 49,8 |
-| Łódź | 26,9 | 26,4 | 25,4 | 24,0 | 51,3 | 50,3 | 49,0 | 46,3 |
-| Trójmiasto | 31,8 | 30,1 | 26,8 | 27,8 | 55,4 | 52,6 | 46,3 | 48,1 |
-| GZM | 23,8 | 22,5 | 20,4 | 20,1 | 36,1 | 33,8 | 29,7 | 28,8 |
+| Warszawa | 35,7 (33,9) | 33,0 (31,4) | 32,8 (31,1) | 31,5 (29,7) | 61,4 (58,8) | 58,0 (55,4) | 58,0 (55,4) | 55,4 (52,6) |
+| Kraków | 33,0 (31,6) | 31,4 (30,1) | 30,8 (29,5) | 29,3 (28,0) | 54,2 (52,8) | 51,9 (50,6) | 53,0 (51,6) | 49,6 (48,1) |
+| Wrocław | 29,4 (27,6) | 28,5 (26,6) | 29,9 (27,8) | 28,3 (26,3) | 54,5 (53,0) | 53,6 (52,1) | 56,4 (54,7) | 53,7 (52,1) |
+| Poznań | 31,7 (30,0) | 29,9 (28,2) | 29,4 (27,8) | 28,4 (26,8) | 55,6 (54,6) | 53,3 (52,4) | 53,2 (52,3) | 50,7 (49,8) |
+| Łódź | 28,3 (26,9) | 27,8 (26,4) | 26,8 (25,4) | 25,4 (24,0) | 52,1 (51,3) | 51,1 (50,3) | 49,8 (49,0) | 47,2 (46,3) |
+| Trójmiasto | 32,0 (31,8) | 30,4 (30,1) | 27,1 (26,8) | 28,2 (27,8) | 54,5 (55,4) | 52,1 (52,6) | 46,1 (46,3) | 47,8 (48,1) |
+| GZM | 22,3 (23,8) | 21,0 (22,5) | 18,7 (20,4) | 18,6 (20,1) | 35,8 (36,1) | 33,5 (33,8) | 29,0 (29,7) | 28,4 (28,8) |
 
 Wrocław jest jedynym miastem, w którym wieczór wypada przy 45 min lepiej niż szczyt poranny; zgadza się to z rozkładową prędkością tramwajów (16,1 km/h w szczytach, 18,0 km/h po 20:00). Największe spadki poza szczytem: Trójmiasto wieczorem i GZM wieczorem oraz w sobotę; ich przyczyn nie sprawdzano.
 
 ### 17.3 Wrażliwość
 
-- **Siatka ludności.** Wybór siatki zmienia wynik bardziej niż różnice między miastami środka tabeli:
+- **Siatka ludności.** Wybór siatki zmienia wynik bardziej niż różnice między miastami środka tabeli (rdzeń, stosunek średnich; różnica do 6,3 pkt):
 
 | Aglomeracja | KZ 30, siatka spisowa | KZ 30, surowy GHSL | KZ 45, siatka spisowa | KZ 45, surowy GHSL |
 |---|---|---|---|---|
-| Warszawa | 33,9 | 33,0 | 58,8 | 59,2 |
-| Kraków | 31,6 | 28,0 | 52,8 | 50,3 |
-| Wrocław | 27,6 | 28,1 | 53,0 | 53,1 |
-| Poznań | 30,0 | 26,6 | 54,6 | 47,9 |
-| Łódź | 26,9 | 24,0 | 51,3 | 46,3 |
-| Trójmiasto | 31,8 | 29,8 | 55,4 | 52,6 |
-| GZM | 23,8 | 20,8 | 36,1 | 32,5 |
+| Warszawa | 35,7 | 35,6 | 61,4 | 62,0 |
+| Kraków | 33,0 | 30,6 | 54,2 | 52,2 |
+| Wrocław | 29,4 | 30,3 | 54,5 | 54,8 |
+| Poznań | 31,7 | 29,1 | 55,6 | 49,3 |
+| Łódź | 28,3 | 25,9 | 52,1 | 47,4 |
+| Trójmiasto | 32,0 | 30,3 | 54,5 | 52,2 |
+| GZM | 22,3 | 20,6 | 35,8 | 33,2 |
 
 - **Feedy.** Sieć z samymi feedami oficjalnymi różni się w rdzeniach o najwyżej 0,5 pkt (Łódź, 45 min).
 - **Limit przesiadek.** Najwyżej 2 przesiadki zamiast braku limitu: do 0,14 pkt.
-- **Reguła min(komunikacja, pieszo).** Podnosi wynik rdzenia o 0,1–0,9 pkt.
+- **Reguła min(komunikacja, pieszo).** Podnosi wynik rdzenia o 0,1–0,9 pkt (policzone dla średniej stosunków; wariantu bez reguły nie liczono jako stosunku średnich).
 - **Miejsca pracy** (obszar pokryty, stosunek średnich; zbiór modelowany z §7, bez GZM):
 
 | Aglomeracja | Miejsca pracy, 30 min | Miejsca pracy, 45 min |
@@ -851,21 +862,21 @@ Wrocław jest jedynym miastem, w którym wieczór wypada przy 45 min lepiej niż
 
 ### 17.5 Te same miary w granicach urban centre (ta sama reguła obszaru dla każdego miasta)
 
-Starty, cele i mianownik ograniczone do centrów miejskich Eurostatu 2021 (`HDENS_CLST_2021`, siatka spisowa 2021) leżących w FUA; gdy jest ich kilka, liczona jest ich suma (Warszawa 4, GZM 4, Łódź 2, Trójmiasto 2). Metoda poza obszarem bez zmian. Opis, lista centrów i zmiany kolejności: [`qa/access_uc/access_uc.md`](qa/access_uc/access_uc.md); liczby: `metrics/metrics_access_uc.csv`; kod: `pipeline/access_uc.py`. Strzałka: rdzeń miasta → urban centre.
+Starty, cele i mianownik ograniczone do centrów miejskich Eurostatu 2021 (`HDENS_CLST_2021`, siatka spisowa 2021) leżących w FUA; gdy jest ich kilka, liczona jest ich suma (Warszawa 4, GZM 4, Łódź 2, Trójmiasto 2). Metoda poza obszarem bez zmian. Opis, lista centrów i zmiany kolejności: [`qa/access_uc/access_uc.md`](qa/access_uc/access_uc.md); liczby: `metrics/metrics_access_uc.csv`; kod: `pipeline/access_uc.py`. Strzałka: rdzeń miasta → urban centre. Pieszo i rowerem: stosunek średnich, w nawiasie średnia stosunków.
 
 | Aglomeracja | KZ 30, stosunek średnich | KZ 45, stosunek średnich | KZ 30, średnia stosunków | KZ 45, średnia stosunków | Pieszo 30 | Rower LTS ≤ 3 | Rower LTS ≤ 4 |
 |---|---|---|---|---|---|---|---|
-| Warszawa | 35,7 → 37,3 | 61,4 → 65,1 | 33,9 → 37,1 | 58,8 → 62,8 | 68,7 | 50,0 | 56,3 |
-| Kraków | 33,0 → 36,7 | 54,2 → 64,4 | 31,6 → 36,2 | 52,8 → 63,7 | 68,2 | 55,7 | 59,6 |
-| Wrocław | 29,4 → 33,4 | 54,5 → 65,7 | 27,6 → 31,9 | 53,0 → 64,8 | 66,8 | 66,4 | 76,0 |
-| Poznań | 31,7 → 35,5 | 55,6 → 67,0 | 30,0 → 33,5 | 54,6 → 65,9 | 67,6 | 67,5 | 73,4 |
-| Łódź | 28,3 → 32,5 | 52,1 → 61,7 | 26,9 → 35,5 | 51,3 → 60,3 | 72,9 | 61,8 | 70,3 |
-| Trójmiasto | 32,0 → 37,1 | 54,5 → 66,7 | 31,8 → 41,2 | 55,4 → 71,5 | 71,1 | 63,1 | 74,8 |
-| GZM | 22,3 → 26,0 | 35,8 → 43,2 | 23,8 → 30,6 | 36,1 → 46,5 | 69,2 | 54,3 | 66,3 |
+| Warszawa | 35,7 → 37,3 | 61,4 → 65,1 | 33,9 → 37,1 | 58,8 → 62,8 | 68,4 (68,7) | 47,1 (50,0) | 53,8 (56,3) |
+| Kraków | 33,0 → 36,7 | 54,2 → 64,4 | 31,6 → 36,2 | 52,8 → 63,7 | 69,2 (68,2) | 56,8 (55,7) | 60,7 (59,6) |
+| Wrocław | 29,4 → 33,4 | 54,5 → 65,7 | 27,6 → 31,9 | 53,0 → 64,8 | 68,6 (66,8) | 68,4 (66,4) | 77,8 (76,0) |
+| Poznań | 31,7 → 35,5 | 55,6 → 67,0 | 30,0 → 33,5 | 54,6 → 65,9 | 67,9 (67,6) | 69,2 (67,5) | 74,9 (73,4) |
+| Łódź | 28,3 → 32,5 | 52,1 → 61,7 | 26,9 → 35,5 | 51,3 → 60,3 | 71,6 (72,9) | 60,5 (61,8) | 69,4 (70,3) |
+| Trójmiasto | 32,0 → 37,1 | 54,5 → 66,7 | 31,8 → 41,2 | 55,4 → 71,5 | 70,6 (71,1) | 63,1 (63,1) | 74,3 (74,8) |
+| GZM | 22,3 → 26,0 | 35,8 → 43,2 | 23,8 → 30,6 | 36,1 → 46,5 | 69,7 (69,2) | 50,1 (54,3) | 62,8 (66,3) |
 
-- Na tym samym rodzaju obszaru sześć miast mieści się w ok. 5 pkt (stosunek średnich); GZM zostaje wyraźnie ostatnie, więc ten wynik nie zależy od przebiegu granicy.
+- Na tym samym rodzaju obszaru sześć miast mieści się przy 30 min w 4,9 pkt (stosunek średnich); GZM zostaje wyraźnie ostatnie, więc ten wynik nie zależy od przebiegu granicy.
 - Warszawa traci przewagę przy 45 min. Częściowo to efekt wielkości: jej centrum ma 372 km², GZM 361 km², pozostałe 122–132 km², a w małym centrum miara 45-minutowa zbliża się do „udziału całego centrum osiąganego w 45 minut”. Wariant usuwa problem granicy, nie usuwa problemu wielkości.
-- W miastach z drugim, małym centrum (Trójmiasto, Łódź) średnia stosunków jest wyraźnie wyższa niż stosunek średnich. Prawdopodobna przyczyna: komórki na skraju małego centrum mają niewielu sąsiadów w mianowniku; tego nie sprawdzono. W tym wariancie bezpieczniej czytać stosunek średnich (tak liczy też DG REGIO).
+- W miastach z drugim, małym centrum (Trójmiasto, Łódź) średnia stosunków jest wyraźnie wyższa niż stosunek średnich (przy 30 min o 4,1 i 3,1 pkt). Prawdopodobna przyczyna: komórki na skraju małego centrum mają niewielu sąsiadów w mianowniku; tego nie sprawdzono. To jeden z powodów, dla których od 2026-11-24 wynikiem głównym jest stosunek średnich (tak liczy też DG REGIO).
 
 ### 17.6 Nie zweryfikowano
 
@@ -874,46 +885,121 @@ Starty, cele i mianownik ograniczone do centrów miejskich Eurostatu 2021 (`HDEN
 - Reszty w porównaniu z DG REGIO (§16.4).
 - Wyników dla dni innych niż dwa dni referencyjne.
 
+### 17.7 Podróże bez przesiadek i zasięg, który wymaga przesiadki (2026-11-24)
+
+Wariant wyniku głównego z co najwyżej jednym przejazdem (R5 `maxRides` = 1), ta sama reguła min(komunikacja, pieszo). **Udział zasięgu, który wymaga przesiadki** = (1 − osiągalni bez przesiadki / osiągalni w wyniku głównym) × 100, liczony ze stosunku sum ważonych ludnością (w nawiasie średnia udziałów komórek). Komórki, z których w wyniku głównym nikt nie jest osiągalny, są pomijane (brak danych). Pełna nota: [`qa/access/access.md`](qa/access/access.md) §14; liczby: `metrics/metrics_access.csv`; warstwa mapy: „Zasięg 30 min wymagający przesiadki” (§18).
+
+| Aglomeracja | Obszar | KZ 30: główny / bez przesiadek | Wymaga przesiadki, 30 min, % | KZ 45: główny / bez przesiadek | Wymaga przesiadki, 45 min, % |
+|---|---|---|---|---|---|
+| Warszawa | rdzeń | 35,7 / 29,1 | 18,4 (16,6) | 61,4 / 36,1 | 41,2 (41,7) |
+|  | pokryty | 34,2 / 28,1 | 17,8 (11,5) | 58,1 / 34,2 | 41,0 (33,1) |
+| Kraków | rdzeń | 33,0 / 28,5 | 13,7 (13,3) | 54,2 / 38,9 | 28,2 (29,5) |
+|  | pokryty | 31,4 / 27,2 | 13,3 (9,5) | 49,3 / 35,4 | 28,2 (23,6) |
+| Wrocław | rdzeń | 29,4 / 26,2 | 11,0 (11,1) | 54,5 / 42,6 | 21,9 (24,6) |
+|  | pokryty | 29,1 / 25,9 | 10,9 (9,2) | 52,4 / 40,9 | 21,9 (21,4) |
+| Poznań | rdzeń | 31,7 / 27,5 | 13,2 (12,7) | 55,6 / 39,9 | 28,3 (30,6) |
+|  | pokryty | 29,2 / 25,5 | 12,5 (8,6) | 47,4 / 33,9 | 28,5 (25,1) |
+| Łódź | rdzeń | 28,3 / 25,6 | 9,5 (8,8) | 52,1 / 39,4 | 24,3 (25,3) |
+|  | pokryty | 28,3 / 25,7 | 9,2 (6,5) | 48,5 / 36,8 | 24,0 (20,3) |
+| Trójmiasto | rdzeń | 32,0 / 28,7 | 10,3 (9,8) | 54,5 / 37,9 | 30,6 (30,5) |
+|  | pokryty | 32,0 / 28,9 | 9,9 (8,6) | 53,6 / 37,3 | 30,5 (29,1) |
+| GZM | rdzeń | 22,3 / 20,5 | 8,0 (7,1) | 35,8 / 24,9 | 30,6 (28,6) |
+|  | pokryty | 21,7 / 20,0 | 7,8 (6,3) | 34,2 / 23,9 | 30,1 (26,4) |
+
+KZ: stosunek średnich.
+
+- Przy 30 min przesiadka jest potrzebna do niewielkiej części zasięgu: w rdzeniach 8,0–18,4 % (najwięcej Warszawa, najmniej GZM), bo w pół godziny większość celów leży przy jednej linii albo w zasięgu spaceru. Przy 45 min udział rośnie do 21,9–41,2 % i to przesiadki dają dużą część przyrostu między 30 a 45 min: bez nich KZ 45 w rdzeniu Warszawy spada z 61,4 do 36,1.
+- **Udział 0 zwykle nie oznacza dobrej linii bezpośredniej.** W 71–90 % komórek z udziałem 0 (30 min; sprawdzono w Warszawie, GZM i Trójmieście) komunikacja nie dodaje nic do samego spaceru. Takich komórek jest 55–86 %, ale mieszka w nich tylko 10–22 % ludności (access.md §14). Na mapie niskie wartości trzeba więc czytać razem z warstwą transport performance.
+- Kolejność zgadza się z danymi niezależnymi: w warszawskim badaniu ruchu z 2015 r. 57,2 % podróży komunikacją odbyło się bez przesiadki, a w zapytaniach Jakdojade z października 2025 r. Warszawa ma najmniej podróży bez przesiadki (58 %) wobec 64–71 % w pozostałych miastach. To porównanie kolejności, nie poziomu: tamte liczby dotyczą podróży, a nasze zasięgu.
+- Limit „najwyżej 2 przesiadki” (§17.3) nie odróżnia sieci głównie bezpośredniej od takiej, w której druga przesiadka rzadko się opłaca; ten wariant to odróżnia.
+
+### 17.8 Niepewność
+
+Różnice kilku punktów między miastami są tego samego rzędu co trzy niepewności, których nie da się tu usunąć. **Siatka ludności:** wybór między surowym GHSL a siatką przeskalowaną do spisu przesuwa wynik niektórych miast o 3–7 pkt (§17.3). **Rozkład a rzeczywistość:** w publikowanych badaniach dostępność liczona z rozkładu jest zwykle o 5–15 % wyższa niż obserwowana; tutaj tego nie mierzono (dane GTFS-RT są odłożone, §12.2), a przy wynikach rdzeni dla 45 min oznacza to ok. 3–9 pkt. **Granica obszaru:** rdzeń administracyjny, obszar pokryty i urban centre dają różne poziomy i częściowo różną kolejność (§17.5). Dlatego wyniki służą do porównania wzorców, a nie do rankingu miast o zbliżonych wartościach (§16.3).
+
 ## 18. Faza 4: mapa (2026-11-24)
 
-Strona: https://bartor.github.io/compactness/ (Vite + React, MapLibre GL, kafle PMTiles czytane zakresami bajtów prosto z GitHub Pages). Kod: `web/`, `pipeline/tiles.py`, `tiles_core.py`, `tiles_layers.py`, `tiles_verify.py`. Nota: [`qa/tiles/tiles.md`](qa/tiles/tiles.md).
+Strona: https://bartor.github.io/compactness/ (Vite + React, MapLibre GL, kafle PMTiles czytane zakresami bajtów prosto z GitHub Pages). Kod: `web/`, `pipeline/tiles.py`, `tiles_core.py`, `tiles_layers.py`, `tiles_verify.py`, `transfer_web.py`. Nota: [`qa/tiles/tiles.md`](qa/tiles/tiles.md).
 
 | Plik | Rozmiar, MB |
 |---|---|
 | `density250_nsp2021.pmtiles` | 3,00 |
-| `density_service_2026-11-25.pmtiles` | 1,39 |
+| `density_service_2026-11-25.pmtiles` | 1,34 |
 | `frequent_2026-11-25.pmtiles` | 1,38 |
 | `gtfs_nodata_2026-11-25.pmtiles` | 0,37 |
 | `performance30_2026-11-25.pmtiles` | 1,52 |
-| **razem** | **7,66** |
+| `transfer_dep30_2026-11-25.pmtiles` | 1,59 |
+| **razem** | **9,20** |
 
-Żaden plik nie przekracza 50 MB, katalog nie przekracza 200 MB (progi ostrzeżeń z briefu §14.3).
+Do tego zespoły przystanków jako GeoJSON (`transfer_nodes.geojson`, 3,28 MB, ładowany dopiero po włączeniu warstwy). Żaden plik nie przekracza 50 MB, katalog nie przekracza 200 MB (progi ostrzeżeń z briefu §14.3).
 
-- **Warstwy.** Granice FUA i rdzeni; gęstość 250 m (13 aglomeracji); zasięg częstej komunikacji; transport performance 30 min; gęstość × częstotliwość (§19); maska braku danych GTFS; dwie warstwy punktowe zespołów przystanków (dojście między liniami i czekanie, §20) z pliku GeoJSON, które można nałożyć na warstwę wartości. Komórki bez danych są kreskowane, nigdy rysowane jako zero.
-- **Jedna warstwa wartości naraz.** Włączenie drugiej wyłącza pierwszą; granice i maska są niezależne.
+- **Warstwy wartości (siatka 250 m, jedna naraz):** gęstość zaludnienia (13 aglomeracji); zasięg częstej komunikacji; transport performance 30 min; gęstość × częstotliwość (§19); zasięg 30 min wymagający przesiadki (§17.7).
+- **Nakładki (włączane niezależnie):** granice FUA i rdzeni; kreskowanie obszaru bez danych GTFS; zespoły przystanków (§20) z trzema widokami tej samej warstwy: typowa przesiadka (dojście + czekanie), samo dojście, samo czekanie. Komórki bez danych są kreskowane, nigdy rysowane jako zero.
+- **Wygląd (2026-11-24).** Strona przeszła na ciemny motyw z ciemnym podkładem. Warstwy wartości wybiera się kartami (jedna aktywna), nakładki przełącznikami. Obok mapy jest tabela porównania miast i tabela każdego miasta z objaśnieniem każdej miary („?” przy wierszu: jak czytać i jak policzono).
+- **Kolory.** Na ciemnym podkładzie każda rampa zaczyna się od przygaszonego koloru (nadal odróżnialnego od podkładu i od kreskowania braku danych) i kończy najjaśniejszym, najbardziej nasyconym kolorem tam, gdzie jest więcej tego, co warstwa mierzy: większa gęstość (bursztyn → żółty), częstsze kursy (niebieski → cyjan), większy zasięg (zieleń), większy udział zasięgu wymagającego przesiadki (fiolet → róż). Jasność rośnie monotonicznie, każda warstwa ma jedną rodzinę barw, bez tęczy, więc rampy da się czytać także przy zaburzeniach widzenia barw. Część czytelników nawet na ciemnej mapie czyta „ciemniej = więcej”, dlatego legenda każdej warstwy mówi kierunek słowami („jaśniej = więcej”). Pięć klas gęstości × częstotliwości ma kolory odróżnialne parami także przy symulowanej protanopii i deuteranopii; najjaskrawsza jest klasa „dużo mieszkańców, rzadkie kursy”.
 - **Legenda połączona z mapą.** Wskazanie klasy w legendzie przygasza pozostałe klasy na mapie, kliknięcie zostawia wyróżnienie (można zostawić kilka), wskazanie komórki na mapie zaznacza jej klasę w legendzie.
 - **Małe powiększenia.** Poniżej zoomu 9 komórki są łączone w bloki z klasą dominującą; pełna rozdzielczość 250 m od zoomu 9.
 - **Zakresy bajtów na GitHub Pages.** Sprawdzone 2026-11-23 w Chromium i przez curl (odpowiedź 206, także dla odległych przesunięć). Firefoksa i Safari nie sprawdzono.
-- **Transfer.** Pomiar z 2026-11-23 (cztery warstwy): pierwsza wizyta ok. 0,84–1,03 MB, czyli ok. 97–119 tys. wizyt na 100 GB miesięcznego limitu GitHub Pages. Po dodaniu piątej warstwy pomiaru nie powtórzono.
-- **Nie sprawdzono:** układu na telefonie po zmianach z 2026-11-24; legenda zasłania wybrane miasto przy otwartym panelu szczegółów na ekranie szerokości laptopa.
+- **Transfer.** Pomiar z 2026-11-23 (cztery warstwy): pierwsza wizyta ok. 0,84–1,03 MB, czyli ok. 97–119 tys. wizyt na 100 GB miesięcznego limitu GitHub Pages. Oszacowanie dla obecnych warstw: [`qa/tiles/tiles.md`](qa/tiles/tiles.md); pomiaru w przeglądarce nie powtórzono.
+- **Nie sprawdzono:** układu na telefonie po przejściu na ciemny motyw; czytelności kolorów na ekranach o niskim kontraście.
 
 ## 19. Gęstość × częstotliwość komunikacji (warstwa dodatkowa, 2026-11-24)
 
 Warstwa spoza pierwotnego zakresu, dodana za zgodą właściciela (§12.2). Nota: [`qa/density_service/density_service.md`](qa/density_service/density_service.md); liczby: `metrics/metrics_density_service.csv`; kod: `pipeline/density_service.py`.
 
-**Metoda.** Każda zaludniona komórka 250 m wewnątrz maski pokrycia dostaje klasę gęstości (poniżej 2 500, 2 500–10 000, co najmniej 10 000 os./km²) i klasę obsługi wg najlepszego odstępu między kursami w zasięgu 500 m pieszo (rzadziej niż co 20 min lub brak, co 11–20 min, co 10 min lub częściej). Progi są wyborem własnym i łatwo je zmienić. Metryki korzystają z pełnej tabeli 3 × 3; mapa pokazuje pięć klas, bo dziewięciu mieszanych kolorów nie dało się odróżnić.
+**Metoda.** Każda zaludniona komórka 250 m wewnątrz maski pokrycia dostaje klasę gęstości (poniżej 5 000, 5 000–10 000, co najmniej 10 000 os./km²) i klasę obsługi wg najlepszego odstępu między kursami w zasięgu 500 m pieszo (rzadziej niż co 20 min lub brak, co 11–20 min, co 10 min lub częściej). Liczeni są tylko mieszkańcy, bez miejsc pracy. Metryki korzystają z pełnej tabeli 3 × 3; mapa pokazuje pięć klas, bo dziewięciu mieszanych kolorów nie dało się odróżnić.
 
-| Aglomeracja | Rdzeń: bez kursów co ≤ 20 min, % | Rdzeń: kursy co ≤ 10 min, % | Rdzeń: korelacja rang | Obszar pokryty: bez kursów co ≤ 20 min, % | Obszar pokryty: kursy co ≤ 10 min, % | Obszar pokryty: korelacja rang |
+**Próg główny: 5 000 os./km² (od 2026-11-24).** Do 2026-11-24 progiem było 2 500 os./km², czyli 25 mieszkańców na hektar komórki 250 m; to obejmuje zwykłą zabudowę jednorodzinną. Po przeglądzie literatury (§21) próg podniesiono do 5 000 (50 na ha), czyli gęstości, przy której literatura oczekuje częstej obsługi autobusowej (Angel i in. 2011). Progi z literatury liczono na większych jednostkach (obwody spisowe z ulicami i parkami), a komórka 250 m bywa prawie w całości mieszkaniowa, więc porównanie jest orientacyjne. Komórki ≥ 5 000 os./km² obejmują 63–80 % ludności rdzeni w masce i 49–67 % ludności obszarów pokrytych.
+
+| Aglomeracja | Rdzeń: ≥ 5 000 os./km², bez kursów co ≤ 20 min, % | Rdzeń: ≥ 5 000 os./km², kursy co ≤ 10 min, % | Rdzeń: korelacja rang | Obszar pokryty: ≥ 5 000 os./km², bez kursów co ≤ 20 min, % | Obszar pokryty: ≥ 5 000 os./km², kursy co ≤ 10 min, % | Obszar pokryty: korelacja rang |
 |---|---|---|---|---|---|---|
-| Warszawa | 5,1 | 87,3 | 0,42 | 14,4 | 73,7 | 0,71 |
-| Kraków | 8,0 | 74,9 | 0,37 | 11,2 | 72,2 | 0,70 |
-| Wrocław | 10,0 | 83,6 | 0,46 | 12,6 | 80,3 | 0,66 |
-| Poznań | 8,8 | 77,7 | 0,46 | 20,3 | 60,3 | 0,67 |
-| Łódź | 9,6 | 80,0 | 0,45 | 16,2 | 69,9 | 0,67 |
-| Trójmiasto | 12,8 | 67,2 | 0,35 | 18,3 | 56,2 | 0,45 |
-| GZM | 22,8 | 54,3 | 0,42 | 24,6 | 51,2 | 0,51 |
+| Warszawa | 3,3 | 90,3 | 0,42 | 7,4 | 82,2 | 0,71 |
+| Kraków | 6,0 | 77,9 | 0,37 | 7,2 | 77,1 | 0,70 |
+| Wrocław | 6,7 | 88,3 | 0,46 | 7,3 | 87,7 | 0,66 |
+| Poznań | 5,2 | 84,7 | 0,46 | 11,8 | 72,4 | 0,67 |
+| Łódź | 6,9 | 84,8 | 0,45 | 10,1 | 77,4 | 0,67 |
+| Trójmiasto | 10,0 | 70,7 | 0,35 | 13,4 | 61,6 | 0,45 |
+| GZM | 18,0 | 59,5 | 0,42 | 19,3 | 57,0 | 0,51 |
 
-Pierwsze dwie kolumny każdego obszaru to udział mieszkańców komórek o gęstości co najmniej 2 500 os./km². Korelacja rang (Spearman, ważona ludnością) między gęstością komórki a klasą odstępu: dodatnia oznacza, że gęstsze komórki mają częstsze kursy. GZM ma najwięcej mieszkańców gęstej zabudowy bez kursów co 20 min, zgodnie z wynikami faz 2 i 3.
+Korelacja rang (Spearman, ważona ludnością) między gęstością komórki a klasą odstępu nie zależy od progu: dodatnia oznacza, że gęstsze komórki mają częstsze kursy. GZM ma największy odsetek mieszkańców komórek ≥ 5 000 os./km² bez kursów co 20 min, zgodnie z wynikami faz 2 i 3.
+
+**Wrażliwość na próg** (odsetek mieszkańców komórek o gęstości co najmniej T os./km² bez kursów co ≤ 20 min w zasięgu 500 m; wszystkie liczby, także udziały z kursami co ≤ 10 min, są w nocie):
+
+Rdzeń
+
+| Aglomeracja | ≥ 1 500 | ≥ 2 500 | ≥ 5 000 | ≥ 7 500 | ≥ 10 000 |
+|---|---|---|---|---|---|
+| Warszawa | 6,3 | 5,1 | 3,3 | 2,3 | 1,7 |
+| Kraków | 9,5 | 8,0 | 6,0 | 5,5 | 3,5 |
+| Wrocław | 11,3 | 10,0 | 6,7 | 3,9 | 2,9 |
+| Poznań | 10,9 | 8,8 | 5,2 | 2,2 | 1,8 |
+| Łódź | 11,2 | 9,6 | 6,9 | 5,6 | 3,8 |
+| Trójmiasto | 14,1 | 12,8 | 10,0 | 7,0 | 6,3 |
+| GZM | 25,4 | 22,8 | 18,0 | 14,6 | 12,2 |
+
+Obszar pokryty
+
+| Aglomeracja | ≥ 1 500 | ≥ 2 500 | ≥ 5 000 | ≥ 7 500 | ≥ 10 000 |
+|---|---|---|---|---|---|
+| Warszawa | 18,4 | 14,4 | 7,4 | 4,3 | 3,0 |
+| Kraków | 16,2 | 11,2 | 7,2 | 6,1 | 3,8 |
+| Wrocław | 16,4 | 12,6 | 7,3 | 4,1 | 2,9 |
+| Poznań | 26,2 | 20,3 | 11,8 | 4,8 | 2,5 |
+| Łódź | 19,5 | 16,2 | 10,1 | 7,7 | 5,5 |
+| Trójmiasto | 20,2 | 18,3 | 13,4 | 9,2 | 7,7 |
+| GZM | 28,2 | 24,6 | 19,3 | 15,5 | 12,9 |
+
+Im wyższy próg, tym mniejszy udział bez kursów co 20 min. Wniosek od progu nie zależy: przy każdym z pięciu progów i w obu obszarach GZM wypada najgorzej, a korelacja rang kolejności miast przy 2 500 i 5 000 wynosi 0,93 w rdzeniach i 0,96 w obszarach pokrytych.
+
+**Klasy mapy** (etykiety podają liczby, bez słów „gęsto” i „rzadko”):
+
+1. ≥ 5 000 os./km², kursy rzadziej niż co 20 min lub brak (#FF5A2E, pomarańczowoczerwony)
+2. ≥ 5 000 os./km², co 11–20 min (#C98BE3, fioletowy)
+3. ≥ 5 000 os./km², co ≤ 10 min (#4FD6FF, jasnoniebieski)
+4. < 5 000 os./km², co ≤ 20 min (#3F78A3, przygaszony niebieski)
+5. < 5 000 os./km², rzadziej lub brak (#4A4642, ciepła szarość)
+
+Komórki kreskowane leżą poza pokryciem danych o rozkładach. Kolory dobrano pod ciemny podkład (§18).
 
 ## 20. Łatwość przesiadki w zespołach przystanków (warstwa dodatkowa, 2026-11-24)
 
@@ -928,49 +1014,55 @@ Warstwa zatwierdzona przez właściciela (§12.2). Nota z metodą, kontrolami i 
 
 ### 20.1 Wyniki dla miast (obszar pokryty danymi GTFS)
 
-| Aglomeracja | Zespołów | Odjazdy w zespołach z dojściem ≤ 2 min (z kierunkami), % | To samo, najlepsza para słupków, % | 20 największych: dojście, min | 20 największych: czekanie 7–9, min | 20 największych: dojście + czekanie, min | 20 największych: przejść przez jezdnię |
-|---|---|---|---|---|---|---|---|
-| Warszawa | 2181 | 64,2 | 91,6 | 2,3 | 5,3 | 8,2 | 1,0 |
-| Kraków | 947 | 74,5 | 96,8 | 2,0 | 7,6 | 9,8 | 1,0 |
-| Wrocław | 579 | 82,8 | 94,9 | 1,6 | 7,4 | 8,8 | 1,0 |
-| Poznań | 786 | 79,2 | 96,8 | 1,6 | 5,2 | 8,8 | 1,0 |
-| Łódź | 647 | 75,7 | 97,7 | 2,0 | 7,6 | 10,4 | 1,0 |
-| Trójmiasto | 733 | 61,9 | 92,3 | 2,7 | 10,7 | 13,0 | 1,0 |
-| GZM | 1961 | 83,1 | 97,2 | 1,5 | 15,0 | 17,3 | 0,5 |
+**Typowa przesiadka = dojście + czekanie (od 2026-11-24).** Dla 20 zespołów z największą liczbą odjazdów: dojście z kierunkami i oczekiwane czekanie na linię docelową, oba jako średnie ważone liczbą kursów (przyjazdy linii A × odjazdy linii B) na jednym zbiorze ruchów przesiadkowych, więc dojście + czekanie = suma (składowe zaokrąglone do 0,1 min, suma to suma wydrukowanych składowych). Wcześniejsze kolumny były medianami, które się nie sumują.
 
-Czekanie przeważa nad dojściem prawie wszędzie. GZM ma najkrótsze dojścia i zdecydowanie najdłuższe czekanie, co zgadza się z częstotliwością kursów z §15.2. Najdłuższe dojścia mają Warszawa i Trójmiasto. Poziom udziałów zależy od reguły łączenia w zespoły (62–83 % przy regule głównej, 48–67 % przy szerokiej, 91–98 % dla samych klastrów 100 m), więc liczby nadają się do porównań między miastami, nie jako wartości bezwzględne.
+| Aglomeracja | Zespołów | 7–9: dojście, min | + czekanie, min | = przesiadka, min | 6–20: dojście, min | + czekanie, min | = przesiadka, min | Odjazdy w zespołach z dojściem ≤ 2 min, % |
+|---|---|---|---|---|---|---|---|---|
+| Warszawa | 2 181 | 2,5 | 5,6 | 8,1 | 2,5 | 6,7 | 9,2 | 64,2 |
+| Kraków | 947 | 2,1 | 8,2 | 10,3 | 2,1 | 9,3 | 11,4 | 74,5 |
+| Wrocław | 579 | 1,5 | 8,4 | 9,9 | 1,5 | 9,5 | 11,0 | 82,8 |
+| Poznań | 786 | 1,6 | 7,1 | 8,7 | 1,6 | 8,1 | 9,7 | 79,2 |
+| Łódź | 647 | 2,1 | 10,9 | 13,0 | 2,1 | 11,9 | 14,0 | 75,7 |
+| Trójmiasto | 733 | 2,9 | 10,5 | 13,4 | 2,9 | 11,9 | 14,8 | 61,9 |
+| GZM | 1 961 | 1,8 | 15,6 | 17,4 | 1,8 | 17,5 | 19,3 | 83,1 |
+
+Czekanie stanowi 69–90 % typowej przesiadki, więc o wyniku decyduje częstotliwość kursów, nie układ przystanków. Typowa przesiadka trwa od 8,1 min (Warszawa) do 17,4 min (GZM); GZM ma najkrótsze dojścia i najdłuższe czekanie, co zgadza się z częstotliwością kursów z §15.2; najdłuższe dojścia mają Trójmiasto i Warszawa. Uwaga: mediany (dojście z kierunkami + czekanie 7–9, mediana po parach linii, potem po zespołach) wynoszą 8,2–17,3 min i są w [`qa/transfer/transfer.md`](qa/transfer/transfer.md) §3; nie sumują się, bo mediana sumy nie jest sumą median. Poziom udziału „dojście ≤ 2 min” zależy od reguły łączenia w zespoły (62–83 % przy regule głównej, 48–67 % przy szerokiej, 91–98 % dla samych klastrów 100 m), więc liczby nadają się do porównań między miastami, nie jako wartości bezwzględne.
+
+**Na mapie** jest jedna warstwa punktowa zespołów przystanków, kolorowana typową przesiadką (dojście + czekanie, 7–9); samo dojście i samo czekanie to alternatywne widoki tej samej warstwy. Wielkość punktu to liczba odjazdów na godzinę.
 
 ### 20.2 Znane węzły (kontrola)
 
-| Aglomeracja | Węzeł | Słupków | Rozpiętość, m | Linii | Odjazdów/h | Dojście z kierunkami, min | Czekanie 7–9, min | Dojście + czekanie, min | To samo, ważone kursami, min | Ruchy z drogą bez schodów w OSM, % |
-|---|---|---|---|---|---|---|---|---|---|---|
-| Warszawa | Centrum | 13 | 388 | 29 | 313 | 3,6 | 5,3 | 8,8 | 5,7 | 50 |
-| Warszawa | Dworzec Centralny | 27 | 427 | 39 | 282 | 2,7 | 5,6 | 8,6 | 6,5 | 89 |
-| Warszawa | Dworzec Gdański | 22 | 585 | 16 | 161 | 3,8 | 5,1 | 10,3 | 6,0 | 100 |
-| Warszawa | Dworzec Wileński | 10 | 337 | 21 | 237 | 2,4 | 4,2 | 7,1 | 5,1 | 71 |
-| Kraków | Borek Fałęcki | 6 | 202 | 25 | 50 | 2,4 | 23,5 | 19,5 | 14,7 | 100 |
-| Kraków | Dworzec Główny Zachód (Basztowa, Pawia) | 6 | 152 | 9 | 52 | 1,7 | 5,0 | 5,5 | 5,3 | 100 |
-| Kraków | Kraków Główny (kolej) | 27 | 532 | 28 | 113 | 2,3 | 15,0 | 24,2 | 9,3 | 100 |
-| Kraków | Podgórze SKA | 13 | 206 | 14 | 76 | 1,8 | 7,9 | 9,9 | 7,9 | 100 |
-| Kraków | Rondo Grunwaldzkie | 13 | 250 | 33 | 176 | 2,1 | 12,0 | 13,8 | 7,6 | 100 |
-| Kraków | Rondo Mogilskie | 18 | 273 | 20 | 181 | 2,5 | 7,5 | 9,8 | 7,5 | 100 |
-| Wrocław | Dworzec Główny | 30 | 524 | 39 | 172 | 6,2 | 8,6 | 16,6 | 7,7 | 48 |
-| Wrocław | Galeria Dominikańska | 13 | 357 | 25 | 150 | 2,4 | 6,0 | 8,9 | 7,6 | 100 |
-| Wrocław | pl. Grunwaldzki | 16 | 291 | 23 | 157 | 1,5 | 7,1 | 8,5 | 6,9 | 100 |
-| Poznań | Poznań Główny / Dworzec Zachodni | 33 | 653 | 26 | 146 | 2,0 | 7,5 | 10,8 | 6,8 | 96 |
-| Poznań | Rondo Kaponiera | 14 | 369 | 17 | 145 | 2,5 | 5,1 | 8,3 | 7,5 | 79 |
-| Poznań | Rondo Rataje | 6 | 162 | 22 | 80 | 1,1 | 15,2 | 16,3 | 5,2 | 100 |
-| Łódź | Piotrkowska Centrum | 8 | 199 | 13 | 101 | 1,8 | 7,5 | 9,3 | 7,5 | 100 |
-| Łódź | Łódź Fabryczna | 24 | 562 | 28 | 100 | 2,6 | 14,1 | 17,1 | 7,7 | 100 |
-| Łódź | Łódź Kaliska | 28 | 654 | 23 | 119 | 2,2 | 7,6 | 11,8 | 8,3 | 100 |
-| Trójmiasto | Gdańsk Główny | 21 | 289 | 40 | 194 | 2,9 | 15,0 | 18,6 | 9,1 | 43 |
-| Trójmiasto | Gdańsk Wrzeszcz | 15 | 455 | 29 | 109 | 1,8 | 12,9 | 14,3 | 10,2 | 28 |
-| Trójmiasto | Gdynia Główna | 29 | 570 | 46 | 207 | 2,9 | 12,9 | 16,6 | 11,1 | 100 |
-| GZM | Katowice Dworzec | 19 | 417 | 50 | 147 | 2,0 | 15,0 | 18,0 | 15,0 | 100 |
-| GZM | Katowice Rynek | 7 | 317 | 36 | 146 | 2,0 | 15,0 | 12,2 | 9,4 | 100 |
-| GZM | Sosnowiec Główny | 8 | 111 | 30 | 85 | 1,0 | 21,0 | 20,9 | 15,9 | 54 |
+Zespół o największej liczbie odjazdów, którego nazwy pasują do wzorca i którego środek leży ≤ 600 m od punktu orientacyjnego; wszystkie kolumny w `qa/transfer/known_interchanges.csv`. Dojście + czekanie: średnie ważone kursami w oknie 7–9, sumujące się do całości.
 
-Mediany po parach linii. Długie czekanie na dworcach i w węzłach GZM wynika z rzadkich linii podmiejskich i kolejowych w medianie; wersja ważona liczbą kursów jest niższa nawet o 8 min. Wrocław Dworzec Główny ma długie dojście, bo zespół obejmuje dworzec autobusowy przy Suchej i przystanki tramwajowe na Piłsudskiego.
+| Aglomeracja | Węzeł | Słupków | Rozpiętość, m | Linii | Odjazdów/h | Dojście, min | + czekanie, min | = przesiadka, min | Ruchy z drogą bez schodów w OSM, % |
+|---|---|---|---|---|---|---|---|---|---|
+| Warszawa | Centrum | 13 | 388 | 29 | 313 | 3,1 | 5,5 | 8,6 | 50 |
+| Warszawa | Dworzec Centralny | 27 | 427 | 39 | 282 | 3,1 | 7,3 | 10,4 | 89 |
+| Warszawa | Dworzec Wileński | 10 | 337 | 21 | 237 | 2,3 | 4,7 | 7,0 | 71 |
+| Warszawa | Dworzec Gdański | 22 | 585 | 16 | 161 | 3,3 | 5,2 | 8,5 | 100 |
+| Kraków | Rondo Mogilskie | 18 | 273 | 20 | 181 | 2,4 | 6,1 | 8,5 | 100 |
+| Kraków | Dworzec Główny Zachód (Basztowa, Pawia) | 6 | 152 | 9 | 52 | 1,3 | 3,8 | 5,1 | 100 |
+| Kraków | Kraków Główny (kolej) | 27 | 532 | 28 | 113 | 3,2 | 13,3 | 16,5 | 100 |
+| Kraków | Rondo Grunwaldzkie | 13 | 250 | 33 | 176 | 1,7 | 10,2 | 11,9 | 100 |
+| Kraków | Podgórze SKA | 13 | 206 | 14 | 76 | 1,7 | 9,2 | 10,9 | 100 |
+| Kraków | Borek Fałęcki | 6 | 202 | 25 | 50 | 2,4 | 14,7 | 17,1 | 100 |
+| Wrocław | Galeria Dominikańska | 13 | 357 | 25 | 150 | 2,0 | 7,3 | 9,3 | 100 |
+| Wrocław | pl. Grunwaldzki | 16 | 291 | 23 | 157 | 1,3 | 7,2 | 8,5 | 100 |
+| Wrocław | Dworzec Główny | 30 | 524 | 39 | 172 | 3,3 | 10,8 | 14,1 | 48 |
+| Poznań | Rondo Kaponiera | 14 | 369 | 17 | 145 | 2,3 | 6,1 | 8,4 | 79 |
+| Poznań | Poznań Główny / Dworzec Zachodni | 33 | 653 | 26 | 146 | 2,6 | 9,8 | 12,4 | 96 |
+| Poznań | Rondo Rataje | 6 | 162 | 22 | 80 | 1,0 | 11,0 | 12,0 | 100 |
+| Łódź | Piotrkowska Centrum | 8 | 199 | 13 | 101 | 1,5 | 7,7 | 9,2 | 100 |
+| Łódź | Łódź Fabryczna | 24 | 562 | 28 | 100 | 2,3 | 11,6 | 13,9 | 100 |
+| Łódź | Łódź Kaliska | 28 | 654 | 23 | 119 | 2,1 | 11,0 | 13,1 | 100 |
+| Trójmiasto | Gdańsk Główny | 21 | 289 | 40 | 194 | 2,7 | 12,2 | 14,9 | 43 |
+| Trójmiasto | Gdańsk Wrzeszcz | 15 | 455 | 29 | 109 | 3,0 | 12,7 | 15,7 | 28 |
+| Trójmiasto | Gdynia Główna | 29 | 570 | 46 | 207 | 4,4 | 11,5 | 15,9 | 100 |
+| GZM | Katowice Rynek | 7 | 317 | 36 | 146 | 2,5 | 9,8 | 12,3 | 100 |
+| GZM | Katowice Dworzec | 19 | 417 | 50 | 147 | 2,4 | 14,7 | 17,1 | 100 |
+| GZM | Sosnowiec Główny | 8 | 111 | 30 | 85 | 1,0 | 16,8 | 17,8 | 54 |
+
+Długie przesiadki na dworcach i w węzłach GZM wynikają z czekania na rzadkie linie podmiejskie i kolejowe. Wrocław Dworzec Główny ma długie dojście, bo zespół obejmuje dworzec autobusowy przy Suchej i przystanki tramwajowe na Piłsudskiego. Mediany po parach linii (dojście z kierunkami, czekanie, ich suma) są w [`qa/transfer/transfer.md`](qa/transfer/transfer.md) §4 jako uwaga; nie sumują się i są wyższe tam, gdzie w węźle jest wiele rzadkich linii.
 
 ### 20.3 Kontrola z oceną AMPTI dla Krakowa
 
@@ -985,3 +1077,21 @@ Dla trzech węzłów ocenionych metodą AMPTI w 2015 r. (Czekała i Bryniarska, 
 - Skomunikowań w rozkładzie jednego dnia nie widać (11–14 % par „pasuje” przy ok. 10 % oczekiwanych z przypadku); wykrywanie jest przybliżone.
 - Czas dojścia to 5 km/h po sieci OSM, bez czekania na światłach, schodów i tłumu; czekanie jest rozkładowe, w pełnych minutach.
 - Próba tras z fazy 3 nie zawiera miejsca przesiadki, więc znaczenie węzła opisują tylko linie i odjazdy.
+
+## 21. Przegląd literatury i wynikające z niego zmiany (2026-11-24)
+
+Pełny przegląd: [`../reports/Urban transit metrics research review.md`](../reports/Urban%20transit%20metrics%20research%20review.md).
+
+**Co ustalono.** Miary projektu są zgodne z praktyką badań i planowania, a trzy wyniki zgadzają się z niezależnymi źródłami. Rozkładowe prędkości tramwajów (§15.3) różnią się od rankingu rozkładów Puls Gdańska (2023) najwyżej o ok. 1 km/h, a Łódź i Wrocław są najwolniejsze w obu. Gradienty gęstości Clarka i ρ rdzenia przy progu 10 % dla Warszawy i Krakowa są bliskie wartościom Bertauda i Malpezziego z 2003 r. (§14.3). Kolejność miast według udziału przesiadek (§17.7) zgadza się z warszawskim badaniem ruchu z 2015 r. i z danymi aplikacji Jakdojade (2025). Słabe punkty dotyczyły sposobu streszczania i nazywania wyników, nie routingu ani danych.
+
+**Co zmieniono.**
+- Kolory warstw mapy dopasowano do ciemnego podkładu: jaśniej = więcej, z kierunkiem opisanym słowami w legendzie; kolory klas gęstości × częstotliwości odróżnialne także przy zaburzeniach widzenia barw (§18).
+- Próg warstwy gęstość × częstotliwość: 5 000 zamiast 2 500 os./km², z tabelą wrażliwości dla progów 1 500–10 000 i etykietami klas podającymi liczby (§19).
+- Wynikiem głównym transport performance między miastami jest stosunek średnich, jak u DG REGIO; średnia stosunków zostaje jako wartość dla typowego mieszkańca, a przy wynikach głównych stoi zdanie o niepewności (§17, §17.8).
+- Panel szczegółów na mapie pokazuje też pory dnia, zasięg z centrów, zasięg bez przesiadek i udział zasięgu wymagającego przesiadki (§17.7).
+- Miary formy (ρ, profile, gradient Clarka, Gini, η) przeliczono na siatce przeskalowanej do spisu, dodano wrażliwość na wybór centrum i poprawiono zdanie o porównywalności z Bertaudem i Malpezzim (§14.2, §14.3, §14.6).
+- Przesiadki podawane są jako suma dojście + czekanie (średnie ważone kursami, które się sumują); mediany zostały jako uwaga (§20).
+
+**Co planujemy dalej.** Wykresy „odsetek mieszkańców z co najmniej X” dla zasięgu i częstotliwości; pełna krzywa progów 5–60 min; wariant porównywalny z siatkowym badaniem DG REGIO (urban centre, promienie 8 i 12 km, dojście do 1,2 km, najlepsze połączenie w szczycie); wyniki dla grup wieku z siatki spisowej 1 km oraz szkoły i szpitale jako cele; większa próba porównań z wyszukiwarką połączeń (ok. 100 losowych par, także poza szczytem); dla przesiadek pasmo czasu uogólnionego (dojście i czekanie z wagami z literatury plus kara za przesiadkę, jako przedział, nie ranking) i ocena przejść według skali AMPTI W6; warstwa prędkości z „czasem ponad jazdę swobodną” pokazanym jako przedział z modelu.
+
+**Czego nie robimy.** Miar z korektą o konkurencję (typu 2SFCA): w porównaniach nie tłumaczyły udziału komunikacji lepiej niż proste miary skumulowane, a ich jednostki trudno wyjaśnić. Współczynnika Giniego jako wyniku głównego: zależy mocno od wyboru wskaźnika i metody przypisania. Kar za przesiadkę zależnych od środka transportu: w badaniach mierzą głównie preferencję kolei wobec autobusu.
