@@ -38,6 +38,10 @@ if (real) {
   if (!existsSync(join(dataOut, 'metrics.json'))) {
     console.warn('sync-data: results/web/metrics.json is missing (run pipeline.merge_metrics), the site will show no metrics')
   }
+  // density classes per city (results/charts/form.json), for the metric pages; optional
+  const form = join(repo, 'results', 'charts', 'form.json')
+  if (existsSync(form)) copy(form, join(dataOut, 'form.json'))
+  else console.warn('sync-data: results/charts/form.json is missing, the metric pages will have no density-class bars')
   console.log(`sync-data: data from results/web (${files(dataOut).length} files)`)
 } else {
   const fixtures = join(web, 'fixtures')

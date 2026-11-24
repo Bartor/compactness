@@ -1,8 +1,11 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { AppMessage, AppShell, ErrorBoundary, Modal } from '@bartor-net/ui-kit'
-import { loadAttributions, loadCatalog, loadClassShares, loadMetrics } from './data'
+import { loadAttributions, loadCatalog, loadClassShares, loadForm, loadMetrics } from './data'
 import { DATA_BASE_URL, resolveUrl } from './config'
 import { loadCharts } from './features/charts'
+import MetricPage from './MetricPage'
+import { pageAreas, pickArea } from './metricPageData'
+import { metricName } from './metricTable'
 import { CityCharts, ComparisonCharts } from './ChartsPanel'
 import { togglePin } from './chartLink'
 import {
@@ -90,6 +93,14 @@ function Loaded({ catalog, metrics, attributions }) {
   useEffect(() => { loadClassShares().then(setShareDoc) }, [])
   const [charts, setCharts] = useState(null)             // distribution charts (charts.json); null: no chart section
   useEffect(() => { loadCharts({ base: DATA_BASE_URL }).then(setCharts) }, [])
+  const [form, setForm] = useState(null)               // residents by density class per city (form.json), for metric pages
+  useEffect(() => { loadForm().then(setForm) }, [])
+  // the page of one metric: {id, area} or null; opened from a table row, linked by m= and ma= in the address
+  const [metricPage, setMetricPage] = useState(() => (start.metric ? { id: start.metric, area: start.metricArea } : null))
+  const dockBefore = useRef(null)    // the dock state to return to when the page closes
+  const pushed = useRef(false)       // the page's address entry was pushed (so Back closes it)
+  const wasPage = useRef(false)
+  const ran = useRef(false)          // the address effect has run once (a page open at load is not "opening")
 
   const index = useMemo(() => indexMetrics(metrics.metrics), [metrics])
   const known = useMemo(() => catalog.agglomerations.map((a) => a.id), [catalog])
@@ -172,13 +183,53 @@ function Loaded({ catalog, metrics, attributions }) {
     setNodeRequest((r) => ({ layer, props: n.props, coordinates: n.coordinates, n: (r?.n || 0) + 1 }))
   }, [layers])
 
-  // Keep the address in step, without adding a history entry per click.
-  useEffect(() => {
-    const h = hashOfView(selectedId, view, layers, { sort, sortDensity, dock })
-    if (h !== window.location.hash && !(h === '' && !window.location.hash)) {
-      window.history.replaceState(null, '', h || window.location.pathname + window.location.search)
+  // the open page, when the file has that metric (an address with an unknown metric just opens no page)
+  const page = metricPage && index[metricPage.id] && pageAreas(index, metricPage.id).length
+    ? { id: metricPage.id, area: pickArea(index, metricPage.id, metricPage.area) } : null
+  const openMetric = useCallback((id, wanted) => {
+    setMetricPage({ id, area: wanted })
+    if (!phone) {
+      if (!wasPage.current && dockBefore.current == null) dockBefore.current = dock
+      setDock('full')
     }
-  }, [selectedId, view, layers, sort, sortDensity, dock])
+  }, [phone, dock])
+  // closing without touching the history (a city was picked, the map was asked for)
+  const closeNow = useCallback(() => {
+    setMetricPage(null)
+    if (dockBefore.current != null) { setDock(dockBefore.current); dockBefore.current = null }
+    pushed.current = false
+  }, [])
+  // the "wróć" button, Escape: step back in the history when the page pushed an entry, so that Back and "wróć" agree
+  const closePage = useCallback(() => {
+    if (pushed.current) window.history.back()
+    else closeNow()
+  }, [closeNow])
+  useEffect(() => {
+    const onPop = () => {
+      const r = readHash()
+      if (r.metric) setMetricPage({ id: r.metric, area: r.metricArea })
+      else closeNow()
+    }
+    window.addEventListener('popstate', onPop)
+    return () => window.removeEventListener('popstate', onPop)
+  }, [closeNow])
+  const showOnMap = useCallback((layerId) => {
+    setView((v) => revealLayer(v, layers, layerId))
+    dockBefore.current = 'half'
+    closeNow()
+  }, [layers, closeNow])
+
+  // Keep the address in step: no history entry per click, except one when a metric page opens
+  useEffect(() => {
+    const h = hashOfView(selectedId, view, layers, { sort, sortDensity, dock, metric: page?.id, metricArea: page?.area })
+    const opening = !!page && !wasPage.current
+    wasPage.current = !!page
+    if (h !== window.location.hash && !(h === '' && !window.location.hash)) {
+      const url = h || window.location.pathname + window.location.search
+      if (opening && ran.current) { window.history.pushState(null, '', url); pushed.current = true } else window.history.replaceState(null, '', url)
+    }
+    ran.current = true
+  }, [selectedId, view, layers, sort, sortDensity, dock, page?.id, page?.area])   // eslint-disable-line react-hooks/exhaustive-deps
 
   // what the legend and the charts know about the residents of the scope (the selected city, else all cities)
   const legendShares = useMemo(() => ({
@@ -205,7 +256,7 @@ function Loaded({ catalog, metrics, attributions }) {
     <Compare
       index={index} cities={cities} everyCity={everyCity} names={names}
       area={area} setArea={setArea} layers={layers} onShowLayer={showLayer}
-      onPickCity={pick} hot={hot} setHot={setHot}
+      onPickCity={pick} hot={hot} setHot={setHot} onOpenMetric={(id) => openMetric(id, area)}
       sort={sort} setSort={setSort} sortDensity={sortDensity} setSortDensity={setSortDensity}
       layout={layout} tab={tab} setTab={setTab} chart={citiesChart} spread={spreadCities}
       onOpenLimits={() => setAbout({ limits: true })}
@@ -213,7 +264,18 @@ function Loaded({ catalog, metrics, attributions }) {
   )
   const cityProps = {
     agglomeration: selected, index, cities, layers, onShowLayer: showLayer, nodes, onPickNode: showNode, chart: cityChart, spread: spreadCity,
+    onOpenMetric: (id) => openMetric(id, 'core'),
   }
+  const pickFromPage = (c) => { closeNow(); pick(c) }
+  const densityColors = layers.find((l) => l.id === 'density_250m')?.ramp?.colors
+  const metricPageEl = page && (
+    <MetricPage
+      id={page.id} area={page.area} setArea={(a) => setMetricPage((p) => ({ ...p, area: a }))} from={selectedId}
+      index={index} cities={cities} everyCity={everyCity} names={names} charts={charts} form={form} densityColors={densityColors}
+      layers={layers} link={link} onClose={closePage} onPickCity={pickFromPage} onShowLayer={showOnMap}
+      onNavigate={(mid) => setMetricPage((p) => ({ id: mid, area: pickArea(index, mid, p?.area) }))}
+    />
+  )
 
   const map = (
     <MapView
@@ -247,13 +309,18 @@ function Loaded({ catalog, metrics, attributions }) {
             {compareSheet && (
               <Modal title="Porównanie miast" onClose={() => setCompareSheet(false)}>{compare('stack')}</Modal>
             )}
+            {page && <Modal title={metricName(index, page.id)} onClose={closePage}>{metricPageEl}</Modal>}
           </>
         )
         : (
           <DockStage
             map={map} state={dock} onState={setDock}
-            label={selected ? `Miary: ${selected.name}` : 'Porównanie miast'}
-            title={selected
+            label={page ? `Miara: ${metricName(index, page.id)}` : selected ? `Miary: ${selected.name}` : 'Porównanie miast'}
+            title={page
+              ? (
+                <h2>Miara: {metricName(index, page.id)}</h2>
+              )
+              : selected
               ? (
                 <>
                   <button type="button" className="dock-back" onClick={close}>← Porównanie miast</button>
@@ -264,9 +331,11 @@ function Loaded({ catalog, metrics, attributions }) {
               : <h2>Porównanie miast</h2>}
           >
             <ErrorBoundary resetKey={selected ? selected.id : 'compare'} onClose={close}>
-              {selected
-                ? <CityView {...cityProps} layout="columns" />
-                : compare('tabs')}
+              {page
+                ? metricPageEl
+                : selected
+                  ? <CityView {...cityProps} layout="columns" />
+                  : compare('tabs')}
             </ErrorBoundary>
           </DockStage>
         )}

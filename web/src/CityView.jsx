@@ -14,10 +14,10 @@ const dep = new Intl.NumberFormat('pl-PL', { maximumFractionDigits: 1 })
  * useCityNodes or null.
  */
 export default function CityView({
-  agglomeration, index, cities, layers, onShowLayer, nodes, onPickNode, chart = null, spread = null, layout = 'stack',
+  agglomeration, index, cities, layers, onShowLayer, nodes, onPickNode, chart = null, spread = null, layout = 'stack', onOpenMetric,
 }) {
   const agg = agglomeration.id
-  const groups = cityGroups({ index, cities, agg, layers, onShowLayer })
+  const groups = cityGroups({ index, cities, agg, layers, onShowLayer, onOpenMetric })
   const stands = highlights(index, cities, agg)
   // the distribution charts (when charts.json is there) carry the time-of-day figures with their own table view,
   // so the plain table is only shown without them

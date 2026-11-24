@@ -16,6 +16,22 @@ export function mapAction(info, id, layers, onShowLayer) {
   return { label: 'na mapie', onClick: () => onShowLayer(layerId) }
 }
 
+/** The "strona miary" action: opens the page of one metric. */
+export const pageAction = (id, onOpenMetric) => (onOpenMetric
+  ? { label: 'strona miary', title: 'Otwórz stronę miary: wszystkie miasta, opis i źródła', onClick: () => onOpenMetric(id) }
+  : null)
+
+/**
+ * The actions of a row of a comparison table: "na mapie" (when the metric has a layer) and "strona miary", as the
+ * kit's `actions` (ui-kit 0.3.3 and later).
+ */
+export function rowActions(info, id, layers, onShowLayer, onOpenMetric) {
+  const map = mapAction(info, id, layers, onShowLayer)
+  const page = pageAction(id, onOpenMetric)
+  const actions = [map, page].filter(Boolean)
+  return { actions: actions.length ? actions : undefined }
+}
+
 /** Short column head of a city. */
 export const cityHead = (id, names) => SHORT_CITY[id] || names[id] || id
 
@@ -33,7 +49,7 @@ const ONE_AREA_GROUPS = new Set(['poly'])
  * A cell carries the number it sorts by apart from its text, and a row says which way is better, so that sorting the
  * row puts the best city first (a row without a direction goes from the highest).
  */
-export function compareGroups({ index, cities, area, names, layers, onShowLayer, onlyGroups = null, info = METRIC_INFO }) {
+export function compareGroups({ index, cities, area, names, layers, onShowLayer, onOpenMetric, onlyGroups = null, info = METRIC_INFO }) {
   return buildGroups(index, { onlyGroups }).map((g) => ({
     id: g.id,
     title: g.title,
@@ -46,8 +62,8 @@ export function compareGroups({ index, cities, area, names, layers, onShowLayer,
         label: metricName(index, id, info),
         unit: metricUnit(index, id),
         better: info[id]?.better ?? null,
-        help: <MetricHelp id={id} entries={cities.map((c, i) => ({ key: c, row: rows[i] }))} nameOf={(c) => names[c] || c} info={info} />,
-        action: mapAction(info, id, layers, onShowLayer),
+        help: <MetricHelp id={id} entries={cities.map((c, i) => ({ key: c, row: rows[i] }))} nameOf={(c) => names[c] || c} info={info} onOpen={onOpenMetric && (() => onOpenMetric(id))} />,
+        ...rowActions(info, id, layers, onShowLayer, onOpenMetric),
         cells: values.map((v, i) => (v == null
           ? DASH
           : { content: plainText(rows[i]), value: v, title: formatValue(rows[i]).text, tone: marks.best.has(i) ? 'best' : marks.worst.has(i) ? 'weak' : undefined })),
@@ -72,7 +88,7 @@ export function areaColumns() {
  * Groups of rows for one city: a column per area and the city's rank among `cities` (n/7, in the core area, or the
  * first area that has the metric). Metrics the city has no row for are left out.
  */
-export function cityGroups({ index, cities, agg, layers, onShowLayer, info = METRIC_INFO }) {
+export function cityGroups({ index, cities, agg, layers, onShowLayer, onOpenMetric, info = METRIC_INFO }) {
   const areaName = (a) => DOMAIN_INFO[a]?.short || a
   return buildGroups(index).map((g) => ({
     id: g.id,
@@ -90,9 +106,13 @@ export function cityGroups({ index, cities, agg, layers, onShowLayer, info = MET
         }
       return {
         id,
-        label: metricName(index, id, info),
+        // the label opens the metric's page (this table is not sorted by row, so the label is free to be a button)
+        label: onOpenMetric
+          ? <button type="button" className="metric-link" title="Otwórz stronę miary" onClick={() => onOpenMetric(id)}>{metricName(index, id, info)}</button>
+          : metricName(index, id, info),
+        name: metricName(index, id, info),
         unit: metricUnit(index, id),
-        help: <MetricHelp id={id} entries={AREAS.map((a, i) => ({ key: a, row: rows[i] }))} nameOf={areaName} info={info} />,
+        help: <MetricHelp id={id} entries={AREAS.map((a, i) => ({ key: a, row: rows[i] }))} nameOf={areaName} info={info} onOpen={onOpenMetric && (() => onOpenMetric(id))} />,
         action: mapAction(info, id, layers, onShowLayer),
         cells: [
           ...rows.map((r) => (valueOf(r) == null ? DASH : { content: plainText(r), title: formatValue(r).text })),

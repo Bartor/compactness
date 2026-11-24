@@ -1,0 +1,48 @@
+/* The page of one metric: larger type, generous space, prose about 70 characters wide. */
+.metric-page { max-width: 62rem; margin: 0 auto; padding: .4rem 0 3rem; font-size: 1.05rem; line-height: 1.55; color: var(--kit-soft); }
+.metric-nav { display: flex; flex-wrap: wrap; gap: .6rem 1rem; justify-content: space-between; align-items: center; margin-bottom: 1.1rem; }
+.metric-walk { display: inline-flex; gap: .5rem; }
+.metric-back, .metric-walk button {
+  background: var(--kit-control); border: 1px solid var(--kit-line-strong); color: var(--kit-text); font: inherit; font-size: .9rem;
+  padding: .4rem .85rem; border-radius: 6px; cursor: pointer;
+}
+.metric-back:hover, .metric-walk button:hover:not(:disabled) { background: var(--kit-hover); border-color: var(--kit-line-hover); }
+.metric-walk button:disabled { opacity: .4; cursor: default; }
+.metric-back:focus-visible, .metric-walk button:focus-visible, .metric-show:focus-visible { outline: 2px solid var(--kit-focus); outline-offset: 2px; }
+.metric-head h1 { margin: 0; font-family: var(--font-serif); font-size: 2.3rem; line-height: 1.15; font-weight: 600; color: var(--kit-text); }
+.metric-meta { display: flex; flex-wrap: wrap; gap: .3rem 1.2rem; margin: .5rem 0 0; font-size: .92rem; color: var(--kit-dim); }
+.metric-badge { color: var(--kit-text); border: 1px solid var(--kit-line-strong); border-radius: 999px; padding: 0 .7rem; }
+.metric-lead { max-width: 70ch; margin: 1.3rem 0 1.6rem; font-family: var(--font-serif); font-size: 1.5rem; line-height: 1.45; color: var(--kit-text); }
+.metric-section { margin: 1.8rem 0; }
+.metric-section h2, .metric-prose h2 { margin: 0 0 .6rem; font-size: 1.15rem; color: var(--kit-text); font-weight: 600; text-transform: none; letter-spacing: 0; }
+.metric-prose h2 { margin-top: 1.6rem; }
+.metric-prose p { max-width: 70ch; margin: 0 0 .8rem; font-family: var(--font-serif); font-size: 1.12rem; line-height: 1.6; }
+.metric-prose .metric-uncertainty { color: var(--kit-warn); }
+.metric-note, .metric-missing { max-width: 70ch; margin: .5rem 0; font-size: .9rem; color: var(--kit-dim); }
+.metric-missing { color: var(--kit-soft); }
+.metric-related { display: grid; grid-template-columns: repeat(auto-fit, minmax(22rem, 1fr)); gap: 1.6rem 2rem; align-items: start; }
+.metric-block { min-width: 0; }
+.metric-h3 { margin: 0 0 .4rem; font-size: 1rem; color: var(--kit-text); }
+.metric-facts { display: grid; gap: .6rem; margin: 0; max-width: 70ch; font-size: .95rem; }
+.metric-facts > div { display: grid; grid-template-columns: 14rem 1fr; gap: .2rem 1rem; }
+.metric-facts dt { color: var(--kit-dim); }
+.metric-facts dd { margin: 0; display: flex; flex-direction: column; gap: .15rem; }
+.metric-show {
+  background: var(--kit-accent-fill); color: #fff; border: 1px solid var(--kit-accent); font: inherit; font-size: 1rem;
+  padding: .6rem 1.3rem; border-radius: 8px; cursor: pointer;
+}
+.metric-show:hover { background: var(--kit-accent); }
+.metric-city, .metric-link, .metric-open {
+  background: none; border: 0; padding: 0; font: inherit; color: inherit; cursor: pointer; text-align: left;
+}
+.metric-city:hover, .metric-link:hover { color: var(--kit-link-light); text-decoration: underline; text-underline-offset: 3px; }
+.metric-city:focus-visible, .metric-link:focus-visible, .metric-open:focus-visible { outline: 2px solid var(--kit-focus); outline-offset: 2px; border-radius: 2px; }
+.metric-open-wrap { margin: .7rem 0 .1rem; }
+.metric-open { color: var(--kit-link-light); font-weight: 600; font-size: .9rem; text-decoration: underline; text-underline-offset: 3px; }
+.metric-areas { --kit-data-height: none; }
+.chx-rankbars { max-width: 100%; }
+@media (max-width: 760px) {
+  .metric-head h1 { font-size: 1.7rem; }
+  .metric-lead { font-size: 1.2rem; }
+  .metric-facts > div { grid-template-columns: 1fr; }
+}

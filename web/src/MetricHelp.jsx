@@ -7,9 +7,10 @@ const pct = new Intl.NumberFormat('pl-PL', { maximumFractionDigits: 0 })
 /**
  * The text behind a row's "?": how to read the number, how it was calculated, then where this row's numbers come
  * from. `entries` is [{key, row}]: the rows of the cells (cities or areas) with `nameOf(key)` for the names that
- * go with coverage and flags. A metric without an entry in METRIC_INFO has the source block only.
+ * go with coverage and flags. A metric without an entry in METRIC_INFO has the source block only. `onOpen`, when
+ * given, adds the link to the metric's own page at the end.
  */
-export default function MetricHelp({ id, entries, nameOf, info = METRIC_INFO }) {
+export default function MetricHelp({ id, entries, nameOf, info = METRIC_INFO, onOpen }) {
   const i = info[id]
   const s = sourceModel(entries, { feedNames: FEED_VARIANTS, nameOf })
   const hasSource = s.source || s.dates.length || s.feed || s.coverage.length || s.flags.length
@@ -46,6 +47,11 @@ export default function MetricHelp({ id, entries, nameOf, info = METRIC_INFO }) 
             ))}
           </div>
         </>
+      )}
+      {onOpen && (
+        <p className="metric-open-wrap">
+          <button type="button" className="metric-open" onClick={onOpen}>Otwórz stronę miary</button>
+        </p>
       )}
     </>
   )

@@ -43,6 +43,16 @@ export async function loadClassShares() {
   }
 }
 
+/** Residents by density class per city (form.json, for the metric pages); optional: null when it is not there. */
+export async function loadForm() {
+  try {
+    const f = await getJson(DATA_BASE_URL + DATA_FILES.form)
+    return f && Array.isArray(f.cities) && Array.isArray(f.classes) ? f : null
+  } catch {
+    return null
+  }
+}
+
 /** The colour from the middle of a ramp: the dot of a layer in the sidebar. */
 export function rampMid(ramp) {
   const colors = ramp?.colors

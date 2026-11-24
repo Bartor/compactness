@@ -39,11 +39,11 @@ function SortNote({ groups, sort, onReset }) {
  */
 export default function Compare({
   index, cities, everyCity, names, area, setArea, layers, onShowLayer, onPickCity, hot, setHot, onOpenLimits,
-  sort = null, setSort, sortDensity = null, setSortDensity, layout = 'stack', tab = 'metrics', setTab, chart = null, spread = null,
+  sort = null, setSort, sortDensity = null, setSortDensity, layout = 'stack', tab = 'metrics', setTab, chart = null, spread = null, onOpenMetric,
 }) {
   if (!cities.length) return <Hint>Miary pojawią się po przeliczeniu.</Hint>
   const tabs = layout === 'tabs'
-  const common = { index, area, names, layers, onShowLayer }
+  const common = { index, area, names, layers, onShowLayer, onOpenMetric }
   const transport = compareGroups({ ...common, cities })
   const density = compareGroups({ ...common, cities: everyCity, onlyGroups: DENSITY_GROUP_IDS })
   const info = DOMAIN_INFO[area]

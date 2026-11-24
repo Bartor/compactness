@@ -6,6 +6,7 @@
 // v= is the chosen variant of layers that have variants.
 // s= and sd= are the sorts of the city comparison and of its density table: the metric whose row orders the city
 // columns, and the way (desc / asc). Absent: the default order of the cities. Addresses without them still open.
+// m= and ma= are the metric whose page is open and the area it shows (ma absent: the core city).
 // d= is the state of the bottom dock on desktop: folded, half or full. Absent (an old address): half.
 
 import { activeIds, initialState, stateFromIds, variantsToWrite } from './layerControl'
@@ -41,13 +42,15 @@ export function readHash(hash = typeof window !== 'undefined' ? window.location.
     sort: parseSort(q.get('s')),
     sortDensity: parseSort(q.get('sd')),
     dock: parseDock(q.get('d')),
+    metric: q.get('m') || undefined,
+    metricArea: q.get('ma') || undefined,
   }
 }
 
 const sameSet = (a, b) => a.length === b.length && a.every((x) => b.includes(x))
 
 /** The hash (with '#', or '' when plain) for a state, given the defaults. `variants` is {layerId: key}. */
-export function hashOf({ agg, layers, variants = {}, sort, sortDensity, dock }, defaults) {
+export function hashOf({ agg, layers, variants = {}, sort, sortDensity, dock, metric, metricArea }, defaults) {
   const q = new URLSearchParams()
   if (agg) q.set('a', agg)
   const on = [...layers].sort()
@@ -57,6 +60,10 @@ export function hashOf({ agg, layers, variants = {}, sort, sortDensity, dock }, 
   if (sortText(sort)) q.set('s', sortText(sort))
   if (sortText(sortDensity)) q.set('sd', sortText(sortDensity))
   if (dock && dock !== DEFAULT_DOCK && parseDock(dock)) q.set('d', dock)
+  if (metric) {
+    q.set('m', metric)
+    if (metricArea && metricArea !== 'core') q.set('ma', metricArea)
+  }
   // ',' and ':' are fine in a fragment; left unescaped the link stays readable
   const s = q.toString().replace(/%2C/g, ',').replace(/%3A/g, ':')
   return s ? `#${s}` : ''
@@ -66,7 +73,7 @@ export function hashOf({ agg, layers, variants = {}, sort, sortDensity, dock }, 
 export function hashOfView(agg, view, layers, sorts = {}) {
   const defaults = { layers: [...activeIds(initialState(layers), layers)] }
   const active = activeIds(view, layers)
-  return hashOf({ agg, layers: [...active], variants: variantsToWrite(view, layers, active), sort: sorts.sort, sortDensity: sorts.sortDensity, dock: sorts.dock }, defaults)
+  return hashOf({ agg, layers: [...active], variants: variantsToWrite(view, layers, active), sort: sorts.sort, sortDensity: sorts.sortDensity, dock: sorts.dock, metric: sorts.metric, metricArea: sorts.metricArea }, defaults)
 }
 
 /**
@@ -76,5 +83,5 @@ export function hashOfView(agg, view, layers, sorts = {}) {
 export function resolveHash(parsed, { agglomerations, layers }) {
   const agg = agglomerations.some((a) => a.id === parsed.agg) ? parsed.agg : null
   const state = parsed.layers ? stateFromIds(parsed.layers, layers, parsed.variants) : initialState(layers)
-  return { agg, state, sort: parsed.sort ?? null, sortDensity: parsed.sortDensity ?? null, dock: parsed.dock ?? DEFAULT_DOCK }
+  return { agg, state, sort: parsed.sort ?? null, sortDensity: parsed.sortDensity ?? null, dock: parsed.dock ?? DEFAULT_DOCK, metric: parsed.metric ?? null, metricArea: parsed.metricArea ?? null }
 }
