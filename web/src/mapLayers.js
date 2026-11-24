@@ -33,7 +33,7 @@ export function layerSpecs(layer, selectedId = null) {
     specs.push({
       id: fillId(layer), type: 'fill', ...sl,
       filter: hasValue(layer.property),
-      paint: { 'fill-color': rampExpression(layer.property, layer.ramp), 'fill-opacity': 0.8 },
+      paint: { 'fill-color': rampExpression(layer.property, layer.ramp), 'fill-opacity': layer.opacity ?? 0.8 },
     })
     // no data must never look like a zero: hatched, not the lowest colour
     specs.push({

@@ -32,6 +32,27 @@ export function rampExpression(property, ramp, noData = 'rgba(0,0,0,0)') {
   return ['case', hasValue(property), step, noData]
 }
 
+/** Index of the ramp class a value falls into (the order of rampClasses and of the legend rows). */
+export function classIndex(ramp, v) {
+  const classes = rampClasses(ramp)
+  let i = 0
+  for (let k = 1; k < classes.length; k++) if (v >= classes[k].from) i = k
+  return i
+}
+
+/**
+ * fill-opacity with some classes emphasised: those keep `base`, the others drop to `dim`.
+ * `emphasised` is a Set of class indices; empty means no emphasis, so every class gets `base`.
+ */
+export function focusOpacity(property, ramp, emphasised, base = 0.8, dim = 0.1) {
+  if (!emphasised || emphasised.size === 0) return base
+  const classes = rampClasses(ramp)
+  const op = (i) => (emphasised.has(i) ? base : dim)
+  const step = ['step', ['get', property], op(0)]
+  for (let i = 1; i < classes.length; i++) step.push(classes[i].from, op(i))
+  return step
+}
+
 const nf = (v) => new Intl.NumberFormat('pl-PL', { maximumFractionDigits: 1, useGrouping: 'always' }).format(v)
 
 /** "1 000-3 000 os./km²", "od 20 000", "poniżej 1 000" */

@@ -4,6 +4,7 @@ Inputs  (one pair per step, all in results/metrics/)
 * metrics_density.csv/json   phase 1
 * metrics_supply.csv/json    phase 2 (extra column feed_variant)
 * metrics_frequent.csv/json  phase 2 (extra columns feed_variant, population_grid)
+* metrics_density_service.csv/json  density x service frequency (feed_variant, population_grid)
 * metrics_access.csv/json    phase 3 (feed_variant empty for walk / bike, which do not depend on the feeds)
 
 Outputs
@@ -26,7 +27,7 @@ from pipeline.common import RESULTS, write_json, write_meta
 
 METRICS = RESULTS / "metrics"
 WEB = RESULTS / "web"
-STEPS = ["density", "supply", "frequent", "access"]
+STEPS = ["density", "supply", "frequent", "density_service", "access"]
 
 COLUMNS = ["agglomeration", "domain", "metric", "label", "value", "unit", "grid", "source", "population_date",
            "timetable_date", "coverage_share", "flag", "tier", "feed_variant", "population_grid", "step"]
@@ -60,6 +61,11 @@ for _dom in ("core", "covered"):
     for _i, (_n, _s) in enumerate(_FREQ):
         PANEL[(_dom, f"freq_seg_net_le{_n}min")] = (200 + _i, f"Ludność ≤ 500 m od przystanku z kursami co ≤ {_s} min")
     PANEL[(_dom, "rail_ge4dph_net_1km")] = (210, "Ludność ≤ 1 km od stacji kolei lub metra z ≥ 4 odjazdami/h")
+# density x service frequency (tier "main"): dense areas without frequent service, rank correlation
+for _dom in ("core", "covered"):
+    PANEL[(_dom, "dxs_dense_underserved_share")] = (
+        220, "Mieszkańcy gęstej zabudowy (≥ 2 500 os./km²) bez kursów co ≤ 20 min w zasięgu 500 m")
+    PANEL[(_dom, "dxs_rank_correlation")] = (221, "Korelacja rang: gęstość a częstotliwość kursów")
 # accessibility (phase 3): transport performance, Wednesday 07-09, all feeds, census-scaled grid
 for _dom in ("covered", "core"):
     PANEL[(_dom, "tp_pt_am_30min")] = (300, "Transport performance komunikacją + pieszo, 30 min (7–9)")
@@ -124,7 +130,7 @@ def panel_subset(rows: list[dict]) -> list[dict]:
         street_only = r["step"] == "access" and r["feed_variant"] is None    # walk / bike: no feed variant
         if r["step"] != "density" and r["feed_variant"] != PANEL_FEED_VARIANT and not street_only:
             continue
-        if r["step"] in ("frequent", "access") and r["population_grid"] != PANEL_POP_GRID:
+        if r["step"] in ("frequent", "density_service", "access") and r["population_grid"] != PANEL_POP_GRID:
             continue
         out.append((spec[0], {**r, "label": spec[1]}))
     out.sort(key=lambda t: (t[1]["agglomeration"], t[1]["domain"], t[0]))

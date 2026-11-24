@@ -6,6 +6,7 @@
 #   snakemake -c1 density        # phase 1: density measures
 #   snakemake -c1 supply         # phase 2: vehicle-km, tram speed (needs gtfs_service)
 #   snakemake -c1 frequent       # phase 2: population near frequent service
+#   snakemake -c1 density_service  # density x service frequency: metrics_density_service.*
 #   snakemake -c1 access_run     # phase 3: R5 routing, ~12 h for all 7 agglomerations (explicit target only)
 #   snakemake -c1 access         # phase 3: aggregate whatever access_run has finished
 #   snakemake -c1 merge_metrics  # metrics_<step> -> metrics.csv/json + results/web/metrics.json
@@ -255,6 +256,18 @@ rule frequent:
         '"{PY}" -m pipeline.frequent'
 
 
+rule density_service:
+    # population density x service frequency (metrics_density_service.*, results/qa/density_service)
+    input:
+        "config.yaml",
+        "pipeline/density_service.py",
+        stamp("frequent"),
+    output:
+        touch(stamp("density_service")),
+    shell:
+        '"{PY}" -m pipeline.density_service'
+
+
 rule r5_inputs:
     # clipped OSM + cleaned GTFS zips per agglomeration and feed variant (data/interim/r5)
     input:
@@ -311,6 +324,7 @@ rule merge_metrics:
         stamp("density"),
         stamp("supply"),
         stamp("frequent"),
+        stamp("density_service"),
         stamp("access"),
     output:
         touch(stamp("merge_metrics")),
@@ -319,8 +333,8 @@ rule merge_metrics:
 
 
 rule tiles:
-    # phase 4 (brief 8, 14.3-14.4): four PMTiles files (density, frequent transit, performance 30 min, GTFS no-data
-    # mask), their catalog entries, results/web/attributions.json, results/qa/tiles/tiles.md.  Single process.
+    # phase 4 (brief 8, 14.3-14.4): five PMTiles files (density, frequent transit, performance 30 min, GTFS no-data
+    # mask, density x service), their catalog entries, results/web/attributions.json, results/qa/tiles/tiles.md.  Single process.
     # After more agglomerations finish routing: re-run `snakemake -c1 -R access tiles` or only
     # python -m pipeline.tiles --layer transport_performance_30
     input:
@@ -329,8 +343,10 @@ rule tiles:
         "pipeline/tiles_core.py",
         "pipeline/tiles_layers.py",
         "pipeline/tiles_verify.py",
+        "pipeline/density_service.py",
         stamp("popgrid"),
         stamp("frequent"),
+        stamp("density_service"),
         stamp("access"),
         stamp("phase0_boundaries"),
     output:

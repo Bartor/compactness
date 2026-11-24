@@ -397,6 +397,7 @@ def write_web() -> None:
         ("frequent_transport", "Zasięg częstej komunikacji", "access"),
         ("transport_performance_30", "Transport performance 30 min", "access"),
         ("gtfs_nodata", "Maska braku danych GTFS", "mask"),
+        ("density_service", "Gęstość × częstotliwość komunikacji", "access"),
     ]
     layers = [{"id": "fua", "title": "Granice FUA i rdzeni", "type": "geojson", "url": "data/fua.geojson", "kind": "boundary",
                "status": "ready", "attribution": "© EuroGeographics / Eurostat GISCO, Urban Audit 2021",

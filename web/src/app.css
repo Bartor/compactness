@@ -36,6 +36,21 @@
 .legend-block span { display: flex; align-items: center; gap: .45rem; }
 .legend-block small { color: var(--kit-dim); font-size: .7rem; line-height: 1.35; }
 .legend-unit { font-style: normal; color: var(--kit-dim); font-size: .72rem; }
+/* a class of a value layer: hover highlights it on the map, a click pins it */
+.legend-row {
+  display: flex; align-items: center; gap: .45rem; width: calc(100% + .5rem); margin: 0 -.25rem; padding: .12rem .25rem;
+  border: 0; border-radius: 4px; background: none; color: inherit; font: inherit; text-align: left; cursor: pointer;
+  transition: opacity .15s, background-color .15s;
+}
+.legend-row:hover, .legend-row:focus-visible, .legend-row.hover { background: rgba(31, 35, 40, .07); }
+.legend-row:focus-visible { outline: 2px solid var(--kit-accent, #1D4ED8); outline-offset: 1px; }
+.legend-row.pinned { background: rgba(31, 35, 40, .1); font-weight: 600; color: var(--kit-text); }
+.legend-row.dim { opacity: .45; }
+.legend-row i.sq { flex: none; }
+.legend-clear {
+  padding: 0; border: 0; background: none; color: var(--kit-accent, #1D4ED8); font: inherit; cursor: pointer;
+  text-decoration: underline;
+}
 .kit-map-legend i.sq { width: 14px; height: 10px; border-radius: 2px; border: 1px solid rgba(31, 35, 40, .15); }
 .kit-map-legend i.line.dashed {
   background: repeating-linear-gradient(90deg, #1D4ED8 0 4px, transparent 4px 7px); height: 2px; opacity: .8;

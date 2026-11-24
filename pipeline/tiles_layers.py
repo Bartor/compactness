@@ -1,4 +1,4 @@
-"""The four map layers: source data -> class grid -> catalog entry (brief §8, §14.4).
+"""The five map layers: source data -> class grid -> catalog entry (brief §8, §14.4).
 
 A layer is read from the committed layer parquets (or the phase-1 population grid), every populated
 250 m cell is put into a ramp class, and the class grid goes to pipeline.tiles_core.  The ``v`` property of
@@ -19,6 +19,7 @@ import pandas as pd
 from rasterio import features
 from rasterio.transform import Affine
 
+from pipeline import density_service as DS
 from pipeline.common import INTERIM, RESULTS
 from pipeline.tiles_core import BLOCK, CELL, FIRST_CLASS, NODATA, ClassGrid
 
@@ -143,6 +144,32 @@ def load_frequent(cfg) -> Built | None:
     return Built(grid, aggs, props, classes, {"cells": int(len(d)), "dropped_zero_pop": n_all - len(d)})
 
 
+def load_density_service(cfg) -> Built | None:
+    """Density x service frequency: v = index into DS.MAP_CLASSES (0..4); cells outside the GTFS mask are no data."""
+    fn = LAYERS_DIR / "frequent_cells.parquet"
+    if not fn.exists():
+        return None
+    d = pd.read_parquet(fn, columns=["agglomeration", "cell_id", "pop_census_scaled", "headway_class_all", "in_mask_all"])
+    n_all = len(d)
+    d = d[d.pop_census_scaled > 0].reset_index(drop=True)
+    xll, yll = _parse_ll(d.cell_id)
+    mask = d.in_mask_all.to_numpy(bool)
+    lab = d.headway_class_all
+    bad = set(lab[mask].dropna().unique()) - set(DS.SERVICE_OF_HEADWAY)
+    if bad or lab[mask].isna().any():
+        raise ValueError(f"frequent_cells: unexpected headway classes {bad} / missing inside the mask")
+    code = np.full(len(d), NODATA, np.uint8)
+    dc = DS.density_class(d.pop_census_scaled.to_numpy() / DS.CELL_KM2)
+    sc = np.ones(len(d), np.int64)
+    sc[mask] = DS.service_class(lab[mask])
+    code[mask] = (DS.map_class(dc, sc)[mask] + FIRST_CLASS).astype(np.uint8)
+    grid, aggs = _grid(xll, yll, code, list(d.agglomeration.unique()), d.agglomeration)
+    props, classes = _classes([lab for lab, _ in DS.MAP_CLASSES], list(range(len(DS.MAP_CLASSES))))
+    props[NODATA] = {}
+    classes.insert(0, {"code": NODATA, "label": "brak danych GTFS", "v": None})
+    return Built(grid, aggs, props, classes, {"cells": int(len(d)), "dropped_zero_pop": n_all - len(d)})
+
+
 def load_performance(cfg) -> Built | None:
     fn = LAYERS_DIR / "access_cells.parquet"
     if not fn.exists():
@@ -238,6 +265,24 @@ def describe_performance(cfg, built: Built, names: dict, url: str, expected: lis
                  source_layer="performance30", property="v", unit="% ludności osiągalnej w 30 min",
                  has_nodata=True, population_date=POP_DATE, timetable_date=day,
                  ramp={"stops": PERF_STOPS, "colors": PERF_COLORS})
+
+
+def describe_density_service(cfg, built: Built, names: dict, url: str) -> dict:
+    day = cfg["reference_day"]
+    dense = f"{int(DS.DENSITY_STOPS[0]):,}".replace(",", " ")
+    note = ("Dwie zmienne naraz: czy w komórce 250 m mieszka dużo ludzi i jak często kursuje komunikacja w zasięgu "
+            f"500 m pieszo. „Gęsto” oznacza co najmniej {dense} os./km². Czerwony i pomarańczowy to gęsta zabudowa "
+            "bez częstych kursów, granatowy to gęsta zabudowa z kursami co 10 min lub częściej, jasnoniebieski to "
+            "regularne kursy tam, gdzie mieszka niewiele osób. Rysowane są tylko komórki z ludnością; komórki "
+            "kreskowane leżą poza pokryciem danych o rozkładach (GTFS), więc nie wiadomo, jaka jest tam komunikacja. "
+            "Wszystkie feedy, w tym nieoficjalne.")
+    n = len(DS.MAP_CLASSES)
+    return _base(cfg, "Gęstość × częstotliwość komunikacji", ATTR_TRANSIT, note, kind="choropleth", type="pmtiles",
+                 url=url, source_layer="density_service", property="v",
+                 unit=f"gęsto: ≥ {dense} os./km²; kursy w zasięgu 500 m", opacity=0.9,
+                 has_nodata=True, population_date=POP_DATE, timetable_date=day,
+                 ramp={"stops": list(range(1, n)), "colors": [c for _, c in DS.MAP_CLASSES],
+                       "labels": [lab for lab, _ in DS.MAP_CLASSES]})
 
 
 def describe_mask(cfg, built: Built, names: dict, url: str) -> dict:
