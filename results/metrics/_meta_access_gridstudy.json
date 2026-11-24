@@ -1,0 +1,54 @@
+{
+ "code_version": "gridstudy-2026-11-24.1",
+ "dgregio_source": {
+  "pdf": "https://ec.europa.eu/regional_policy/sources/work/assessing_performance_of_urban_public_transport_using_griddata.pdf",
+  "service": "https://europa.eu/regiogis/rest/services/PublicTransport/city_acc_grid/MapServer",
+  "viewer": "https://ec.europa.eu/regional_policy/assets/scripts/map/regio-gis-maps/public_transport/city_acc_grid.html"
+ },
+ "duration_s": 18.0,
+ "git_sha": "700be031f701a9d016e70efeb9bdff8781b1b0b3",
+ "inputs": {},
+ "missing_inputs": [],
+ "outputs": [
+  "metrics_access_gridstudy.csv",
+  "metrics_access_gridstudy.json"
+ ],
+ "p_low": 1,
+ "peaks": {
+  "gzm": "06:30",
+  "krakow": "07:30",
+  "lodz": "06:30",
+  "poznan": "07:00",
+  "trojmiasto": "07:00",
+  "warszawa": "07:00",
+  "wroclaw": "06:30"
+ },
+ "pending": [],
+ "routing_log": [
+  "warszawa r_prod: 5797 origins x 1 searches in 757 s (131 ms/origin, 4 threads)",
+  "warszawa r_grid: 5797 origins x 1 searches in 880 s (152 ms/origin, 4 threads)",
+  "warszawa r_peak: 5797 origins x 6 searches in 609 s (105 ms/origin, 4 threads)",
+  "krakow r_prod: 2069 origins x 1 searches in 125 s (61 ms/origin, 4 threads)",
+  "krakow r_grid: 2069 origins x 1 searches in 151 s (73 ms/origin, 4 threads)",
+  "krakow r_peak: 2069 origins x 6 searches in 137 s (66 ms/origin, 4 threads)",
+  "wroclaw r_prod: 1962 origins x 1 searches in 74 s (38 ms/origin, 4 threads)",
+  "wroclaw r_grid: 1962 origins x 1 searches in 90 s (46 ms/origin, 4 threads)",
+  "wroclaw r_peak: 1962 origins x 6 searches in 82 s (42 ms/origin, 4 threads)",
+  "poznan r_prod: 2039 origins x 1 searches in 64 s (31 ms/origin, 4 threads)",
+  "poznan r_grid: 2039 origins x 1 searches in 67 s (33 ms/origin, 4 threads)",
+  "poznan r_peak: 2039 origins x 6 searches in 70 s (34 ms/origin, 4 threads)",
+  "lodz r_prod: 1936 origins x 1 searches in 68 s (35 ms/origin, 4 threads)",
+  "lodz r_grid: 1936 origins x 1 searches in 72 s (37 ms/origin, 4 threads)",
+  "lodz r_peak: 1936 origins x 6 searches in 81 s (42 ms/origin, 4 threads)",
+  "trojmiasto r_prod: 1936 origins x 1 searches in 53 s (27 ms/origin, 4 threads)",
+  "trojmiasto r_grid: 1936 origins x 1 searches in 59 s (30 ms/origin, 4 threads)",
+  "trojmiasto r_peak: 1936 origins x 6 searches in 66 s (34 ms/origin, 4 threads)",
+  "gzm r_prod: 5589 origins x 1 searches in 284 s (51 ms/origin, 4 threads)",
+  "gzm r_grid: 5589 origins x 1 searches in 280 s (50 ms/origin, 4 threads)",
+  "gzm r_peak: 5589 origins x 6 searches in 350 s (63 ms/origin, 4 threads)"
+ ],
+ "rows": 128,
+ "run_at": "2026-11-24T18:28:09+01:00",
+ "step": "access_gridstudy",
+ "timetable_date": "2026-11-25"
+}

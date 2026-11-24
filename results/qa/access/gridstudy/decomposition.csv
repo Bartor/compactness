@@ -1,0 +1,113 @@
+agglomeration,cutoff_min,step,value,change,label
+warszawa,30,s0,37.34,,"opublikowany wynik urban centre (metrics_access_uc, stosunek średnich)"
+warszawa,30,s1,36.9,-0.4371,"Dostępność liczona tylko w promieniu 7,5 / 11,25 km (grid study liczy osiągalnych tylko w promieniu; my dotąd wszystkich osiągalnych)"
+warszawa,30,s2,35.26,-1.647,Cele i mianownik bez ograniczenia do urban centre (wszystkie zaludnione komórki w promieniu)
+warszawa,30,s3,31.99,-3.262,"Promienie 8 / 12 km (16 km/h) zamiast 7,5 / 11,25 km"
+warszawa,30,s4,30.64,-1.356,"Pieszo 4,8 km/h, dojście i odejście do 15 min, sam spacer do 1,2 km (zamiast 5 km/h, 12 min, spacer do 60 min)"
+warszawa,30,s5,39.67,9.03,"Najkrótszy z 6 odjazdów co 5 min w 30-minutowym szczycie miasta zamiast mediany z 7:00–9:00 (reguła z pracy, s. 14–15)"
+warszawa,30,s6,38.46,-1.207,agregacja jak DG REGIO: średnia wyników komórek ważona ludnością
+warszawa,30,s5b,45.15,14.51,Wariant: najszybsza podróż w całym oknie 7:00–9:00 (percentyl 1 R5) zamiast kroku 5
+warszawa,45,s0,65.09,,"opublikowany wynik urban centre (metrics_access_uc, stosunek średnich)"
+warszawa,45,s1,63.33,-1.758,"Dostępność liczona tylko w promieniu 7,5 / 11,25 km (grid study liczy osiągalnych tylko w promieniu; my dotąd wszystkich osiągalnych)"
+warszawa,45,s2,59.57,-3.765,Cele i mianownik bez ograniczenia do urban centre (wszystkie zaludnione komórki w promieniu)
+warszawa,45,s3,55.5,-4.071,"Promienie 8 / 12 km (16 km/h) zamiast 7,5 / 11,25 km"
+warszawa,45,s4,54.38,-1.117,"Pieszo 4,8 km/h, dojście i odejście do 15 min, sam spacer do 1,2 km (zamiast 5 km/h, 12 min, spacer do 60 min)"
+warszawa,45,s5,64.55,10.17,"Najkrótszy z 6 odjazdów co 5 min w 30-minutowym szczycie miasta zamiast mediany z 7:00–9:00 (reguła z pracy, s. 14–15)"
+warszawa,45,s6,61.62,-2.933,agregacja jak DG REGIO: średnia wyników komórek ważona ludnością
+warszawa,45,s5b,70.67,16.29,Wariant: najszybsza podróż w całym oknie 7:00–9:00 (percentyl 1 R5) zamiast kroku 5
+krakow,30,s0,36.74,,"opublikowany wynik urban centre (metrics_access_uc, stosunek średnich)"
+krakow,30,s1,36.73,-0.007073,"Dostępność liczona tylko w promieniu 7,5 / 11,25 km (grid study liczy osiągalnych tylko w promieniu; my dotąd wszystkich osiągalnych)"
+krakow,30,s2,34.18,-2.557,Cele i mianownik bez ograniczenia do urban centre (wszystkie zaludnione komórki w promieniu)
+krakow,30,s3,31.34,-2.835,"Promienie 8 / 12 km (16 km/h) zamiast 7,5 / 11,25 km"
+krakow,30,s4,30.19,-1.15,"Pieszo 4,8 km/h, dojście i odejście do 15 min, sam spacer do 1,2 km (zamiast 5 km/h, 12 min, spacer do 60 min)"
+krakow,30,s5,38.95,8.755,"Najkrótszy z 6 odjazdów co 5 min w 30-minutowym szczycie miasta zamiast mediany z 7:00–9:00 (reguła z pracy, s. 14–15)"
+krakow,30,s6,38.48,-0.4694,agregacja jak DG REGIO: średnia wyników komórek ważona ludnością
+krakow,30,s5b,45.52,15.33,Wariant: najszybsza podróż w całym oknie 7:00–9:00 (percentyl 1 R5) zamiast kroku 5
+krakow,45,s0,64.36,,"opublikowany wynik urban centre (metrics_access_uc, stosunek średnich)"
+krakow,45,s1,64.36,-0.003806,"Dostępność liczona tylko w promieniu 7,5 / 11,25 km (grid study liczy osiągalnych tylko w promieniu; my dotąd wszystkich osiągalnych)"
+krakow,45,s2,56.74,-7.619,Cele i mianownik bez ograniczenia do urban centre (wszystkie zaludnione komórki w promieniu)
+krakow,45,s3,54.48,-2.255,"Promienie 8 / 12 km (16 km/h) zamiast 7,5 / 11,25 km"
+krakow,45,s4,53.72,-0.7592,"Pieszo 4,8 km/h, dojście i odejście do 15 min, sam spacer do 1,2 km (zamiast 5 km/h, 12 min, spacer do 60 min)"
+krakow,45,s5,64.37,10.65,"Najkrótszy z 6 odjazdów co 5 min w 30-minutowym szczycie miasta zamiast mediany z 7:00–9:00 (reguła z pracy, s. 14–15)"
+krakow,45,s6,64.09,-0.2773,agregacja jak DG REGIO: średnia wyników komórek ważona ludnością
+krakow,45,s5b,72.05,18.33,Wariant: najszybsza podróż w całym oknie 7:00–9:00 (percentyl 1 R5) zamiast kroku 5
+wroclaw,30,s0,33.35,,"opublikowany wynik urban centre (metrics_access_uc, stosunek średnich)"
+wroclaw,30,s1,33.35,-0.0024,"Dostępność liczona tylko w promieniu 7,5 / 11,25 km (grid study liczy osiągalnych tylko w promieniu; my dotąd wszystkich osiągalnych)"
+wroclaw,30,s2,30.86,-2.487,Cele i mianownik bez ograniczenia do urban centre (wszystkie zaludnione komórki w promieniu)
+wroclaw,30,s3,29.02,-1.844,"Promienie 8 / 12 km (16 km/h) zamiast 7,5 / 11,25 km"
+wroclaw,30,s4,27.95,-1.067,"Pieszo 4,8 km/h, dojście i odejście do 15 min, sam spacer do 1,2 km (zamiast 5 km/h, 12 min, spacer do 60 min)"
+wroclaw,30,s5,40.13,12.18,"Najkrótszy z 6 odjazdów co 5 min w 30-minutowym szczycie miasta zamiast mediany z 7:00–9:00 (reguła z pracy, s. 14–15)"
+wroclaw,30,s6,39.08,-1.045,agregacja jak DG REGIO: średnia wyników komórek ważona ludnością
+wroclaw,30,s5b,43.43,15.48,Wariant: najszybsza podróż w całym oknie 7:00–9:00 (percentyl 1 R5) zamiast kroku 5
+wroclaw,45,s0,65.71,,"opublikowany wynik urban centre (metrics_access_uc, stosunek średnich)"
+wroclaw,45,s1,65.69,-0.01573,"Dostępność liczona tylko w promieniu 7,5 / 11,25 km (grid study liczy osiągalnych tylko w promieniu; my dotąd wszystkich osiągalnych)"
+wroclaw,45,s2,57.56,-8.135,Cele i mianownik bez ograniczenia do urban centre (wszystkie zaludnione komórki w promieniu)
+wroclaw,45,s3,55.42,-2.139,"Promienie 8 / 12 km (16 km/h) zamiast 7,5 / 11,25 km"
+wroclaw,45,s4,54.7,-0.7204,"Pieszo 4,8 km/h, dojście i odejście do 15 min, sam spacer do 1,2 km (zamiast 5 km/h, 12 min, spacer do 60 min)"
+wroclaw,45,s5,67.12,12.42,"Najkrótszy z 6 odjazdów co 5 min w 30-minutowym szczycie miasta zamiast mediany z 7:00–9:00 (reguła z pracy, s. 14–15)"
+wroclaw,45,s6,66.19,-0.9338,agregacja jak DG REGIO: średnia wyników komórek ważona ludnością
+wroclaw,45,s5b,71.42,16.72,Wariant: najszybsza podróż w całym oknie 7:00–9:00 (percentyl 1 R5) zamiast kroku 5
+poznan,30,s0,35.46,,"opublikowany wynik urban centre (metrics_access_uc, stosunek średnich)"
+poznan,30,s1,35.43,-0.03201,"Dostępność liczona tylko w promieniu 7,5 / 11,25 km (grid study liczy osiągalnych tylko w promieniu; my dotąd wszystkich osiągalnych)"
+poznan,30,s2,32.14,-3.29,Cele i mianownik bez ograniczenia do urban centre (wszystkie zaludnione komórki w promieniu)
+poznan,30,s3,29.95,-2.186,"Promienie 8 / 12 km (16 km/h) zamiast 7,5 / 11,25 km"
+poznan,30,s4,28.8,-1.151,"Pieszo 4,8 km/h, dojście i odejście do 15 min, sam spacer do 1,2 km (zamiast 5 km/h, 12 min, spacer do 60 min)"
+poznan,30,s5,37.3,8.498,"Najkrótszy z 6 odjazdów co 5 min w 30-minutowym szczycie miasta zamiast mediany z 7:00–9:00 (reguła z pracy, s. 14–15)"
+poznan,30,s6,36.06,-1.238,agregacja jak DG REGIO: średnia wyników komórek ważona ludnością
+poznan,30,s5b,44.3,15.49,Wariant: najszybsza podróż w całym oknie 7:00–9:00 (percentyl 1 R5) zamiast kroku 5
+poznan,45,s0,66.97,,"opublikowany wynik urban centre (metrics_access_uc, stosunek średnich)"
+poznan,45,s1,66.96,-0.007968,"Dostępność liczona tylko w promieniu 7,5 / 11,25 km (grid study liczy osiągalnych tylko w promieniu; my dotąd wszystkich osiągalnych)"
+poznan,45,s2,56.11,-10.85,Cele i mianownik bez ograniczenia do urban centre (wszystkie zaludnione komórki w promieniu)
+poznan,45,s3,53.84,-2.274,"Promienie 8 / 12 km (16 km/h) zamiast 7,5 / 11,25 km"
+poznan,45,s4,53.23,-0.6041,"Pieszo 4,8 km/h, dojście i odejście do 15 min, sam spacer do 1,2 km (zamiast 5 km/h, 12 min, spacer do 60 min)"
+poznan,45,s5,64.47,11.23,"Najkrótszy z 6 odjazdów co 5 min w 30-minutowym szczycie miasta zamiast mediany z 7:00–9:00 (reguła z pracy, s. 14–15)"
+poznan,45,s6,63.89,-0.5718,agregacja jak DG REGIO: średnia wyników komórek ważona ludnością
+poznan,45,s5b,72.23,19,Wariant: najszybsza podróż w całym oknie 7:00–9:00 (percentyl 1 R5) zamiast kroku 5
+lodz,30,s0,32.45,,"opublikowany wynik urban centre (metrics_access_uc, stosunek średnich)"
+lodz,30,s1,32.41,-0.04059,"Dostępność liczona tylko w promieniu 7,5 / 11,25 km (grid study liczy osiągalnych tylko w promieniu; my dotąd wszystkich osiągalnych)"
+lodz,30,s2,29.95,-2.455,Cele i mianownik bez ograniczenia do urban centre (wszystkie zaludnione komórki w promieniu)
+lodz,30,s3,28.1,-1.85,"Promienie 8 / 12 km (16 km/h) zamiast 7,5 / 11,25 km"
+lodz,30,s4,27.15,-0.9593,"Pieszo 4,8 km/h, dojście i odejście do 15 min, sam spacer do 1,2 km (zamiast 5 km/h, 12 min, spacer do 60 min)"
+lodz,30,s5,36.91,9.76,"Najkrótszy z 6 odjazdów co 5 min w 30-minutowym szczycie miasta zamiast mediany z 7:00–9:00 (reguła z pracy, s. 14–15)"
+lodz,30,s6,38.31,1.402,agregacja jak DG REGIO: średnia wyników komórek ważona ludnością
+lodz,30,s5b,41.59,14.45,Wariant: najszybsza podróż w całym oknie 7:00–9:00 (percentyl 1 R5) zamiast kroku 5
+lodz,45,s0,61.74,,"opublikowany wynik urban centre (metrics_access_uc, stosunek średnich)"
+lodz,45,s1,61.66,-0.07729,"Dostępność liczona tylko w promieniu 7,5 / 11,25 km (grid study liczy osiągalnych tylko w promieniu; my dotąd wszystkich osiągalnych)"
+lodz,45,s2,53.87,-7.788,Cele i mianownik bez ograniczenia do urban centre (wszystkie zaludnione komórki w promieniu)
+lodz,45,s3,51.8,-2.075,"Promienie 8 / 12 km (16 km/h) zamiast 7,5 / 11,25 km"
+lodz,45,s4,51.19,-0.6118,"Pieszo 4,8 km/h, dojście i odejście do 15 min, sam spacer do 1,2 km (zamiast 5 km/h, 12 min, spacer do 60 min)"
+lodz,45,s5,65.92,14.73,"Najkrótszy z 6 odjazdów co 5 min w 30-minutowym szczycie miasta zamiast mediany z 7:00–9:00 (reguła z pracy, s. 14–15)"
+lodz,45,s6,64.87,-1.043,agregacja jak DG REGIO: średnia wyników komórek ważona ludnością
+lodz,45,s5b,71.69,20.5,Wariant: najszybsza podróż w całym oknie 7:00–9:00 (percentyl 1 R5) zamiast kroku 5
+trojmiasto,30,s0,37.06,,"opublikowany wynik urban centre (metrics_access_uc, stosunek średnich)"
+trojmiasto,30,s1,36.66,-0.3961,"Dostępność liczona tylko w promieniu 7,5 / 11,25 km (grid study liczy osiągalnych tylko w promieniu; my dotąd wszystkich osiągalnych)"
+trojmiasto,30,s2,33.05,-3.609,Cele i mianownik bez ograniczenia do urban centre (wszystkie zaludnione komórki w promieniu)
+trojmiasto,30,s3,30.87,-2.189,"Promienie 8 / 12 km (16 km/h) zamiast 7,5 / 11,25 km"
+trojmiasto,30,s4,29.85,-1.014,"Pieszo 4,8 km/h, dojście i odejście do 15 min, sam spacer do 1,2 km (zamiast 5 km/h, 12 min, spacer do 60 min)"
+trojmiasto,30,s5,40.83,10.98,"Najkrótszy z 6 odjazdów co 5 min w 30-minutowym szczycie miasta zamiast mediany z 7:00–9:00 (reguła z pracy, s. 14–15)"
+trojmiasto,30,s6,41.65,0.8254,agregacja jak DG REGIO: średnia wyników komórek ważona ludnością
+trojmiasto,30,s5b,47.74,17.89,Wariant: najszybsza podróż w całym oknie 7:00–9:00 (percentyl 1 R5) zamiast kroku 5
+trojmiasto,45,s0,66.69,,"opublikowany wynik urban centre (metrics_access_uc, stosunek średnich)"
+trojmiasto,45,s1,63.72,-2.973,"Dostępność liczona tylko w promieniu 7,5 / 11,25 km (grid study liczy osiągalnych tylko w promieniu; my dotąd wszystkich osiągalnych)"
+trojmiasto,45,s2,55.79,-7.923,Cele i mianownik bez ograniczenia do urban centre (wszystkie zaludnione komórki w promieniu)
+trojmiasto,45,s3,53.62,-2.179,"Promienie 8 / 12 km (16 km/h) zamiast 7,5 / 11,25 km"
+trojmiasto,45,s4,53.42,-0.1915,"Pieszo 4,8 km/h, dojście i odejście do 15 min, sam spacer do 1,2 km (zamiast 5 km/h, 12 min, spacer do 60 min)"
+trojmiasto,45,s5,65.96,12.53,"Najkrótszy z 6 odjazdów co 5 min w 30-minutowym szczycie miasta zamiast mediany z 7:00–9:00 (reguła z pracy, s. 14–15)"
+trojmiasto,45,s6,66.98,1.023,agregacja jak DG REGIO: średnia wyników komórek ważona ludnością
+trojmiasto,45,s5b,72.46,19.04,Wariant: najszybsza podróż w całym oknie 7:00–9:00 (percentyl 1 R5) zamiast kroku 5
+gzm,30,s0,25.98,,"opublikowany wynik urban centre (metrics_access_uc, stosunek średnich)"
+gzm,30,s1,25.95,-0.0267,"Dostępność liczona tylko w promieniu 7,5 / 11,25 km (grid study liczy osiągalnych tylko w promieniu; my dotąd wszystkich osiągalnych)"
+gzm,30,s2,23.42,-2.538,Cele i mianownik bez ograniczenia do urban centre (wszystkie zaludnione komórki w promieniu)
+gzm,30,s3,21.18,-2.231,"Promienie 8 / 12 km (16 km/h) zamiast 7,5 / 11,25 km"
+gzm,30,s4,20.31,-0.8738,"Pieszo 4,8 km/h, dojście i odejście do 15 min, sam spacer do 1,2 km (zamiast 5 km/h, 12 min, spacer do 60 min)"
+gzm,30,s5,33.62,13.31,"Najkrótszy z 6 odjazdów co 5 min w 30-minutowym szczycie miasta zamiast mediany z 7:00–9:00 (reguła z pracy, s. 14–15)"
+gzm,30,s6,36.09,2.475,agregacja jak DG REGIO: średnia wyników komórek ważona ludnością
+gzm,30,s5b,40.28,19.97,Wariant: najszybsza podróż w całym oknie 7:00–9:00 (percentyl 1 R5) zamiast kroku 5
+gzm,45,s0,43.22,,"opublikowany wynik urban centre (metrics_access_uc, stosunek średnich)"
+gzm,45,s1,42.89,-0.3269,"Dostępność liczona tylko w promieniu 7,5 / 11,25 km (grid study liczy osiągalnych tylko w promieniu; my dotąd wszystkich osiągalnych)"
+gzm,45,s2,37.61,-5.281,Cele i mianownik bez ograniczenia do urban centre (wszystkie zaludnione komórki w promieniu)
+gzm,45,s3,34.55,-3.063,"Promienie 8 / 12 km (16 km/h) zamiast 7,5 / 11,25 km"
+gzm,45,s4,34.25,-0.3025,"Pieszo 4,8 km/h, dojście i odejście do 15 min, sam spacer do 1,2 km (zamiast 5 km/h, 12 min, spacer do 60 min)"
+gzm,45,s5,52.55,18.3,"Najkrótszy z 6 odjazdów co 5 min w 30-minutowym szczycie miasta zamiast mediany z 7:00–9:00 (reguła z pracy, s. 14–15)"
+gzm,45,s6,53.83,1.277,agregacja jak DG REGIO: średnia wyników komórek ważona ludnością
+gzm,45,s5b,60.35,26.11,Wariant: najszybsza podróż w całym oknie 7:00–9:00 (percentyl 1 R5) zamiast kroku 5

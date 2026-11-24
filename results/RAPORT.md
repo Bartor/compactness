@@ -842,6 +842,10 @@ Pełny opis: [`qa/access/dgregio/dgregio.md`](qa/access/dgregio/dgregio.md); kod
 - **Reszta jest niewyjaśniona.** Aneks DG REGIO podaje dla 2018 r. podaż autobusową w urban centre ok. 1,7 razy większą niż w naszych feedach z 2026 r. (Poznań, Łódź). Raporty roczne MPK Poznań pokazują zmianę pracy autobusowej o −6,7 % między 2017 a 2024 r., więc realna zmiana oferty tego nie tłumaczy; bardziej prawdopodobne jest zawyżenie albo inna klasyfikacja w danych wejściowych DG REGIO. Tego nie da się sprawdzić: praca nie podaje, jakich feedów użyto, a kompletnego feedu Poznania z 2018 r. nie udało się zdobyć. Dla Łodzi, gdzie reszta jest największa, podobnego sprawdzenia nie było.
 - **Wniosek praktyczny.** Z DG REGIO porównujemy tylko wynik liczony w granicach urban centre; wynik główny (rdzeń miasta, cele w FUA + 15 km) zostaje bez zmian.
 
+### 16.5 Porównanie z nowszym badaniem DG REGIO na siatce (grid study)
+
+Pełny opis: [`qa/access/gridstudy/gridstudy.md`](qa/access/gridstudy/gridstudy.md); kod: `pipeline/access_gridstudy.py`. Nowsze badanie DG REGIO (Poelman i Ackermans, PDF z 2023 r., 197 centrów miejskich UE) liczy transport performance inaczej niż praca z 2020 r. i niż my: starty tylko w centrum miejskim, ale cele i mianownik także poza nim; osiągalni tylko w promieniu 8 km (30 min) lub 12 km (45 min); łączny spacer do 15 minut; najkrótszy z 6 odjazdów co 5 minut w 30-minutowym szczycie; wynik miasta to średnia wyników komórek. Wartości dla Warszawy, Krakowa, Poznania i Łodzi odczytano z komórek przeglądarki mapowej DG REGIO (w pracy są tylko na mapach). Po przeliczeniu naszych danych według tych reguł polskie miasta wypadają przy średnich swoich klas wielkości: przy 30 minutach 36,1–41,7 wobec średnich 35,8–41,8, przy 45 minutach 61,6–67,0 wobec 59,5–63,3; wyjątkiem jest GZM z 53,8 przy 45 minutach (średnia klasy 59,5). Odstęp poniżej średnich UE widoczny w naszych zwykłych liczbach wynika więc z metody, nie z gorszej komunikacji. Największy pojedynczy efekt ma reguła czasu: najkrótszy odjazd w szczycie zamiast mediany z dwóch godzin podnosi wynik o 8,5–18,3 pkt, a szersze cele i mianownik obniżają go o 1,6–10,8 pkt. Wobec wartości DG REGIO dla tych samych centrów jesteśmy przy 45 minutach 1,8–3,0 pkt wyżej w Krakowie, Poznaniu i Łodzi, przy 30 minutach 2,2–3,9 pkt niżej, a w Warszawie ok. 8 pkt niżej przy obu progach; przyczyny różnicy Warszawy nie ustalono (rozkłady 2019–2021, kolej, sieć piesza OTP i łączny limit spaceru niesprawdzone). To wariant tylko do porównań z UE; wynik główny się nie zmienia.
+
 ## 17. Faza 3: dostępność i transport performance (2026-11-24)
 
 Metoda, wszystkie tabele, kontrole i lista zaskoczeń: [`qa/access/access.md`](qa/access/access.md). Liczby: [`metrics/metrics_access.csv`](metrics/metrics_access.csv), scalone w [`metrics/metrics.csv`](metrics/metrics.csv). Dane pod wykresy: `charts/access_performance.json`; warstwa pod mapę: `layers/access_cells.parquet`. Kod: `pipeline/r5_inputs.py`, `access.py`, `access_inputs.py`, `access_samples.py`, `access_aggregate.py`, `access_qa.py`. Routing: R5 v7.5.1 (r5py 1.1.7), 98 jednostek (aglomeracja × sieć × scenariusz), 2 870 porcji po 1 000 startów, 11 h 20 min na 20 wątkach; przebieg jest wznawialny.
@@ -940,6 +944,7 @@ Starty, cele i mianownik ograniczone do centrów miejskich Eurostatu 2021 (`HDEN
 - Przyczyn spadków poza szczytem w Trójmieście i GZM oraz przyczyny niezaliczonej kontroli spójności.
 - Dokładności 28 nieoficjalnych feedów (jak w §15.4).
 - Reszty w porównaniu z DG REGIO (§16.4).
+- Przyczyny ok. 8 pkt różnicy Warszawy wobec badania DG REGIO na siatce (§16.5).
 - Wyników dla dni innych niż dwa dni referencyjne.
 
 ### 17.7 Podróże bez przesiadek i zasięg, który wymaga przesiadki (2026-11-24)
