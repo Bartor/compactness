@@ -64,6 +64,8 @@
 }
 .kit-map-legend.closed { color: var(--kit-text); }
 
+.about-limits { margin: 0 0 .6rem; padding-left: 1.1rem; display: flex; flex-direction: column; gap: .3rem; }
+
 /* metrics in the details panel */
 .metric-group + .metric-group { margin-top: .4rem; }
 .kit-details-body .kit-text-table { font-size: .9rem; }

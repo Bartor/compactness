@@ -15,8 +15,24 @@ export default function About({ catalog, metrics, attributions, onClose }) {
       <p>
         Gęstość zaludnienia, zwartość zabudowy i dostępność transportu zbiorowego w polskich
         aglomeracjach (funkcjonalnych obszarach miejskich, FUA). Wszystkie liczby da się
-        odtworzyć z publicznych danych; metodę opiszemy tu, gdy pierwsze wyniki będą gotowe.
+        odtworzyć z publicznych danych; metoda i kontrole są opisane w raporcie w repozytorium.
       </p>
+
+      <h3>Czego te liczby nie mówią</h3>
+      <ul className="about-limits">
+        <li>Liczymy z rozkładów jazdy, nie z rzeczywistych przejazdów: bez opóźnień, korków i zatłoczenia.</li>
+        <li>
+          Wynik zależy od tego, gdzie przebiega granica miasta, więc różnica kilku punktów między
+          miastami nie jest rankingiem.
+        </li>
+        <li>
+          Część rozkładów pochodzi z nieoficjalnych źródeł, prywatnych przewoźników w większości brakuje,
+          a obszary bez danych są kreskowane, nie liczone jako brak komunikacji.
+        </li>
+        <li>„Osiągalna ludność” jest przybliżeniem miejsc pracy i usług; liczymy tylko czas, bez cen biletów.</li>
+        <li>Rozkłady pochodzą z jednej środy i jednej soboty w listopadzie 2026.</li>
+        <li>Metody nie recenzował badacz transportu; obliczenia wykonał asystent AI.</li>
+      </ul>
 
       <h3>Różnica dat</h3>
       <p>
