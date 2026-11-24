@@ -1,0 +1,55 @@
+{
+ "code_version": "isochrones-2026-11-24.1",
+ "day": "2026-11-25",
+ "duration_s": 33.3,
+ "file_bytes": {
+  "gzm": 3891929,
+  "krakow": 3911339,
+  "lodz": 3652519,
+  "poznan": 3356987,
+  "trojmiasto": 2951426,
+  "warszawa": 3887825,
+  "wroclaw": 3318713
+ },
+ "git_sha": "4c38b4ed307d30483195bc07f63d2672b2785314",
+ "inputs": {},
+ "inputs_note": "R5 networks of data/interim/r5/<agg>/net_all (copied); census-scaled 250 m grid; results/layers/transfer_nodes.parquet",
+ "lattice_km": {
+  "gzm": [
+   2,
+   3
+  ],
+  "krakow": [
+   1,
+   5
+  ],
+  "lodz": [
+   1,
+   2
+  ],
+  "poznan": [
+   1,
+   2
+  ],
+  "trojmiasto": [
+   1,
+   2
+  ],
+  "warszawa": [
+   2,
+   7
+  ],
+  "wroclaw": [
+   1,
+   2
+  ]
+ },
+ "missing_inputs": [],
+ "run_at": "2026-11-24T17:56:42+01:00",
+ "simplify_m": 50.0,
+ "step": "isochrones",
+ "windows": {
+  "am": "07:00-09:00",
+  "evening": "20:00-22:00"
+ }
+}

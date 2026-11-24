@@ -1,0 +1,132 @@
+agg,check,ok,detail,ours,ref,ratio
+trojmiasto,liczba mieszkańców rośnie z czasem (wszystkie punkty i warianty),True,0 naruszeń,,,
+trojmiasto,"komunikacja + pieszo nie gorsza niż pieszo (15 i 30 min, rano)",True,0 naruszeń,,,
+trojmiasto,hub: osiągalni rano do 15 min vs wynik produkcyjny komórki E476750N721250,,inny punkt startu niż środek komórki,21751.0,22786.236328125,0.9545674716430809
+trojmiasto,hub: osiągalni rano do 30 min vs wynik produkcyjny komórki E476750N721250,,inny punkt startu niż środek komórki,268296.0,288468.59375,0.930070052036644
+trojmiasto,hub: osiągalni wieczorem do 30 min vs wynik produkcyjny komórki E476750N721250,,inny punkt startu niż środek komórki,213843.0,223702.546875,0.9559256386986542
+trojmiasto,hub: osiągalni rano do 45 min vs wynik produkcyjny komórki E476750N721250,,inny punkt startu niż środek komórki,540791.0,551285.125,0.9809642514842025
+trojmiasto,hub: osiągalni wieczorem do 45 min vs wynik produkcyjny komórki E476750N721250,,inny punkt startu niż środek komórki,496172.0,501922.59375,0.9885428673233541
+trojmiasto,hub: osiągalni rano do 60 min vs wynik produkcyjny komórki E476750N721250,,inny punkt startu niż środek komórki,746469.0,759885.0625,0.9823446160977799
+trojmiasto,hub: transport performance 30 min z punktu vs opublikowana średnia komórek ≤ 1 km (hub_1km),,inna wielkość: jeden punkt wobec średniej ok. 50 komórek,65.2375082105968,39.72,1.6424347485044513
+trojmiasto,hub: transport performance 45 min z punktu vs opublikowana średnia komórek ≤ 1 km (hub_1km),,inna wielkość: jeden punkt wobec średniej ok. 50 komórek,101.13933008394088,81.4,1.2424979125791262
+trojmiasto,punkty siatki (am): osiągalni do 15–60 min = wynik produkcyjny tej samej komórki,True,394 punktów; kolumny: 95. centyl i maksimum różnicy względnej w %,0.04471066525759404,0.5329988260088792,
+trojmiasto,punkty siatki (evening): osiągalni do 15–60 min = wynik produkcyjny tej samej komórki,True,394 punktów; kolumny: 95. centyl i maksimum różnicy względnej w %,0.04676506536562819,0.5329988260088792,
+trojmiasto,"pieszo 30 min: żadna komórka dalej niż 2,5 km w linii prostej (+ dowiązanie do ulicy)",True,0 punktów z komórką dalej,,,
+poznan,liczba mieszkańców rośnie z czasem (wszystkie punkty i warianty),True,0 naruszeń,,,
+poznan,"komunikacja + pieszo nie gorsza niż pieszo (15 i 30 min, rano)",True,0 naruszeń,,,
+poznan,hub: osiągalni rano do 15 min vs wynik produkcyjny komórki E358000N506500,,inny punkt startu niż środek komórki,76546.0,66941.859375,1.143469881396613
+poznan,hub: osiągalni rano do 30 min vs wynik produkcyjny komórki E358000N506500,,inny punkt startu niż środek komórki,378238.0,371873.21875,1.0171154601328762
+poznan,hub: osiągalni wieczorem do 30 min vs wynik produkcyjny komórki E358000N506500,,inny punkt startu niż środek komórki,376613.0,367777.90625,1.0240229051279504
+poznan,hub: osiągalni rano do 45 min vs wynik produkcyjny komórki E358000N506500,,inny punkt startu niż środek komórki,548447.0,546284.625,1.0039583303300912
+poznan,hub: osiągalni wieczorem do 45 min vs wynik produkcyjny komórki E358000N506500,,inny punkt startu niż środek komórki,533840.0,533356.5,1.000906523122902
+poznan,hub: osiągalni rano do 60 min vs wynik produkcyjny komórki E358000N506500,,inny punkt startu niż środek komórki,697574.0,699232.625,0.9976279353384004
+poznan,hub: transport performance 30 min z punktu vs opublikowana średnia komórek ≤ 1 km (hub_1km),,inna wielkość: jeden punkt wobec średniej ok. 50 komórek,68.82557520959602,51.46,1.3374577382354456
+poznan,hub: transport performance 45 min z punktu vs opublikowana średnia komórek ≤ 1 km (hub_1km),,inna wielkość: jeden punkt wobec średniej ok. 50 komórek,80.03815305490217,73.53,1.0885101734652818
+poznan,centre: osiągalni rano do 15 min vs wynik produkcyjny komórki E359500N506500,,inny punkt startu niż środek komórki,27270.0,27828.119140625,0.9799440581016405
+poznan,centre: osiągalni rano do 30 min vs wynik produkcyjny komórki E359500N506500,,inny punkt startu niż środek komórki,274085.0,277705.75,0.9869619192256552
+poznan,centre: osiągalni wieczorem do 30 min vs wynik produkcyjny komórki E359500N506500,,inny punkt startu niż środek komórki,249372.0,249962.046875,0.9976394541396316
+poznan,centre: osiągalni rano do 45 min vs wynik produkcyjny komórki E359500N506500,,inny punkt startu niż środek komórki,495048.0,500018.4375,0.9900594915562488
+poznan,centre: osiągalni wieczorem do 45 min vs wynik produkcyjny komórki E359500N506500,,inny punkt startu niż środek komórki,477399.0,482107.5,0.9902335060126631
+poznan,centre: osiągalni rano do 60 min vs wynik produkcyjny komórki E359500N506500,,inny punkt startu niż środek komórki,645628.0,647533.75,0.9970569101610534
+poznan,centre: transport performance 30 min z punktu vs opublikowana średnia komórek ≤ 1 km (centre_1km),,inna wielkość: jeden punkt wobec średniej ok. 50 komórek,51.953705525702134,51.53,1.0082225019542428
+poznan,centre: transport performance 45 min z punktu vs opublikowana średnia komórek ≤ 1 km (centre_1km),,inna wielkość: jeden punkt wobec średniej ok. 50 komórek,71.10039611708896,71.63,0.9926063956036433
+poznan,punkty siatki (am): osiągalni do 15–60 min = wynik produkcyjny tej samej komórki,True,475 punktów; kolumny: 95. centyl i maksimum różnicy względnej w %,0.05670708842517519,0.3100234502909971,
+poznan,punkty siatki (evening): osiągalni do 15–60 min = wynik produkcyjny tej samej komórki,True,475 punktów; kolumny: 95. centyl i maksimum różnicy względnej w %,0.05779444445871083,0.3100234502909971,
+poznan,"pieszo 30 min: żadna komórka dalej niż 2,5 km w linii prostej (+ dowiązanie do ulicy)",True,0 punktów z komórką dalej,,,
+wroclaw,liczba mieszkańców rośnie z czasem (wszystkie punkty i warianty),True,0 naruszeń,,,
+wroclaw,"komunikacja + pieszo nie gorsza niż pieszo (15 i 30 min, rano)",True,0 naruszeń,,,
+wroclaw,hub: osiągalni rano do 15 min vs wynik produkcyjny komórki E362750N361750,,inny punkt startu niż środek komórki,19743.0,55206.16796875,0.3576230831883807
+wroclaw,hub: osiągalni rano do 30 min vs wynik produkcyjny komórki E362750N361750,,inny punkt startu niż środek komórki,254367.0,340997.96875,0.7459487249511658
+wroclaw,hub: osiągalni wieczorem do 30 min vs wynik produkcyjny komórki E362750N361750,,inny punkt startu niż środek komórki,257452.0,349653.53125,0.7363060200754086
+wroclaw,hub: osiągalni rano do 45 min vs wynik produkcyjny komórki E362750N361750,,inny punkt startu niż środek komórki,556038.0,601686.9375,0.9241317458383413
+wroclaw,hub: osiągalni wieczorem do 45 min vs wynik produkcyjny komórki E362750N361750,,inny punkt startu niż środek komórki,554342.0,600391.5,0.9233008795094534
+wroclaw,hub: osiągalni rano do 60 min vs wynik produkcyjny komórki E362750N361750,,inny punkt startu niż środek komórki,674905.0,694066.3125,0.9723926775368456
+wroclaw,hub: transport performance 30 min z punktu vs opublikowana średnia komórek ≤ 1 km (hub_1km),,inna wielkość: jeden punkt wobec średniej ok. 50 komórek,43.40911579607997,48.1,0.9024764198769225
+wroclaw,hub: transport performance 45 min z punktu vs opublikowana średnia komórek ≤ 1 km (hub_1km),,inna wielkość: jeden punkt wobec średniej ok. 50 komórek,78.07811348046467,78.13,0.9993358950526644
+wroclaw,centre: osiągalni rano do 15 min vs wynik produkcyjny komórki E362250N362000,,inny punkt startu niż środek komórki,27630.0,30424.958984375,0.9081359818492977
+wroclaw,centre: osiągalni rano do 30 min vs wynik produkcyjny komórki E362250N362000,,inny punkt startu niż środek komórki,290153.0,291890.21875,0.9940483831303443
+wroclaw,centre: osiągalni wieczorem do 30 min vs wynik produkcyjny komórki E362250N362000,,inny punkt startu niż środek komórki,299134.0,295978.9375,1.010659753449517
+wroclaw,centre: osiągalni rano do 45 min vs wynik produkcyjny komórki E362250N362000,,inny punkt startu niż środek komórki,575610.0,573626.1875,1.0034583715723404
+wroclaw,centre: osiągalni wieczorem do 45 min vs wynik produkcyjny komórki E362250N362000,,inny punkt startu niż środek komórki,572797.0,570117.9375,1.0046991373605045
+wroclaw,centre: osiągalni rano do 60 min vs wynik produkcyjny komórki E362250N362000,,inny punkt startu niż środek komórki,681313.0,682324.75,0.9985172016697328
+wroclaw,centre: transport performance 30 min z punktu vs opublikowana średnia komórek ≤ 1 km (centre_1km),,inna wielkość: jeden punkt wobec średniej ok. 50 komórek,49.63487242919477,51.27,0.9681075176359424
+wroclaw,centre: transport performance 45 min z punktu vs opublikowana średnia komórek ≤ 1 km (centre_1km),,inna wielkość: jeden punkt wobec średniej ok. 50 komórek,80.40108191647741,79.13,1.016063211379722
+wroclaw,punkty siatki (am): osiągalni do 15–60 min = wynik produkcyjny tej samej komórki,True,491 punktów; kolumny: 95. centyl i maksimum różnicy względnej w %,0.08212880611590641,0.6448421800021586,
+wroclaw,punkty siatki (evening): osiągalni do 15–60 min = wynik produkcyjny tej samej komórki,True,491 punktów; kolumny: 95. centyl i maksimum różnicy względnej w %,0.08260246112594345,0.6448421800021586,
+wroclaw,"pieszo 30 min: żadna komórka dalej niż 2,5 km w linii prostej (+ dowiązanie do ulicy)",True,0 punktów z komórką dalej,,,
+lodz,liczba mieszkańców rośnie z czasem (wszystkie punkty i warianty),True,0 naruszeń,,,
+lodz,"komunikacja + pieszo nie gorsza niż pieszo (15 i 30 min, rano)",True,0 naruszeń,,,
+lodz,hub: osiągalni rano do 15 min vs wynik produkcyjny komórki E531500N432500,,inny punkt startu niż środek komórki,58121.0,48101.16796875,1.2083074581008013
+lodz,hub: osiągalni rano do 30 min vs wynik produkcyjny komórki E531500N432500,,inny punkt startu niż środek komórki,387672.0,368900.1875,1.0508858849522813
+lodz,hub: osiągalni wieczorem do 30 min vs wynik produkcyjny komórki E531500N432500,,inny punkt startu niż środek komórki,371661.0,360457.9375,1.0310800826795499
+lodz,hub: osiągalni rano do 45 min vs wynik produkcyjny komórki E531500N432500,,inny punkt startu niż środek komórki,628541.0,615444.9375,1.0212790157202325
+lodz,hub: osiągalni wieczorem do 45 min vs wynik produkcyjny komórki E531500N432500,,inny punkt startu niż środek komórki,605563.0,599951.25,1.0093536766528948
+lodz,hub: osiągalni rano do 60 min vs wynik produkcyjny komórki E531500N432500,,inny punkt startu niż środek komórki,749030.0,731423.0,1.0240722536753697
+lodz,hub: transport performance 30 min z punktu vs opublikowana średnia komórek ≤ 1 km (hub_1km),,inna wielkość: jeden punkt wobec średniej ok. 50 komórek,63.44188301358627,43.65,1.4534222912619994
+lodz,hub: transport performance 45 min z punktu vs opublikowana średnia komórek ≤ 1 km (hub_1km),,inna wielkość: jeden punkt wobec średniej ok. 50 komórek,86.76971987980278,78.2,1.109587210739166
+lodz,centre: osiągalni rano do 15 min vs wynik produkcyjny komórki E531250N434500,,inny punkt startu niż środek komórki,51617.0,51616.97265625,1.0000005297433885
+lodz,centre: osiągalni rano do 30 min vs wynik produkcyjny komórki E531250N434500,,inny punkt startu niż środek komórki,252219.0,249661.4375,1.0102441231037131
+lodz,centre: osiągalni wieczorem do 30 min vs wynik produkcyjny komórki E531250N434500,,inny punkt startu niż środek komórki,247540.0,246626.78125,1.0037028369156482
+lodz,centre: osiągalni rano do 45 min vs wynik produkcyjny komórki E531250N434500,,inny punkt startu niż środek komórki,555383.0,555382.6875,1.0000005626750834
+lodz,centre: osiągalni wieczorem do 45 min vs wynik produkcyjny komórki E531250N434500,,inny punkt startu niż środek komórki,539990.0,539929.5,1.0001120516660045
+lodz,centre: osiągalni rano do 60 min vs wynik produkcyjny komórki E531250N434500,,inny punkt startu niż środek komórki,710619.0,710514.9375,1.0001464606787385
+lodz,centre: transport performance 30 min z punktu vs opublikowana średnia komórek ≤ 1 km (centre_1km),,inna wielkość: jeden punkt wobec średniej ok. 50 komórek,41.5931751022095,37.09,1.1214121084445807
+lodz,centre: transport performance 45 min z punktu vs opublikowana średnia komórek ≤ 1 km (centre_1km),,inna wielkość: jeden punkt wobec średniej ok. 50 komórek,73.41491735778521,69.65,1.0540548077212522
+lodz,punkty siatki (am): osiągalni do 15–60 min = wynik produkcyjny tej samej komórki,True,657 punktów; kolumny: 95. centyl i maksimum różnicy względnej w %,0.1286773009371617,1.1237939441527622,
+lodz,punkty siatki (evening): osiągalni do 15–60 min = wynik produkcyjny tej samej komórki,True,657 punktów; kolumny: 95. centyl i maksimum różnicy względnej w %,0.1286773009371617,1.1237939441527622,
+lodz,"pieszo 30 min: żadna komórka dalej niż 2,5 km w linii prostej (+ dowiązanie do ulicy)",True,0 punktów z komórką dalej,,,
+krakow,liczba mieszkańców rośnie z czasem (wszystkie punkty i warianty),True,0 naruszeń,,,
+krakow,"komunikacja + pieszo nie gorsza niż pieszo (15 i 30 min, rano)",True,0 naruszeń,,,
+krakow,hub: osiągalni rano do 15 min vs wynik produkcyjny komórki E567750N245000,,inny punkt startu niż środek komórki,44907.0,30839.642578125,1.4561452807450233
+krakow,hub: osiągalni rano do 30 min vs wynik produkcyjny komórki E567750N245000,,inny punkt startu niż środek komórki,410141.0,340470.5,1.204630063397563
+krakow,hub: osiągalni wieczorem do 30 min vs wynik produkcyjny komórki E567750N245000,,inny punkt startu niż środek komórki,359367.0,306211.0625,1.1735924792070502
+krakow,hub: osiągalni rano do 45 min vs wynik produkcyjny komórki E567750N245000,,inny punkt startu niż środek komórki,740711.0,719137.5,1.0299991309033392
+krakow,hub: osiągalni wieczorem do 45 min vs wynik produkcyjny komórki E567750N245000,,inny punkt startu niż środek komórki,714436.0,690310.1875,1.0349492343251852
+krakow,hub: osiągalni rano do 60 min vs wynik produkcyjny komórki E567750N245000,,inny punkt startu niż środek komórki,861348.0,847445.0625,1.0164057094851502
+krakow,hub: transport performance 30 min z punktu vs opublikowana średnia komórek ≤ 1 km (hub_1km),,inna wielkość: jeden punkt wobec średniej ok. 50 komórek,59.24537438824009,42.77,1.3852086600009372
+krakow,hub: transport performance 45 min z punktu vs opublikowana średnia komórek ≤ 1 km (hub_1km),,inna wielkość: jeden punkt wobec średniej ok. 50 komórek,87.55646348556137,80.82,1.0833514412962308
+krakow,centre: osiągalni rano do 15 min vs wynik produkcyjny komórki E567000N244000,,inny punkt startu niż środek komórki,28301.0,27431.107421875,1.0317119015556515
+krakow,centre: osiągalni rano do 30 min vs wynik produkcyjny komórki E567000N244000,,inny punkt startu niż środek komórki,249394.0,234144.015625,1.0651307885631554
+krakow,centre: osiągalni wieczorem do 30 min vs wynik produkcyjny komórki E567000N244000,,inny punkt startu niż środek komórki,227300.0,216722.21875,1.0488080147527559
+krakow,centre: osiągalni rano do 45 min vs wynik produkcyjny komórki E567000N244000,,inny punkt startu niż środek komórki,682110.0,682816.8125,0.9989648577963215
+krakow,centre: osiągalni wieczorem do 45 min vs wynik produkcyjny komórki E567000N244000,,inny punkt startu niż środek komórki,665614.0,667635.9375,0.9969714969095713
+krakow,centre: osiągalni rano do 60 min vs wynik produkcyjny komórki E567000N244000,,inny punkt startu niż środek komórki,827293.0,828254.4375,0.9988392003031074
+krakow,centre: transport performance 30 min z punktu vs opublikowana średnia komórek ≤ 1 km (centre_1km),,inna wielkość: jeden punkt wobec średniej ok. 50 komórek,36.5133462604172,40.35,0.904915644620005
+krakow,centre: transport performance 45 min z punktu vs opublikowana średnia komórek ≤ 1 km (centre_1km),,inna wielkość: jeden punkt wobec średniej ok. 50 komórek,80.04762834419121,80.88,0.989708560140841
+krakow,punkty siatki (am): osiągalni do 15–60 min = wynik produkcyjny tej samej komórki,True,423 punktów; kolumny: 95. centyl i maksimum różnicy względnej w %,0.044154202240617134,0.2915987286886246,
+krakow,punkty siatki (evening): osiągalni do 15–60 min = wynik produkcyjny tej samej komórki,True,423 punktów; kolumny: 95. centyl i maksimum różnicy względnej w %,0.044154202240617134,0.2915987286886246,
+krakow,"pieszo 30 min: żadna komórka dalej niż 2,5 km w linii prostej (+ dowiązanie do ulicy)",True,0 punktów z komórką dalej,,,
+gzm,liczba mieszkańców rośnie z czasem (wszystkie punkty i warianty),True,0 naruszeń,,,
+gzm,"komunikacja + pieszo nie gorsza niż pieszo (15 i 30 min, rano)",True,0 naruszeń,,,
+gzm,hub: osiągalni rano do 15 min vs wynik produkcyjny komórki E501500N265750,,inny punkt startu niż środek komórki,40879.0,45037.55859375,0.9076646531562416
+gzm,hub: osiągalni rano do 30 min vs wynik produkcyjny komórki E501500N265750,,inny punkt startu niż środek komórki,213820.0,214453.59375,0.9970455437984471
+gzm,hub: osiągalni wieczorem do 30 min vs wynik produkcyjny komórki E501500N265750,,inny punkt startu niż środek komórki,185687.0,183998.109375,1.0091788477106465
+gzm,hub: osiągalni rano do 45 min vs wynik produkcyjny komórki E501500N265750,,inny punkt startu niż środek komórki,674993.0,666584.6875,1.0126140198802571
+gzm,hub: osiągalni wieczorem do 45 min vs wynik produkcyjny komórki E501500N265750,,inny punkt startu niż środek komórki,566492.0,557517.8125,1.0160966830095675
+gzm,hub: osiągalni rano do 60 min vs wynik produkcyjny komórki E501500N265750,,inny punkt startu niż środek komórki,1300578.0,1276473.5,1.0188836666017744
+gzm,hub: transport performance 30 min z punktu vs opublikowana średnia komórek ≤ 1 km (hub_1km),,inna wielkość: jeden punkt wobec średniej ok. 50 komórek,46.724297265967635,36.08,1.2950193255534268
+gzm,hub: transport performance 45 min z punktu vs opublikowana średnia komórek ≤ 1 km (hub_1km),,inna wielkość: jeden punkt wobec średniej ok. 50 komórek,82.85674003820496,68.17,1.2154428639900976
+gzm,punkty siatki (am): osiągalni do 15–60 min = wynik produkcyjny tej samej komórki,True,431 punktów; kolumny: 95. centyl i maksimum różnicy względnej w %,0.04199472503687459,0.41944382114893486,
+gzm,punkty siatki (evening): osiągalni do 15–60 min = wynik produkcyjny tej samej komórki,True,431 punktów; kolumny: 95. centyl i maksimum różnicy względnej w %,0.04166833120356593,0.41944382114893486,
+gzm,"pieszo 30 min: żadna komórka dalej niż 2,5 km w linii prostej (+ dowiązanie do ulicy)",True,0 punktów z komórką dalej,,,
+warszawa,liczba mieszkańców rośnie z czasem (wszystkie punkty i warianty),True,0 naruszeń,,,
+warszawa,"komunikacja + pieszo nie gorsza niż pieszo (15 i 30 min, rano)",True,0 naruszeń,,,
+warszawa,hub: osiągalni rano do 15 min vs wynik produkcyjny komórki E637250N486750,,inny punkt startu niż środek komórki,89915.0,71408.171875,1.2591696109710833
+warszawa,hub: osiągalni rano do 30 min vs wynik produkcyjny komórki E637250N486750,,inny punkt startu niż środek komórki,939569.0,865990.6875,1.0849643230141548
+warszawa,hub: osiągalni wieczorem do 30 min vs wynik produkcyjny komórki E637250N486750,,inny punkt startu niż środek komórki,888397.0,811301.0,1.0950276161375372
+warszawa,hub: osiągalni rano do 45 min vs wynik produkcyjny komórki E637250N486750,,inny punkt startu niż środek komórki,1707764.0,1673470.5,1.0204924436970952
+warszawa,hub: osiągalni wieczorem do 45 min vs wynik produkcyjny komórki E637250N486750,,inny punkt startu niż środek komórki,1657284.0,1622837.0,1.0212264078277733
+warszawa,hub: osiągalni rano do 60 min vs wynik produkcyjny komórki E637250N486750,,inny punkt startu niż środek komórki,2180401.0,2151855.0,1.0132657637247864
+warszawa,hub: transport performance 30 min z punktu vs opublikowana średnia komórek ≤ 1 km (hub_1km),,inna wielkość: jeden punkt wobec średniej ok. 50 komórek,80.24944769002737,57.28,1.4010029275493605
+warszawa,hub: transport performance 45 min z punktu vs opublikowana średnia komórek ≤ 1 km (hub_1km),,inna wielkość: jeden punkt wobec średniej ok. 50 komórek,96.99387781641914,88.27,1.0988317414344528
+warszawa,centre: osiągalni rano do 15 min vs wynik produkcyjny komórki E637250N486750,,inny punkt startu niż środek komórki,84771.0,71408.171875,1.1871330377760074
+warszawa,centre: osiągalni rano do 30 min vs wynik produkcyjny komórki E637250N486750,,inny punkt startu niż środek komórki,902917.0,865990.6875,1.0426405422517895
+warszawa,centre: osiągalni wieczorem do 30 min vs wynik produkcyjny komórki E637250N486750,,inny punkt startu niż środek komórki,859494.0,811301.0,1.0594021207911737
+warszawa,centre: osiągalni rano do 45 min vs wynik produkcyjny komórki E637250N486750,,inny punkt startu niż środek komórki,1699942.0,1673470.5,1.0158183248524548
+warszawa,centre: osiągalni wieczorem do 45 min vs wynik produkcyjny komórki E637250N486750,,inny punkt startu niż środek komórki,1645493.0,1622837.0,1.0139607366605519
+warszawa,centre: osiągalni rano do 60 min vs wynik produkcyjny komórki E637250N486750,,inny punkt startu niż środek komórki,2157139.0,2151855.0,1.0024555557879131
+warszawa,centre: transport performance 30 min z punktu vs opublikowana średnia komórek ≤ 1 km (centre_1km),,inna wielkość: jeden punkt wobec średniej ok. 50 komórek,77.69302969920946,56.94,1.3644718949632852
+warszawa,centre: transport performance 45 min z punktu vs opublikowana średnia komórek ≤ 1 km (centre_1km),,inna wielkość: jeden punkt wobec średniej ok. 50 komórek,96.49871601166726,87.99,1.0967009434216077
+warszawa,punkty siatki (am): osiągalni do 15–60 min = wynik produkcyjny tej samej komórki,True,365 punktów; kolumny: 95. centyl i maksimum różnicy względnej w %,0.10806061034874742,1.0056891252242517,
+warszawa,punkty siatki (evening): osiągalni do 15–60 min = wynik produkcyjny tej samej komórki,True,365 punktów; kolumny: 95. centyl i maksimum różnicy względnej w %,0.10806061034874742,1.0056891252242517,
+warszawa,"pieszo 30 min: żadna komórka dalej niż 2,5 km w linii prostej (+ dowiązanie do ulicy)",True,0 punktów z komórką dalej,,,

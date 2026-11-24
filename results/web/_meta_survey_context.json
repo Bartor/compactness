@@ -1,0 +1,14 @@
+{
+ "accessed": "2026-11-24",
+ "duration_s": 0.0,
+ "git_sha": "a21f2f5256adcf6c6a01835c9c9dd11ac8f3e7cf",
+ "inputs": {},
+ "missing_inputs": [],
+ "outputs": [
+  "results/web/survey_context.json",
+  "results/qa/survey_context/survey_context.md"
+ ],
+ "run_at": "2026-11-24T17:27:32+01:00",
+ "step": "survey_context",
+ "version": "survey_context-2026-11-24.1"
+}
