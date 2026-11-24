@@ -8,6 +8,7 @@
 #   snakemake -c1 frequent       # phase 2: population near frequent service
 #   snakemake -c1 density_service  # density x service frequency: metrics_density_service.*
 #   snakemake -c1 transfer_ease  # ease of transfer at stop areas: metrics_transfer.*, layers/transfer_nodes.parquet
+#   snakemake -c1 transfer_web   # stop areas as map points: results/web/transfer_nodes.geojson, catalog entries
 #   snakemake -c1 access_run     # phase 3: R5 routing, ~12 h for all 7 agglomerations (explicit target only)
 #   snakemake -c1 access         # phase 3: aggregate whatever access_run has finished
 #   snakemake -c1 access_uc_run  # phase 3, urban-centre domain: R5 routing, ~1 h on 6 threads (explicit target only)
@@ -290,6 +291,18 @@ rule transfer_ease:
         touch(stamp("transfer_ease")),
     shell:
         '"{PY}" -m pipeline.transfer_ease'
+
+
+rule transfer_web:
+    # stop areas as points for the map: results/web/transfer_nodes.geojson + catalog entries transfer_walk, transfer_wait
+    input:
+        "config.yaml",
+        "pipeline/transfer_web.py",
+        stamp("transfer_ease"),
+    output:
+        touch(stamp("transfer_web")),
+    shell:
+        '"{PY}" -m pipeline.transfer_web'
 
 
 rule r5_inputs:
