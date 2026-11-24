@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import ChartFrame, { DataTableSimple, LegendItem, SERIES_COLORS, useWidth } from './ChartFrame'
 import { fmtNum, fmtPct, NO_DATA } from './format'
+import { timeTable } from './exportRows'
 import { extent, linear, linePath, litKeys, niceDomain, stepIndex } from './scales'
 
 /**
@@ -16,7 +17,7 @@ import { extent, linear, linePath, litKeys, niceDomain, stepIndex } from './scal
  */
 export default function TimeOfDay({
   rows = [], unit = '%', compare = null, compareLabel = 'mediana siedmiu miast', hot = null, onHot, pinned, onPin,
-  title = 'Pory dnia', note, height = 220,
+  title = 'Pory dnia', note, height = 220, exportInfo,
 }) {
   const [ref, width] = useWidth()
   const [cur, setCur] = useState(-1)
@@ -55,7 +56,10 @@ export default function TimeOfDay({
     ? <rect x={sx(i) - 4.5} y={sy(r[k]) - 4.5} width="9" height="9" fill={color} stroke="var(--kit-panel, #1c1f26)" strokeWidth="1.5" />
     : <circle cx={sx(i)} cy={sy(r[k])} r="5" fill={color} stroke="var(--kit-panel, #1c1f26)" strokeWidth="1.5" />)
   return (
-    <ChartFrame title={title} note={note} readout={readout} table={table} legend={legend}>
+    <ChartFrame
+      title={title} note={note} readout={readout} table={table} legend={legend} exportInfo={exportInfo}
+      exportData={() => timeTable(rows, compare, { unit, compareLabel })}
+    >
       <div ref={ref} className="chx-plot">
         <svg width={width} height={height} role="img" tabIndex={0} className="chx-svg"
           aria-label={`${title}. Strzałki wybierają porę dnia, Enter przypina.`} onKeyDown={onKey} onMouseLeave={() => setC(-1)}>

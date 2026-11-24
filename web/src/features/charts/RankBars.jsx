@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import ChartFrame, { DataTableSimple, SERIES_COLORS, useWidth } from './ChartFrame'
 import { NO_DATA } from './format'
+import { valuesTable } from './exportRows'
 import { linear, litKeys, niceDomain, stepIndex } from './scales'
 
 /** Rows of a ranked bar chart: those with a value sorted best first, the rest (no value) last. */
@@ -26,7 +27,7 @@ export function rankRows(rows, better = 'high') {
  */
 export default function RankBars({
   rows = [], median = null, medianLabel = 'mediana', label = '', format, better = 'high', selected = null, colors,
-  hot = null, onHot, pinned, onPin, title, note, rowHeight = 30, tickFormat,
+  hot = null, onHot, pinned, onPin, title, note, rowHeight = 30, tickFormat, unit = '', exportInfo,
 }) {
   const [ref, width] = useWidth()
   const [cur, setCur] = useState(-1)
@@ -63,7 +64,8 @@ export default function RankBars({
   const order = better === 'low' ? 'najmniejsza wartość u góry' : 'największa wartość u góry'
   return (
     <ChartFrame
-      title={title || label} readout={readout} table={table} className="chx-rankbars"
+      title={title || label} readout={readout} table={table} className="chx-rankbars" exportInfo={exportInfo}
+      exportData={() => valuesTable(all, { label: label || 'wartość', unit, median, medianLabel })}
       note={note ?? `Słupki zaczynają się od zera; ${order}. Kilka punktów różnicy to nie ranking.`}
     >
       <div ref={ref} className="chx-plot">

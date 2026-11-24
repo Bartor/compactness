@@ -2,6 +2,8 @@ import { Callout, DataTable, Hint, Notes, RankList, Warn } from '@bartor-net/ui-
 import { NO_DATA } from './metrics'
 import { centreRows, highlights, timeOfDay } from './metricTable'
 import { areaColumns, cityGroups, reachGroups } from './tableModel'
+import ExportButtons from './export/ExportButtons'
+import { cityTable } from './export/shape'
 
 const dep = new Intl.NumberFormat('pl-PL', { maximumFractionDigits: 1 })
 
@@ -40,6 +42,15 @@ export default function CityView({
             <DataTable
               caption={`Miary: ${agglomeration.name}`} labelHead="Miara" className={columns ? 'city-table dock-table' : 'city-table'}
               columns={areaColumns()} groups={groups}
+              toolbar={(
+                <ExportButtons
+                  table={() => cityTable({
+                    index, agg, name: agglomeration.name,
+                    groups: groups.map((g) => ({ id: g.id, title: g.title, metrics: g.rows.map((r) => r.id) })),
+                  })}
+                  name={{ view: 'miasto', subject: agglomeration.name }}
+                />
+              )}
               resizable={columns ? 'all' : false} density={columns ? 'compact' : 'regular'}
             />
             <Hint>

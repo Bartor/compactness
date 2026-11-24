@@ -3,6 +3,8 @@ import { AppMessage, AppShell, ErrorBoundary, Modal } from '@bartor-net/ui-kit'
 import { loadAttributions, loadCatalog, loadClassShares, loadForm, loadMetrics } from './data'
 import { DATA_BASE_URL, resolveUrl } from './config'
 import { loadCharts } from './features/charts'
+import { ExportContext } from './export/ExportContext'
+import { metaFromRows } from './export/shape'
 import MetricPage from './MetricPage'
 import { pageAreas, pickArea } from './metricPageData'
 import { metricName } from './metricTable'
@@ -103,6 +105,7 @@ function Loaded({ catalog, metrics, attributions }) {
   const ran = useRef(false)          // the address effect has run once (a page open at load is not "opening")
 
   const index = useMemo(() => indexMetrics(metrics.metrics), [metrics])
+  const exportMeta = useMemo(() => metaFromRows(metrics.metrics), [metrics])   // provenance written into every export
   const known = useMemo(() => catalog.agglomerations.map((a) => a.id), [catalog])
   const names = useMemo(() => Object.fromEntries(catalog.agglomerations.map((a) => [a.id, a.name])), [catalog])
   const cities = useMemo(() => transportCities(index, known), [index, known])
@@ -289,6 +292,7 @@ function Loaded({ catalog, metrics, attributions }) {
   )
 
   return (
+    <ExportContext.Provider value={exportMeta}>
     <AppShell>
       <Sidebar
         catalog={catalog} metrics={metrics} selectedId={selectedId} onPick={pick}
@@ -346,5 +350,6 @@ function Loaded({ catalog, metrics, attributions }) {
         />
       )}
     </AppShell>
+    </ExportContext.Provider>
   )
 }

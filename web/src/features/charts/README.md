@@ -94,3 +94,7 @@ Nothing below is done; the app files belong to the layout rework.
 `charts.test.js` (vitest, as the rest of `web/src`): formatting, scales, selectors on a fixture, server rendering of
 every component, and, when `results/web/charts.json` exists, checks on the real file (seven cities, curves start at
 100 % and never rise, floor 16).
+
+## Export
+
+Every chart has an optional export control in its header (CSV of exactly the drawn series, PNG of the SVG). It is switched on by `exportData` in ChartFrame (each chart passes its own table from `exportRows.js`) and uses `web/src/export/` (standalone: csv, filenames, png, provenance). `exportInfo` ({view, subject, area}) names the file.

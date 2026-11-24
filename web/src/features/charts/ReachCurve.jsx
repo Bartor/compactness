@@ -2,6 +2,7 @@ import { useState } from 'react'
 import ChartFrame, { CONTEXT_COLOR, DataTableSimple, LegendItem, SERIES_COLORS, useWidth } from './ChartFrame'
 import { colouredKeys } from './AtLeastCurve'
 import { fmtMin, fmtPct } from './format'
+import { reachTable } from './exportRows'
 import { bandPath, extent, linear, linePath, litKeys, nearestIndex, niceTicks, stepIndex } from './scales'
 
 /** Thresholds below this are dominated by the resident's own cell (see the QA note); shaded and labelled. */
@@ -21,7 +22,7 @@ export const SHORT_MIN = 15
  */
 export default function ReachCurve({
   series = [], focus, highlight, colors, hot = null, onHot, pinned, onPin, title = 'Zasięg w zależności od czasu podróży',
-  note, height = 240,
+  note, height = 240, exportInfo,
 }) {
   const [ref, width] = useWidth()
   const [cur, setCur] = useState(-1)
@@ -72,7 +73,10 @@ export default function ReachCurve({
   )
   const ordered = [...series].sort((a, b) => (colorOf(a.key) ? 1 : 0) - (colorOf(b.key) ? 1 : 0))
   return (
-    <ChartFrame title={title} note={note} readout={readout} table={table} legend={legend}>
+    <ChartFrame
+      title={title} note={note} readout={readout} table={table} legend={legend} exportInfo={exportInfo}
+      exportData={() => reachTable(series)}
+    >
       <div ref={ref} className="chx-plot">
         <svg width={width} height={height} role="img" tabIndex={0} className="chx-svg"
           aria-label={`${title}. Strzałki zmieniają próg czasu, Enter przypina miasto, Esc czyści.`}

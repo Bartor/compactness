@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import ChartFrame, { DataTableSimple, LegendItem, SERIES_COLORS, useWidth } from './ChartFrame'
 import { fmtNum, fmtPct, fmtPts, NO_DATA } from './format'
+import { pairTable } from './exportRows'
 import { extent, linear, litKeys, niceDomain, stepIndex } from './scales'
 
 /**
@@ -15,7 +16,7 @@ import { extent, linear, litKeys, niceDomain, stepIndex } from './scales'
  */
 export default function Dumbbell({
   rows = [], aLabel = 'a', bLabel = 'b', unit = '%', selected = null, sort = null, hot = null, onHot, pinned, onPin,
-  title = '', note,
+  title = '', note, exportInfo,
 }) {
   const [ref, width] = useWidth()
   const [cur, setCur] = useState(-1)
@@ -55,7 +56,10 @@ export default function Dumbbell({
       rows={list.map((r) => [r.label, fmt(r.a), fmt(r.b), gap(r)])} />
   )
   return (
-    <ChartFrame title={title} note={note} readout={readout} table={table} legend={legend}>
+    <ChartFrame
+      title={title} note={note} readout={readout} table={table} legend={legend} exportInfo={exportInfo}
+      exportData={() => pairTable(list, { aLabel, bLabel, unit })}
+    >
       <div ref={ref} className="chx-plot">
         <svg width={width} height={height} role="img" tabIndex={0} className="chx-svg"
           aria-label={`${title}. Strzałki w górę i w dół wybierają miasto, Enter przypina.`}

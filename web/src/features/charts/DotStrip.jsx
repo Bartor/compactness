@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import ChartFrame, { DataTableSimple, SERIES_COLORS, useWidth } from './ChartFrame'
 import { fmtNum, fmtPct, NO_DATA } from './format'
+import { valuesTable } from './exportRows'
 import { extent, linear, litKeys, niceDomain, stepIndex } from './scales'
 
 const fmtBy = (unit) => (v) => (unit === '%' ? fmtPct(v, 1) : v == null ? NO_DATA : `${fmtNum(v, unit ? 1 : 2)}${unit ? ' ' + unit : ''}`)
@@ -18,7 +19,7 @@ const fmtBy = (unit) => (v) => (unit === '%' ? fmtPct(v, 1) : v == null ? NO_DAT
  */
 export default function DotStrip({
   rows = [], median = null, label = '', unit = '%', better = 'high', selected = null, hot = null, onHot, pinned, onPin,
-  title, note, zero,
+  title, note, zero, exportInfo,
 }) {
   const [ref, width] = useWidth()
   const [cur, setCur] = useState(-1)
@@ -52,7 +53,8 @@ export default function DotStrip({
       rows={[...all.map((r) => [r.label, fmt(r.value)]), ['mediana siedmiu miast', fmt(median)]]} />
   )
   return (
-    <ChartFrame title={title || label} readout={readout} table={table}
+    <ChartFrame title={title || label} readout={readout} table={table} exportInfo={exportInfo}
+      exportData={() => valuesTable(all, { label: label || 'wartość', unit: unit === '%' ? '%' : unit, median, medianLabel: 'mediana' })}
       note={note ?? `Kolejność: ${better === 'low' ? 'najmniej' : 'najwięcej'} u góry. Kilka punktów różnicy to nie ranking.`}>
       <div ref={ref} className="chx-plot">
         <svg width={width} height={height} role="img" tabIndex={0} className="chx-svg"

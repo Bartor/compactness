@@ -13,6 +13,8 @@ import {
 } from './metricPageData'
 import { cityColors } from './chartLink'
 import StackBars from './kitx/StackBars'
+import ExportButtons from './export/ExportButtons'
+import { metricTable } from './export/shape'
 import './metricPage.css'
 
 const areaName = (a) => DOMAIN_INFO[a]?.short || a
@@ -180,7 +182,8 @@ export default function MetricPage({
             <RankBars
               rows={have.map((h) => ({ key: h.id, label: nameOf(h.id), value: h.value }))} median={median} better={better}
               label={`${name}${unit ? `, ${unit}` : ''}`} title={`${name}: ${area ? areaName(area) : ''}`}
-              format={fmt} tickFormat={tick} selected={from} colors={colors} {...lines}
+              format={fmt} tickFormat={tick} selected={from} colors={colors} {...lines} unit={unit}
+              exportInfo={{ view: 'miara', subject: id, area: { id: area, label: areaName(area) } }}
               medianLabel={`mediana ${have.length} miast`}
             />
           )
@@ -194,6 +197,12 @@ export default function MetricPage({
           <DataTable
             caption={`${name}: miasta i obszary`} labelHead="Miasto" className="metric-areas" columns={areaCols} rows={tableRows}
             sortBy="column" density="compact" resizable="all" maxHeight="none"
+            toolbar={(
+              <ExportButtons
+                table={() => metricTable({ index, id, cityIds, names, areas, area, info })}
+                name={{ view: 'miara', subject: id, area }}
+              />
+            )}
           />
           <p className="metric-note">Kliknij nazwę miasta, aby przejść do jego miar. „–” oznacza brak danych, a nie zero.</p>
         </section>

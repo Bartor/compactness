@@ -1,4 +1,7 @@
 import { useEffect, useId, useRef, useState } from 'react'
+import ExportButtons from '../../export/ExportButtons'
+import { useExportMeta } from '../../export/ExportContext'
+import { chartTable } from '../../export/shape'
 
 /** Categorical colours for up to three highlighted series (validated on the dark panel #1c1f26: CVD and contrast). */
 export const SERIES_COLORS = ['#3987e5', '#d95926', '#199e70']
@@ -27,23 +30,41 @@ export function useWidth(fallback = 560) {
  * polite live region with the current read-out (what the pointer or the keyboard cursor points at).
  *
  * Props: title, note, readout (string), table (ReactNode), children (the SVG), view / onView (controlled, optional),
- *        legend (ReactNode, above the plot), className
+ *        legend (ReactNode, above the plot), className,
+ *        exportData: () => {head, rows} (export/ExportButtons: the data drawn, as a flat table; without it no export control),
+ *        exportInfo: {view, subject, area: {id, label}} for the file name and the area column (default: chart, the title, core)
+ *        The control is the only place where this feature reaches into app code (web/src/export, which stands alone).
  */
-export default function ChartFrame({ title, note, readout, table, children, view, onView, legend, className = '' }) {
+export default function ChartFrame({
+  title, note, readout, table, children, view, onView, legend, className = '', exportData, exportInfo,
+}) {
+  const fig = useRef(null)
+  const meta = useExportMeta()
+  const area = exportInfo?.area || { id: 'core', label: 'Miasto' }
   const [own, setOwn] = useState('chart')
   const v = view || own
   const set = (x) => (onView ? onView(x) : setOwn(x))
   const id = useId()
   return (
-    <figure className={`chx ${className}`} aria-labelledby={`${id}-t`}>
+    <figure ref={fig} className={`chx ${className}`} aria-labelledby={`${id}-t`}>
       <div className="chx-head">
         <figcaption id={`${id}-t`} className="chx-title">{title}</figcaption>
+        <span className="chx-tools">
+          {exportData && (
+            <ExportButtons
+              table={() => chartTable({ title, area }, exportData(), meta)}
+              name={{ view: exportInfo?.view || 'wykres', subject: exportInfo?.subject || title, area: area.id }}
+              getSvg={v === 'chart' ? () => fig.current?.querySelector('svg.chx-svg') : undefined}
+              title={title} area={area.label}
+            />
+          )}
         <button
           type="button" className="chx-switch" aria-pressed={v === 'table'}
           onClick={() => set(v === 'table' ? 'chart' : 'table')}
         >
           {v === 'table' ? 'Wykres' : 'Tabela'}
         </button>
+        </span>
       </div>
       {legend && v === 'chart' ? <div className="chx-legend">{legend}</div> : null}
       {v === 'table' ? <div className="chx-tablewrap">{table}</div> : children}

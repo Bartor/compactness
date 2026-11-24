@@ -2,6 +2,11 @@ import { Chips, DataTable, Hint, LinkButton } from '@bartor-net/ui-kit'
 import { DOMAIN_INFO } from './metricInfo'
 import { AREAS, DENSITY_GROUP_IDS } from './metricTable'
 import { cityColumns, compareGroups } from './tableModel'
+import ExportButtons from './export/ExportButtons'
+import { comparisonTable } from './export/shape'
+
+/** The groups a table shows, as export wants them: [{id, title, metrics: [ids]}] in the displayed order. */
+const shown = (groups) => groups.map((g) => ({ id: g.id, title: g.title, metrics: g.rows.map((r) => r.id) }))
 
 export const COMPARE_TABS = [
   { key: 'metrics', label: 'Miary' },
@@ -57,6 +62,12 @@ export default function Compare({
         columns={cityColumns(cities, names, onPickCity)} groups={transport}
         sortBy="row" sort={sort} onSortChange={setSort}
         hot={hot} onHot={setHot}
+        toolbar={(
+          <ExportButtons
+            table={() => comparisonTable({ index, cities, area, names, groups: shown(transport), sort })}
+            name={{ view: 'porownanie', subject: 'miary', area }}
+          />
+        )}
         resizable={tabs ? 'all' : false} density={tabs ? 'compact' : 'regular'}
       />
       <Hint>
@@ -75,6 +86,12 @@ export default function Compare({
         columns={cityColumns(everyCity, names, onPickCity)} groups={density}
         sortBy="row" sort={sortDensity} onSortChange={setSortDensity}
         hot={hot} onHot={setHot}
+        toolbar={(
+          <ExportButtons
+            table={() => comparisonTable({ index, cities: everyCity, area, names, groups: shown(density), sort: sortDensity })}
+            name={{ view: 'porownanie', subject: 'gestosc', area }}
+          />
+        )}
         resizable={tabs ? 'all' : false} density={tabs ? 'compact' : 'regular'}
       />
     </>

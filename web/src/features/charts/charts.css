@@ -49,3 +49,5 @@
 @media (forced-colors: active) {
   .chx-svg path, .chx-svg circle, .chx-svg rect { forced-color-adjust: none; }
 }
+
+.chx-tools { display: inline-flex; align-items: center; justify-content: flex-end; flex-wrap: wrap; gap: .3rem .8rem; }

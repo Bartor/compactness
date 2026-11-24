@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import ChartFrame, { CONTEXT_COLOR, DataTableSimple, LegendItem, SERIES_COLORS, useWidth } from './ChartFrame'
 import { atLeastReadout, fmtMin, fmtPct } from './format'
+import { atLeastTable } from './exportRows'
 import { keySet, linear, linePath, litKeys, nearestIndex, niceTicks, stepIndex } from './scales'
 
 /** Class key of a value given the class limits (stops ascending): c0 below the first stop, cN at or above the last. */
@@ -36,7 +37,7 @@ export function colouredKeys(series, highlight, hotSeries, pinnedSeries) {
  */
 export default function AtLeastCurve({
   series = [], highlight, unit = '%', marks, markColors, floor, hot = null, onHot, pinned, onPin,
-  hotSeries = null, onHotSeries, pinnedSeries, onPinSeries, colors, title = 'Odsetek mieszkańców z co najmniej X',
+  hotSeries = null, onHotSeries, pinnedSeries, onPinSeries, colors, exportInfo, title = 'Odsetek mieszkańców z co najmniej X',
   note, xLabel, height = 240, what = '',
 }) {
   const [ref, width] = useWidth()
@@ -102,7 +103,10 @@ export default function AtLeastCurve({
   const ordered = [...series].sort((a, b) => (colorOf(a.key) ? 1 : 0) - (colorOf(b.key) ? 1 : 0))
 
   return (
-    <ChartFrame title={title} note={note} readout={readout} table={table} legend={legend}>
+    <ChartFrame
+      title={title} note={note} readout={readout} table={table} legend={legend} exportInfo={exportInfo}
+      exportData={() => atLeastTable(series, { xName: unit === 'min' ? 'odstęp między kursami, min' : 'zasięg, %', unit })}
+    >
       <div ref={ref} className="chx-plot">
         <svg
           width={width} height={height} role="img" tabIndex={0} className="chx-svg"

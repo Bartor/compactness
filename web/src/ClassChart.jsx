@@ -6,6 +6,9 @@ import {
   SHARE_AREAS, layerAggs, pickedSum, scopeData, scopeLabel, shareFractions, shareText,
 } from './classShares'
 import StackBars from './kitx/StackBars'
+import ExportButtons from './export/ExportButtons'
+import { useExportMeta } from './export/ExportContext'
+import { classCitiesTable, classTable } from './export/shape'
 
 export const NODATA_COLOR = '#8A909C'
 
@@ -37,6 +40,7 @@ const NO_LAYER = 'Włącz warstwę wartości („Co pokazać”), aby zobaczyć,
  * (`focus` is the page's useFocuses value), so the map follows. `doc` is the class-shares file or null.
  */
 export function CityClassChart({ layer, doc, aggId, aggName, area, onArea, focus }) {
+  const meta = useExportMeta()
   if (!layer) return <Hint>{NO_LAYER}</Hint>
   const scope = scopeData(doc, layer.id, aggId, area)
   if (!scope) {
@@ -61,6 +65,12 @@ export function CityClassChart({ layer, doc, aggId, aggName, area, onArea, focus
   return (
     <div className="class-chart">
       <ScopeLine aggName={aggName} area={area} onArea={onArea} />
+      <ExportButtons
+        table={() => classTable({
+          layerTitle: layer.title, labels: parts.map((p) => p.label), scope, aggId, aggName, nodataLabel: noDataLabel,
+        }, meta)}
+        name={{ view: 'klasy', subject: aggId || layer.id, area }}
+      />
       <SplitBody>
         {scope.totalPop > 0 && (
           <Donut rows={rows} pick={pick} label={`Mieszkańcy według klas: ${layer.title}`} />
@@ -86,6 +96,7 @@ export function CityClassChart({ layer, doc, aggId, aggName, area, onArea, focus
  * linking as above. `cities` is the order to try (ids), `names` {id: name}; clicking a city's name selects it.
  */
 export function CitiesClassBars({ layer, doc, cities, names, area, onArea, focus, onPickCity, hot, onHot, pinned }) {
+  const meta = useExportMeta()
   if (!layer) return <Hint>{NO_LAYER}</Hint>
   const present = layerAggs(doc, layer.id)
   const order = [...cities.filter((c) => present.includes(c)), ...present.filter((c) => !cities.includes(c))]
@@ -107,6 +118,13 @@ export function CitiesClassBars({ layer, doc, cities, names, area, onArea, focus
   return (
     <div className="class-chart cities">
       <ScopeLine aggName={null} area={area} onArea={onArea} />
+      <ExportButtons
+        table={() => classCitiesTable({
+          layerTitle: layer.title, labels: parts.map((p) => p.label), area, nodataLabel: layer.nodata_label || 'brak danych GTFS',
+          perCity: order.map((id) => ({ id, name: names[id] || id, scope: scopeData(doc, layer.id, id, area) })).filter((x) => x.scope),
+        }, meta)}
+        name={{ view: 'klasy', subject: layer.id, area }}
+      />
       <StackBars rows={rows} pick={pick} hot={hot} onHot={onHot} pinned={pinned} label={`Mieszkańcy według klas: ${layer.title}`} />
       <p className="class-sum" aria-live="polite">
         {own.layerId === layer.id && own.pinned.length
