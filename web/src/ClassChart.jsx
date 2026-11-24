@@ -85,7 +85,7 @@ export function CityClassChart({ layer, doc, aggId, aggName, area, onArea, focus
  * One 100 % bar per city: how the residents of each city split into the classes of the active value layer. Same
  * linking as above. `cities` is the order to try (ids), `names` {id: name}; clicking a city's name selects it.
  */
-export function CitiesClassBars({ layer, doc, cities, names, area, onArea, focus, onPickCity }) {
+export function CitiesClassBars({ layer, doc, cities, names, area, onArea, focus, onPickCity, hot, onHot, pinned }) {
   if (!layer) return <Hint>{NO_LAYER}</Hint>
   const present = layerAggs(doc, layer.id)
   const order = [...cities.filter((c) => present.includes(c)), ...present.filter((c) => !cities.includes(c))]
@@ -104,7 +104,7 @@ export function CitiesClassBars({ layer, doc, cities, names, area, onArea, focus
   return (
     <div className="class-chart cities">
       <ScopeLine aggName={null} area={area} onArea={onArea} />
-      <StackBars rows={rows} pick={pick} label={`Mieszkańcy według klas: ${layer.title}`} />
+      <StackBars rows={rows} pick={pick} hot={hot} onHot={onHot} pinned={pinned} label={`Mieszkańcy według klas: ${layer.title}`} />
       <p className="class-sum" aria-live="polite">
         {own.layerId === layer.id && own.pinned.length
           ? 'Wybrane klasy są pokazane na mapie; liczba na końcu paska to ich udział w mieszkańcach miasta.'

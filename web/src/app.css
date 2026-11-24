@@ -214,3 +214,12 @@ button, input, select, textarea { font-family: inherit; }
   .city-columns { grid-template-columns: minmax(0, 1fr); height: auto; }
   .city-columns > .city-metrics, .city-columns > .city-blocks { overflow: visible; }
 }
+
+/* ---- distribution charts in the dock ---- */
+.charts-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(22rem, 1fr)); gap: 1.2rem 1.6rem; align-items: start; max-width: 100%; }
+.charts-grid > *, .charts-city > * { min-width: 0; }
+.charts-pair { display: flex; flex-direction: column; gap: .4rem; }
+.charts-city { display: flex; flex-direction: column; gap: 1.2rem; }
+.kitx-stack .kit-sharebar.faded { opacity: .5; }
+.kitx-stack .kit-sharebar.lit { opacity: 1; }
+.kitx-stack .kit-sharebar.lit > span button { color: var(--kit-text); text-decoration-color: var(--kit-link-light); }

@@ -1,7 +1,10 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { AppMessage, AppShell, ErrorBoundary, Modal } from '@bartor-net/ui-kit'
 import { loadAttributions, loadCatalog, loadClassShares, loadMetrics } from './data'
-import { resolveUrl } from './config'
+import { DATA_BASE_URL, resolveUrl } from './config'
+import { loadCharts } from './features/charts'
+import { CityCharts, ComparisonCharts } from './ChartsPanel'
+import { togglePin } from './chartLink'
 import {
   activeIds, chooseOverlay, revealLayer, setOverlayOn, setValue, setVariant,
 } from './layerControl'
@@ -71,6 +74,7 @@ function Loaded({ catalog, metrics, attributions }) {
 
   // the city lit on the map and in the tables: one state for both
   const [hot, setHot] = useState(null)
+  const [pinnedCities, setPinnedCities] = useState([])   // cities pinned in the charts (ids), kept lit in all of them
   const [area, setArea] = useState('core')           // the area the comparison refers to
   // how the cities are ordered in the two comparison tables: {key: metric id, dir} or null (the default order)
   const [sort, setSort] = useState(start.sort)
@@ -84,6 +88,8 @@ function Loaded({ catalog, metrics, attributions }) {
   const [nodeRequest, setNodeRequest] = useState(null)   // {layer, props, coordinates, n}
   const [shareDoc, setShareDoc] = useState({})
   useEffect(() => { loadClassShares().then(setShareDoc) }, [])
+  const [charts, setCharts] = useState(null)             // distribution charts (charts.json); null: no chart section
+  useEffect(() => { loadCharts({ base: DATA_BASE_URL }).then(setCharts) }, [])
 
   const index = useMemo(() => indexMetrics(metrics.metrics), [metrics])
   const known = useMemo(() => catalog.agglomerations.map((a) => a.id), [catalog])
@@ -189,21 +195,24 @@ function Loaded({ catalog, metrics, attributions }) {
   const citiesChart = (
     <CitiesClassBars
       layer={valueLayer} doc={shareDoc} cities={everyCity} names={names} area={shareArea} onArea={setShareArea}
-      focus={focus} onPickCity={pick}
+      focus={focus} onPickCity={pick} hot={hot} onHot={setHot} pinned={pinnedCities}
     />
   )
+  const link = { hot, setHot, pinned: pinnedCities, onPin: (id) => id && setPinnedCities((p) => togglePin(p, id)) }
+  const spreadCities = charts ? <ComparisonCharts charts={charts} layer={valueLayer} focus={focus} link={link} /> : null
+  const spreadCity = charts && selected ? <CityCharts charts={charts} layer={valueLayer} focus={focus} link={link} agg={selected.id} /> : null
   const compare = (layout) => (
     <Compare
       index={index} cities={cities} everyCity={everyCity} names={names}
       area={area} setArea={setArea} layers={layers} onShowLayer={showLayer}
       onPickCity={pick} hot={hot} setHot={setHot}
       sort={sort} setSort={setSort} sortDensity={sortDensity} setSortDensity={setSortDensity}
-      layout={layout} tab={tab} setTab={setTab} chart={citiesChart}
+      layout={layout} tab={tab} setTab={setTab} chart={citiesChart} spread={spreadCities}
       onOpenLimits={() => setAbout({ limits: true })}
     />
   )
   const cityProps = {
-    agglomeration: selected, index, cities, layers, onShowLayer: showLayer, nodes, onPickNode: showNode, chart: cityChart,
+    agglomeration: selected, index, cities, layers, onShowLayer: showLayer, nodes, onPickNode: showNode, chart: cityChart, spread: spreadCity,
   }
 
   const map = (

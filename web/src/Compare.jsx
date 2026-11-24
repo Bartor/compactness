@@ -7,6 +7,7 @@ export const COMPARE_TABS = [
   { key: 'metrics', label: 'Miary' },
   { key: 'density', label: 'Gęstość, wszystkie miasta' },
   { key: 'classes', label: 'Mieszkańcy w klasach warstwy' },
+  { key: 'spread', label: 'Rozkład' },
 ]
 
 /**
@@ -31,14 +32,14 @@ function SortNote({ groups, sort, onReset }) {
  * a shorter table with all cities, the residents by class of the active value layer, and the reminder that "brak
  * danych" is not zero. `hot`/`setHot` is the city whose column (and outline on the map) is lit.
  * `layout` is 'stack' (a phone's modal: everything one under another) or 'tabs' (the wide dock: the area chips and
- * three tabs, one shown at a time; `tab`/`setTab` says which). `chart` is the block of residents by class per city.
+ * tabs, one shown at a time; `tab`/`setTab` says which). `chart` is the block of residents by class per city.
  * `sort`/`setSort` and `sortDensity`/`setSortDensity` are the sorts of the two tables, {key: metric id, dir} or
  * null: a control on a row puts the cities in the order of that row's numbers. They live above, so that they
  * survive a change of area and go into the address.
  */
 export default function Compare({
   index, cities, everyCity, names, area, setArea, layers, onShowLayer, onPickCity, hot, setHot, onOpenLimits,
-  sort = null, setSort, sortDensity = null, setSortDensity, layout = 'stack', tab = 'metrics', setTab, chart = null,
+  sort = null, setSort, sortDensity = null, setSortDensity, layout = 'stack', tab = 'metrics', setTab, chart = null, spread = null,
 }) {
   if (!cities.length) return <Hint>Miary pojawią się po przeliczeniu.</Hint>
   const tabs = layout === 'tabs'
@@ -94,7 +95,7 @@ export default function Compare({
         />
         {tabs && (
           <Chips
-            items={COMPARE_TABS.map((t) => ({ key: t.key, label: t.label, on: t.key === tab }))}
+            items={COMPARE_TABS.filter((t) => t.key !== 'spread' || spread).map((t) => ({ key: t.key, label: t.label, on: t.key === tab }))}
             onPick={setTab}
           />
         )}
@@ -106,6 +107,7 @@ export default function Compare({
             {tab === 'metrics' && metrics}
             {tab === 'density' && densityBlock}
             {tab === 'classes' && chart}
+            {tab === 'spread' && spread}
             {reminder}
           </>
         )
@@ -114,6 +116,7 @@ export default function Compare({
             {metrics}
             {densityBlock}
             {chart && <><h4>Mieszkańcy w klasach warstwy</h4>{chart}</>}
+            {spread && <><h4>Rozkład</h4>{spread}</>}
             {reminder}
           </>
         )}

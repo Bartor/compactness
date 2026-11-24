@@ -9,20 +9,27 @@ import { inkOn } from '@bartor-net/ui-kit'
  *   rows    [{key, label: string, onPick?, parts: [{key, label, color, share}]}]; share is 0..1
  *   pick    {active: Set of part keys lit now, on(key) -> handlers}: what usePick() returns (or a bridge to one)
  *   label   accessible name of the whole
+ *   hot, onHot, pinned   optional: the key of a row lit from outside, a callback with a row's key (or null) when the
+ *           pointer enters or leaves it, and the keys of rows kept lit (an array or Set)
  * With parts lit, each row shows their sum at its end; a part that fills at least `MIN_LABEL` of the bar shows its
  * percentage, thinner ones have it in the tooltip.
  */
 const MIN_LABEL = 0.09
 const none = { active: new Set(), on: () => ({}) }
 
-export default function StackBars({ rows, pick = none, label }) {
+export default function StackBars({ rows, pick = none, label, hot = null, onHot, pinned }) {
+  const kept = new Set(pinned || [])
+  const anyLit = hot != null || kept.size > 0
   const dim = (key) => pick.active.size > 0 && !pick.active.has(key)
   return (
     <div className="kit-sharebars kitx-stack" role="table" aria-label={label}>
       {rows.map((r) => {
         const sum = r.parts.filter((p) => pick.active.has(p.key)).reduce((a, p) => a + p.share, 0)
         return (
-          <div key={r.key} className="kit-sharebar" role="row">
+          <div
+            key={r.key} role="row" onMouseEnter={onHot ? () => onHot(r.key) : undefined} onMouseLeave={onHot ? () => onHot(null) : undefined}
+            className={['kit-sharebar', (hot === r.key || kept.has(r.key)) && 'lit', anyLit && hot !== r.key && !kept.has(r.key) && 'faded'].filter(Boolean).join(' ')}
+          >
             <span role="rowheader">
               {r.onPick
                 ? <button type="button" className="kitx-stack-pick" onClick={r.onPick}>{r.label}</button>

@@ -14,12 +14,14 @@ const dep = new Intl.NumberFormat('pl-PL', { maximumFractionDigits: 1 })
  * useCityNodes or null.
  */
 export default function CityView({
-  agglomeration, index, cities, layers, onShowLayer, nodes, onPickNode, chart = null, layout = 'stack',
+  agglomeration, index, cities, layers, onShowLayer, nodes, onPickNode, chart = null, spread = null, layout = 'stack',
 }) {
   const agg = agglomeration.id
   const groups = cityGroups({ index, cities, agg, layers, onShowLayer })
   const stands = highlights(index, cities, agg)
-  const day = timeOfDay(index, agg)
+  // the distribution charts (when charts.json is there) carry the time-of-day figures with their own table view,
+  // so the plain table is only shown without them
+  const day = spread ? null : timeOfDay(index, agg)
   const centres = centreRows(index, agg)
   const columns = layout === 'columns'
 
@@ -61,6 +63,7 @@ export default function CityView({
           {chart}
         </section>
       )}
+      {spread && <section><h4>Rozkład mieszkańców</h4>{spread}</section>}
       {day && (
         <section>
           <h4>Pora dnia</h4>
