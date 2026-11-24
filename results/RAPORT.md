@@ -1,6 +1,6 @@
 # Zwartość i potencjał transportowy polskich aglomeracji: raport (fazy 0–4)
 
-Stan na 2026-11-24. Sekcje 1–13 opisują fazę 0 (inwentaryzację i decyzje, stan z 2026-11-23); wyniki są w sekcjach 14 (gęstość), 15 (częsta komunikacja i podaż), 17 (dostępność), 18 (mapa) i 19 (gęstość × częstotliwość). Liczby w sekcjach 1–13 są liczbami inwentaryzacyjnymi, przepisanymi z plików w `results/qa/phase0/`, `data/manifest.csv` i `config.yaml`; przy każdej podano plik źródłowy. Gdzie czegoś nie sprawdzono, stoi „nie zweryfikowano”; gdzie danych nie ma, „brak danych”.
+Stan na 2026-11-24. Sekcje 1–13 opisują fazę 0 (inwentaryzację i decyzje, stan z 2026-11-23); wyniki są w sekcjach 14 (gęstość), 15 (częsta komunikacja i podaż), 17 (dostępność), 18 (mapa), 19 (gęstość × częstotliwość) i 20 (łatwość przesiadki). Liczby w sekcjach 1–13 są liczbami inwentaryzacyjnymi, przepisanymi z plików w `results/qa/phase0/`, `data/manifest.csv` i `config.yaml`; przy każdej podano plik źródłowy. Gdzie czegoś nie sprawdzono, stoi „nie zweryfikowano”; gdzie danych nie ma, „brak danych”.
 
 Do czego wyniki się nadają, a do czego nie: §16.
 
@@ -18,7 +18,7 @@ Faza 0 jest zakończona. Zgodnie z briefem (§9) potok zatrzymuje się tutaj i c
 | 3. Dostępność | §4.6 | wykonana 2026-11-24 dla 7 aglomeracji fazy 1; sekcja 17 |
 | 4. Mapa | §8 | wykonana 2026-11-24 (pięć warstw kafli); sekcja 18 |
 | 5. Faza 2 miast | §4.1–4.3 dla Szczecina, Bydgoszczy–Torunia, Lublina, Rzeszowa, Kielc, Białegostoku | nie rozpoczęta |
-| 6. Warstwy dodatkowe | §13 briefu | jedna warstwa spoza listy (gęstość × częstotliwość, sekcja 19); kolejne zatwierdzone w §12.2; 6b (GTFS-RT) odłożona decyzją właściciela, sekcja 10 |
+| 6. Warstwy dodatkowe | §13 briefu | dwie warstwy spoza listy (gęstość × częstotliwość, sekcja 19; łatwość przesiadki, sekcja 20); kolejne zatwierdzone w §12.2; 6b (GTFS-RT) odłożona decyzją właściciela, sekcja 10 |
 
 Dwa elementy fazy 0 pozostały niepełne i są opisane w sekcjach 4 i 9: pełna kontrola GHSL vs NSP należy do fazy 1, a wartości PNFT z Atlasu ITDP dla polskich miast nie zostały uzyskane.
 
@@ -504,7 +504,7 @@ Numeracja zgodna z briefem §12; punkty 10–14 to nowe pytania z fazy 0. Rekome
 - Dodać warstwę „gęstość × częstotliwość komunikacji” z miarami niedopasowania (§19).
 - Dodać wariant transport performance w granicach urban centre dla siedmiu miast (§17.5) i opisać ograniczenia wprost (§16).
 - Nazwę „prędkość eksploatacyjna” zastąpić nazwą „prędkość komunikacyjna” (§15.3).
-- Zatwierdzone do wykonania po publikacji fazy 3, w tej kolejności: miara łatwości przesiadki dla zespołu przystanków; tabele prędkości linii, prędkości wg obszaru i przeglądarka odcinków sieci tramwajowej; scenariusz „co jeśli” dla tramwajów we Wrocławiu oparty na tych danych.
+- Zatwierdzone do wykonania po publikacji fazy 3, w tej kolejności: miara łatwości przesiadki dla zespołu przystanków (wykonana, §20); tabele prędkości linii, prędkości wg obszaru i przeglądarka odcinków sieci tramwajowej; scenariusz „co jeśli” dla tramwajów we Wrocławiu oparty na tych danych.
 
 ## 13. Licencje i atrybucje
 
@@ -889,7 +889,7 @@ Strona: https://bartor.github.io/compactness/ (Vite + React, MapLibre GL, kafle 
 
 Żaden plik nie przekracza 50 MB, katalog nie przekracza 200 MB (progi ostrzeżeń z briefu §14.3).
 
-- **Warstwy.** Granice FUA i rdzeni; gęstość 250 m (13 aglomeracji); zasięg częstej komunikacji; transport performance 30 min; gęstość × częstotliwość (§19); maska braku danych GTFS. Komórki bez danych są kreskowane, nigdy rysowane jako zero.
+- **Warstwy.** Granice FUA i rdzeni; gęstość 250 m (13 aglomeracji); zasięg częstej komunikacji; transport performance 30 min; gęstość × częstotliwość (§19); maska braku danych GTFS; dwie warstwy punktowe zespołów przystanków (dojście między liniami i czekanie, §20) z pliku GeoJSON, które można nałożyć na warstwę wartości. Komórki bez danych są kreskowane, nigdy rysowane jako zero.
 - **Jedna warstwa wartości naraz.** Włączenie drugiej wyłącza pierwszą; granice i maska są niezależne.
 - **Legenda połączona z mapą.** Wskazanie klasy w legendzie przygasza pozostałe klasy na mapie, kliknięcie zostawia wyróżnienie (można zostawić kilka), wskazanie komórki na mapie zaznacza jej klasę w legendzie.
 - **Małe powiększenia.** Poniżej zoomu 9 komórki są łączone w bloki z klasą dominującą; pełna rozdzielczość 250 m od zoomu 9.
@@ -914,3 +914,74 @@ Warstwa spoza pierwotnego zakresu, dodana za zgodą właściciela (§12.2). Nota
 | GZM | 22,8 | 54,3 | 0,42 | 24,6 | 51,2 | 0,51 |
 
 Pierwsze dwie kolumny każdego obszaru to udział mieszkańców komórek o gęstości co najmniej 2 500 os./km². Korelacja rang (Spearman, ważona ludnością) między gęstością komórki a klasą odstępu: dodatnia oznacza, że gęstsze komórki mają częstsze kursy. GZM ma najwięcej mieszkańców gęstej zabudowy bez kursów co 20 min, zgodnie z wynikami faz 2 i 3.
+
+## 20. Łatwość przesiadki w zespołach przystanków (warstwa dodatkowa, 2026-11-24)
+
+Warstwa zatwierdzona przez właściciela (§12.2). Nota z metodą, kontrolami i ograniczeniami: [`qa/transfer/transfer.md`](qa/transfer/transfer.md); liczby: `metrics/metrics_transfer.csv`; warstwa: `layers/transfer_nodes.parquet` (8 540 zespołów) i `web/transfer_nodes.geojson`; kod: `pipeline/transfer_ease.py` z modułami `transfer_osm.py`, `transfer_walk.py`, `transfer_report.py`, eksport na mapę `transfer_web.py`. Rozkłady: środa 2026-11-25; sieć piesza i tagi: OSM 2026-11-22.
+
+**Co to jest.** Dla każdego zespołu przystanków, w którym można zmienić linię, osobne składowe: dojście między liniami po sieci pieszej, przejścia przez jezdnię i schody po drodze, oczekiwane czekanie na linię docelową z rozkładu, znaczenie węzła (linie, pary linii, odjazdy na godzinę). Składowe są pokazywane obok siebie i nie są łączone w jedną ocenę. To miara własna, oparta na tym, co da się policzyć z OSM i rozkładów; nie jest to metoda AMPTI. Brief nie przewidywał tej warstwy.
+
+**Reguły ustalone w kroku** (wszystkie progi są wyborem własnym, zapisane jako stałe w kodzie):
+- zespół przystanków: klastry 100 m z fazy 2 łączone, gdy najbliższe słupki są do 150 m od siebie (do 250 m przy kolei lub metrze), z ograniczeniem rozpiętości do 400 m (600 m z koleją lub metrem);
+- para przesiadkowa: dwie różne linie, bez par „równoległych” (co najmniej 80 % wspólnych zespołów);
+- dojście z kierunkami: liczą się tylko przesiadki, po których druga linia jedzie gdzie indziej niż pierwsza. Zwykła „najlepsza para słupków” nie różnicuje miast, bo 44–73 % par linii ma wspólny słupek; obie wersje są w danych, miary główne używają wersji z kierunkami.
+
+### 20.1 Wyniki dla miast (obszar pokryty danymi GTFS)
+
+| Aglomeracja | Zespołów | Odjazdy w zespołach z dojściem ≤ 2 min (z kierunkami), % | To samo, najlepsza para słupków, % | 20 największych: dojście, min | 20 największych: czekanie 7–9, min | 20 największych: dojście + czekanie, min | 20 największych: przejść przez jezdnię |
+|---|---|---|---|---|---|---|---|
+| Warszawa | 2181 | 64,2 | 91,6 | 2,3 | 5,3 | 8,2 | 1,0 |
+| Kraków | 947 | 74,5 | 96,8 | 2,0 | 7,6 | 9,8 | 1,0 |
+| Wrocław | 579 | 82,8 | 94,9 | 1,6 | 7,4 | 8,8 | 1,0 |
+| Poznań | 786 | 79,2 | 96,8 | 1,6 | 5,2 | 8,8 | 1,0 |
+| Łódź | 647 | 75,7 | 97,7 | 2,0 | 7,6 | 10,4 | 1,0 |
+| Trójmiasto | 733 | 61,9 | 92,3 | 2,7 | 10,7 | 13,0 | 1,0 |
+| GZM | 1961 | 83,1 | 97,2 | 1,5 | 15,0 | 17,3 | 0,5 |
+
+Czekanie przeważa nad dojściem prawie wszędzie. GZM ma najkrótsze dojścia i zdecydowanie najdłuższe czekanie, co zgadza się z częstotliwością kursów z §15.2. Najdłuższe dojścia mają Warszawa i Trójmiasto. Poziom udziałów zależy od reguły łączenia w zespoły (62–83 % przy regule głównej, 48–67 % przy szerokiej, 91–98 % dla samych klastrów 100 m), więc liczby nadają się do porównań między miastami, nie jako wartości bezwzględne.
+
+### 20.2 Znane węzły (kontrola)
+
+| Aglomeracja | Węzeł | Słupków | Rozpiętość, m | Linii | Odjazdów/h | Dojście z kierunkami, min | Czekanie 7–9, min | Dojście + czekanie, min | To samo, ważone kursami, min | Ruchy z drogą bez schodów w OSM, % |
+|---|---|---|---|---|---|---|---|---|---|---|
+| Warszawa | Centrum | 13 | 388 | 29 | 313 | 3,6 | 5,3 | 8,8 | 5,7 | 50 |
+| Warszawa | Dworzec Centralny | 27 | 427 | 39 | 282 | 2,7 | 5,6 | 8,6 | 6,5 | 89 |
+| Warszawa | Dworzec Gdański | 22 | 585 | 16 | 161 | 3,8 | 5,1 | 10,3 | 6,0 | 100 |
+| Warszawa | Dworzec Wileński | 10 | 337 | 21 | 237 | 2,4 | 4,2 | 7,1 | 5,1 | 71 |
+| Kraków | Borek Fałęcki | 6 | 202 | 25 | 50 | 2,4 | 23,5 | 19,5 | 14,7 | 100 |
+| Kraków | Dworzec Główny Zachód (Basztowa, Pawia) | 6 | 152 | 9 | 52 | 1,7 | 5,0 | 5,5 | 5,3 | 100 |
+| Kraków | Kraków Główny (kolej) | 27 | 532 | 28 | 113 | 2,3 | 15,0 | 24,2 | 9,3 | 100 |
+| Kraków | Podgórze SKA | 13 | 206 | 14 | 76 | 1,8 | 7,9 | 9,9 | 7,9 | 100 |
+| Kraków | Rondo Grunwaldzkie | 13 | 250 | 33 | 176 | 2,1 | 12,0 | 13,8 | 7,6 | 100 |
+| Kraków | Rondo Mogilskie | 18 | 273 | 20 | 181 | 2,5 | 7,5 | 9,8 | 7,5 | 100 |
+| Wrocław | Dworzec Główny | 30 | 524 | 39 | 172 | 6,2 | 8,6 | 16,6 | 7,7 | 48 |
+| Wrocław | Galeria Dominikańska | 13 | 357 | 25 | 150 | 2,4 | 6,0 | 8,9 | 7,6 | 100 |
+| Wrocław | pl. Grunwaldzki | 16 | 291 | 23 | 157 | 1,5 | 7,1 | 8,5 | 6,9 | 100 |
+| Poznań | Poznań Główny / Dworzec Zachodni | 33 | 653 | 26 | 146 | 2,0 | 7,5 | 10,8 | 6,8 | 96 |
+| Poznań | Rondo Kaponiera | 14 | 369 | 17 | 145 | 2,5 | 5,1 | 8,3 | 7,5 | 79 |
+| Poznań | Rondo Rataje | 6 | 162 | 22 | 80 | 1,1 | 15,2 | 16,3 | 5,2 | 100 |
+| Łódź | Piotrkowska Centrum | 8 | 199 | 13 | 101 | 1,8 | 7,5 | 9,3 | 7,5 | 100 |
+| Łódź | Łódź Fabryczna | 24 | 562 | 28 | 100 | 2,6 | 14,1 | 17,1 | 7,7 | 100 |
+| Łódź | Łódź Kaliska | 28 | 654 | 23 | 119 | 2,2 | 7,6 | 11,8 | 8,3 | 100 |
+| Trójmiasto | Gdańsk Główny | 21 | 289 | 40 | 194 | 2,9 | 15,0 | 18,6 | 9,1 | 43 |
+| Trójmiasto | Gdańsk Wrzeszcz | 15 | 455 | 29 | 109 | 1,8 | 12,9 | 14,3 | 10,2 | 28 |
+| Trójmiasto | Gdynia Główna | 29 | 570 | 46 | 207 | 2,9 | 12,9 | 16,6 | 11,1 | 100 |
+| GZM | Katowice Dworzec | 19 | 417 | 50 | 147 | 2,0 | 15,0 | 18,0 | 15,0 | 100 |
+| GZM | Katowice Rynek | 7 | 317 | 36 | 146 | 2,0 | 15,0 | 12,2 | 9,4 | 100 |
+| GZM | Sosnowiec Główny | 8 | 111 | 30 | 85 | 1,0 | 21,0 | 20,9 | 15,9 | 54 |
+
+Mediany po parach linii. Długie czekanie na dworcach i w węzłach GZM wynika z rzadkich linii podmiejskich i kolejowych w medianie; wersja ważona liczbą kursów jest niższa nawet o 8 min. Wrocław Dworzec Główny ma długie dojście, bo zespół obejmuje dworzec autobusowy przy Suchej i przystanki tramwajowe na Piłsudskiego.
+
+### 20.3 Kontrola z oceną AMPTI dla Krakowa
+
+Dla trzech węzłów ocenionych metodą AMPTI w 2015 r. (Czekała i Bryniarska, TMiR 6/2017) porównywalna jest tylko zwartość, czyli średnia odległość między przystankami: Rondo Mogilskie 317,8 m wobec naszych 242 m, Dworzec Główny 159,0 m wobec 128 m, Borek Fałęcki 186,0 m wobec 153 m. Kolejność się zgadza, nasze wartości są o 18–25 % niższe. Oceny dla Ronda Grunwaldzkiego i Podgórza SKA oraz artykułu metodycznego z 2014 r. nie udało się uzyskać.
+
+### 20.4 Ograniczenia i czego nie zweryfikowano
+
+- Reguła zespołu dzieli Kraków Dworzec Główny na dwa zespoły i tworzy kilka zbyt szerokich zespołów (do ok. 650 m: Dworzec Gdański, Poznań Główny, Łódź Kaliska).
+- „Droga bez schodów” oznacza drogę znalezioną w OSM: 8–36 % wind w OSM to ślepe końce, więc brak takiej drogi na dużych dworcach może być luką danych, nie rzeczywistością.
+- Stacje kolejowe mają w rozkładach jeden punkt na wszystkie perony: dojście pociąg–pociąg to brak danych, a pociąg–tramwaj liczy się do punktu stacji.
+- Przejścia są niedoszacowane tam, gdzie ścieżka w OSM biegnie osią jezdni; udział przejść z tagiem rodzaju na zmierzonych drogach to 88–94 %.
+- Skomunikowań w rozkładzie jednego dnia nie widać (11–14 % par „pasuje” przy ok. 10 % oczekiwanych z przypadku); wykrywanie jest przybliżone.
+- Czas dojścia to 5 km/h po sieci OSM, bez czekania na światłach, schodów i tłumu; czekanie jest rozkładowe, w pełnych minutach.
+- Próba tras z fazy 3 nie zawiera miejsca przesiadki, więc znaczenie węzła opisują tylko linie i odjazdy.
