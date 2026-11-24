@@ -1,6 +1,6 @@
 {
- "duration_s": 0.8,
- "git_sha": "c1fc1e4dc0d662506b0f9cb30478d42220d3282e",
+ "duration_s": 0.4,
+ "git_sha": "959ea282e2ef55732ef42c0b234295b69a53d7ce",
  "inputs": {},
  "missing_inputs": [],
  "outputs": [
@@ -14,11 +14,12 @@
   "density": 765,
   "density_service": 168,
   "frequent": 4508,
-  "supply": 760
+  "supply": 760,
+  "transfer": 210
  },
- "rows_panel": 400,
- "rows_total": 11990,
- "run_at": "2026-11-24T11:51:16+01:00",
+ "rows_panel": 428,
+ "rows_total": 12200,
+ "run_at": "2026-11-24T13:19:24+01:00",
  "step": "merge_metrics",
  "step_files": {
   "metrics_access.csv": "f662a2f7bf89826d1d54ea68787d29de0ff83cb1784ea97da4e714bbc1d32f1e",
@@ -32,6 +33,8 @@
   "metrics_frequent.csv": "7740baefe80031518f2913c953d5b10a2510b790f5ebc9a06c4c1d16fcfef176",
   "metrics_frequent.json": "bae46bc5a1c1a3ec044483a98c0b04cc59391dc9b640ed2ef71269680221e828",
   "metrics_supply.csv": "3a4bed06d6dfcfe03e086832a85aeb9315c46699dfb19a4ac3b66d9c6f0dc7f9",
-  "metrics_supply.json": "9b92e41109f20846bb0bbf9a0e811f3ba2e942a1f68ec6f1e280377e812e957f"
+  "metrics_supply.json": "9b92e41109f20846bb0bbf9a0e811f3ba2e942a1f68ec6f1e280377e812e957f",
+  "metrics_transfer.csv": "c21752b9b0884898c1a8ee61d43d67bc4df8ab820ad55eb2bcfc6cd023fc5977",
+  "metrics_transfer.json": "9ce20f264625d233c9f3693b24548d9e24455fc0aecfc279625ede1fa97b113c"
  }
 }
