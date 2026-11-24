@@ -1,0 +1,30 @@
+.iso-card {
+  font-family: var(--font-ui, system-ui, sans-serif);
+  background: #1c1f26;
+  color: #e6e8ee;
+  border: 1px solid #2e333d;
+  border-radius: 8px;
+  padding: 10px 12px;
+  max-width: 340px;
+  font-size: 13px;
+  line-height: 1.4;
+}
+.iso-card header { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.iso-card h3 { margin: 0 0 6px; font-size: 14px; font-weight: 600; }
+.iso-close { background: none; border: 0; color: inherit; font-size: 18px; cursor: pointer; line-height: 1; }
+.iso-hint, .iso-note { color: #b4bac6; margin: 4px 0; }
+.iso-note { font-size: 11.5px; }
+.iso-origin { margin: 0 0 6px; }
+.iso-kind, .iso-dist { color: #b4bac6; }
+.iso-switch { display: flex; gap: 4px; margin-bottom: 6px; flex-wrap: wrap; }
+.iso-switch button {
+  background: transparent; color: #b4bac6; border: 1px solid #3a404c; border-radius: 999px;
+  padding: 2px 8px; font: inherit; font-size: 12px; cursor: pointer;
+}
+.iso-switch button.on { color: #12141a; background: #6ccfc1; border-color: #6ccfc1; }
+.iso-table { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; }
+.iso-table caption { text-align: left; color: #b4bac6; font-size: 12px; padding-bottom: 2px; }
+.iso-table th, .iso-table td { padding: 2px 4px; text-align: right; font-weight: 400; }
+.iso-table th[scope='row'], .iso-table thead th:first-child { text-align: left; white-space: nowrap; }
+.iso-table thead th { color: #b4bac6; font-size: 12px; }
+.iso-swatch { display: inline-block; width: 10px; height: 10px; border-radius: 2px; margin-right: 6px; vertical-align: -1px; }
