@@ -1186,3 +1186,35 @@ kwadrat (FGT2). Współczynnika Giniego nie podajemy (§21); wskaźnik Palmy jes
   roweru i częstotliwości kursów są w danych wykresów; wartości dla 5–10 min są zdominowane przez własną komórkę
   mieszkańca i nie opisują sieci.
 - Przeliczona tu średnia stosunków zgadza się z `metrics_access` i `metrics_access_uc` w 42 z 42 porównań.
+
+## 23. Co by dały szybsze tramwaje we Wrocławiu (2026-11-24)
+
+Nota: `qa/whatif/whatif.md`; liczby: `metrics/metrics_whatif.csv`; warstwa: `layers/whatif_wroclaw_cells.parquet`; kod:
+`pipeline/whatif_tram.py`. **To scenariusz na rozkładzie jazdy**: mówi, ile w mierze transport performance byłoby warte
+szybsze kursowanie tramwajów, a nie jak to osiągnąć, ile kosztuje i czy jest wykonalne.
+
+**Metoda.** Rozkład tramwajów Wrocławia (środa 2026-11-25) przepisano tak, by odcinki sieci (speed.md §3) jechały z prędkością
+docelową w każdym paśmie dnia; czas zabierany jest z nadwyżki ponad jazdę swobodną, nigdy poniżej niej, a oszczędności
+zamieniane są na pełne minuty regułą bez obciążenia (stała losowa faza zaokrąglenia na kurs), przy niezmienionych pierwszych
+odjazdach. Autobusy i kolej bez zmian. Routing jak w §17 (7:00–9:00, mediana, te same starty i cele). Kontrola: rozkład
+bez zmian przepuszczony przez ten sam kod odtwarza produkcję komórka po komórce.
+
+| Scenariusz | Prędkość tramwajów 7–9, km/h | Rdzeń KZ 30 | Rdzeń KZ 45 | Urban centre KZ 30 | Miejsce rdzenia przy 30 / 45 min |
+|---|---|---|---|---|---|
+| dziś (S0) | 16,2 | 29,4 | 54,5 | 33,4 | 5. / 4. |
+| S1: odcinki < 15 km/h podniesione do 15 | 17,4 | 31,1 (+1,7) | 56,4 (+1,9) | 35,3 (+2,0) | 5. / 2. |
+| S2: szczyt jak wieczór | 17,9 | 31,5 (+2,1) | 57,3 (+2,7) | 35,8 (+2,4) | 5. / 2. |
+| S3: jak porównywalne odcinki Krakowa i Poznania | 18,5 | 32,5 (+3,1) | 58,3 (+3,8) | 37,0 (+3,6) | 3. / 2. |
+| S4: S2 + kursy co 10 min | 17,9 | 32,3 (+2,9) | 58,0 (+3,4) | 36,7 (+3,3) | 3. / 2. |
+| S4h: same kursy co 10 min | 16,2 | 30,1 (+0,6) | 55,1 (+0,6) | 34,0 (+0,7) | 5. / 3. |
+
+Stosunek średnich; w nawiasie zmiana w punktach. Pozostałe miasta na obecnych rozkładach.
+
+- Przyspieszenie tramwajów do poziomu wieczoru podnosi wynik rdzenia o ok. 2 pkt przy 30 min i 2,7 pkt przy 45 min, czyli
+  zamyka ponad połowę różnicy do Krakowa przy 30 min; z celami z Krakowa i Poznania (S3) różnica znika niemal w całości.
+- Zysk skupia się w śródmieściu (do 2 km od Rynku średnio +3,8 pkt przy 30 min) i w gęstych komórkach blisko tramwaju;
+  dalej niż 5 km od tramwaju nic się nie zmienia przy 30 min.
+- Same częstsze kursy (12 → 10 min) dają tylko +0,6 pkt; przyspieszenie i częstotliwość prawie się sumują.
+- Pojedyncze spadki (do ok. 2 pkt przy 30 min) to przesiadki na autobus i kolej, które przestają być zgrane, bo ich rozkład
+  się nie zmienia.
+- Kolejności miast nie czytać jako rankingu (§16.2, §17.8).

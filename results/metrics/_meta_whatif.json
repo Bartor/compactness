@@ -1,0 +1,88 @@
+{
+ "code_version": "whatif-tram-2026-11-24.2",
+ "control_all_published_equal": true,
+ "duration_s": 16.7,
+ "git_sha": "c5c4a86c930b2c414008002e21fedaf330ba5fb5",
+ "inputs": {},
+ "main_scenario": "S2",
+ "missing_inputs": [],
+ "note": "rozkład, nie rzeczywistość; zmodyfikowane GTFS tylko w data/interim/whatif (poza results/)",
+ "outputs": [
+  "metrics/metrics_whatif.csv",
+  "metrics/metrics_whatif.json",
+  "layers/whatif_wroclaw_cells.parquet",
+  "qa/whatif/",
+  "map_s1_d30.png",
+  "map_s1_d45.png",
+  "map_s2_d30.png",
+  "map_s2_d45.png",
+  "map_s3_d30.png",
+  "map_s3_d45.png",
+  "map_s4_d30.png",
+  "map_s4_d45.png",
+  "map_s4h_d30.png",
+  "map_s4h_d45.png"
+ ],
+ "routing": {
+  "S0": {
+   "chunks_routed_now": 21,
+   "network_s": 44.1,
+   "origins": 20153,
+   "routing_s": 431.4,
+   "threads": 4,
+   "xmx": "8G"
+  },
+  "S1": {
+   "chunks_routed_now": 21,
+   "network_s": 33.3,
+   "origins": 20153,
+   "routing_s": 402.7,
+   "threads": 4,
+   "xmx": "8G"
+  },
+  "S2": {
+   "chunks_routed_now": 21,
+   "network_s": 43.7,
+   "origins": 20153,
+   "routing_s": 426.7,
+   "threads": 4,
+   "xmx": "8G"
+  },
+  "S3": {
+   "chunks_routed_now": 21,
+   "network_s": 33.4,
+   "origins": 20153,
+   "routing_s": 422.9,
+   "threads": 4,
+   "xmx": "8G"
+  },
+  "S4": {
+   "chunks_routed_now": 21,
+   "network_s": 31.2,
+   "origins": 20153,
+   "routing_s": 386.0,
+   "threads": 4,
+   "xmx": "8G"
+  },
+  "S4h": {
+   "chunks_routed_now": 21,
+   "network_s": 33.1,
+   "origins": 20153,
+   "routing_s": 370.1,
+   "threads": 4,
+   "xmx": "8G"
+  }
+ },
+ "rows": 288,
+ "run_at": "2026-11-24T18:04:38+01:00",
+ "scenarios": {
+  "S0": "kontrola (rozkład bez zmian)",
+  "S1": "odcinki wolniejsze niż 15 km/h podniesione do 15 km/h",
+  "S2": "każdy odcinek z prędkością wieczorną (20–23) przez cały dzień",
+  "S3": "odcinki z medianą prędkości porównywalnych odcinków Krakowa i Poznania",
+  "S4": "S2 + kursy co 10 min w szczycie na każdej linii",
+  "S4h": "same kursy co 10 min w szczycie (bez przyspieszenia)"
+ },
+ "step": "whatif_tram",
+ "timetable_date": "2026-11-25"
+}

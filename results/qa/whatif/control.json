@@ -1,0 +1,125 @@
+{
+ "all_published_equal": true,
+ "cells": 20153,
+ "cells_differing_census": 0,
+ "cells_differing_raw": 0,
+ "max_abs_diff_census": 0.0,
+ "max_abs_diff_r5only_30": 0.0,
+ "max_abs_diff_r5only_45": 0.0,
+ "max_abs_diff_raw": 0.0,
+ "published": [
+  {
+   "domain": "core",
+   "equal": true,
+   "metric": "tp_pt_am_30min",
+   "published": 27.59,
+   "s0": 27.59
+  },
+  {
+   "domain": "core",
+   "equal": true,
+   "metric": "tp_pt_am_30min_ratio_of_means",
+   "published": 29.44,
+   "s0": 29.44
+  },
+  {
+   "domain": "core",
+   "equal": true,
+   "metric": "tp_pt_am_45min",
+   "published": 53.01,
+   "s0": 53.01
+  },
+  {
+   "domain": "core",
+   "equal": true,
+   "metric": "tp_pt_am_45min_ratio_of_means",
+   "published": 54.53,
+   "s0": 54.53
+  },
+  {
+   "domain": "covered",
+   "equal": true,
+   "metric": "tp_pt_am_30min",
+   "published": 24.64,
+   "s0": 24.64
+  },
+  {
+   "domain": "covered",
+   "equal": true,
+   "metric": "tp_pt_am_30min_ratio_of_means",
+   "published": 29.06,
+   "s0": 29.06
+  },
+  {
+   "domain": "covered",
+   "equal": true,
+   "metric": "tp_pt_am_45min",
+   "published": 45.54,
+   "s0": 45.54
+  },
+  {
+   "domain": "covered",
+   "equal": true,
+   "metric": "tp_pt_am_45min_ratio_of_means",
+   "published": 52.36,
+   "s0": 52.36
+  },
+  {
+   "domain": "fua",
+   "equal": true,
+   "metric": "tp_pt_am_30min",
+   "published": 24.52,
+   "s0": 24.52
+  },
+  {
+   "domain": "fua",
+   "equal": true,
+   "metric": "tp_pt_am_30min_ratio_of_means",
+   "published": 28.47,
+   "s0": 28.47
+  },
+  {
+   "domain": "fua",
+   "equal": true,
+   "metric": "tp_pt_am_45min",
+   "published": 40.72,
+   "s0": 40.72
+  },
+  {
+   "domain": "fua",
+   "equal": true,
+   "metric": "tp_pt_am_45min_ratio_of_means",
+   "published": 49.79,
+   "s0": 49.79
+  },
+  {
+   "domain": "urban_centre",
+   "equal": true,
+   "metric": "tp_pt_am_30min",
+   "published": 31.94,
+   "s0": 31.94
+  },
+  {
+   "domain": "urban_centre",
+   "equal": true,
+   "metric": "tp_pt_am_30min_ratio_of_means",
+   "published": 33.35,
+   "s0": 33.35
+  },
+  {
+   "domain": "urban_centre",
+   "equal": true,
+   "metric": "tp_pt_am_45min",
+   "published": 64.79,
+   "s0": 64.79
+  },
+  {
+   "domain": "urban_centre",
+   "equal": true,
+   "metric": "tp_pt_am_45min_ratio_of_means",
+   "published": 65.71,
+   "s0": 65.71
+  }
+ ],
+ "uc_max_abs_diff": 0.03124709438998252
+}
