@@ -593,7 +593,7 @@ Policzono dwa warianty, pierścienie co 1 km do 40 km, GHS-POP 2020 100 m przesk
 - **ρ > 1 wszędzie** (każda aglomeracja, domena i próg z wartością; na surowym GHSL wyjątkiem był rdzeń Rzeszowa przy 10 %). Sprawdzono mapy masek, wrażliwość na mostkowanie i zakres wartości GHS-BUILT-S; wynik zostaje. Zgodnie z briefem ρ = 1 to walec o równomiernej gęstości, nie optimum.
 - **Porównanie z Bertaudem i Malpezzim (2003; tabela 1, dane z lat 90.)** ([`qa/density/density.md`](qa/density/density.md) §4a): poziom ρ jest porównywalny dla rdzenia przy progu 10 %, czyli przy terenie zabudowanym najbliższym ich definicji (odejmują tylko duże tereny niezabudowane). Tam ρ Warszawy wynosi 1,094 wobec ich 0,99, a Krakowa 1,168 wobec 1,18 (na surowym GHSL 1,054 i 1,178); pole maski (266 i 134 km²) i liczba mieszkańców na hektar maski (68 i 56) są tego samego rzędu co u nich (235 i 112 km², 70 i 65 os./ha), a gradienty Clarka FUA (0,162 i 0,170 na km) różnią się od ich wartości (0,170 i 0,174) o kilka tysięcznych. Wartości FUA przy progu 20 % (Warszawa 1,406, Kraków 1,442) są wyższe z konstrukcji, bo maska netto zachowuje tylko część ludności i ma kształt gwiazdy; tych liczb nie należy zestawiać z wartościami Bertauda i Malpezziego. Zgodność jest wskazówką, nie dowodem: inne dane, inna dekada, inny obszar dopasowania gradientu.
 - GZM w wariancie „najbliższe z 9 centrów”: 0,57 przy progu 20 % (inna miara). ρ ok. 5 dla Bydgoszczy–Torunia to po prostu dwa ośrodki oddalone o ok. 42 km; tam ma sens tylko wariant „najbliższe z N”. Trójmiasto: wynik z zastrzeżeniem (miasto liniowe).
-- Gini i η (§4.4) są w `metrics.csv` z poziomem `qa` i nie idą na grafiki.
+- Gini zostaje w QA. η jest od 2026-11-24 w tabelach (krok `form`, `poly_eta_mask_t20`, liczone dokładnie; §14.7); na grafiki nie idzie. ρ na zasięgu miejskim Angela: §14.7.
 
 ### 14.4 Kontrola GHSL 2020 vs NSP 2021 (§7.1)
 
@@ -609,9 +609,41 @@ Brief przewiduje GHSL (100 m i 250 m) jako siatkę ludności dla częstej komuni
 
 ### 14.6 Nie zweryfikowano
 
-Danych wejściowych JRC dla Polski; nazw miejsc przy największych różnicach komórek; błędu próbkowania η (próba 4 000 komórek); ratuszy wybranych ręcznie (siedziby prezydentów według wiedzy ogólnej, nie sprawdzane w BIP).
+Danych wejściowych JRC dla Polski; nazw miejsc przy największych różnicach komórek; ratuszy wybranych ręcznie (siedziby prezydentów według wiedzy ogólnej, nie sprawdzane w BIP).
 
 **Wrażliwość na wybór centrum (sprawdzona 2026-11-24, [`qa/density/density.md`](qa/density/density.md) §4b).** Trzy centra: punkt z `config.yaml`, ratusz miasta rdzenia z OSM i środek ciężkości ludności rdzenia; maska bez zmian. W miastach jednocentrowych ρ FUA przy 20 % zmienia się między centrami o 0,004–0,138, czyli mniej więcej tyle, ile dzieli sąsiednie miasta w rankingu: kolejność miast o podobnym ρ zależy od wyboru centrum, większe różnice są na niego odporne. Centrum leży 0,3–2,1 km od środka ciężkości ludności; najdalej: Kraków 2,1 km, Łódź 1,6 km, Poznań 1,1 km. Bertaud i Malpezzi wymieniają Kraków jako miasto z centrum przesuniętym względem ludności, w którym ρ ma mniejsze znaczenie. W aglomeracjach wielomiejskich środek ciężkości leży między miastami, co tylko potwierdza, że ρ jednocentrowe nie ma tam sensu.
+
+### 14.7 Forma: indeks bliskości Angela, policentryczność, stopień urbanizacji, klasy gęstości (2026-11-24)
+
+Pełny opis, tabele i lektura krytyczna: [`qa/form/form.md`](qa/form/form.md). Liczby:
+[`metrics/metrics_form.csv`](metrics/metrics_form.csv) (krok `form`). Dane pod wykres:
+[`charts/form.json`](charts/form.json). Kod: `pipeline/form_extra.py`, `form_md.py`, `form_text.py`.
+
+- **Indeks bliskości Angela (PRX)** liczony na zasięgu miejskim wyznaczonym metodą Atlas of Urban Expansion
+  odtworzoną na GHS-BUILT-S 100 m (komórka zabudowana ≥ 10 %, zabudowa miejska i podmiejska, obrzeże 100 m,
+  enklawy < 200 ha, przerwy do 600 m łączone), centrum = ratusz. W 10 miastach jednocentrowych PRX wynosi
+  0,71–0,86, ale ich kolejność nie jest odporna na regułę zasięgu (z centrum miejskim Eurostatu 2021 jako
+  zasięgiem: 0,82–0,92, korelacja rang −0,20). Odstają tylko Trójmiasto (0,42, pasmo wzdłuż brzegu; indeks z
+  jednym centrum nie ma tam sensu), GZM (0,64) i Bydgoszcz–Toruń (0,66). **Do tabel, nie na grafiki ani do
+  rankingu.**
+- **ρ Bertauda na tym samym zasięgu jest poniżej 1 we wszystkich miastach jednocentrowych (0,83–0,97)**, przy
+  ρ > 1 na masce netto ≥ 20 % (§14.3). Potwierdza to, że ρ > 1 w §14.3 wynika z maski, nie z rozproszenia
+  ludności: na zasięgu narysowanym opublikowaną regułą mieszkańcy mieszkają bliżej ratusza niż przy
+  równomiernym rozkładzie (Warszawa 0,94, Kraków 0,95 wobec 0,99 i 1,18 u Bertauda i Malpezziego).
+- **Policentryczność:** η (Volpati i Barthelemy) przeniesione z QA do tabel, liczone dokładnie po wszystkich
+  parach (różnica z próbą 4 000 komórek ≤ 0,009). Najwyższe: GZM 0,86, Bydgoszcz–Toruń 0,85, Lublin 0,82,
+  Trójmiasto 0,78; najniższe: Rzeszów 0,30, Kielce 0,34. Skupiska gęstości (komórki 250 m ≥ 10 000 os./km²,
+  spójne): GZM ma 32 skupiska z ≥ 5 000 mieszkańców, największe (Tychy) skupia 10 % ich ludności, nachylenie
+  ranga–wielkość −0,60 (najbardziej płaskie); w miastach jednocentrowych 2–22 skupiska, największe 13–58 %.
+  Osiem z dziewięciu centrów GZM z config.yaml ma przy sobie (≤ 0,25 km) skupisko z pierwszej dziesiątki;
+  wyjątkiem jest Ruda Śląska. Katowice są w GZM dopiero 7. skupiskiem. Największe skupiska miast jednocentrowych
+  to zwykle wielkie osiedla, nie śródmieścia (np. Kraków: 130 tys. os. 6,3 km od Rynku).
+- **Stopień urbanizacji:** udział ludności w centrach miejskich z oficjalnej warstwy Eurostatu 2021 (FUA 31 %
+  Rzeszów – 66 % GZM; rdzeń 72–94 %); uproszczona klasyfikacja projektu daje to samo w 8 z 13 FUA, najwyżej
+  1,4 pp mniej (GZM). Skupiska miejskie i obszary wiejskie z regułą uproszczoną (bez poziomu 2).
+- **Klasy gęstości:** w komórkach 250 m ≥ 5 000 os./km² mieszka 18 % (Rzeszów) – 58 % (Szczecin) ludności
+  FUA i 43 % (Rzeszów) – 79 % (Warszawa) ludności rdzenia. Kandydat do tabeli 13 miast i na wykres
+  (`charts/form.json`).
 
 ## 15. Faza 2: częsta komunikacja i podaż (2026-11-24)
 

@@ -1,0 +1,97 @@
+{
+ "built_pixel_sensitivity": [
+  0.05,
+  0.2
+ ],
+ "built_pixel_share": 0.1,
+ "captured_max_ha": 200,
+ "density_stops": [
+  500,
+  1000,
+  2500,
+  5000,
+  10000,
+  20000
+ ],
+ "duration_s": 352.3,
+ "eurostat_hdens_2021": {
+  "path": "data/raw/eurostat_hdens_2021/HDENS-CLST-2021.zip",
+  "source": {
+   "bytes": 132966,
+   "content": "High-density clusters (urban centres) 2021, GISCO, released 2024-11-19",
+   "fetched_at": "2026-11-24T09:13:11",
+   "landing_page": "https://ec.europa.eu/eurostat/web/gisco/geodata/population-distribution/clusters",
+   "licence": "Eurostat GISCO population-distribution download rules; (c) European Union / Eurostat, re-use with attribution (Eurostat copyright notice)",
+   "sha256": "96bbd61eea3ff5e3ea4f69b6e37462d6c390eaec473a2174de5056a622b7993b",
+   "url": "https://ec.europa.eu/eurostat/documents/7116161/15125332/HDENS-CLST-2021.zip/64d30f03-acf2-c8f5-a530-02bbe62c0c43?t=1731944882446"
+  }
+ },
+ "extent_gap_m": 600,
+ "git_sha": "f977e1de5a63d3258adba7aec46111b3b28f7dda",
+ "hotspot_min_pop": 5000,
+ "hotspot_sensitivity": [
+  5000.0
+ ],
+ "hotspot_threshold": 10000.0,
+ "inputs": {
+  "ghs_built_s_2020_R3_C20": {
+   "data_date": "2020",
+   "downloaded_at": "2026-11-23T18:17:08+01:00",
+   "sha256": "b155a9a69e1fa2ec243a5f9cdbc1a2dd981052310acdf876582021011611ae2c"
+  },
+  "ghs_built_s_2020_R4_C20": {
+   "data_date": "2020",
+   "downloaded_at": "2026-11-23T18:17:10+01:00",
+   "sha256": "be8b88ffb1547118750bad7b441ba7c50ddc5634cb60b4854d807e104bb19570"
+  },
+  "ghs_pop_2020_R3_C20": {
+   "data_date": "2020",
+   "downloaded_at": "2026-11-23T18:17:03+01:00",
+   "sha256": "1d9fb8c2e9576bec25fb18fab847901dc2f3b416377493b7920f83f0801c52c9"
+  },
+  "ghs_pop_2020_R4_C20": {
+   "data_date": "2020",
+   "downloaded_at": "2026-11-23T18:17:06+01:00",
+   "sha256": "200057fa8efc334e633a94971192c97b2318996b35a84cfe8fe652cdb170ba7a"
+  },
+  "lau_2021_01m": {
+   "data_date": "2021",
+   "downloaded_at": "2026-11-23T18:15:37+01:00",
+   "sha256": "3d7199c0b88040785d609dcf69ade80cf0843941b6deff4aa714a442c72f2dd6"
+  },
+  "nsp2021_grid_1km_shp": {
+   "data_date": "2021-03-31",
+   "downloaded_at": "2026-11-23T18:16:58+01:00",
+   "sha256": "815deb0fb369df11de0ff150dd14ce87fd875acf3d542da8d2db1dafc0791680"
+  },
+  "osm_poland_pbf": {
+   "data_date": "2026-11-22T21:20:48Z",
+   "downloaded_at": "2026-11-23T18:50:02+01:00",
+   "sha256": "8c6264a60df1a1a66b4ca3d68dd3f07c3be26237c86b97bff1aa5d3bb566dc1f"
+  },
+  "urau_2021_100k_all": {
+   "data_date": "2021",
+   "downloaded_at": "2026-11-23T18:15:32+01:00",
+   "sha256": "9f64bf0689875be1f64ecb742e370dd7987804ddbb63df5ac6e8860516ef7de3"
+  }
+ },
+ "missing_inputs": [
+  "eurostat_hdens_clst_2021"
+ ],
+ "outputs": [
+  "results/metrics/metrics_form.csv",
+  "results/metrics/metrics_form.json",
+  "results/charts/form.json"
+ ],
+ "population_dates": {
+  "built": "2020",
+  "census": "2021-03-31",
+  "census_scaled": "2021-03-31 (NSP 2021, wzór GHSL 2020)"
+ },
+ "run_at": "2026-11-24T17:44:36+01:00",
+ "step": "form",
+ "suburban_min": 0.25,
+ "townhalls": "data/interim/density/townhalls_osm.csv (OSM 2026-11-22, amenity=townhall)",
+ "urban_min": 0.5,
+ "walk_circle_m": 564.1895835477563
+}

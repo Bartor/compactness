@@ -1,0 +1,2813 @@
+{
+ "caveats": [
+  "Gęstość komórki 250 m jest wyższa niż gęstość tej samej zabudowy liczona na 1 km; liczb nie porównywać z gęstością ważoną populacją z siatki 1 km.",
+  "Ludność NSP 2021 z komórek 1 km rozłożona wewnątrz komórki wzorem GHS-POP 2020: wielkie osiedla mogą być w komórkach 250 m za rzadkie, centra i strefy przemysłowe za gęste.",
+  "Liczeni tylko mieszkańcy, bez miejsc pracy.",
+  "hotspots: skupiska komórek ≥ 10 000 os./km² (8 sąsiadów) w FUA, lista od 1 000 mieszkańców; do wykresu ranga–wielkość (oś logarytmiczna)."
+ ],
+ "cities": [
+  {
+   "core": {
+    "at_or_above": {
+     "1000": 0.9497,
+     "10000": 0.3841,
+     "20000": 0.1171,
+     "2500": 0.8488,
+     "500": 0.9791,
+     "5000": 0.6695
+    },
+    "median_density": 7757.0,
+    "residents": [
+     8204,
+     11511,
+     39615,
+     70332,
+     111926,
+     104750,
+     45931
+    ],
+    "share": [
+     0.02091,
+     0.02934,
+     0.101,
+     0.1793,
+     0.2853,
+     0.267,
+     0.1171
+    ],
+    "total": 392269
+   },
+   "fua": {
+    "at_or_above": {
+     "1000": 0.8824,
+     "10000": 0.3301,
+     "20000": 0.1018,
+     "2500": 0.7533,
+     "500": 0.9439,
+     "5000": 0.5807
+    },
+    "median_density": 6427.0,
+    "residents": [
+     28753,
+     31531,
+     66137,
+     88423,
+     128411,
+     117021,
+     52142
+    ],
+    "share": [
+     0.05611,
+     0.06153,
+     0.1291,
+     0.1726,
+     0.2506,
+     0.2284,
+     0.1018
+    ],
+    "total": 512418
+   },
+   "hotspots": {
+    "clusters": [
+     {
+      "gmina": "Szczecin",
+      "rank": 1,
+      "residents": 98200
+     },
+     {
+      "gmina": "Szczecin",
+      "rank": 2,
+      "residents": 12223
+     },
+     {
+      "gmina": "Police",
+      "rank": 3,
+      "residents": 12047
+     },
+     {
+      "gmina": "Szczecin",
+      "rank": 4,
+      "residents": 6979
+     },
+     {
+      "gmina": "Szczecin",
+      "rank": 5,
+      "residents": 6857
+     },
+     {
+      "gmina": "Szczecin",
+      "rank": 6,
+      "residents": 5161
+     },
+     {
+      "gmina": "Szczecin",
+      "rank": 7,
+      "residents": 3083
+     },
+     {
+      "gmina": "Gryfino",
+      "rank": 8,
+      "residents": 3044
+     },
+     {
+      "gmina": "Szczecin",
+      "rank": 9,
+      "residents": 2878
+     },
+     {
+      "gmina": "Szczecin",
+      "rank": 10,
+      "residents": 2643
+     },
+     {
+      "gmina": "Szczecin",
+      "rank": 11,
+      "residents": 2343
+     },
+     {
+      "gmina": "Kołbaskowo",
+      "rank": 12,
+      "residents": 2064
+     },
+     {
+      "gmina": "Szczecin",
+      "rank": 13,
+      "residents": 2010
+     },
+     {
+      "gmina": "Szczecin",
+      "rank": 14,
+      "residents": 1895
+     },
+     {
+      "gmina": "Szczecin",
+      "rank": 15,
+      "residents": 1439
+     },
+     {
+      "gmina": "Gryfino",
+      "rank": 16,
+      "residents": 1328
+     }
+    ],
+    "largest_share": 0.5805,
+    "rank_size_slope": -1.523,
+    "threshold": 10000.0
+   },
+   "id": "szczecin",
+   "name": "Szczecin",
+   "polycentric": false
+  },
+  {
+   "core": {
+    "at_or_above": {
+     "1000": 0.9513,
+     "10000": 0.3283,
+     "20000": 0.01905,
+     "2500": 0.8648,
+     "500": 0.978,
+     "5000": 0.7137
+    },
+    "median_density": 7787.0,
+    "residents": [
+     16375,
+     19908,
+     64462,
+     112685,
+     287252,
+     230520,
+     14203
+    ],
+    "share": [
+     0.02197,
+     0.02671,
+     0.08648,
+     0.1512,
+     0.3854,
+     0.3093,
+     0.01905
+    ],
+    "total": 745405
+   },
+   "fua": {
+    "at_or_above": {
+     "1000": 0.8691,
+     "10000": 0.2478,
+     "20000": 0.01296,
+     "2500": 0.7485,
+     "500": 0.9272,
+     "5000": 0.5787
+    },
+    "median_density": 6105.0,
+    "residents": [
+     79781,
+     63704,
+     132136,
+     186070,
+     362611,
+     257382,
+     14203
+    ],
+    "share": [
+     0.0728,
+     0.05813,
+     0.1206,
+     0.1698,
+     0.3309,
+     0.2349,
+     0.01296
+    ],
+    "total": 1095887
+   },
+   "hotspots": {
+    "clusters": [
+     {
+      "gmina": "Gdańsk",
+      "rank": 1,
+      "residents": 64098
+     },
+     {
+      "gmina": "Gdańsk",
+      "rank": 2,
+      "residents": 23368
+     },
+     {
+      "gmina": "Gdynia",
+      "rank": 3,
+      "residents": 15757
+     },
+     {
+      "gmina": "Gdańsk",
+      "rank": 4,
+      "residents": 9629
+     },
+     {
+      "gmina": "Gdynia",
+      "rank": 5,
+      "residents": 9619
+     },
+     {
+      "gmina": "Gdynia",
+      "rank": 6,
+      "residents": 9602
+     },
+     {
+      "gmina": "Gdańsk",
+      "rank": 7,
+      "residents": 8250
+     },
+     {
+      "gmina": "Gdynia",
+      "rank": 8,
+      "residents": 7388
+     },
+     {
+      "gmina": "Gdynia",
+      "rank": 9,
+      "residents": 6660
+     },
+     {
+      "gmina": "Gdynia",
+      "rank": 10,
+      "residents": 5723
+     },
+     {
+      "gmina": "Gdańsk",
+      "rank": 11,
+      "residents": 5307
+     },
+     {
+      "gmina": "Gdynia",
+      "rank": 12,
+      "residents": 5117
+     },
+     {
+      "gmina": "Gdynia",
+      "rank": 13,
+      "residents": 4928
+     },
+     {
+      "gmina": "Gdańsk",
+      "rank": 14,
+      "residents": 4850
+     },
+     {
+      "gmina": "Wejherowo",
+      "rank": 15,
+      "residents": 4064
+     },
+     {
+      "gmina": "Wejherowo",
+      "rank": 16,
+      "residents": 3890
+     },
+     {
+      "gmina": "Gdańsk",
+      "rank": 17,
+      "residents": 3791
+     },
+     {
+      "gmina": "Pruszcz Gdański",
+      "rank": 18,
+      "residents": 3687
+     },
+     {
+      "gmina": "Gdańsk",
+      "rank": 19,
+      "residents": 3426
+     },
+     {
+      "gmina": "Gdańsk",
+      "rank": 20,
+      "residents": 3425
+     },
+     {
+      "gmina": "Gdynia",
+      "rank": 21,
+      "residents": 3181
+     },
+     {
+      "gmina": "Gdańsk",
+      "rank": 22,
+      "residents": 2973
+     },
+     {
+      "gmina": "Gdańsk",
+      "rank": 23,
+      "residents": 2954
+     },
+     {
+      "gmina": "Sopot",
+      "rank": 24,
+      "residents": 2803
+     },
+     {
+      "gmina": "Gdańsk",
+      "rank": 25,
+      "residents": 2796
+     },
+     {
+      "gmina": "Gdańsk",
+      "rank": 26,
+      "residents": 2722
+     },
+     {
+      "gmina": "Reda",
+      "rank": 27,
+      "residents": 2638
+     },
+     {
+      "gmina": "Pruszcz Gdański",
+      "rank": 28,
+      "residents": 2463
+     },
+     {
+      "gmina": "Wejherowo",
+      "rank": 29,
+      "residents": 2381
+     },
+     {
+      "gmina": "Gdańsk",
+      "rank": 30,
+      "residents": 2248
+     },
+     {
+      "gmina": "Gdynia",
+      "rank": 31,
+      "residents": 2248
+     },
+     {
+      "gmina": "Gdańsk",
+      "rank": 32,
+      "residents": 2132
+     },
+     {
+      "gmina": "Gdańsk",
+      "rank": 33,
+      "residents": 2071
+     },
+     {
+      "gmina": "Gdańsk",
+      "rank": 34,
+      "residents": 2014
+     },
+     {
+      "gmina": "Gdańsk",
+      "rank": 35,
+      "residents": 1827
+     },
+     {
+      "gmina": "Wejherowo",
+      "rank": 36,
+      "residents": 1584
+     },
+     {
+      "gmina": "Gdańsk",
+      "rank": 37,
+      "residents": 1550
+     },
+     {
+      "gmina": "Gdynia",
+      "rank": 38,
+      "residents": 1547
+     },
+     {
+      "gmina": "Gdynia",
+      "rank": 39,
+      "residents": 1499
+     },
+     {
+      "gmina": "Wejherowo",
+      "rank": 40,
+      "residents": 1408
+     },
+     {
+      "gmina": "Pruszcz Gdański",
+      "rank": 41,
+      "residents": 1306
+     },
+     {
+      "gmina": "Gdynia",
+      "rank": 42,
+      "residents": 1223
+     },
+     {
+      "gmina": "Gdynia",
+      "rank": 43,
+      "residents": 1056
+     }
+    ],
+    "largest_share": 0.236,
+    "rank_size_slope": -0.9442,
+    "threshold": 10000.0
+   },
+   "id": "trojmiasto",
+   "name": "Trójmiasto",
+   "polycentric": true
+  },
+  {
+   "core": {
+    "at_or_above": {
+     "1000": 0.9312,
+     "10000": 0.2991,
+     "20000": 0.01753,
+     "2500": 0.8061,
+     "500": 0.9711,
+     "5000": 0.6257
+    },
+    "median_density": 6973.0,
+    "residents": [
+     47682,
+     65749,
+     206083,
+     297334,
+     538175,
+     464080,
+     28893
+    ],
+    "share": [
+     0.02893,
+     0.0399,
+     0.1251,
+     0.1804,
+     0.3266,
+     0.2816,
+     0.01753
+    ],
+    "total": 1647996
+   },
+   "fua": {
+    "at_or_above": {
+     "1000": 0.8799,
+     "10000": 0.2548,
+     "20000": 0.0154,
+     "2500": 0.7278,
+     "500": 0.9467,
+     "5000": 0.5523
+    },
+    "median_density": 5825.0,
+    "residents": [
+     109688,
+     137357,
+     312883,
+     360990,
+     611957,
+     492579,
+     31676
+    ],
+    "share": [
+     0.05332,
+     0.06677,
+     0.1521,
+     0.1755,
+     0.2975,
+     0.2394,
+     0.0154
+    ],
+    "total": 2057131
+   },
+   "hotspots": {
+    "clusters": [
+     {
+      "gmina": "Tychy",
+      "rank": 1,
+      "residents": 50154
+     },
+     {
+      "gmina": "Bytom",
+      "rank": 2,
+      "residents": 34259
+     },
+     {
+      "gmina": "Chorzów",
+      "rank": 3,
+      "residents": 17842
+     },
+     {
+      "gmina": "Zabrze",
+      "rank": 4,
+      "residents": 16891
+     },
+     {
+      "gmina": "Gliwice",
+      "rank": 5,
+      "residents": 16009
+     },
+     {
+      "gmina": "Sosnowiec",
+      "rank": 6,
+      "residents": 14651
+     },
+     {
+      "gmina": "Katowice",
+      "rank": 7,
+      "residents": 13832
+     },
+     {
+      "gmina": "Dąbrowa Górnicza",
+      "rank": 8,
+      "residents": 12862
+     },
+     {
+      "gmina": "Dąbrowa Górnicza",
+      "rank": 9,
+      "residents": 12639
+     },
+     {
+      "gmina": "Dąbrowa Górnicza",
+      "rank": 10,
+      "residents": 11109
+     },
+     {
+      "gmina": "Bytom",
+      "rank": 11,
+      "residents": 11106
+     },
+     {
+      "gmina": "Katowice",
+      "rank": 12,
+      "residents": 10975
+     },
+     {
+      "gmina": "Siemianowice Śląskie",
+      "rank": 13,
+      "residents": 10787
+     },
+     {
+      "gmina": "Mysłowice",
+      "rank": 14,
+      "residents": 10664
+     },
+     {
+      "gmina": "Chorzów",
+      "rank": 15,
+      "residents": 10513
+     },
+     {
+      "gmina": "Sosnowiec",
+      "rank": 16,
+      "residents": 8977
+     },
+     {
+      "gmina": "Świętochłowice",
+      "rank": 17,
+      "residents": 8927
+     },
+     {
+      "gmina": "Katowice",
+      "rank": 18,
+      "residents": 8748
+     },
+     {
+      "gmina": "Bytom",
+      "rank": 19,
+      "residents": 8111
+     },
+     {
+      "gmina": "Będzin",
+      "rank": 20,
+      "residents": 7885
+     },
+     {
+      "gmina": "Siemianowice Śląskie",
+      "rank": 21,
+      "residents": 7655
+     },
+     {
+      "gmina": "Sosnowiec",
+      "rank": 22,
+      "residents": 7628
+     },
+     {
+      "gmina": "Knurów",
+      "rank": 23,
+      "residents": 7514
+     },
+     {
+      "gmina": "Bytom",
+      "rank": 24,
+      "residents": 7504
+     },
+     {
+      "gmina": "Gliwice",
+      "rank": 25,
+      "residents": 6404
+     },
+     {
+      "gmina": "Katowice",
+      "rank": 26,
+      "residents": 5917
+     },
+     {
+      "gmina": "Chorzów",
+      "rank": 27,
+      "residents": 5745
+     },
+     {
+      "gmina": "Zabrze",
+      "rank": 28,
+      "residents": 5446
+     },
+     {
+      "gmina": "Piekary Śląskie",
+      "rank": 29,
+      "residents": 5430
+     },
+     {
+      "gmina": "Katowice",
+      "rank": 30,
+      "residents": 5325
+     },
+     {
+      "gmina": "Pyskowice",
+      "rank": 31,
+      "residents": 5311
+     },
+     {
+      "gmina": "Gliwice",
+      "rank": 32,
+      "residents": 5290
+     },
+     {
+      "gmina": "Ruda Śląska",
+      "rank": 33,
+      "residents": 4464
+     },
+     {
+      "gmina": "Siemianowice Śląskie",
+      "rank": 34,
+      "residents": 4308
+     },
+     {
+      "gmina": "Ruda Śląska",
+      "rank": 35,
+      "residents": 4282
+     },
+     {
+      "gmina": "Czeladź",
+      "rank": 36,
+      "residents": 4249
+     },
+     {
+      "gmina": "Świętochłowice",
+      "rank": 37,
+      "residents": 4246
+     },
+     {
+      "gmina": "Katowice",
+      "rank": 38,
+      "residents": 4055
+     },
+     {
+      "gmina": "Gliwice",
+      "rank": 39,
+      "residents": 3977
+     },
+     {
+      "gmina": "Chorzów",
+      "rank": 40,
+      "residents": 3969
+     },
+     {
+      "gmina": "Zabrze",
+      "rank": 41,
+      "residents": 3912
+     },
+     {
+      "gmina": "Gliwice",
+      "rank": 42,
+      "residents": 3763
+     },
+     {
+      "gmina": "Chorzów",
+      "rank": 43,
+      "residents": 3724
+     },
+     {
+      "gmina": "Sosnowiec",
+      "rank": 44,
+      "residents": 3708
+     },
+     {
+      "gmina": "Sosnowiec",
+      "rank": 45,
+      "residents": 3679
+     },
+     {
+      "gmina": "Knurów",
+      "rank": 46,
+      "residents": 3593
+     },
+     {
+      "gmina": "Sosnowiec",
+      "rank": 47,
+      "residents": 3584
+     },
+     {
+      "gmina": "Zabrze",
+      "rank": 48,
+      "residents": 3436
+     },
+     {
+      "gmina": "Ruda Śląska",
+      "rank": 49,
+      "residents": 3420
+     },
+     {
+      "gmina": "Sosnowiec",
+      "rank": 50,
+      "residents": 3032
+     },
+     {
+      "gmina": "Katowice",
+      "rank": 51,
+      "residents": 2887
+     },
+     {
+      "gmina": "Ruda Śląska",
+      "rank": 52,
+      "residents": 2787
+     },
+     {
+      "gmina": "Bytom",
+      "rank": 53,
+      "residents": 2517
+     },
+     {
+      "gmina": "Sosnowiec",
+      "rank": 54,
+      "residents": 2405
+     },
+     {
+      "gmina": "Zabrze",
+      "rank": 55,
+      "residents": 2370
+     },
+     {
+      "gmina": "Katowice",
+      "rank": 56,
+      "residents": 2271
+     },
+     {
+      "gmina": "Zabrze",
+      "rank": 57,
+      "residents": 2245
+     },
+     {
+      "gmina": "Katowice",
+      "rank": 58,
+      "residents": 2235
+     },
+     {
+      "gmina": "Bytom",
+      "rank": 59,
+      "residents": 2202
+     },
+     {
+      "gmina": "Katowice",
+      "rank": 60,
+      "residents": 2191
+     },
+     {
+      "gmina": "Ruda Śląska",
+      "rank": 61,
+      "residents": 2179
+     },
+     {
+      "gmina": "Gliwice",
+      "rank": 62,
+      "residents": 2179
+     },
+     {
+      "gmina": "Zabrze",
+      "rank": 63,
+      "residents": 2132
+     },
+     {
+      "gmina": "Chorzów",
+      "rank": 64,
+      "residents": 2019
+     },
+     {
+      "gmina": "Bytom",
+      "rank": 65,
+      "residents": 2015
+     },
+     {
+      "gmina": "Świętochłowice",
+      "rank": 66,
+      "residents": 1638
+     },
+     {
+      "gmina": "Zabrze",
+      "rank": 67,
+      "residents": 1623
+     },
+     {
+      "gmina": "Ruda Śląska",
+      "rank": 68,
+      "residents": 1592
+     },
+     {
+      "gmina": "Knurów",
+      "rank": 69,
+      "residents": 1577
+     },
+     {
+      "gmina": "Piekary Śląskie",
+      "rank": 70,
+      "residents": 1500
+     },
+     {
+      "gmina": "Katowice",
+      "rank": 71,
+      "residents": 1454
+     },
+     {
+      "gmina": "Mysłowice",
+      "rank": 72,
+      "residents": 1449
+     },
+     {
+      "gmina": "Ruda Śląska",
+      "rank": 73,
+      "residents": 1449
+     },
+     {
+      "gmina": "Piekary Śląskie",
+      "rank": 74,
+      "residents": 1405
+     },
+     {
+      "gmina": "Świętochłowice",
+      "rank": 75,
+      "residents": 1395
+     },
+     {
+      "gmina": "Katowice",
+      "rank": 76,
+      "residents": 1376
+     },
+     {
+      "gmina": "Zabrze",
+      "rank": 77,
+      "residents": 1346
+     },
+     {
+      "gmina": "Ruda Śląska",
+      "rank": 78,
+      "residents": 1330
+     },
+     {
+      "gmina": "Zabrze",
+      "rank": 79,
+      "residents": 1319
+     },
+     {
+      "gmina": "Ruda Śląska",
+      "rank": 80,
+      "residents": 1292
+     },
+     {
+      "gmina": "Ruda Śląska",
+      "rank": 81,
+      "residents": 1160
+     },
+     {
+      "gmina": "Mysłowice",
+      "rank": 82,
+      "residents": 1022
+     },
+     {
+      "gmina": "Sosnowiec",
+      "rank": 83,
+      "residents": 1009
+     },
+     {
+      "gmina": "Katowice",
+      "rank": 84,
+      "residents": 1008
+     }
+    ],
+    "largest_share": 0.09567,
+    "rank_size_slope": -0.6018,
+    "threshold": 10000.0
+   },
+   "id": "gzm",
+   "name": "GZM",
+   "polycentric": true
+  },
+  {
+   "core": {
+    "at_or_above": {
+     "1000": 0.9374,
+     "10000": 0.4437,
+     "20000": 0.07574,
+     "2500": 0.8492,
+     "500": 0.9704,
+     "5000": 0.711
+    },
+    "median_density": 8996.0,
+    "residents": [
+     19752,
+     21936,
+     58765,
+     92101,
+     178098,
+     245145,
+     50464
+    ],
+    "share": [
+     0.02965,
+     0.03292,
+     0.0882,
+     0.1382,
+     0.2673,
+     0.3679,
+     0.07574
+    ],
+    "total": 666261
+   },
+   "fua": {
+    "at_or_above": {
+     "1000": 0.7986,
+     "10000": 0.3136,
+     "20000": 0.04839,
+     "2500": 0.6828,
+     "500": 0.869,
+     "5000": 0.5393
+    },
+    "median_density": 5901.0,
+    "residents": [
+     136601,
+     73424,
+     120716,
+     149652,
+     235368,
+     276559,
+     50464
+    ],
+    "share": [
+     0.131,
+     0.07041,
+     0.1158,
+     0.1435,
+     0.2257,
+     0.2652,
+     0.04839
+    ],
+    "total": 1042785
+   },
+   "hotspots": {
+    "clusters": [
+     {
+      "gmina": "Łódź",
+      "rank": 1,
+      "residents": 69917
+     },
+     {
+      "gmina": "Łódź",
+      "rank": 2,
+      "residents": 65493
+     },
+     {
+      "gmina": "Łódź",
+      "rank": 3,
+      "residents": 41259
+     },
+     {
+      "gmina": "Łódź",
+      "rank": 4,
+      "residents": 34119
+     },
+     {
+      "gmina": "Łódź",
+      "rank": 5,
+      "residents": 19624
+     },
+     {
+      "gmina": "Łódź",
+      "rank": 6,
+      "residents": 13233
+     },
+     {
+      "gmina": "Łódź",
+      "rank": 7,
+      "residents": 11914
+     },
+     {
+      "gmina": "Pabianice",
+      "rank": 8,
+      "residents": 11434
+     },
+     {
+      "gmina": "Łódź",
+      "rank": 9,
+      "residents": 5580
+     },
+     {
+      "gmina": "Zgierz",
+      "rank": 10,
+      "residents": 5463
+     },
+     {
+      "gmina": "Łódź",
+      "rank": 11,
+      "residents": 5016
+     },
+     {
+      "gmina": "Łódź",
+      "rank": 12,
+      "residents": 4419
+     },
+     {
+      "gmina": "Pabianice",
+      "rank": 13,
+      "residents": 4389
+     },
+     {
+      "gmina": "Łódź",
+      "rank": 14,
+      "residents": 3733
+     },
+     {
+      "gmina": "Pabianice",
+      "rank": 15,
+      "residents": 3459
+     },
+     {
+      "gmina": "Łódź",
+      "rank": 16,
+      "residents": 2903
+     },
+     {
+      "gmina": "Łódź",
+      "rank": 17,
+      "residents": 2220
+     },
+     {
+      "gmina": "Łódź",
+      "rank": 18,
+      "residents": 1786
+     },
+     {
+      "gmina": "Łódź",
+      "rank": 19,
+      "residents": 1693
+     },
+     {
+      "gmina": "Łódź",
+      "rank": 20,
+      "residents": 1585
+     },
+     {
+      "gmina": "Łódź",
+      "rank": 21,
+      "residents": 1541
+     },
+     {
+      "gmina": "Pabianice",
+      "rank": 22,
+      "residents": 1536
+     },
+     {
+      "gmina": "Łódź",
+      "rank": 23,
+      "residents": 1496
+     },
+     {
+      "gmina": "Łódź",
+      "rank": 24,
+      "residents": 1425
+     },
+     {
+      "gmina": "Łask",
+      "rank": 25,
+      "residents": 1418
+     },
+     {
+      "gmina": "Konstantynów Łódzki",
+      "rank": 26,
+      "residents": 1372
+     },
+     {
+      "gmina": "Łódź",
+      "rank": 27,
+      "residents": 1309
+     }
+    ],
+    "largest_share": 0.2138,
+    "rank_size_slope": -1.238,
+    "threshold": 10000.0
+   },
+   "id": "lodz",
+   "name": "Łódź",
+   "polycentric": false
+  },
+  {
+   "core": {
+    "at_or_above": {
+     "1000": 0.9584,
+     "10000": 0.3997,
+     "20000": 0.09102,
+     "2500": 0.876,
+     "500": 0.9822,
+     "5000": 0.708
+    },
+    "median_density": 8235.0,
+    "residents": [
+     11948,
+     16024,
+     55372,
+     112941,
+     207165,
+     207490,
+     61175
+    ],
+    "share": [
+     0.01778,
+     0.02384,
+     0.08239,
+     0.168,
+     0.3082,
+     0.3087,
+     0.09102
+    ],
+    "total": 672115
+   },
+   "fua": {
+    "at_or_above": {
+     "1000": 0.8222,
+     "10000": 0.2803,
+     "20000": 0.06048,
+     "2500": 0.6744,
+     "500": 0.9107,
+     "5000": 0.5125
+    },
+    "median_density": 5232.0,
+    "residents": [
+     90359,
+     89444,
+     149557,
+     163732,
+     234879,
+     222363,
+     61175
+    ],
+    "share": [
+     0.08933,
+     0.08843,
+     0.1479,
+     0.1619,
+     0.2322,
+     0.2198,
+     0.06048
+    ],
+    "total": 1011509
+   },
+   "hotspots": {
+    "clusters": [
+     {
+      "gmina": "Wrocław",
+      "rank": 1,
+      "residents": 64618
+     },
+     {
+      "gmina": "Wrocław",
+      "rank": 2,
+      "residents": 63986
+     },
+     {
+      "gmina": "Wrocław",
+      "rank": 3,
+      "residents": 36594
+     },
+     {
+      "gmina": "Wrocław",
+      "rank": 4,
+      "residents": 24912
+     },
+     {
+      "gmina": "Wrocław",
+      "rank": 5,
+      "residents": 15049
+     },
+     {
+      "gmina": "Oleśnica",
+      "rank": 6,
+      "residents": 10585
+     },
+     {
+      "gmina": "Wrocław",
+      "rank": 7,
+      "residents": 10268
+     },
+     {
+      "gmina": "Wrocław",
+      "rank": 8,
+      "residents": 9136
+     },
+     {
+      "gmina": "Wrocław",
+      "rank": 9,
+      "residents": 6019
+     },
+     {
+      "gmina": "Wrocław",
+      "rank": 10,
+      "residents": 5242
+     },
+     {
+      "gmina": "Wrocław",
+      "rank": 11,
+      "residents": 4088
+     },
+     {
+      "gmina": "Wrocław",
+      "rank": 12,
+      "residents": 3119
+     },
+     {
+      "gmina": "Trzebnica",
+      "rank": 13,
+      "residents": 2945
+     },
+     {
+      "gmina": "Wrocław",
+      "rank": 14,
+      "residents": 2942
+     },
+     {
+      "gmina": "Wrocław",
+      "rank": 15,
+      "residents": 2479
+     },
+     {
+      "gmina": "Wrocław",
+      "rank": 16,
+      "residents": 2295
+     },
+     {
+      "gmina": "Wrocław",
+      "rank": 17,
+      "residents": 1948
+     },
+     {
+      "gmina": "Wrocław",
+      "rank": 18,
+      "residents": 1830
+     },
+     {
+      "gmina": "Wrocław",
+      "rank": 19,
+      "residents": 1537
+     },
+     {
+      "gmina": "Wrocław",
+      "rank": 20,
+      "residents": 1531
+     },
+     {
+      "gmina": "Wrocław",
+      "rank": 21,
+      "residents": 1410
+     },
+     {
+      "gmina": "Wrocław",
+      "rank": 22,
+      "residents": 1331
+     }
+    ],
+    "largest_share": 0.2279,
+    "rank_size_slope": -1.205,
+    "threshold": 10000.0
+   },
+   "id": "wroclaw",
+   "name": "Wrocław",
+   "polycentric": false
+  },
+  {
+   "core": {
+    "at_or_above": {
+     "1000": 0.9705,
+     "10000": 0.5676,
+     "20000": 0.1029,
+     "2500": 0.9021,
+     "500": 0.9881,
+     "5000": 0.7911
+    },
+    "median_density": 11350.0,
+    "residents": [
+     22214,
+     32748,
+     127598,
+     206891,
+     416661,
+     866277,
+     191850
+    ],
+    "share": [
+     0.01192,
+     0.01757,
+     0.06844,
+     0.111,
+     0.2235,
+     0.4647,
+     0.1029
+    ],
+    "total": 1864238
+   },
+   "fua": {
+    "at_or_above": {
+     "1000": 0.8008,
+     "10000": 0.3307,
+     "20000": 0.05789,
+     "2500": 0.6652,
+     "500": 0.8762,
+     "5000": 0.5117
+    },
+    "median_density": 5208.0,
+    "residents": [
+     431829,
+     262868,
+     473253,
+     535396,
+     631233,
+     951697,
+     201931
+    ],
+    "share": [
+     0.1238,
+     0.07536,
+     0.1357,
+     0.1535,
+     0.181,
+     0.2728,
+     0.05789
+    ],
+    "total": 3488206
+   },
+   "hotspots": {
+    "clusters": [
+     {
+      "gmina": "Warszawa",
+      "rank": 1,
+      "residents": 189637
+     },
+     {
+      "gmina": "Warszawa",
+      "rank": 2,
+      "residents": 145354
+     },
+     {
+      "gmina": "Warszawa",
+      "rank": 3,
+      "residents": 107404
+     },
+     {
+      "gmina": "Warszawa",
+      "rank": 4,
+      "residents": 97814
+     },
+     {
+      "gmina": "Warszawa",
+      "rank": 5,
+      "residents": 94417
+     },
+     {
+      "gmina": "Warszawa",
+      "rank": 6,
+      "residents": 66024
+     },
+     {
+      "gmina": "Warszawa",
+      "rank": 7,
+      "residents": 60623
+     },
+     {
+      "gmina": "Warszawa",
+      "rank": 8,
+      "residents": 57562
+     },
+     {
+      "gmina": "Warszawa",
+      "rank": 9,
+      "residents": 29477
+     },
+     {
+      "gmina": "Warszawa",
+      "rank": 10,
+      "residents": 28510
+     },
+     {
+      "gmina": "Warszawa",
+      "rank": 11,
+      "residents": 27858
+     },
+     {
+      "gmina": "Pruszków",
+      "rank": 12,
+      "residents": 27330
+     },
+     {
+      "gmina": "Warszawa",
+      "rank": 13,
+      "residents": 25665
+     },
+     {
+      "gmina": "Warszawa",
+      "rank": 14,
+      "residents": 21282
+     },
+     {
+      "gmina": "Warszawa",
+      "rank": 15,
+      "residents": 20130
+     },
+     {
+      "gmina": "Piaseczno",
+      "rank": 16,
+      "residents": 16761
+     },
+     {
+      "gmina": "Warszawa",
+      "rank": 17,
+      "residents": 16477
+     },
+     {
+      "gmina": "Warszawa",
+      "rank": 18,
+      "residents": 16468
+     },
+     {
+      "gmina": "Ząbki",
+      "rank": 19,
+      "residents": 12978
+     },
+     {
+      "gmina": "Legionowo",
+      "rank": 20,
+      "residents": 10792
+     },
+     {
+      "gmina": "Warszawa",
+      "rank": 21,
+      "residents": 7873
+     },
+     {
+      "gmina": "Warszawa",
+      "rank": 22,
+      "residents": 6915
+     },
+     {
+      "gmina": "Warszawa",
+      "rank": 23,
+      "residents": 4932
+     },
+     {
+      "gmina": "Warszawa",
+      "rank": 24,
+      "residents": 4201
+     },
+     {
+      "gmina": "Pułtusk",
+      "rank": 25,
+      "residents": 3470
+     },
+     {
+      "gmina": "Warszawa",
+      "rank": 26,
+      "residents": 3403
+     },
+     {
+      "gmina": "Otwock",
+      "rank": 27,
+      "residents": 3028
+     },
+     {
+      "gmina": "Warszawa",
+      "rank": 28,
+      "residents": 2731
+     },
+     {
+      "gmina": "Nowy Dwór Mazowiecki",
+      "rank": 29,
+      "residents": 2367
+     },
+     {
+      "gmina": "Żyrardów",
+      "rank": 30,
+      "residents": 2168
+     },
+     {
+      "gmina": "Nowy Dwór Mazowiecki",
+      "rank": 31,
+      "residents": 2124
+     },
+     {
+      "gmina": "Mińsk Mazowiecki",
+      "rank": 32,
+      "residents": 2117
+     },
+     {
+      "gmina": "Ząbki",
+      "rank": 33,
+      "residents": 2004
+     },
+     {
+      "gmina": "Warszawa",
+      "rank": 34,
+      "residents": 1983
+     },
+     {
+      "gmina": "Warszawa",
+      "rank": 35,
+      "residents": 1851
+     },
+     {
+      "gmina": "Nowy Dwór Mazowiecki",
+      "rank": 36,
+      "residents": 1714
+     },
+     {
+      "gmina": "Warszawa",
+      "rank": 37,
+      "residents": 1693
+     },
+     {
+      "gmina": "Warszawa",
+      "rank": 38,
+      "residents": 1565
+     },
+     {
+      "gmina": "Warszawa",
+      "rank": 39,
+      "residents": 1562
+     },
+     {
+      "gmina": "Warszawa",
+      "rank": 40,
+      "residents": 1512
+     },
+     {
+      "gmina": "Warszawa",
+      "rank": 41,
+      "residents": 1443
+     },
+     {
+      "gmina": "Warszawa",
+      "rank": 42,
+      "residents": 1075
+     },
+     {
+      "gmina": "Warszawa",
+      "rank": 43,
+      "residents": 1072
+     }
+    ],
+    "largest_share": 0.1644,
+    "rank_size_slope": -1.093,
+    "threshold": 10000.0
+   },
+   "id": "warszawa",
+   "name": "Warszawa",
+   "polycentric": false
+  },
+  {
+   "core": {
+    "at_or_above": {
+     "1000": 0.95,
+     "10000": 0.3799,
+     "20000": 0.02447,
+     "2500": 0.8775,
+     "500": 0.9773,
+     "5000": 0.7258
+    },
+    "median_density": 8169.0,
+    "residents": [
+     11836,
+     14224,
+     37710,
+     79027,
+     180142,
+     185071,
+     12741
+    ],
+    "share": [
+     0.02273,
+     0.02731,
+     0.07241,
+     0.1518,
+     0.3459,
+     0.3554,
+     0.02447
+    ],
+    "total": 520750
+   },
+   "fua": {
+    "at_or_above": {
+     "1000": 0.7426,
+     "10000": 0.2377,
+     "20000": 0.01489,
+     "2500": 0.6152,
+     "500": 0.8272,
+     "5000": 0.4811
+    },
+    "median_density": 4575.0,
+    "residents": [
+     147872,
+     72465,
+     108998,
+     114751,
+     208336,
+     190711,
+     12741
+    ],
+    "share": [
+     0.1728,
+     0.08467,
+     0.1274,
+     0.1341,
+     0.2434,
+     0.2228,
+     0.01489
+    ],
+    "total": 855875
+   },
+   "hotspots": {
+    "clusters": [
+     {
+      "gmina": "Toruń",
+      "rank": 1,
+      "residents": 28446
+     },
+     {
+      "gmina": "Bydgoszcz",
+      "rank": 2,
+      "residents": 25791
+     },
+     {
+      "gmina": "Bydgoszcz",
+      "rank": 3,
+      "residents": 20581
+     },
+     {
+      "gmina": "Bydgoszcz",
+      "rank": 4,
+      "residents": 17687
+     },
+     {
+      "gmina": "Bydgoszcz",
+      "rank": 5,
+      "residents": 15730
+     },
+     {
+      "gmina": "Toruń",
+      "rank": 6,
+      "residents": 12917
+     },
+     {
+      "gmina": "Toruń",
+      "rank": 7,
+      "residents": 12707
+     },
+     {
+      "gmina": "Bydgoszcz",
+      "rank": 8,
+      "residents": 10139
+     },
+     {
+      "gmina": "Bydgoszcz",
+      "rank": 9,
+      "residents": 7342
+     },
+     {
+      "gmina": "Bydgoszcz",
+      "rank": 10,
+      "residents": 7179
+     },
+     {
+      "gmina": "Bydgoszcz",
+      "rank": 11,
+      "residents": 7080
+     },
+     {
+      "gmina": "Bydgoszcz",
+      "rank": 12,
+      "residents": 6020
+     },
+     {
+      "gmina": "Toruń",
+      "rank": 13,
+      "residents": 2849
+     },
+     {
+      "gmina": "Nakło nad Notecią",
+      "rank": 14,
+      "residents": 2779
+     },
+     {
+      "gmina": "Bydgoszcz",
+      "rank": 15,
+      "residents": 2198
+     },
+     {
+      "gmina": "Bydgoszcz",
+      "rank": 16,
+      "residents": 2156
+     },
+     {
+      "gmina": "Bydgoszcz",
+      "rank": 17,
+      "residents": 2136
+     },
+     {
+      "gmina": "Toruń",
+      "rank": 18,
+      "residents": 2102
+     },
+     {
+      "gmina": "Bydgoszcz",
+      "rank": 19,
+      "residents": 2078
+     },
+     {
+      "gmina": "Bydgoszcz",
+      "rank": 20,
+      "residents": 1952
+     },
+     {
+      "gmina": "Toruń",
+      "rank": 21,
+      "residents": 1851
+     },
+     {
+      "gmina": "Bydgoszcz",
+      "rank": 22,
+      "residents": 1569
+     },
+     {
+      "gmina": "Bydgoszcz",
+      "rank": 23,
+      "residents": 1418
+     },
+     {
+      "gmina": "Toruń",
+      "rank": 24,
+      "residents": 1402
+     }
+    ],
+    "largest_share": 0.1398,
+    "rank_size_slope": -0.6676,
+    "threshold": 10000.0
+   },
+   "id": "bydgoszcz_torun",
+   "name": "Bydgoszcz–Toruń",
+   "polycentric": true
+  },
+  {
+   "core": {
+    "at_or_above": {
+     "1000": 0.9596,
+     "10000": 0.3869,
+     "20000": 0.051,
+     "2500": 0.8707,
+     "500": 0.9838,
+     "5000": 0.6902
+    },
+    "median_density": 8371.0,
+    "residents": [
+     4581,
+     6886,
+     25207,
+     51175,
+     86012,
+     95268,
+     14463
+    ],
+    "share": [
+     0.01615,
+     0.02428,
+     0.08889,
+     0.1805,
+     0.3033,
+     0.3359,
+     0.051
+    ],
+    "total": 283593
+   },
+   "fua": {
+    "at_or_above": {
+     "1000": 0.7561,
+     "10000": 0.2478,
+     "20000": 0.03225,
+     "2500": 0.6318,
+     "500": 0.8359,
+     "5000": 0.4714
+    },
+    "median_density": 4441.0,
+    "residents": [
+     73580,
+     35791,
+     55761,
+     71901,
+     100285,
+     96675,
+     14463
+    ],
+    "share": [
+     0.1641,
+     0.07981,
+     0.1243,
+     0.1603,
+     0.2236,
+     0.2156,
+     0.03225
+    ],
+    "total": 448456
+   },
+   "hotspots": {
+    "clusters": [
+     {
+      "gmina": "Białystok",
+      "rank": 1,
+      "residents": 25286
+     },
+     {
+      "gmina": "Białystok",
+      "rank": 2,
+      "residents": 21222
+     },
+     {
+      "gmina": "Białystok",
+      "rank": 3,
+      "residents": 19393
+     },
+     {
+      "gmina": "Białystok",
+      "rank": 4,
+      "residents": 9217
+     },
+     {
+      "gmina": "Białystok",
+      "rank": 5,
+      "residents": 8076
+     },
+     {
+      "gmina": "Białystok",
+      "rank": 6,
+      "residents": 5050
+     },
+     {
+      "gmina": "Białystok",
+      "rank": 7,
+      "residents": 4902
+     },
+     {
+      "gmina": "Białystok",
+      "rank": 8,
+      "residents": 3901
+     },
+     {
+      "gmina": "Białystok",
+      "rank": 9,
+      "residents": 2905
+     },
+     {
+      "gmina": "Białystok",
+      "rank": 10,
+      "residents": 1887
+     },
+     {
+      "gmina": "Białystok",
+      "rank": 11,
+      "residents": 1648
+     },
+     {
+      "gmina": "Białystok",
+      "rank": 12,
+      "residents": 1447
+     },
+     {
+      "gmina": "Białystok",
+      "rank": 13,
+      "residents": 1359
+     },
+     {
+      "gmina": "Białystok",
+      "rank": 14,
+      "residents": 1304
+     }
+    ],
+    "largest_share": 0.2275,
+    "rank_size_slope": -0.878,
+    "threshold": 10000.0
+   },
+   "id": "bialystok",
+   "name": "Białystok",
+   "polycentric": false
+  },
+  {
+   "core": {
+    "at_or_above": {
+     "1000": 0.9484,
+     "10000": 0.3683,
+     "20000": 0.02717,
+     "2500": 0.8443,
+     "500": 0.9788,
+     "5000": 0.6661
+    },
+    "median_density": 8057.0,
+    "residents": [
+     11527,
+     16581,
+     56701,
+     97104,
+     162204,
+     185838,
+     14800
+    ],
+    "share": [
+     0.02116,
+     0.03044,
+     0.1041,
+     0.1783,
+     0.2978,
+     0.3411,
+     0.02717
+    ],
+    "total": 544753
+   },
+   "fua": {
+    "at_or_above": {
+     "1000": 0.8346,
+     "10000": 0.221,
+     "20000": 0.01652,
+     "2500": 0.6436,
+     "500": 0.9163,
+     "5000": 0.445
+    },
+    "median_density": 4073.0,
+    "residents": [
+     81613,
+     79572,
+     186152,
+     193582,
+     218310,
+     199274,
+     16098
+    ],
+    "share": [
+     0.08374,
+     0.08165,
+     0.191,
+     0.1986,
+     0.224,
+     0.2045,
+     0.01652
+    ],
+    "total": 974602
+   },
+   "hotspots": {
+    "clusters": [
+     {
+      "gmina": "Poznań",
+      "rank": 1,
+      "residents": 27228
+     },
+     {
+      "gmina": "Poznań",
+      "rank": 2,
+      "residents": 23815
+     },
+     {
+      "gmina": "Poznań",
+      "rank": 3,
+      "residents": 21860
+     },
+     {
+      "gmina": "Poznań",
+      "rank": 4,
+      "residents": 15344
+     },
+     {
+      "gmina": "Poznań",
+      "rank": 5,
+      "residents": 15110
+     },
+     {
+      "gmina": "Poznań",
+      "rank": 6,
+      "residents": 14878
+     },
+     {
+      "gmina": "Poznań",
+      "rank": 7,
+      "residents": 11893
+     },
+     {
+      "gmina": "Poznań",
+      "rank": 8,
+      "residents": 9836
+     },
+     {
+      "gmina": "Poznań",
+      "rank": 9,
+      "residents": 9703
+     },
+     {
+      "gmina": "Poznań",
+      "rank": 10,
+      "residents": 8732
+     },
+     {
+      "gmina": "Poznań",
+      "rank": 11,
+      "residents": 7924
+     },
+     {
+      "gmina": "Poznań",
+      "rank": 12,
+      "residents": 6585
+     },
+     {
+      "gmina": "Czerwonak",
+      "rank": 13,
+      "residents": 5581
+     },
+     {
+      "gmina": "Poznań",
+      "rank": 14,
+      "residents": 5019
+     },
+     {
+      "gmina": "Poznań",
+      "rank": 15,
+      "residents": 4273
+     },
+     {
+      "gmina": "Swarzędz",
+      "rank": 16,
+      "residents": 3847
+     },
+     {
+      "gmina": "Poznań",
+      "rank": 17,
+      "residents": 3292
+     },
+     {
+      "gmina": "Poznań",
+      "rank": 18,
+      "residents": 3039
+     },
+     {
+      "gmina": "Poznań",
+      "rank": 19,
+      "residents": 2672
+     },
+     {
+      "gmina": "Poznań",
+      "rank": 20,
+      "residents": 2024
+     },
+     {
+      "gmina": "Poznań",
+      "rank": 21,
+      "residents": 2006
+     },
+     {
+      "gmina": "Murowana Goślina",
+      "rank": 22,
+      "residents": 1690
+     },
+     {
+      "gmina": "Luboń",
+      "rank": 23,
+      "residents": 1581
+     },
+     {
+      "gmina": "Poznań",
+      "rank": 24,
+      "residents": 1411
+     },
+     {
+      "gmina": "Poznań",
+      "rank": 25,
+      "residents": 1365
+     },
+     {
+      "gmina": "Swarzędz",
+      "rank": 26,
+      "residents": 1271
+     }
+    ],
+    "largest_share": 0.1264,
+    "rank_size_slope": -0.652,
+    "threshold": 10000.0
+   },
+   "id": "poznan",
+   "name": "Poznań",
+   "polycentric": false
+  },
+  {
+   "core": {
+    "at_or_above": {
+     "1000": 0.9479,
+     "10000": 0.4336,
+     "20000": 0.06734,
+     "2500": 0.8623,
+     "500": 0.9782,
+     "5000": 0.7272
+    },
+    "median_density": 8882.0,
+    "residents": [
+     17235,
+     23930,
+     67702,
+     106898,
+     232157,
+     289668,
+     53255
+    ],
+    "share": [
+     0.02179,
+     0.03026,
+     0.08561,
+     0.1352,
+     0.2936,
+     0.3663,
+     0.06734
+    ],
+    "total": 790845
+   },
+   "fua": {
+    "at_or_above": {
+     "1000": 0.7017,
+     "10000": 0.2457,
+     "20000": 0.03772,
+     "2500": 0.5391,
+     "500": 0.8315,
+     "5000": 0.4309
+    },
+    "median_density": 3213.0,
+    "residents": [
+     237892,
+     183212,
+     229591,
+     152658,
+     261582,
+     293538,
+     53255
+    ],
+    "share": [
+     0.1685,
+     0.1298,
+     0.1626,
+     0.1081,
+     0.1853,
+     0.2079,
+     0.03772
+    ],
+    "total": 1411728
+   },
+   "hotspots": {
+    "clusters": [
+     {
+      "gmina": "Kraków",
+      "rank": 1,
+      "residents": 129702
+     },
+     {
+      "gmina": "Kraków",
+      "rank": 2,
+      "residents": 26427
+     },
+     {
+      "gmina": "Kraków",
+      "rank": 3,
+      "residents": 22176
+     },
+     {
+      "gmina": "Kraków",
+      "rank": 4,
+      "residents": 19203
+     },
+     {
+      "gmina": "Kraków",
+      "rank": 5,
+      "residents": 17721
+     },
+     {
+      "gmina": "Kraków",
+      "rank": 6,
+      "residents": 15087
+     },
+     {
+      "gmina": "Kraków",
+      "rank": 7,
+      "residents": 14596
+     },
+     {
+      "gmina": "Kraków",
+      "rank": 8,
+      "residents": 10163
+     },
+     {
+      "gmina": "Kraków",
+      "rank": 9,
+      "residents": 9451
+     },
+     {
+      "gmina": "Kraków",
+      "rank": 10,
+      "residents": 6439
+     },
+     {
+      "gmina": "Kraków",
+      "rank": 11,
+      "residents": 6279
+     },
+     {
+      "gmina": "Kraków",
+      "rank": 12,
+      "residents": 6220
+     },
+     {
+      "gmina": "Kraków",
+      "rank": 13,
+      "residents": 5955
+     },
+     {
+      "gmina": "Kraków",
+      "rank": 14,
+      "residents": 5743
+     },
+     {
+      "gmina": "Kraków",
+      "rank": 15,
+      "residents": 5205
+     },
+     {
+      "gmina": "Kraków",
+      "rank": 16,
+      "residents": 3987
+     },
+     {
+      "gmina": "Kraków",
+      "rank": 17,
+      "residents": 3884
+     },
+     {
+      "gmina": "Skawina",
+      "rank": 18,
+      "residents": 3870
+     },
+     {
+      "gmina": "Kraków",
+      "rank": 19,
+      "residents": 3803
+     },
+     {
+      "gmina": "Kraków",
+      "rank": 20,
+      "residents": 3316
+     },
+     {
+      "gmina": "Kraków",
+      "rank": 21,
+      "residents": 3018
+     },
+     {
+      "gmina": "Kraków",
+      "rank": 22,
+      "residents": 2245
+     },
+     {
+      "gmina": "Kraków",
+      "rank": 23,
+      "residents": 1858
+     },
+     {
+      "gmina": "Kraków",
+      "rank": 24,
+      "residents": 1657
+     },
+     {
+      "gmina": "Kraków",
+      "rank": 25,
+      "residents": 1618
+     },
+     {
+      "gmina": "Kraków",
+      "rank": 26,
+      "residents": 1445
+     },
+     {
+      "gmina": "Kraków",
+      "rank": 27,
+      "residents": 1443
+     },
+     {
+      "gmina": "Kraków",
+      "rank": 28,
+      "residents": 1329
+     },
+     {
+      "gmina": "Kraków",
+      "rank": 29,
+      "residents": 1323
+     },
+     {
+      "gmina": "Kraków",
+      "rank": 30,
+      "residents": 1308
+     },
+     {
+      "gmina": "Kraków",
+      "rank": 31,
+      "residents": 1282
+     }
+    ],
+    "largest_share": 0.374,
+    "rank_size_slope": -1.059,
+    "threshold": 10000.0
+   },
+   "id": "krakow",
+   "name": "Kraków",
+   "polycentric": false
+  },
+  {
+   "core": {
+    "at_or_above": {
+     "1000": 0.9392,
+     "10000": 0.2887,
+     "20000": 0.007955,
+     "2500": 0.8619,
+     "500": 0.9737,
+     "5000": 0.7045
+    },
+    "median_density": 7207.0,
+    "residents": [
+     8556,
+     11259,
+     25194,
+     51301,
+     135476,
+     91493,
+     2592
+    ],
+    "share": [
+     0.02626,
+     0.03455,
+     0.07731,
+     0.1574,
+     0.4157,
+     0.2808,
+     0.007955
+    ],
+    "total": 325871
+   },
+   "fua": {
+    "at_or_above": {
+     "1000": 0.6195,
+     "10000": 0.1739,
+     "20000": 0.003906,
+     "2500": 0.5309,
+     "500": 0.7225,
+     "5000": 0.4157
+    },
+    "median_density": 3174.0,
+    "residents": [
+     184199,
+     68350,
+     58783,
+     76478,
+     160460,
+     112851,
+     2592
+    ],
+    "share": [
+     0.2775,
+     0.103,
+     0.08857,
+     0.1152,
+     0.2418,
+     0.17,
+     0.003906
+    ],
+    "total": 663714
+   },
+   "hotspots": {
+    "clusters": [
+     {
+      "gmina": "Lublin",
+      "rank": 1,
+      "residents": 26430
+     },
+     {
+      "gmina": "Świdnik",
+      "rank": 2,
+      "residents": 13143
+     },
+     {
+      "gmina": "Lublin",
+      "rank": 3,
+      "residents": 9628
+     },
+     {
+      "gmina": "Lublin",
+      "rank": 4,
+      "residents": 8707
+     },
+     {
+      "gmina": "Lublin",
+      "rank": 5,
+      "residents": 6311
+     },
+     {
+      "gmina": "Lublin",
+      "rank": 6,
+      "residents": 6149
+     },
+     {
+      "gmina": "Lublin",
+      "rank": 7,
+      "residents": 4718
+     },
+     {
+      "gmina": "Lublin",
+      "rank": 8,
+      "residents": 4264
+     },
+     {
+      "gmina": "Łęczna",
+      "rank": 9,
+      "residents": 3329
+     },
+     {
+      "gmina": "Lublin",
+      "rank": 10,
+      "residents": 3194
+     },
+     {
+      "gmina": "Lublin",
+      "rank": 11,
+      "residents": 2943
+     },
+     {
+      "gmina": "Lublin",
+      "rank": 12,
+      "residents": 2907
+     },
+     {
+      "gmina": "Lublin",
+      "rank": 13,
+      "residents": 2709
+     },
+     {
+      "gmina": "Lublin",
+      "rank": 14,
+      "residents": 2516
+     },
+     {
+      "gmina": "Lublin",
+      "rank": 15,
+      "residents": 2490
+     },
+     {
+      "gmina": "Łęczna",
+      "rank": 16,
+      "residents": 1932
+     },
+     {
+      "gmina": "Lublin",
+      "rank": 17,
+      "residents": 1566
+     },
+     {
+      "gmina": "Lublin",
+      "rank": 18,
+      "residents": 1549
+     },
+     {
+      "gmina": "Wólka",
+      "rank": 19,
+      "residents": 1537
+     },
+     {
+      "gmina": "Lublin",
+      "rank": 20,
+      "residents": 1453
+     },
+     {
+      "gmina": "Lublin",
+      "rank": 21,
+      "residents": 1329
+     }
+    ],
+    "largest_share": 0.2289,
+    "rank_size_slope": -0.8155,
+    "threshold": 10000.0
+   },
+   "id": "lublin",
+   "name": "Lublin",
+   "polycentric": false
+  },
+  {
+   "core": {
+    "at_or_above": {
+     "1000": 0.9153,
+     "10000": 0.2709,
+     "20000": 0.00789,
+     "2500": 0.8114,
+     "500": 0.965,
+     "5000": 0.6497
+    },
+    "median_density": 7105.0,
+    "residents": [
+     6313,
+     8952,
+     18715,
+     29142,
+     68252,
+     47394,
+     1422
+    ],
+    "share": [
+     0.03503,
+     0.04968,
+     0.1039,
+     0.1617,
+     0.3788,
+     0.263,
+     0.00789
+    ],
+    "total": 180190
+   },
+   "fua": {
+    "at_or_above": {
+     "1000": 0.5363,
+     "10000": 0.1262,
+     "20000": 0.003676,
+     "2500": 0.3917,
+     "500": 0.7317,
+     "5000": 0.3027
+    },
+    "median_density": 1145.0,
+    "residents": [
+     103756,
+     75595,
+     55910,
+     34441,
+     68252,
+     47394,
+     1422
+    ],
+    "share": [
+     0.2683,
+     0.1955,
+     0.1446,
+     0.08905,
+     0.1765,
+     0.1225,
+     0.003676
+    ],
+    "total": 386770
+   },
+   "hotspots": {
+    "clusters": [
+     {
+      "gmina": "Kielce",
+      "rank": 1,
+      "residents": 23054
+     },
+     {
+      "gmina": "Kielce",
+      "rank": 2,
+      "residents": 9380
+     },
+     {
+      "gmina": "Kielce",
+      "rank": 3,
+      "residents": 6485
+     },
+     {
+      "gmina": "Kielce",
+      "rank": 4,
+      "residents": 3568
+     },
+     {
+      "gmina": "Kielce",
+      "rank": 5,
+      "residents": 1465
+     },
+     {
+      "gmina": "Kielce",
+      "rank": 6,
+      "residents": 1348
+     },
+     {
+      "gmina": "Kielce",
+      "rank": 7,
+      "residents": 1277
+     }
+    ],
+    "largest_share": 0.4723,
+    "rank_size_slope": null,
+    "threshold": 10000.0
+   },
+   "id": "kielce",
+   "name": "Kielce",
+   "polycentric": false
+  },
+  {
+   "core": {
+    "at_or_above": {
+     "1000": 0.8855,
+     "10000": 0.1456,
+     "20000": 0.0,
+     "2500": 0.6875,
+     "500": 0.9565,
+     "5000": 0.4296
+    },
+    "median_density": 4286.0,
+    "residents": [
+     8142,
+     13290,
+     37071,
+     48275,
+     53163,
+     27258,
+     0
+    ],
+    "share": [
+     0.0435,
+     0.07099,
+     0.198,
+     0.2579,
+     0.284,
+     0.1456,
+     0.0
+    ],
+    "total": 187199
+   },
+   "fua": {
+    "at_or_above": {
+     "1000": 0.5467,
+     "10000": 0.05934,
+     "20000": 0.0,
+     "2500": 0.3183,
+     "500": 0.753,
+     "5000": 0.1799
+    },
+    "median_density": 1157.0,
+    "residents": [
+     113466,
+     94748,
+     104910,
+     63589,
+     55360,
+     27258,
+     0
+    ],
+    "share": [
+     0.247,
+     0.2063,
+     0.2284,
+     0.1384,
+     0.1205,
+     0.05934,
+     0.0
+    ],
+    "total": 459330
+   },
+   "hotspots": {
+    "clusters": [
+     {
+      "gmina": "Rzeszów",
+      "rank": 1,
+      "residents": 9538
+     },
+     {
+      "gmina": "Rzeszów",
+      "rank": 2,
+      "residents": 7125
+     },
+     {
+      "gmina": "Rzeszów",
+      "rank": 3,
+      "residents": 3294
+     },
+     {
+      "gmina": "Rzeszów",
+      "rank": 4,
+      "residents": 1583
+     },
+     {
+      "gmina": "Rzeszów",
+      "rank": 5,
+      "residents": 1367
+     }
+    ],
+    "largest_share": 0.3499,
+    "rank_size_slope": null,
+    "threshold": 10000.0
+   },
+   "id": "rzeszow",
+   "name": "Rzeszów",
+   "polycentric": false
+  }
+ ],
+ "class_note": "Klasy jak warstwa gęstości na mapie (pipeline.tiles_layers.DENSITY_STOPS); próg 5 000 os./km² jak w warstwie gęstość × częstotliwość.",
+ "classes": [
+  {
+   "label": "< 500",
+   "max": 500,
+   "min": 0
+  },
+  {
+   "label": "500–1 000",
+   "max": 1000,
+   "min": 500
+  },
+  {
+   "label": "1 000–2 500",
+   "max": 2500,
+   "min": 1000
+  },
+  {
+   "label": "2 500–5 000",
+   "max": 5000,
+   "min": 2500
+  },
+  {
+   "label": "5 000–10 000",
+   "max": 10000,
+   "min": 5000
+  },
+  {
+   "label": "10 000–20 000",
+   "max": 20000,
+   "min": 10000
+  },
+  {
+   "label": "≥ 20 000",
+   "max": null,
+   "min": 20000
+  }
+ ],
+ "domains": {
+  "core": "rdzeń (miasta URAU 2021)",
+  "fua": "FUA (Eurostat URAU 2021)"
+ },
+ "generated": "2026-11-24",
+ "grid": "GHSL 250 m przeskalowany do NSP 2021 (EPSG:2180)",
+ "highlight_threshold": 5000,
+ "population_date": "2021-03-31 (NSP 2021, wzór GHSL 2020)",
+ "population_grid": "ghsl_census_scaled",
+ "sorted_by": "fua.at_or_above.5000 desc",
+ "source": "GUS NSP 2021 (siatka 1 km) rozłożony wzorem JRC GHS-POP R2023A 2020",
+ "timetable_date": null,
+ "title": "Mieszkańcy według gęstości zaludnienia ich komórki 250 m",
+ "unit": "udział mieszkańców (0–1); gęstość w os./km²"
+}
