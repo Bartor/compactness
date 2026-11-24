@@ -1,0 +1,80 @@
+agglomeration,day_type,mode,reason,trips
+gzm,saturday,bus,komunikacja zastępcza kolei,22
+gzm,saturday,rail,< 3 przystanków,26
+gzm,saturday,rail,czas < 5 min,6
+gzm,saturday,tram,długość < 1 km,1
+gzm,weekday,bus,czas < 5 min,34
+gzm,weekday,bus,długość < 1 km,1
+gzm,weekday,bus,komunikacja zastępcza kolei,41
+gzm,weekday,rail,< 3 przystanków,63
+gzm,weekday,rail,czas < 5 min,10
+krakow,saturday,bus,czas < 5 min,26
+krakow,saturday,bus,komunikacja zastępcza kolei,3
+krakow,saturday,rail,< 3 przystanków,48
+krakow,weekday,bus,czas < 5 min,31
+krakow,weekday,bus,komunikacja zastępcza kolei,4
+krakow,weekday,rail,< 3 przystanków,54
+lodz,saturday,bus,< 3 przystanków,6
+lodz,saturday,bus,czas < 5 min,2
+lodz,saturday,bus,długość < 1 km,45
+lodz,saturday,bus,komunikacja zastępcza kolei,2
+lodz,saturday,bus,przystanek bez położenia,255
+lodz,saturday,rail,< 3 przystanków,23
+lodz,saturday,rail,czas < 5 min,1
+lodz,saturday,tram,< 3 przystanków,6
+lodz,saturday,tram,czas < 5 min,12
+lodz,weekday,bus,< 3 przystanków,15
+lodz,weekday,bus,czas < 5 min,1
+lodz,weekday,bus,długość < 1 km,89
+lodz,weekday,bus,komunikacja zastępcza kolei,6
+lodz,weekday,bus,przystanek bez położenia,341
+lodz,weekday,bus,prędkość poza zakresem,1
+lodz,weekday,rail,< 3 przystanków,25
+lodz,weekday,rail,czas < 5 min,1
+lodz,weekday,tram,< 3 przystanków,10
+lodz,weekday,tram,czas < 5 min,20
+lodz,weekday,tram,długość < 1 km,10
+poznan,saturday,bus,czas < 5 min,48
+poznan,saturday,rail,< 3 przystanków,44
+poznan,saturday,tram,długość < 1 km,10
+poznan,weekday,bus,< 3 przystanków,1
+poznan,weekday,bus,czas < 5 min,40
+poznan,weekday,bus,długość < 1 km,2
+poznan,weekday,rail,< 3 przystanków,46
+poznan,weekday,tram,długość < 1 km,12
+trojmiasto,saturday,bus,< 3 przystanków,3
+trojmiasto,saturday,bus,czas < 5 min,51
+trojmiasto,saturday,bus,długość < 1 km,27
+trojmiasto,saturday,bus,komunikacja zastępcza kolei,98
+trojmiasto,saturday,trolleybus,czas < 5 min,2
+trojmiasto,weekday,bus,< 3 przystanków,7
+trojmiasto,weekday,bus,czas < 5 min,109
+trojmiasto,weekday,bus,długość < 1 km,66
+trojmiasto,weekday,bus,komunikacja zastępcza kolei,139
+trojmiasto,weekday,trolleybus,czas < 5 min,4
+warszawa,saturday,bus,czas < 5 min,4
+warszawa,saturday,bus,długość < 1 km,40
+warszawa,saturday,bus,komunikacja zastępcza kolei,129
+warszawa,saturday,rail,< 3 przystanków,6
+warszawa,saturday,rail,czas < 5 min,9
+warszawa,saturday,tram,czas < 5 min,1
+warszawa,saturday,tram,długość < 1 km,1
+warszawa,weekday,bus,< 3 przystanków,34
+warszawa,weekday,bus,czas < 5 min,9
+warszawa,weekday,bus,długość < 1 km,65
+warszawa,weekday,bus,komunikacja zastępcza kolei,151
+warszawa,weekday,rail,< 3 przystanków,5
+warszawa,weekday,rail,czas < 5 min,10
+warszawa,weekday,tram,czas < 5 min,7
+warszawa,weekday,tram,długość < 1 km,9
+wroclaw,saturday,bus,czas < 5 min,5
+wroclaw,saturday,bus,długość < 1 km,78
+wroclaw,saturday,bus,komunikacja zastępcza kolei,48
+wroclaw,saturday,rail,< 3 przystanków,47
+wroclaw,saturday,tram,długość < 1 km,2
+wroclaw,weekday,bus,< 3 przystanków,6
+wroclaw,weekday,bus,czas < 5 min,41
+wroclaw,weekday,bus,długość < 1 km,113
+wroclaw,weekday,bus,komunikacja zastępcza kolei,54
+wroclaw,weekday,rail,< 3 przystanków,44
+wroclaw,weekday,tram,długość < 1 km,4

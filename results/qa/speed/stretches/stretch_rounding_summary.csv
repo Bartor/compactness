@@ -1,0 +1,6 @@
+bin,stretch_directions,median_sd_min,median_rel_sd,median_range_min,share_with_line_difference,mean_range_min
+< 3 min,35,0.0,0.0,0.0,0.0,0.0
+3-5 min,34,0.0,0.0,0.0,0.08824,0.03274
+5-8 min,120,0.0,0.0,0.0,0.1167,0.03734
+8-12 min,91,0.0,0.0,0.0,0.1209,0.0872
+>= 12 min,39,0.0,0.0,0.0,0.0,0.0

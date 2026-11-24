@@ -1,0 +1,625 @@
+agglomeration,mode,variant,day_type,timetable_date,band,band_label,speed_kmh,median_trip_speed_kmh,wmedian_vkm_kmh,n_trips,n_lines,vehicle_km,share_trips_fallback,share_vkm_unofficial,detour_factor_shaped_trips
+gzm,bus,all,saturday,2026-11-28,night,noc 23–05,29.01,28.02,29.01,911,251,17940.0,0.03513,0.0,1.158
+gzm,bus,all,saturday,2026-11-28,evening,wieczór 18–23,26.51,25.37,26.7,2570,321,48500.0,0.04086,0.0,1.158
+gzm,bus,all,saturday,2026-11-28,morning,rano 05–09,25.84,24.93,25.78,2312,331,43310.0,0.04325,0.0,1.158
+gzm,bus,all,saturday,2026-11-28,day,dzień 09–18,25.78,24.79,25.79,5197,336,97910.0,0.0456,0.0,1.158
+gzm,bus,all,saturday,2026-11-28,all_day,cała doba,26.21,25.11,26.27,10990,358,207700.0,0.04313,0.0,1.158
+gzm,bus,all,weekday,2026-11-25,night,noc 23–05,28.3,27.53,28.62,1377,347,26780.0,0.0305,0.0,1.153
+gzm,bus,all,weekday,2026-11-25,early,wczesny ranek 05–07,24.98,24.16,25.09,2457,423,46540.0,0.05006,0.0,1.153
+gzm,bus,all,weekday,2026-11-25,am_peak,szczyt poranny 07–09,24.51,23.74,24.55,2302,424,42010.0,0.04996,0.0,1.153
+gzm,bus,all,weekday,2026-11-25,midday,międzyszczyt 09–15,24.38,23.72,24.46,6078,428,113400.0,0.04837,0.0,1.153
+gzm,bus,all,weekday,2026-11-25,pm_peak,szczyt popołudniowy 15–18,24.54,23.78,24.71,3296,421,61170.0,0.0443,0.0,1.153
+gzm,bus,all,weekday,2026-11-25,early_eve,wczesny wieczór 18–20,25.93,24.97,26.22,1545,368,28500.0,0.04142,0.0,1.153
+gzm,bus,all,weekday,2026-11-25,evening,wieczór 20–23,26.82,25.74,27.04,1907,347,35320.0,0.04038,0.0,1.153
+gzm,bus,all,weekday,2026-11-25,all_day,cała doba,25.11,24.25,25.29,18962,451,353700.0,0.04541,0.0,1.153
+gzm,bus,official,saturday,2026-11-28,night,noc 23–05,29.01,28.02,29.01,911,251,17940.0,0.03513,0.0,1.158
+gzm,bus,official,saturday,2026-11-28,evening,wieczór 18–23,26.51,25.37,26.7,2570,321,48500.0,0.04086,0.0,1.158
+gzm,bus,official,saturday,2026-11-28,morning,rano 05–09,25.84,24.93,25.78,2312,331,43310.0,0.04325,0.0,1.158
+gzm,bus,official,saturday,2026-11-28,day,dzień 09–18,25.78,24.79,25.79,5197,336,97910.0,0.0456,0.0,1.158
+gzm,bus,official,saturday,2026-11-28,all_day,cała doba,26.21,25.11,26.27,10990,358,207700.0,0.04313,0.0,1.158
+gzm,bus,official,weekday,2026-11-25,night,noc 23–05,28.3,27.53,28.62,1377,347,26780.0,0.0305,0.0,1.153
+gzm,bus,official,weekday,2026-11-25,early,wczesny ranek 05–07,24.98,24.16,25.09,2457,423,46540.0,0.05006,0.0,1.153
+gzm,bus,official,weekday,2026-11-25,am_peak,szczyt poranny 07–09,24.51,23.74,24.55,2302,424,42010.0,0.04996,0.0,1.153
+gzm,bus,official,weekday,2026-11-25,midday,międzyszczyt 09–15,24.38,23.72,24.46,6078,428,113400.0,0.04837,0.0,1.153
+gzm,bus,official,weekday,2026-11-25,pm_peak,szczyt popołudniowy 15–18,24.54,23.78,24.71,3296,421,61170.0,0.0443,0.0,1.153
+gzm,bus,official,weekday,2026-11-25,early_eve,wczesny wieczór 18–20,25.93,24.97,26.22,1545,368,28500.0,0.04142,0.0,1.153
+gzm,bus,official,weekday,2026-11-25,evening,wieczór 20–23,26.82,25.74,27.04,1907,347,35320.0,0.04038,0.0,1.153
+gzm,bus,official,weekday,2026-11-25,all_day,cała doba,25.11,24.25,25.29,18962,451,353700.0,0.04541,0.0,1.153
+gzm,rail,all,saturday,2026-11-28,night,noc 23–05,52.29,52.93,52.89,58,23,2807.0,0.0,0.0,1.067
+gzm,rail,all,saturday,2026-11-28,evening,wieczór 18–23,53.42,54.13,55.99,183,34,8807.0,0.0,0.0,1.067
+gzm,rail,all,saturday,2026-11-28,morning,rano 05–09,53.91,54.64,56.32,165,31,8017.0,0.0,0.0,1.067
+gzm,rail,all,saturday,2026-11-28,day,dzień 09–18,54.49,55.66,57.75,366,34,17450.0,0.0,0.0,1.067
+gzm,rail,all,saturday,2026-11-28,all_day,cała doba,53.93,54.92,56.32,772,39,37080.0,0.0,0.0,1.067
+gzm,rail,all,weekday,2026-11-25,night,noc 23–05,52.92,55.18,55.18,73,25,3316.0,0.0,0.0,1.066
+gzm,rail,all,weekday,2026-11-25,early,wczesny ranek 05–07,53.36,53.98,56.55,112,30,4483.0,0.0,0.0,1.066
+gzm,rail,all,weekday,2026-11-25,am_peak,szczyt poranny 07–09,53.79,52.86,54.64,95,27,4675.0,0.0,0.0,1.066
+gzm,rail,all,weekday,2026-11-25,midday,międzyszczyt 09–15,53.97,53.64,55.73,282,34,12510.0,0.0,0.0,1.066
+gzm,rail,all,weekday,2026-11-25,pm_peak,szczyt popołudniowy 15–18,53.85,54.47,57.36,163,32,7363.0,0.0,0.0,1.066
+gzm,rail,all,weekday,2026-11-25,early_eve,wczesny wieczór 18–20,54.22,54.47,56.44,87,29,4208.0,0.0,0.0,1.066
+gzm,rail,all,weekday,2026-11-25,evening,wieczór 20–23,53.19,53.42,56.65,106,28,4671.0,0.0,0.0,1.066
+gzm,rail,all,weekday,2026-11-25,all_day,cała doba,53.71,53.99,55.9,918,35,41220.0,0.0,0.0,1.066
+gzm,rail,official,saturday,2026-11-28,night,noc 23–05,52.29,52.93,52.89,58,23,2807.0,0.0,0.0,1.067
+gzm,rail,official,saturday,2026-11-28,evening,wieczór 18–23,53.42,54.13,55.99,183,34,8807.0,0.0,0.0,1.067
+gzm,rail,official,saturday,2026-11-28,morning,rano 05–09,53.91,54.64,56.32,165,31,8017.0,0.0,0.0,1.067
+gzm,rail,official,saturday,2026-11-28,day,dzień 09–18,54.49,55.66,57.75,366,34,17450.0,0.0,0.0,1.067
+gzm,rail,official,saturday,2026-11-28,all_day,cała doba,53.93,54.92,56.32,772,39,37080.0,0.0,0.0,1.067
+gzm,rail,official,weekday,2026-11-25,night,noc 23–05,52.92,55.18,55.18,73,25,3316.0,0.0,0.0,1.066
+gzm,rail,official,weekday,2026-11-25,early,wczesny ranek 05–07,53.36,53.98,56.55,112,30,4483.0,0.0,0.0,1.066
+gzm,rail,official,weekday,2026-11-25,am_peak,szczyt poranny 07–09,53.79,52.86,54.64,95,27,4675.0,0.0,0.0,1.066
+gzm,rail,official,weekday,2026-11-25,midday,międzyszczyt 09–15,53.97,53.64,55.73,282,34,12510.0,0.0,0.0,1.066
+gzm,rail,official,weekday,2026-11-25,pm_peak,szczyt popołudniowy 15–18,53.85,54.47,57.36,163,32,7363.0,0.0,0.0,1.066
+gzm,rail,official,weekday,2026-11-25,early_eve,wczesny wieczór 18–20,54.22,54.47,56.44,87,29,4208.0,0.0,0.0,1.066
+gzm,rail,official,weekday,2026-11-25,evening,wieczór 20–23,53.19,53.42,56.65,106,28,4671.0,0.0,0.0,1.066
+gzm,rail,official,weekday,2026-11-25,all_day,cała doba,53.71,53.99,55.9,918,35,41220.0,0.0,0.0,1.066
+gzm,tram,all,saturday,2026-11-28,night,noc 23–05,20.29,20.07,20.8,288,23,3099.0,0.1076,0.0,1.055
+gzm,tram,all,saturday,2026-11-28,evening,wieczór 18–23,18.15,17.0,18.47,535,25,6402.0,0.06542,0.0,1.055
+gzm,tram,all,saturday,2026-11-28,morning,rano 05–09,18.03,16.94,17.97,418,25,5048.0,0.09569,0.0,1.055
+gzm,tram,all,saturday,2026-11-28,day,dzień 09–18,18.21,17.13,18.47,1214,25,14550.0,0.08072,0.0,1.055
+gzm,tram,all,saturday,2026-11-28,all_day,cała doba,18.37,17.56,18.9,2455,25,29090.0,0.0831,0.0,1.055
+gzm,tram,all,weekday,2026-11-25,night,noc 23–05,20.21,20.32,20.79,373,24,4211.0,0.1367,0.0,1.054
+gzm,tram,all,weekday,2026-11-25,early,wczesny ranek 05–07,17.99,16.94,17.71,334,26,4082.0,0.1018,0.0,1.054
+gzm,tram,all,weekday,2026-11-25,am_peak,szczyt poranny 07–09,17.99,17.0,17.73,324,26,4015.0,0.1049,0.0,1.054
+gzm,tram,all,weekday,2026-11-25,midday,międzyszczyt 09–15,17.98,17.0,17.73,987,26,12100.0,0.1033,0.0,1.054
+gzm,tram,all,weekday,2026-11-25,pm_peak,szczyt popołudniowy 15–18,18.01,17.0,17.73,480,27,5889.0,0.08125,0.0,1.054
+gzm,tram,all,weekday,2026-11-25,early_eve,wczesny wieczór 18–20,18.12,17.13,18.47,249,25,3002.0,0.06827,0.0,1.054
+gzm,tram,all,weekday,2026-11-25,evening,wieczór 20–23,18.3,17.07,18.65,312,23,3701.0,0.0609,0.0,1.054
+gzm,tram,all,weekday,2026-11-25,all_day,cała doba,18.26,17.42,18.47,3059,27,37000.0,0.09676,0.0,1.054
+gzm,tram,official,saturday,2026-11-28,night,noc 23–05,20.29,20.07,20.8,288,23,3099.0,0.1076,0.0,1.055
+gzm,tram,official,saturday,2026-11-28,evening,wieczór 18–23,18.15,17.0,18.47,535,25,6402.0,0.06542,0.0,1.055
+gzm,tram,official,saturday,2026-11-28,morning,rano 05–09,18.03,16.94,17.97,418,25,5048.0,0.09569,0.0,1.055
+gzm,tram,official,saturday,2026-11-28,day,dzień 09–18,18.21,17.13,18.47,1214,25,14550.0,0.08072,0.0,1.055
+gzm,tram,official,saturday,2026-11-28,all_day,cała doba,18.37,17.56,18.9,2455,25,29090.0,0.0831,0.0,1.055
+gzm,tram,official,weekday,2026-11-25,night,noc 23–05,20.21,20.32,20.79,373,24,4211.0,0.1367,0.0,1.054
+gzm,tram,official,weekday,2026-11-25,early,wczesny ranek 05–07,17.99,16.94,17.71,334,26,4082.0,0.1018,0.0,1.054
+gzm,tram,official,weekday,2026-11-25,am_peak,szczyt poranny 07–09,17.99,17.0,17.73,324,26,4015.0,0.1049,0.0,1.054
+gzm,tram,official,weekday,2026-11-25,midday,międzyszczyt 09–15,17.98,17.0,17.73,987,26,12100.0,0.1033,0.0,1.054
+gzm,tram,official,weekday,2026-11-25,pm_peak,szczyt popołudniowy 15–18,18.01,17.0,17.73,480,27,5889.0,0.08125,0.0,1.054
+gzm,tram,official,weekday,2026-11-25,early_eve,wczesny wieczór 18–20,18.12,17.13,18.47,249,25,3002.0,0.06827,0.0,1.054
+gzm,tram,official,weekday,2026-11-25,evening,wieczór 20–23,18.3,17.07,18.65,312,23,3701.0,0.0609,0.0,1.054
+gzm,tram,official,weekday,2026-11-25,all_day,cała doba,18.26,17.42,18.47,3059,27,37000.0,0.09676,0.0,1.054
+gzm,trolleybus,all,saturday,2026-11-28,night,noc 23–05,24.47,24.51,24.52,15,3,149.7,0.0,0.0,1.097
+gzm,trolleybus,all,saturday,2026-11-28,evening,wieczór 18–23,22.76,21.27,21.77,67,6,672.3,0.0,0.0,1.097
+gzm,trolleybus,all,saturday,2026-11-28,morning,rano 05–09,21.39,21.15,21.15,57,6,566.7,0.0,0.0,1.097
+gzm,trolleybus,all,saturday,2026-11-28,day,dzień 09–18,21.32,20.44,21.15,149,6,1469.0,0.0,0.0,1.097
+gzm,trolleybus,all,saturday,2026-11-28,all_day,cała doba,21.81,21.27,21.31,288,6,2857.0,0.0,0.0,1.097
+gzm,trolleybus,all,weekday,2026-11-25,night,noc 23–05,23.78,24.3,24.51,28,4,275.8,0.0,0.0,1.108
+gzm,trolleybus,all,weekday,2026-11-25,early,wczesny ranek 05–07,21.83,21.51,21.77,56,8,554.7,0.0,0.0,1.108
+gzm,trolleybus,all,weekday,2026-11-25,am_peak,szczyt poranny 07–09,21.56,21.31,21.31,59,8,580.2,0.0,0.0,1.108
+gzm,trolleybus,all,weekday,2026-11-25,midday,międzyszczyt 09–15,21.53,21.31,21.32,155,8,1523.0,0.0,0.0,1.108
+gzm,trolleybus,all,weekday,2026-11-25,pm_peak,szczyt popołudniowy 15–18,21.6,21.31,21.32,84,8,828.7,0.0,0.0,1.108
+gzm,trolleybus,all,weekday,2026-11-25,early_eve,wczesny wieczór 18–20,22.62,21.31,21.77,39,7,390.6,0.0,0.0,1.108
+gzm,trolleybus,all,weekday,2026-11-25,evening,wieczór 20–23,23.81,24.51,25.24,59,7,603.3,0.0,0.0,1.108
+gzm,trolleybus,all,weekday,2026-11-25,all_day,cała doba,22.06,21.32,21.77,480,8,4757.0,0.0,0.0,1.108
+gzm,trolleybus,official,saturday,2026-11-28,night,noc 23–05,24.47,24.51,24.52,15,3,149.7,0.0,0.0,1.097
+gzm,trolleybus,official,saturday,2026-11-28,evening,wieczór 18–23,22.76,21.27,21.77,67,6,672.3,0.0,0.0,1.097
+gzm,trolleybus,official,saturday,2026-11-28,morning,rano 05–09,21.39,21.15,21.15,57,6,566.7,0.0,0.0,1.097
+gzm,trolleybus,official,saturday,2026-11-28,day,dzień 09–18,21.32,20.44,21.15,149,6,1469.0,0.0,0.0,1.097
+gzm,trolleybus,official,saturday,2026-11-28,all_day,cała doba,21.81,21.27,21.31,288,6,2857.0,0.0,0.0,1.097
+gzm,trolleybus,official,weekday,2026-11-25,night,noc 23–05,23.78,24.3,24.51,28,4,275.8,0.0,0.0,1.108
+gzm,trolleybus,official,weekday,2026-11-25,early,wczesny ranek 05–07,21.83,21.51,21.77,56,8,554.7,0.0,0.0,1.108
+gzm,trolleybus,official,weekday,2026-11-25,am_peak,szczyt poranny 07–09,21.56,21.31,21.31,59,8,580.2,0.0,0.0,1.108
+gzm,trolleybus,official,weekday,2026-11-25,midday,międzyszczyt 09–15,21.53,21.31,21.32,155,8,1523.0,0.0,0.0,1.108
+gzm,trolleybus,official,weekday,2026-11-25,pm_peak,szczyt popołudniowy 15–18,21.6,21.31,21.32,84,8,828.7,0.0,0.0,1.108
+gzm,trolleybus,official,weekday,2026-11-25,early_eve,wczesny wieczór 18–20,22.62,21.31,21.77,39,7,390.6,0.0,0.0,1.108
+gzm,trolleybus,official,weekday,2026-11-25,evening,wieczór 20–23,23.81,24.51,25.24,59,7,603.3,0.0,0.0,1.108
+gzm,trolleybus,official,weekday,2026-11-25,all_day,cała doba,22.06,21.32,21.77,480,8,4757.0,0.0,0.0,1.108
+krakow,bus,all,saturday,2026-11-28,night,noc 23–05,27.67,27.24,28.73,464,158,7569.0,0.07112,0.0049,1.114
+krakow,bus,all,saturday,2026-11-28,evening,wieczór 18–23,26.49,24.84,26.41,1991,216,27000.0,0.08739,0.01962,1.114
+krakow,bus,all,saturday,2026-11-28,morning,rano 05–09,27.09,25.17,27.45,1732,234,25210.0,0.1207,0.02988,1.114
+krakow,bus,all,saturday,2026-11-28,day,dzień 09–18,25.87,23.83,26.07,4641,240,66050.0,0.1047,0.02419,1.114
+krakow,bus,all,saturday,2026-11-28,all_day,cała doba,26.35,24.51,26.58,8828,258,125800.0,0.1022,0.02319,1.114
+krakow,bus,all,weekday,2026-11-25,night,noc 23–05,28.48,27.99,30.11,747,219,13120.0,0.1339,0.01487,1.11
+krakow,bus,all,weekday,2026-11-25,early,wczesny ranek 05–07,26.28,24.82,26.89,1726,255,25890.0,0.1257,0.03107,1.11
+krakow,bus,all,weekday,2026-11-25,am_peak,szczyt poranny 07–09,24.4,22.29,24.83,1782,254,25500.0,0.11,0.02563,1.11
+krakow,bus,all,weekday,2026-11-25,midday,międzyszczyt 09–15,24.59,22.63,25.04,4432,258,63820.0,0.1167,0.02778,1.11
+krakow,bus,all,weekday,2026-11-25,pm_peak,szczyt popołudniowy 15–18,24.03,22.19,24.7,2743,258,39130.0,0.1116,0.0262,1.11
+krakow,bus,all,weekday,2026-11-25,early_eve,wczesny wieczór 18–20,25.57,23.43,26.3,1463,247,21070.0,0.1121,0.02428,1.11
+krakow,bus,all,weekday,2026-11-25,evening,wieczór 20–23,26.64,24.88,26.58,1690,225,23710.0,0.09704,0.02092,1.11
+krakow,bus,all,weekday,2026-11-25,all_day,cała doba,25.18,23.39,25.93,14583,271,212200.0,0.1141,0.02572,1.11
+krakow,bus,official,saturday,2026-11-28,night,noc 23–05,27.65,27.16,28.69,461,155,7531.0,0.07158,0.0,1.114
+krakow,bus,official,saturday,2026-11-28,evening,wieczór 18–23,26.41,24.77,26.3,1951,204,26470.0,0.08919,0.0,1.114
+krakow,bus,official,saturday,2026-11-28,morning,rano 05–09,26.97,24.93,27.2,1674,222,24450.0,0.1249,0.0,1.114
+krakow,bus,official,saturday,2026-11-28,day,dzień 09–18,25.76,23.71,25.85,4517,228,64450.0,0.1076,0.0,1.114
+krakow,bus,official,saturday,2026-11-28,all_day,cała doba,26.24,24.41,26.34,8603,246,122900.0,0.1048,0.0,1.114
+krakow,bus,official,weekday,2026-11-25,night,noc 23–05,28.42,27.89,30.11,732,210,12930.0,0.1366,0.0,1.11
+krakow,bus,official,weekday,2026-11-25,early,wczesny ranek 05–07,26.13,24.49,26.59,1666,239,25090.0,0.1303,0.0,1.11
+krakow,bus,official,weekday,2026-11-25,am_peak,szczyt poranny 07–09,24.26,22.06,24.51,1725,238,24850.0,0.1136,0.0,1.11
+krakow,bus,official,weekday,2026-11-25,midday,międzyszczyt 09–15,24.43,22.38,24.61,4289,242,62050.0,0.1205,0.0,1.11
+krakow,bus,official,weekday,2026-11-25,pm_peak,szczyt popołudniowy 15–18,23.88,21.98,24.37,2661,242,38100.0,0.115,0.0,1.11
+krakow,bus,official,weekday,2026-11-25,early_eve,wczesny wieczór 18–20,25.44,23.23,26.07,1421,232,20560.0,0.1154,0.0,1.11
+krakow,bus,official,weekday,2026-11-25,evening,wieczór 20–23,26.55,24.84,26.39,1654,213,23210.0,0.09915,0.0,1.11
+krakow,bus,official,weekday,2026-11-25,all_day,cała doba,25.04,23.23,25.58,14148,255,206800.0,0.1176,0.0,1.11
+krakow,rail,all,saturday,2026-11-28,night,noc 23–05,50.13,50.41,53.98,47,11,2029.0,0.0,0.0,1.043
+krakow,rail,all,saturday,2026-11-28,evening,wieczór 18–23,49.79,50.03,50.35,104,21,5299.0,0.0,0.0,1.043
+krakow,rail,all,saturday,2026-11-28,morning,rano 05–09,52.15,52.18,52.53,96,19,5166.0,0.0,0.0,1.043
+krakow,rail,all,saturday,2026-11-28,day,dzień 09–18,50.75,50.26,51.61,197,18,10550.0,0.0,0.0,1.043
+krakow,rail,all,saturday,2026-11-28,all_day,cała doba,50.78,50.37,51.24,444,22,23040.0,0.0,0.0,1.043
+krakow,rail,all,weekday,2026-11-25,night,noc 23–05,49.34,49.69,50.41,46,14,2164.0,0.0,0.0,1.043
+krakow,rail,all,weekday,2026-11-25,early,wczesny ranek 05–07,50.74,50.19,49.26,53,17,2928.0,0.0,0.0,1.043
+krakow,rail,all,weekday,2026-11-25,am_peak,szczyt poranny 07–09,52.49,52.08,52.53,50,16,2657.0,0.0,0.0,1.043
+krakow,rail,all,weekday,2026-11-25,midday,międzyszczyt 09–15,51.05,50.4,51.76,134,18,7487.0,0.0,0.0,1.043
+krakow,rail,all,weekday,2026-11-25,pm_peak,szczyt popołudniowy 15–18,49.35,50.07,50.07,81,20,4314.0,0.0,0.0,1.043
+krakow,rail,all,weekday,2026-11-25,early_eve,wczesny wieczór 18–20,48.08,46.14,46.45,48,17,2541.0,0.0,0.0,1.043
+krakow,rail,all,weekday,2026-11-25,evening,wieczór 20–23,51.66,51.01,51.24,60,18,2979.0,0.0,0.0,1.043
+krakow,rail,all,weekday,2026-11-25,all_day,cała doba,50.47,50.37,50.75,472,22,25070.0,0.0,0.0,1.043
+krakow,rail,official,saturday,2026-11-28,night,noc 23–05,50.13,50.41,53.98,47,11,2029.0,0.0,0.0,1.043
+krakow,rail,official,saturday,2026-11-28,evening,wieczór 18–23,49.79,50.03,50.35,104,21,5299.0,0.0,0.0,1.043
+krakow,rail,official,saturday,2026-11-28,morning,rano 05–09,52.15,52.18,52.53,96,19,5166.0,0.0,0.0,1.043
+krakow,rail,official,saturday,2026-11-28,day,dzień 09–18,50.75,50.26,51.61,197,18,10550.0,0.0,0.0,1.043
+krakow,rail,official,saturday,2026-11-28,all_day,cała doba,50.78,50.37,51.24,444,22,23040.0,0.0,0.0,1.043
+krakow,rail,official,weekday,2026-11-25,night,noc 23–05,49.34,49.69,50.41,46,14,2164.0,0.0,0.0,1.043
+krakow,rail,official,weekday,2026-11-25,early,wczesny ranek 05–07,50.74,50.19,49.26,53,17,2928.0,0.0,0.0,1.043
+krakow,rail,official,weekday,2026-11-25,am_peak,szczyt poranny 07–09,52.49,52.08,52.53,50,16,2657.0,0.0,0.0,1.043
+krakow,rail,official,weekday,2026-11-25,midday,międzyszczyt 09–15,51.05,50.4,51.76,134,18,7487.0,0.0,0.0,1.043
+krakow,rail,official,weekday,2026-11-25,pm_peak,szczyt popołudniowy 15–18,49.35,50.07,50.07,81,20,4314.0,0.0,0.0,1.043
+krakow,rail,official,weekday,2026-11-25,early_eve,wczesny wieczór 18–20,48.08,46.14,46.45,48,17,2541.0,0.0,0.0,1.043
+krakow,rail,official,weekday,2026-11-25,evening,wieczór 20–23,51.66,51.01,51.24,60,18,2979.0,0.0,0.0,1.043
+krakow,rail,official,weekday,2026-11-25,all_day,cała doba,50.47,50.37,50.75,472,22,25070.0,0.0,0.0,1.043
+krakow,tram,all,saturday,2026-11-28,night,noc 23–05,19.47,19.13,18.95,94,19,1546.0,0.0,0.0,1.058
+krakow,tram,all,saturday,2026-11-28,evening,wieczór 18–23,20.25,20.05,20.09,552,18,8338.0,0.0,0.0,1.058
+krakow,tram,all,saturday,2026-11-28,morning,rano 05–09,20.3,20.06,20.14,447,19,6706.0,0.0,0.0,1.058
+krakow,tram,all,saturday,2026-11-28,day,dzień 09–18,20.25,19.86,20.05,1128,19,17090.0,0.0,0.0,1.058
+krakow,tram,all,saturday,2026-11-28,all_day,cała doba,20.22,19.95,20.05,2221,21,33680.0,0.0,0.0,1.058
+krakow,tram,all,weekday,2026-11-25,night,noc 23–05,20.28,20.05,20.05,69,18,1065.0,0.0,0.0,1.059
+krakow,tram,all,weekday,2026-11-25,early,wczesny ranek 05–07,20.15,19.86,20.03,388,23,5686.0,0.0,0.0,1.059
+krakow,tram,all,weekday,2026-11-25,am_peak,szczyt poranny 07–09,20.04,19.95,20.01,475,23,6887.0,0.0,0.0,1.059
+krakow,tram,all,weekday,2026-11-25,midday,międzyszczyt 09–15,19.87,19.84,19.95,1326,23,19260.0,0.0,0.0,1.059
+krakow,tram,all,weekday,2026-11-25,pm_peak,szczyt popołudniowy 15–18,19.96,19.84,19.95,713,23,10350.0,0.0,0.0,1.059
+krakow,tram,all,weekday,2026-11-25,early_eve,wczesny wieczór 18–20,19.9,19.84,19.95,378,22,5598.0,0.0,0.0,1.059
+krakow,tram,all,weekday,2026-11-25,evening,wieczór 20–23,20.07,19.84,19.95,361,19,5414.0,0.0,0.0,1.059
+krakow,tram,all,weekday,2026-11-25,all_day,cała doba,19.97,19.84,19.95,3710,23,54260.0,0.0,0.0,1.059
+krakow,tram,official,saturday,2026-11-28,night,noc 23–05,19.47,19.13,18.95,94,19,1546.0,0.0,0.0,1.058
+krakow,tram,official,saturday,2026-11-28,evening,wieczór 18–23,20.25,20.05,20.09,552,18,8338.0,0.0,0.0,1.058
+krakow,tram,official,saturday,2026-11-28,morning,rano 05–09,20.3,20.06,20.14,447,19,6706.0,0.0,0.0,1.058
+krakow,tram,official,saturday,2026-11-28,day,dzień 09–18,20.25,19.86,20.05,1128,19,17090.0,0.0,0.0,1.058
+krakow,tram,official,saturday,2026-11-28,all_day,cała doba,20.22,19.95,20.05,2221,21,33680.0,0.0,0.0,1.058
+krakow,tram,official,weekday,2026-11-25,night,noc 23–05,20.28,20.05,20.05,69,18,1065.0,0.0,0.0,1.059
+krakow,tram,official,weekday,2026-11-25,early,wczesny ranek 05–07,20.15,19.86,20.03,388,23,5686.0,0.0,0.0,1.059
+krakow,tram,official,weekday,2026-11-25,am_peak,szczyt poranny 07–09,20.04,19.95,20.01,475,23,6887.0,0.0,0.0,1.059
+krakow,tram,official,weekday,2026-11-25,midday,międzyszczyt 09–15,19.87,19.84,19.95,1326,23,19260.0,0.0,0.0,1.059
+krakow,tram,official,weekday,2026-11-25,pm_peak,szczyt popołudniowy 15–18,19.96,19.84,19.95,713,23,10350.0,0.0,0.0,1.059
+krakow,tram,official,weekday,2026-11-25,early_eve,wczesny wieczór 18–20,19.9,19.84,19.95,378,22,5598.0,0.0,0.0,1.059
+krakow,tram,official,weekday,2026-11-25,evening,wieczór 20–23,20.07,19.84,19.95,361,19,5414.0,0.0,0.0,1.059
+krakow,tram,official,weekday,2026-11-25,all_day,cała doba,19.97,19.84,19.95,3710,23,54260.0,0.0,0.0,1.059
+lodz,bus,all,saturday,2026-11-28,night,noc 23–05,22.19,21.44,22.08,558,95,7650.0,0.4194,0.07336,1.105
+lodz,bus,all,saturday,2026-11-28,evening,wieczór 18–23,21.93,21.4,21.83,1358,123,18720.0,0.4602,0.1405,1.105
+lodz,bus,all,saturday,2026-11-28,morning,rano 05–09,22.21,21.52,22.07,1161,126,16300.0,0.4789,0.2158,1.105
+lodz,bus,all,saturday,2026-11-28,day,dzień 09–18,21.94,21.4,21.77,2502,119,36400.0,0.49,0.2275,1.105
+lodz,bus,all,saturday,2026-11-28,all_day,cała doba,22.02,21.4,21.83,5579,140,79060.0,0.4734,0.1896,1.105
+lodz,bus,all,weekday,2026-11-25,night,noc 23–05,22.36,21.55,22.29,756,121,10360.0,0.4352,0.09581,1.105
+lodz,bus,all,weekday,2026-11-25,early,wczesny ranek 05–07,22.97,21.85,22.87,1009,145,14730.0,0.4559,0.2822,1.105
+lodz,bus,all,weekday,2026-11-25,am_peak,szczyt poranny 07–09,21.37,20.41,21.13,881,129,13090.0,0.4711,0.268,1.105
+lodz,bus,all,weekday,2026-11-25,midday,międzyszczyt 09–15,21.1,20.17,20.7,2440,138,36530.0,0.4754,0.2591,1.105
+lodz,bus,all,weekday,2026-11-25,pm_peak,szczyt popołudniowy 15–18,21.52,20.28,21.28,1313,137,19860.0,0.4676,0.2779,1.105
+lodz,bus,all,weekday,2026-11-25,early_eve,wczesny wieczór 18–20,21.89,21.04,21.51,688,123,9779.0,0.4651,0.2155,1.105
+lodz,bus,all,weekday,2026-11-25,evening,wieczór 20–23,21.95,21.41,21.98,975,123,13200.0,0.4164,0.1331,1.105
+lodz,bus,all,weekday,2026-11-25,all_day,cała doba,21.69,20.73,21.49,8062,166,117500.0,0.4594,0.234,1.105
+lodz,bus,official,saturday,2026-11-28,night,noc 23–05,21.76,21.18,21.59,530,80,7089.0,0.4075,0.0,1.105
+lodz,bus,official,saturday,2026-11-28,evening,wieczór 18–23,21.1,20.65,21.04,1202,87,16090.0,0.4542,0.0,1.105
+lodz,bus,official,saturday,2026-11-28,morning,rano 05–09,20.89,20.47,20.78,950,86,12780.0,0.4789,0.0,1.105
+lodz,bus,official,saturday,2026-11-28,day,dzień 09–18,20.5,20.29,20.59,2012,76,28120.0,0.498,0.0,1.105
+lodz,bus,official,saturday,2026-11-28,all_day,cała doba,20.86,20.59,20.8,4694,97,64070.0,0.4727,0.0,1.105
+lodz,bus,official,weekday,2026-11-25,night,noc 23–05,21.82,21.3,21.74,702,94,9367.0,0.4288,0.0,1.105
+lodz,bus,official,weekday,2026-11-25,early,wczesny ranek 05–07,21.08,20.88,21.21,768,86,10570.0,0.4518,0.0,1.105
+lodz,bus,official,weekday,2026-11-25,am_peak,szczyt poranny 07–09,19.56,19.98,19.98,667,73,9584.0,0.4813,0.0,1.105
+lodz,bus,official,weekday,2026-11-25,midday,międzyszczyt 09–15,19.34,19.75,19.69,1896,78,27060.0,0.4879,0.0,1.105
+lodz,bus,official,weekday,2026-11-25,pm_peak,szczyt popołudniowy 15–18,19.6,19.98,20.03,989,77,14340.0,0.4742,0.0,1.105
+lodz,bus,official,weekday,2026-11-25,early_eve,wczesny wieczór 18–20,20.62,20.21,20.78,549,72,7671.0,0.4791,0.0,1.105
+lodz,bus,official,weekday,2026-11-25,evening,wieczór 20–23,21.3,21.05,21.4,862,88,11440.0,0.4223,0.0,1.105
+lodz,bus,official,weekday,2026-11-25,all_day,cała doba,20.18,20.16,20.3,6433,101,90030.0,0.4648,0.0,1.105
+lodz,rail,all,saturday,2026-11-28,night,noc 23–05,57.81,55.79,55.69,33,4,1869.0,0.0,0.0,1.051
+lodz,rail,all,saturday,2026-11-28,evening,wieczór 18–23,56.52,53.1,53.92,80,5,4382.0,0.0,0.0,1.051
+lodz,rail,all,saturday,2026-11-28,morning,rano 05–09,56.49,54.14,55.09,82,6,4678.0,0.0,0.0,1.051
+lodz,rail,all,saturday,2026-11-28,day,dzień 09–18,59.25,56.72,57.94,166,7,9407.0,0.0,0.0,1.051
+lodz,rail,all,saturday,2026-11-28,all_day,cała doba,57.86,55.04,56.24,361,8,20340.0,0.0,0.0,1.051
+lodz,rail,all,weekday,2026-11-25,night,noc 23–05,56.88,52.88,53.32,32,4,1871.0,0.0,0.0,1.047
+lodz,rail,all,weekday,2026-11-25,early,wczesny ranek 05–07,53.89,51.12,51.61,56,5,3106.0,0.0,0.0,1.047
+lodz,rail,all,weekday,2026-11-25,am_peak,szczyt poranny 07–09,55.78,52.87,54.23,47,5,2507.0,0.0,0.0,1.047
+lodz,rail,all,weekday,2026-11-25,midday,międzyszczyt 09–15,57.25,53.58,54.23,120,6,6900.0,0.0,0.0,1.047
+lodz,rail,all,weekday,2026-11-25,pm_peak,szczyt popołudniowy 15–18,57.69,55.51,56.16,78,7,4505.0,0.0,0.0,1.047
+lodz,rail,all,weekday,2026-11-25,early_eve,wczesny wieczór 18–20,57.38,52.93,54.39,39,4,2348.0,0.0,0.0,1.047
+lodz,rail,all,weekday,2026-11-25,evening,wieczór 20–23,54.09,52.82,52.87,44,4,2470.0,0.0,0.0,1.047
+lodz,rail,all,weekday,2026-11-25,all_day,cała doba,56.36,52.9,54.12,416,7,23710.0,0.0,0.0,1.047
+lodz,rail,official,saturday,2026-11-28,night,noc 23–05,57.81,55.79,55.69,33,4,1869.0,0.0,0.0,1.051
+lodz,rail,official,saturday,2026-11-28,evening,wieczór 18–23,56.52,53.1,53.92,80,5,4382.0,0.0,0.0,1.051
+lodz,rail,official,saturday,2026-11-28,morning,rano 05–09,56.49,54.14,55.09,82,6,4678.0,0.0,0.0,1.051
+lodz,rail,official,saturday,2026-11-28,day,dzień 09–18,59.25,56.72,57.94,166,7,9407.0,0.0,0.0,1.051
+lodz,rail,official,saturday,2026-11-28,all_day,cała doba,57.86,55.04,56.24,361,8,20340.0,0.0,0.0,1.051
+lodz,rail,official,weekday,2026-11-25,night,noc 23–05,56.88,52.88,53.32,32,4,1871.0,0.0,0.0,1.047
+lodz,rail,official,weekday,2026-11-25,early,wczesny ranek 05–07,53.89,51.12,51.61,56,5,3106.0,0.0,0.0,1.047
+lodz,rail,official,weekday,2026-11-25,am_peak,szczyt poranny 07–09,55.78,52.87,54.23,47,5,2507.0,0.0,0.0,1.047
+lodz,rail,official,weekday,2026-11-25,midday,międzyszczyt 09–15,57.25,53.58,54.23,120,6,6900.0,0.0,0.0,1.047
+lodz,rail,official,weekday,2026-11-25,pm_peak,szczyt popołudniowy 15–18,57.69,55.51,56.16,78,7,4505.0,0.0,0.0,1.047
+lodz,rail,official,weekday,2026-11-25,early_eve,wczesny wieczór 18–20,57.38,52.93,54.39,39,4,2348.0,0.0,0.0,1.047
+lodz,rail,official,weekday,2026-11-25,evening,wieczór 20–23,54.09,52.82,52.87,44,4,2470.0,0.0,0.0,1.047
+lodz,rail,official,weekday,2026-11-25,all_day,cała doba,56.36,52.9,54.12,416,7,23710.0,0.0,0.0,1.047
+lodz,tram,all,saturday,2026-11-28,night,noc 23–05,17.29,17.09,17.44,189,22,2124.0,0.4709,0.0,1.035
+lodz,tram,all,saturday,2026-11-28,evening,wieczór 18–23,17.54,17.26,17.67,600,21,7654.0,0.4533,0.0,1.035
+lodz,tram,all,saturday,2026-11-28,morning,rano 05–09,17.34,17.08,17.2,479,21,6184.0,0.4614,0.0,1.035
+lodz,tram,all,saturday,2026-11-28,day,dzień 09–18,17.36,17.08,17.26,1044,20,13860.0,0.4655,0.0,1.035
+lodz,tram,all,saturday,2026-11-28,all_day,cała doba,17.4,17.19,17.34,2312,22,29820.0,0.4619,0.0,1.035
+lodz,tram,all,weekday,2026-11-25,night,noc 23–05,17.51,17.33,18.01,247,25,2770.0,0.4939,0.0,1.041
+lodz,tram,all,weekday,2026-11-25,early,wczesny ranek 05–07,17.24,16.97,17.18,369,24,4681.0,0.4553,0.0,1.041
+lodz,tram,all,weekday,2026-11-25,am_peak,szczyt poranny 07–09,17.1,16.91,16.98,360,24,4711.0,0.475,0.0,1.041
+lodz,tram,all,weekday,2026-11-25,midday,międzyszczyt 09–15,17.1,16.69,16.96,1078,24,14100.0,0.4731,0.0,1.041
+lodz,tram,all,weekday,2026-11-25,pm_peak,szczyt popołudniowy 15–18,17.16,16.91,17.08,541,23,7047.0,0.475,0.0,1.041
+lodz,tram,all,weekday,2026-11-25,early_eve,wczesny wieczór 18–20,17.29,16.97,17.18,298,24,3819.0,0.4564,0.0,1.041
+lodz,tram,all,weekday,2026-11-25,evening,wieczór 20–23,17.61,17.26,17.71,419,24,5255.0,0.4582,0.0,1.041
+lodz,tram,all,weekday,2026-11-25,all_day,cała doba,17.23,16.96,17.08,3312,25,42390.0,0.4698,0.0,1.041
+lodz,tram,official,saturday,2026-11-28,night,noc 23–05,17.29,17.09,17.44,189,22,2124.0,0.4709,0.0,1.035
+lodz,tram,official,saturday,2026-11-28,evening,wieczór 18–23,17.54,17.26,17.67,600,21,7654.0,0.4533,0.0,1.035
+lodz,tram,official,saturday,2026-11-28,morning,rano 05–09,17.34,17.08,17.2,479,21,6184.0,0.4614,0.0,1.035
+lodz,tram,official,saturday,2026-11-28,day,dzień 09–18,17.36,17.08,17.26,1044,20,13860.0,0.4655,0.0,1.035
+lodz,tram,official,saturday,2026-11-28,all_day,cała doba,17.4,17.19,17.34,2312,22,29820.0,0.4619,0.0,1.035
+lodz,tram,official,weekday,2026-11-25,night,noc 23–05,17.51,17.33,18.01,247,25,2770.0,0.4939,0.0,1.041
+lodz,tram,official,weekday,2026-11-25,early,wczesny ranek 05–07,17.24,16.97,17.18,369,24,4681.0,0.4553,0.0,1.041
+lodz,tram,official,weekday,2026-11-25,am_peak,szczyt poranny 07–09,17.1,16.91,16.98,360,24,4711.0,0.475,0.0,1.041
+lodz,tram,official,weekday,2026-11-25,midday,międzyszczyt 09–15,17.1,16.69,16.96,1078,24,14100.0,0.4731,0.0,1.041
+lodz,tram,official,weekday,2026-11-25,pm_peak,szczyt popołudniowy 15–18,17.16,16.91,17.08,541,23,7047.0,0.475,0.0,1.041
+lodz,tram,official,weekday,2026-11-25,early_eve,wczesny wieczór 18–20,17.29,16.97,17.18,298,24,3819.0,0.4564,0.0,1.041
+lodz,tram,official,weekday,2026-11-25,evening,wieczór 20–23,17.61,17.26,17.71,419,24,5255.0,0.4582,0.0,1.041
+lodz,tram,official,weekday,2026-11-25,all_day,cała doba,17.23,16.96,17.08,3312,25,42390.0,0.4698,0.0,1.041
+poznan,bus,all,saturday,2026-11-28,night,noc 23–05,27.13,26.28,26.38,395,94,6545.0,0.0,0.0,1.118
+poznan,bus,all,saturday,2026-11-28,evening,wieczór 18–23,24.48,24.03,24.79,1277,115,15880.0,0.003915,0.0,1.118
+poznan,bus,all,saturday,2026-11-28,morning,rano 05–09,24.37,24.36,24.91,1108,124,13940.0,0.005415,0.0,1.118
+poznan,bus,all,saturday,2026-11-28,day,dzień 09–18,23.17,23.34,23.94,2535,118,31600.0,0.005917,0.0,1.118
+poznan,bus,all,saturday,2026-11-28,all_day,cała doba,24.05,24.03,24.73,5315,139,67970.0,0.004892,0.0,1.118
+poznan,bus,all,weekday,2026-11-25,night,noc 23–05,27.43,26.67,27.32,529,128,8015.0,0.00189,0.0,1.118
+poznan,bus,all,weekday,2026-11-25,early,wczesny ranek 05–07,25.1,25.62,26.73,1034,161,13800.0,0.01451,0.0,1.118
+poznan,bus,all,weekday,2026-11-25,am_peak,szczyt poranny 07–09,23.51,23.81,25.38,1016,168,13160.0,0.01181,0.0,1.118
+poznan,bus,all,weekday,2026-11-25,midday,międzyszczyt 09–15,23.28,23.8,25.11,2684,174,34490.0,0.01043,0.0,1.118
+poznan,bus,all,weekday,2026-11-25,pm_peak,szczyt popołudniowy 15–18,22.69,22.83,24.51,1503,170,19350.0,0.00998,0.0,1.118
+poznan,bus,all,weekday,2026-11-25,early_eve,wczesny wieczór 18–20,23.91,23.94,25.26,788,142,10080.0,0.01142,0.0,1.118
+poznan,bus,all,weekday,2026-11-25,evening,wieczór 20–23,25.29,25.05,26.28,908,129,11620.0,0.007709,0.0,1.118
+poznan,bus,all,weekday,2026-11-25,all_day,cała doba,23.93,24.3,25.65,8462,193,110500.0,0.01028,0.0,1.118
+poznan,bus,official,saturday,2026-11-28,night,noc 23–05,27.13,26.28,26.38,395,94,6545.0,0.0,0.0,1.118
+poznan,bus,official,saturday,2026-11-28,evening,wieczór 18–23,24.48,24.03,24.79,1277,115,15880.0,0.003915,0.0,1.118
+poznan,bus,official,saturday,2026-11-28,morning,rano 05–09,24.37,24.36,24.91,1108,124,13940.0,0.005415,0.0,1.118
+poznan,bus,official,saturday,2026-11-28,day,dzień 09–18,23.17,23.34,23.94,2535,118,31600.0,0.005917,0.0,1.118
+poznan,bus,official,saturday,2026-11-28,all_day,cała doba,24.05,24.03,24.73,5315,139,67970.0,0.004892,0.0,1.118
+poznan,bus,official,weekday,2026-11-25,night,noc 23–05,27.43,26.67,27.32,529,128,8015.0,0.00189,0.0,1.118
+poznan,bus,official,weekday,2026-11-25,early,wczesny ranek 05–07,25.1,25.62,26.73,1034,161,13800.0,0.01451,0.0,1.118
+poznan,bus,official,weekday,2026-11-25,am_peak,szczyt poranny 07–09,23.51,23.81,25.38,1016,168,13160.0,0.01181,0.0,1.118
+poznan,bus,official,weekday,2026-11-25,midday,międzyszczyt 09–15,23.28,23.8,25.11,2684,174,34490.0,0.01043,0.0,1.118
+poznan,bus,official,weekday,2026-11-25,pm_peak,szczyt popołudniowy 15–18,22.69,22.83,24.51,1503,170,19350.0,0.00998,0.0,1.118
+poznan,bus,official,weekday,2026-11-25,early_eve,wczesny wieczór 18–20,23.91,23.94,25.26,788,142,10080.0,0.01142,0.0,1.118
+poznan,bus,official,weekday,2026-11-25,evening,wieczór 20–23,25.29,25.05,26.28,908,129,11620.0,0.007709,0.0,1.118
+poznan,bus,official,weekday,2026-11-25,all_day,cała doba,23.93,24.3,25.65,8462,193,110500.0,0.01028,0.0,1.118
+poznan,rail,all,saturday,2026-11-28,night,noc 23–05,62.7,62.47,62.24,33,7,2030.0,0.0,0.0,1.036
+poznan,rail,all,saturday,2026-11-28,evening,wieczór 18–23,62.81,63.74,62.79,102,11,5540.0,0.0,0.0,1.036
+poznan,rail,all,saturday,2026-11-28,morning,rano 05–09,63.26,65.15,64.91,90,12,4770.0,0.0,0.0,1.036
+poznan,rail,all,saturday,2026-11-28,day,dzień 09–18,63.56,65.03,65.35,189,11,10340.0,0.0,0.0,1.036
+poznan,rail,all,saturday,2026-11-28,all_day,cała doba,63.24,64.91,64.48,414,13,22680.0,0.0,0.0,1.036
+poznan,rail,all,weekday,2026-11-25,night,noc 23–05,59.67,60.47,59.35,37,8,2677.0,0.0,0.0,1.035
+poznan,rail,all,weekday,2026-11-25,early,wczesny ranek 05–07,59.78,64.15,62.79,58,11,3025.0,0.0,0.0,1.035
+poznan,rail,all,weekday,2026-11-25,am_peak,szczyt poranny 07–09,61.23,61.5,61.62,62,9,3117.0,0.0,0.0,1.035
+poznan,rail,all,weekday,2026-11-25,midday,międzyszczyt 09–15,61.66,62.96,63.84,161,10,8245.0,0.0,0.0,1.035
+poznan,rail,all,weekday,2026-11-25,pm_peak,szczyt popołudniowy 15–18,60.86,62.49,63.24,94,9,5249.0,0.0,0.0,1.035
+poznan,rail,all,weekday,2026-11-25,early_eve,wczesny wieczór 18–20,62.08,63.88,63.88,55,11,3105.0,0.0,0.0,1.035
+poznan,rail,all,weekday,2026-11-25,evening,wieczór 20–23,61.43,62.67,61.6,66,9,3534.0,0.0,0.0,1.035
+poznan,rail,all,weekday,2026-11-25,all_day,cała doba,61.09,62.44,62.47,533,12,28950.0,0.0,0.0,1.035
+poznan,rail,official,saturday,2026-11-28,night,noc 23–05,62.7,62.47,62.24,33,7,2030.0,0.0,0.0,1.036
+poznan,rail,official,saturday,2026-11-28,evening,wieczór 18–23,62.81,63.74,62.79,102,11,5540.0,0.0,0.0,1.036
+poznan,rail,official,saturday,2026-11-28,morning,rano 05–09,63.26,65.15,64.91,90,12,4770.0,0.0,0.0,1.036
+poznan,rail,official,saturday,2026-11-28,day,dzień 09–18,63.56,65.03,65.35,189,11,10340.0,0.0,0.0,1.036
+poznan,rail,official,saturday,2026-11-28,all_day,cała doba,63.24,64.91,64.48,414,13,22680.0,0.0,0.0,1.036
+poznan,rail,official,weekday,2026-11-25,night,noc 23–05,59.67,60.47,59.35,37,8,2677.0,0.0,0.0,1.035
+poznan,rail,official,weekday,2026-11-25,early,wczesny ranek 05–07,59.78,64.15,62.79,58,11,3025.0,0.0,0.0,1.035
+poznan,rail,official,weekday,2026-11-25,am_peak,szczyt poranny 07–09,61.23,61.5,61.62,62,9,3117.0,0.0,0.0,1.035
+poznan,rail,official,weekday,2026-11-25,midday,międzyszczyt 09–15,61.66,62.96,63.84,161,10,8245.0,0.0,0.0,1.035
+poznan,rail,official,weekday,2026-11-25,pm_peak,szczyt popołudniowy 15–18,60.86,62.49,63.24,94,9,5249.0,0.0,0.0,1.035
+poznan,rail,official,weekday,2026-11-25,early_eve,wczesny wieczór 18–20,62.08,63.88,63.88,55,11,3105.0,0.0,0.0,1.035
+poznan,rail,official,weekday,2026-11-25,evening,wieczór 20–23,61.43,62.67,61.6,66,9,3534.0,0.0,0.0,1.035
+poznan,rail,official,weekday,2026-11-25,all_day,cała doba,61.09,62.44,62.47,533,12,28950.0,0.0,0.0,1.035
+poznan,tram,all,saturday,2026-11-28,night,noc 23–05,22.59,22.5,23.6,163,21,1796.0,0.0,0.0,1.042
+poznan,tram,all,saturday,2026-11-28,evening,wieczór 18–23,20.36,20.0,20.21,685,21,7659.0,0.0,0.0,1.042
+poznan,tram,all,saturday,2026-11-28,morning,rano 05–09,20.7,20.18,20.5,469,20,5374.0,0.0,0.0,1.042
+poznan,tram,all,saturday,2026-11-28,day,dzień 09–18,19.97,19.43,19.92,1298,19,14840.0,0.0,0.0,1.042
+poznan,tram,all,saturday,2026-11-28,all_day,cała doba,20.34,19.99,20.21,2615,21,29670.0,0.0,0.0,1.042
+poznan,tram,all,weekday,2026-11-25,night,noc 23–05,22.03,21.36,21.84,188,20,2047.0,0.0,0.0,1.039
+poznan,tram,all,weekday,2026-11-25,early,wczesny ranek 05–07,19.96,19.49,19.77,411,19,4573.0,0.0,0.0,1.039
+poznan,tram,all,weekday,2026-11-25,am_peak,szczyt poranny 07–09,19.76,18.64,19.58,449,19,5112.0,0.0,0.0,1.039
+poznan,tram,all,weekday,2026-11-25,midday,międzyszczyt 09–15,19.76,18.64,19.58,1103,19,12400.0,0.0,0.0,1.039
+poznan,tram,all,weekday,2026-11-25,pm_peak,szczyt popołudniowy 15–18,19.73,18.62,19.58,685,19,7858.0,0.0,0.0,1.039
+poznan,tram,all,weekday,2026-11-25,early_eve,wczesny wieczór 18–20,19.87,19.49,19.92,342,19,3782.0,0.0,0.0,1.039
+poznan,tram,all,weekday,2026-11-25,evening,wieczór 20–23,20.77,20.38,20.5,379,20,4185.0,0.0,0.0,1.039
+poznan,tram,all,weekday,2026-11-25,all_day,cała doba,20.0,19.49,20.07,3557,20,39960.0,0.0,0.0,1.039
+poznan,tram,official,saturday,2026-11-28,night,noc 23–05,22.59,22.5,23.6,163,21,1796.0,0.0,0.0,1.042
+poznan,tram,official,saturday,2026-11-28,evening,wieczór 18–23,20.36,20.0,20.21,685,21,7659.0,0.0,0.0,1.042
+poznan,tram,official,saturday,2026-11-28,morning,rano 05–09,20.7,20.18,20.5,469,20,5374.0,0.0,0.0,1.042
+poznan,tram,official,saturday,2026-11-28,day,dzień 09–18,19.97,19.43,19.92,1298,19,14840.0,0.0,0.0,1.042
+poznan,tram,official,saturday,2026-11-28,all_day,cała doba,20.34,19.99,20.21,2615,21,29670.0,0.0,0.0,1.042
+poznan,tram,official,weekday,2026-11-25,night,noc 23–05,22.03,21.36,21.84,188,20,2047.0,0.0,0.0,1.039
+poznan,tram,official,weekday,2026-11-25,early,wczesny ranek 05–07,19.96,19.49,19.77,411,19,4573.0,0.0,0.0,1.039
+poznan,tram,official,weekday,2026-11-25,am_peak,szczyt poranny 07–09,19.76,18.64,19.58,449,19,5112.0,0.0,0.0,1.039
+poznan,tram,official,weekday,2026-11-25,midday,międzyszczyt 09–15,19.76,18.64,19.58,1103,19,12400.0,0.0,0.0,1.039
+poznan,tram,official,weekday,2026-11-25,pm_peak,szczyt popołudniowy 15–18,19.73,18.62,19.58,685,19,7858.0,0.0,0.0,1.039
+poznan,tram,official,weekday,2026-11-25,early_eve,wczesny wieczór 18–20,19.87,19.49,19.92,342,19,3782.0,0.0,0.0,1.039
+poznan,tram,official,weekday,2026-11-25,evening,wieczór 20–23,20.77,20.38,20.5,379,20,4185.0,0.0,0.0,1.039
+poznan,tram,official,weekday,2026-11-25,all_day,cała doba,20.0,19.49,20.07,3557,20,39960.0,0.0,0.0,1.039
+trojmiasto,bus,all,saturday,2026-11-28,night,noc 23–05,26.02,25.99,26.19,308,83,5083.0,0.0,0.0,1.113
+trojmiasto,bus,all,saturday,2026-11-28,evening,wieczór 18–23,23.83,23.52,24.12,1304,112,15930.0,0.0,0.0,1.113
+trojmiasto,bus,all,saturday,2026-11-28,morning,rano 05–09,23.93,23.87,24.12,1137,114,13940.0,0.0,0.0,1.113
+trojmiasto,bus,all,saturday,2026-11-28,day,dzień 09–18,22.79,22.36,23.13,3271,121,39930.0,0.0,0.0,1.113
+trojmiasto,bus,all,saturday,2026-11-28,all_day,cała doba,23.41,23.07,23.61,6020,142,74880.0,0.0,0.0,1.113
+trojmiasto,bus,all,weekday,2026-11-25,night,noc 23–05,25.62,25.26,25.96,442,113,6545.0,0.0,0.0,1.115
+trojmiasto,bus,all,weekday,2026-11-25,early,wczesny ranek 05–07,23.19,23.02,23.69,1271,142,15070.0,0.0,0.0,1.115
+trojmiasto,bus,all,weekday,2026-11-25,am_peak,szczyt poranny 07–09,21.86,21.83,22.5,1230,146,14460.0,0.0,0.0,1.115
+trojmiasto,bus,all,weekday,2026-11-25,midday,międzyszczyt 09–15,21.9,21.8,22.34,3177,146,37120.0,0.0,0.0,1.115
+trojmiasto,bus,all,weekday,2026-11-25,pm_peak,szczyt popołudniowy 15–18,21.25,21.13,21.8,1801,140,21310.0,0.0,0.0,1.115
+trojmiasto,bus,all,weekday,2026-11-25,early_eve,wczesny wieczór 18–20,22.95,22.87,23.35,848,133,10020.0,0.0,0.0,1.115
+trojmiasto,bus,all,weekday,2026-11-25,evening,wieczór 20–23,24.39,24.04,24.72,812,120,9763.0,0.0,0.0,1.115
+trojmiasto,bus,all,weekday,2026-11-25,all_day,cała doba,22.4,22.24,22.8,9581,169,114300.0,0.0,0.0,1.115
+trojmiasto,bus,official,saturday,2026-11-28,night,noc 23–05,26.02,25.99,26.19,308,83,5083.0,0.0,0.0,1.113
+trojmiasto,bus,official,saturday,2026-11-28,evening,wieczór 18–23,23.83,23.52,24.12,1304,112,15930.0,0.0,0.0,1.113
+trojmiasto,bus,official,saturday,2026-11-28,morning,rano 05–09,23.93,23.87,24.12,1137,114,13940.0,0.0,0.0,1.113
+trojmiasto,bus,official,saturday,2026-11-28,day,dzień 09–18,22.79,22.36,23.13,3271,121,39930.0,0.0,0.0,1.113
+trojmiasto,bus,official,saturday,2026-11-28,all_day,cała doba,23.41,23.07,23.61,6020,142,74880.0,0.0,0.0,1.113
+trojmiasto,bus,official,weekday,2026-11-25,night,noc 23–05,25.62,25.26,25.96,442,113,6545.0,0.0,0.0,1.115
+trojmiasto,bus,official,weekday,2026-11-25,early,wczesny ranek 05–07,23.19,23.02,23.69,1271,142,15070.0,0.0,0.0,1.115
+trojmiasto,bus,official,weekday,2026-11-25,am_peak,szczyt poranny 07–09,21.86,21.83,22.5,1230,146,14460.0,0.0,0.0,1.115
+trojmiasto,bus,official,weekday,2026-11-25,midday,międzyszczyt 09–15,21.9,21.8,22.34,3177,146,37120.0,0.0,0.0,1.115
+trojmiasto,bus,official,weekday,2026-11-25,pm_peak,szczyt popołudniowy 15–18,21.25,21.13,21.8,1801,140,21310.0,0.0,0.0,1.115
+trojmiasto,bus,official,weekday,2026-11-25,early_eve,wczesny wieczór 18–20,22.95,22.87,23.35,848,133,10020.0,0.0,0.0,1.115
+trojmiasto,bus,official,weekday,2026-11-25,evening,wieczór 20–23,24.39,24.04,24.72,812,120,9763.0,0.0,0.0,1.115
+trojmiasto,bus,official,weekday,2026-11-25,all_day,cała doba,22.4,22.24,22.8,9581,169,114300.0,0.0,0.0,1.115
+trojmiasto,rail,all,saturday,2026-11-28,night,noc 23–05,45.53,43.36,41.96,62,3,2399.0,0.0,0.0,1.044
+trojmiasto,rail,all,saturday,2026-11-28,evening,wieczór 18–23,48.37,46.0,48.34,118,6,5034.0,0.0,0.0,1.044
+trojmiasto,rail,all,saturday,2026-11-28,morning,rano 05–09,48.23,48.07,51.23,101,6,4573.0,0.0,0.0,1.044
+trojmiasto,rail,all,saturday,2026-11-28,day,dzień 09–18,48.68,47.45,50.53,228,6,10140.0,0.0,0.0,1.044
+trojmiasto,rail,all,saturday,2026-11-28,all_day,cała doba,48.16,46.98,50.19,509,6,22150.0,0.0,0.0,1.044
+trojmiasto,rail,all,weekday,2026-11-25,night,noc 23–05,45.86,45.23,42.11,62,3,2408.0,0.0,0.0,1.028
+trojmiasto,rail,all,weekday,2026-11-25,early,wczesny ranek 05–07,45.97,42.11,46.7,73,6,3344.0,0.0,0.0,1.028
+trojmiasto,rail,all,weekday,2026-11-25,am_peak,szczyt poranny 07–09,45.51,40.12,45.87,78,5,3178.0,0.0,0.0,1.028
+trojmiasto,rail,all,weekday,2026-11-25,midday,międzyszczyt 09–15,45.77,40.65,46.97,212,5,8865.0,0.0,0.0,1.028
+trojmiasto,rail,all,weekday,2026-11-25,pm_peak,szczyt popołudniowy 15–18,45.22,40.65,45.48,121,6,5099.0,0.0,0.0,1.028
+trojmiasto,rail,all,weekday,2026-11-25,early_eve,wczesny wieczór 18–20,46.29,40.98,46.13,64,6,2718.0,0.0,0.0,1.028
+trojmiasto,rail,all,weekday,2026-11-25,evening,wieczór 20–23,46.97,45.87,47.31,75,6,2964.0,0.0,0.0,1.028
+trojmiasto,rail,all,weekday,2026-11-25,all_day,cała doba,45.84,41.15,45.87,685,6,28580.0,0.0,0.0,1.028
+trojmiasto,rail,official,saturday,2026-11-28,night,noc 23–05,45.53,43.36,41.96,62,3,2399.0,0.0,0.0,1.044
+trojmiasto,rail,official,saturday,2026-11-28,evening,wieczór 18–23,48.37,46.0,48.34,118,6,5034.0,0.0,0.0,1.044
+trojmiasto,rail,official,saturday,2026-11-28,morning,rano 05–09,48.23,48.07,51.23,101,6,4573.0,0.0,0.0,1.044
+trojmiasto,rail,official,saturday,2026-11-28,day,dzień 09–18,48.68,47.45,50.53,228,6,10140.0,0.0,0.0,1.044
+trojmiasto,rail,official,saturday,2026-11-28,all_day,cała doba,48.16,46.98,50.19,509,6,22150.0,0.0,0.0,1.044
+trojmiasto,rail,official,weekday,2026-11-25,night,noc 23–05,45.86,45.23,42.11,62,3,2408.0,0.0,0.0,1.028
+trojmiasto,rail,official,weekday,2026-11-25,early,wczesny ranek 05–07,45.97,42.11,46.7,73,6,3344.0,0.0,0.0,1.028
+trojmiasto,rail,official,weekday,2026-11-25,am_peak,szczyt poranny 07–09,45.51,40.12,45.87,78,5,3178.0,0.0,0.0,1.028
+trojmiasto,rail,official,weekday,2026-11-25,midday,międzyszczyt 09–15,45.77,40.65,46.97,212,5,8865.0,0.0,0.0,1.028
+trojmiasto,rail,official,weekday,2026-11-25,pm_peak,szczyt popołudniowy 15–18,45.22,40.65,45.48,121,6,5099.0,0.0,0.0,1.028
+trojmiasto,rail,official,weekday,2026-11-25,early_eve,wczesny wieczór 18–20,46.29,40.98,46.13,64,6,2718.0,0.0,0.0,1.028
+trojmiasto,rail,official,weekday,2026-11-25,evening,wieczór 20–23,46.97,45.87,47.31,75,6,2964.0,0.0,0.0,1.028
+trojmiasto,rail,official,weekday,2026-11-25,all_day,cała doba,45.84,41.15,45.87,685,6,28580.0,0.0,0.0,1.028
+trojmiasto,tram,all,saturday,2026-11-28,night,noc 23–05,18.08,17.94,17.96,54,8,750.8,0.0,0.0,1.053
+trojmiasto,tram,all,saturday,2026-11-28,evening,wieczór 18–23,17.76,17.78,17.78,240,8,3759.0,0.0,0.0,1.053
+trojmiasto,tram,all,saturday,2026-11-28,morning,rano 05–09,17.65,17.77,17.78,206,8,3195.0,0.0,0.0,1.053
+trojmiasto,tram,all,saturday,2026-11-28,day,dzień 09–18,17.63,17.77,17.77,580,8,9158.0,0.0,0.0,1.053
+trojmiasto,tram,all,saturday,2026-11-28,all_day,cała doba,17.68,17.77,17.78,1080,8,16860.0,0.0,0.0,1.053
+trojmiasto,tram,all,weekday,2026-11-25,night,noc 23–05,18.02,17.94,17.96,86,10,1197.0,0.0,0.0,1.053
+trojmiasto,tram,all,weekday,2026-11-25,early,wczesny ranek 05–07,17.86,17.78,17.93,198,10,2965.0,0.0,0.0,1.053
+trojmiasto,tram,all,weekday,2026-11-25,am_peak,szczyt poranny 07–09,17.77,17.78,17.84,201,10,3082.0,0.0,0.0,1.053
+trojmiasto,tram,all,weekday,2026-11-25,midday,międzyszczyt 09–15,17.69,17.77,17.78,506,10,7708.0,0.0,0.0,1.053
+trojmiasto,tram,all,weekday,2026-11-25,pm_peak,szczyt popołudniowy 15–18,17.82,17.81,17.89,315,10,4871.0,0.0,0.0,1.053
+trojmiasto,tram,all,weekday,2026-11-25,early_eve,wczesny wieczór 18–20,17.67,17.77,17.78,123,10,1912.0,0.0,0.0,1.053
+trojmiasto,tram,all,weekday,2026-11-25,evening,wieczór 20–23,17.88,17.89,17.96,113,8,1756.0,0.0,0.0,1.053
+trojmiasto,tram,all,weekday,2026-11-25,all_day,cała doba,17.78,17.78,17.78,1542,10,23490.0,0.0,0.0,1.053
+trojmiasto,tram,official,saturday,2026-11-28,night,noc 23–05,18.08,17.94,17.96,54,8,750.8,0.0,0.0,1.053
+trojmiasto,tram,official,saturday,2026-11-28,evening,wieczór 18–23,17.76,17.78,17.78,240,8,3759.0,0.0,0.0,1.053
+trojmiasto,tram,official,saturday,2026-11-28,morning,rano 05–09,17.65,17.77,17.78,206,8,3195.0,0.0,0.0,1.053
+trojmiasto,tram,official,saturday,2026-11-28,day,dzień 09–18,17.63,17.77,17.77,580,8,9158.0,0.0,0.0,1.053
+trojmiasto,tram,official,saturday,2026-11-28,all_day,cała doba,17.68,17.77,17.78,1080,8,16860.0,0.0,0.0,1.053
+trojmiasto,tram,official,weekday,2026-11-25,night,noc 23–05,18.02,17.94,17.96,86,10,1197.0,0.0,0.0,1.053
+trojmiasto,tram,official,weekday,2026-11-25,early,wczesny ranek 05–07,17.86,17.78,17.93,198,10,2965.0,0.0,0.0,1.053
+trojmiasto,tram,official,weekday,2026-11-25,am_peak,szczyt poranny 07–09,17.77,17.78,17.84,201,10,3082.0,0.0,0.0,1.053
+trojmiasto,tram,official,weekday,2026-11-25,midday,międzyszczyt 09–15,17.69,17.77,17.78,506,10,7708.0,0.0,0.0,1.053
+trojmiasto,tram,official,weekday,2026-11-25,pm_peak,szczyt popołudniowy 15–18,17.82,17.81,17.89,315,10,4871.0,0.0,0.0,1.053
+trojmiasto,tram,official,weekday,2026-11-25,early_eve,wczesny wieczór 18–20,17.67,17.77,17.78,123,10,1912.0,0.0,0.0,1.053
+trojmiasto,tram,official,weekday,2026-11-25,evening,wieczór 20–23,17.88,17.89,17.96,113,8,1756.0,0.0,0.0,1.053
+trojmiasto,tram,official,weekday,2026-11-25,all_day,cała doba,17.78,17.78,17.78,1542,10,23490.0,0.0,0.0,1.053
+trojmiasto,trolleybus,all,saturday,2026-11-28,night,noc 23–05,21.32,21.37,21.69,18,6,142.8,0.0,0.0,1.063
+trojmiasto,trolleybus,all,saturday,2026-11-28,evening,wieczór 18–23,21.23,21.24,21.6,227,13,2750.0,0.0,0.0,1.063
+trojmiasto,trolleybus,all,saturday,2026-11-28,morning,rano 05–09,21.39,21.6,21.88,194,13,2264.0,0.0,0.0,1.063
+trojmiasto,trolleybus,all,saturday,2026-11-28,day,dzień 09–18,20.32,20.41,20.52,523,13,6925.0,0.0,0.0,1.063
+trojmiasto,trolleybus,all,saturday,2026-11-28,all_day,cała doba,20.73,20.94,21.17,962,14,12080.0,0.0,0.0,1.063
+trojmiasto,trolleybus,all,weekday,2026-11-25,night,noc 23–05,21.1,21.17,21.51,22,8,163.9,0.0,0.0,1.063
+trojmiasto,trolleybus,all,weekday,2026-11-25,early,wczesny ranek 05–07,21.12,21.26,21.49,165,13,1844.0,0.0,0.0,1.063
+trojmiasto,trolleybus,all,weekday,2026-11-25,am_peak,szczyt poranny 07–09,19.85,20.06,20.32,165,14,2090.0,0.0,0.0,1.063
+trojmiasto,trolleybus,all,weekday,2026-11-25,midday,międzyszczyt 09–15,19.38,19.31,19.75,445,15,5787.0,0.0,0.0,1.063
+trojmiasto,trolleybus,all,weekday,2026-11-25,pm_peak,szczyt popołudniowy 15–18,18.82,18.73,19.05,242,14,3196.0,0.0,0.0,1.063
+trojmiasto,trolleybus,all,weekday,2026-11-25,early_eve,wczesny wieczór 18–20,20.25,20.06,20.66,135,13,1628.0,0.0,0.0,1.063
+trojmiasto,trolleybus,all,weekday,2026-11-25,evening,wieczór 20–23,21.33,21.31,21.66,154,13,1731.0,0.0,0.0,1.063
+trojmiasto,trolleybus,all,weekday,2026-11-25,all_day,cała doba,19.8,19.84,20.21,1328,15,16440.0,0.0,0.0,1.063
+trojmiasto,trolleybus,official,saturday,2026-11-28,night,noc 23–05,21.32,21.37,21.69,18,6,142.8,0.0,0.0,1.063
+trojmiasto,trolleybus,official,saturday,2026-11-28,evening,wieczór 18–23,21.23,21.24,21.6,227,13,2750.0,0.0,0.0,1.063
+trojmiasto,trolleybus,official,saturday,2026-11-28,morning,rano 05–09,21.39,21.6,21.88,194,13,2264.0,0.0,0.0,1.063
+trojmiasto,trolleybus,official,saturday,2026-11-28,day,dzień 09–18,20.32,20.41,20.52,523,13,6925.0,0.0,0.0,1.063
+trojmiasto,trolleybus,official,saturday,2026-11-28,all_day,cała doba,20.73,20.94,21.17,962,14,12080.0,0.0,0.0,1.063
+trojmiasto,trolleybus,official,weekday,2026-11-25,night,noc 23–05,21.1,21.17,21.51,22,8,163.9,0.0,0.0,1.063
+trojmiasto,trolleybus,official,weekday,2026-11-25,early,wczesny ranek 05–07,21.12,21.26,21.49,165,13,1844.0,0.0,0.0,1.063
+trojmiasto,trolleybus,official,weekday,2026-11-25,am_peak,szczyt poranny 07–09,19.85,20.06,20.32,165,14,2090.0,0.0,0.0,1.063
+trojmiasto,trolleybus,official,weekday,2026-11-25,midday,międzyszczyt 09–15,19.38,19.31,19.75,445,15,5787.0,0.0,0.0,1.063
+trojmiasto,trolleybus,official,weekday,2026-11-25,pm_peak,szczyt popołudniowy 15–18,18.82,18.73,19.05,242,14,3196.0,0.0,0.0,1.063
+trojmiasto,trolleybus,official,weekday,2026-11-25,early_eve,wczesny wieczór 18–20,20.25,20.06,20.66,135,13,1628.0,0.0,0.0,1.063
+trojmiasto,trolleybus,official,weekday,2026-11-25,evening,wieczór 20–23,21.33,21.31,21.66,154,13,1731.0,0.0,0.0,1.063
+trojmiasto,trolleybus,official,weekday,2026-11-25,all_day,cała doba,19.8,19.84,20.21,1328,15,16440.0,0.0,0.0,1.063
+warszawa,bus,all,saturday,2026-11-28,night,noc 23–05,26.4,25.71,26.81,1533,265,24940.0,0.002609,0.07929,1.094
+warszawa,bus,all,saturday,2026-11-28,evening,wieczór 18–23,23.98,23.31,23.86,4666,296,67160.0,0.004501,0.1172,1.094
+warszawa,bus,all,saturday,2026-11-28,morning,rano 05–09,24.13,23.42,24.01,3795,308,55460.0,0.004216,0.1379,1.094
+warszawa,bus,all,saturday,2026-11-28,day,dzień 09–18,22.86,21.89,22.51,9680,311,141400.0,0.005475,0.1311,1.094
+warszawa,bus,all,saturday,2026-11-28,all_day,cała doba,23.63,22.94,23.61,19674,353,289000.0,0.004778,0.1247,1.094
+warszawa,bus,all,weekday,2026-11-25,night,noc 23–05,26.76,25.83,27.15,1894,346,31510.0,0.006864,0.1632,1.094
+warszawa,bus,all,weekday,2026-11-25,early,wczesny ranek 05–07,23.89,22.96,23.84,3657,388,54780.0,0.009571,0.1843,1.094
+warszawa,bus,all,weekday,2026-11-25,am_peak,szczyt poranny 07–09,21.78,20.72,21.52,3972,393,56820.0,0.007553,0.1754,1.094
+warszawa,bus,all,weekday,2026-11-25,midday,międzyszczyt 09–15,22.53,21.34,22.39,9177,393,135100.0,0.005993,0.1911,1.094
+warszawa,bus,all,weekday,2026-11-25,pm_peak,szczyt popołudniowy 15–18,21.55,20.66,21.52,5971,391,86390.0,0.007536,0.1684,1.094
+warszawa,bus,all,weekday,2026-11-25,early_eve,wczesny wieczór 18–20,22.69,21.58,22.58,3132,364,45940.0,0.008301,0.1692,1.094
+warszawa,bus,all,weekday,2026-11-25,evening,wieczór 20–23,24.62,23.68,24.48,3427,334,50210.0,0.004377,0.1788,1.094
+warszawa,bus,all,weekday,2026-11-25,all_day,cała doba,22.87,22.08,22.99,31230,441,460800.0,0.007012,0.1787,1.094
+warszawa,bus,official,saturday,2026-11-28,night,noc 23–05,26.11,25.53,26.57,1436,220,22960.0,0.001393,0.0,1.094
+warszawa,bus,official,saturday,2026-11-28,evening,wieczór 18–23,23.41,23.09,23.46,4262,219,59290.0,0.001173,0.0,1.094
+warszawa,bus,official,saturday,2026-11-28,morning,rano 05–09,23.49,23.15,23.55,3395,216,47810.0,0.001178,0.0,1.094
+warszawa,bus,official,saturday,2026-11-28,day,dzień 09–18,22.25,21.6,22.0,8681,217,122900.0,0.001037,0.0,1.094
+warszawa,bus,official,saturday,2026-11-28,all_day,cała doba,23.06,22.56,23.23,17774,259,252900.0,0.001125,0.0,1.094
+warszawa,bus,official,weekday,2026-11-25,night,noc 23–05,26.15,25.53,26.59,1643,248,26370.0,0.001217,0.0,1.094
+warszawa,bus,official,weekday,2026-11-25,early,wczesny ranek 05–07,23.0,22.56,23.18,3120,244,44680.0,0.002564,0.0,1.094
+warszawa,bus,official,weekday,2026-11-25,am_peak,szczyt poranny 07–09,20.82,20.34,20.59,3418,245,46850.0,0.001755,0.0,1.094
+warszawa,bus,official,weekday,2026-11-25,midday,międzyszczyt 09–15,21.52,20.91,21.28,7772,244,109300.0,0.001801,0.0,1.094
+warszawa,bus,official,weekday,2026-11-25,pm_peak,szczyt popołudniowy 15–18,20.67,20.26,20.58,5189,243,71840.0,0.00212,0.0,1.094
+warszawa,bus,official,weekday,2026-11-25,early_eve,wczesny wieczór 18–20,21.74,21.16,21.59,2728,240,38160.0,0.002199,0.0,1.094
+warszawa,bus,official,weekday,2026-11-25,evening,wieczór 20–23,23.67,23.34,23.71,2968,234,41240.0,0.002022,0.0,1.094
+warszawa,bus,official,weekday,2026-11-25,all_day,cała doba,21.93,21.55,22.15,26838,286,378400.0,0.001975,0.0,1.094
+warszawa,metro,all,saturday,2026-11-28,night,noc 23–05,33.08,32.74,33.38,68,2,1346.0,0.0,0.0,1.016
+warszawa,metro,all,saturday,2026-11-28,evening,wieczór 18–23,33.11,33.38,33.38,189,2,3780.0,0.0,0.0,1.016
+warszawa,metro,all,saturday,2026-11-28,morning,rano 05–09,33.11,33.38,33.38,157,2,3137.0,0.0,0.0,1.016
+warszawa,metro,all,saturday,2026-11-28,day,dzień 09–18,33.12,33.38,33.38,389,2,7802.0,0.0,0.0,1.016
+warszawa,metro,all,saturday,2026-11-28,all_day,cała doba,33.11,33.38,33.38,803,2,16070.0,0.0,0.0,1.016
+warszawa,metro,all,weekday,2026-11-25,night,noc 23–05,33.07,32.74,33.38,32,2,631.6,0.0,0.0,1.016
+warszawa,metro,all,weekday,2026-11-25,early,wczesny ranek 05–07,33.15,33.38,33.38,134,2,2708.0,0.0,0.0,1.016
+warszawa,metro,all,weekday,2026-11-25,am_peak,szczyt poranny 07–09,33.11,33.38,33.38,175,2,3502.0,0.0,0.0,1.016
+warszawa,metro,all,weekday,2026-11-25,midday,międzyszczyt 09–15,33.15,33.38,33.38,376,2,7612.0,0.0,0.0,1.016
+warszawa,metro,all,weekday,2026-11-25,pm_peak,szczyt popołudniowy 15–18,33.12,33.38,33.38,264,2,5285.0,0.0,0.0,1.016
+warszawa,metro,all,weekday,2026-11-25,early_eve,wczesny wieczór 18–20,33.12,33.38,33.38,159,2,3188.0,0.0,0.0,1.016
+warszawa,metro,all,weekday,2026-11-25,evening,wieczór 20–23,33.11,33.38,33.38,115,2,2300.0,0.0,0.0,1.016
+warszawa,metro,all,weekday,2026-11-25,all_day,cała doba,33.13,33.38,33.38,1255,2,25230.0,0.0,0.0,1.016
+warszawa,metro,official,saturday,2026-11-28,night,noc 23–05,33.08,32.74,33.38,68,2,1346.0,0.0,0.0,1.016
+warszawa,metro,official,saturday,2026-11-28,evening,wieczór 18–23,33.11,33.38,33.38,189,2,3780.0,0.0,0.0,1.016
+warszawa,metro,official,saturday,2026-11-28,morning,rano 05–09,33.11,33.38,33.38,157,2,3137.0,0.0,0.0,1.016
+warszawa,metro,official,saturday,2026-11-28,day,dzień 09–18,33.12,33.38,33.38,389,2,7802.0,0.0,0.0,1.016
+warszawa,metro,official,saturday,2026-11-28,all_day,cała doba,33.11,33.38,33.38,803,2,16070.0,0.0,0.0,1.016
+warszawa,metro,official,weekday,2026-11-25,night,noc 23–05,33.07,32.74,33.38,32,2,631.6,0.0,0.0,1.016
+warszawa,metro,official,weekday,2026-11-25,early,wczesny ranek 05–07,33.15,33.38,33.38,134,2,2708.0,0.0,0.0,1.016
+warszawa,metro,official,weekday,2026-11-25,am_peak,szczyt poranny 07–09,33.11,33.38,33.38,175,2,3502.0,0.0,0.0,1.016
+warszawa,metro,official,weekday,2026-11-25,midday,międzyszczyt 09–15,33.15,33.38,33.38,376,2,7612.0,0.0,0.0,1.016
+warszawa,metro,official,weekday,2026-11-25,pm_peak,szczyt popołudniowy 15–18,33.12,33.38,33.38,264,2,5285.0,0.0,0.0,1.016
+warszawa,metro,official,weekday,2026-11-25,early_eve,wczesny wieczór 18–20,33.12,33.38,33.38,159,2,3188.0,0.0,0.0,1.016
+warszawa,metro,official,weekday,2026-11-25,evening,wieczór 20–23,33.11,33.38,33.38,115,2,2300.0,0.0,0.0,1.016
+warszawa,metro,official,weekday,2026-11-25,all_day,cała doba,33.13,33.38,33.38,1255,2,25230.0,0.0,0.0,1.016
+warszawa,rail,all,saturday,2026-11-28,night,noc 23–05,53.54,52.76,56.88,122,26,6000.0,0.0,0.0,1.036
+warszawa,rail,all,saturday,2026-11-28,evening,wieczór 18–23,55.38,50.12,56.0,291,33,15500.0,0.0,0.0,1.036
+warszawa,rail,all,saturday,2026-11-28,morning,rano 05–09,56.03,50.71,56.83,296,38,15870.0,0.0,0.0,1.036
+warszawa,rail,all,saturday,2026-11-28,day,dzień 09–18,56.52,50.18,57.92,601,34,33100.0,0.0,0.0,1.036
+warszawa,rail,all,saturday,2026-11-28,all_day,cała doba,55.89,50.18,56.88,1310,45,70470.0,0.0,0.0,1.036
+warszawa,rail,all,weekday,2026-11-25,night,noc 23–05,53.6,52.51,54.61,148,29,7777.0,0.0,0.0,1.036
+warszawa,rail,all,weekday,2026-11-25,early,wczesny ranek 05–07,55.48,51.25,55.86,215,35,11820.0,0.0,0.0,1.036
+warszawa,rail,all,weekday,2026-11-25,am_peak,szczyt poranny 07–09,53.19,49.78,52.27,200,37,9859.0,0.0,0.0,1.036
+warszawa,rail,all,weekday,2026-11-25,midday,międzyszczyt 09–15,54.45,50.18,53.91,472,30,24050.0,0.0,0.0,1.036
+warszawa,rail,all,weekday,2026-11-25,pm_peak,szczyt popołudniowy 15–18,54.91,50.31,53.91,343,36,18270.0,0.0,0.0,1.036
+warszawa,rail,all,weekday,2026-11-25,early_eve,wczesny wieczór 18–20,54.6,50.18,53.57,187,31,9862.0,0.0,0.0,1.036
+warszawa,rail,all,weekday,2026-11-25,evening,wieczór 20–23,52.6,48.24,53.57,192,28,9568.0,0.0,0.0,1.036
+warszawa,rail,all,weekday,2026-11-25,all_day,cała doba,54.28,50.22,53.87,1757,45,91200.0,0.0,0.0,1.036
+warszawa,rail,official,saturday,2026-11-28,night,noc 23–05,53.54,52.76,56.88,122,26,6000.0,0.0,0.0,1.036
+warszawa,rail,official,saturday,2026-11-28,evening,wieczór 18–23,55.38,50.12,56.0,291,33,15500.0,0.0,0.0,1.036
+warszawa,rail,official,saturday,2026-11-28,morning,rano 05–09,56.03,50.71,56.83,296,38,15870.0,0.0,0.0,1.036
+warszawa,rail,official,saturday,2026-11-28,day,dzień 09–18,56.52,50.18,57.92,601,34,33100.0,0.0,0.0,1.036
+warszawa,rail,official,saturday,2026-11-28,all_day,cała doba,55.89,50.18,56.88,1310,45,70470.0,0.0,0.0,1.036
+warszawa,rail,official,weekday,2026-11-25,night,noc 23–05,53.6,52.51,54.61,148,29,7777.0,0.0,0.0,1.036
+warszawa,rail,official,weekday,2026-11-25,early,wczesny ranek 05–07,55.48,51.25,55.86,215,35,11820.0,0.0,0.0,1.036
+warszawa,rail,official,weekday,2026-11-25,am_peak,szczyt poranny 07–09,53.19,49.78,52.27,200,37,9859.0,0.0,0.0,1.036
+warszawa,rail,official,weekday,2026-11-25,midday,międzyszczyt 09–15,54.45,50.18,53.91,472,30,24050.0,0.0,0.0,1.036
+warszawa,rail,official,weekday,2026-11-25,pm_peak,szczyt popołudniowy 15–18,54.91,50.31,53.91,343,36,18270.0,0.0,0.0,1.036
+warszawa,rail,official,weekday,2026-11-25,early_eve,wczesny wieczór 18–20,54.6,50.18,53.57,187,31,9862.0,0.0,0.0,1.036
+warszawa,rail,official,weekday,2026-11-25,evening,wieczór 20–23,52.6,48.24,53.57,192,28,9568.0,0.0,0.0,1.036
+warszawa,rail,official,weekday,2026-11-25,all_day,cała doba,54.28,50.22,53.87,1757,45,91200.0,0.0,0.0,1.036
+warszawa,tram,all,saturday,2026-11-28,night,noc 23–05,19.11,18.98,19.08,350,23,4183.0,0.0,0.0,1.037
+warszawa,tram,all,saturday,2026-11-28,evening,wieczór 18–23,19.2,18.98,19.13,975,24,14210.0,0.0,0.0,1.037
+warszawa,tram,all,saturday,2026-11-28,morning,rano 05–09,19.07,18.91,18.91,835,24,12110.0,0.0,0.0,1.037
+warszawa,tram,all,saturday,2026-11-28,day,dzień 09–18,19.02,18.91,18.91,2090,24,30600.0,0.0,0.0,1.037
+warszawa,tram,all,saturday,2026-11-28,all_day,cała doba,19.08,18.94,18.94,4250,24,61100.0,0.0,0.0,1.037
+warszawa,tram,all,weekday,2026-11-25,night,noc 23–05,19.07,18.95,19.02,396,25,4827.0,0.0,0.0,1.041
+warszawa,tram,all,weekday,2026-11-25,early,wczesny ranek 05–07,18.71,18.63,18.63,804,26,11110.0,0.0,0.0,1.041
+warszawa,tram,all,weekday,2026-11-25,am_peak,szczyt poranny 07–09,18.51,18.5,18.51,951,26,13580.0,0.0,0.0,1.041
+warszawa,tram,all,weekday,2026-11-25,midday,międzyszczyt 09–15,18.61,18.58,18.63,2165,26,30470.0,0.0,0.0,1.041
+warszawa,tram,all,weekday,2026-11-25,pm_peak,szczyt popołudniowy 15–18,18.5,18.47,18.47,1437,26,20660.0,0.0,0.0,1.041
+warszawa,tram,all,weekday,2026-11-25,early_eve,wczesny wieczór 18–20,18.81,18.75,18.78,726,26,10120.0,0.0,0.0,1.041
+warszawa,tram,all,weekday,2026-11-25,evening,wieczór 20–23,19.15,18.98,19.13,644,26,9002.0,0.0,0.0,1.041
+warszawa,tram,all,weekday,2026-11-25,all_day,cała doba,18.67,18.6,18.63,7123,26,99780.0,0.0,0.0,1.041
+warszawa,tram,official,saturday,2026-11-28,night,noc 23–05,19.11,18.98,19.08,350,23,4183.0,0.0,0.0,1.037
+warszawa,tram,official,saturday,2026-11-28,evening,wieczór 18–23,19.2,18.98,19.13,975,24,14210.0,0.0,0.0,1.037
+warszawa,tram,official,saturday,2026-11-28,morning,rano 05–09,19.07,18.91,18.91,835,24,12110.0,0.0,0.0,1.037
+warszawa,tram,official,saturday,2026-11-28,day,dzień 09–18,19.02,18.91,18.91,2090,24,30600.0,0.0,0.0,1.037
+warszawa,tram,official,saturday,2026-11-28,all_day,cała doba,19.08,18.94,18.94,4250,24,61100.0,0.0,0.0,1.037
+warszawa,tram,official,weekday,2026-11-25,night,noc 23–05,19.07,18.95,19.02,396,25,4827.0,0.0,0.0,1.041
+warszawa,tram,official,weekday,2026-11-25,early,wczesny ranek 05–07,18.71,18.63,18.63,804,26,11110.0,0.0,0.0,1.041
+warszawa,tram,official,weekday,2026-11-25,am_peak,szczyt poranny 07–09,18.51,18.5,18.51,951,26,13580.0,0.0,0.0,1.041
+warszawa,tram,official,weekday,2026-11-25,midday,międzyszczyt 09–15,18.61,18.58,18.63,2165,26,30470.0,0.0,0.0,1.041
+warszawa,tram,official,weekday,2026-11-25,pm_peak,szczyt popołudniowy 15–18,18.5,18.47,18.47,1437,26,20660.0,0.0,0.0,1.041
+warszawa,tram,official,weekday,2026-11-25,early_eve,wczesny wieczór 18–20,18.81,18.75,18.78,726,26,10120.0,0.0,0.0,1.041
+warszawa,tram,official,weekday,2026-11-25,evening,wieczór 20–23,19.15,18.98,19.13,644,26,9002.0,0.0,0.0,1.041
+warszawa,tram,official,weekday,2026-11-25,all_day,cała doba,18.67,18.6,18.63,7123,26,99780.0,0.0,0.0,1.041
+wroclaw,bus,all,saturday,2026-11-28,night,noc 23–05,24.17,24.17,23.5,568,85,8382.0,0.005282,0.01255,1.1
+wroclaw,bus,all,saturday,2026-11-28,evening,wieczór 18–23,22.51,22.08,22.06,1387,82,19940.0,0.01514,0.01925,1.1
+wroclaw,bus,all,saturday,2026-11-28,morning,rano 05–09,23.11,22.82,22.76,1083,88,15770.0,0.01477,0.01968,1.1
+wroclaw,bus,all,saturday,2026-11-28,day,dzień 09–18,21.52,21.18,21.13,2601,81,38460.0,0.01384,0.02194,1.1
+wroclaw,bus,all,saturday,2026-11-28,all_day,cała doba,22.3,22.03,22.02,5639,98,82550.0,0.01348,0.0199,1.1
+wroclaw,bus,all,weekday,2026-11-25,night,noc 23–05,23.77,23.72,23.24,779,102,11150.0,0.008986,0.009434,1.103
+wroclaw,bus,all,weekday,2026-11-25,early,wczesny ranek 05–07,22.17,21.66,21.58,1138,117,16540.0,0.01406,0.06101,1.103
+wroclaw,bus,all,weekday,2026-11-25,am_peak,szczyt poranny 07–09,20.5,19.98,19.91,997,109,14640.0,0.01505,0.07111,1.103
+wroclaw,bus,all,weekday,2026-11-25,midday,międzyszczyt 09–15,20.63,20.53,20.37,2609,117,37960.0,0.01456,0.07,1.103
+wroclaw,bus,all,weekday,2026-11-25,pm_peak,szczyt popołudniowy 15–18,20.02,20.06,19.77,1514,116,22320.0,0.01651,0.07144,1.103
+wroclaw,bus,all,weekday,2026-11-25,early_eve,wczesny wieczór 18–20,21.31,21.24,21.01,810,95,11460.0,0.02099,0.03169,1.103
+wroclaw,bus,all,weekday,2026-11-25,evening,wieczór 20–23,23.36,23.13,23.16,953,90,13330.0,0.01469,0.0233,1.103
+wroclaw,bus,all,weekday,2026-11-25,all_day,cała doba,21.26,21.2,21.18,8800,136,127400.0,0.015,0.05558,1.103
+wroclaw,bus,official,saturday,2026-11-28,night,noc 23–05,24.09,24.14,23.47,565,83,8277.0,0.00531,0.0,1.1
+wroclaw,bus,official,saturday,2026-11-28,evening,wieczór 18–23,22.36,22.06,22.01,1376,80,19560.0,0.01526,0.0,1.1
+wroclaw,bus,official,saturday,2026-11-28,morning,rano 05–09,22.97,22.77,22.63,1074,86,15460.0,0.0149,0.0,1.1
+wroclaw,bus,official,saturday,2026-11-28,day,dzień 09–18,21.34,21.18,21.13,2578,78,37610.0,0.01396,0.0,1.1
+wroclaw,bus,official,saturday,2026-11-28,all_day,cała doba,22.14,22.02,21.95,5593,95,80910.0,0.01359,0.0,1.1
+wroclaw,bus,official,weekday,2026-11-25,night,noc 23–05,23.71,23.69,23.24,776,100,11050.0,0.009021,0.0,1.103
+wroclaw,bus,official,weekday,2026-11-25,early,wczesny ranek 05–07,21.65,21.48,21.31,1103,99,15530.0,0.01269,0.0,1.103
+wroclaw,bus,official,weekday,2026-11-25,am_peak,szczyt poranny 07–09,19.87,19.79,19.68,952,91,13600.0,0.01576,0.0,1.103
+wroclaw,bus,official,weekday,2026-11-25,midday,międzyszczyt 09–15,20.03,20.37,20.01,2504,94,35300.0,0.01358,0.0,1.103
+wroclaw,bus,official,weekday,2026-11-25,pm_peak,szczyt popołudniowy 15–18,19.41,19.75,19.53,1449,94,20730.0,0.01656,0.0,1.103
+wroclaw,bus,official,weekday,2026-11-25,early_eve,wczesny wieczór 18–20,21.05,21.18,20.87,799,90,11100.0,0.02003,0.0,1.103
+wroclaw,bus,official,weekday,2026-11-25,evening,wieczór 20–23,23.18,23.1,23.06,944,87,13020.0,0.01483,0.0,1.103
+wroclaw,bus,official,weekday,2026-11-25,all_day,cała doba,20.79,21.13,20.92,8527,111,120300.0,0.01454,0.0,1.103
+wroclaw,rail,all,saturday,2026-11-28,night,noc 23–05,63.69,65.71,65.71,33,17,1631.0,0.0,0.0,1.035
+wroclaw,rail,all,saturday,2026-11-28,evening,wieczór 18–23,63.62,67.05,67.23,109,24,5778.0,0.0,0.0,1.035
+wroclaw,rail,all,saturday,2026-11-28,morning,rano 05–09,63.23,67.23,67.23,103,23,5378.0,0.0,0.0,1.035
+wroclaw,rail,all,saturday,2026-11-28,day,dzień 09–18,62.91,67.23,67.23,232,25,12680.0,0.0,0.0,1.035
+wroclaw,rail,all,saturday,2026-11-28,all_day,cała doba,63.19,66.95,67.23,477,27,25470.0,0.0,0.0,1.035
+wroclaw,rail,all,weekday,2026-11-25,night,noc 23–05,59.84,64.42,64.42,44,19,2287.0,0.0,0.0,1.035
+wroclaw,rail,all,weekday,2026-11-25,early,wczesny ranek 05–07,59.49,61.69,62.29,74,22,3707.0,0.0,0.0,1.035
+wroclaw,rail,all,weekday,2026-11-25,am_peak,szczyt poranny 07–09,60.4,63.91,65.62,71,24,3341.0,0.0,0.0,1.035
+wroclaw,rail,all,weekday,2026-11-25,midday,międzyszczyt 09–15,61.88,66.66,66.95,178,22,9272.0,0.0,0.0,1.035
+wroclaw,rail,all,weekday,2026-11-25,pm_peak,szczyt popołudniowy 15–18,61.0,62.28,65.4,111,22,5646.0,0.0,0.0,1.035
+wroclaw,rail,all,weekday,2026-11-25,early_eve,wczesny wieczór 18–20,61.07,60.78,62.64,55,21,2707.0,0.0,0.0,1.035
+wroclaw,rail,all,weekday,2026-11-25,evening,wieczór 20–23,60.94,62.91,62.66,72,20,3729.0,0.0,0.0,1.035
+wroclaw,rail,all,weekday,2026-11-25,all_day,cała doba,60.92,63.29,64.62,605,27,30690.0,0.0,0.0,1.035
+wroclaw,rail,official,saturday,2026-11-28,night,noc 23–05,63.69,65.71,65.71,33,17,1631.0,0.0,0.0,1.035
+wroclaw,rail,official,saturday,2026-11-28,evening,wieczór 18–23,63.62,67.05,67.23,109,24,5778.0,0.0,0.0,1.035
+wroclaw,rail,official,saturday,2026-11-28,morning,rano 05–09,63.23,67.23,67.23,103,23,5378.0,0.0,0.0,1.035
+wroclaw,rail,official,saturday,2026-11-28,day,dzień 09–18,62.91,67.23,67.23,232,25,12680.0,0.0,0.0,1.035
+wroclaw,rail,official,saturday,2026-11-28,all_day,cała doba,63.19,66.95,67.23,477,27,25470.0,0.0,0.0,1.035
+wroclaw,rail,official,weekday,2026-11-25,night,noc 23–05,59.84,64.42,64.42,44,19,2287.0,0.0,0.0,1.035
+wroclaw,rail,official,weekday,2026-11-25,early,wczesny ranek 05–07,59.49,61.69,62.29,74,22,3707.0,0.0,0.0,1.035
+wroclaw,rail,official,weekday,2026-11-25,am_peak,szczyt poranny 07–09,60.4,63.91,65.62,71,24,3341.0,0.0,0.0,1.035
+wroclaw,rail,official,weekday,2026-11-25,midday,międzyszczyt 09–15,61.88,66.66,66.95,178,22,9272.0,0.0,0.0,1.035
+wroclaw,rail,official,weekday,2026-11-25,pm_peak,szczyt popołudniowy 15–18,61.0,62.28,65.4,111,22,5646.0,0.0,0.0,1.035
+wroclaw,rail,official,weekday,2026-11-25,early_eve,wczesny wieczór 18–20,61.07,60.78,62.64,55,21,2707.0,0.0,0.0,1.035
+wroclaw,rail,official,weekday,2026-11-25,evening,wieczór 20–23,60.94,62.91,62.66,72,20,3729.0,0.0,0.0,1.035
+wroclaw,rail,official,weekday,2026-11-25,all_day,cała doba,60.92,63.29,64.62,605,27,30690.0,0.0,0.0,1.035
+wroclaw,tram,all,saturday,2026-11-28,night,noc 23–05,17.91,17.62,17.84,212,23,1896.0,0.0,0.0,1.032
+wroclaw,tram,all,saturday,2026-11-28,evening,wieczór 18–23,17.62,17.51,17.77,751,25,8908.0,0.0,0.0,1.032
+wroclaw,tram,all,saturday,2026-11-28,morning,rano 05–09,17.86,17.71,17.87,601,24,7200.0,0.0,0.0,1.032
+wroclaw,tram,all,saturday,2026-11-28,day,dzień 09–18,17.44,17.27,17.67,1336,25,16170.0,0.0,0.0,1.032
+wroclaw,tram,all,saturday,2026-11-28,all_day,cała doba,17.6,17.41,17.71,2900,25,34180.0,0.0,0.0,1.032
+wroclaw,tram,all,weekday,2026-11-25,night,noc 23–05,17.29,16.97,17.48,297,24,2585.0,0.0,0.0,1.032
+wroclaw,tram,all,weekday,2026-11-25,early,wczesny ranek 05–07,16.42,16.09,16.48,499,24,5746.0,0.0,0.0,1.032
+wroclaw,tram,all,weekday,2026-11-25,am_peak,szczyt poranny 07–09,16.17,15.8,16.1,477,24,5873.0,0.0,0.0,1.032
+wroclaw,tram,all,weekday,2026-11-25,midday,międzyszczyt 09–15,16.32,16.16,16.23,1267,24,15280.0,0.0,0.0,1.032
+wroclaw,tram,all,weekday,2026-11-25,pm_peak,szczyt popołudniowy 15–18,16.04,15.76,16.05,719,24,8851.0,0.0,0.0,1.032
+wroclaw,tram,all,weekday,2026-11-25,early_eve,wczesny wieczór 18–20,16.69,16.34,16.6,414,24,4908.0,0.0,0.0,1.032
+wroclaw,tram,all,weekday,2026-11-25,evening,wieczór 20–23,17.92,17.71,17.98,491,24,5641.0,0.0,0.0,1.032
+wroclaw,tram,all,weekday,2026-11-25,all_day,cała doba,16.52,16.22,16.54,4164,24,48890.0,0.0,0.0,1.032
+wroclaw,tram,official,saturday,2026-11-28,night,noc 23–05,17.91,17.62,17.84,212,23,1896.0,0.0,0.0,1.032
+wroclaw,tram,official,saturday,2026-11-28,evening,wieczór 18–23,17.62,17.51,17.77,751,25,8908.0,0.0,0.0,1.032
+wroclaw,tram,official,saturday,2026-11-28,morning,rano 05–09,17.86,17.71,17.87,601,24,7200.0,0.0,0.0,1.032
+wroclaw,tram,official,saturday,2026-11-28,day,dzień 09–18,17.44,17.27,17.67,1336,25,16170.0,0.0,0.0,1.032
+wroclaw,tram,official,saturday,2026-11-28,all_day,cała doba,17.6,17.41,17.71,2900,25,34180.0,0.0,0.0,1.032
+wroclaw,tram,official,weekday,2026-11-25,night,noc 23–05,17.29,16.97,17.48,297,24,2585.0,0.0,0.0,1.032
+wroclaw,tram,official,weekday,2026-11-25,early,wczesny ranek 05–07,16.42,16.09,16.48,499,24,5746.0,0.0,0.0,1.032
+wroclaw,tram,official,weekday,2026-11-25,am_peak,szczyt poranny 07–09,16.17,15.8,16.1,477,24,5873.0,0.0,0.0,1.032
+wroclaw,tram,official,weekday,2026-11-25,midday,międzyszczyt 09–15,16.32,16.16,16.23,1267,24,15280.0,0.0,0.0,1.032
+wroclaw,tram,official,weekday,2026-11-25,pm_peak,szczyt popołudniowy 15–18,16.04,15.76,16.05,719,24,8851.0,0.0,0.0,1.032
+wroclaw,tram,official,weekday,2026-11-25,early_eve,wczesny wieczór 18–20,16.69,16.34,16.6,414,24,4908.0,0.0,0.0,1.032
+wroclaw,tram,official,weekday,2026-11-25,evening,wieczór 20–23,17.92,17.71,17.98,491,24,5641.0,0.0,0.0,1.032
+wroclaw,tram,official,weekday,2026-11-25,all_day,cała doba,16.52,16.22,16.54,4164,24,48890.0,0.0,0.0,1.032

@@ -1,0 +1,10 @@
+agglomeration,mode,feeds,stops,places,stretches,stretch_directions,median_length_m,hops_unmapped_weekday,share_hops_shape_median
+gzm,bus,gzm,6994,3731,1570,2697,2767.0,0.0001887,1.0
+gzm,trolleybus,gzm,132,80,24,40,2004.0,0.0,1.0
+krakow,bus,"krakow_bus, krakow_mobilis",3743,1527,433,797,3007.0,0.0004552,1.0
+lodz,bus,lodz,2007,1191,548,815,1963.0,0.00346,1.0
+poznan,bus,poznan,3105,1649,629,1056,2791.0,0.003504,1.0
+trojmiasto,bus,"gdansk, gdynia, trojmiasto_wejherowo",2844,1448,555,891,2245.0,8.532e-05,1.0
+trojmiasto,trolleybus,gdynia,266,133,38,68,2112.0,0.0,1.0
+warszawa,bus,warsaw_ztm,6211,2895,1013,1723,2449.0,0.001384,1.0
+wroclaw,bus,wroclaw,2039,1010,387,671,2311.0,0.0001805,1.0

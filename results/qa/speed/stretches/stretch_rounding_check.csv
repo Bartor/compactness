@@ -1,0 +1,320 @@
+agglomeration,stretch_dir_id,n_lines,mean_min,sd_min,range_min,length_m,bin
+gzm,GZM-024cc486-A,4,6.0,0.0,0.0,1570.0,5-8 min
+gzm,GZM-024cc486-B,4,6.0,0.0,0.0,1557.0,5-8 min
+gzm,GZM-0c2d745e-A,2,7.0,0.0,0.0,1612.0,5-8 min
+gzm,GZM-0c2d745e-B,2,6.0,0.0,0.0,1663.0,5-8 min
+gzm,GZM-140d393d-B,2,9.0,0.0,0.0,2306.0,8-12 min
+gzm,GZM-14eae5cc-A,2,6.0,0.0,0.0,1396.0,5-8 min
+gzm,GZM-14eae5cc-B,2,7.0,0.0,0.0,1387.0,5-8 min
+gzm,GZM-1b295c8a-B,3,5.0,0.0,0.0,936.2,5-8 min
+gzm,GZM-2073fe95-A,3,8.0,0.0,0.0,3273.0,8-12 min
+gzm,GZM-2073fe95-B,3,7.0,0.0,0.0,3018.0,5-8 min
+gzm,GZM-295ba5cc-B,2,5.0,0.0,0.0,1150.0,5-8 min
+gzm,GZM-386db776-B,3,6.0,0.0,0.0,2918.0,5-8 min
+gzm,GZM-48146ef7-A,3,11.0,0.0,0.0,2928.0,8-12 min
+gzm,GZM-571b76ca-A,4,11.0,0.0,0.0,2272.0,8-12 min
+gzm,GZM-571b76ca-B,4,10.0,0.0,0.0,2037.0,8-12 min
+gzm,GZM-66767ee7-A,4,15.0,0.0,0.0,4015.0,>= 12 min
+gzm,GZM-66767ee7-B,4,13.0,0.0,0.0,4023.0,>= 12 min
+gzm,GZM-810e32cd-A,2,6.0,0.0,0.0,1049.0,5-8 min
+gzm,GZM-810e32cd-B,2,6.0,0.0,0.0,1230.0,5-8 min
+gzm,GZM-86559280-A,2,5.0,0.0,0.0,1760.0,5-8 min
+gzm,GZM-86559280-B,2,5.0,0.0,0.0,1903.0,5-8 min
+gzm,GZM-878196df-B,2,14.0,0.0,0.0,4290.0,>= 12 min
+gzm,GZM-a44f893f-A,2,3.0,0.0,0.0,997.5,3-5 min
+gzm,GZM-a44f893f-B,2,2.0,0.0,0.0,799.9,< 3 min
+gzm,GZM-abb50d4d-A,2,2.0,0.0,0.0,144.6,< 3 min
+gzm,GZM-b8927391-A,2,14.0,0.0,0.0,4129.0,>= 12 min
+gzm,GZM-b8927391-B,2,16.0,0.0,0.0,4981.0,>= 12 min
+gzm,GZM-cb2bf115-A,4,10.0,0.0,0.0,2604.0,8-12 min
+gzm,GZM-cb2bf115-B,4,10.0,0.0,0.0,2615.0,8-12 min
+gzm,GZM-d6be0e04-A,2,8.0,0.0,0.0,1981.0,8-12 min
+gzm,GZM-ea5344fc-A,2,12.0,0.0,0.0,4118.0,>= 12 min
+gzm,GZM-ea5344fc-B,2,13.0,0.0,0.0,4115.0,>= 12 min
+gzm,GZM-f1c30d8b-A,2,12.0,0.0,0.0,3092.0,>= 12 min
+gzm,GZM-f1c30d8b-B,2,12.0,0.0,0.0,3122.0,>= 12 min
+gzm,GZM-ff6ef9b1-A,2,2.0,0.0,0.0,589.1,< 3 min
+krakow,KRK-05efa449-A,4,5.0,0.0,0.0,2176.0,5-8 min
+krakow,KRK-05efa449-B,4,6.0,0.0,0.0,2064.0,5-8 min
+krakow,KRK-1ee646a3-A,3,12.0,0.0,0.0,4301.0,>= 12 min
+krakow,KRK-1ee646a3-B,3,13.0,0.0,0.0,4190.0,>= 12 min
+krakow,KRK-285bf2f4-A,2,5.5,0.7071,1.0,1625.0,5-8 min
+krakow,KRK-285bf2f4-B,2,5.0,0.0,0.0,1569.0,5-8 min
+krakow,KRK-29bc36ce-A,3,5.0,0.0,0.0,1139.0,5-8 min
+krakow,KRK-29bc36ce-B,3,6.0,0.0,0.0,1406.0,5-8 min
+krakow,KRK-2a841a31-A,2,13.0,0.0,0.0,4899.0,>= 12 min
+krakow,KRK-2a841a31-B,2,11.0,0.0,0.0,4315.0,8-12 min
+krakow,KRK-2e8b37fb-A,3,12.0,0.0,0.0,3405.0,>= 12 min
+krakow,KRK-2e8b37fb-B,3,12.0,0.0,0.0,3498.0,>= 12 min
+krakow,KRK-37ef3c77-A,4,15.0,0.0,0.0,5753.0,>= 12 min
+krakow,KRK-37ef3c77-B,4,15.0,0.0,0.0,5783.0,>= 12 min
+krakow,KRK-486cd9f4-A,8,5.0,0.0,0.0,1951.0,5-8 min
+krakow,KRK-486cd9f4-B,8,6.25,0.4629,1.0,1957.0,5-8 min
+krakow,KRK-5196137a-A,3,5.0,0.0,0.0,1423.0,5-8 min
+krakow,KRK-5196137a-B,3,5.0,0.0,0.0,1521.0,5-8 min
+krakow,KRK-5675064e-A,3,9.0,0.0,0.0,3756.0,8-12 min
+krakow,KRK-5675064e-B,3,10.0,0.0,0.0,3831.0,8-12 min
+krakow,KRK-6159d248-A,4,9.0,0.0,0.0,3642.0,8-12 min
+krakow,KRK-6159d248-B,4,8.0,0.0,0.0,3438.0,8-12 min
+krakow,KRK-7fe53056-A,4,2.0,0.0,0.0,909.7,< 3 min
+krakow,KRK-7fe53056-B,4,2.0,0.0,0.0,1006.0,< 3 min
+krakow,KRK-89cad952-A,3,7.0,0.0,0.0,1639.0,5-8 min
+krakow,KRK-89cad952-B,3,8.0,0.0,0.0,1677.0,8-12 min
+krakow,KRK-8d76750c-B,2,2.0,0.0,0.0,588.8,< 3 min
+krakow,KRK-96e75bd9-B,2,3.5,0.7071,1.0,983.9,3-5 min
+krakow,KRK-98e97fd6-A,3,6.0,0.0,0.0,1586.0,5-8 min
+krakow,KRK-98e97fd6-B,3,6.0,0.0,0.0,1618.0,5-8 min
+krakow,KRK-a05ceb61-A,2,10.0,0.0,0.0,3905.0,8-12 min
+krakow,KRK-a05ceb61-B,2,13.0,0.0,0.0,4067.0,>= 12 min
+krakow,KRK-b02b1243-A,2,10.0,0.0,0.0,3288.0,8-12 min
+krakow,KRK-b02b1243-B,2,9.5,0.7071,1.0,3291.0,8-12 min
+krakow,KRK-b7075d27-A,2,9.0,0.0,0.0,2522.0,8-12 min
+krakow,KRK-b7075d27-B,2,9.0,0.0,0.0,2553.0,8-12 min
+krakow,KRK-cb475630-A,3,9.0,0.0,0.0,3591.0,8-12 min
+krakow,KRK-cb475630-B,3,9.0,0.0,0.0,3441.0,8-12 min
+krakow,KRK-d64851e2-A,4,11.0,0.0,0.0,3720.0,8-12 min
+krakow,KRK-d64851e2-B,4,10.0,0.0,0.0,3783.0,8-12 min
+krakow,KRK-e6de27aa-A,3,9.0,0.0,0.0,3221.0,8-12 min
+krakow,KRK-e6de27aa-B,3,12.0,0.0,0.0,3486.0,>= 12 min
+krakow,KRK-f3ef1cff-A,3,6.667,0.5774,1.0,1411.0,5-8 min
+krakow,KRK-f3ef1cff-B,3,6.0,0.0,0.0,1349.0,5-8 min
+krakow,KRK-fd55faa6-A,2,7.0,0.0,0.0,3941.0,5-8 min
+krakow,KRK-fd55faa6-B,2,6.0,0.0,0.0,3650.0,5-8 min
+lodz,LDZ-020aa234-A,3,12.0,0.0,0.0,4170.0,>= 12 min
+lodz,LDZ-020aa234-B,3,11.0,0.0,0.0,4186.0,8-12 min
+lodz,LDZ-058f830a-A,4,3.0,0.0,0.0,791.2,3-5 min
+lodz,LDZ-058f830a-B,4,3.0,0.0,0.0,779.3,3-5 min
+lodz,LDZ-0f66cbf8-A,2,5.0,0.0,0.0,1706.0,5-8 min
+lodz,LDZ-25417168-B,5,5.0,0.0,0.0,894.6,5-8 min
+lodz,LDZ-309ecce8-A,2,7.0,0.0,0.0,1659.0,5-8 min
+lodz,LDZ-309ecce8-B,2,7.0,0.0,0.0,1788.0,5-8 min
+lodz,LDZ-3179fb17-B,2,5.0,0.0,0.0,1692.0,5-8 min
+lodz,LDZ-329de5c9-A,2,3.0,0.0,0.0,417.8,3-5 min
+lodz,LDZ-4cf8e733-A,2,15.0,0.0,0.0,4141.0,>= 12 min
+lodz,LDZ-5e7d5b77-B,2,8.0,0.0,0.0,1953.0,8-12 min
+lodz,LDZ-7249cec2-B,5,6.0,0.0,0.0,2209.0,5-8 min
+lodz,LDZ-758fed16-B,3,7.0,0.0,0.0,1692.0,5-8 min
+lodz,LDZ-7a5f2255-A,3,7.0,0.0,0.0,1944.0,5-8 min
+lodz,LDZ-7acd8575-B,3,3.0,0.0,0.0,653.9,3-5 min
+lodz,LDZ-81a8b35c-A,2,3.0,0.0,0.0,654.1,3-5 min
+lodz,LDZ-85ef6367-B,3,4.0,0.0,0.0,610.8,3-5 min
+lodz,LDZ-8c3c3b03-B,2,6.0,0.0,0.0,1527.0,5-8 min
+lodz,LDZ-9502737e-A,3,16.0,0.0,0.0,4705.0,>= 12 min
+lodz,LDZ-9502737e-B,3,14.0,0.0,0.0,4736.0,>= 12 min
+lodz,LDZ-97216526-A,3,3.0,0.0,0.0,515.9,3-5 min
+lodz,LDZ-97216526-B,3,3.0,0.0,0.0,512.6,3-5 min
+lodz,LDZ-97e49d6d-A,2,5.0,0.0,0.0,1229.0,5-8 min
+lodz,LDZ-a4668271-A,3,6.0,0.0,0.0,698.7,5-8 min
+lodz,LDZ-b241d016-A,2,1.0,0.0,0.0,179.0,< 3 min
+lodz,LDZ-b241d016-B,2,2.0,0.0,0.0,390.1,< 3 min
+lodz,LDZ-b3311508-B,2,3.0,0.0,0.0,666.3,3-5 min
+lodz,LDZ-b64d116b-B,3,2.0,0.0,0.0,969.9,< 3 min
+lodz,LDZ-b713eb69-A,4,8.0,0.0,0.0,2897.0,8-12 min
+lodz,LDZ-b713eb69-B,4,8.0,0.0,0.0,2884.0,8-12 min
+lodz,LDZ-b8150264-A,5,12.0,0.0,0.0,2927.0,>= 12 min
+lodz,LDZ-bcd4d4a3-A,3,8.0,0.0,0.0,2141.0,8-12 min
+lodz,LDZ-bcd4d4a3-B,3,9.0,0.0,0.0,2223.0,8-12 min
+lodz,LDZ-c05a3493-A,2,12.0,0.0,0.0,5053.0,>= 12 min
+lodz,LDZ-c05a3493-B,2,12.0,0.0,0.0,4788.0,>= 12 min
+lodz,LDZ-c94323e2-A,2,14.0,0.0,0.0,4485.0,>= 12 min
+lodz,LDZ-c94323e2-B,2,14.0,0.0,0.0,4487.0,>= 12 min
+lodz,LDZ-cab1140b-A,3,7.0,0.0,0.0,1573.0,5-8 min
+lodz,LDZ-cab1140b-B,3,7.0,0.0,0.0,1448.0,5-8 min
+lodz,LDZ-d5a594f0-A,2,6.0,0.0,0.0,1362.0,5-8 min
+lodz,LDZ-d5a594f0-B,2,6.0,0.0,0.0,1312.0,5-8 min
+lodz,LDZ-e0c9c8de-A,2,3.0,0.0,0.0,488.7,3-5 min
+lodz,LDZ-e0c9c8de-B,2,2.0,0.0,0.0,342.9,< 3 min
+lodz,LDZ-edc5deb0-B,4,8.0,0.0,0.0,2062.0,8-12 min
+lodz,LDZ-f9c00aec-A,2,8.0,0.0,0.0,1719.0,8-12 min
+lodz,LDZ-f9c00aec-B,2,6.0,0.0,0.0,1726.0,5-8 min
+lodz,LDZ-fa0582df-B,2,5.0,0.0,0.0,1118.0,5-8 min
+poznan,POZ-01afb16f-A,2,2.0,0.0,0.0,802.0,< 3 min
+poznan,POZ-01afb16f-B,2,2.0,0.0,0.0,949.5,< 3 min
+poznan,POZ-05ce3bcd-B,3,14.0,0.0,0.0,5164.0,>= 12 min
+poznan,POZ-19d8c5f9-A,3,2.0,0.0,0.0,359.7,< 3 min
+poznan,POZ-1cbabb16-A,2,11.0,0.0,0.0,3095.0,8-12 min
+poznan,POZ-1cbabb16-B,2,11.0,0.0,0.0,3009.0,8-12 min
+poznan,POZ-33e7513c-A,2,2.0,0.0,0.0,284.7,< 3 min
+poznan,POZ-33e7513c-B,2,2.0,0.0,0.0,297.9,< 3 min
+poznan,POZ-42846371-A,2,13.0,0.0,0.0,4331.0,>= 12 min
+poznan,POZ-42846371-B,2,13.0,0.0,0.0,4417.0,>= 12 min
+poznan,POZ-4d55d3fb-B,2,6.0,0.0,0.0,1606.0,5-8 min
+poznan,POZ-520d152f-A,4,7.0,0.0,0.0,2533.0,5-8 min
+poznan,POZ-520d152f-B,4,7.0,0.0,0.0,2502.0,5-8 min
+poznan,POZ-5f88e893-A,2,6.0,0.0,0.0,2427.0,5-8 min
+poznan,POZ-5f88e893-B,2,6.0,0.0,0.0,2417.0,5-8 min
+poznan,POZ-667ce0d9-A,4,10.5,0.5774,1.0,5917.0,8-12 min
+poznan,POZ-667ce0d9-B,4,10.5,0.5774,1.0,5921.0,8-12 min
+poznan,POZ-6c1fbd4f-A,2,2.0,0.0,0.0,607.1,< 3 min
+poznan,POZ-70e7d387-B,2,2.0,0.0,0.0,326.6,< 3 min
+poznan,POZ-74c28579-A,2,6.0,0.0,0.0,1775.0,5-8 min
+poznan,POZ-7a217398-A,2,11.0,0.0,0.0,3658.0,8-12 min
+poznan,POZ-7a217398-B,2,11.0,0.0,0.0,3666.0,8-12 min
+poznan,POZ-87cf73fe-A,2,2.0,0.0,0.0,649.1,< 3 min
+poznan,POZ-9cd6e537-A,3,2.0,0.0,0.0,621.2,< 3 min
+poznan,POZ-ba5b9a6d-A,7,2.0,0.0,0.0,622.1,< 3 min
+poznan,POZ-c76476f6-A,2,9.0,0.0,0.0,2170.0,8-12 min
+poznan,POZ-c76476f6-B,2,9.0,0.0,0.0,2276.0,8-12 min
+poznan,POZ-e52e8a43-A,3,7.0,0.0,0.0,3031.0,5-8 min
+poznan,POZ-e52e8a43-B,3,7.0,0.0,0.0,3075.0,5-8 min
+poznan,POZ-eb1fb50b-B,3,4.0,0.0,0.0,860.1,3-5 min
+poznan,POZ-eb2c9cea-A,3,5.0,0.0,0.0,1419.0,5-8 min
+poznan,POZ-fde728b8-A,2,6.0,0.0,0.0,1651.0,5-8 min
+trojmiasto,GDN-06aa358b-A,3,6.0,0.0,0.0,1394.0,5-8 min
+trojmiasto,GDN-06aa358b-B,3,6.0,0.0,0.0,1511.0,5-8 min
+trojmiasto,GDN-0e903d61-A,2,10.0,0.0,0.0,2643.0,8-12 min
+trojmiasto,GDN-0e903d61-B,2,10.0,0.0,0.0,2664.0,8-12 min
+trojmiasto,GDN-1357f3e9-A,3,2.0,0.0,0.0,539.7,< 3 min
+trojmiasto,GDN-1cdb3e63-A,2,6.0,0.0,0.0,2199.0,5-8 min
+trojmiasto,GDN-1cdb3e63-B,2,6.0,0.0,0.0,2209.0,5-8 min
+trojmiasto,GDN-32c692be-B,2,5.0,0.0,0.0,1576.0,5-8 min
+trojmiasto,GDN-3f2febc7-A,2,6.0,0.0,0.0,2224.0,5-8 min
+trojmiasto,GDN-3f2febc7-B,2,6.0,0.0,0.0,1974.0,5-8 min
+trojmiasto,GDN-41c35db8-A,2,7.0,0.0,0.0,1989.0,5-8 min
+trojmiasto,GDN-41c35db8-B,2,6.0,0.0,0.0,1979.0,5-8 min
+trojmiasto,GDN-4acda16e-B,2,8.0,0.0,0.0,2955.0,8-12 min
+trojmiasto,GDN-5206ad19-A,3,9.0,0.0,0.0,2677.0,8-12 min
+trojmiasto,GDN-5206ad19-B,3,8.0,0.0,0.0,2711.0,8-12 min
+trojmiasto,GDN-5cb19214-A,3,10.0,0.0,0.0,3165.0,8-12 min
+trojmiasto,GDN-5cb19214-B,3,10.0,0.0,0.0,3293.0,8-12 min
+trojmiasto,GDN-7ac2bac0-A,2,6.0,0.0,0.0,1526.0,5-8 min
+trojmiasto,GDN-94258592-A,4,8.0,0.0,0.0,2466.0,8-12 min
+trojmiasto,GDN-94258592-B,5,8.8,0.4472,1.0,2590.0,8-12 min
+trojmiasto,GDN-9c68dad7-A,2,7.0,0.0,0.0,2248.0,5-8 min
+trojmiasto,GDN-9c68dad7-B,2,5.0,0.0,0.0,2210.0,5-8 min
+trojmiasto,GDN-b7117ddf-A,2,5.0,0.0,0.0,927.3,5-8 min
+trojmiasto,GDN-b7117ddf-B,2,3.0,0.0,0.0,759.2,3-5 min
+trojmiasto,GDN-d8e9144e-A,2,8.0,0.0,0.0,2619.0,8-12 min
+trojmiasto,GDN-d8e9144e-B,2,10.0,0.0,0.0,2745.0,8-12 min
+trojmiasto,GDN-ebdba4f1-B,2,10.0,0.0,0.0,2533.0,8-12 min
+trojmiasto,GDN-f514f840-A,2,6.0,0.0,0.0,1024.0,5-8 min
+trojmiasto,GDN-f514f840-B,2,5.0,0.0,0.0,1055.0,5-8 min
+trojmiasto,GDN-f517a292-A,5,5.0,0.0,0.0,1803.0,5-8 min
+trojmiasto,GDN-f517a292-B,5,7.0,0.0,0.0,1824.0,5-8 min
+warszawa,WAW-031c4cd1-B,2,7.0,0.0,0.0,2125.0,5-8 min
+warszawa,WAW-087b49c5-B,5,7.121,0.1115,0.2188,2019.0,5-8 min
+warszawa,WAW-09571716-A,3,9.196,0.02082,0.03971,2444.0,8-12 min
+warszawa,WAW-09571716-B,3,10.16,0.01173,0.02309,2388.0,8-12 min
+warszawa,WAW-0be91ab7-A,4,7.0,0.0,0.0,2391.0,5-8 min
+warszawa,WAW-0be91ab7-B,6,8.0,0.0,0.0,2514.0,8-12 min
+warszawa,WAW-14e775a7-A,2,6.0,0.0,0.0,2271.0,5-8 min
+warszawa,WAW-14e775a7-B,2,5.0,0.0,0.0,2285.0,5-8 min
+warszawa,WAW-19c6ba7d-A,3,7.193,0.01633,0.0303,1479.0,5-8 min
+warszawa,WAW-19eb85d1-B,2,14.0,0.0,0.0,5338.0,>= 12 min
+warszawa,WAW-1adaa355-A,3,6.684,0.00328,0.005682,1395.0,5-8 min
+warszawa,WAW-1adaa355-B,3,8.0,0.0,0.0,1433.0,8-12 min
+warszawa,WAW-1d570507-B,2,10.5,0.7071,1.0,2375.0,8-12 min
+warszawa,WAW-316cb45b-A,4,7.0,0.0,0.0,1922.0,5-8 min
+warszawa,WAW-316cb45b-B,4,6.0,0.0,0.0,1788.0,5-8 min
+warszawa,WAW-32970d45-A,5,10.0,0.0,0.0,3790.0,8-12 min
+warszawa,WAW-32970d45-B,5,11.0,0.0,0.0,4098.0,8-12 min
+warszawa,WAW-32edbda3-A,3,2.0,0.0,0.0,513.6,< 3 min
+warszawa,WAW-32edbda3-B,3,2.0,0.0,0.0,513.1,< 3 min
+warszawa,WAW-34750066-A,7,12.5,0.0,0.0,3826.0,>= 12 min
+warszawa,WAW-34750066-B,6,13.0,0.0,0.0,3701.0,>= 12 min
+warszawa,WAW-3f0a4071-B,5,4.0,0.0,0.0,717.7,3-5 min
+warszawa,WAW-3f37e38e-B,6,6.0,0.0,0.0,1768.0,5-8 min
+warszawa,WAW-43dde118-A,3,7.5,0.0,0.0,2168.0,5-8 min
+warszawa,WAW-43dde118-B,3,7.0,0.0,0.0,2028.0,5-8 min
+warszawa,WAW-50c4d084-A,8,3.0,0.0,0.0,958.7,3-5 min
+warszawa,WAW-58445993-A,2,5.0,0.0,0.0,1572.0,5-8 min
+warszawa,WAW-5a511542-A,3,7.0,0.0,0.0,1451.0,5-8 min
+warszawa,WAW-5c235e87-A,2,9.5,0.0,0.0,2092.0,8-12 min
+warszawa,WAW-5c235e87-B,2,11.0,0.0,0.0,2052.0,8-12 min
+warszawa,WAW-5d71bf1b-B,5,8.0,0.0,0.0,2572.0,8-12 min
+warszawa,WAW-63463c4c-A,3,10.0,0.0,0.0,2535.0,8-12 min
+warszawa,WAW-6557f8ba-A,3,4.0,0.0,0.0,892.2,3-5 min
+warszawa,WAW-687f674e-A,2,4.0,0.0,0.0,1040.0,3-5 min
+warszawa,WAW-687f674e-B,2,3.5,0.0,0.0,1073.0,3-5 min
+warszawa,WAW-72dfe3c6-A,2,8.0,0.0,0.0,3328.0,8-12 min
+warszawa,WAW-72dfe3c6-B,2,8.0,0.0,0.0,3350.0,8-12 min
+warszawa,WAW-74904d91-A,3,8.183,0.02041,0.03922,2554.0,8-12 min
+warszawa,WAW-74904d91-B,3,9.0,0.0,0.0,2546.0,8-12 min
+warszawa,WAW-7817a0fd-A,2,4.0,0.0,0.0,912.8,3-5 min
+warszawa,WAW-7817a0fd-B,2,4.0,0.0,0.0,976.9,3-5 min
+warszawa,WAW-7aba4eec-B,3,9.0,0.0,0.0,3129.0,8-12 min
+warszawa,WAW-7c6d9461-B,2,7.0,0.0,0.0,2516.0,5-8 min
+warszawa,WAW-7f552d91-B,6,9.0,0.0,0.0,2247.0,8-12 min
+warszawa,WAW-881eeb56-B,8,2.0,0.0,0.0,489.7,< 3 min
+warszawa,WAW-8a21c83b-B,3,13.0,0.0,0.0,4204.0,>= 12 min
+warszawa,WAW-8ac80816-A,2,8.0,0.0,0.0,3230.0,8-12 min
+warszawa,WAW-8ac80816-B,2,9.0,0.0,0.0,3050.0,8-12 min
+warszawa,WAW-8c3b1521-A,3,2.0,0.0,0.0,301.6,< 3 min
+warszawa,WAW-977a34fe-B,2,5.0,0.0,0.0,1902.0,5-8 min
+warszawa,WAW-a8aaa057-A,2,2.0,0.0,0.0,600.5,< 3 min
+warszawa,WAW-a8aaa057-B,2,2.0,0.0,0.0,498.7,< 3 min
+warszawa,WAW-adacbbbd-A,2,7.176,0.008901,0.01259,2440.0,5-8 min
+warszawa,WAW-adacbbbd-B,2,6.192,0.01507,0.02131,2351.0,5-8 min
+warszawa,WAW-adcaeccf-A,5,9.506,0.4509,0.8333,3152.0,8-12 min
+warszawa,WAW-adcaeccf-B,5,10.0,0.0,0.0,3036.0,8-12 min
+warszawa,WAW-ae51c9d5-A,3,3.0,0.0,0.0,576.1,3-5 min
+warszawa,WAW-ae82cfe7-A,2,6.0,0.0,0.0,1996.0,5-8 min
+warszawa,WAW-b09bc540-B,2,4.0,0.0,0.0,1100.0,3-5 min
+warszawa,WAW-b834e1b5-A,2,3.0,0.0,0.0,525.2,3-5 min
+warszawa,WAW-b834e1b5-B,2,3.0,0.0,0.0,434.4,3-5 min
+warszawa,WAW-bb8b685f-A,3,2.0,0.0,0.0,413.3,< 3 min
+warszawa,WAW-bb8b685f-B,3,1.0,0.0,0.0,216.9,< 3 min
+warszawa,WAW-bd1342e9-A,3,6.0,0.0,0.0,1653.0,5-8 min
+warszawa,WAW-bd1342e9-B,3,6.0,0.0,0.0,1488.0,5-8 min
+warszawa,WAW-c265ab45-B,2,8.0,0.0,0.0,2649.0,8-12 min
+warszawa,WAW-c31fd77e-A,3,12.0,0.0,0.0,4396.0,>= 12 min
+warszawa,WAW-c31fd77e-B,3,13.0,0.0,0.0,4570.0,>= 12 min
+warszawa,WAW-df23b143-B,2,2.0,0.0,0.0,601.6,< 3 min
+warszawa,WAW-e066ced8-A,2,2.0,0.0,0.0,344.7,< 3 min
+warszawa,WAW-e066ced8-B,2,2.0,0.0,0.0,222.6,< 3 min
+warszawa,WAW-e181ed04-A,3,7.0,0.0,0.0,1794.0,5-8 min
+warszawa,WAW-e181ed04-B,3,8.0,0.0,0.0,1655.0,8-12 min
+warszawa,WAW-ede34295-A,4,7.5,0.0,0.0,2567.0,5-8 min
+warszawa,WAW-ede34295-B,4,9.0,0.0,0.0,2639.0,8-12 min
+warszawa,WAW-f90a8afd-A,2,6.195,0.04757,0.06728,2019.0,5-8 min
+warszawa,WAW-f90a8afd-B,2,8.0,0.0,0.0,2183.0,8-12 min
+wroclaw,WRO-001682a8-A,2,7.0,0.0,0.0,2700.0,5-8 min
+wroclaw,WRO-001682a8-B,2,6.183,0.02357,0.03333,2747.0,5-8 min
+wroclaw,WRO-0f861dee-A,2,4.177,0.03264,0.04615,1480.0,3-5 min
+wroclaw,WRO-0f861dee-B,2,4.226,0.04734,0.06695,1450.0,3-5 min
+wroclaw,WRO-101a0f80-A,2,9.0,0.0,0.0,2564.0,8-12 min
+wroclaw,WRO-23c2d3ef-A,2,9.0,0.0,0.0,2005.0,8-12 min
+wroclaw,WRO-23c2d3ef-B,2,9.0,0.0,0.0,1972.0,8-12 min
+wroclaw,WRO-28cf91ea-A,3,4.0,0.0,0.0,548.6,3-5 min
+wroclaw,WRO-30c14e87-A,2,8.5,0.7071,1.0,2971.0,8-12 min
+wroclaw,WRO-30c14e87-B,2,8.0,0.0,0.0,2870.0,8-12 min
+wroclaw,WRO-33979036-A,2,6.0,0.0,0.0,1994.0,5-8 min
+wroclaw,WRO-374617a7-A,3,8.333,0.5774,1.0,2071.0,8-12 min
+wroclaw,WRO-374617a7-B,2,8.0,0.0,0.0,1895.0,8-12 min
+wroclaw,WRO-468d87e7-A,2,5.5,0.7071,1.0,1180.0,5-8 min
+wroclaw,WRO-494759b9-B,3,5.0,0.0,0.0,869.5,5-8 min
+wroclaw,WRO-59fee27b-B,2,3.0,0.0,0.0,554.8,3-5 min
+wroclaw,WRO-6e0757ae-A,5,3.0,0.0,0.0,651.2,3-5 min
+wroclaw,WRO-7a7ebd6f-A,4,5.0,0.0,0.0,1693.0,5-8 min
+wroclaw,WRO-7a7ebd6f-B,4,6.19,0.01581,0.03333,1705.0,5-8 min
+wroclaw,WRO-87311e66-A,3,14.0,0.0,0.0,5664.0,>= 12 min
+wroclaw,WRO-87311e66-B,3,14.0,0.0,0.0,5680.0,>= 12 min
+wroclaw,WRO-89f48c35-A,4,2.0,0.0,0.0,391.0,< 3 min
+wroclaw,WRO-89f48c35-B,3,2.0,0.0,0.0,371.2,< 3 min
+wroclaw,WRO-9c38fc68-B,4,7.0,0.0,0.0,1120.0,5-8 min
+wroclaw,WRO-9dd64382-B,6,4.0,0.0,0.0,636.6,3-5 min
+wroclaw,WRO-a24444f3-A,2,8.0,0.0,0.0,2149.0,8-12 min
+wroclaw,WRO-a24444f3-B,2,8.0,0.0,0.0,2135.0,8-12 min
+wroclaw,WRO-a4dd842e-A,2,7.0,0.0,0.0,2062.0,5-8 min
+wroclaw,WRO-a4dd842e-B,2,7.0,0.0,0.0,2165.0,5-8 min
+wroclaw,WRO-a522ad9d-A,9,2.0,0.0,0.0,510.4,< 3 min
+wroclaw,WRO-a6912abe-A,3,5.0,0.0,0.0,1396.0,5-8 min
+wroclaw,WRO-a6912abe-B,3,6.0,0.0,0.0,1497.0,5-8 min
+wroclaw,WRO-a97151f0-A,4,6.0,0.0,0.0,2255.0,5-8 min
+wroclaw,WRO-a97151f0-B,4,6.188,0.01907,0.04,2258.0,5-8 min
+wroclaw,WRO-adb933c8-A,2,6.0,0.0,0.0,1293.0,5-8 min
+wroclaw,WRO-adb933c8-B,2,5.0,0.0,0.0,1323.0,5-8 min
+wroclaw,WRO-b701cd5f-A,2,5.0,0.0,0.0,1398.0,5-8 min
+wroclaw,WRO-b701cd5f-B,2,5.0,0.0,0.0,1381.0,5-8 min
+wroclaw,WRO-b8063e75-A,3,10.0,0.0,0.0,3382.0,8-12 min
+wroclaw,WRO-b8063e75-B,3,10.0,0.0,0.0,3493.0,8-12 min
+wroclaw,WRO-be36463d-A,3,8.0,0.0,0.0,1770.0,8-12 min
+wroclaw,WRO-c3726da1-A,2,6.0,0.0,0.0,2081.0,5-8 min
+wroclaw,WRO-c3726da1-B,2,6.157,0.01309,0.01852,2206.0,5-8 min
+wroclaw,WRO-dc122c53-A,2,4.0,0.0,0.0,792.8,3-5 min
+wroclaw,WRO-dc122c53-B,2,5.0,0.0,0.0,794.5,5-8 min
+wroclaw,WRO-dc367f8e-B,2,13.0,0.0,0.0,3563.0,>= 12 min
+wroclaw,WRO-eaf04142-A,2,11.0,0.0,0.0,3065.0,8-12 min
+wroclaw,WRO-eaf04142-B,2,10.0,0.0,0.0,3063.0,8-12 min
+wroclaw,WRO-fa4e289f-A,4,3.0,0.0,0.0,511.4,3-5 min
+wroclaw,WRO-fa4e289f-B,4,3.0,0.0,0.0,534.6,3-5 min

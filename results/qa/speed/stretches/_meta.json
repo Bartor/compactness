@@ -1,0 +1,86 @@
+{
+ "code_version": "tram-stretches-2026-11-24.3",
+ "duration_s": 106.1,
+ "files": {
+  "tram_stretches.parquet": {
+   "crs": "EPSG:4326",
+   "geometry": "GTFS shape pieces along the stretch (EPSG:2180 -> 4326, 6 decimals)",
+   "rows": "one per stretch direction (tram)"
+  }
+ },
+ "git_sha": "f182aca420893b8fea20a6f77201584badaf73c3",
+ "inputs": {
+  "gtfs_gdansk": {
+   "data_date": "20261123/20261207",
+   "downloaded_at": "2026-11-23T18:19:06+01:00",
+   "sha256": "3785bc1d9c34a574f6f46c63b78ff99f9800503476b2ddccf3cb09012c097ede"
+  },
+  "gtfs_gzm": {
+   "data_date": "20261108/20261128",
+   "downloaded_at": "2026-11-23T18:19:11+01:00",
+   "sha256": "a726687dbdfbf53b1d3595adbadcabf9965755edb054aefaba9aaea5f9ceb884"
+  },
+  "gtfs_krakow_tram": {
+   "data_date": "20261121/20270219",
+   "downloaded_at": "2026-11-23T18:18:58+01:00",
+   "sha256": "f84c4655e16054b865dc4f3d5e331242ecc0423af5c2fba4ac097ffc6cb0e160"
+  },
+  "gtfs_lodz": {
+   "data_date": "20261122/20261231",
+   "downloaded_at": "2026-11-23T18:19:04+01:00",
+   "sha256": "154ff4694541f86e22bbc73be9e062e5ac123647049af13b1899e566d30e0b87"
+  },
+  "gtfs_poznan": {
+   "data_date": "20261124/20261205",
+   "downloaded_at": "2026-11-23T18:19:02+01:00",
+   "sha256": "2914536ca1745409a1f2c1b81adff698cf3bb16abb3c15384e8fb64df6b12575"
+  },
+  "gtfs_warsaw_ztm": {
+   "data_date": "20261123/20261223",
+   "downloaded_at": "2026-11-23T18:18:52+01:00",
+   "sha256": "81ee0321967e6a26886630085a52da24cad30549c419a382fd0eda0901acc7f8"
+  },
+  "gtfs_wroclaw": {
+   "data_date": "20261123/20261206",
+   "downloaded_at": "2026-11-23T18:24:42+01:00",
+   "sha256": "774d854ca158219e04a42c1ed03899884ec96b382763abd273c85b9bde6d34e1"
+  },
+  "osm_poland_pbf": {
+   "data_date": "2026-11-22T21:20:48Z",
+   "downloaded_at": "2026-11-23T18:50:02+01:00",
+   "sha256": "8c6264a60df1a1a66b4ca3d68dd3f07c3be26237c86b97bff1aa5d3bb566dc1f"
+  }
+ },
+ "kinematics": {
+  "a_acc": 1.0,
+  "a_lat": null,
+  "b_brk": 1.0,
+  "dwell_s": 20.0,
+  "v_cap_kmh": 50.0
+ },
+ "missing_inputs": [],
+ "osm_date": "2026-11-22",
+ "rules_version": "2026-11-24.4",
+ "run_at": "2026-11-24T14:45:59+01:00",
+ "sizes_mb": {
+  "tram_stretch_bands.csv": 1.15,
+  "tram_stretch_stop_pairs.csv": 0.23,
+  "tram_stretch_stops.csv": 0.36,
+  "tram_stretches.csv": 0.7,
+  "tram_stretches.parquet": 1.19
+ },
+ "step": "tram_stretches",
+ "stretch_rule": {
+  "merge_share": 0.5,
+  "min_hops": 2,
+  "min_min": 5.0,
+  "target_min": 7.0,
+  "term_min_trips": 20,
+  "term_share": 0.05,
+  "top_places": 10
+ },
+ "timetable_dates": {
+  "saturday": "2026-11-28",
+  "weekday": "2026-11-25"
+ }
+}

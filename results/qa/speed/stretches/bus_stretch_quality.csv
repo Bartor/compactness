@@ -1,0 +1,10 @@
+agglomeration,mode,stretch_directions,share_directions_below_min,share_vkm_below_min,median_length_m,share_vkm_geometry_shape
+gzm,bus,2697,0.356,0.1656,2767.0,0.9509
+gzm,trolleybus,40,0.35,0.1435,2004.0,1.0
+krakow,bus,797,0.271,0.1395,3007.0,0.9966
+lodz,bus,815,0.411,0.2361,1963.0,0.8527
+poznan,bus,1056,0.3693,0.163,2791.0,0.9888
+trojmiasto,bus,891,0.4209,0.1954,2245.0,1.0
+trojmiasto,trolleybus,68,0.3971,0.1761,2112.0,1.0
+warszawa,bus,1723,0.3749,0.1805,2449.0,1.0
+wroclaw,bus,671,0.392,0.2038,2311.0,0.9957
