@@ -4,9 +4,14 @@ import { Protocol } from 'pmtiles'
 import { buildStyle, hatchImage } from './mapStyle'
 import { applyHot, fillId, syncOverlays } from './mapLayers'
 import { classIndex, focusOpacity, rampLegend } from './ramp'
+import { syncIsochrones } from './features/isochrones/isoLayers'
+import { clearNodeDetail, detailBounds, setHotPath, showNodeDetail } from './features/nodes/detailLayers'
+import { ANCHOR_LABELS } from './mapStyle'
 import { emphasised, focusOf, hoverOnMap, leaveMap } from './classFocus'
 import { applyFocus, pointLayerIds } from './pointLayers'
 import { nodePopupModel, renderNodePopup } from './nodePopup'
+import { applyLines, hitBox, hitTest, lineLayerIds } from './features/speed/lineLayers'
+import { renderStretchPopup, stretchPopupModel } from './features/speed/stretchPopup'
 import Legend from './Legend'
 // MapLibre 6 looks for its worker next to its own module; once bundled, that
 // file is not there. Emitting it as an asset and naming it keeps dev and the
@@ -36,6 +41,8 @@ const DEFAULT_PAD = { top: 40, left: 40, right: 40, bottom: 40 }
 export default function MapView({
   catalog, active, selectedId, hot, onHot, onSelect, fit, fitPad = DEFAULT_PAD, focus, nodeRequest, outside = null,
   legendOpen, onLegendOpen, legendShares, cityAt, onMoved, initialView = null,
+  isoOn = false, isoLayers = null, onIsoPick, legendExtra = null, onNode, detailNode = null, hotPath = null,
+  lineHot = null, linePin = null, onLineHover,
 }) {
   const { focuses, setFocuses } = focus
   const box = useRef(null)
@@ -51,7 +58,7 @@ export default function MapView({
   const showPopup = useRef(null)   // opens the popup of a node: {layer, feature}
 
   // what the long-lived map handlers need to see
-  latest.current = { catalog, onSelect, active, onHot, cityAt, onMoved }
+  latest.current = { catalog, onSelect, active, onHot, cityAt, onMoved, isoOn, selectedId, onIsoPick, onNode, onLineHover }
   const [loading, setLoading] = useState(false)   // tiles of a layer are still coming
   const tip = useRef(null)
 
@@ -146,29 +153,56 @@ export default function MapView({
       if (popup.current) popup.current.remove()
       popup.current = null
     }
-    const openPopup = ({ layer, feature }) => {
+    // a popup is placed so that it fits the map: it opens below the point, above it, or to the side, whichever has room, and
+    // the map pans by what still sticks out (when the popup is taller than the map it scrolls inside)
+    const openContent = (content, lngLat, layerId) => {
       closePopup()
-      const content = renderNodePopup(nodePopupModel(feature.properties || {}, layer.timetable_date))
-      // a popup taller than the map would stick out under the panel: it scrolls inside instead
-      content.style.maxHeight = `${Math.max(160, Math.min(420, m.getContainer().clientHeight - 110))}px`
-      const p = new maplibregl.Popup({ maxWidth: 'none', className: 'node-popup-wrap', focusAfterOpen: false, offset: 8 })
-        .setLngLat(feature.geometry.coordinates.slice())
-        .setDOMContent(content)
-        .addTo(m)
-      p.layerId = layer.id
+      const cont = m.getContainer()
+      const M = 12
+      const OFF = 8
+      // 44 px less: the attribution strip along the bottom of the map would cover the popup's last lines
+      content.style.maxHeight = `${Math.max(160, Math.min(420, cont.clientHeight - 2 * M - OFF - 44))}px`
+      const build = (anchor) => new maplibregl.Popup({ maxWidth: 'none', className: 'node-popup-wrap', focusAfterOpen: false, offset: OFF, ...(anchor ? { anchor } : {}) })
+        .setLngLat(lngLat).setDOMContent(content).addTo(m)
+      let p = build()
+      const r0 = p.getElement().getBoundingClientRect()
+      const pt = m.project(lngLat)
+      const ch = cont.clientHeight
+      const cw = cont.clientWidth
+      const H = r0.height + OFF
+      const W = r0.width
+      const v = H <= ch - pt.y - M ? 'top' : H <= pt.y - M ? 'bottom' : (ch - pt.y >= pt.y ? 'top' : 'bottom')
+      const h = pt.x < W / 2 + M ? 'left' : cw - pt.x < W / 2 + M ? 'right' : ''
+      p.remove()
+      p = build(h ? `${v}-${h}` : v)
+      p.layerId = layerId
       p.on('close', () => { if (popup.current === p) popup.current = null })
       popup.current = p
-      // the popup must be fully visible: pan the map by what sticks out of it
-      setTimeout(() => {
-        const el = p.getElement()
-        if (!el) return
-        const r = el.getBoundingClientRect()
-        const b = m.getContainer().getBoundingClientRect()
-        const M = 14
-        const dx = r.left < b.left + M ? r.left - b.left - M : r.right > b.right - M ? r.right - b.right + M : 0
-        const dy = r.top < b.top + M ? r.top - b.top - M : r.bottom > b.bottom - M ? r.bottom - b.bottom + M : 0
-        if (dx || dy) m.panBy([dx, dy], { duration: 250 })
-      }, 300)
+      const r = p.getElement().getBoundingClientRect()
+      const b = cont.getBoundingClientRect()
+      const dx = r.left < b.left + M ? r.left - b.left - M : r.right > b.right - M ? r.right - b.right + M : 0
+      const dy = r.top < b.top + M ? r.top - b.top - M : r.bottom > b.bottom - M ? r.bottom - b.bottom + M : 0
+      if (dx || dy) m.panBy([dx, dy], { duration: 250 })
+    }
+    const openPopup = ({ layer, feature }) => {
+      openContent(renderNodePopup(nodePopupModel(feature.properties || {}, layer.timetable_date)), feature.geometry.coordinates.slice(), layer.id)
+    }
+    // the scheduled-speed stretches under a point: {layer, hit} of the topmost active "lines" layer, or null
+    const lineLayersOn = () => {
+      const { catalog: c, active: on } = latest.current
+      return c.layers.filter((l) => l.kind === 'lines' && on.has(l.id))
+    }
+    const lineHit = (point) => {
+      for (const l of lineLayersOn()) {
+        const ids = lineLayerIds(l).filter((id) => m.getLayer(id))
+        if (!ids.length) continue
+        const hit = hitTest(l, m.queryRenderedFeatures(hitBox(point), { layers: ids }), l.band)
+        if (hit) return { layer: l, hit }
+      }
+      return null
+    }
+    const openStretch = ({ layer, hit }, lngLat) => {
+      openContent(renderStretchPopup(stretchPopupModel(hit.properties, layer.band, layer.timetable_dates || null)), [lngLat.lng, lngLat.lat], layer.id)
     }
     showPopup.current = openPopup
     // Escape closes the popup first (the nearest thing); the page's other Escape handlers then do not run
@@ -178,10 +212,26 @@ export default function MapView({
       // a click on a node opens its popup and leaves the selected agglomeration alone
       const node = nodeHit(e.point)
       if (node) {
+        // a stop area with a detail record opens its card in the panel (desktop); the others keep the popup
+        const props = node.feature.properties || {}
+        if (props.detail && !isPhone() && latest.current.onNode) {
+          closePopup()
+          latest.current.onNode(props)
+          return
+        }
         openPopup(node)
         return
       }
-      const id = boundaryHits(e.point).find((f) => known(f.properties?.id))?.properties?.id ?? latest.current.cityAt?.(e.lngLat.lng, e.lngLat.lat)
+      // a stretch of a line (unless the isochrone mode wants the click for its origin)
+      if (!latest.current.isoOn) {
+        const ln = lineHit(e.point)
+        if (ln) { openStretch(ln, e.lngLat); return }
+      }
+      const hits = boundaryHits(e.point).filter((f) => known(f.properties?.id)).map((f) => f.properties.id)
+      const id = hits[0] ?? latest.current.cityAt?.(e.lngLat.lng, e.lngLat.lat)
+      // "Dokąd dojadę stąd": a click inside the selected city picks the nearest precomputed origin; another city is still selected
+      const { isoOn: on, selectedId: sel, onIsoPick: pickIso } = latest.current
+      if (on && sel && pickIso && (id === sel || hits.includes(sel))) { pickIso([e.lngLat.lng, e.lngLat.lat]); return }
       // from the whole-country view an area is a speck: tell the app, so it can zoom in
       if (id && known(id)) latest.current.onSelect(id, m.getZoom() < 7.5)
     })
@@ -199,7 +249,11 @@ export default function MapView({
       const node = nodeHit(point)
       const v = node ? node.feature.properties?.[node.layer.property] : null
       if (node && typeof v === 'number') hits[node.layer.id] = classIndex(node.layer.ramp, v)
-      return { hits, node: !!node }
+      // the stretch under the pointer (not under the isochrone mode); one legend and one class focus serve all the layers: the first one on
+      const ln = node || latest.current.isoOn ? null : lineHit(point)
+      const lead = latest.current.catalog.layers.find((l) => l.kind === 'lines' && latest.current.active.has(l.id))
+      if (ln && lead && typeof ln.hit.cls === 'number' && ln.hit.cls >= 0) hits[lead.id] = ln.hit.cls
+      return { hits, node: !!node, line: ln }
     }
     // a small tooltip over a coloured cell: the class (the tiles carry only the class, so no value is invented) and the unit
     const hideTip = () => { if (tip.current) { tip.current.remove(); tip.current = null } }
@@ -224,10 +278,12 @@ export default function MapView({
       tip.current.setLngLat(e.lngLat).setDOMContent(root).addTo(m)
     }
     m.on('mousemove', (e) => {
-      const { hits, node } = classHits(e.point)
+      const { hits, node, line } = classHits(e.point)
       const cityId = boundaryHits(e.point).find((f) => known(f.properties?.id))?.properties?.id ?? latest.current.cityAt?.(e.lngLat.lng, e.lngLat.lat)
-      m.getCanvas().style.cursor = node || cityId ? 'pointer' : ''
-      latest.current.onHot?.(node ? null : cityId ?? null)
+      const isoHere = latest.current.isoOn && latest.current.selectedId && cityId === latest.current.selectedId
+      m.getCanvas().style.cursor = node || line ? 'pointer' : isoHere ? 'crosshair' : cityId ? 'pointer' : ''
+      latest.current.onHot?.(node || line ? null : cityId ?? null)
+      latest.current.onLineHover?.(line ? { id: line.hit.id, keys: line.hit.keys } : null)
       showTip(e, hits)
       const ids = latest.current.catalog.layers.filter((l) => l.ramp && latest.current.active.has(l.id)).map((l) => l.id)
       setFocuses((f) => hoverOnMap(f, ids, hits))
@@ -236,6 +292,7 @@ export default function MapView({
       hideTip()
       setFocuses((f) => leaveMap(f))
       latest.current.onHot?.(null)
+      latest.current.onLineHover?.(null)
     })
     m.on('remove', closePopup)
 
@@ -256,11 +313,14 @@ export default function MapView({
     if (!ready) return
     try {
       syncOverlays(ready, catalog.layers, active, selectedId, hot, outside)
+      // the isochrone bands go on top of the value layers, just under the city outlines
+      const outline = catalog.layers.find((l) => l.kind === 'boundary' && ready.getLayer(fillId(l)))
+      syncIsochrones(ready, isoLayers, outline ? fillId(outline) : undefined)
     } catch (e) {
       console.warn('map layers:', e)
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [ready, catalog, active, selectedId, outside])
+  }, [ready, catalog, active, selectedId, outside, isoLayers])
 
   // the lit city: outline only, no restacking
   useEffect(() => {
@@ -286,7 +346,7 @@ export default function MapView({
         }
         if (l.kind !== 'choropleth' || !l.ramp || !ready.getLayer(fillId(l))) continue
         const strong = emphasised(focusOf(focuses, l.id), l.id)
-        ready.setPaintProperty(fillId(l), 'fill-opacity', focusOpacity(l.property, l.ramp, strong, l.opacity ?? 0.8))
+        ready.setPaintProperty(fillId(l), 'fill-opacity', focusOpacity(l.property, l.ramp, strong, (l.opacity ?? 0.8) * (isoLayers ? 0.55 : 1)))
         if (ready.getLayer(`${l.id}:nodata`)) {
           ready.setPaintProperty(`${l.id}:nodata`, 'fill-opacity', strong.size ? 0.25 : 0.9)
         }
@@ -294,14 +354,48 @@ export default function MapView({
     } catch (e) {
       console.warn('map focus:', e)
     }
-  }, [ready, catalog, active, selectedId, focuses])
+  }, [ready, catalog, active, selectedId, focuses, isoLayers])
+
+  // the speed stretches: band, the legend's class focus (one for all the layers, that of the first on), the pinned lines of the table and the lit stretch
+  useEffect(() => {
+    if (!ready) return
+    try {
+      const ls = catalog.layers.filter((l) => l.kind === 'lines' && active.has(l.id))
+      const lead = ls[0]
+      for (const l of ls) {
+        applyLines(ready, l, l.band, { classes: emphasised(focusOf(focuses, lead.id), lead.id), match: linePin, hot: lineHot })
+      }
+    } catch (e) {
+      console.warn('map lines:', e)
+    }
+  }, [ready, catalog, active, selectedId, focuses, lineHot, linePin, loading])
+
+  // the stop area whose card is open: its stops, walking paths and crossings on the map, the map flies to it
+  useEffect(() => {
+    if (!ready) return
+    if (!detailNode) { clearNodeDetail(ready); return }
+    showNodeDetail(ready, detailNode, ANCHOR_LABELS)
+    const b = detailBounds(detailNode)
+    if (b) ready.fitBounds([[b[0], b[1]], [b[2], b[3]]], { padding: { top: 60, left: 40, right: 40, bottom: 60 }, maxZoom: 17, duration: 700 })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [ready, detailNode])
+  useEffect(() => { if (ready) setHotPath(ready, hotPath) }, [ready, hotPath, detailNode])
 
   // fly to a stop area and open its popup when asked: {layer, props, coordinates, n}
   useEffect(() => {
     if (!ready || !nodeRequest) return
     const { layer, props, coordinates } = nodeRequest
+    let done = false
+    const open = () => {
+      if (done) return
+      done = true
+      showPopup.current?.({ layer, feature: { properties: props, geometry: { coordinates } } })
+    }
+    // the popup is placed against the map as it will be once the flight is over
+    ready.once('moveend', open)
+    const t = setTimeout(open, 1600)
     ready.flyTo({ center: coordinates, zoom: Math.max(ready.getZoom(), 14), duration: 900, essential: true })
-    showPopup.current?.({ layer, feature: { properties: props, geometry: { coordinates } } })
+    return () => { clearTimeout(t); ready.off('moveend', open) }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [ready, nodeRequest])
 
@@ -327,7 +421,7 @@ export default function MapView({
       <div ref={box} className="kit-map" />
       {mapError && <div className="map-error">Nie udało się uruchomić mapy: {mapError}</div>}
       <Legend
-        layers={shown} focuses={focuses} open={legendOpen} onOpen={onLegendOpen} shares={legendShares} loading={loading}
+        layers={shown} focuses={focuses} open={legendOpen} onOpen={onLegendOpen} shares={legendShares} loading={loading} extra={legendExtra}
         onHover={focus.onHover} onToggle={focus.onToggle} onClear={focus.onClear}
       />
     </div>

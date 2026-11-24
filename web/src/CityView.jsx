@@ -4,7 +4,10 @@ import { NO_DATA } from './metrics'
 import { centreRows, headlineRows, highlights, timeOfDay } from './metricTable'
 import { cityGroups, reachGroups, valueColumns } from './tableModel'
 import { titleCase } from './names'
+import { shareText } from './nodePopup'
+import NodeDetail from './features/nodes/NodeDetail'
 import ExportButtons from './export/ExportButtons'
+import SurveyContext from './features/context/SurveyContext'
 import { cityTable } from './export/shape'
 
 const dep = new Intl.NumberFormat('pl-PL', { maximumFractionDigits: 1 })
@@ -14,12 +17,15 @@ export const CITY_TABS = [
   { key: 'miary', label: 'Wszystkie miary' },
   { key: 'wykresy', label: 'Wykresy' },
   { key: 'przesiadki', label: 'Przesiadki' },
+  { key: 'predkosci', label: 'Prędkości' },
 ]
 
 /** What the page says about a selected agglomeration, as the content of one tab of its panel (the tabs are on the dock's header line). */
 export default function CityView({
   agglomeration, index, pool, transport, layers, area, tab = 'najwazniejsze', onShowLayer, nodes, onPickNode, chart = null,
-  timeChart = null, spread = null, onOpenMetric, hasPoints = true, layout = 'columns',
+  timeChart = null, spread = null, onOpenMetric, hasPoints = true, layout = 'columns', survey = null,
+  nodePick = null, detail = null, nodeHot = null, onNodeHot, onNodeClose, nodeOrder = 'dep', onNodeOrder, timetableDate,
+  speed = null, speedStatus = 'idle', onSpeedRetry,
 }) {
   const agg = agglomeration.id
   const areaName = DOMAIN_INFO[area]?.short || area
@@ -116,26 +122,61 @@ export default function CityView({
   if (tab === 'wykresy') {
     return <div className="city-charts">{spread || <Hint>Wykresy rozkładu pojawią się po przeliczeniu.</Hint>}</div>
   }
-  if (tab === 'przesiadki') {
+  if (tab === 'predkosci') {
     return (
-      <div className="city-stops">
-        {!hasPoints && <Hint>Ta warstwa pojawi się po przeliczeniu.</Hint>}
-        {hasPoints && !nodes && <Hint>Dla tej aglomeracji nie ma danych o zespołach przystanków albo wciąż się wczytują.</Hint>}
-        {nodes && (
-          <>
-            <h4>Najruchliwsze zespoły przystanków</h4>
-            <RankList
-              items={nodes.nodes.map((n) => ({
-                key: n.id, title: titleCase(n.name), sub: n.sub || NO_DATA, value: `${dep.format(n.dep)} odj./h`,
-                onPick: () => onPickNode(nodes.layer, n),
-              }))}
-            />
-            <Hint>Kliknij zespół, aby pokazać go na mapie i otworzyć jego składowe.</Hint>
-          </>
+      <div className="city-speed">
+        {speed}
+        {!speed && speedStatus === 'error' && (
+          <Hint>Nie udało się wczytać tabeli linii. <button type="button" className="more-link" onClick={onSpeedRetry}>Spróbuj ponownie</button></Hint>
+        )}
+        {!speed && speedStatus !== 'error' && <Hint>Wczytywanie tabeli linii…</Hint>}
+      </div>
+    )
+  }
+  if (tab === 'przesiadki') {
+    const sel = nodePick?.id
+    return (
+      <div className={`city-stops${sel && wide ? ' with-card' : ''}`}>
+        <div className="stops-list">
+          {!hasPoints && <Hint>Ta warstwa pojawi się po przeliczeniu.</Hint>}
+          {hasPoints && !nodes && <Hint>Dla tej aglomeracji nie ma danych o zespołach przystanków albo wciąż się wczytują.</Hint>}
+          {nodes && (
+            <>
+              <h4>Najruchliwsze zespoły przystanków</h4>
+              <div className="stops-order" role="group" aria-label="Kolejność listy">
+                <button type="button" aria-pressed={nodeOrder === 'dep'} onClick={() => onNodeOrder?.('dep')}>wg odjazdów</button>
+                <button type="button" aria-pressed={nodeOrder === 'use'} onClick={() => onNodeOrder?.('use')}>wg udziału przesiadek</button>
+              </div>
+              <RankList
+                items={nodes.nodes.map((n) => ({
+                  key: n.id, title: titleCase(n.name), sub: n.sub || NO_DATA, on: n.id === sel,
+                  value: nodeOrder === 'use' && n.use != null ? `${shareText(n.use)} podróży` : `${dep.format(n.dep)} odj./h`,
+                  onPick: () => onPickNode(nodes.layer, n),
+                }))}
+              />
+              <Hint>
+                Kliknij zespół, aby pokazać go na mapie{wide ? ' i zobaczyć jego składowe' : ''}. Udział przesiadek to część
+                podróży z próby tras, które zmieniają się w tym miejscu.
+              </Hint>
+            </>
+          )}
+        </div>
+        {sel && wide && (
+          <div className="node-card">
+            <header>
+              <b>{nodePick.name}</b>
+              <button type="button" className="node-card-close" aria-label="Zamknij kartę zespołu (wróć do listy)" onClick={onNodeClose}>×</button>
+            </header>
+            <NodeDetail node={detail?.node} status={detail?.status || 'idle'} name={nodePick.name} hot={nodeHot?.move} onHot={onNodeHot} timetableDate={timetableDate} />
+          </div>
         )}
       </div>
     )
   }
   // 'najwazniejsze'
-  return wide ? <div className="city-two">{best}{picture}</div> : <div className="city-stack">{best}{picture}</div>
+  // the survey is context, not a result of this project: it closes the tab
+  const context = survey ? <div className="city-survey"><SurveyContext data={survey} agg={agg} /></div> : null
+  return wide
+    ? <><div className="city-two">{best}{picture}</div>{context}</>
+    : <div className="city-stack">{best}{picture}{context}</div>
 }

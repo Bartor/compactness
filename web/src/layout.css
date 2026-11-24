@@ -147,3 +147,21 @@
 .app-root .exp-btn, .app-root .exp-label, .app-root .chx-switch, .app-root .chx-legend-item, .app-root .chx-legend-item *,
 .app-root .legend-block b, .app-root .kit-notes li, .app-root .kit-callout p, .app-root .kit-callout li { font-size: max(12px, .86rem) !important; }
 .app-root .exp-btn { min-height: 28px; }
+
+.city-survey { max-width: 52rem; margin-top: 1.4rem; padding-top: 1rem; border-top: 1px solid var(--kit-line); }
+
+.kit-map-legend.kitx-legend:has(.iso-card) { max-width: 380px; }
+.iso-why { margin: .2rem 0 .5rem; color: var(--kit-dim); font-size: .86rem; }
+.legend-extra .iso-card { max-width: none; border: 0; padding: 0; background: transparent; }
+
+/* the "Przesiadki" tab: the list on the left, the card of the picked stop area beside it */
+.city-stops.with-card { display: grid; grid-template-columns: minmax(16rem, 24rem) minmax(0, 1fr); gap: 1.4rem; max-width: none; align-items: start; }
+.stops-order { display: inline-flex; border: 1px solid var(--kit-line-strong); border-radius: 8px; overflow: hidden; margin-bottom: .6rem; }
+.stops-order button { background: none; border: 0; color: var(--kit-soft); font: inherit; font-size: .86rem; padding: .35rem .8rem; min-height: 32px; cursor: pointer; }
+.stops-order button + button { border-left: 1px solid var(--kit-line-strong); }
+.stops-order button[aria-pressed="true"] { background: var(--kit-accent-fill); color: #fff; }
+.node-card { border: 1px solid var(--kit-line-strong); border-radius: 10px; background: var(--kit-raised); padding: .6rem .8rem; min-width: 0; }
+.node-card > header { display: flex; align-items: center; justify-content: space-between; gap: .6rem; margin-bottom: .4rem; }
+.node-card > header b { font-size: 1.05rem; color: var(--kit-text); }
+.node-card-close { background: none; border: 1px solid var(--kit-line-strong); color: var(--kit-text); border-radius: 6px; min-width: 32px; min-height: 32px; font-size: 1.2rem; line-height: 1; cursor: pointer; }
+.node-card-close:hover { background: var(--kit-hover); }

@@ -9,12 +9,12 @@
 // is not drawn (no service is not "no data"; the legend says so).
 import { CLASS_COLORS, CLASS_BREAKS, DEFAULT_BAND, classOf, featureLineKeys, props } from './speedModel'
 
-export const MINZOOM = { tram: 10, rail: 10, bus: 12 }
+export const MINZOOM = { tram: 8, rail: 8, bus: 11 }      // trams and rail must show at the zoom a city is fitted to
 export const QUIET_TPH = 4
 export const QUIET_DELAY = 1.5
 export const WIDTH_STOPS = [4, 8, 15, 30]          // trips an hour where the width steps up
 export const WIDTHS = [1.2, 2, 3, 4.2, 5.5]        // px at zoom 13
-export const ZOOM_WIDTH = [[10, 0.6], [16, 1.8]]   // width factor at a zoom, linear in between
+export const ZOOM_WIDTH = [[8, 0.5], [16, 1.8]]   // width factor at a zoom, linear in between
 export const BASE_OPACITY = 0.95
 export const DIM_OPACITY = 0.12
 export const HOT_COLOR = '#FFFFFF'

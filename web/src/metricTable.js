@@ -325,15 +325,18 @@ export function nodeSub(p) {
 }
 
 /** The `n` nodes of an agglomeration with the most departures per hour (dep_h): [{id, name, dep, sub, coordinates, props}]. */
-export function topNodes(features, agg, n = 8) {
+export function topNodes(features, agg, n = 8, by = 'dep') {
+  const key = by === 'use' ? 'use' : 'dep_h'
   return (features || [])
-    .filter((f) => f?.properties?.agg === agg && isNum(f.properties.dep_h) && f.geometry?.type === 'Point')
-    .sort((a, b) => b.properties.dep_h - a.properties.dep_h)
+    .filter((f) => f?.properties?.agg === agg && isNum(f.properties[key]) && f.geometry?.type === 'Point' && (by !== 'use' || f.properties.use_ok))
+    .sort((a, b) => b.properties[key] - a.properties[key])
     .slice(0, n)
     .map((f) => ({
       id: f.properties.id ?? `${f.geometry.coordinates.join(',')}`,
       name: f.properties.name || 'Zespół przystanków',
       dep: f.properties.dep_h,
+      use: isNum(f.properties.use) ? f.properties.use : null,
+      detail: !!f.properties.detail,
       sub: nodeSub(f.properties),
       coordinates: f.geometry.coordinates,
       props: f.properties,

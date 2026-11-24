@@ -43,7 +43,7 @@ const catalog = {
     L('fua', 'boundary', { title: 'Granice' }), L('d', 'choropleth', { title: 'Gęstość', unit: 'os./km²', ramp: { stops: [1], colors: ['#a', '#b'] }, note: 'Nota.' }),
     L('m', 'mask', { title: 'Brak danych' }),
     L('p', 'points', { title: 'Węzły: dojście', ramp: { stops: [1], colors: ['#a', '#b'] } }), L('q', 'points', { title: 'Węzły: czekanie', ramp: { stops: [1], colors: ['#a', '#b'] } }),
-    L('weird', 'lines', { title: 'Nieznana' }),
+    L('weird', 'heatmap', { title: 'Nieznana' }),
   ],
 }
 const row = (agglomeration, metric, domain, value, extra = {}) => ({ agglomeration, metric, domain, value, unit: '%', label: `L ${metric}`, tier: 'main', ...extra })

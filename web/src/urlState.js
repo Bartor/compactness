@@ -12,6 +12,7 @@
 //     comparison view. sd= of older addresses is ignored.
 // d=  the bottom panel on desktop: folded, half or full; absent (and after a drag to a custom height): half.
 // m=  the metric whose page is open.
+// iso=<originId> (and isc=evening)  the origin picked in "Dokąd dojadę stąd" and the time of day it shows.
 // @lat,lon,zoom  the map position, written only after the map was moved by hand.
 
 import { activeIds, initialState, stateFromIds, variantsToWrite } from './layerControl'
@@ -66,6 +67,8 @@ export function readHash(hash = typeof window !== 'undefined' ? window.location.
     tab: q.get('t') || undefined,
     pinned: (q.get('p') || '').split(LIST).filter(Boolean),
     mapView: at ? parseView(at.slice(1)) : undefined,
+    iso: q.get('iso') || undefined,
+    isoScenario: q.get('isc') === 'evening' ? 'evening' : undefined,
   }
 }
 
@@ -73,7 +76,7 @@ const sameSet = (a, b) => a.length === b.length && a.every((x) => b.includes(x))
 
 /** The hash (with '#', or '' when plain) for a state, given the defaults. `variants` is {layerId: key}. */
 export function hashOf({
-  agg, layers, variants = {}, sort, dock, metric, area, tab, pinned = [], mapView,
+  agg, layers, variants = {}, sort, dock, metric, area, tab, pinned = [], mapView, iso, isoScenario,
 }, defaults) {
   const q = new URLSearchParams()
   if (agg) q.set('a', agg)
@@ -87,6 +90,10 @@ export function hashOf({
   if (area && area !== 'core' && AREA_KEYS.includes(area)) q.set('ar', area)
   if (tab) q.set('t', tab)
   if (pinned.length) q.set('p', pinned.join(LIST))
+  if (iso) {
+    q.set('iso', iso)
+    if (isoScenario === 'evening') q.set('isc', 'evening')
+  }
   // ',' and ':' are fine in a fragment; left unescaped the link stays readable
   let s = q.toString().replace(/%2C/g, ',').replace(/%3A/g, ':')
   if (mapView) s += `${s ? '&' : ''}@${viewText(mapView)}`
@@ -122,5 +129,7 @@ export function resolveHash(parsed, { agglomerations, layers }) {
     tab: parsed.tab ?? null,
     pinned: (parsed.pinned || []).filter((id) => agglomerations.some((a) => a.id === id)),
     mapView: parsed.mapView ?? null,
+    iso: parsed.iso ?? null,
+    isoScenario: parsed.isoScenario ?? null,
   }
 }

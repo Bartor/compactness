@@ -19,6 +19,19 @@ const files = (dir) => (existsSync(dir)
   ? readdirSync(dir).filter((f) => statSync(join(dir, f)).isFile())
   : [])
 
+// subfolders of results/web that are copied as they are (recursively); the site reads them lazily, per city
+const FOLDERS = ['speed', 'transfer_detail', 'isochrones']
+const copyTree = (from, to) => {
+  if (!existsSync(from)) return 0
+  let n = 0
+  for (const name of readdirSync(from)) {
+    const p = join(from, name)
+    if (statSync(p).isDirectory()) n += copyTree(p, join(to, name))
+    else { copy(p, join(to, name)); n += 1 }
+  }
+  return n
+}
+
 const copy = (from, to) => {
   mkdirSync(dirname(to), { recursive: true })
   copyFileSync(from, to)
@@ -37,6 +50,10 @@ if (real) {
   for (const f of files(webDir)) copy(join(webDir, f), join(dataOut, f))
   if (!existsSync(join(dataOut, 'metrics.json'))) {
     console.warn('sync-data: results/web/metrics.json is missing (run pipeline.merge_metrics), the site will show no metrics')
+  }
+  for (const dir of FOLDERS) {
+    const n = copyTree(join(webDir, dir), join(dataOut, dir))
+    if (n) console.log(`sync-data: ${dir}/ (${n} files)`)
   }
   // density classes per city (results/charts/form.json), for the metric pages; optional
   const form = join(repo, 'results', 'charts', 'form.json')

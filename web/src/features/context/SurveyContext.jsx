@@ -28,12 +28,21 @@ function Bar({ label, segments, rest }) {
  */
 export default function SurveyContext({ data, agg }) {
   const v = surveyView(data, agg)
-  if (!v) return null
+  if (!data) return null
+  // a city the file does not know (no survey for it): say so, do not leave a gap
+  if (!v) {
+    return (
+      <section className="sc" aria-label="Jak mieszkańcy podróżują: badanie ruchu">
+        <h3 className="sc-title">Jak mieszkańcy podróżują: badanie ruchu</h3>
+        <p className="sc-none"><strong>brak badania</strong></p>
+      </section>
+    )
+  }
   const shown = new Set(v.bars.flatMap((b) => b.segments.map((s) => s.mode)))
   const hasRest = v.bars.some((b) => b.rest)
   return (
-    <section className="sc" aria-label="Jak podróżują mieszkańcy: badania ruchu">
-      <h3 className="sc-title">Jak podróżują mieszkańcy</h3>
+    <section className="sc" aria-label="Jak mieszkańcy podróżują: badanie ruchu">
+      <h3 className="sc-title">Jak mieszkańcy podróżują: badanie ruchu</h3>
       {v.status === 'none' || v.status === 'in_progress' ? (
         <p className="sc-none"><strong>{v.statusLabel === 'badanie w toku' ? 'brak badania (badanie w toku)' : 'brak badania'}</strong></p>
       ) : (

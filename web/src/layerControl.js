@@ -18,6 +18,9 @@ export const OVERLAY_KINDS = {
   // the hatch of "brak danych o rozkładach" is drawn by every layer that can have such cells (it comes in their tiles), so
   // it is not a switch of its own: the catalog's mask layer is left out of the controls (old addresses naming it are ignored)
   points: { label: 'Węzły przesiadkowe', order: 2 },
+  // timetable speeds: three independent switches (one per catalog layer) and one shared band; `multi` kinds keep the
+  // layers that are on in `ids`
+  lines: { label: 'Prędkość z rozkładu', order: 3, multi: true },
 }
 
 export const VALUE_KIND = 'choropleth'
@@ -47,7 +50,9 @@ export function variantOf(state, layer) {
 
 function emptyOverlays(layers, on) {
   const out = {}
-  for (const g of overlayGroups(layers)) out[g.kind] = { on: on && !!OVERLAY_KINDS[g.kind].defaultOn, layer: g.layers[0].id }
+  for (const g of overlayGroups(layers)) {
+    out[g.kind] = { on: on && !!OVERLAY_KINDS[g.kind].defaultOn, layer: g.layers[0].id, ...(OVERLAY_KINDS[g.kind].multi ? { ids: [] } : {}) }
+  }
   return out
 }
 
@@ -60,7 +65,9 @@ export function activeIds(state, layers) {
   if (state.value && valueLayers(layers).some((l) => l.id === state.value)) ids.add(state.value)
   for (const g of overlayGroups(layers)) {
     const o = state.overlays[g.kind]
-    if (o?.on && g.layers.some((l) => l.id === o.layer)) ids.add(o.layer)
+    if (OVERLAY_KINDS[g.kind].multi) {
+      for (const id of o?.ids || []) if (g.layers.some((l) => l.id === id)) ids.add(id)
+    } else if (o?.on && g.layers.some((l) => l.id === o.layer)) ids.add(o.layer)
   }
   return ids
 }
@@ -74,8 +81,32 @@ export function setValue(state, id, layers) {
 /** Switches an overlay group on or off. */
 export function setOverlayOn(state, kind, on) {
   const o = state.overlays[kind]
-  if (!o || o.on === on) return state
+  if (!o || o.on === on || OVERLAY_KINDS[kind]?.multi) return state
   return { ...state, overlays: { ...state.overlays, [kind]: { ...o, on } } }
+}
+
+/** A switch of one layer in a `multi` group (the layers of such a group are independent); the group is on while any is. */
+export function setLayerOn(state, kind, id, on, layers) {
+  const g = overlayGroups(layers).find((x) => x.kind === kind)
+  const o = state.overlays[kind]
+  if (!g || !o || !OVERLAY_KINDS[kind].multi || !g.layers.some((l) => l.id === id)) return state
+  const cur = o.ids || []
+  if (cur.includes(id) === on) return state
+  const ids = on ? [...cur, id] : cur.filter((x) => x !== id)
+  return { ...state, overlays: { ...state.overlays, [kind]: { ...o, ids, on: ids.length > 0, layer: ids[0] || o.layer } } }
+}
+
+/** The one band (a variant key) all layers of a `multi` group share: that of the group's first layer. */
+export function sharedVariant(state, kind, layers) {
+  const g = overlayGroups(layers).find((x) => x.kind === kind)
+  return g ? variantOf(state, g.layers[0]) : null
+}
+
+/** Chooses a variant for every layer of a group that offers it (the shared band of the speed overlay). */
+export function setGroupVariant(state, kind, key, layers) {
+  const g = overlayGroups(layers).find((x) => x.kind === kind)
+  if (!g) return state
+  return g.layers.reduce((st, l) => setVariant(st, l, key), state)
 }
 
 /** Chooses which layer of a group is drawn when the group is on. */
@@ -98,6 +129,7 @@ export function revealLayer(state, layers, id) {
   if (!l) return state
   if (l.kind === VALUE_KIND) return setValue(state, id, layers)
   if (!OVERLAY_KINDS[l.kind]) return state
+  if (OVERLAY_KINDS[l.kind].multi) return setLayerOn(state, l.kind, id, true, layers)
   return setOverlayOn(chooseOverlay(state, l.kind, id, layers), l.kind, true)
 }
 
@@ -115,6 +147,8 @@ export function stateFromIds(ids, layers, variants = {}) {
     if (!l) continue
     if (l.kind === VALUE_KIND) {
       if (!valueSet) { state = setValue(state, id, layers); valueSet = true }
+    } else if (OVERLAY_KINDS[l.kind]?.multi) {
+      state = setLayerOn(state, l.kind, id, true, layers)
     } else if (OVERLAY_KINDS[l.kind] && !state.overlays[l.kind]?.on) {
       state = setOverlayOn(chooseOverlay(state, l.kind, id, layers), l.kind, true)
     }

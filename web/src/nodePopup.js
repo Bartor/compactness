@@ -27,6 +27,9 @@ export function transferSumText(walk, wait) {
   return `dojście ${nf(a, 1)} min + czekanie ${nf(b, 1)} min = ${nf(z, 1)} min`
 }
 
+/** A share with one decimal below 10 %: "0,1 %", "6,3 %", "24 %". */
+export const shareText = (v) => (isNum(v) ? `${nf(v * 100, v < 0.1 ? 1 : 0)} %` : NO_DATA)
+
 export const SUM_LABEL = 'Typowa przesiadka 7–9 (średnia ważona liczbą kursów)'
 
 /**
@@ -82,7 +85,34 @@ export function nodePopupModel(p, timetableDate) {
       ],
     },
   ]
+  // newer data: connection wait, the generalised-time band, crossing safety, frequent pairs (blocks without data are left out)
+  const has = (...keys) => keys.some((k) => isNum(p[k]))
+  if (has('conn_w', 'conn_med', 'conn_p90')) {
+    sections.splice(1, 0, {
+      title: 'Czekanie po przyjeździe linii dowożącej (7–9)',
+      rows: [
+        ['Średnio, gdy przesiadasz się zaraz po wysiadce', num(p.conn_w, 'min')],
+        ['Mediana', num(p.conn_med, 'min')],
+        ['Co dziesiąta przesiadka czeka dłużej niż', num(p.conn_p90, 'min')],
+      ],
+    })
+  }
+  if (has('gtt_lo', 'gtt_hi')) {
+    sections.splice(2, 0, {
+      title: 'Uogólniony czas przesiadki (wagi z literatury, nie ranking)',
+      rows: [['Pasmo, w minutach równoważnych jeździe', isNum(p.gtt_lo) && isNum(p.gtt_hi) ? `${nf(p.gtt_lo, 1)}–${nf(p.gtt_hi, 1)} min` : NO_DATA]],
+    })
+  }
+  if (has('w6_hi', 'w6_lo')) {
+    const obst = sections.find((s) => s.title === 'Przeszkody')
+    obst.rows.push(['Bezpieczeństwo przejść (skala W6 z literatury)', isNum(p.w6_hi) && isNum(p.w6_lo) ? `${pct(p.w6_lo)}–${pct(p.w6_hi)}` : 'brak przejść z oceną'])
+  }
+  if (has('f10', 'f15')) {
+    const sig = sections.find((s) => s.title === 'Znaczenie')
+    sig.rows.push(['Przesiadki między liniami co najwyżej co 10 min', pct(p.f10)], ['… co najwyżej co 15 min', pct(p.f15)])
+  }
   const notes = []
+  if (p.use_ok && isNum(p.use)) notes.push(`Przesiada się tu ok. ${shareText(p.use)} podróży z próby tras (${nf(p.use_n, 0)} podróży).`)
   if (p.nodata) notes.push('Zespół leży poza pokryciem rozkładów GTFS: składowych nie policzono.')
   if (p.flag) notes.push(p.flag)
   const date = timetableDate ? `Rozkład ${timetableDate}, ` : ''

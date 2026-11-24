@@ -5,6 +5,7 @@ import { ANCHOR_LABELS } from './mapStyle'
 import { absoluteUrl } from './config'
 import { hasValue, rampExpression } from './ramp'
 import { pointSpecs } from './pointLayers'
+import { lineSpecs } from './features/speed/lineLayers'
 
 // City outlines on a dark basemap: light blue, the selected city white, the hovered one in between.
 export const OUTLINE = '#9DB8E8'
@@ -12,7 +13,7 @@ export const OUTLINE_HOT = '#CFE0FF'
 export const OUTLINE_SELECTED = '#FFFFFF'
 
 // Bottom to top: values first, hatched gaps over them, stop areas, outlines last.
-export const KIND_ORDER = { choropleth: 0, mask: 1, points: 2, boundary: 3 }
+export const KIND_ORDER = { choropleth: 0, mask: 1, lines: 1.5, points: 2, boundary: 3 }
 
 export const sourceId = (layer) => `src-${layer.id}`
 export const fillId = (layer) => `${layer.id}:fill`
@@ -54,6 +55,8 @@ export function layerSpecs(layer, selectedId = null, hot = null) {
     })
   } else if (layer.kind === 'points') {
     specs.push(...pointSpecs(layer))
+  } else if (layer.kind === 'lines') {
+    specs.push(...lineSpecs(layer, layer.band || undefined))
   } else if (layer.kind === 'mask') {
     specs.push({ id: fillId(layer), type: 'fill', ...sl, paint: { 'fill-pattern': 'hatch', 'fill-opacity': 0.9 } })
   } else if (layer.kind === 'boundary') {
@@ -98,6 +101,9 @@ export const hotFilter = (hot) => (hot ? ['==', ['get', 'id'], hot] : ZERO)
  * drawn as a dark veil above the value layers, the hatch and the stop areas and below the outlines, so those are
  * dimmed outside the city and the outlines (and so clicks on other cities) are not.
  */
+// the url each GeoJSON source of a map was given (a layer whose file depends on the city gets new data when it changes)
+const loadedUrl = new WeakMap()
+
 export function syncOverlays(map, layers, active, selectedId, hot = null, outside = null) {
   const wanted = layers
     .filter((l) => l.status === 'ready' && active.has(l.id) && l.url && layerSpecs(l).length)
@@ -110,7 +116,11 @@ export function syncOverlays(map, layers, active, selectedId, hot = null, outsid
     if (map.getSource(sourceId(l))) map.removeSource(sourceId(l))
   }
   for (const l of wanted) {
+    const urls = loadedUrl.get(map) || {}
     if (!map.getSource(sourceId(l))) map.addSource(sourceId(l), sourceSpec(l))
+    else if (l.type === 'geojson' && urls[l.id] && urls[l.id] !== l.url) map.getSource(sourceId(l)).setData(absoluteUrl(l.url))
+    urls[l.id] = l.url
+    loadedUrl.set(map, urls)
     for (const s of layerSpecs(l, selectedId, hot)) {
       if (!map.getLayer(s.id)) map.addLayer({ ...s, source: sourceId(l) }, ANCHOR_LABELS)
     }

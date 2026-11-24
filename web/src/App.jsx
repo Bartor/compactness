@@ -1,5 +1,15 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { AppMessage, AppShell, ErrorBoundary, Modal } from '@bartor-net/ui-kit'
+import { createDetailLoader } from './features/nodes/detailData'
+import { useNodeDetail } from './features/nodes/useNodeDetail'
+import useIsochroneMode from './features/isochrones/useIsochroneMode'
+import IsochroneCard from './features/isochrones/IsochroneCard'
+import { loadSurveyContext } from './features/context/surveyModel'
+import SpeedTable from './features/speed/SpeedTable'
+import { loadSpeedLines, resolvedLayer } from './features/speed/loader'
+import { idsFilter, linesFilter } from './features/speed/lineLayers'
+import { normaliseFilters, setFilter as setSpeedFilter, togglePin as togglePinnedLine } from './features/speed/lineTable'
+import { bandOf } from './features/speed/speedModel'
 import { loadAttributions, loadCatalog, loadClassShares, loadForm, loadMetrics } from './data'
 import { DATA_BASE_URL, resolveUrl } from './config'
 import { loadCharts } from './features/charts'
@@ -11,7 +21,7 @@ import { allCities, indexMetrics, metricName, transportCities } from './metricTa
 import { CityCharts, ComparisonCharts } from './ChartsPanel'
 import { togglePin } from './chartLink'
 import {
-  activeIds, chooseOverlay, revealLayer, setOverlayOn, setValue, setVariant,
+  activeIds, chooseOverlay, revealLayer, setGroupVariant, setLayerOn, setOverlayOn, setValue, setVariant, sharedVariant,
 } from './layerControl'
 import { readHash, hashOfView, resolveHash } from './urlState'
 import { scopeData, shareAreaOf } from './classShares'
@@ -115,6 +125,11 @@ function Loaded({ catalog, metrics, attributions }) {
   useEffect(() => { loadClassShares().then(setShareDoc) }, [])
   const [charts, setCharts] = useState(null)             // distribution charts (charts.json); null: no chart section
   useEffect(() => { loadCharts({ base: DATA_BASE_URL }).then(setCharts) }, [])
+  // "Dokąd dojadę stąd": the switch, the picked origin (nearest precomputed) and the time of day shown
+  const [isoOn, setIsoOn] = useState(!!start.iso)
+  const pendingIso = useRef(start.iso)
+  const [survey, setSurvey] = useState(null)             // household travel surveys (survey_context.json); null: no block
+  useEffect(() => { loadSurveyContext().then(setSurvey) }, [])
   const [form, setForm] = useState(null)               // residents by density class per city (form.json), for metric pages
   useEffect(() => { loadForm().then(setForm) }, [])
   // the page of one metric: {id} or null; opened from a table row, linked by m= in the address
@@ -125,6 +140,16 @@ function Loaded({ catalog, metrics, attributions }) {
   const ran = useRef(false)          // the address effect has run once (a page open at load is not "opening")
 
   const index = useMemo(() => indexMetrics(metrics.metrics), [metrics])
+  const isoActive = isoOn && !!selectedId
+  const iso = useIsochroneMode(selectedId, isoActive)
+  useEffect(() => { if (!selectedId && isoOn) setIsoOn(false) }, [selectedId, isoOn])
+  useEffect(() => {
+    if (iso.status === 'ready' && pendingIso.current) {
+      iso.pickById(pendingIso.current)
+      if (start.isoScenario) iso.setScenario(start.isoScenario)
+      pendingIso.current = null
+    }
+  }, [iso.status])   // eslint-disable-line react-hooks/exhaustive-deps
   const exportMeta = useMemo(() => metaFromRows(metrics.metrics), [metrics])   // provenance written into every export
   const known = useMemo(() => catalog.agglomerations.map((a) => a.id), [catalog])
   const names = useMemo(() => Object.fromEntries(catalog.agglomerations.map((a) => [a.id, a.name])), [catalog])
@@ -210,6 +235,14 @@ function Loaded({ catalog, metrics, attributions }) {
   const onValue = useCallback((id) => { setView((v) => setValue(v, id, layers)); if (phone) setSheetOpen(false) }, [layers, phone])
   const onOverlayOn = useCallback((kind, on) => setView((v) => setOverlayOn(v, kind, on)), [])
   const onOverlayLayer = useCallback((kind, id) => setView((v) => chooseOverlay(v, kind, id, layers)), [layers])
+  const onLayerOn = useCallback((kind, id, on) => setView((v) => setLayerOn(v, kind, id, on, layers)), [layers])
+  // the scheduled-speed overlay: one band for all its layers; a new day type keeps the same time of day where it can
+  const speedBand = sharedVariant(view, 'lines', layers)
+  const onBand = useCallback((day, key) => setView((v) => {
+    const cur = sharedVariant(v, 'lines', layers)
+    const next = key || setSpeedFilter({ day: bandOf(cur).day, band: cur }, 'day', day).band
+    return setGroupVariant(v, 'lines', next, layers)
+  }), [layers])
   const onVariant = useCallback((layer, key) => setView((v) => setVariant(v, layer, key)), [])
   // "pokaż na mapie" in a table: show that layer, whichever kind it is; a value layer's card flashes in the sidebar
   const reveal = useCallback((id) => {
@@ -224,11 +257,66 @@ function Loaded({ catalog, metrics, attributions }) {
   // the busiest stop areas of the selected city: from the points layer chosen for the nodes overlay
   const pointsGroup = view.overlays.points
   const pointsLayer = pointsGroup ? layers.find((l) => l.id === pointsGroup.layer && l.status === 'ready') : null
-  const nodes = useCityNodes(pointsLayer, selectedId)
+  const [nodeOrder, setNodeOrder] = useState('dep')   // the list of stop areas: by departures or by share of transfers
+  const nodes = useCityNodes(pointsLayer, selectedId, 8, nodeOrder)
+  // the card of one stop area (a record in transfer_detail/<agg>.json): desktop only; elsewhere the popup stays
+  const detailLoader = useMemo(() => createDetailLoader(), [])
+  const [nodePick, setNodePick] = useState(null)         // {id, name, agg} or null
+  const [nodeHot, setNodeHot] = useState({ move: null, path: null })
+  const pickedNode = nodePick && nodePick.agg === selectedId ? nodePick : null   // changing city closes the card
+  const detail = useNodeDetail(detailLoader, pickedNode?.id)
+  useEffect(() => { if (selectedId) detailLoader.prefetch(selectedId) }, [selectedId, detailLoader])
+  const closeNode = useCallback(() => { setNodePick(null); setNodeHot({ move: null, path: null }) }, [])
+  const openNode = useCallback((props) => {
+    setNodePick({ id: props.id, name: props.name, agg: props.agg })
+    setNodeHot({ move: null, path: null })
+    setCityTab('przesiadki')
+    setDock((d) => (d === 'folded' ? 'half' : d))
+    setMetricPage(null)
+    if (props.agg && props.agg !== selectedId) pick(props.agg)
+  }, [selectedId, pick])
   const showNode = useCallback((layer, n) => {
     setView((v) => revealLayer(v, layers, layer.id))
+    if (n.props?.detail && !phone) { openNode(n.props); return }
     setNodeRequest((r) => ({ layer, props: n.props, coordinates: n.coordinates, n: (r?.n || 0) + 1 }))
-  }, [layers])
+  }, [layers, phone, openNode])
+  useEffect(() => { if (nodePick && !view.overlays.points?.on) closeNode() }, [view, nodePick, closeNode])
+
+  // ---- scheduled speeds: the layers drawn by the map (the bus file depends on the city, every layer carries the shared band),
+  // the lines table of the "Prędkości" tab, and the lit / pinned lines it shares with the map
+  const mapCatalog = useMemo(() => ({
+    ...catalog,
+    layers: catalog.layers.map((l) => {
+      if (l.kind !== 'lines') return l
+      const r = l.url_template ? (resolvedLayer(l, selectedId) || { ...l, url: null }) : l
+      return { ...r, band: speedBand }
+    }),
+  }), [catalog, selectedId, speedBand])
+  const hasSpeed = layers.some((l) => l.kind === 'lines' && l.status === 'ready')
+  const [speedMode, setSpeedMode] = useState('tram')
+  const [speedData, setSpeedData] = useState({ status: 'idle', data: null })
+  const [lineTableHot, setLineTableHot] = useState(null)   // row keys lit from the table
+  const [lineMapHover, setLineMapHover] = useState(null)   // {id, keys} of the stretch under the pointer
+  const [linePinned, setLinePinned] = useState([])         // row keys pinned in the table
+  const onLineHover = useCallback((h) => setLineMapHover((cur) => (cur?.id === h?.id ? cur : h)), [])
+  useEffect(() => { setLinePinned([]); setLineTableHot(null) }, [selectedId])
+  const lineHotFilter = lineMapHover ? idsFilter([lineMapHover.id]) : lineTableHot?.length ? linesFilter(lineTableHot) : null
+  const linePinFilter = useMemo(() => (linePinned.length ? linesFilter(linePinned) : null), [linePinned])
+  const loadSpeed = useCallback(() => {
+    setSpeedData((d) => (d.status === 'idle' || d.status === 'error' ? { status: 'loading', data: null } : d))
+    loadSpeedLines(resolveUrl).then((data) => setSpeedData({ status: 'ready', data }), () => setSpeedData({ status: 'error', data: null }))
+  }, [])
+  const speedFilters = normaliseFilters({ city: selectedId, mode: speedMode, day: bandOf(speedBand).day, band: speedBand })
+  // a mode chosen in the table is shown on the map too
+  const showSpeedMode = useCallback((mode) => {
+    for (const l of layers) {
+      if (l.kind === 'lines' && l.status === 'ready' && l.mode_group === mode && (!l.needs_city || selectedId)) setView((v) => revealLayer(v, layers, l.id))
+    }
+  }, [layers, selectedId])
+  const onSpeedFilters = useCallback((f) => {
+    if (f.mode !== speedMode) { setSpeedMode(f.mode); if (f.mode !== 'all') showSpeedMode(f.mode) }
+    if (f.band !== speedBand) setView((v) => setGroupVariant(v, 'lines', f.band, layers))
+  }, [speedMode, speedBand, layers, showSpeedMode])
 
   // ---- the page of one metric
   const page = metricPage && index[metricPage.id] && pageAreas(index, metricPage.id).length ? { id: metricPage.id } : null
@@ -277,6 +365,7 @@ function Loaded({ catalog, metrics, attributions }) {
   useEffect(() => {
     const h = hashOfView(selectedId, view, layers, {
       sort: comparisonView ? sort : undefined, dock, metric: page?.id, area, tab, pinned: pinnedCities, mapView,
+      iso: isoActive ? iso.origin?.id : undefined, isoScenario: iso.scenario,
     })
     const opening = !!page && !wasPage.current
     wasPage.current = !!page
@@ -285,7 +374,7 @@ function Loaded({ catalog, metrics, attributions }) {
       if (opening && ran.current) { window.history.pushState(null, '', url); pushed.current = true } else window.history.replaceState(null, '', url)
     }
     ran.current = true
-  }, [selectedId, view, layers, sort, comparisonView, dock, page?.id, area, tab, pinnedCities, mapView])   // eslint-disable-line react-hooks/exhaustive-deps
+  }, [selectedId, view, layers, sort, comparisonView, dock, page?.id, area, tab, pinnedCities, mapView, isoActive, iso.origin?.id, iso.scenario])   // eslint-disable-line react-hooks/exhaustive-deps
 
   // ---- what the legend and the charts know about the residents of the scope (the selected city, else all cities)
   const legendShares = useMemo(() => ({
@@ -317,13 +406,30 @@ function Loaded({ catalog, metrics, attributions }) {
     />
   )
   const hasTimetable = selected ? cities.includes(selected.id) : false
-  const cityTabs = CITY_TABS.filter((t) => (t.key !== 'przesiadki' || hasPoints) && (t.key !== 'wykresy' || (charts && hasTimetable)))
+  const cityTabs = CITY_TABS.filter((t) => (t.key !== 'przesiadki' || hasPoints) && (t.key !== 'predkosci' || (hasSpeed && !phone && hasTimetable)) && (t.key !== 'wykresy' || (charts && hasTimetable)))
   const activeCityTab = cityTabs.some((t) => t.key === cityTab) ? cityTab : 'najwazniejsze'
+  // the lines table is loaded when its tab first opens, and the lines of its mode appear on the map
+  useEffect(() => {
+    if (activeCityTab !== 'predkosci') return
+    if (speedData.status === 'idle') loadSpeed()
+    if (!layers.some((l) => l.kind === 'lines' && active.has(l.id))) showSpeedMode(speedMode === 'all' ? 'tram' : speedMode)
+  }, [activeCityTab])   // eslint-disable-line react-hooks/exhaustive-deps
+  const speedTable = speedData.status === 'ready'
+    ? (
+      <SpeedTable
+        data={speedData.data} filters={speedFilters} onFilters={onSpeedFilters}
+        hot={lineMapHover?.keys || lineTableHot} onHot={setLineTableHot}
+        pinned={linePinned} onPin={(k) => setLinePinned((p) => togglePinnedLine(p, k))}
+      />
+    )
+    : null
   const cityProps = selected && {
     agglomeration: selected, index, pool: everyCity, transport: cities, layers, area, onShowLayer: showLayer, nodes, onPickNode: showNode,
     chart: cityChart, timeChart: hasTimetable ? cityCharts(['timeofday']) : null,
     spread: hasTimetable ? cityCharts(['atleast', 'reach', 'dotstrip']) : null,
-    onOpenMetric: openMetric, hasPoints, tab: activeCityTab,
+    onOpenMetric: openMetric, hasPoints, tab: activeCityTab, survey, speed: speedTable, speedStatus: speedData.status, onSpeedRetry: loadSpeed,
+    nodePick: pickedNode, detail, nodeHot, onNodeHot: (move, path) => setNodeHot({ move, path }), onNodeClose: closeNode,
+    nodeOrder, onNodeOrder: setNodeOrder, timetableDate: pointsLayer?.timetable_date,
   }
   const citySubtitle = selected ? (hasTimetable ? 'z danymi o transporcie' : 'tylko gęstość i forma (bez rozkładów jazdy)') : ''
   const densityColors = layers.find((l) => l.id === 'density_250m')?.ramp?.colors
@@ -339,12 +445,19 @@ function Loaded({ catalog, metrics, attributions }) {
 
   const map = (
     <MapView
-      catalog={catalog} active={active} selectedId={selectedId} onSelect={clickOnMap}
+      catalog={mapCatalog} active={active} selectedId={selectedId} onSelect={clickOnMap}
+      lineHot={lineHotFilter} linePin={linePinFilter} onLineHover={onLineHover}
       hot={hot} onHot={setHot} fit={fit} focus={focus} nodeRequest={nodeRequest} outside={outside}
+      onNode={phone ? undefined : openNode} detailNode={pickedNode && detail.status === 'ready' ? detail.node : null} hotPath={nodeHot.path}
       fitPad={dock === 'full' && !phone
         ? { top: 12, left: 12, right: 12, bottom: 12 }
         : { top: 40, left: legendOpen && !phone ? LEGEND_LEFT_PAD : 40, right: 40, bottom: phone ? (selected && citySheet ? Math.round(window.innerHeight * 0.7) : SHEET_PEEK) : 40 }}
       legendOpen={legendOpen} onLegendOpen={setLegendOpen} legendShares={legendShares}
+      isoOn={isoActive} isoLayers={isoActive ? iso.layers : null}
+      onIsoPick={(p) => { iso.pick(p); setLegendOpen(true) }}
+      legendExtra={isoActive
+        ? <IsochroneCard file={iso.file} status={iso.status} origin={iso.origin} distanceM={iso.distanceM} scenario={iso.scenario} onScenario={iso.setScenario} onClose={() => setIsoOn(false)} />
+        : null}
       cityAt={cityAt} onMoved={setMapView} initialView={start.mapView}
     />
   )
@@ -353,8 +466,10 @@ function Loaded({ catalog, metrics, attributions }) {
     <Sidebar
       catalog={catalog} view={view} onValue={onValue} onOverlayOn={onOverlayOn}
       onOverlayLayer={onOverlayLayer} onVariant={onVariant} flash={flash}
+      agg={selectedId} onLayerOn={onLayerOn} onBand={onBand}
       sheetOpen={sheetOpen} setSheetOpen={setSheetOpen} onAbout={() => setAbout({ limits: false })}
       selectedName={selected?.name} collapsed={full && lowWindow}
+      iso={{ on: isoOn, enabled: !!selectedId, onChange: setIsoOn }}
     />
   )
 

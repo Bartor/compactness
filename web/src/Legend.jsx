@@ -6,6 +6,7 @@ import { shareFractions, shareText } from './classShares'
 import { KIND_ORDER } from './mapLayers'
 import { ScopeLine } from './ClassChart'
 import MapLegendBox from './kitx/MapLegendBox'
+import SpeedLegend from './features/speed/SpeedLegend'
 
 /**
  * The legend in the corner of the map (desktop and phone): the active value layer with its classes (hover and pin drive
@@ -14,20 +15,25 @@ import MapLegendBox from './kitx/MapLegendBox'
  * page. `shares` is {scopeOf(layerId) -> scope | null (classShares.scopeData), aggName, area, noDataFor(layerId)}: with it
  * every class of a value layer shows the share of residents of the scope, and a line says whose numbers those are, in the
  * area chosen in the header. `noDataFor(layerId)` says that the selected city has nothing for the layer; `loading` that
- * the tiles of the value layer are still coming.
+ * the tiles of the value layer are still coming. `extra` is one more section above the layers (the isochrone card).
  */
-export default function Legend({ layers, focuses, onHover, onToggle, onClear, open, onOpen, shares, loading = false }) {
+export default function Legend({ layers, focuses, onHover, onToggle, onClear, open, onOpen, shares, loading = false, extra = null }) {
   const scroll = useRef(null)
   const key = layers.map((l) => l.id).sort().join('|')
   useEffect(() => { if (scroll.current) scroll.current.scrollTop = 0 }, [key, open])
-  if (!layers.length) return null
-  const ordered = [...layers].sort((a, b) => (KIND_ORDER[a.kind] ?? 9) - (KIND_ORDER[b.kind] ?? 9))
+  if (!layers.length && !extra) return null
+  // the speed layers (tram, bus, rail) share one key and one class focus: the first of them stands for all
+  const lead = layers.find((l) => l.kind === 'lines')
+  const ordered = layers.filter((l) => l.kind !== 'lines' || l === lead)
+    .map((l) => (l === lead ? { ...l, title: 'Prędkość z rozkładu' } : l))
+    .sort((a, b) => (KIND_ORDER[a.kind] ?? 9) - (KIND_ORDER[b.kind] ?? 9))
   return (
     <MapLegendBox open={open} onToggle={onOpen} scrollRef={scroll}>
+      {extra && <div className="legend-block legend-extra">{extra}</div>}
       {ordered.map((l) => (
         <LegendSection
           key={l.id} layer={l} focuses={focuses} onHover={onHover} onToggle={onToggle} onClear={onClear} shares={shares}
-          loading={loading && l.kind === 'choropleth'} startOpen={l.kind === 'choropleth' || l.kind === 'boundary'}
+          loading={loading && l.kind === 'choropleth'} startOpen={l.kind === 'choropleth' || l.kind === 'boundary' || l.kind === 'lines'}
         />
       ))}
     </MapLegendBox>
@@ -79,6 +85,9 @@ export function LegendBody({ layer, focus, onHover, onToggle, onClear, shares, n
   const noDataText = noDataShare == null ? '' : shareText([noDataShare], 0)
   return (
     <>
+      {layer.kind === 'lines' && (
+        <SpeedLegend layer={layer} band={layer.band} focus={focus} onHover={onHover} onToggle={onToggle} onClear={onClear} />
+      )}
       {layer.kind === 'boundary' && (
         <>
           <span><i className="line" />obszar aglomeracji</span>

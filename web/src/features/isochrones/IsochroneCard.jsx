@@ -63,9 +63,9 @@ export default function IsochroneCard({ file, status, origin, distanceM, scenari
     )
   }
   return (
-    <section className="iso-card" aria-label="Skąd dojadę">
+    <section className="iso-card" aria-label="Dokąd dojadę stąd">
       <header>
-        <h3>Skąd dojadę</h3>
+        <h3>Dokąd dojadę stąd</h3>
         {onClose && <button type="button" className="iso-close" onClick={onClose} aria-label="Zamknij tryb izochron">×</button>}
       </header>
       {body}

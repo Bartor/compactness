@@ -20,7 +20,7 @@ export function loadNodeFeatures(url) {
  * The busiest stop areas of an agglomeration, fetched only when one is selected and a points layer exists:
  * {layer, nodes: [topNodes()]} or null while loading, on failure, or when there is nothing to show.
  */
-export function useCityNodes(layer, agg, n = 8) {
+export function useCityNodes(layer, agg, n = 8, by = 'dep') {
   const [state, setState] = useState(null)
   const url = layer?.url ? resolveUrl(layer.url) : null
   useEffect(() => {
@@ -28,10 +28,10 @@ export function useCityNodes(layer, agg, n = 8) {
     if (!url || !agg) return undefined
     let dead = false
     loadNodeFeatures(url)
-      .then((f) => { if (!dead) setState({ layer, nodes: topNodes(f, agg, n) }) })
+      .then((f) => { if (!dead) setState({ layer, nodes: topNodes(f, agg, n, by) }) })
       .catch(() => {})
     return () => { dead = true }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [url, agg, n])
+  }, [url, agg, n, by])
   return state && state.nodes.length ? state : null
 }

@@ -77,13 +77,13 @@ describe('line keys', () => {
 })
 
 describe('line layer specs', () => {
-  it('draws trams from zoom 10, buses from 12, quiet stretches later, the highlight on top', () => {
+  it('draws trams from the city-fit zoom, buses later, quiet stretches later still, the highlight on top', () => {
     const s = lineSpecs(trams, 'w_am')
     expect(s.map((x) => x.type)).toEqual(['line', 'line', 'line', 'line', 'line'])
     expect(s[s.length - 1].id).toBe('speed_tram:hot')
     expect(s.find((x) => x.id === 'speed_tram:busy:solid').minzoom).toBe(MINZOOM.tram)
     expect(s.find((x) => x.id === 'speed_tram:quiet:solid').minzoom).toBe(MINZOOM.tram + QUIET_DELAY)
-    expect(lineSpecs(buses)[0].minzoom).toBe(12 + QUIET_DELAY)
+    expect(lineSpecs(buses)[0].minzoom).toBe(MINZOOM.bus + QUIET_DELAY)
     expect(s[s.length - 1].filter).toEqual(NONE)
   })
   it('colours by the selected band on the fixed breaks', () => {

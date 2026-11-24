@@ -117,6 +117,22 @@ describe('stop-area popup', () => {
     expect(m.notes).toEqual([])
     expect(m.footer).toBe('Rozkład 2026-11-25, OSM 2026-11-22; miara własna, składowe osobno')
   })
+  it('adds the connection wait, the generalised-time band, W6, frequent pairs and the use share only when the data has them', () => {
+    const full = { ...p, conn_w: 11.1, conn_med: 8.6, conn_p90: 20.9, gtt_lo: 23.8, gtt_hi: 37.5, w6_hi: 0.61, w6_lo: 0.46, f10: 0, f15: 0.1, use: 0.0012, use_n: 16, use_ok: true }
+    const m = nodePopupModel(full, '2026-11-25')
+    expect(m.sections.map((s) => s.title)).toContain('Czekanie po przyjeździe linii dowożącej (7–9)')
+    expect(m.sections.map((s) => s.title)).toContain('Uogólniony czas przesiadki (wagi z literatury, nie ranking)')
+    const r = rows(m)
+    expect(flat(r['Mediana'])).toBe('8,6 min')
+    expect(flat(r['Pasmo, w minutach równoważnych jeździe'])).toBe('23,8–37,5 min')
+    expect(flat(r['Bezpieczeństwo przejść (skala W6 z literatury)'])).toBe('46 %–61 %')
+    expect(flat(r['Przesiadki między liniami co najwyżej co 10 min'])).toBe('0 %')
+    expect(m.notes[0]).toBe('Przesiada się tu ok. 0,1 % podróży z próby tras (16 podróży).')
+    // the first block stays the typical transfer; without use_ok there is no sentence about use
+    expect(m.sections[0].title).toBe('Typowa przesiadka')
+    expect(nodePopupModel({ ...full, use_ok: false }, null).notes).toEqual([])
+    expect(nodePopupModel(p, null).sections.map((s) => s.title)).not.toContain('Uogólniony czas przesiadki (wagi z literatury, nie ranking)')
+  })
   it('prints missing values as "brak danych", never as zero, and explains a node outside the mask', () => {
     const m = nodePopupModel({ id: 'x', name: 'Poza', modes: 'bus', lines: 3, dep_h: 5.57, nodata: true, flag: 'dojście do punktu stacji' }, '2026-11-25')
     const r = rows(m)

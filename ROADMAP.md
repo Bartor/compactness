@@ -37,6 +37,10 @@ Last updated 2026-11-24.
   a sidebar with only what the map shows, a comparison view (one table of 13 agglomerations, charts) and a city
   view (highlights, all measures, charts, transfers) with real tabs, a page per metric, a short "?" everywhere,
   click a city on the map, cell tooltips, the small map beside the panel in full mode, phone fixes.
+- On the site since the restructure: scheduled line speeds as an overlay (trams, buses of the selected city, metro
+  and rail; day type and time band) with a "Prędkości" tab of lines per city; stop-area detail in "Przesiadki"
+  (stops, walking paths, crossings, line-to-line matrix); "Dokąd dojadę stąd" isochrones from precomputed origins;
+  travel-survey mode shares in the city view.
 - Urban form additions: residents by 250 m density class, official Eurostat 2021 urban-centre shares, polycentricity
   (eta and density hotspots) in the tables; Angel's proximity index in the tables only (not robust among
   single-centre cities).
@@ -51,12 +55,9 @@ Last updated 2026-11-24.
 Site
 1. Charts, remaining: density-class and rank-size charts from `results/charts/form.json`; pinned cities in the
    address; pinned cities marked in the comparison table.
-2. Line-speed overlay (tram and bus stretches, metro and rail lines) with day-type and time-band choice;
-   per-city files or tiles for buses.
-3. Speed tables view (lines by city, mode, band) linked both ways with the overlay; area-speed layer.
-4. Node detail view: stops, walking paths, crossings, top line-to-line movements; nodes sized by actual use.
+3. Area-speed layer (the 1 km scheduled speeds as a grid layer); the map behaviour of the new overlays was checked
+   in headless Chrome only (speed stretches and popup, stop-area detail, isochrones), not by hand.
 5. Network view: select a line, see its stretches and its connections with waits.
-6. Isochrones from a clicked point; survey context (KBR mode shares) in the city view.
 7. Move the remaining local pieces (dock, tabs, legend with shares, stacked bars, SVG to PNG export) into the kit
    once the design settles.
 8. Checks never done: Firefox, Safari, keyboard order, phone layout after each change; re-measure the transfer
