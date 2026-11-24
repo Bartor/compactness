@@ -55,3 +55,55 @@ export function emphasised(focus, layerId) {
 
 /** The class of `layerId` under the pointer, wherever the pointer is; null when none. */
 export const hovered = (focus, layerId) => (focus.layerId === layerId ? focus.hover : null)
+
+// ---- several layers at once -------------------------------------------------------------------------
+// A value layer and a points layer can be visible together, so the focus of the page is a map
+// {layerId: focus} with one single-layer focus (the functions above) per layer. A layer without an entry
+// has no focus. Every function returns the same object when nothing changes.
+
+export const EMPTY_FOCUSES = Object.freeze({})
+
+/** The focus of one layer (EMPTY_FOCUS when it has none). */
+export const focusOf = (all, layerId) => all[layerId] ?? EMPTY_FOCUS
+
+const isEmpty = (f) => f.hover == null && f.pinned.length === 0
+
+/** Applies `fn(focusOfLayer)` to one layer's focus; an emptied focus leaves the map. */
+export function updateFocus(all, layerId, fn) {
+  const cur = focusOf(all, layerId)
+  const next = fn(cur)
+  if (next === cur) return all
+  if (isEmpty(next)) {
+    if (!(layerId in all)) return all
+    const { [layerId]: _gone, ...rest } = all
+    return rest
+  }
+  return { ...all, [layerId]: next }
+}
+
+/**
+ * The pointer moved over the map: `hits` is {layerId: class index} for the layers under it, `layerIds` the
+ * layers that have classes on the map. Layers under the pointer get a map hover, the others lose theirs.
+ */
+export function hoverOnMap(all, layerIds, hits) {
+  let next = all
+  for (const id of layerIds) {
+    const i = hits[id]
+    next = updateFocus(next, id, (f) => hoverClass(f, id, i == null ? null : i, 'map'))
+  }
+  return next
+}
+
+/** The pointer left the map: every hover goes, the pins stay. */
+export function leaveMap(all) {
+  let next = all
+  for (const id of Object.keys(all)) next = updateFocus(next, id, (f) => hoverClass(f, id, null))
+  return next
+}
+
+/** Forget the focus of layers that are no longer shown. `visibleIds` is a Set. */
+export function pruneFocuses(all, visibleIds) {
+  const gone = Object.keys(all).filter((id) => !visibleIds.has(id))
+  if (!gone.length) return all
+  return Object.fromEntries(Object.entries(all).filter(([id]) => visibleIds.has(id)))
+}

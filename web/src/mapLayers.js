@@ -4,11 +4,12 @@
 import { ANCHOR_LABELS } from './mapStyle'
 import { absoluteUrl } from './config'
 import { hasValue, rampExpression } from './ramp'
+import { pointSpecs } from './pointLayers'
 
 const ACCENT = '#1D4ED8'
 
-// Bottom to top: values first, hatched gaps over them, outlines last.
-export const KIND_ORDER = { choropleth: 0, mask: 1, boundary: 2 }
+// Bottom to top: values first, hatched gaps over them, stop areas, outlines last.
+export const KIND_ORDER = { choropleth: 0, mask: 1, points: 2, boundary: 3 }
 
 export const sourceId = (layer) => `src-${layer.id}`
 export const fillId = (layer) => `${layer.id}:fill`
@@ -41,6 +42,8 @@ export function layerSpecs(layer, selectedId = null) {
       filter: ['!', hasValue(layer.property)],
       paint: { 'fill-pattern': 'hatch', 'fill-opacity': 0.9 },
     })
+  } else if (layer.kind === 'points') {
+    specs.push(...pointSpecs(layer))
   } else if (layer.kind === 'mask') {
     specs.push({ id: fillId(layer), type: 'fill', ...sl, paint: { 'fill-pattern': 'hatch', 'fill-opacity': 0.9 } })
   } else if (layer.kind === 'boundary') {

@@ -11,9 +11,11 @@ export function dataDates(layer) {
 
 /**
  * What the legend shows for a layer: colour rows and, when the layer can contain no-data cells
- * (catalog flag has_nodata), the label of the hatched row; null otherwise.
+ * (catalog flag has_nodata), the label of the hatched row; null otherwise. A points layer also has
+ * `noValue`: the label of nodes that are in the data but have no value for the coloured property.
  */
 export function legendRows(layer) {
-  if (layer.kind !== 'choropleth' || !layer.ramp) return { rows: [], noData: null }
-  return { rows: rampLegend(layer.ramp), noData: layer.has_nodata ? (layer.nodata_label || 'brak danych GTFS') : null }
+  if (!['choropleth', 'points'].includes(layer.kind) || !layer.ramp) return { rows: [], noData: null }
+  const base = { rows: rampLegend(layer.ramp), noData: layer.has_nodata ? (layer.nodata_label || 'brak danych GTFS') : null }
+  return layer.kind === 'points' ? { ...base, noValue: layer.novalue_label || null } : base
 }

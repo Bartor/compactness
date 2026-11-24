@@ -4,7 +4,9 @@ import { Protocol } from 'pmtiles'
 import { buildStyle, hatchImage } from './mapStyle'
 import { fillId, syncOverlays } from './mapLayers'
 import { classIndex, focusOpacity } from './ramp'
-import { EMPTY_FOCUS, clearPinned, emphasised, hoverClass, pruneFocus, togglePinned } from './classFocus'
+import { emphasised, focusOf, hoverOnMap, leaveMap } from './classFocus'
+import { applyFocus, pointLayerIds } from './pointLayers'
+import { nodePopupModel, renderNodePopup } from './nodePopup'
 import Legend from './Legend'
 // MapLibre 6 looks for its worker next to its own module; once bundled, that
 // file is not there. Emitting it as an asset and naming it keeps dev and the
@@ -21,21 +23,17 @@ function registerPmtiles() {
   protocolReady = true
 }
 
+const HIT_PAD = 4
 const POLAND = { center: [19.4, 52.1], zoom: 5.6 }
 const isPhone = () => window.matchMedia('(max-width: 760px)').matches
 
-// Desktop padding for fitBounds: clear of the details panel on the right and, when the map is wide enough to
-// leave the area a readable size, of the legend in the bottom-left corner.
-const LEGEND_W = 320
-function fitPadding(mapWidth, detailsOpen) {
-  const right = detailsOpen ? 460 : 40
-  const left = mapWidth - right - LEGEND_W >= 360 ? LEGEND_W : 40
-  return { top: 40, left, right, bottom: 40 }
-}
+// Desktop padding for fitBounds: clear of the details panel on the right (the legend is in the sidebar).
+const fitPadding = (detailsOpen) => ({ top: 40, left: 40, right: detailsOpen ? 460 : 40, bottom: 40 })
 
 // The kit's .kit-map-wrap supplies the sizing: a flex child that fills what
 // the sidebar leaves, and the whole screen behind the sheets on phones.
-export default function MapView({ catalog, active, selectedId, onSelect, fit, detailsOpen }) {
+export default function MapView({ catalog, active, selectedId, onSelect, fit, detailsOpen, focus }) {
+  const { focuses, setFocuses } = focus
   const box = useRef(null)
   const map = useRef(null)
   const latest = useRef({})
@@ -43,8 +41,9 @@ export default function MapView({ catalog, active, selectedId, onSelect, fit, de
   // removed by a StrictMode remount can never be mistaken for the live one
   const [ready, setReady] = useState(null)
   const [mapError, setMapError] = useState(null)
-  // colour classes hovered or pinned, shared by the legend and the map (classFocus.js)
-  const [focus, setFocus] = useState(EMPTY_FOCUS)
+  // colour classes hovered or pinned per layer live in App (useFocuses): the sidebar legend shares them
+  // the open stop-area popup and the layer it belongs to
+  const popup = useRef(null)
 
   // what the long-lived map handlers need to see
   latest.current = { catalog, onSelect, active }
@@ -100,27 +99,71 @@ export default function MapView({ catalog, active, selectedId, onSelect, fit, de
       return ids.length ? m.queryRenderedFeatures(point, { layers: ids }) : []
     }
     const known = (id) => latest.current.catalog.agglomerations.some((a) => a.id === id)
+    // shown points layers; a node under a point: {layer, feature} or null
+    const pointsLayers = () => {
+      const { catalog: c, active: on } = latest.current
+      return c.layers.filter((l) => l.kind === 'points' && on.has(l.id))
+    }
+    const nodeHit = (point) => {
+      for (const l of pointsLayers()) {
+        const ids = pointLayerIds(l).filter((id) => m.getLayer(id))
+        if (!ids.length) continue
+        // a few pixels of slack: the small nodes are hard to hit with a finger
+        const box = [[point.x - HIT_PAD, point.y - HIT_PAD], [point.x + HIT_PAD, point.y + HIT_PAD]]
+        const f = m.queryRenderedFeatures(box, { layers: ids })[0]
+        if (f) return { layer: l, feature: f }
+      }
+      return null
+    }
+    const closePopup = () => {
+      if (popup.current) popup.current.remove()
+      popup.current = null
+    }
+    const openPopup = ({ layer, feature }) => {
+      closePopup()
+      const p = new maplibregl.Popup({ maxWidth: 'none', className: 'node-popup-wrap', focusAfterOpen: false, offset: 8 })
+        .setLngLat(feature.geometry.coordinates.slice())
+        .setDOMContent(renderNodePopup(nodePopupModel(feature.properties || {}, layer.timetable_date)))
+        .addTo(m)
+      p.layerId = layer.id
+      p.on('close', () => { if (popup.current === p) popup.current = null })
+      popup.current = p
+    }
     m.on('click', (e) => {
+      // a click on a node opens its popup and leaves the selected agglomeration alone
+      const node = nodeHit(e.point)
+      if (node) {
+        openPopup(node)
+        return
+      }
       const hit = boundaryHits(e.point).find((f) => known(f.properties?.id))
       // from the whole-country view an area is a speck: tell the app, so it can zoom in
       if (hit) latest.current.onSelect(hit.properties.id, m.getZoom() < 7.5)
     })
-    // the value-layer class under the pointer: {layerId, index} or null
-    const classHit = (point) => {
+    // the value-layer class under the pointer, per layer with classes: {layerId: index}
+    const classHits = (point) => {
       const { catalog: c, active: on } = latest.current
+      const hits = {}
       const ls = c.layers.filter((l) => l.kind === 'choropleth' && l.ramp && on.has(l.id) && m.getLayer(fillId(l)))
-      if (!ls.length) return null
-      const f = m.queryRenderedFeatures(point, { layers: ls.map(fillId) })[0]
-      const l = f && ls.find((x) => fillId(x) === f.layer.id)
-      const v = l ? f.properties?.[l.property] : null
-      return typeof v === 'number' ? { layerId: l.id, index: classIndex(l.ramp, v) } : null
+      if (ls.length) {
+        const f = m.queryRenderedFeatures(point, { layers: ls.map(fillId) })[0]
+        const l = f && ls.find((x) => fillId(x) === f.layer.id)
+        const v = l ? f.properties?.[l.property] : null
+        if (l && typeof v === 'number') hits[l.id] = classIndex(l.ramp, v)
+      }
+      const node = nodeHit(point)
+      const v = node ? node.feature.properties?.[node.layer.property] : null
+      if (node && typeof v === 'number') hits[node.layer.id] = classIndex(node.layer.ramp, v)
+      return { hits, node: !!node }
     }
     m.on('mousemove', (e) => {
-      m.getCanvas().style.cursor = boundaryHits(e.point).some((f) => known(f.properties?.id)) ? 'pointer' : ''
-      const hit = classHit(e.point)
-      setFocus((f) => hoverClass(f, hit ? hit.layerId : f.layerId, hit ? hit.index : null, 'map'))
+      const { hits, node } = classHits(e.point)
+      m.getCanvas().style.cursor = node || boundaryHits(e.point).some((f) => known(f.properties?.id)) ? 'pointer' : ''
+      const ids = latest.current.catalog.layers.filter((l) => l.ramp && latest.current.active.has(l.id)).map((l) => l.id)
+      setFocuses((f) => hoverOnMap(f, ids, hits))
     })
-    m.on('mouseout', () => setFocus((f) => hoverClass(f, f.layerId, null)))
+    m.on('mouseout', () => setFocuses((f) => leaveMap(f)))
+    m.on('remove', closePopup)
 
     const ro = new ResizeObserver(() => m.resize())
     ro.observe(box.current)
@@ -143,16 +186,25 @@ export default function MapView({ catalog, active, selectedId, onSelect, fit, de
     }
   }, [ready, catalog, active, selectedId])
 
-  // a layer that was switched off takes its highlighting with it
-  useEffect(() => setFocus((f) => pruneFocus(f, active)), [active])
+  // a layer that was switched off takes its popup with it (its highlighting goes in useFocuses)
+  useEffect(() => {
+    if (popup.current && !active.has(popup.current.layerId)) {
+      popup.current.remove()
+      popup.current = null
+    }
+  }, [active])
 
   // hovered and pinned classes stay at full strength, the rest fade
   useEffect(() => {
     if (!ready) return
     try {
       for (const l of catalog.layers) {
+        if (l.kind === 'points' && l.ramp) {
+          applyFocus(ready, l, emphasised(focusOf(focuses, l.id), l.id))
+          continue
+        }
         if (l.kind !== 'choropleth' || !l.ramp || !ready.getLayer(fillId(l))) continue
-        const strong = emphasised(focus, l.id)
+        const strong = emphasised(focusOf(focuses, l.id), l.id)
         ready.setPaintProperty(fillId(l), 'fill-opacity', focusOpacity(l.property, l.ramp, strong, l.opacity ?? 0.8))
         if (ready.getLayer(`${l.id}:nodata`)) {
           ready.setPaintProperty(`${l.id}:nodata`, 'fill-opacity', strong.size ? 0.25 : 0.9)
@@ -161,7 +213,7 @@ export default function MapView({ catalog, active, selectedId, onSelect, fit, de
     } catch (e) {
       console.warn('map focus:', e)
     }
-  }, [ready, catalog, active, selectedId, focus])
+  }, [ready, catalog, active, selectedId, focuses])
 
   // fly to an agglomeration when asked: {bbox, animate, n}
   useEffect(() => {
@@ -171,7 +223,7 @@ export default function MapView({ catalog, active, selectedId, onSelect, fit, de
       [[fit.bbox[0], fit.bbox[1]], [fit.bbox[2], fit.bbox[3]]],
       {
         padding: phone ? { top: 40, left: 20, right: 20, bottom: 120 }
-          : fitPadding(box.current?.clientWidth || 0, detailsOpen && window.innerWidth > 1100),
+          : fitPadding(detailsOpen && window.innerWidth > 1100),
         duration: fit.animate ? 1200 : 0,
         maxZoom: 12,
       },
@@ -185,10 +237,8 @@ export default function MapView({ catalog, active, selectedId, onSelect, fit, de
       <div ref={box} className="kit-map" />
       {mapError && <div className="map-error">Nie udało się uruchomić mapy: {mapError}</div>}
       <Legend
-        layers={shown} focus={focus}
-        onHover={(id, i) => setFocus((f) => hoverClass(f, id, i))}
-        onToggle={(id, i) => setFocus((f) => togglePinned(f, id, i))}
-        onClear={(id) => setFocus((f) => clearPinned(f, id))}
+        layers={shown} focuses={focuses}
+        onHover={focus.onHover} onToggle={focus.onToggle} onClear={focus.onClear}
       />
     </div>
   )

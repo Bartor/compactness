@@ -3,6 +3,7 @@ import { AppMessage, AppShell, ErrorBoundary } from '@bartor-net/ui-kit'
 import { loadAttributions, loadCatalog, loadMetrics, isReady } from './data'
 import { toggleLayer } from './layerState'
 import { readHash, hashOf, resolveHash } from './urlState'
+import { useFocuses } from './useFocuses'
 import MapView from './MapView'
 import Sidebar from './Sidebar'
 import Details from './Details'
@@ -43,6 +44,7 @@ function Loaded({ catalog, metrics, attributions }) {
 
   const [selectedId, setSelectedId] = useState(start.agg)
   const [active, setActive] = useState(() => new Set(start.layers))
+  const focus = useFocuses(active)
   const [sheetOpen, setSheetOpen] = useState(false)   // phones: the settings sheet
   // {bbox, animate, n}: a request to move the map; the address' own selection
   // is shown without animation
@@ -85,11 +87,11 @@ function Loaded({ catalog, metrics, attributions }) {
     <AppShell>
       <Sidebar
         catalog={catalog} metrics={metrics} attributions={attributions} selectedId={selectedId} onPick={pick}
-        active={active} setLayer={setLayer} sheetOpen={sheetOpen} setSheetOpen={setSheetOpen}
+        active={active} setLayer={setLayer} focus={focus} sheetOpen={sheetOpen} setSheetOpen={setSheetOpen}
       />
       <MapView
         catalog={catalog} active={active} selectedId={selectedId} onSelect={clickOnMap}
-        fit={fit} detailsOpen={!!selected}
+        fit={fit} detailsOpen={!!selected} focus={focus}
       />
       {selected && (
         <ErrorBoundary resetKey={selected.id} onClose={close}>
