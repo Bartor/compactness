@@ -30,66 +30,73 @@ Wszystkie czasy dojścia są z sieci pieszej OSM przy 5 km/h, bez czasu na świa
 
 ## 3. Wyniki dla miast (reguła główna)
 
-„Łatwe” = mediana dojścia między liniami ≤ 2 min; udział liczony po odjazdach 6–20 wszystkich zespołów przesiadkowych w obszarze. „Top 20” = 20 zespołów z największą liczbą odjazdów w obszarze; wartość = mediana median węzłów. Obszar pokryty = zespoły w FUA i w masce GTFS.
+„Łatwe” = mediana dojścia między liniami ≤ 2 min; udział liczony po odjazdach 6–20 wszystkich zespołów przesiadkowych w obszarze. „Top 20” = 20 zespołów z największą liczbą odjazdów w obszarze. Obszar pokryty = zespoły w FUA i w masce GTFS. Wartości addytywne miasta to zwykła średnia wartości 20 zespołów, więc też się sumują; pozostałe kolumny „Top” to mediana median zespołów.
 
-| Aglomeracja | Obszar | Zespoły | Odjazdy w zespołach „łatwych”, % | Odjazdy w zespołach z dojściem > 5 min, % | Top 20: dojście, min | Top 20: przejścia | Top 20: czekanie 7–9, min | Top 20: dojście + czekanie 7–9, min | Top 20: to samo, najlepsza para, ważone kursami, min | Top 20: pary bez schodów, % | Najlepsza para słupków: odjazdy w zespołach „łatwych”, % | Najlepsza para: top 20 dojście, min | Pary na tym samym słupku, % | Odjazdy zespołów w masce, % |
-|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| Warszawa | rdzeń | 1134 | 61,0 | 1,5 | 2,3 | 1,0 | 5,3 | 8,2 | 5,7 | 92 | 90,8 | 1,4 | 52 | 98,7 |
-|  | pokryty | 2181 | 64,2 | 1,3 | 2,3 | 1,0 | 5,3 | 8,2 | 5,7 | 92 | 91,6 | 1,4 | 56 | 95,9 |
-| Kraków | rdzeń | 538 | 74,1 | 0,4 | 2,0 | 1,0 | 7,6 | 9,8 | 7,5 | 100 | 96,9 | 0,4 | 44 | 95,8 |
-|  | pokryty | 947 | 74,5 | 0,6 | 2,0 | 1,0 | 7,6 | 9,8 | 7,5 | 100 | 96,8 | 0,4 | 44 | 93,9 |
-| Wrocław | rdzeń | 487 | 82,7 | 2,1 | 1,6 | 1,0 | 7,4 | 8,8 | 7,3 | 86 | 94,9 | 0,5 | 55 | 99,2 |
-|  | pokryty | 579 | 82,8 | 2,1 | 1,6 | 1,0 | 7,4 | 8,8 | 7,3 | 86 | 94,9 | 0,5 | 56 | 98,0 |
-| Poznań | rdzeń | 422 | 78,6 | 0,2 | 1,6 | 1,0 | 5,2 | 8,8 | 5,5 | 97 | 97,5 | 0,0 | 63 | 97,6 |
-|  | pokryty | 786 | 79,2 | 0,6 | 1,6 | 1,0 | 5,2 | 8,8 | 5,5 | 97 | 96,8 | 0,0 | 68 | 95,6 |
-| Łódź | rdzeń | 437 | 75,1 | 0,3 | 2,0 | 1,0 | 7,6 | 10,4 | 8,5 | 98 | 97,8 | 0,8 | 55 | 97,8 |
-|  | pokryty | 647 | 75,7 | 0,2 | 2,0 | 1,0 | 7,6 | 10,4 | 8,5 | 98 | 97,7 | 0,8 | 53 | 96,4 |
-| Trójmiasto | rdzeń | 566 | 61,1 | 3,3 | 2,7 | 1,0 | 10,7 | 13,0 | 10,2 | 90 | 92,9 | 0,5 | 57 | 98,0 |
-|  | pokryty | 733 | 61,9 | 3,4 | 2,7 | 1,0 | 10,7 | 13,0 | 10,2 | 90 | 92,3 | 0,5 | 57 | 97,0 |
-| GZM | rdzeń | 1478 | 81,9 | 1,1 | 1,5 | 0,5 | 15,0 | 17,3 | 15,0 | 92 | 97,0 | 0,2 | 72 | 97,5 |
-|  | pokryty | 1961 | 83,1 | 1,0 | 1,5 | 0,5 | 15,0 | 17,3 | 15,0 | 92 | 97,2 | 0,2 | 73 | 96,8 |
+Pierwsze trzy kolumny wartości są addytywne: liczone na jednym zbiorze ruchów przesiadkowych z kierunkami (kierunek przyjazdu A × kierunek odjazdu B), które mają zarówno dojście, jak i czekanie na B w tym kierunku w oknie 7–9; każdy ruch ma wagę liczby kursów (przyjazdy A w tym kierunku × odjazdy B w tym kierunku, 6–20). Dojście i czekanie to średnie ważone, suma to średnia ważona sum, więc dojście + czekanie = suma. Pozostałe kolumny to mediany (po parach linii, potem po zespołach), a mediana sumy nie jest sumą median, dlatego tamte kolumny się nie sumują.
+
+| Aglomeracja | Obszar | Top 20, 7–9, średnia ważona kursami: dojście, min | + czekanie, min | = przesiadka, min | To samo 6–20: dojście, min | + czekanie, min | = przesiadka, min | Zespoły | Odjazdy w zespołach „łatwych”, % | Odjazdy w zespołach z dojściem > 5 min, % | Top 20: dojście, mediana, min | Top 20: przejścia, mediana | Top 20: czekanie 7–9, mediana, min | Top 20: dojście + czekanie 7–9, mediana, min | Top 20: to samo, najlepsza para, ważone kursami, min | Top 20: pary bez schodów, % | Najlepsza para słupków: odjazdy w zespołach „łatwych”, % | Najlepsza para: top 20 dojście, min | Pary na tym samym słupku, % | Odjazdy zespołów w masce, % |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| Warszawa | rdzeń | 2,5 | 5,6 | 8,1 | 2,5 | 6,7 | 9,2 | 1134 | 61,0 | 1,5 | 2,3 | 1,0 | 5,3 | 8,2 | 5,7 | 92 | 90,8 | 1,4 | 52 | 98,7 |
+|  | pokryty | 2,5 | 5,6 | 8,1 | 2,5 | 6,7 | 9,2 | 2181 | 64,2 | 1,3 | 2,3 | 1,0 | 5,3 | 8,2 | 5,7 | 92 | 91,6 | 1,4 | 56 | 95,9 |
+| Kraków | rdzeń | 2,1 | 8,2 | 10,3 | 2,1 | 9,3 | 11,4 | 538 | 74,1 | 0,4 | 2,0 | 1,0 | 7,6 | 9,8 | 7,5 | 100 | 96,9 | 0,4 | 44 | 95,8 |
+|  | pokryty | 2,1 | 8,2 | 10,3 | 2,1 | 9,3 | 11,4 | 947 | 74,5 | 0,6 | 2,0 | 1,0 | 7,6 | 9,8 | 7,5 | 100 | 96,8 | 0,4 | 44 | 93,9 |
+| Wrocław | rdzeń | 1,5 | 8,4 | 9,9 | 1,5 | 9,5 | 11,0 | 487 | 82,7 | 2,1 | 1,6 | 1,0 | 7,4 | 8,8 | 7,3 | 86 | 94,9 | 0,5 | 55 | 99,2 |
+|  | pokryty | 1,5 | 8,4 | 9,9 | 1,5 | 9,5 | 11,0 | 579 | 82,8 | 2,1 | 1,6 | 1,0 | 7,4 | 8,8 | 7,3 | 86 | 94,9 | 0,5 | 56 | 98,0 |
+| Poznań | rdzeń | 1,6 | 7,1 | 8,7 | 1,6 | 8,1 | 9,7 | 422 | 78,6 | 0,2 | 1,6 | 1,0 | 5,2 | 8,8 | 5,5 | 97 | 97,5 | 0,0 | 63 | 97,6 |
+|  | pokryty | 1,6 | 7,1 | 8,7 | 1,6 | 8,1 | 9,7 | 786 | 79,2 | 0,6 | 1,6 | 1,0 | 5,2 | 8,8 | 5,5 | 97 | 96,8 | 0,0 | 68 | 95,6 |
+| Łódź | rdzeń | 2,1 | 10,9 | 13,0 | 2,1 | 11,9 | 14,0 | 437 | 75,1 | 0,3 | 2,0 | 1,0 | 7,6 | 10,4 | 8,5 | 98 | 97,8 | 0,8 | 55 | 97,8 |
+|  | pokryty | 2,1 | 10,9 | 13,0 | 2,1 | 11,9 | 14,0 | 647 | 75,7 | 0,2 | 2,0 | 1,0 | 7,6 | 10,4 | 8,5 | 98 | 97,7 | 0,8 | 53 | 96,4 |
+| Trójmiasto | rdzeń | 2,9 | 10,5 | 13,4 | 2,9 | 11,9 | 14,8 | 566 | 61,1 | 3,3 | 2,7 | 1,0 | 10,7 | 13,0 | 10,2 | 90 | 92,9 | 0,5 | 57 | 98,0 |
+|  | pokryty | 2,9 | 10,5 | 13,4 | 2,9 | 11,9 | 14,8 | 733 | 61,9 | 3,4 | 2,7 | 1,0 | 10,7 | 13,0 | 10,2 | 90 | 92,3 | 0,5 | 57 | 97,0 |
+| GZM | rdzeń | 1,8 | 15,6 | 17,4 | 1,8 | 17,5 | 19,3 | 1478 | 81,9 | 1,1 | 1,5 | 0,5 | 15,0 | 17,3 | 15,0 | 92 | 97,0 | 0,2 | 72 | 97,5 |
+|  | pokryty | 1,8 | 15,6 | 17,4 | 1,8 | 17,5 | 19,3 | 1961 | 83,1 | 1,0 | 1,5 | 0,5 | 15,0 | 17,3 | 15,0 | 92 | 97,2 | 0,2 | 73 | 96,8 |
 
 **Czytanie krytyczne.**
 
+- **Typowa przesiadka 7–9 (wartości addytywne, pierwsze trzy kolumny).** W 20 największych zespołach: dojście 1,5–2,9 min + czekanie 5,6–15,6 min = 8,1 min (Warszawa) do 17,4 min (GZM). Czekanie stanowi 69–90 % sumy. W Poznaniu i GZM średnia jest z 19 zespołów: jeden z 20 największych nie ma ruchu z dojściem i czekaniem w oknie. Średnie ważone wychodzą wyżej niż mediany w miastach z wieloma rzadkimi liniami (Łódź: czekanie 10,9 min wobec mediany 7,6): rozkład czekania jest prawoskośny, a waga „przyjazdy A × odjazdy B” nie usuwa rzadkich linii docelowych, bo częsta linia A daje dużą wagę także przesiadce na rzadką B (sprawdzono na Rondzie Rataje: mediana czekania w ruchach 14,9 min, średnia 16,8, średnia ważona 11,0). To zamierzone: suma ma się sumować, a mediana tego nie zapewnia.
 - **Najlepsza para słupków nie różnicuje miast.** W wariancie zgodnym z zadaniem (najlepsza para słupków dla każdej pary linii, bez kierunków) 91–98 % odjazdów przypada na zespoły z medianą dojścia ≤ 2 min, a mediana dla 20 największych węzłów to 0,0–1,4 min. Powód sprawdzono w danych: 44–73 % par linii ma najlepszą parę na tym samym słupku, bo linie jadą wspólnym odcinkiem; przesiadka w tym samym kierunku jest wtedy możliwa, ale zwykle niepotrzebna. Dlatego miary główne korzystają z wariantu z kierunkami (reguła 4); wariant najlepszej pary jest w tabelach i w warstwie.
 - **Czekanie decyduje bardziej niż dojście.** W 20 największych węzłach mediana dojścia z kierunkami to 1,5–2,7 min, a oczekiwane czekanie 7–9 to 5,2 min (Poznań) do 15,0 min (GZM). GZM ma najkrótsze dojścia (1,5 min) i najdłuższe czekanie; zgadza się to z §15.2 raportu (linie GZM kursują rzadko i rozchodzą się na węzłach).
 - **Mediana zwykła a ważona.** Mediana po parach linii traktuje rzadką linię podmiejską tak samo jak tramwaj co 5 min. Mediana ważona liczbą kursów jest zwykle niższa, o 0–8 min (np. Kraków Główny: 17,3 min zwykła wobec 9,3 ważonej przy najlepszej parze). Obie są w warstwie; do porównań węzłów o różnym udziale kolei bezpieczniej czytać ważoną.
 - **Warszawa i Trójmiasto mają najmniej odjazdów w zespołach „łatwych” (ok. 61–64 %).** Sprawdzono: w obu duże węzły to kompleksy wielopoziomowe (metro, SKM, dworce), gdzie dojście z kierunkami wynosi 2,3–3,8 min (Centrum 3,7; Dworzec Gdański 3,8; Gdańsk Główny 2,9; Gdynia Główna 2,9). Wynik zostaje.
 - **Przejścia przez jezdnię.** Mediana 1 przejście na ruch w 20 największych węzłach wszystkich miast poza GZM (0,5). Przy najlepszej parze mediana wynosi 0, bo wspólny słupek nie wymaga przejścia.
 
+**Kontrola addytywności (wbudowana; krok kończy się błędem, gdy nie przechodzi).** Dla każdego zespołu (reguła główna, oba okna) i każdego wiersza miejskiego (wszystkie reguły i obszary) sprawdzono, że dojście + czekanie = suma przed zaokrągleniem (tolerancja 1e-9 min): 9747 trójek zespołów i 84 trójek miejskich, błędów 0. Zaokrąglenie: w plikach (warstwa, CSV, metryki) składowe mają 4 cyfry znaczące, a suma jest publikowana jako suma zaokrąglonych składowych (wybrano to zamiast osobnego zaokrąglenia sumy), więc dodaje się dokładnie; może mieć jedną cyfrę więcej niż 4 znaczące (np. 2,621 + 9,793 = 12,414) i różni się od sumy niezaokrąglonej najwyżej o sumę błędów zaokrąglenia składowych (pół jednostki ostatniej cyfry każdej; największe odchylenie: 100 % tej granicy w zespołach, 93 % w miastach). W tej nocie składowe są zaokrąglone do 0,1 min, a suma to suma wydrukowanych składowych.
+
 ## 4. Znane węzły: kontrola
 
 Dla każdego węzła wybrano zespół o największej liczbie odjazdów, którego nazwy pasują do wzorca i którego środek leży ≤ 600 m od punktu orientacyjnego (`transfer_report.KNOWN`). Wszystkie kolumny: `known_interchanges.csv`; pary linii: `pairs_known_interchanges.csv`.
 
-| Miasto | Węzeł | Zespół (nazwa wiodąca) | Słupki | Rozpiętość, m | Środki | Linie | Pary | Odjazdy/h 6–20 | Dojście, najlepsza para: mediana, min | Dojście z kierunkami: mediana, min | Dojście z kierunkami: P90, min |
-|---|---|---|---|---|---|---|---|---|---|---|---|
-| Warszawa | Centrum | Centrum | 13 | 388 | bus, metro, rail, tram | 29 | 804 | 313 | 1,8 | 3,6 | 4,3 |
-| Warszawa | Dworzec Centralny | Dw. Centralny | 27 | 427 | bus, rail, tram | 39 | 1382 | 282 | 1,8 | 2,7 | 3,9 |
-| Warszawa | Dworzec Wileński | Dw. Wileński | 10 | 337 | bus, metro, tram | 21 | 416 | 237 | 1,1 | 2,4 | 2,9 |
-| Warszawa | Dworzec Gdański | Dw. Gdański | 22 | 585 | bus, metro, rail, tram | 16 | 219 | 161 | 2,7 | 3,8 | 6,2 |
-| Kraków | Rondo Mogilskie | Rondo Mogilskie | 18 | 273 | bus, tram | 20 | 378 | 181 | 1,3 | 2,5 | 3,6 |
-| Kraków | Dworzec Główny Zachód (Basztowa, Pawia) | Dworzec Główny Zachód | 6 | 153 | bus, tram | 9 | 70 | 52 | 1,5 | 1,7 | 1,8 |
-| Kraków | Kraków Główny (kolej) | Kraków Główny | 27 | 532 | bus, rail, tram | 28 | 581 | 113 | 1,8 | 2,3 | 5,2 |
-| Kraków | Rondo Grunwaldzkie | Rondo Grunwaldzkie | 13 | 250 | bus, tram | 33 | 1046 | 176 | 0,1 | 2,1 | 2,9 |
-| Kraków | Podgórze SKA | Podgórze SKA | 13 | 206 | bus, rail, tram | 14 | 182 | 76 | 1,6 | 1,8 | 2,8 |
-| Kraków | Borek Fałęcki | Borek Fałęcki | 6 | 202 | bus, tram | 25 | 596 | 50 | 0,0 | 2,4 | 3,1 |
-| Wrocław | Galeria Dominikańska | GALERIA DOMINIKAŃSKA 05 | 13 | 357 | bus, tram | 25 | 596 | 150 | 1,9 | 2,4 | 3,6 |
-| Wrocław | pl. Grunwaldzki | PL. GRUNWALDZKI | 16 | 291 | bus, tram | 23 | 500 | 157 | 0,6 | 1,5 | 3,9 |
-| Wrocław | Dworzec Główny | DWORZEC GŁÓWNY | 30 | 524 | bus, rail, tram | 39 | 1390 | 172 | 5,5 | 6,2 | 8,5 |
-| Poznań | Rondo Kaponiera | Rondo Kaponiera | 14 | 369 | bus, tram | 17 | 262 | 145 | 1,1 | 2,5 | 3,4 |
-| Poznań | Poznań Główny / Dworzec Zachodni | Dworzec Zachodni | 33 | 653 | bus, rail, tram | 26 | 578 | 146 | 1,6 | 2,0 | 5,0 |
-| Poznań | Rondo Rataje | Rondo Rataje | 6 | 162 | bus, tram | 22 | 448 | 80 | 0,0 | 1,1 | 1,9 |
-| Łódź | Piotrkowska Centrum | Piotrkowska Centrum | 8 | 199 | tram | 13 | 150 | 101 | 0,0 | 1,8 | 1,8 |
-| Łódź | Łódź Fabryczna | Narutowicza-pl. Dąbrowskiego | 24 | 562 | bus, rail, tram | 28 | 712 | 100 | 0,9 | 2,6 | 5,0 |
-| Łódź | Łódź Kaliska | Włókniarzy-Mickiewicza (Dw. Ł. Kaliska) | 28 | 654 | bus, rail, tram | 23 | 494 | 119 | 0,8 | 2,2 | 4,6 |
-| Trójmiasto | Gdańsk Główny | Dworzec Główny 01 | 21 | 289 | bus, rail, tram | 40 | 1496 | 194 | 1,5 | 2,9 | 3,9 |
-| Trójmiasto | Gdańsk Wrzeszcz | Gdańsk Wrzeszcz | 15 | 455 | bus, rail, tram | 29 | 768 | 109 | 1,6 | 1,8 | 4,1 |
-| Trójmiasto | Gdynia Główna | Gdynia Dworzec Gł. PKP - Hala 04 | 29 | 570 | bus, rail, trolleybus | 46 | 1954 | 207 | 2,0 | 2,9 | 6,5 |
-| GZM | Katowice Rynek | Katowice Aleja Korfantego | 7 | 317 | bus, tram | 36 | 1216 | 146 | 1,9 | 2,0 | 3,8 |
-| GZM | Katowice Dworzec | Katowice Dworzec | 19 | 417 | bus, rail | 50 | 2432 | 147 | 1,5 | 2,0 | 5,8 |
-| GZM | Sosnowiec Główny | Sosnowiec Dworzec PKP | 8 | 111 | bus, rail, tram | 30 | 862 | 85 | 0,4 | 1,0 | 1,7 |
+Pierwsze trzy kolumny wartości są addytywne: liczone na jednym zbiorze ruchów przesiadkowych z kierunkami (kierunek przyjazdu A × kierunek odjazdu B), które mają zarówno dojście, jak i czekanie na B w tym kierunku w oknie 7–9; każdy ruch ma wagę liczby kursów (przyjazdy A w tym kierunku × odjazdy B w tym kierunku, 6–20). Dojście i czekanie to średnie ważone, suma to średnia ważona sum, więc dojście + czekanie = suma. Pozostałe kolumny to mediany (po parach linii, potem po zespołach), a mediana sumy nie jest sumą median, dlatego tamte kolumny się nie sumują.
 
-| Węzeł | Przejścia (z kierunkami): mediana | Przejścia z sygnalizacją, % | Ruchy ze schodami, % | Ruchy z dojściem bez schodów w OSM, % | Pary z tunelem, % | Czekanie 7–9: mediana, min | Dojście z kierunkami + czekanie 7–9, min | Najlepsza para + czekanie, ważone kursami, min | Średnia odległość między słupkami po sieci, m | Możliwe skomunikowania / pary sprawdzone |
+| Miasto | Węzeł | 7–9, średnia ważona kursami: dojście, min | + czekanie, min | = przesiadka, min | Zespół (nazwa wiodąca) | Słupki | Rozpiętość, m | Środki | Linie | Pary | Odjazdy/h 6–20 | Dojście, najlepsza para: mediana, min | Dojście z kierunkami: mediana, min | Dojście z kierunkami: P90, min |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| Warszawa | Centrum | 3,1 | 5,5 | 8,6 | Centrum | 13 | 388 | bus, metro, rail, tram | 29 | 804 | 313 | 1,8 | 3,6 | 4,3 |
+| Warszawa | Dworzec Centralny | 3,1 | 7,3 | 10,4 | Dw. Centralny | 27 | 427 | bus, rail, tram | 39 | 1382 | 282 | 1,8 | 2,7 | 3,9 |
+| Warszawa | Dworzec Wileński | 2,3 | 4,7 | 7,0 | Dw. Wileński | 10 | 337 | bus, metro, tram | 21 | 416 | 237 | 1,1 | 2,4 | 2,9 |
+| Warszawa | Dworzec Gdański | 3,3 | 5,2 | 8,5 | Dw. Gdański | 22 | 585 | bus, metro, rail, tram | 16 | 219 | 161 | 2,7 | 3,8 | 6,2 |
+| Kraków | Rondo Mogilskie | 2,4 | 6,1 | 8,5 | Rondo Mogilskie | 18 | 273 | bus, tram | 20 | 378 | 181 | 1,3 | 2,5 | 3,6 |
+| Kraków | Dworzec Główny Zachód (Basztowa, Pawia) | 1,3 | 3,8 | 5,1 | Dworzec Główny Zachód | 6 | 153 | bus, tram | 9 | 70 | 52 | 1,5 | 1,7 | 1,8 |
+| Kraków | Kraków Główny (kolej) | 3,2 | 13,3 | 16,5 | Kraków Główny | 27 | 532 | bus, rail, tram | 28 | 581 | 113 | 1,8 | 2,3 | 5,2 |
+| Kraków | Rondo Grunwaldzkie | 1,7 | 10,2 | 11,9 | Rondo Grunwaldzkie | 13 | 250 | bus, tram | 33 | 1046 | 176 | 0,1 | 2,1 | 2,9 |
+| Kraków | Podgórze SKA | 1,7 | 9,2 | 10,9 | Podgórze SKA | 13 | 206 | bus, rail, tram | 14 | 182 | 76 | 1,6 | 1,8 | 2,8 |
+| Kraków | Borek Fałęcki | 2,4 | 14,7 | 17,1 | Borek Fałęcki | 6 | 202 | bus, tram | 25 | 596 | 50 | 0,0 | 2,4 | 3,1 |
+| Wrocław | Galeria Dominikańska | 2,0 | 7,3 | 9,3 | GALERIA DOMINIKAŃSKA 05 | 13 | 357 | bus, tram | 25 | 596 | 150 | 1,9 | 2,4 | 3,6 |
+| Wrocław | pl. Grunwaldzki | 1,3 | 7,2 | 8,5 | PL. GRUNWALDZKI | 16 | 291 | bus, tram | 23 | 500 | 157 | 0,6 | 1,5 | 3,9 |
+| Wrocław | Dworzec Główny | 3,3 | 10,8 | 14,1 | DWORZEC GŁÓWNY | 30 | 524 | bus, rail, tram | 39 | 1390 | 172 | 5,5 | 6,2 | 8,5 |
+| Poznań | Rondo Kaponiera | 2,3 | 6,1 | 8,4 | Rondo Kaponiera | 14 | 369 | bus, tram | 17 | 262 | 145 | 1,1 | 2,5 | 3,4 |
+| Poznań | Poznań Główny / Dworzec Zachodni | 2,6 | 9,8 | 12,4 | Dworzec Zachodni | 33 | 653 | bus, rail, tram | 26 | 578 | 146 | 1,6 | 2,0 | 5,0 |
+| Poznań | Rondo Rataje | 1,0 | 11,0 | 12,0 | Rondo Rataje | 6 | 162 | bus, tram | 22 | 448 | 80 | 0,0 | 1,1 | 1,9 |
+| Łódź | Piotrkowska Centrum | 1,5 | 7,7 | 9,2 | Piotrkowska Centrum | 8 | 199 | tram | 13 | 150 | 101 | 0,0 | 1,8 | 1,8 |
+| Łódź | Łódź Fabryczna | 2,3 | 11,6 | 13,9 | Narutowicza-pl. Dąbrowskiego | 24 | 562 | bus, rail, tram | 28 | 712 | 100 | 0,9 | 2,6 | 5,0 |
+| Łódź | Łódź Kaliska | 2,1 | 11,0 | 13,1 | Włókniarzy-Mickiewicza (Dw. Ł. Kaliska) | 28 | 654 | bus, rail, tram | 23 | 494 | 119 | 0,8 | 2,2 | 4,6 |
+| Trójmiasto | Gdańsk Główny | 2,7 | 12,2 | 14,9 | Dworzec Główny 01 | 21 | 289 | bus, rail, tram | 40 | 1496 | 194 | 1,5 | 2,9 | 3,9 |
+| Trójmiasto | Gdańsk Wrzeszcz | 3,0 | 12,7 | 15,7 | Gdańsk Wrzeszcz | 15 | 455 | bus, rail, tram | 29 | 768 | 109 | 1,6 | 1,8 | 4,1 |
+| Trójmiasto | Gdynia Główna | 4,4 | 11,5 | 15,9 | Gdynia Dworzec Gł. PKP - Hala 04 | 29 | 570 | bus, rail, trolleybus | 46 | 1954 | 207 | 2,0 | 2,9 | 6,5 |
+| GZM | Katowice Rynek | 2,5 | 9,8 | 12,3 | Katowice Aleja Korfantego | 7 | 317 | bus, tram | 36 | 1216 | 146 | 1,9 | 2,0 | 3,8 |
+| GZM | Katowice Dworzec | 2,4 | 14,7 | 17,1 | Katowice Dworzec | 19 | 417 | bus, rail | 50 | 2432 | 147 | 1,5 | 2,0 | 5,8 |
+| GZM | Sosnowiec Główny | 1,0 | 16,8 | 17,8 | Sosnowiec Dworzec PKP | 8 | 111 | bus, rail, tram | 30 | 862 | 85 | 0,4 | 1,0 | 1,7 |
+
+| Węzeł | Przejścia (z kierunkami): mediana | Przejścia z sygnalizacją, % | Ruchy ze schodami, % | Ruchy z dojściem bez schodów w OSM, % | Pary z tunelem, % | Czekanie 7–9: mediana, min | Dojście z kierunkami + czekanie 7–9: mediana, min | Najlepsza para + czekanie, ważone kursami, min | Średnia odległość między słupkami po sieci, m | Możliwe skomunikowania / pary sprawdzone |
 |---|---|---|---|---|---|---|---|---|---|---|
 | Centrum | 0,5 | 59 | 83 | 50 | 46 | 5,3 | 8,8 | 5,7 | 280 | 1 / 322 |
 | Dworzec Centralny | 1,0 | 40 | 82 | 89 | 74 | 5,6 | 8,6 | 6,5 | 229 | 1 / 496 |

@@ -1,8 +1,22 @@
 {
- "code_version": "transfer-2026-11-24.1",
- "duration_s": 717.8,
+ "additive_check": {
+  "city": {
+   "checked": 84,
+   "failed_published": 0,
+   "failed_unrounded": 0,
+   "max_dev_share": 0.927
+  },
+  "nodes": {
+   "checked": 9747,
+   "failed_published": 0,
+   "failed_unrounded": 0,
+   "max_dev_share": 0.999
+  }
+ },
+ "code_version": "transfer-2026-11-24.2",
+ "duration_s": 917.4,
  "feed_variant": "all",
- "git_sha": "959ea282e2ef55732ef42c0b234295b69a53d7ce",
+ "git_sha": "0a69e9c0d8aa286277b0cb5d0461f9bbddef1dca",
  "inputs": {
   "gtfs_gdansk": {
    "data_date": "20261123/20261207",
@@ -276,15 +290,15 @@
    "link_rail_m": 350.0
   }
  },
- "run_at": "2026-11-24T13:17:19+01:00",
+ "run_at": "2026-11-24T14:36:32+01:00",
  "seconds_per_agglomeration": {
-  "gzm": 479.4,
-  "krakow": 242.4,
-  "lodz": 182.4,
-  "poznan": 152.3,
-  "trojmiasto": 167.0,
-  "warszawa": 468.9,
-  "wroclaw": 162.5
+  "gzm": 542.4,
+  "krakow": 285.7,
+  "lodz": 208.1,
+  "poznan": 175.0,
+  "trojmiasto": 195.5,
+  "warszawa": 523.4,
+  "wroclaw": 190.9
  },
  "step": "transfer_ease",
  "timetable_date": "2026-11-25"

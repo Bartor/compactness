@@ -389,6 +389,55 @@
   },
   {
    "attribution": "wydawcy GTFS (lista w „O danych”), © współtwórcy OpenStreetMap",
+   "chip": "razem",
+   "has_nodata": true,
+   "id": "transfer_total",
+   "kind": "points",
+   "nodata_label": "brak danych (poza pokryciem GTFS)",
+   "note": "Punkt to zespół przystanków, czyli przystanki tramwaju, autobusu, kolei i metra leżące tak blisko siebie, że można między nimi przesiąść się pieszo; kolor pokazuje typową przesiadkę w godzinach 7–9: dojście do drugiej linii plus czekanie na nią, jako średnią ważoną liczbą kursów (obie części sumują się do całości), a wielkość punktu to liczba odjazdów na godzinę. Dojście liczono po sieci pieszej OSM, 5 km/h, osobno dla każdego kierunku jazdy, a czekanie z rozkładu jazdy, w pełnych minutach. To miara własna, której składowe są pokazane osobno i nie są łączone w jedną ocenę; nie jest to metoda AMPTI. Informacja o drodze bez schodów zależy od kompletności OpenStreetMap, a zespoły poza pokryciem GTFS nie mają wartości.",
+   "novalue_label": "bez wartości (brak przesiadek między różnymi kierunkami)",
+   "population_date": null,
+   "property": "walkwait_w",
+   "ramp": {
+    "colors": [
+     "#4B3B8F",
+     "#8A3F9E",
+     "#C8508C",
+     "#F0845C",
+     "#FCD76B"
+    ],
+    "labels": [
+     "do 6 min",
+     "6–9 min",
+     "9–12 min",
+     "12–16 min",
+     "ponad 16 min"
+    ],
+    "stops": [
+     6,
+     9,
+     12,
+     16
+    ]
+   },
+   "size_label": "odjazdów na godzinę (6–20)",
+   "size_property": "dep_h",
+   "size_stops": [
+    20,
+    50,
+    100,
+    200
+   ],
+   "status": "ready",
+   "timetable_date": "2026-11-25",
+   "title": "Przesiadki: typowa przesiadka (dojście + czekanie, 7–9)",
+   "type": "geojson",
+   "unit": "dojście + czekanie, min (średnia ważona liczbą kursów)",
+   "url": "data/transfer_nodes.geojson"
+  },
+  {
+   "attribution": "wydawcy GTFS (lista w „O danych”), © współtwórcy OpenStreetMap",
+   "chip": "dojście",
    "has_nodata": true,
    "id": "transfer_walk",
    "kind": "points",
@@ -399,11 +448,11 @@
    "property": "walk_dir",
    "ramp": {
     "colors": [
-     "#B9CEF3",
-     "#8AACEB",
-     "#5A86E0",
-     "#1D4ED8",
-     "#13308A"
+     "#2F4B8F",
+     "#3B6FB8",
+     "#4C97D6",
+     "#74BFE8",
+     "#C4EBFA"
     ],
     "labels": [
      "do 1 min",
@@ -436,6 +485,7 @@
   },
   {
    "attribution": "wydawcy GTFS (lista w „O danych”), © współtwórcy OpenStreetMap",
+   "chip": "czekanie",
    "has_nodata": true,
    "id": "transfer_wait",
    "kind": "points",
@@ -445,11 +495,11 @@
    "property": "wait_am",
    "ramp": {
     "colors": [
-     "#F8D9A8",
-     "#F0A35E",
-     "#D9722B",
-     "#A94A12",
-     "#6B2C0A"
+     "#6B3A1E",
+     "#A0522D",
+     "#D4762C",
+     "#F0A63C",
+     "#FBE08A"
     ],
     "labels": [
      "do 3 min",
