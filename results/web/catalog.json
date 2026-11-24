@@ -233,13 +233,13 @@
    "property": "v",
    "ramp": {
     "colors": [
-     "#F5E1A4",
-     "#F0C36D",
-     "#E39A3B",
-     "#C9701E",
-     "#9E4A12",
-     "#702C0A",
-     "#431A06"
+     "#7B4713",
+     "#945D18",
+     "#AC741D",
+     "#C38D24",
+     "#D9A82D",
+     "#EDC439",
+     "#FFE148"
     ],
     "stops": [
      500,
@@ -255,7 +255,7 @@
    "timetable_date": null,
    "title": "Gęstość zaludnienia 250 m (NSP 2021)",
    "type": "pmtiles",
-   "unit": "os./km²",
+   "unit": "os./km²; jaśniej = gęściej",
    "url": "tiles/density250_nsp2021.pmtiles"
   },
   {
@@ -268,12 +268,12 @@
    "property": "v",
    "ramp": {
     "colors": [
-     "#16348F",
-     "#1D4ED8",
-     "#4F78DE",
-     "#7FA3E3",
-     "#AAC4EA",
-     "#D3E0F3"
+     "#52DFFF",
+     "#4CC2E8",
+     "#49A5D0",
+     "#458AB5",
+     "#3F709A",
+     "#37577E"
     ],
     "labels": [
      "co ≤ 5 min",
@@ -296,7 +296,7 @@
    "timetable_date": "2026-11-25",
    "title": "Zasięg częstej komunikacji",
    "type": "pmtiles",
-   "unit": "odstęp między kursami",
+   "unit": "odstęp między kursami; jaśniej = częściej",
    "url": "tiles/frequent_2026-11-25.pmtiles"
   },
   {
@@ -309,13 +309,13 @@
    "property": "v",
    "ramp": {
     "colors": [
-     "#D6E3F5",
-     "#ADC6EC",
-     "#84A8E3",
-     "#5B89DA",
-     "#3569D5",
-     "#1D4ED8",
-     "#16348F"
+     "#276249",
+     "#317C54",
+     "#41955B",
+     "#58AF5F",
+     "#73C95E",
+     "#94E258",
+     "#B8FA49"
     ],
     "stops": [
      10,
@@ -331,7 +331,7 @@
    "timetable_date": "2026-11-25",
    "title": "Transport performance 30 min",
    "type": "pmtiles",
-   "unit": "% ludności osiągalnej w 30 min",
+   "unit": "% ludności osiągalnej w 30 min; jaśniej = więcej",
    "url": "tiles/performance30_2026-11-25.pmtiles"
   },
   {
@@ -353,24 +353,24 @@
    "has_nodata": true,
    "id": "density_service",
    "kind": "choropleth",
-   "note": "Dwie zmienne naraz: czy w komórce 250 m mieszka dużo ludzi i jak często kursuje komunikacja w zasięgu 500 m pieszo. „Gęsto” oznacza co najmniej 2 500 os./km². Czerwony i pomarańczowy to gęsta zabudowa bez częstych kursów, granatowy to gęsta zabudowa z kursami co 10 min lub częściej, jasnoniebieski to regularne kursy tam, gdzie mieszka niewiele osób. Rysowane są tylko komórki z ludnością; komórki kreskowane leżą poza pokryciem danych o rozkładach (GTFS), więc nie wiadomo, jaka jest tam komunikacja. Wszystkie feedy, w tym nieoficjalne.",
+   "note": "Dwie zmienne naraz: ilu ludzi mieszka w komórce 250 m i jak często kursuje komunikacja w zasięgu 500 m pieszo. Próg to 5 000 os./km² (50 mieszkańców na hektar, w literaturze poziom, przy którym oczekuje się częstej obsługi autobusowej); liczeni są tylko mieszkańcy, bez miejsc pracy. Pomarańczowoczerwony: co najmniej 5 000 os./km², a kursy rzadziej niż co 20 min lub brak; fioletowy: kursy co 11–20 min; jasnoniebieski: kursy co 10 min lub częściej. Przygaszony niebieski i szary to komórki poniżej 5 000 os./km² z kursami co ≤ 20 min albo rzadszymi. Rysowane są tylko komórki z ludnością; komórki kreskowane leżą poza pokryciem danych o rozkładach (GTFS), więc nie wiadomo, jaka jest tam komunikacja. Wszystkie feedy, w tym nieoficjalne.",
    "opacity": 0.9,
    "population_date": "2021-03-31 (NSP 2021, wzór GHSL 2020)",
    "property": "v",
    "ramp": {
     "colors": [
-     "#b5300f",
-     "#f0a35e",
-     "#17509a",
-     "#74acdf",
-     "#e3e1dc"
+     "#FF5A2E",
+     "#C98BE3",
+     "#4FD6FF",
+     "#3F78A3",
+     "#4A4642"
     ],
     "labels": [
-     "gęsto, rzadziej niż co 20 min lub brak",
-     "gęsto, co 11–20 min",
-     "gęsto, co ≤ 10 min",
-     "rzadko zaludnione, co ≤ 20 min",
-     "rzadko zaludnione, rzadziej lub brak"
+     "≥ 5 000 os./km², kursy rzadziej niż co 20 min lub brak",
+     "≥ 5 000 os./km², co 11–20 min",
+     "≥ 5 000 os./km², co ≤ 10 min",
+     "< 5 000 os./km², co ≤ 20 min",
+     "< 5 000 os./km², rzadziej lub brak"
     ],
     "stops": [
      1,
@@ -384,7 +384,7 @@
    "timetable_date": "2026-11-25",
    "title": "Gęstość × częstotliwość komunikacji",
    "type": "pmtiles",
-   "unit": "gęsto: ≥ 2 500 os./km²; kursy w zasięgu 500 m",
+   "unit": "ludność komórki 250 m (próg 5 000 os./km²) i kursy w zasięgu 500 m",
    "url": "tiles/density_service_2026-11-25.pmtiles"
   },
   {
@@ -529,6 +529,47 @@
    "type": "geojson",
    "unit": "oczekiwane czekanie, min",
    "url": "data/transfer_nodes.geojson"
+  },
+  {
+   "attribution": "wydawcy GTFS (lista w „O danych”), © współtwórcy OpenStreetMap, GUS, JRC GHSL",
+   "has_nodata": true,
+   "id": "transfer_dependence_30",
+   "kind": "choropleth",
+   "note": "Jaka część ludności, do której mieszkaniec komórki dojedzie komunikacją i pieszo w 30 min, wymaga przesiadki: bez zmiany linii (jednym przejazdem albo pieszo) tych osób nie osiągnie w 30 min. Niskie wartości znaczą, że bezpośrednie linie i spacer pokrywają prawie cały zasięg. Czas rozkładowy (środa 7:00–9:00, mediana z odjazdów co minutę), bez opóźnień. Komórki poza pokryciem danych GTFS są kreskowane jako brak danych. Wszystkie feedy, w tym nieoficjalne. Rysowane są komórki z ludnością.",
+   "population_date": "2021-03-31 (NSP 2021, wzór GHSL 2020)",
+   "property": "v",
+   "ramp": {
+    "colors": [
+     "#654777",
+     "#80548E",
+     "#9D60A4",
+     "#BC6DB8",
+     "#DC7ACA",
+     "#FF87DA"
+    ],
+    "labels": [
+     "< 1 %",
+     "1–5 %",
+     "5–10 %",
+     "10–20 %",
+     "20–30 %",
+     "≥ 30 %"
+    ],
+    "stops": [
+     1,
+     5,
+     10,
+     20,
+     30
+    ]
+   },
+   "source_layer": "transfer_dep30",
+   "status": "ready",
+   "timetable_date": "2026-11-25",
+   "title": "Zasięg 30 min wymagający przesiadki",
+   "type": "pmtiles",
+   "unit": "% osiągalnej w 30 min ludności, do której trzeba się przesiąść; jaśniej = więcej przesiadek",
+   "url": "tiles/transfer_dep30_2026-11-25.pmtiles"
   }
  ]
 }

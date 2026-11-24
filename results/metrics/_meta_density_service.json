@@ -1,10 +1,10 @@
 {
  "density_stops_per_km2": [
-  2500.0,
+  5000.0,
   10000.0
  ],
- "duration_s": 0.6,
- "git_sha": "0a69e9c0d8aa286277b0cb5d0461f9bbddef1dca",
+ "duration_s": 0.3,
+ "git_sha": "f796e941efec3331bfb0209f330c358b991f586b",
  "inputs": {
   "ghs_built_s_2020_R3_C20": {
    "data_date": "2020",
@@ -53,7 +53,7 @@
   "metrics_density_service.json"
  ],
  "rows": 448,
- "run_at": "2026-11-24T14:33:37+01:00",
+ "run_at": "2026-11-24T15:06:06+01:00",
  "service_of_headway": {
   "10": 3,
   "15": 2,

@@ -7,11 +7,12 @@ Dzień referencyjny rozkładów: 2026-11-25; ludność: NSP 2021 (31.03.2021) ro
 | Plik | Rozmiar (MB) | Kafli | Warstwa |
 |---|---|---|---|
 | `density250_nsp2021.pmtiles` | 3,00 | 2417 | Gęstość zaludnienia 250 m (NSP 2021) |
-| `density_service_2026-11-25.pmtiles` | 1,39 | 1424 | Gęstość × częstotliwość komunikacji |
+| `density_service_2026-11-25.pmtiles` | 1,34 | 1424 | Gęstość × częstotliwość komunikacji |
 | `frequent_2026-11-25.pmtiles` | 1,38 | 1424 | Zasięg częstej komunikacji |
 | `gtfs_nodata_2026-11-25.pmtiles` | 0,37 | 1315 | Brak danych GTFS |
+| `transfer_dep30_2026-11-25.pmtiles` | 1,59 | 1424 | Zasięg 30 min wymagający przesiadki |
 | `performance30_2026-11-25.pmtiles` | 1,52 | 1424 | Transport performance 30 min |
-| **razem `tiles/`** | **7,66** | | |
+| **razem `tiles/`** | **9,20** | | |
 
 Ostrzeżenia o rozmiarze: brak (żaden plik nie przekracza 50 MB, katalog nie przekracza 200 MB).
 
@@ -61,7 +62,7 @@ Największa różnica po aglomeracji (klasy o powierzchni ≥ 1 km², pełna tab
 
 ### Gęstość × częstotliwość komunikacji (`density_service`)
 
-- Plik `density_service_2026-11-25.pmtiles`, 1,39 MB, SHA-256 `4c9389f32442fd3579fd4dc490637b8480e47a42e048107a136842ddb9e33e33`.
+- Plik `density_service_2026-11-25.pmtiles`, 1,34 MB, SHA-256 `d60b305687902b10a46134cde1ecb9cce0d62d31fe5ca1efe3893344fd390a5e`.
 - Aglomeracje w pliku (7): GZM, Kraków, Łódź, Poznań, Trójmiasto, Warszawa, Wrocław.
 - Narysowanych komórek 250 m: 228755.
 - Pominięto 6046 komórek bez ludności w siatce przeskalowanej do spisu (są w źródle, bo mają ludność surową GHSL).
@@ -69,15 +70,15 @@ Największa różnica po aglomeracji (klasy o powierzchni ≥ 1 km², pełna tab
 
 | Zoom | Kafli | Bajtów razem | Największy kafel (B) |
 |---|---|---|---|
-| 4 | 2 | 1268 | 1204 |
-| 5 | 1 | 3071 | 3071 |
-| 6 | 4 | 12185 | 7915 |
-| 7 | 9 | 31186 | 8125 |
-| 8 | 21 | 82430 | 12143 |
-| 9 | 40 | 209963 | 20633 |
-| 10 | 98 | 240016 | 8410 |
-| 11 | 299 | 326011 | 3925 |
-| 12 | 950 | 484074 | 1640 |
+| 4 | 2 | 1271 | 1207 |
+| 5 | 1 | 3111 | 3111 |
+| 6 | 4 | 12141 | 7903 |
+| 7 | 9 | 30531 | 7902 |
+| 8 | 21 | 78990 | 11633 |
+| 9 | 40 | 199891 | 19249 |
+| 10 | 98 | 229219 | 7994 |
+| 11 | 299 | 313367 | 3715 |
+| 12 | 950 | 467579 | 1563 |
 
 Kontrola przypisania na z12: sprawdzono 228755 narysowanych komórek (środek komórki w kafelku); nie pokryte przez żaden obiekt: 0, pokryte obiektem innej klasy: 0; komórki niezaludnione pokryte obiektem: 0; obiekty o niedozwolonej własności: 0.
 
@@ -86,13 +87,13 @@ Powierzchnia klas na z12 (km², suma po aglomeracjach): kafle (przycięte do gra
 | Klasa | Komórki źródłowe (km²) | Kafle (km²) | Różnica (%) |
 |---|---|---|---|
 | brak danych GTFS | 4360,00 | 4358,48 | -0,035 |
-| gęsto, rzadziej niż co 20 min lub brak | 245,12 | 245,12 | -0,002 |
-| gęsto, co 11–20 min | 186,50 | 186,50 | +0,001 |
-| gęsto, co ≤ 10 min | 523,25 | 523,26 | +0,002 |
-| rzadko zaludnione, co ≤ 20 min | 612,19 | 612,16 | -0,005 |
-| rzadko zaludnione, rzadziej lub brak | 8370,12 | 8366,66 | -0,041 |
+| ≥ 5 000 os./km², kursy rzadziej niż co 20 min lub brak | 77,25 | 77,25 | -0,004 |
+| ≥ 5 000 os./km², co 11–20 min | 94,62 | 94,62 | -0,003 |
+| ≥ 5 000 os./km², co ≤ 10 min | 371,19 | 371,18 | -0,001 |
+| < 5 000 os./km², co ≤ 20 min | 856,12 | 856,11 | -0,002 |
+| < 5 000 os./km², rzadziej lub brak | 8538,00 | 8534,54 | -0,041 |
 
-Największa różnica po aglomeracji (klasy o powierzchni ≥ 1 km², pełna tabela w `area_check.csv`): GZM 0,040 %, Kraków 0,034 %, Łódź 0,040 %, Poznań 0,042 %, Trójmiasto 0,043 %, Warszawa 0,043 %, Wrocław 0,056 %.
+Największa różnica po aglomeracji (klasy o powierzchni ≥ 1 km², pełna tabela w `area_check.csv`): GZM 0,040 %, Kraków 0,045 %, Łódź 0,039 %, Poznań 0,042 %, Trójmiasto 0,042 %, Warszawa 0,042 %, Wrocław 0,054 %.
 
 ### Zasięg częstej komunikacji (`frequent_transport`)
 
@@ -160,6 +161,41 @@ Powierzchnia klas na z12 (km², suma po aglomeracjach): kafle (przycięte do gra
 
 Największa różnica po aglomeracji (klasy o powierzchni ≥ 1 km², pełna tabela w `area_check.csv`): GZM 0,037 %, Kraków 0,026 %, Łódź 0,031 %, Poznań 0,032 %, Trójmiasto 0,022 %, Warszawa 0,026 %, Wrocław 0,029 %.
 
+### Zasięg 30 min wymagający przesiadki (`transfer_dependence_30`)
+
+- Plik `transfer_dep30_2026-11-25.pmtiles`, 1,59 MB, SHA-256 `a5dd48ccc7bbbc619fd4c16591504fdcd7e410e641b9d8afdd373d516bda2aeb`.
+- Aglomeracje w pliku (7): GZM, Kraków, Łódź, Poznań, Trójmiasto, Warszawa, Wrocław.
+- Narysowanych komórek 250 m: 228755.
+- Nagłówek: MVT, kafle GZIP, katalogi GZIP, clustered=True, zoomy 4–12, zakres [16.36653, 49.74768, 22.34871, 54.61437], środek [19.35762, 52.18102, 8], kafli adresowanych 1424 (unikalnych 1424); warstwy wektorowe w metadanych: transfer_dep30.
+
+| Zoom | Kafli | Bajtów razem | Największy kafel (B) |
+|---|---|---|---|
+| 4 | 2 | 1327 | 1264 |
+| 5 | 1 | 3238 | 3238 |
+| 6 | 4 | 12722 | 8268 |
+| 7 | 9 | 31914 | 8182 |
+| 8 | 21 | 85625 | 12946 |
+| 9 | 40 | 247822 | 28393 |
+| 10 | 98 | 281640 | 13583 |
+| 11 | 299 | 377322 | 6284 |
+| 12 | 950 | 546598 | 2334 |
+
+Kontrola przypisania na z12: sprawdzono 228755 narysowanych komórek (środek komórki w kafelku); nie pokryte przez żaden obiekt: 0, pokryte obiektem innej klasy: 0; komórki niezaludnione pokryte obiektem: 0; obiekty o niedozwolonej własności: 0.
+
+Powierzchnia klas na z12 (km², suma po aglomeracjach): kafle (przycięte do granic kafla bez bufora) wobec komórek źródłowych.
+
+| Klasa | Komórki źródłowe (km²) | Kafle (km²) | Różnica (%) |
+|---|---|---|---|
+| brak danych | 4360,00 | 4358,48 | -0,035 |
+| < 1 % | 7959,94 | 7956,57 | -0,042 |
+| 1–5 % | 612,31 | 612,23 | -0,013 |
+| 5–10 % | 511,06 | 511,05 | -0,003 |
+| 10–20 % | 543,06 | 543,05 | -0,003 |
+| 20–30 % | 213,00 | 212,99 | -0,003 |
+| ≥ 30 % | 97,81 | 97,81 | -0,006 |
+
+Największa różnica po aglomeracji (klasy o powierzchni ≥ 1 km², pełna tabela w `area_check.csv`): GZM 0,041 %, Kraków 0,034 %, Łódź 0,040 %, Poznań 0,044 %, Trójmiasto 0,043 %, Warszawa 0,043 %, Wrocław 0,058 %.
+
 ### Transport performance 30 min (`transport_performance_30`)
 
 - Plik `performance30_2026-11-25.pmtiles`, 1,52 MB, SHA-256 `5e113088443b87b2977464babd4fc2b9593124a8071bc4938892227dfd303df3`.
@@ -198,15 +234,16 @@ Największa różnica po aglomeracji (klasy o powierzchni ≥ 1 km², pełna tab
 
 ## Transfer na typową wizytę
 
-Pierwsza wizyta, jedna warstwa wartości, okno 1440 × 900 px na jednej aglomeracji przy zoomach 8, 10, 11, 12 (kafle 512 px, bajty skompresowane tak, jak je odczyta przeglądarka). Stałe: aplikacja po gzip 715 kB, `catalog.json` 3 kB, `fua.geojson` 75 kB, `attributions.json` 2 kB, `metrics.json` 10 kB (razem 805 kB); do tego 16 kB nagłówka i katalogu PMTiles na plik. Podkład OpenFreeMap idzie z ich serwerów, nie z limitu Pages.
+Pierwsza wizyta, jedna warstwa wartości, okno 1440 × 900 px na jednej aglomeracji przy zoomach 8, 10, 11, 12 (kafle 512 px, bajty skompresowane tak, jak je odczyta przeglądarka). Stałe: aplikacja po gzip 736 kB, `catalog.json` 4 kB, `fua.geojson` 75 kB, `attributions.json` 2 kB, `metrics.json` 27 kB (razem 845 kB); do tego 16 kB nagłówka i katalogu PMTiles na plik. Podkład OpenFreeMap idzie z ich serwerów, nie z limitu Pages.
 
 | Warstwa | Aglomeracja | Kafle (kB) | Razem wizyta (kB) | Wizyt w 100 GB/mies. |
 |---|---|---|---|---|
-| Gęstość zaludnienia 250 m (NSP 2021) | Warszawa | 226 | 1031 | 97001 |
-| Gęstość × częstotliwość komunikacji | Warszawa | 147 | 952 | 105012 |
-| Zasięg częstej komunikacji | Warszawa | 148 | 953 | 104893 |
-| Brak danych GTFS | Warszawa | 43 | 848 | 117982 |
-| Transport performance 30 min | Warszawa | 169 | 974 | 102639 |
+| Gęstość zaludnienia 250 m (NSP 2021) | Warszawa | 226 | 1071 | 93401 |
+| Gęstość × częstotliwość komunikacji | Warszawa | 140 | 985 | 101542 |
+| Zasięg częstej komunikacji | Warszawa | 148 | 993 | 100696 |
+| Brak danych GTFS | Warszawa | 43 | 887 | 112699 |
+| Zasięg 30 min wymagający przesiadki | Warszawa | 180 | 1024 | 97625 |
+| Transport performance 30 min | Warszawa | 169 | 1014 | 98617 |
 
 Powtórna wizyta czyta aplikację i dane z pamięci podręcznej przeglądarki, więc kosztuje tylko kafle, o ile ich pliki się nie zmieniły. Kolejna warstwa tej samej aglomeracji dodaje swoje kafle (i 16 kB katalogu). To oszacowanie z jednego położenia okna, nie pomiar ruchu.
 

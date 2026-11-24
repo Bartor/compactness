@@ -1,6 +1,6 @@
 {
- "duration_s": 0.4,
- "git_sha": "959ea282e2ef55732ef42c0b234295b69a53d7ce",
+ "duration_s": 0.6,
+ "git_sha": "f796e941efec3331bfb0209f330c358b991f586b",
  "inputs": {},
  "missing_inputs": [],
  "outputs": [
@@ -9,32 +9,32 @@
   "../web/metrics.json"
  ],
  "rows": {
-  "access": 5516,
+  "access": 6238,
   "access_uc": 273,
-  "density": 765,
-  "density_service": 168,
+  "density": 1556,
+  "density_service": 448,
   "frequent": 4508,
   "supply": 760,
-  "transfer": 210
+  "transfer": 294
  },
- "rows_panel": 428,
- "rows_total": 12200,
- "run_at": "2026-11-24T13:19:24+01:00",
+ "rows_panel": 703,
+ "rows_total": 14077,
+ "run_at": "2026-11-24T15:14:05+01:00",
  "step": "merge_metrics",
  "step_files": {
-  "metrics_access.csv": "f662a2f7bf89826d1d54ea68787d29de0ff83cb1784ea97da4e714bbc1d32f1e",
-  "metrics_access.json": "9e044178dd3943c7d925dd03eb44ecefe6c5caba04c498ff6cdfbf14238c0b90",
+  "metrics_access.csv": "ece1118aa1432164b440a108597bddb0b1601ace3a6aa3393027b5eb9bc6d9e5",
+  "metrics_access.json": "235be84c8d8a6fa09f25baaa89f7f44a8709f59ccee88955e897bbc7b462ff33",
   "metrics_access_uc.csv": "e2b4f643094c752d79feb0a8c86c370ef2cee0141440640964a00b2e05f054aa",
   "metrics_access_uc.json": "db6c9eaa8d674a4ff114d7d7fa669c990ff6d426653401e7332cd58c143428f2",
-  "metrics_density.csv": "62aff33922c3319263d8c0fe33d807ad66880dbe70e13e8080fb4634331c98ec",
-  "metrics_density.json": "527138412e0956e026a4b3ae2e4b3ef620a1a547b5b184cc553b7caab4a33367",
-  "metrics_density_service.csv": "4df80129e899fc2fe9c85f41ad754cb12fe1b6a6e4f1d1a3ca515eceaf6c170d",
-  "metrics_density_service.json": "3afddcc2633afa813457bc03d0b599bac2c02b1913025eadfe3b61cc45f0d257",
+  "metrics_density.csv": "5159fdb8e710a3c02f8ab57d3abb19bb0cef254b35aeb19f421c4820d397be8f",
+  "metrics_density.json": "ea4866f227075ad6603b542d742e31a633f0bfeb2bc2056b7b5a554a6c821ef2",
+  "metrics_density_service.csv": "d7de455599c0347cfa83fddca7e8da6461211cd0850cd4570a3576fbe6ba7a32",
+  "metrics_density_service.json": "4092090825c65696e45f750ee0467bf0c55a8e3948d3103c4ca465a3b52f3c1c",
   "metrics_frequent.csv": "7740baefe80031518f2913c953d5b10a2510b790f5ebc9a06c4c1d16fcfef176",
   "metrics_frequent.json": "bae46bc5a1c1a3ec044483a98c0b04cc59391dc9b640ed2ef71269680221e828",
   "metrics_supply.csv": "3a4bed06d6dfcfe03e086832a85aeb9315c46699dfb19a4ac3b66d9c6f0dc7f9",
   "metrics_supply.json": "9b92e41109f20846bb0bbf9a0e811f3ba2e942a1f68ec6f1e280377e812e957f",
-  "metrics_transfer.csv": "c21752b9b0884898c1a8ee61d43d67bc4df8ab820ad55eb2bcfc6cd023fc5977",
-  "metrics_transfer.json": "9ce20f264625d233c9f3693b24548d9e24455fc0aecfc279625ede1fa97b113c"
+  "metrics_transfer.csv": "afbe85d89e89953c51735ea0f0d850a04647a903733531531b47d5546c4cd858",
+  "metrics_transfer.json": "d83bff738e62fedc9c369227db41ccf72fd16aa7c9d4e1d713554c4f33211dbd"
  }
 }
