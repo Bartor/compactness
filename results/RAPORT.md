@@ -1,6 +1,6 @@
-# Zwartość i potencjał transportowy polskich aglomeracji: raport (fazy 0–2)
+# Zwartość i potencjał transportowy polskich aglomeracji: raport (fazy 0–4)
 
-Stan na 2026-11-23. Raport zbiera wyniki fazy 0 i wskazuje decyzje, które muszą zapaść przed fazą 1. Nie zawiera żadnego wyniku gęstościowego ani transportowego: takie wyniki jeszcze nie istnieją. Wszystkie liczby poniżej są liczbami inwentaryzacyjnymi, przepisanymi z plików w `results/qa/phase0/`, `data/manifest.csv` i `config.yaml`; przy każdej podano plik źródłowy. Gdzie czegoś nie sprawdzono, stoi „nie zweryfikowano”; gdzie danych nie ma, „brak danych”.
+Stan na 2026-11-24. Sekcje 1–13 opisują fazę 0 (inwentaryzację i decyzje, stan z 2026-11-23); wyniki są w sekcjach 14 (gęstość), 15 (częsta komunikacja i podaż), 17 (dostępność), 18 (mapa) i 19 (gęstość × częstotliwość). Liczby w sekcjach 1–13 są liczbami inwentaryzacyjnymi, przepisanymi z plików w `results/qa/phase0/`, `data/manifest.csv` i `config.yaml`; przy każdej podano plik źródłowy. Gdzie czegoś nie sprawdzono, stoi „nie zweryfikowano”; gdzie danych nie ma, „brak danych”.
 
 Do czego wyniki się nadają, a do czego nie: §16.
 
@@ -15,10 +15,10 @@ Faza 0 jest zakończona. Zgodnie z briefem (§9) potok zatrzymuje się tutaj i c
 | 0. Inwentaryzacja | pobranie źródeł, tabele feedów, warianty GZM, dzień referencyjny, zasięg miejsc pracy, integracja taryfowa | wykonana; STOP, czeka na decyzje (sekcja 12); pokrycie GTFS: sekcja 6 |
 | 1. Gęstość | §4.1–4.4 briefu, kontrola GHSL vs NSP (§7.1) | wykonana 2026-11-23 dla 13 aglomeracji; sekcja 14 |
 | 2. Częsta komunikacja i podaż | §4.5, §4.7 | wykonana 2026-11-24 dla 7 aglomeracji fazy 1; sekcja 15 |
-| 3. Dostępność | §4.6 | nie rozpoczęta |
-| 4. Mapa | §8 | nie rozpoczęta |
+| 3. Dostępność | §4.6 | wykonana 2026-11-24 dla 7 aglomeracji fazy 1; sekcja 17 |
+| 4. Mapa | §8 | wykonana 2026-11-24 (pięć warstw kafli); sekcja 18 |
 | 5. Faza 2 miast | §4.1–4.3 dla Szczecina, Bydgoszczy–Torunia, Lublina, Rzeszowa, Kielc, Białegostoku | nie rozpoczęta |
-| 6. Warstwy dodatkowe | §13 briefu | nie rozpoczęta; 6b (GTFS-RT) odłożona decyzją właściciela, sekcja 10 |
+| 6. Warstwy dodatkowe | §13 briefu | jedna warstwa spoza listy (gęstość × częstotliwość, sekcja 19); kolejne zatwierdzone w §12.2; 6b (GTFS-RT) odłożona decyzją właściciela, sekcja 10 |
 
 Dwa elementy fazy 0 pozostały niepełne i są opisane w sekcjach 4 i 9: pełna kontrola GHSL vs NSP należy do fazy 1, a wartości PNFT z Atlasu ITDP dla polskich miast nie zostały uzyskane.
 
@@ -499,6 +499,13 @@ Numeracja zgodna z briefem §12; punkty 10–14 to nowe pytania z fazy 0. Rekome
 13. **Reguła deduplikacji kolei** (sekcja 5.3): potwierdzić, w szczególności wybór wersji SKM Warszawa z `warsaw_ztm` i wyłączenie autobusowej komunikacji zastępczej z miar kolejowych.
 14. **Okno godzin dla wariantu ITDP.** Zgodnie z kodem ITDP 07:00–21:00 (sekcja 9.1) zamiast 6:00–20:00 przyjętego w `config.yaml` (`frequency_window`); wariant szynowy wzorowany na DG REGIO zostaje przy 6:00–20:00. Rekomendacja: dwa okna, każde przypisane do swojego wariantu i opisane na wykresie.
 
+### 12.2 Decyzje podjęte 2026-11-24
+
+- Dodać warstwę „gęstość × częstotliwość komunikacji” z miarami niedopasowania (§19).
+- Dodać wariant transport performance w granicach urban centre dla siedmiu miast (§17.5) i opisać ograniczenia wprost (§16).
+- Nazwę „prędkość eksploatacyjna” zastąpić nazwą „prędkość komunikacyjna” (§15.3).
+- Zatwierdzone do wykonania po publikacji fazy 3, w tej kolejności: miara łatwości przesiadki dla zespołu przystanków; tabele prędkości linii, prędkości wg obszaru i przeglądarka odcinków sieci tramwajowej; scenariusz „co jeśli” dla tramwajów we Wrocławiu oparty na tych danych.
+
 ## 13. Licencje i atrybucje
 
 | Źródło | Licencja / warunki | Uwagi |
@@ -743,7 +750,7 @@ Ta sekcja mówi, do czego wyniki się nadają, a do czego nie. Dotyczy wszystkic
 ### 16.2 Ograniczenia
 
 1. **Rozkład jazdy, nie rzeczywistość.** Opóźnienia, korki i niezawodność nie są uwzględnione. To zwykłe założenie w badaniach tego typu, ale zawyża wynik sieci opartych na autobusach jadących w ruchu ogólnym.
-2. **Porównywalność między miastami.** Transport performance zależy od tego, gdzie przebiega granica obszaru: granice administracyjne miast obejmują bardzo różną ilość przedmieść, a GZM i Trójmiasto są sumami kilku miast. Różnica kilku punktów między miastami nie jest rankingiem. Porównanie z DG REGIO pokazało, że sama zmiana obszaru przesuwa wynik 45-minutowy o kilkanaście punktów (§16.4).
+2. **Porównywalność między miastami.** Transport performance zależy od tego, gdzie przebiega granica obszaru: granice administracyjne miast obejmują bardzo różną ilość przedmieść, a GZM i Trójmiasto są sumami kilku miast. Różnica kilku punktów między miastami nie jest rankingiem. Wariant w granicach urban centre (§17.5) stosuje tę samą regułę obszaru do każdego miasta, ale centra różnią się wielkością trzykrotnie. Wybór siatki ludności przesuwa wynik niektórych miast o 3–7 pkt (§17.3). Porównanie z DG REGIO pokazało, że sama zmiana obszaru przesuwa wynik 45-minutowy o kilkanaście punktów (§16.4).
 3. **Niepełne dane o rozkładach.** 28 z 42 feedów to feedy nieoficjalne, których dokładności nie sprawdzono; prywatni przewoźnicy (busy) są w większości nieobecni; poza pokryciem danych leży od 5 % (GZM) do 21 % (Kraków) ludności FUA. Wyniki dla stref podmiejskich są słabsze niż dla rdzeni.
 4. **Cele podróży są przybliżeniem.** „Osiągalna ludność” zastępuje miejsca pracy i usługi. Wariant z miejscami pracy korzysta ze zbioru modelowanego (§7), który obejmuje tylko miasta w granicach administracyjnych i nie obejmuje GZM, Gdyni ani Sopotu.
 5. **Tylko czas.** Bez taryf, zatłoczenia i uciążliwości przesiadek. Wariant „sieć wspólnego biletu” jest odłożony do potwierdzenia tabeli taryf (§8).
@@ -770,3 +777,140 @@ Pełny opis: [`qa/access/dgregio/dgregio.md`](qa/access/dgregio/dgregio.md); kod
 - **Główna przyczyna to inny obszar.** DG REGIO liczy starty, cele i mianownik wyłącznie w „urban centre” z 2011 r. (Poznań i Łódź po 117 km², Warszawa 309 km²). Po odtworzeniu tego obszaru i metody różnica przy 45 min (DG REGIO minus my) maleje z +20,1 do +4,5 pkt w Poznaniu i z +23,5 do +11,0 pkt w Łodzi; w Warszawie jesteśmy 4,3 pkt powyżej. Przy 30 min jesteśmy powyżej DG REGIO we wszystkich trzech miastach (o 6,2–9,8 pkt), czyli odwrotnie, niż gdyby brakowało nam kursów.
 - **Reszta jest niewyjaśniona.** Aneks DG REGIO podaje dla 2018 r. podaż autobusową w urban centre ok. 1,7 razy większą niż w naszych feedach z 2026 r. (Poznań, Łódź). Raporty roczne MPK Poznań pokazują zmianę pracy autobusowej o −6,7 % między 2017 a 2024 r., więc realna zmiana oferty tego nie tłumaczy; bardziej prawdopodobne jest zawyżenie albo inna klasyfikacja w danych wejściowych DG REGIO. Tego nie da się sprawdzić: praca nie podaje, jakich feedów użyto, a kompletnego feedu Poznania z 2018 r. nie udało się zdobyć. Dla Łodzi, gdzie reszta jest największa, podobnego sprawdzenia nie było.
 - **Wniosek praktyczny.** Z DG REGIO porównujemy tylko wynik liczony w granicach urban centre; wynik główny (rdzeń miasta, cele w FUA + 15 km) zostaje bez zmian.
+
+## 17. Faza 3: dostępność i transport performance (2026-11-24)
+
+Metoda, wszystkie tabele, kontrole i lista zaskoczeń: [`qa/access/access.md`](qa/access/access.md). Liczby: [`metrics/metrics_access.csv`](metrics/metrics_access.csv), scalone w [`metrics/metrics.csv`](metrics/metrics.csv). Dane pod wykresy: `charts/access_performance.json`; warstwa pod mapę: `layers/access_cells.parquet`. Kod: `pipeline/r5_inputs.py`, `access.py`, `access_inputs.py`, `access_samples.py`, `access_aggregate.py`, `access_qa.py`. Routing: R5 v7.5.1 (r5py 1.1.7), 98 jednostek (aglomeracja × sieć × scenariusz), 2 870 porcji po 1 000 startów, 11 h 20 min na 20 wątkach; przebieg jest wznawialny.
+
+Daty: ludność NSP 2021 (31.03.2021) w układzie GHSL 2020; rozkłady: środa 2026-11-25 i sobota 2026-11-28; OSM 2026-11-22.
+
+**Miara.** Transport performance = ludność osiągalna w czasie T ÷ ludność w promieniu odpowiadającym 15 km/h w linii prostej (7,5 km dla 30 min, 11,25 km dla 45 min; pieszo 2,5 km) × 100. Czas komunikacją to mediana z odjazdów co minutę w oknie, nie gorszy niż sam spacer. Wynik główny to średnia stosunków pojedynczych komórek ważona ludnością; w nawiasach stosunek średnich. Nie podajemy liczby „mieszkańców w zasięgu 30 minut” jako miary jakości.
+
+### 17.1 Wynik główny (środa 7:00–9:00, wszystkie feedy, siatka spisowa)
+
+| Aglomeracja | Rdzeń, KZ 30 | Rdzeń, KZ 45 | Obszar pokryty, KZ 30 | Obszar pokryty, KZ 45 | Rdzeń, pieszo 30 | Rdzeń, rower LTS ≤ 3 | Rdzeń, rower LTS ≤ 4 | Ludność FUA w masce, % |
+|---|---|---|---|---|---|---|---|---|
+| Warszawa | 33,9 (35,7) | 58,8 (61,4) | 28,4 (34,2) | 47,1 (58,1) | 66,4 | 45,2 | 52,4 | 82,5 |
+| Kraków | 31,6 (33,0) | 52,8 (54,2) | 24,5 (31,4) | 39,5 (49,3) | 64,8 | 48,5 | 53,4 | 78,8 |
+| Wrocław | 27,6 (29,4) | 53,0 (54,5) | 24,6 (29,1) | 45,5 (52,4) | 65,4 | 58,5 | 70,2 | 79,6 |
+| Poznań | 30,0 (31,7) | 54,6 (55,6) | 24,2 (29,2) | 40,1 (47,4) | 64,9 | 61,8 | 69,6 | 85,5 |
+| Łódź | 26,9 (28,3) | 51,3 (52,1) | 26,0 (28,3) | 41,6 (48,5) | 69,0 | 53,7 | 64,8 | 89,2 |
+| Trójmiasto | 31,8 (32,0) | 55,4 (54,5) | 31,7 (32,0) | 52,8 (53,6) | 69,1 | 50,4 | 65,5 | 83,2 |
+| GZM | 23,8 (22,3) | 36,1 (35,8) | 22,4 (21,7) | 33,0 (34,2) | 67,1 | 45,3 | 60,9 | 95,1 |
+
+„Obszar pokryty” to komórki FUA wewnątrz maski pokrycia GTFS; komórki poza maską są brakiem danych, nie zerem. Warszawa prowadzi w rdzeniach, GZM jest wyraźnie ostatnie, a Kraków, Wrocław, Poznań i Łódź mieszczą się przy 45 min w 3,5 pkt: ich kolejności nie należy czytać jako rankingu (§16.2).
+
+### 17.2 Okna czasu (rdzeń, wszystkie feedy)
+
+| Aglomeracja | 30: 7–9 | 30: południe | 30: wieczór | 30: sobota | 45: 7–9 | 45: południe | 45: wieczór | 45: sobota |
+|---|---|---|---|---|---|---|---|---|
+| Warszawa | 33,9 | 31,4 | 31,1 | 29,7 | 58,8 | 55,4 | 55,4 | 52,6 |
+| Kraków | 31,6 | 30,1 | 29,5 | 28,0 | 52,8 | 50,6 | 51,6 | 48,1 |
+| Wrocław | 27,6 | 26,6 | 27,8 | 26,3 | 53,0 | 52,1 | 54,7 | 52,1 |
+| Poznań | 30,0 | 28,2 | 27,8 | 26,8 | 54,6 | 52,4 | 52,3 | 49,8 |
+| Łódź | 26,9 | 26,4 | 25,4 | 24,0 | 51,3 | 50,3 | 49,0 | 46,3 |
+| Trójmiasto | 31,8 | 30,1 | 26,8 | 27,8 | 55,4 | 52,6 | 46,3 | 48,1 |
+| GZM | 23,8 | 22,5 | 20,4 | 20,1 | 36,1 | 33,8 | 29,7 | 28,8 |
+
+Wrocław jest jedynym miastem, w którym wieczór wypada przy 45 min lepiej niż szczyt poranny; zgadza się to z rozkładową prędkością tramwajów (16,1 km/h w szczytach, 18,0 km/h po 20:00). Największe spadki poza szczytem: Trójmiasto wieczorem i GZM wieczorem oraz w sobotę; ich przyczyn nie sprawdzano.
+
+### 17.3 Wrażliwość
+
+- **Siatka ludności.** Wybór siatki zmienia wynik bardziej niż różnice między miastami środka tabeli:
+
+| Aglomeracja | KZ 30, siatka spisowa | KZ 30, surowy GHSL | KZ 45, siatka spisowa | KZ 45, surowy GHSL |
+|---|---|---|---|---|
+| Warszawa | 33,9 | 33,0 | 58,8 | 59,2 |
+| Kraków | 31,6 | 28,0 | 52,8 | 50,3 |
+| Wrocław | 27,6 | 28,1 | 53,0 | 53,1 |
+| Poznań | 30,0 | 26,6 | 54,6 | 47,9 |
+| Łódź | 26,9 | 24,0 | 51,3 | 46,3 |
+| Trójmiasto | 31,8 | 29,8 | 55,4 | 52,6 |
+| GZM | 23,8 | 20,8 | 36,1 | 32,5 |
+
+- **Feedy.** Sieć z samymi feedami oficjalnymi różni się w rdzeniach o najwyżej 0,5 pkt (Łódź, 45 min).
+- **Limit przesiadek.** Najwyżej 2 przesiadki zamiast braku limitu: do 0,14 pkt.
+- **Reguła min(komunikacja, pieszo).** Podnosi wynik rdzenia o 0,1–0,9 pkt.
+- **Miejsca pracy** (obszar pokryty, stosunek średnich; zbiór modelowany z §7, bez GZM):
+
+| Aglomeracja | Miejsca pracy, 30 min | Miejsca pracy, 45 min |
+|---|---|---|
+| Warszawa | 38,5 | 67,5 |
+| Kraków | 34,7 | 62,4 |
+| Wrocław | 32,3 | 60,2 |
+| Poznań | 33,9 | 57,4 |
+| Łódź | 31,6 | 59,0 |
+| Trójmiasto | 32,1 | 57,3 |
+| GZM | brak danych | brak danych |
+
+### 17.4 Kontrole
+
+- **Wyszukiwarka połączeń (§7.4 briefu).** 31 par start–cel w siedmiu miastach, Google Maps, ten sam dzień i godzina odjazdu. Z 30 porównywalnych par 28 mieści się w ±20 %; suma czasów R5 to 98 % sumy czasów wyszukiwarki. Dwa wyjątki to krótkie podróże, w których tramwaj odjeżdża w minucie zapytania. Tabela i uwagi: `qa/access/access.md` §9, odpowiedzi wyszukiwarki: `qa/access/od_pairs_planner.csv`.
+- **DG REGIO (§7.2 briefu).** §16.4 i `qa/access/dgregio/dgregio.md`.
+- **Spójność wewnętrzna.** 309 z 315 kontroli przechodzi. Nie przechodzi „wszystkie feedy ≥ oficjalne” (sześć miast, od 1 do 730 komórek; w Warszawie przy 30 min 72 komórki z medianą straty 0,17 %); przyczyny nie ustalono.
+
+### 17.5 Te same miary w granicach urban centre (ta sama reguła obszaru dla każdego miasta)
+
+Starty, cele i mianownik ograniczone do centrów miejskich Eurostatu 2021 (`HDENS_CLST_2021`, siatka spisowa 2021) leżących w FUA; gdy jest ich kilka, liczona jest ich suma (Warszawa 4, GZM 4, Łódź 2, Trójmiasto 2). Metoda poza obszarem bez zmian. Opis, lista centrów i zmiany kolejności: [`qa/access_uc/access_uc.md`](qa/access_uc/access_uc.md); liczby: `metrics/metrics_access_uc.csv`; kod: `pipeline/access_uc.py`. Strzałka: rdzeń miasta → urban centre.
+
+| Aglomeracja | KZ 30, stosunek średnich | KZ 45, stosunek średnich | KZ 30, średnia stosunków | KZ 45, średnia stosunków | Pieszo 30 | Rower LTS ≤ 3 | Rower LTS ≤ 4 |
+|---|---|---|---|---|---|---|---|
+| Warszawa | 35,7 → 37,3 | 61,4 → 65,1 | 33,9 → 37,1 | 58,8 → 62,8 | 68,7 | 50,0 | 56,3 |
+| Kraków | 33,0 → 36,7 | 54,2 → 64,4 | 31,6 → 36,2 | 52,8 → 63,7 | 68,2 | 55,7 | 59,6 |
+| Wrocław | 29,4 → 33,4 | 54,5 → 65,7 | 27,6 → 31,9 | 53,0 → 64,8 | 66,8 | 66,4 | 76,0 |
+| Poznań | 31,7 → 35,5 | 55,6 → 67,0 | 30,0 → 33,5 | 54,6 → 65,9 | 67,6 | 67,5 | 73,4 |
+| Łódź | 28,3 → 32,5 | 52,1 → 61,7 | 26,9 → 35,5 | 51,3 → 60,3 | 72,9 | 61,8 | 70,3 |
+| Trójmiasto | 32,0 → 37,1 | 54,5 → 66,7 | 31,8 → 41,2 | 55,4 → 71,5 | 71,1 | 63,1 | 74,8 |
+| GZM | 22,3 → 26,0 | 35,8 → 43,2 | 23,8 → 30,6 | 36,1 → 46,5 | 69,2 | 54,3 | 66,3 |
+
+- Na tym samym rodzaju obszaru sześć miast mieści się w ok. 5 pkt (stosunek średnich); GZM zostaje wyraźnie ostatnie, więc ten wynik nie zależy od przebiegu granicy.
+- Warszawa traci przewagę przy 45 min. Częściowo to efekt wielkości: jej centrum ma 372 km², GZM 361 km², pozostałe 122–132 km², a w małym centrum miara 45-minutowa zbliża się do „udziału całego centrum osiąganego w 45 minut”. Wariant usuwa problem granicy, nie usuwa problemu wielkości.
+- W miastach z drugim, małym centrum (Trójmiasto, Łódź) średnia stosunków jest wyraźnie wyższa niż stosunek średnich. Prawdopodobna przyczyna: komórki na skraju małego centrum mają niewielu sąsiadów w mianowniku; tego nie sprawdzono. W tym wariancie bezpieczniej czytać stosunek średnich (tak liczy też DG REGIO).
+
+### 17.6 Nie zweryfikowano
+
+- Przyczyn spadków poza szczytem w Trójmieście i GZM oraz przyczyny niezaliczonej kontroli spójności.
+- Dokładności 28 nieoficjalnych feedów (jak w §15.4).
+- Reszty w porównaniu z DG REGIO (§16.4).
+- Wyników dla dni innych niż dwa dni referencyjne.
+
+## 18. Faza 4: mapa (2026-11-24)
+
+Strona: https://bartor.github.io/compactness/ (Vite + React, MapLibre GL, kafle PMTiles czytane zakresami bajtów prosto z GitHub Pages). Kod: `web/`, `pipeline/tiles.py`, `tiles_core.py`, `tiles_layers.py`, `tiles_verify.py`. Nota: [`qa/tiles/tiles.md`](qa/tiles/tiles.md).
+
+| Plik | Rozmiar, MB |
+|---|---|
+| `density250_nsp2021.pmtiles` | 3,00 |
+| `density_service_2026-11-25.pmtiles` | 1,39 |
+| `frequent_2026-11-25.pmtiles` | 1,38 |
+| `gtfs_nodata_2026-11-25.pmtiles` | 0,37 |
+| `performance30_2026-11-25.pmtiles` | 1,52 |
+| **razem** | **7,66** |
+
+Żaden plik nie przekracza 50 MB, katalog nie przekracza 200 MB (progi ostrzeżeń z briefu §14.3).
+
+- **Warstwy.** Granice FUA i rdzeni; gęstość 250 m (13 aglomeracji); zasięg częstej komunikacji; transport performance 30 min; gęstość × częstotliwość (§19); maska braku danych GTFS. Komórki bez danych są kreskowane, nigdy rysowane jako zero.
+- **Jedna warstwa wartości naraz.** Włączenie drugiej wyłącza pierwszą; granice i maska są niezależne.
+- **Legenda połączona z mapą.** Wskazanie klasy w legendzie przygasza pozostałe klasy na mapie, kliknięcie zostawia wyróżnienie (można zostawić kilka), wskazanie komórki na mapie zaznacza jej klasę w legendzie.
+- **Małe powiększenia.** Poniżej zoomu 9 komórki są łączone w bloki z klasą dominującą; pełna rozdzielczość 250 m od zoomu 9.
+- **Zakresy bajtów na GitHub Pages.** Sprawdzone 2026-11-23 w Chromium i przez curl (odpowiedź 206, także dla odległych przesunięć). Firefoksa i Safari nie sprawdzono.
+- **Transfer.** Pomiar z 2026-11-23 (cztery warstwy): pierwsza wizyta ok. 0,84–1,03 MB, czyli ok. 97–119 tys. wizyt na 100 GB miesięcznego limitu GitHub Pages. Po dodaniu piątej warstwy pomiaru nie powtórzono.
+- **Nie sprawdzono:** układu na telefonie po zmianach z 2026-11-24; legenda zasłania wybrane miasto przy otwartym panelu szczegółów na ekranie szerokości laptopa.
+
+## 19. Gęstość × częstotliwość komunikacji (warstwa dodatkowa, 2026-11-24)
+
+Warstwa spoza pierwotnego zakresu, dodana za zgodą właściciela (§12.2). Nota: [`qa/density_service/density_service.md`](qa/density_service/density_service.md); liczby: `metrics/metrics_density_service.csv`; kod: `pipeline/density_service.py`.
+
+**Metoda.** Każda zaludniona komórka 250 m wewnątrz maski pokrycia dostaje klasę gęstości (poniżej 2 500, 2 500–10 000, co najmniej 10 000 os./km²) i klasę obsługi wg najlepszego odstępu między kursami w zasięgu 500 m pieszo (rzadziej niż co 20 min lub brak, co 11–20 min, co 10 min lub częściej). Progi są wyborem własnym i łatwo je zmienić. Metryki korzystają z pełnej tabeli 3 × 3; mapa pokazuje pięć klas, bo dziewięciu mieszanych kolorów nie dało się odróżnić.
+
+| Aglomeracja | Rdzeń: bez kursów co ≤ 20 min, % | Rdzeń: kursy co ≤ 10 min, % | Rdzeń: korelacja rang | Obszar pokryty: bez kursów co ≤ 20 min, % | Obszar pokryty: kursy co ≤ 10 min, % | Obszar pokryty: korelacja rang |
+|---|---|---|---|---|---|---|
+| Warszawa | 5,1 | 87,3 | 0,42 | 14,4 | 73,7 | 0,71 |
+| Kraków | 8,0 | 74,9 | 0,37 | 11,2 | 72,2 | 0,70 |
+| Wrocław | 10,0 | 83,6 | 0,46 | 12,6 | 80,3 | 0,66 |
+| Poznań | 8,8 | 77,7 | 0,46 | 20,3 | 60,3 | 0,67 |
+| Łódź | 9,6 | 80,0 | 0,45 | 16,2 | 69,9 | 0,67 |
+| Trójmiasto | 12,8 | 67,2 | 0,35 | 18,3 | 56,2 | 0,45 |
+| GZM | 22,8 | 54,3 | 0,42 | 24,6 | 51,2 | 0,51 |
+
+Pierwsze dwie kolumny każdego obszaru to udział mieszkańców komórek o gęstości co najmniej 2 500 os./km². Korelacja rang (Spearman, ważona ludnością) między gęstością komórki a klasą odstępu: dodatnia oznacza, że gęstsze komórki mają częstsze kursy. GZM ma najwięcej mieszkańców gęstej zabudowy bez kursów co 20 min, zgodnie z wynikami faz 2 i 3.
