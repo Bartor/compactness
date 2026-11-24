@@ -131,9 +131,11 @@ Wozkm dnia referencyjnego (cała długość kursów, po regułach 1-4 na poziomi
 
 Pełna tabela: `anomaly_test_dedup.csv`. Słabość testu (jak w fazie 0): mediana krótkich feedów pochodzi z tego samego 2-3-tygodniowego okna co dzień referencyjny, a dla feedów rocznych obejmuje wakacje i ferie; test nie wykryje feedu „feryjnego” w całym oknie. Liczba dni w medianie jest w kolumnie `n_days_median`.
 
-## 4. Rozkładowa prędkość eksploatacyjna tramwajów (§4.7, grafika 5 z §15)
+## 4. Rozkładowa prędkość komunikacyjna tramwajów (§4.7, grafika 5 z §15)
 
-**To jest rozkładowa prędkość eksploatacyjna z postojami na przystankach** = długość kursu / (ostatni przyjazd − pierwszy odjazd), z rozkładu jazdy. Nie jest to prędkość jazdy między przystankami ani prędkość rzeczywista (warstwa 6b odłożona).
+Uwaga o nazwie: brief (§4.7) nazywa tę miarę prędkością eksploatacyjną. Liczona tu wielkość (długość kursu przez czas od pierwszego odjazdu do ostatniego przyjazdu, bez postojów na pętlach) to w polskiej praktyce prędkość komunikacyjna; prędkość eksploatacyjna obejmuje także postoje na pętlach i jest niższa. Od 2026-11-24 używamy nazwy „komunikacyjna”; definicja i liczby się nie zmieniły.
+
+**To jest rozkładowa prędkość komunikacyjna z postojami na przystankach** = długość kursu / (ostatni przyjazd − pierwszy odjazd), z rozkładu jazdy. Nie jest to prędkość jazdy między przystankami ani prędkość rzeczywista (warstwa 6b odłożona).
 
 Reguły (`pipeline/tram_speed.py`): wszystkie kursy tramwajowe dnia po deduplikacji. Długość z kształtu trasy; dla każdego kursu liczona też suma odległości w linii prostej między przystankami; gdy obie różnią się o więcej niż 15 % (flaga `length_disagree`) albo brak kształtu, w wyniku używana jest odległość między przystankami (dolne ograniczenie, więc prędkość lekko zaniżona). Wykluczone z każdej statystyki: kursy krótsze niż 1 km, krótsze niż 5 min, z mniej niż 3 przystankami (zjazdy do zajezdni, wyjazdy techniczne) oraz o prędkości poza 5-60 km/h (liczby w `tram_speed_excluded.csv`). Postój wewnątrz kursu dłuższy niż 120 s traktowany jest jako postój wyrównawczy; wynik główny go zawiera, wersja bez niego jest w CSV (`median_ex_layover_kmh`). Mediana ważona = mediana ważona długością kursu (wozkm). Żaden inny z 42 feedów nie ma linii tramwajowych.
 

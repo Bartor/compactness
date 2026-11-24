@@ -1,6 +1,6 @@
 {
- "duration_s": 461.2,
- "git_sha": "8cf4e384d18721538870005637014f36b73c37dc",
+ "duration_s": 792.3,
+ "git_sha": "37c16f54376869733a3fe058db298672529c44e9",
  "inputs": {
   "gtfs_gdansk": {
    "data_date": "20261123/20261207",
@@ -216,7 +216,7 @@
  "missing_inputs": [],
  "population_date": "2021-03-31",
  "rules_version": "2026-11-24.4",
- "run_at": "2026-11-23T21:30:24+01:00",
+ "run_at": "2026-11-24T10:03:34+01:00",
  "step": "supply",
  "supply_version": "2026-11-24.1",
  "timetable_dates": {
