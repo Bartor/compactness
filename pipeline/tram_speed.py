@@ -1,7 +1,9 @@
 """Scheduled tram operating speed (brief 4.7).
 
-LABEL EVERYWHERE: "rozkładowa prędkość eksploatacyjna (z postojami na przystankach)" = trip length /
+LABEL EVERYWHERE: "rozkładowa prędkość komunikacyjna (z postojami na przystankach)" = trip length /
 (last arrival - first departure), as scheduled.  It is not running speed between stops and not real speed.
+Naming: the brief calls it "prędkość eksploatacyjna"; in Polish practice that term also counts terminal layovers,
+and length / end-to-end time with stops is "prędkość komunikacyjna" (commercial speed), so that name is used.
 
 Rules
 * Trips: every tram trip (route_class "tram") of the de-duplicated service layer on the reference day.
@@ -32,7 +34,7 @@ MIN_LEN_M, MIN_DUR_S, MIN_STOPS = 1000, 300, 3
 V_MIN, V_MAX = 5.0, 60.0
 DISAGREE = 0.15
 LAYOVER_S = 120
-LABEL = "Rozkładowa prędkość eksploatacyjna tramwajów (z postojami na przystankach; nie prędkość jazdy ani rzeczywista)"
+LABEL = "Rozkładowa prędkość komunikacyjna tramwajów (z postojami na przystankach; nie prędkość jazdy ani rzeczywista)"
 
 
 def wmedian(x: np.ndarray, w: np.ndarray) -> float:
@@ -265,7 +267,7 @@ def run(days: dict[str, str], qa, charts) -> dict:
                 "timetable_date": r.day, "coverage_share": None, "feed_variant": r.variant,
                 "source": "GTFS (warstwa gtfs_service), kursy tramwajowe po deduplikacji; długość z kształtu trasy (przy niezgodności > 15 % z odległości między przystankami)",
                 "unit": "km/h"}
-        flag = "rozkładowa prędkość eksploatacyjna z postojami; sieć tramwajowa miasta, nie FUA"
+        flag = "rozkładowa prędkość komunikacyjna z postojami; sieć tramwajowa miasta, nie FUA"
         tier = "table" if sat else "main"
         tag = "_sat" if sat else ""
         for m, lab, val in (("tram_speed_median", "mediana kursów", r.median_kmh), ("tram_speed_wmedian_vkm", "mediana ważona długością kursu (wozkm)", r.wmedian_vkm_kmh),
@@ -298,7 +300,7 @@ def _plot_city_dist(all_trips: dict, qa) -> None:
     ax.set_xticks(range(1, len(cities) + 1), cities)
     ax.set_ylabel("km/h")
     ax.set_ylim(4, max(np.max(d) for d in data) + 2)
-    ax.set_title("Rozkładowa prędkość eksploatacyjna tramwajów (z postojami), kursy, śr. 2026-11-25\n"
+    ax.set_title("Rozkładowa prędkość komunikacyjna tramwajów (z postojami), kursy, śr. 2026-11-25\n"
                  "kółko = mediana kursów, romb = mediana ważona długością, belka = kwartyle", fontsize=10)
     fig.tight_layout()
     fig.savefig(qa / "tram_speed_per_city.png", dpi=110)
@@ -320,7 +322,7 @@ def _plot_per_line(pl: pd.DataFrame, qa) -> None:
         ax.set_xlim(8, 40)
         ax.set_xlabel("km/h")
         ax.grid(axis="x", alpha=.3)
-    fig.suptitle("Rozkładowa prędkość eksploatacyjna tramwajów wg linii (mediana i kwartyle kursów, z postojami), śr. 2026-11-25", fontsize=11)
+    fig.suptitle("Rozkładowa prędkość komunikacyjna tramwajów wg linii (mediana i kwartyle kursów, z postojami), śr. 2026-11-25", fontsize=11)
     fig.tight_layout()
     fig.savefig(qa / "tram_speed_per_line.png", dpi=110)
     plt.close(fig)
@@ -334,7 +336,7 @@ def _plot_hourly(hr: pd.DataFrame, qa) -> None:
         ax.plot(g["hour"], g["median_kmh"], marker="o", ms=3, label=c)
     ax.set_xlabel("godzina odjazdu z pierwszego przystanku (godz. z >= 5 kursami)")
     ax.set_ylabel("mediana, km/h")
-    ax.set_title("Rozkładowa prędkość eksploatacyjna tramwajów (z postojami) wg godziny odjazdu, śr. 2026-11-25", fontsize=10)
+    ax.set_title("Rozkładowa prędkość komunikacyjna tramwajów (z postojami) wg godziny odjazdu, śr. 2026-11-25", fontsize=10)
     ax.legend(ncol=4, fontsize=8)
     ax.grid(alpha=.3)
     fig.tight_layout()

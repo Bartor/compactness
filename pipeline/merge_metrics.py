@@ -55,7 +55,7 @@ for _dom in ("fua", "core"):
     # supply: vehicle-km per inhabitant per day, all modes
     PANEL[(_dom, "vkm_per_cap_day_total")] = (_o + 8, "Wozokilometry na mieszkańca na dobę (wszystkie środki)")
 # supply: tram operating speed of the city's tram network (its own domain)
-PANEL[("city_tram_network", "tram_speed_median")] = (1, "Prędkość eksploatacyjna tramwajów (mediana kursów)")
+PANEL[("city_tram_network", "tram_speed_median")] = (1, "Prędkość komunikacyjna tramwajów (mediana kursów)")
 # frequent transit (tier "main"): population within 500 m of service at least every N minutes
 for _dom in ("core", "covered"):
     for _i, (_n, _s) in enumerate(_FREQ):
