@@ -1,4 +1,4 @@
-// Turns the metrics index into what ExpandTable draws: the comparison of cities in one area, and the table of
+// Turns the metrics index into what the kit's DataTable draws: the comparison of cities in one area, and the table of
 // one city across areas. Pure data in, plain objects (with JSX for the help) out.
 import { METRIC_INFO, DOMAIN_INFO } from './metricInfo'
 import { formatValue } from './metrics'
@@ -7,7 +7,7 @@ import {
   AREAS, SHORT_CITY, areaRow, buildGroups, cityCell, markExtremes, metricName, metricUnit, plainText, standing, valueOf,
 } from './metricTable'
 
-const DASH = { text: '–', tone: 'dim', title: 'brak danych' }
+const DASH = { content: '–', tone: 'dim', title: 'brak danych' }
 
 /** The "na mapie" action of a metric, when its layer exists and is ready in the catalog. */
 export function mapAction(info, id, layers, onShowLayer) {
@@ -27,6 +27,8 @@ export function cityColumns(cities, names, onPick) {
 /**
  * Groups of rows for the comparison: one column per city, all in `area`. Each row marks its best and weakest value
  * (METRIC_INFO's `better`), has the "?" with the explanation and, where a map layer shows the same thing, "na mapie".
+ * A cell carries the number it sorts by apart from its text, and a row says which way is better, so that sorting the
+ * row puts the best city first (a row without a direction goes from the highest).
  */
 export function compareGroups({ index, cities, area, names, layers, onShowLayer, onlyGroups = null, info = METRIC_INFO }) {
   return buildGroups(index, { onlyGroups }).map((g) => ({
@@ -40,11 +42,12 @@ export function compareGroups({ index, cities, area, names, layers, onShowLayer,
         id,
         label: metricName(index, id, info),
         unit: metricUnit(index, id),
+        better: info[id]?.better ?? null,
         help: <MetricHelp id={id} entries={cities.map((c, i) => ({ key: c, row: rows[i] }))} nameOf={(c) => names[c] || c} info={info} />,
         action: mapAction(info, id, layers, onShowLayer),
         cells: values.map((v, i) => (v == null
           ? DASH
-          : { text: plainText(rows[i]), title: formatValue(rows[i]).text, tone: marks.best.has(i) ? 'best' : marks.worst.has(i) ? 'weak' : undefined })),
+          : { content: plainText(rows[i]), value: v, title: formatValue(rows[i]).text, tone: marks.best.has(i) ? 'best' : marks.worst.has(i) ? 'weak' : undefined })),
       }
     }),
   }))
@@ -77,7 +80,7 @@ export function cityGroups({ index, cities, agg, layers, onShowLayer, info = MET
       const pos = !st
         ? DASH
         : {
-          text: `${st.rank}/${st.n}`,
+          content: `${st.rank}/${st.n}`,
           tone: better == null ? 'dim' : st.rank === 1 ? 'best' : undefined,
           title: `Miejsce wśród ${st.n} miast, w obszarze „${areaName(st.area)}”${better == null ? ' (miara bez kierunku „lepiej”)' : ''}`,
         }
@@ -88,7 +91,7 @@ export function cityGroups({ index, cities, agg, layers, onShowLayer, info = MET
         help: <MetricHelp id={id} entries={AREAS.map((a, i) => ({ key: a, row: rows[i] }))} nameOf={areaName} info={info} />,
         action: mapAction(info, id, layers, onShowLayer),
         cells: [
-          ...rows.map((r) => (valueOf(r) == null ? DASH : { text: plainText(r), title: formatValue(r).text })),
+          ...rows.map((r) => (valueOf(r) == null ? DASH : { content: plainText(r), title: formatValue(r).text })),
           pos,
         ],
       }
@@ -98,7 +101,7 @@ export function cityGroups({ index, cities, agg, layers, onShowLayer, info = MET
 
 /** A one-group table of (30 min, 45 min) figures: "Pora dnia" and "Z centrów". `rows` is [{key, label, v30, v45, unit}]. */
 export function reachGroups(rows, title) {
-  const fmt = (v, unit) => (v == null ? DASH : { text: new Intl.NumberFormat('pl-PL', { minimumFractionDigits: 1, maximumFractionDigits: 1 }).format(v), title: unit ? `${v} ${unit}` : undefined })
+  const fmt = (v, unit) => (v == null ? DASH : { content: new Intl.NumberFormat('pl-PL', { minimumFractionDigits: 1, maximumFractionDigits: 1 }).format(v), title: unit ? `${v} ${unit}` : undefined })
   return [{
     id: 'reach',
     title,

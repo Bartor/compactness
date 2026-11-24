@@ -1,9 +1,8 @@
-import { Callout, DetailsPanel, Hint, Notes, RankList, Warn } from '@bartor-net/ui-kit'
+import { Callout, DataTable, DetailsPanel, Hint, Notes, RankList, Warn } from '@bartor-net/ui-kit'
 import { ACCENT } from './config'
 import { NO_DATA } from './metrics'
 import { centreRows, highlights, timeOfDay } from './metricTable'
 import { areaColumns, cityGroups, reachGroups } from './tableModel'
-import ExpandTable from './kitx/ExpandTable'
 import Dock from './kitx/Dock'
 
 const dep = new Intl.NumberFormat('pl-PL', { maximumFractionDigits: 1 })
@@ -46,8 +45,8 @@ export default function CityPanel({
           )
           : (
             <>
-              <ExpandTable
-                caption={`Miary: ${agglomeration.name}`} labelHead="Miara"
+              <DataTable
+                caption={`Miary: ${agglomeration.name}`} labelHead="Miara" className="city-table"
                 columns={areaColumns()} groups={groups}
               />
               <Hint>
@@ -59,7 +58,7 @@ export default function CityPanel({
         {inside && <h4 className="city-inside">W środku aglomeracji</h4>}
         {day && (
           <section>
-            <ExpandTable
+            <DataTable
               caption="Zasięg komunikacją o różnych porach"
               labelHead="Pora dnia"
               columns={[{ key: '30', head: '30 min' }, { key: '45', head: '45 min' }]}
@@ -69,7 +68,7 @@ export default function CityPanel({
         )}
         {centres.length > 0 && (
           <section>
-            <ExpandTable
+            <DataTable
               caption="Zasięg komunikacją z centrów"
               labelHead="Z centrów"
               columns={[{ key: '30', head: '30 min' }, { key: '45', head: '45 min' }]}

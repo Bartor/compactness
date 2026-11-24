@@ -30,7 +30,7 @@ export default function MetricHelp({ id, entries, nameOf, info = METRIC_INFO }) 
       {hasSource && (
         <>
           <h5>Źródło tych liczb</h5>
-          <div className="kitx-src">
+          <div className="help-src">
             {s.source && <p>{s.source}</p>}
             {(s.dates.length > 0 || s.feed) && (
               <p>{[...s.dates, s.feed].filter(Boolean).join(' · ')}</p>
@@ -42,7 +42,7 @@ export default function MetricHelp({ id, entries, nameOf, info = METRIC_INFO }) 
               </p>
             )}
             {s.flags.map((f) => (
-              <p key={f.text} className="kitx-warnline">{f.keys.length > 0 && <b>{f.keys.join(', ')}: </b>}{f.text}</p>
+              <p key={f.text} className="help-warnline">{f.keys.length > 0 && <b>{f.keys.join(', ')}: </b>}{f.text}</p>
             ))}
           </div>
         </>

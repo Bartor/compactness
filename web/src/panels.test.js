@@ -1,7 +1,7 @@
 import { createElement as h } from 'react'
 import { renderToStaticMarkup } from 'react-dom/server'
 import { describe, expect, it } from 'vitest'
-import ExpandTable from './kitx/ExpandTable'
+import { DataTable } from '@bartor-net/ui-kit'
 import Compare from './Compare'
 import CityPanel from './CityPanel'
 import Sidebar from './Sidebar'
@@ -12,23 +12,23 @@ import { EMPTY_FOCUSES } from './classFocus'
 const html = (el) => renderToStaticMarkup(el)
 const noop = () => {}
 
-describe('ExpandTable (kitx)', () => {
+describe('the kit table, as this app feeds it', () => {
   const columns = [{ key: 'a', head: 'A', title: 'Aaa', onPick: noop }, { key: 'b', head: 'B', help: h('p', null, 'o kolumnie') }]
   const groups = [{
     id: 'g', title: 'Grupa',
     rows: [
       { id: 'r1', label: 'Wiersz', unit: '%', help: h('p', null, 'wyjaśnienie'), action: { label: 'na mapie', onClick: noop },
-        cells: [{ text: '1', tone: 'best' }, { text: '–', tone: 'dim' }] },
-      { id: 'r2', label: 'Bez pomocy', cells: [{ text: '2' }] },
+        cells: [{ content: '1', tone: 'best' }, { content: '–', tone: 'dim' }] },
+      { id: 'r2', label: 'Bez pomocy', cells: [{ content: '2' }] },
     ],
   }]
   it('has a "?" with aria-expanded only on rows and columns that have help, and no help text until opened', () => {
-    const s = html(h(ExpandTable, { columns, groups, hot: 'a', caption: 'Tabela' }))
+    const s = html(h(DataTable, { columns, groups, hot: 'a', caption: 'Tabela' }))
     expect((s.match(/aria-expanded="false"/g) || []).length).toBe(2)
     expect(s).not.toContain('wyjaśnienie')
     expect(s).toContain('na mapie')
-    expect(s).toContain('kitx-best')
-    expect(s).toContain('kitx-col hot')
+    expect(s).toContain('kit-data-best')
+    expect(s).toContain('kit-data-col hot')
     expect(s).toContain('role="region"')
     // a missing cell is a dash, never empty
     expect(s).toContain('Bez pomocy')
@@ -66,13 +66,58 @@ describe('panels render without a browser', () => {
     expect(s).toContain('Gęstość: wszystkie 4 miast')
     expect(s).toContain('a nie zero')
     expect(s).toContain('Nowa miara')
-    expect(s).toContain('kitx-col hot')
+    expect(s).toContain('kit-data-col hot')
     expect(s.includes('na mapie')).toBe(false)   // layers of these metrics are not in this catalog
     const withLayer = html(h(Compare, {
       index, cities, everyCity: cities, names: {}, area: 'core', setArea: noop,
       layers: [L('density_250m', 'choropleth')], onShowLayer: noop, onPickCity: noop, hot: null, setHot: noop, onOpenLimits: noop,
     }))
     expect(withLayer).toContain('na mapie')
+  })
+  describe('sorting the comparison by a row', () => {
+    const more = indexMetrics([
+      ...metrics,
+      ...[['warszawa', 3, 900], ['krakow', 1, 1200], ['lodz', 2, null]].flatMap(([c, rho, area]) => [
+        row(c, 'rho_t20', 'core', rho, { unit: '' }), row(c, 'area', 'core', area, { unit: 'km²' }),
+      ]),
+    ])
+    const base = {
+      index: more, cities, everyCity: cities, names: {}, area: 'core', setArea: noop, layers: [], onShowLayer: noop,
+      onPickCity: noop, hot: null, setHot: noop, onOpenLimits: noop,
+    }
+    const heads = (s) => [...s.matchAll(/kit-data-pick">([^<]+)</g)].map((m) => m[1]).slice(0, 3)
+    it('keeps the default order of the cities without a sort', () => {
+      const s = html(h(Compare, base))
+      expect(heads(s)).toEqual(['W-wa', 'Kraków', 'Łódź'])
+      expect(s).not.toContain('Domyślna kolejność miast')
+      expect(s).not.toContain('aria-sort')
+    })
+    it('puts the best first: high first where higher is better, low first where lower is', () => {
+      expect(heads(html(h(Compare, { ...base, sort: { key: 'pwdens_census_1km', dir: 'desc' } })))).toEqual(['Łódź', 'Kraków', 'W-wa'])
+      const lower = html(h(Compare, { ...base, sort: { key: 'rho_t20', dir: 'asc' } }))
+      expect(heads(lower)).toEqual(['Kraków', 'Łódź', 'W-wa'])
+      expect(lower).toContain('najlepsze pierwsze')
+      expect(lower).toContain('Domyślna kolejność miast')
+      expect(lower).toContain('aria-sort="ascending"')
+    })
+    it('puts a city without a number last, whichever way, and does not call a metric without a direction best', () => {
+      // area: warszawa 900, krakow 1200, lodz missing
+      for (const dir of ['asc', 'desc']) {
+        const s = html(h(Compare, { ...base, sort: { key: 'area', dir } }))
+        expect(heads(s)[2]).toBe('Łódź')
+        expect(s).not.toContain('najlepsze pierwsze')
+      }
+      expect(heads(html(h(Compare, { ...base, sort: { key: 'area', dir: 'desc' } })))).toEqual(['Kraków', 'W-wa', 'Łódź'])
+    })
+    it('ignores a sort of a metric the table does not have, as an old link might carry', () => {
+      const s = html(h(Compare, { ...base, sort: { key: 'nie_ma_takiej', dir: 'desc' } }))
+      expect(heads(s)).toEqual(['W-wa', 'Kraków', 'Łódź'])
+      expect(s).not.toContain('Domyślna kolejność miast')
+    })
+    it('keeps the sort when the area changes: it is a property of the page, not of the area', () => {
+      const s = html(h(Compare, { ...base, area: 'urban_centre', sort: { key: 'pwdens_census_1km', dir: 'desc' } }))
+      expect(s).toContain('Domyślna kolejność miast')
+    })
   })
   it('the comparison says so when there are no metrics', () => {
     const s = html(h(Compare, {

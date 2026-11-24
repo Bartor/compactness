@@ -188,3 +188,38 @@ describe('legend', () => {
     expect(legendRows({ kind: 'mask' })).toEqual({ rows: [], noData: null })
   })
 })
+
+describe('the sort of the comparison in the address', () => {
+  const d = { layers: ['fua'] }
+  const catalog = { agglomerations: [{ id: 'wroclaw' }], layers: [{ id: 'fua', kind: 'boundary', status: 'ready' }] }
+  it('is written after the rest, only when there is one, and read back', () => {
+    const h = hashOf({ agg: 'lodz', layers: ['x', 'fua'], sort: { key: 'pwdens_census_1km', dir: 'desc' }, sortDensity: { key: 'area', dir: 'asc' } }, d)
+    expect(h).toBe('#a=lodz&l=fua,x&s=pwdens_census_1km:desc&sd=area:asc')
+    const r = readHash(h)
+    expect(r.sort).toEqual({ key: 'pwdens_census_1km', dir: 'desc' })
+    expect(r.sortDensity).toEqual({ key: 'area', dir: 'asc' })
+    expect(r.agg).toBe('lodz')
+    expect(hashOf({ agg: null, layers: ['fua'], sort: null, sortDensity: null }, d)).toBe('')
+    expect(hashOf({ agg: null, layers: ['fua'], sort: { key: 'area', dir: 'desc' } }, d)).toBe('#s=area:desc')
+  })
+  it('leaves old addresses as they were: no sort, and the same hash back', () => {
+    const r = readHash('#a=wroclaw&l=fua,x&v=d:2')
+    expect(r.sort).toBeUndefined()
+    expect(r.sortDensity).toBeUndefined()
+    expect(resolveHash(r, catalog).sort).toBeNull()
+    expect(hashOf({ agg: 'wroclaw', layers: ['x', 'fua'], variants: r.variants }, d)).toBe('#a=wroclaw&l=fua,x&v=d:2')
+  })
+  it('drops what is not a sort: no way, a wrong way, no metric', () => {
+    expect(readHash('#s=area').sort).toBeUndefined()
+    expect(readHash('#s=area:up').sort).toBeUndefined()
+    expect(readHash('#s=:asc').sort).toBeUndefined()
+    expect(readHash('#s=').sort).toBeUndefined()
+    expect(hashOf({ agg: null, layers: ['fua'], sort: { key: 'area', dir: 'sideways' } }, d)).toBe('')
+  })
+  it('resolves to null for no sort and to the sort for a sort, keeping the rest of the state', () => {
+    const r = resolveHash(readHash('#a=nope&s=area:desc&sd=rho_t20:asc'), catalog)
+    expect(r.sort).toEqual({ key: 'area', dir: 'desc' })
+    expect(r.sortDensity).toEqual({ key: 'rho_t20', dir: 'asc' })
+    expect(r.agg).toBeNull()
+  })
+})

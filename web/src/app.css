@@ -112,7 +112,30 @@ button, input, select, textarea { font-family: inherit; }
 .kit-details-body .kit-callout .kit-notes { margin: .2rem 0 0; }
 .compare-area { margin: .5rem 0 .9rem; color: var(--kit-dim); font-size: .8rem; line-height: 1.45; }
 .kit-details-body section + section { margin-top: 1rem; }
-.kit-modal-body .kitx-scroll { margin: 0 -.2rem; padding: 0 .2rem; }
+.compare-sort { margin: 0 0 .5rem; color: var(--kit-dim); font-size: .8rem; line-height: 1.4; }
+.compare-sort b { color: var(--kit-soft); font-weight: 600; }
+
+/* The tables of the panels are the kit's DataTable: one region that scrolls both ways, heads and first column
+   sticky. It is as tall as the window allows, so the heads stay put while the rows go by. */
+.compare-table, .city-table { --kit-data-height: max(14rem, calc(100dvh - 15rem)); }
+/* Seven cities beside the measure fit the 560 px panel: tight cells, a narrower label column. */
+.compare-table .kit-data-table th, .compare-table .kit-data-table td,
+.city-table .kit-data-table th, .city-table .kit-data-table td { padding-inline: .28rem; }
+.compare-table .kit-data-table .kit-data-col, .city-table .kit-data-table .kit-data-col { min-width: 0; }
+.compare-table .kit-data-table th.kit-data-label, .city-table .kit-data-table th.kit-data-label {
+  min-width: 8rem; max-width: 10.5rem; padding-left: 0;
+}
+.compare-table .kit-data-table th.kit-data-corner, .city-table .kit-data-table th.kit-data-corner { padding-left: 0; }
+
+/* what MetricHelp puts in a "?" */
+.kit-data-help h5 {
+  margin: .5rem 0 .15rem; font-size: .68rem; font-weight: 600; letter-spacing: .07em; text-transform: uppercase;
+  color: var(--kit-dim);
+}
+.kit-data-help h5:first-child { margin-top: 0; }
+.help-src { color: var(--kit-dim); font-size: .76rem; line-height: 1.45; }
+.help-src b { color: var(--kit-soft); font-weight: 600; }
+.help-warnline { color: var(--kit-warn); }
 
 @media (max-width: 760px) {
   /* the sheet's peek covers the bottom 62px: keep the attribution above it */

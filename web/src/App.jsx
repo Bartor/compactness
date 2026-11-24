@@ -64,6 +64,9 @@ function Loaded({ catalog, metrics, attributions }) {
   // the city lit on the map and in the tables: one state for both
   const [hot, setHot] = useState(null)
   const [area, setArea] = useState('core')           // the area the comparison refers to
+  // how the cities are ordered in the two comparison tables: {key: metric id, dir} or null (the default order)
+  const [sort, setSort] = useState(start.sort)
+  const [sortDensity, setSortDensity] = useState(start.sortDensity)
   const [compareOpen, setCompareOpen] = useState(true)   // desktop: the comparison in the details slot
   const [compareSheet, setCompareSheet] = useState(false)   // phones: the comparison as a modal
   const [about, setAbout] = useState(null)           // null, or {limits}: the "O danych" modal
@@ -130,17 +133,18 @@ function Loaded({ catalog, metrics, attributions }) {
 
   // Keep the address in step, without adding a history entry per click.
   useEffect(() => {
-    const h = hashOfView(selectedId, view, layers)
+    const h = hashOfView(selectedId, view, layers, { sort, sortDensity })
     if (h !== window.location.hash && !(h === '' && !window.location.hash)) {
       window.history.replaceState(null, '', h || window.location.pathname + window.location.search)
     }
-  }, [selectedId, view, layers])
+  }, [selectedId, view, layers, sort, sortDensity])
 
   const compare = (
     <Compare
       index={index} cities={cities} everyCity={everyCity} names={names}
       area={area} setArea={setArea} layers={layers} onShowLayer={showLayer}
       onPickCity={pick} hot={hot} setHot={setHot}
+      sort={sort} setSort={setSort} sortDensity={sortDensity} setSortDensity={setSortDensity}
       onOpenLimits={() => setAbout({ limits: true })}
     />
   )
