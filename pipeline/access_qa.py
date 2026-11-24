@@ -36,6 +36,9 @@ OBSERVATIONS = """\
 """
 
 
+PLANNER = QA / "od_pairs_planner.csv"     # journey-planner answers collected by hand (brief 7.4); an input
+
+
 def f1(x, nd=1):
     if x is None or (isinstance(x, float) and not np.isfinite(x)):
         return "–"
@@ -308,8 +311,46 @@ def od_table(ctx) -> pd.DataFrame:
                          "R5 mediana 7–9, min": f1(r.r5_transit_median_0709_min, 0),
                          "Pieszo, min": f1(r.r5_walk_only_min, 0),
                          "Trasa R5 (najszybsza o tej godzinie)": f"{f1(r.itinerary_total_min)} min: {r.itinerary}",
-                         "Wyszukiwarka (do uzupełnienia)": ""})
-    return pd.DataFrame(rows)
+                         "_r5": r.r5_transit_at_departure_min})
+    od = pd.DataFrame(rows)
+    if od.empty:
+        return od
+    # journey-planner answers are collected by hand (brief 7.4) and kept next to the outputs
+    cols = ["Wyszukiwarka", "Data zapytania", "Wyszukiwarka, min", "R5 do wyszukiwarki, %",
+            "Linie w wyszukiwarce", "Uwagi"]
+    if PLANNER.exists():
+        pl = pd.read_csv(PLANNER).rename(columns={"Wyszukiwarka, min od podanej godziny": "_g",
+                                                   "Linie w najszybszej trasie": "Linie w wyszukiwarce"})
+        od = od.merge(pl[["Miasto", "Nr", "Wyszukiwarka", "Data zapytania", "_g", "Linie w wyszukiwarce", "Uwagi"]],
+                      on=["Miasto", "Nr"], how="left")
+        r5 = pd.to_numeric(od["_r5"], errors="coerce").round()
+        g = pd.to_numeric(od["_g"], errors="coerce")
+        asked = od["Wyszukiwarka"].notna()
+        od["Wyszukiwarka, min"] = [f1(v, 0) if v == v else ("brak trasy" if a else "") for v, a in zip(g, asked)]
+        od["R5 do wyszukiwarki, %"] = [f"{100 * (a / b - 1):+.0f}".replace("-", "−") if a == a and b == b and b > 0
+                                       else "" for a, b in zip(r5, g)]
+        for c in ("Wyszukiwarka", "Data zapytania", "Linie w wyszukiwarce", "Uwagi"):
+            od[c] = od[c].fillna("")
+        summary = planner_summary(r5, g, asked)
+    else:
+        summary = ""
+        for c in cols:
+            od[c] = ""
+    od = od.drop(columns=[c for c in ("_r5", "_g") if c in od.columns])
+    od.attrs["planner"] = summary
+    return od
+
+
+def planner_summary(r5: pd.Series, g: pd.Series, asked: pd.Series) -> str:
+    ok = r5.notna() & g.notna() & (g > 0)
+    if not ok.any():
+        return ""
+    d = 100 * (r5[ok] / g[ok] - 1)
+    return (f"Wyszukiwarkę odpytano dla {int(asked.sum())} par, porównywalnych (obie strony znalazły trasę) jest "
+            f"{int(ok.sum())}. W granicy ±20 % mieści się {int((d.abs() <= 20).sum())} par; R5 jest wolniejszy o więcej "
+            f"niż 20 % w {int((d > 20).sum())}, szybszy o więcej niż 20 % w {int((d < -20).sum())}. Suma czasów R5 "
+            f"do sumy czasów wyszukiwarki: {f1(float(r5[ok].sum() / g[ok].sum()), 3)}; mediana różnicy "
+            f"{f1(float(d.median()), 1)} %. Każda różnica powyżej 20 % ma wyjaśnienie w kolumnie „Uwagi”.")
 
 
 # ------------------------------------------------------------------ plots
@@ -460,10 +501,15 @@ def write_md(ctx, status, size, pngs) -> None:
     L.append("Performance > 100 nie jest błędem: licznik liczy cele osiągalne także poza promieniem proximity (np. koleją), mianownik tylko te w promieniu.\n")
     L.append(DETERMINISM + "\n")
     L.append("## 9. Pary start–cel do porównania z wyszukiwarką (§7.4)\n")
-    L.append("Wyszukiwarki nie odpytywano (zadanie dla człowieka). Porównywać czas **dla podanej godziny odjazdu** w środę "
-             f"{CFG['reference_day']} (kolumna „R5 o tej godzinie”), nie medianę z okna. Starty leżą przy przystankach, bo "
-             "`DetailedItineraries` nie egzekwuje limitu dojścia 12 min. Różnica > 20 % wymaga wyjaśnienia (§7.4).\n")
     od = od_table(ctx)
+    L.append("Porównywany jest czas **dla podanej godziny odjazdu** w środę "
+             f"{CFG['reference_day']} (kolumna „R5 o tej godzinie”), nie mediana z okna: od tej godziny do najwcześniejszego "
+             "przyjazdu, jaki pokazuje wyszukiwarka dla tego samego dnia i godziny (tryb komunikacji zbiorowej). Starty leżą "
+             "przy przystankach, bo `DetailedItineraries` nie egzekwuje limitu dojścia 12 min. Odpowiedzi wyszukiwarki "
+             "zebrano ręcznie i zapisano w `od_pairs_planner.csv` (data zapytania w tabeli). Różnica > 20 % wymaga "
+             "wyjaśnienia (§7.4).\n")
+    if len(od) and od.attrs.get("planner"):
+        L.append(od.attrs["planner"] + "\n")
     L.append((md_table(od) if len(od) else "oczekuje") + "\n")
     L.append("## 10. Czas liczenia\n")
     tm = timing(ctx)
