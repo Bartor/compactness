@@ -1,0 +1,45 @@
+{
+ "code_version": "access_uc-2026-11-24.1",
+ "duration_s": 13.3,
+ "git_sha": "c097a1588b7f6503d95633dedfa24dbef0247fea",
+ "inputs": {},
+ "missing_inputs": [],
+ "outputs": [
+  "access_uc.md",
+  "ranking.csv",
+  "urban_centres.csv"
+ ],
+ "pending": {},
+ "routing_log": [
+  "warszawa pt_am: 5797 origins in 344 s (59 ms/origin, 6 threads)",
+  "krakow pt_am: 2069 origins in 67 s (32 ms/origin, 6 threads)",
+  "wroclaw pt_am: 1962 origins in 36 s (19 ms/origin, 6 threads)",
+  "poznan pt_am: 2039 origins in 35 s (17 ms/origin, 6 threads)",
+  "lodz pt_am: 1936 origins in 42 s (22 ms/origin, 6 threads)",
+  "trojmiasto pt_am: 1936 origins in 36 s (19 ms/origin, 6 threads)",
+  "gzm pt_am: 5589 origins in 193 s (35 ms/origin, 6 threads)",
+  "warszawa bike_lts4: 5797 origins in 950 s (164 ms/origin, 6 threads)",
+  "krakow bike_lts4: 2069 origins in 226 s (109 ms/origin, 6 threads)",
+  "wroclaw bike_lts4: 1962 origins in 261 s (133 ms/origin, 6 threads)",
+  "poznan bike_lts4: 2039 origins in 255 s (125 ms/origin, 6 threads)",
+  "lodz bike_lts4: 1936 origins in 259 s (134 ms/origin, 6 threads)",
+  "trojmiasto bike_lts4: 1936 origins in 176 s (91 ms/origin, 6 threads)",
+  "gzm bike_lts4: 5589 origins in 486 s (87 ms/origin, 6 threads)",
+  "warszawa bike_lts3: 5797 origins in 874 s (151 ms/origin, 6 threads)",
+  "krakow bike_lts3: 2069 origins in 232 s (112 ms/origin, 6 threads)",
+  "wroclaw bike_lts3: 1962 origins in 226 s (115 ms/origin, 6 threads)",
+  "poznan bike_lts3: 2039 origins in 210 s (103 ms/origin, 6 threads)",
+  "lodz bike_lts3: 1936 origins in 218 s (113 ms/origin, 6 threads)",
+  "trojmiasto bike_lts3: 1936 origins in 148 s (77 ms/origin, 6 threads)",
+  "gzm bike_lts3: 5589 origins in 292 s (52 ms/origin, 6 threads)"
+ ],
+ "rows": 273,
+ "run_at": "2026-11-24T10:53:32+01:00",
+ "step": "access_uc",
+ "timetable_date": "2026-11-25",
+ "urban_centre_layer": {
+  "licence": "Eurostat GISCO download rules, (c) European Union, re-use with attribution",
+  "path": "data/raw/eurostat_hdens_2021/HDENS-CLST-2021.zip",
+  "url": "https://ec.europa.eu/eurostat/documents/7116161/15125332/HDENS-CLST-2021.zip/64d30f03-acf2-c8f5-a530-02bbe62c0c43?t=1731944882446"
+ }
+}

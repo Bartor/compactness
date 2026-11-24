@@ -1,0 +1,16 @@
+agglomeration,cluster,population_2021_official,cells_1km,cells_1km_in_fua,main_lau,lau_cells,included
+warszawa,88,1821750,327,327,Warszawa,Warszawa 277; Marki 14; Pruszków 14; Ząbki 8; Piastów 6; Michałowice 6; Stare Babice 2,True
+warszawa,89,71711,11,11,Warszawa,Warszawa 11,True
+warszawa,85,55930,17,17,Legionowo,Legionowo 12; Jabłonna 5,True
+warszawa,86,53548,17,17,Kobyłka,Kobyłka 10; Wołomin 7,True
+krakow,239,706924,132,132,Kraków,Kraków 130; Zielonki 2,True
+wroclaw,181,573339,126,126,Wrocław,Wrocław 125; Kobierzyce 1,True
+poznan,95,535302,131,131,Poznań,Poznań 114; Luboń 9; Suchy Las 4; Komorniki 3; Dopiewo 1,True
+lodz,123,601217,111,111,Łódź,Łódź 111,True
+lodz,136,52900,11,11,Pabianice,Pabianice 11,True
+trojmiasto,46,449978,100,98,Gdańsk,Gdańsk 90; Sopot 6; Kolbudy 1; Pruszcz Gdański 1,True
+trojmiasto,42,125048,30,29,Gdynia,Gdynia 29,True
+gzm,223,1079190,299,299,Katowice,Katowice 70; Sosnowiec 39; Ruda Śląska 35; Bytom 30; Zabrze 27; Chorzów 27; Siemianowice Śląskie 17; Dąbrowa Górnicza 15; Czeladź 13; Świętochłowice 13; Będzin 11; Gliwice 2,True
+gzm,227,111455,25,25,Gliwice,Gliwice 25,True
+gzm,242,106888,20,20,Tychy,Tychy 20,True
+gzm,230,62950,17,17,Mysłowice,Mysłowice 10; Sosnowiec 5; Katowice 2,True

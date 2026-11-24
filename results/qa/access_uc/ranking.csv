@@ -1,0 +1,29 @@
+miara,agglomeration,core,urban_centre,rank_core,rank_uc
+KZ 30,warszawa,33.85,37.06,1,2
+KZ 30,krakow,31.63,36.25,3,3
+KZ 30,wroclaw,27.59,31.94,5,6
+KZ 30,poznan,29.99,33.54,4,5
+KZ 30,lodz,26.87,35.51,6,4
+KZ 30,trojmiasto,31.83,41.16,2,1
+KZ 30,gzm,23.81,30.58,7,7
+KZ 45,warszawa,58.76,62.75,1,5
+KZ 45,krakow,52.79,63.7,5,4
+KZ 45,wroclaw,53.01,64.79,4,3
+KZ 45,poznan,54.64,65.93,3,2
+KZ 45,lodz,51.31,60.27,6,6
+KZ 45,trojmiasto,55.41,71.45,2,1
+KZ 45,gzm,36.09,46.45,7,7
+Pieszo 30,warszawa,66.41,68.73,4,4
+Pieszo 30,krakow,64.76,68.15,7,5
+Pieszo 30,wroclaw,65.36,66.79,5,7
+Pieszo 30,poznan,64.93,67.56,6,6
+Pieszo 30,lodz,69.05,72.88,2,1
+Pieszo 30,trojmiasto,69.09,71.06,1,2
+Pieszo 30,gzm,67.06,69.16,3,3
+Rower LTS 4,warszawa,52.39,56.27,7,7
+Rower LTS 4,krakow,53.42,59.58,6,6
+Rower LTS 4,wroclaw,70.17,76.01,1,1
+Rower LTS 4,poznan,69.59,73.38,2,3
+Rower LTS 4,lodz,64.84,70.29,4,4
+Rower LTS 4,trojmiasto,65.5,74.8,3,2
+Rower LTS 4,gzm,60.94,66.31,5,5
