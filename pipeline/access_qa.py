@@ -18,8 +18,8 @@ import pandas as pd
 
 from pipeline import access_inputs as AI
 from pipeline.access import AGGS_BY_SIZE, CFG, CHUNK, SCENARIOS, est_s_per_origin, unit_dir
-from pipeline.access_aggregate import (CHARTS, DGREGIO, LAYERS, METHOD_DIFFS, METRICS, QA, domains, perf_cells,
-                                       ratio_of_means, wmean)
+from pipeline.access_aggregate import (CHARTS, DGREGIO, LAYERS, METHOD_DIFFS, METRICS, QA, dependence_cells,
+                                       dependence_ratio_of_sums, domains, perf_cells, ratio_of_means, wmean)
 from pipeline.boundaries import load_agglomeration
 from pipeline.common import RESULTS, sig, write_meta
 
@@ -47,6 +47,7 @@ Stan na 2026-11-24, po pełnym przebiegu (98 z 98 jednostek, 11 h 20 min routing
 - **DG REGIO (§7).** Różnica 45-minutowa dla Poznania i Łodzi wynika głównie z innego obszaru (urban centre 2011), nie z braków w feedach; po odtworzeniu obszaru i metody zostaje reszta +4,5 pkt (Poznań) i +11,0 pkt (Łódź), której nie wyjaśniono. Pełny opis: `qa/access/dgregio/dgregio.md`.
 - **Miejsca pracy.** Wskaźnik dla miejsc pracy liczony jest jako stosunek średnich, bo w komórkach z małą liczbą miejsc pracy w pobliżu stosunki pojedynczych komórek są niestabilne. Zbiór nie obejmuje GZM (brak danych, nie zero).
 - **Próba tras.** `DetailedItineraries` przy oknie 1 min wyczerpywał pamięć R5, więc trasy w próbie liczono dla losowego 5-minutowego okna odjazdów; liczby przesiadek dotyczą najszybszej trasy w tym oknie.
+- **Przesiadki a zasięg (dopisane 2026-11-24, wariant bez przesiadek, 105 ze 105 jednostek, §14).** Bez przesiadek KZ 30 w rdzeniach spada o 1,6–6,0 pkt, a KZ 45 o 10,2–24,5 pkt. Udział zasięgu, który wymaga przesiadki (średnia komórek, rdzeń): przy 30 min 7–17 %, przy 45 min 25–42 %; najwyżej w Warszawie, najniżej przy 30 min w GZM i Łodzi, przy 45 min we Wrocławiu i Łodzi. To nie przeczy wynikowi „maks. 2 przesiadki prawie nic nie zmienia”: druga i dalsze przesiadki są rzadkie, pierwsza ma znaczenie. Pojedyncze komórki z udziałem do 85 % sprawdzono: to komórki na skraju rdzenia Warszawy przy przystanku dowozowym, z których w 30 min osiąga się 106–340 tys. osób, a bez przesiadki mniej więcej połowę. Kontrole „bez przesiadek ≤ wynik główny” i „bez przesiadek ≥ sam spacer” (każda komórka, każdy próg): 0 naruszeń. Średnia komórek i stosunek sum różnią się wyraźnie tylko na obszarze pokrytym przy 30 min (Warszawa 11,5 wobec 17,8 %), bo komórki podmiejskie, w których komunikacja nic nie dodaje do spaceru, mają udział 0.
 """
 
 
@@ -281,6 +282,7 @@ def checks(ctx) -> pd.DataFrame:
                         f"podnosi osiągalnych w 30 min w {int((lift > tol).sum())} komórkach")
         for a, bb, lab in ((("street", "bike_lts4"), ("street", "bike_lts3"), "rower LTS 4 ≥ LTS 3"),
                            (("all", "pt_am"), ("all", "pt_am_max3rides"), "bez limitu przesiadek ≥ maks. 2 przesiadki"),
+                           (("all", "pt_am"), ("all", "pt_am_direct"), "bez limitu przesiadek ≥ bez przesiadek"),
                            (("all", "pt_am"), ("official", "pt_am"), "wszystkie feedy ≥ oficjalne")):
             if a in U and bb in U:
                 bad = np.zeros(len(b), bool)
@@ -288,6 +290,52 @@ def checks(ctx) -> pd.DataFrame:
                     bad |= U[a][f"acc_census_{k}"].to_numpy(np.float64) < U[bb][f"acc_census_{k}"].to_numpy(np.float64) - tol
                 add(lab + " (osiągalni, każdy próg)", int(bad.sum()), len(b),
                     "" if not bad.any() else f"ludność komórek z naruszeniem: {f1(float(w[bad].sum()), 0)}")
+    return pd.DataFrame(rows)
+
+
+def dep(c, cut, dom, rom=False):
+    """Transfer dependence (%) for a domain: mean of cell shares, or ratio of sums (rom)."""
+    ud, um = c["units"].get(("all", "pt_am_direct")), c["units"].get(("all", "pt_am"))
+    if ud is None or um is None:
+        return None
+    b = c["base"]
+    sel = dict(domains(b, c["agg"], "transit", "all")).get(dom)
+    w = b["w_census"].to_numpy(np.float64)
+    d, ad, am = dependence_cells(ud, um, "census", cut)
+    return dependence_ratio_of_sums(ad, am, w, sel) if rom else wmean(d, w, sel)
+
+
+def direct_table(ctx) -> pd.DataFrame:
+    rows = []
+    for agg in AGGS_BY_SIZE[::-1]:
+        if agg not in ctx:
+            continue
+        c = ctx[agg]
+        for dom in ("core", "covered"):
+            r = {"Aglomeracja": NAMES[agg], "Obszar": {"covered": "pokryty", "core": "rdzeń"}[dom]}
+            for cut in (30, 45):
+                r[f"KZ {cut}: główny / bez przesiadek"] = f"{f1(tp(c, 'all', 'pt_am', cut, dom))} / {f1(tp(c, 'all', 'pt_am_direct', cut, dom))}"
+                r[f"Wymaga przesiadki {cut} min, %: średnia komórek / stosunek sum"] = f"{f1(dep(c, cut, dom))} / {f1(dep(c, cut, dom, rom=True))}"
+            rows.append(r)
+    return pd.DataFrame(rows)
+
+
+def direct_quantiles(ctx) -> pd.DataFrame:
+    """Distribution of the cell shares (30 min, cells in the mask with population), for the map classes."""
+    rows = []
+    for agg in AGGS_BY_SIZE[::-1]:
+        c = ctx.get(agg)
+        if c is None or ("all", "pt_am_direct") not in c["units"]:
+            continue
+        b = c["base"]
+        d = dependence_cells(c["units"][("all", "pt_am_direct")], c["units"][("all", "pt_am")], "census", 30)[0]
+        m = b["in_mask_all"].to_numpy() & np.isfinite(d) & (b["w_census"].to_numpy() > 0)
+        v = d[m]
+        r = {"Aglomeracja": NAMES[agg], "Komórek": int(m.sum())}
+        for q in (10, 25, 50, 75, 90):
+            r[f"p{q}"] = f1(float(np.percentile(v, q)))
+        r["Komórek z udziałem 0"] = f1(100 * float((v <= 1e-6).mean())) + " %"
+        rows.append(r)
     return pd.DataFrame(rows)
 
 
@@ -476,7 +524,7 @@ def write_md(ctx, status, size, pngs) -> None:
 - **Performance komórki = accessibility / proximity × 100.** Wynik główny (brief): średnia stosunków po komórkach ważona ludnością komórki. Obok (`*_ratio_of_means`, tier `table`): stosunek średnich ważonych; różni się nawet o 10–15 pkt, bo komórki podmiejskie mają mały mianownik.
 - **Komunikacja + pieszo:** R5 v7.5.1 (r5py 1.1.7), odjazdy co minutę w oknie, mediana (50. percentyl) z odjazdów, maks. 60 min podróży, pieszo 5 km/h, dojście i odejście ≤ 12 min (= 1 km) na odcinek, przesiadki piesze wg R5. **Reguła: komunikacja + pieszo nigdy nie jest gorsza od samego spaceru.** Limit dojścia 12 min ogranicza w R5 także podróż wyłącznie pieszą wewnątrz zapytania komunikacyjnego, więc dla każdej pary start–cel bierzemy min(czas R5 komunikacją, czas samego spaceru bez limitu 12 min, 5 km/h) **przed** zastosowaniem progów 30/45 min. Minimum ze stałą jest przemienne z medianą po odjazdach, więc to to samo, co mediana z minimum dla każdego odjazdu. Wariant bez tej reguły (`*_without_walk_rule`, tier `qa`) pokazuje jej wpływ.
 - **Pieszo:** 5 km/h, do 60 min. **Rower:** 15 km/h, do 60 min, dwa warianty poziomu stresu ruchu R5: LTS ≤ 3 (domyślne r5py) i LTS ≤ 4; wybór wariantu głównego należy do właściciela, oba mają tier `table`. Samochodu nie liczono (brief §11).
-- **Okna:** środa 7:00–9:00 (główne), 10:00–14:00, 20:00–22:00, sobota 10:00–14:00. **Max 2 przesiadki:** R5 `maxRides` = 3, okno 7–9, podawane jako różnica do wyniku głównego.
+- **Okna:** środa 7:00–9:00 (główne), 10:00–14:00, 20:00–22:00, sobota 10:00–14:00. **Max 2 przesiadki:** R5 `maxRides` = 3, okno 7–9, podawane jako różnica do wyniku głównego. **Bez przesiadek:** R5 `maxRides` = 1, okno 7–9, pozostałe parametry i reguła min(komunikacja, pieszo) jak w wyniku głównym (§14).
 - **Feedy:** wariant „wszystkie” (główny) i „oficjalne”, osobne sieci R5. Wariant „sieć wspólnego biletu” jest odłożony (tabela taryf niepotwierdzona); kod przewiduje go jako kolejny wariant sieci (`fare_<nazwa>`), bez przeliczania czegokolwiek innego.
 - **Maska pokrycia GTFS (§6):** maska fazy 2 dla tego samego wariantu feedów (`results/layers/frequent_cells.parquet`, w postaci poligonów `gtfs_coverage_mask.parquet`). W warstwie komórek wynik komunikacji poza maską to brak danych, nie 0. Wartości dla FUA i rdzenia obejmują wszystkie komórki (jak w fazie 2), mają `coverage_share` i oznaczenie „niepełne pokrycie GTFS”, gdy w masce jest < 85 % ludności; do porównań służy „obszar pokryty” i „rdzeń”. **Niekompletność po stronie celów** (miejsca obsługiwane tylko przez przewoźników bez GTFS) obniża dostępność także wewnątrz maski; maska tego nie usuwa. Pieszo i rower nie są maskowane.
 - **Miejsca pracy** („miejsca pracy w granicach miasta”): zbiór Goliszek (IGiPZ PAN, CC BY 4.0) rozdzielony z komórek 100 m (część wieloczęściowych i niepełnych) na siatkę 250 m proporcjonalnie do pola przecięcia; sumy zgadzają się co do 1e-6. Zbiór obejmuje tylko miasta w granicach administracyjnych (w Trójmieście tylko Gdańsk, GZM brak → wynik pusty). Starty z całego FUA. Performance miejsc pracy to **stosunek średnich**: na skraju zasięgu zbioru mianownik (miejsca pracy w promieniu) wynosi kilka miejsc i stosunki komórek przekraczają 1000, więc średnia stosunków jest dla miejsc pracy bezużyteczna (zostaje jako kontrola `*_mean_of_ratios` dla startów w granicach miasta).
@@ -534,15 +582,39 @@ def write_md(ctx, status, size, pngs) -> None:
     L.append("## 12. Pliki\n")
     L.append("- `results/metrics/metrics_access.csv` / `.json` (kolumny jak w innych krokach; JSON ma też `status` jednostek), scalane przez `pipeline.merge_metrics`.\n"
              "- `results/charts/access_performance.json`: per miasto KZ 30/45, pieszo, rower (oba LTS), krzywe 5–60 min, benchmark DG REGIO z różnicami metod.\n"
-             f"- `results/layers/access_cells.parquet` ({size} MB): punkty środków komórek 250 m (EPSG:4326; komórka = kwadrat 250 m w EPSG:2180, `cell_id` = lewy dolny róg), performance KZ 30/45 (null poza maską i dla jednostek oczekujących), pieszo 30, rower 30 LTS 3 i 4.\n"
+             f"- `results/layers/access_cells.parquet` ({size} MB): punkty środków komórek 250 m (EPSG:4326; komórka = kwadrat 250 m w EPSG:2180, `cell_id` = lewy dolny róg), performance KZ 30/45 (null poza maską i dla jednostek oczekujących), pieszo 30, rower 30 LTS 3 i 4, KZ 30 bez przesiadek i udział zasięgu wymagający przesiadki przy 30 i 45 min (null poza maską i tam, gdzie w wyniku głównym nikt nie jest osiągalny).\n"
              "- PNG: " + ", ".join(f"[`{p}`]({p})" for p in pngs) + ".\n"
              "- Dane pośrednie (poza gitem): `data/interim/access/<aglomeracja>/<sieć>/<scenariusz>/chunk_*.parquet`, log `data/interim/access/run.log`.\n")
     L.append("## 13. Stan jednostek\n")
     L.append(md_table(st.rename(columns={"agglomeration": "Aglomeracja", "priority": "Priorytet", "network": "Sieć",
                                          "scenario": "Scenariusz", "chunks_done": "Paczki gotowe",
                                          "chunks_total": "Paczki", "state": "Stan"})) + "\n")
+    L.append("## 14. Ile zasięgu wymaga przesiadki (podróże bez przesiadek)\n")
+    L.append("Wariant wyniku głównego (środa 7–9, wszystkie feedy) z co najwyżej jednym przejazdem, czyli bez przesiadek (R5 "
+             "`maxRides` = 1); reguła min(komunikacja, pieszo) jak w wyniku głównym. **Udział zasięgu, który wymaga przesiadki** = "
+             "(1 − osiągalni bez przesiadki / osiągalni w wyniku głównym) × 100; dla obszaru jako średnia udziałów komórek ważona "
+             "ludnością oraz jako stosunek sum ważonych. Komórki, z których w wyniku głównym nikt nie jest osiągalny, są pomijane "
+             "(brak danych). Czas rozkładowy, mediana z odjazdów co minutę, siatka spisowa.\n")
+    dt_ = direct_table(ctx)
+    L.append((md_table(dt_) if len(dt_) else "oczekuje") + "\n")
+    L.append("Rozkład udziału w komórkach (30 min, komórki w masce z ludnością, %; percentyle bez ważenia ludnością):\n")
+    dq = direct_quantiles(ctx)
+    L.append((md_table(dq) if len(dq) else "oczekuje") + "\n")
+    L.append("Kontrole (każda komórka, każdy próg 5–60 min; te same wiersze są w §8):\n")
+    ckd = ck[ck["Kontrola"].str.contains("pt_am_direct|bez przesiadek", regex=True)] if len(ck) else ck
+    L.append((md_table(ckd) if len(ckd) else "oczekuje") + "\n")
+    if DIRECT_NOTE:
+        L.append(DIRECT_NOTE + "\n")
     (QA / "access.md").write_text("\n".join(L), encoding="utf-8", newline="\n")
 
+
+DIRECT_NOTE = (   # hand-written after the run (dated): what the transfer-dependence result says
+    "**Odczyt (2026-11-24).** Przy 30 min przesiadka jest potrzebna do niewielkiej części zasięgu: w rdzeniach 7–17 % "
+    "osiągalnej ludności (najwięcej Warszawa, najmniej GZM), bo w pół godziny większość celów leży przy jednej linii albo "
+    "w zasięgu spaceru. Przy 45 min udział rośnie do 25–42 % i to przesiadki dają dużą część przyrostu między 30 a 45 min: "
+    "bez nich KZ 45 w rdzeniu Warszawy spada z 58,8 do 34,3. Udział 0 w komórce zwykle nie oznacza dobrej linii "
+    "bezpośredniej: w 71–90 % takich komórek (30 min; sprawdzono w Warszawie, GZM i Trójmieście) komunikacja nie dodaje "
+    "nic do samego spaceru. Dlatego komórek z udziałem 0 jest 55–86 %, ale mieszka w nich tylko 10–22 % ludności.")
 
 DETERMINISM = ("**Wznawialność i determinizm (test na Wrocławiu):** przebieg przerwano dwa razy: w trakcie próby przesiadek (po zmianie "
                "parametrów próby jej podpis się zmienił i jednostka została policzona od nowa, a 4 gotowe jednostki zostały pominięte) i w "
@@ -603,7 +675,10 @@ def write_qa(ctx: dict, rows: list[dict], status: list[dict], size, t0: float) -
                 "rows": "populated cells (either grid) with centre in FUA",
                 "columns": "tp_pt_am_30/45: transport performance by public transport + walk, Wednesday 07-09, all feeds, "
                            "census-scaled grid; null outside the GTFS coverage mask (no data) or while pending; "
-                           "tp_walk_30; tp_bike_lts3_30 / tp_bike_lts4_30 (15 km/h, R5 level of traffic stress <= 3 / <= 4)",
+                           "tp_walk_30; tp_bike_lts3_30 / tp_bike_lts4_30 (15 km/h, R5 level of traffic stress <= 3 / <= 4); "
+                           "tp_pt_am_direct_30: as tp_pt_am_30 with at most one ride (no transfers); "
+                           "transfer_dependence_30 / _45: 100 x (1 - reachable without transfer / reachable in pt_am), %, "
+                           "null outside the mask or where nobody is reachable in pt_am",
                 "size_mb": size}}
         write_meta(tmp, "access", inputs=inputs, started=t0, extra=ex)
         shutil.copyfile(tmp / "_meta.json", folder / "_meta_access.json")

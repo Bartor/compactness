@@ -36,7 +36,8 @@ else is recomputed.
 
 Order (results arrive progressively): priority 1 (transit AM all feeds, walk, bike LTS 3 and 4, transfers sample,
 OD pairs) for all 7 agglomerations, smallest first; then priority 2 (transit AM, official feeds); 3 (midday,
-evening, Saturday; all feeds); 4 (max 3 rides, AM, all feeds); 5 (secondary windows, official feeds).  Within an
+evening, Saturday; all feeds); 4 (max 3 rides, AM, all feeds); 5 (secondary windows, official feeds); 6 (direct
+trips only: max 1 ride, AM, all feeds; added 2026-11-24 for the transfer-dependence measure).  Within an
 agglomeration the walk unit runs first because transit units reuse its walk-only times.
 """
 from __future__ import annotations
@@ -82,6 +83,7 @@ SCENARIOS: dict[str, dict] = {
     "pt_evening": {"kind": "transit", "window": "evening", "rides": 8},
     "pt_saturday": {"kind": "transit", "window": "saturday", "rides": 8},
     "pt_am_max3rides": {"kind": "transit", "window": "am_peak", "rides": 3},
+    "pt_am_direct": {"kind": "transit", "window": "am_peak", "rides": 1},     # no transfers (one ride at most)
     "transfers_am": {"kind": "itineraries", "window": "am_peak", "n_pairs": 200, "seed": 20261125, "slot_min": 5},
     "odpairs": {"kind": "odpairs", "seed": 20261125},
 }
@@ -95,6 +97,7 @@ UNITS: list[tuple[int, str, list[str]]] = [
     (3, "all", ["pt_midday", "pt_evening", "pt_saturday"]),
     (4, "all", ["pt_am_max3rides"]),
     (5, "official", ["pt_midday", "pt_evening", "pt_saturday"]),
+    (6, "all", ["pt_am_direct"]),
     # future: (6, "fare_<name>", ["pt_am"])  -- common-ticket network, official mask (access_inputs.mask_variant)
 ]
 
@@ -416,7 +419,8 @@ _BENCH = None
 # relative to the benchmark's 30-minute runs (bike 60 min and walk 60 min are measured on Wroclaw; transit windows
 # from the benchmark subsets); calibrated at run time against finished chunks of the same scenario
 FACTOR = {"walk": 2.4, "bike_lts3": 3.0, "bike_lts4": 3.6, "pt_am": 1.0, "pt_midday": 1.35, "pt_evening": 1.0,
-          "pt_saturday": 1.3, "pt_am_max3rides": 0.9}
+          "pt_saturday": 1.3, "pt_am_max3rides": 0.9,
+          "pt_am_direct": 0.6}
 FIXED_S = {"transfers_am": 1200.0, "odpairs": 100.0}   # measured on Wroclaw (200 pairs: 1188 s; 7 pairs: 98 s)
 
 
@@ -429,7 +433,7 @@ def est_s_per_origin(agg: str, scen: str) -> float:
     base = {"walk": "walk_uniform", "bike_lts3": "bike_uniform", "bike_lts4": "bike_uniform"}.get(scen,
                                                                                                 "transit_am_uniform")
     v = float(b.get(base, 0.01))
-    if scen.startswith("pt_") and scen != "pt_am":
+    if scen.startswith("pt_") and scen not in ("pt_am", "pt_am_direct"):
         sub = {"pt_midday": "transit_midday_subset", "pt_evening": "transit_evening_subset",
                "pt_saturday": "transit_saturday_subset", "pt_am_max3rides": "transit_am_max3rides_subset"}[scen]
         if sub in b and "transit_am_subset" in b:
@@ -562,7 +566,7 @@ def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__.split("\n\n")[0])
     ap.add_argument("command", choices=["run", "status", "aggregate"])
     ap.add_argument("--agg", nargs="+", default=AGGS_BY_SIZE, choices=AGGS_BY_SIZE)
-    ap.add_argument("--max-priority", type=int, default=5)
+    ap.add_argument("--max-priority", type=int, default=6)
     ap.add_argument("--threads", type=int, default=20)
     ap.add_argument("--xmx", default="16G")
     a, _ = ap.parse_known_args()

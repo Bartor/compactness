@@ -24,6 +24,10 @@ Definitions
   (sum of population-weighted reachable jobs / sum of population-weighted jobs within the radius): near the edge
   of the data the proximity is a handful of jobs and cell ratios exceed 1000, so the mean of ratios is unusable
   (kept as a qa row for origins in the city proper).
+* transfer dependence (2026-11-24): scenario pt_am_direct is pt_am with at most one ride (no transfers).  Per cell,
+  100 x (1 - accessibility(direct) / accessibility(pt_am)) = the share of the population reachable within the cutoff
+  that cannot be reached without changing lines; null where the pt_am accessibility is 0 or missing.  Per domain:
+  population-weighted mean of the cell shares, and 100 x (1 - sum w*acc(direct) / sum w*acc(pt_am)) ("ratio of sums").
 """
 from __future__ import annotations
 
@@ -51,7 +55,8 @@ POP_DATE = {"ghsl_census_scaled": "2021-03-31 (NSP 2021, wzór GHSL 2020)", "ghs
 COV_MIN = float(CFG["coverage_min_share"])
 REC = {"network": "all", "grid": "ghsl_census_scaled", "scenario": "pt_am"}
 WIN_LABEL = {"pt_am": "środa 7:00–9:00", "pt_midday": "środa 10:00–14:00", "pt_evening": "środa 20:00–22:00",
-             "pt_saturday": "sobota 10:00–14:00", "pt_am_max3rides": "środa 7:00–9:00, maks. 2 przesiadki"}
+             "pt_saturday": "sobota 10:00–14:00", "pt_am_max3rides": "środa 7:00–9:00, maks. 2 przesiadki",
+             "pt_am_direct": "środa 7:00–9:00, bez przesiadek (jeden przejazd)"}
 DOM_LABEL = {"fua": "FUA", "core": "rdzeń", "covered": "obszar pokryty danymi"}
 SPEED = {"transit": "fast", "bike": "fast", "walk": "walk"}
 FLAG_SIZE = "liczba bezwzględna: mierzy głównie wielkość miasta, nie jakość transportu (brief §11)"
@@ -114,6 +119,22 @@ def ratio_of_means(acc, prox, w, sel) -> float | None:
     m = sel & (w > 0) & np.isfinite(acc)
     den = (prox[m] * w[m]).sum()
     return None if den <= 0 else float(100.0 * (acc[m] * w[m]).sum() / den)
+
+
+def dependence_cells(ud: pd.DataFrame, um: pd.DataFrame, wk: str, c: int) -> tuple:
+    """(share in %, acc direct, acc main) per cell: 100 x (1 - acc_direct / acc_main); NaN where acc_main is 0 / NaN."""
+    ad = ud[f"acc_{wk}_{c}"].to_numpy(np.float64)
+    am = um[f"acc_{wk}_{c}"].to_numpy(np.float64)
+    with np.errstate(divide="ignore", invalid="ignore"):
+        dep = np.where(am > 0, 100.0 * (1.0 - ad / am), np.nan)
+    return dep, ad, am
+
+
+def dependence_ratio_of_sums(ad, am, w, sel) -> float | None:
+    """100 x (1 - sum w*acc_direct / sum w*acc_main) over the selected cells with both values."""
+    m = sel & (w > 0) & np.isfinite(ad) & np.isfinite(am)
+    den = (am[m] * w[m]).sum()
+    return None if den <= 0 else float(100.0 * (1.0 - (ad[m] * w[m]).sum() / den))
 
 
 # ------------------------------------------------------------------ metrics
@@ -235,6 +256,20 @@ def metric_rows(agg: str, b: pd.DataFrame, units: dict, samples: dict) -> list[d
                         R.add(dom, f"tp_pt_am_max3rides_minus_main_{c}min",
                               f"Zmiana transport performance {c} min (7:00–9:00) po ograniczeniu do maks. 2 przesiadek (3 przejazdów), pkt",
                               None if a is None or m_ is None else a - m_, "pkt", grid, feed, "table", flag, cov, day)
+                # transfer dependence: share of the pt_am reach that needs at least one transfer
+                if scen == "pt_am_direct" and (net, "pt_am") in units:
+                    um = units[(net, "pt_am")]
+                    dflag = "; ".join(x for x in [flag, "komórki bez osiągalnej ludności w scenariuszu głównym pominięte (brak danych)"] if x)
+                    for c in head:
+                        dep, ad, am = dependence_cells(u, um, gw, c)
+                        R.add(dom, f"transfer_dependence_pt_am_{c}min",
+                              f"Udział zasięgu, który wymaga przesiadki: odsetek ludności osiągalnej komunikacją + pieszo w {c} min "
+                              "(środa 7:00–9:00), której nie da się osiągnąć bez przesiadki (średnia komórek ważona ludnością)",
+                              wmean(dep, w, sel), "%", grid, feed, "table", dflag, cov, day)
+                        if not is_centre:
+                            R.add(dom, f"transfer_dependence_pt_am_{c}min_ratio_of_sums",
+                                  f"Jak transfer_dependence_pt_am_{c}min, ale ze stosunku sum ważonych: (1 − Σ w·osiągalni bez przesiadki / Σ w·osiągalni) × 100",
+                                  dependence_ratio_of_sums(ad, am, w, sel), "%", grid, feed, "table", dflag, cov, day)
                 # proximity (window-independent) once per kind, absolute, size measure
                 if scen in ("pt_am", "walk") and (kind != "transit" or net == "all") and not is_centre:
                     for c in head:
@@ -411,6 +446,14 @@ def cell_layer(agg: str, b: pd.DataFrame, units: dict) -> pd.DataFrame:
     d["tp_walk_30"] = col("street", "walk", 30, False)
     d["tp_bike_lts3_30"] = col("street", "bike_lts3", 30, False)
     d["tp_bike_lts4_30"] = col("street", "bike_lts4", 30, False)
+    d["tp_pt_am_direct_30"] = col("all", "pt_am_direct", 30, True)
+    for c in (30, 45):
+        ud, um = units.get(("all", "pt_am_direct")), units.get(("all", "pt_am"))
+        if ud is None or um is None:
+            dep = np.full(len(b), np.nan)
+        else:
+            dep = np.where(b["in_mask_all"].to_numpy(), dependence_cells(ud, um, "census", c)[0], np.nan)
+        d[f"transfer_dependence_{c}"] = np.array([np.nan if not np.isfinite(x) else sig(x, 3) for x in dep], dtype=np.float32)
     lon, lat = AI.TO4326.transform(b["x"].to_numpy(), b["y"].to_numpy())
     d["lon"], d["lat"] = np.round(lon, 6), np.round(lat, 6)
     return d
