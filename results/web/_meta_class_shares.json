@@ -1,0 +1,66 @@
+{
+ "checks": {
+  "density_250m": {
+   "compared": 90,
+   "max_abs_diff_km2": 0.0005,
+   "problems": [],
+   "total_cells": 356031,
+   "total_cells_stats": 356031,
+   "unmatched_cells": 0
+  },
+  "density_service": {
+   "compared": 42,
+   "max_abs_diff_km2": 0.0005,
+   "problems": [],
+   "total_cells": 228755,
+   "total_cells_stats": 228755,
+   "unmatched_cells": 0
+  },
+  "frequent_transport": {
+   "compared": 49,
+   "max_abs_diff_km2": 0.0005,
+   "problems": [],
+   "total_cells": 228755,
+   "total_cells_stats": 228755,
+   "unmatched_cells": 0
+  },
+  "transfer_dependence_30": {
+   "compared": 49,
+   "max_abs_diff_km2": 0.0005,
+   "problems": [],
+   "total_cells": 228755,
+   "total_cells_stats": 228755,
+   "unmatched_cells": 0
+  },
+  "transport_performance_30": {
+   "compared": 56,
+   "max_abs_diff_km2": 0.0005,
+   "problems": [],
+   "total_cells": 228755,
+   "total_cells_stats": 228755,
+   "unmatched_cells": 0
+  }
+ },
+ "duration_s": 5.1,
+ "git_sha": "65c62bfdfb7ab113f5f6f9007310e94a412b1b21",
+ "inputs": {},
+ "layers": [
+  "density_250m",
+  "density_service",
+  "frequent_transport",
+  "transfer_dependence_30",
+  "transport_performance_30"
+ ],
+ "missing_inputs": [],
+ "outputs": [
+  "../web/class_shares.json"
+ ],
+ "run_at": "2026-11-24T15:56:22+01:00",
+ "sources": [
+  "results/layers/frequent_cells.parquet",
+  "results/layers/access_cells.parquet",
+  "data/interim/popgrid/cells_*.parquet",
+  "results/web/catalog.json"
+ ],
+ "step": "class_shares"
+}
