@@ -1,0 +1,23 @@
+{
+ "code_version": "trips-2026-11-24.2",
+ "duration_s": 35.4,
+ "files": [
+  "external_comparison.csv",
+  "nik_pairs.csv",
+  "node_rank_comparison.csv",
+  "node_use_top20.csv",
+  "sample_summary.csv",
+  "transfer_shares.csv",
+  "trip_composition.csv"
+ ],
+ "git_sha": "89cbef1f4b1db23a4e5c9fd0b16a6c97d0c7ab6e",
+ "inputs": {},
+ "missing_inputs": [],
+ "n_trips": {
+  "jobs": 5000,
+  "res": 15000
+ },
+ "run_at": "2026-11-24T22:07:39+01:00",
+ "slot_min": 5,
+ "step": "trips_sample"
+}

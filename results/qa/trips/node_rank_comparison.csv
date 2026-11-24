@@ -1,0 +1,8 @@
+agglomeration,nodes,nodes_with_use,spearman_dep_vs_use_mask,top20_overlap,top20_use_share_of_transfers,top20_dep_share_of_transfers,where_jeden zespół,where_dwa zespoły,where_jeden koniec w zespole,where_poza zespołami
+warszawa,2426,854,0.5864,10,37.04,27.65,90.5,8.436,0.959,0.1056
+krakow,1061,453,0.6138,12,43.6,34.74,91.62,7.226,0.8759,0.2766
+lodz,695,390,0.6762,9,49.97,38.5,84.04,13.99,1.775,0.1948
+gzm,2069,902,0.6362,10,39.05,30.02,80.9,16.72,1.489,0.8974
+wroclaw,641,367,0.6716,12,46.59,39.71,88.41,10.28,1.12,0.1867
+poznan,867,422,0.5563,10,61.48,42.43,89.24,9.007,1.45,0.3058
+trojmiasto,781,390,0.5524,12,63.68,40.68,92.17,7.148,0.4439,0.2404

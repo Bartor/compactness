@@ -1,0 +1,12 @@
+{
+ "code_version": "trips-2026-11-24.2",
+ "duration_s": 35.3,
+ "git_sha": "89cbef1f4b1db23a4e5c9fd0b16a6c97d0c7ab6e",
+ "inputs": {},
+ "missing_inputs": [],
+ "note": "share_trips_changing = % of sampled resident-weighted PT trips (class pt) with a transfer touching the node; Wilson 95% interval in share_ci_*",
+ "rows": 8540,
+ "run_at": "2026-11-24T22:07:39+01:00",
+ "source": "pipeline.trips_sample / trips_analyse",
+ "step": "trips_node_use"
+}
