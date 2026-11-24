@@ -473,6 +473,24 @@ rule access_uc:
         '"{PY}" -m pipeline.access_uc aggregate'
 
 
+rule distribution:
+    # distribution of cell values (pipeline.distribution): at-least curves, 5-60 min reach with quartiles, access
+    # floor with FGT0/1/2, time of day -> results/charts/distribution.json, results/web/charts.json,
+    # metrics_distribution.*, results/qa/distribution/.  Reads the routed sums; re-run after access / access_uc.
+    input:
+        "pipeline/distribution.py",
+        "pipeline/distribution_stats.py",
+        "pipeline/distribution_qa.py",
+        "pipeline/access_aggregate.py",
+        stamp("access"),
+        stamp("access_uc"),
+        stamp("frequent"),
+    output:
+        touch(stamp("distribution")),
+    shell:
+        '"{PY}" -m pipeline.distribution'
+
+
 rule merge_metrics:
     # metrics_<step>.* -> metrics.csv / metrics.json and the map panel subset results/web/metrics.json
     input:
@@ -483,6 +501,7 @@ rule merge_metrics:
         stamp("density_service"),
         stamp("access"),
         stamp("access_uc"),
+        stamp("distribution"),
     output:
         touch(stamp("merge_metrics")),
     shell:

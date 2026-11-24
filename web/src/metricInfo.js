@@ -20,6 +20,12 @@ export const METRIC_GROUPS = [
       'tp_bike_lts4_30min_ratio_of_means', 'tp_bike_lts4_30min'],
   },
   {
+    id: 'distribution', title: 'Kto ma słaby dostęp',
+    metrics: ['dist_below_floor_pt_am_30min', 'dist_fgt1_pt_am_30min', 'dist_below_floor_pt_am_45min',
+      'dist_p25_pt_am_30min', 'dist_p75_pt_am_30min', 'dist_below_floor_pt_evening_30min',
+      'dist_below_floor_pt_saturday_30min'],
+  },
+  {
     id: 'transfer', title: 'Przesiadki',
     metrics: ['transfer_top20_walkwait_w_am_mean_min', 'transfer_top20_walk_w_am_mean_min',
       'transfer_top20_wait_w_am_mean_min', 'transfer_dep_share_walkdir_le2min',
@@ -132,6 +138,12 @@ const direct = (t) => ({
   ],
   method: ['Jak zasięg komunikacją (średnia komórek ważona ludnością), z co najwyżej jednym przejazdem.'],
 })
+
+const FLOOR_METHOD = 'Próg to połowa mediany siedmiu miast: dla każdego rdzenia liczymy medianę wyniku komórek '
+  + '250 m ważoną ludnością (szczyt poranny), z siedmiu median bierzemy środkową i dzielimy przez dwa (30 min: 16 %, '
+  + '45 min: 28 %). Ten sam próg obowiązuje w każdym mieście i o każdej porze, więc odsetki można porównywać. To '
+  + 'wybór normatywny, wzorowany na względnej granicy ubóstwa (50 % mediany dochodu); w tabelach są też progi 40 % i '
+  + '60 % mediany. Komórki poza zasięgiem danych o rozkładach są pomijane, nie liczone jako zero.'
 
 export const METRIC_INFO = {
   area: {
@@ -369,6 +381,69 @@ export const METRIC_INFO = {
   tp_pt_am_direct_30min: direct(30),
   transfer_dependence_pt_am_45min_ratio_of_sums: dependence(45),
   tp_pt_am_direct_45min: direct(45),
+  dist_below_floor_pt_am_30min: {
+    short: 'Poniżej minimalnego zasięgu (30 min)',
+    better: 'lower',
+    layer: 'transport_performance_30',
+    read: [
+      'Jaka część mieszkańców osiąga komunikacją i pieszo w 30 minut mniej niż 16 % ludzi mieszkających w promieniu '
+      + '7,5 km, czyli mniej niż połowę tego, co typowy mieszkaniec rdzenia w typowym z siedmiu miast.',
+      'Średnia miasta tego nie pokazuje: dwa miasta o tej samej średniej mogą mieć bardzo różną liczbę ludzi '
+      + 'z wyraźnie słabym dostępem. Niżej znaczy lepiej; kilka punktów różnicy to nie ranking.',
+    ],
+    method: [FLOOR_METHOD, 'Środa 2026-11-25, 7:00–9:00, mediana z odjazdów co minutę; ludność ze spisu 2021.'],
+  },
+  dist_below_floor_pt_am_45min: {
+    short: 'Poniżej minimalnego zasięgu (45 min)',
+    better: 'lower',
+    read: [
+      'Jak wyżej, ale dla 45 minut: odsetek mieszkańców, którzy w 45 minut osiągają mniej niż 28 % ludzi z promienia '
+      + '11,25 km.',
+    ],
+    method: [FLOOR_METHOD],
+  },
+  dist_fgt1_pt_am_30min: {
+    short: 'Średni niedobór do progu',
+    better: 'lower',
+    read: [
+      'Jak daleko pod progiem są ci, którzy są pod nim. Wartość 5 znaczy: gdyby brakujący zasięg rozłożyć na '
+      + 'wszystkich mieszkańców, każdemu brakowałoby 5 % progu.',
+      'Dwa miasta z tym samym odsetkiem poniżej progu mogą się tu różnić: wyższa wartość to głębsze braki.',
+    ],
+    method: ['Wskaźnik Fostera–Greera–Thorbeckego FGT1 × 100: średnia z (próg − wynik) / próg po mieszkańcach '
+      + 'pod progiem, z zerem dla pozostałych, ważona ludnością. ' + FLOOR_METHOD],
+  },
+  dist_p25_pt_am_30min: {
+    short: 'Słabsza ćwiartka mieszkańców (30 min)',
+    better: 'higher',
+    read: [
+      'Co czwarty mieszkaniec ma zasięg w 30 minut nie większy niż ta wartość (25. percentyl komórek ważony ludnością).',
+      'Razem z wierszem poniżej pokazuje, jak szeroko rozkłada się dostęp w mieście.',
+    ],
+    method: ['Komórki 250 m w masce danych o rozkładach, posortowane według wyniku; wartość, przy której skumulowana '
+      + 'ludność osiąga 25 %.'],
+  },
+  dist_p75_pt_am_30min: {
+    short: 'Lepsza ćwiartka mieszkańców (30 min)',
+    better: 'higher',
+    read: ['Co czwarty mieszkaniec ma zasięg w 30 minut co najmniej taki (75. percentyl komórek ważony ludnością).'],
+    method: ['Jak wiersz wyżej, dla 75 % ludności.'],
+  },
+  dist_below_floor_pt_evening_30min: {
+    short: 'Poniżej progu wieczorem (30 min)',
+    better: 'lower',
+    read: [
+      'Odsetek mieszkańców poniżej tego samego progu co rano (16 %), ale dla wyjazdów w środę 20:00–22:00. Wzrost '
+      + 'względem szczytu pokazuje, ilu ludzi traci minimalny dostęp, gdy kursów jest mniej.',
+    ],
+    method: [FLOOR_METHOD],
+  },
+  dist_below_floor_pt_saturday_30min: {
+    short: 'Poniżej progu w sobotę (30 min)',
+    better: 'lower',
+    read: ['Jak wyżej, dla soboty 2026-11-28, 10:00–14:00.'],
+    method: [FLOOR_METHOD],
+  },
 }
 
 /** Short explanations of the areas a metric can refer to (the columns of the city table). */

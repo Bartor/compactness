@@ -8,6 +8,7 @@ Inputs  (one pair per step, all in results/metrics/)
 * metrics_access.csv/json    phase 3 (feed_variant empty for walk / bike, which do not depend on the feeds)
 * metrics_access_uc.csv/json phase 3 on the urban-centre domain (domain "urban_centre"; same conventions)
 * metrics_transfer.csv/json  ease of transfer in stop areas (no population grid; feed_variant "all")
+* metrics_distribution.csv/json  distribution of cell values: share below the access floor, FGT, percentiles
 
 Outputs
 * results/metrics/metrics.csv + metrics.json   union of all steps, columns COLUMNS, deterministic sort;
@@ -31,7 +32,7 @@ from pipeline.common import RESULTS, load_config, write_json, write_meta
 
 METRICS = RESULTS / "metrics"
 WEB = RESULTS / "web"
-STEPS = ["density", "supply", "frequent", "density_service", "access", "access_uc", "transfer"]
+STEPS = ["density", "supply", "frequent", "density_service", "access", "access_uc", "transfer", "distribution"]
 ACCESS_STEPS = ("access", "access_uc")
 
 COLUMNS = ["agglomeration", "domain", "metric", "label", "value", "unit", "grid", "source", "population_date",
@@ -107,6 +108,16 @@ for _i, (_m, _lab) in enumerate(_TP):
 for _i, (_w, _wl) in enumerate((("midday", "południe"), ("evening", "wieczór"), ("saturday", "sobota"))):
     PANEL[("core", f"tp_pt_{_w}_30min")] = (320 + 2 * _i, f"Zasięg komunikacją + pieszo, 30 min ({_wl})")
     PANEL[("core", f"tp_pt_{_w}_45min")] = (321 + 2 * _i, f"Zasięg komunikacją + pieszo, 45 min ({_wl})")
+# distribution (pipeline.distribution): residents below the access floor (half of the seven-city median), with the
+# mean shortfall, and the quartiles of the cell values; core and covered, Wednesday 07-09
+for _dom in ("core", "covered"):
+    PANEL[(_dom, "dist_below_floor_pt_am_30min")] = (340, "Mieszkańcy poniżej minimalnego zasięgu, 30 min")
+    PANEL[(_dom, "dist_fgt1_pt_am_30min")] = (341, "średni niedobór do progu (FGT1)")
+    PANEL[(_dom, "dist_below_floor_pt_am_45min")] = (342, "Mieszkańcy poniżej minimalnego zasięgu, 45 min")
+    PANEL[(_dom, "dist_p25_pt_am_30min")] = (343, "Zasięg 30 min: co czwarty mieszkaniec ma nie więcej niż")
+    PANEL[(_dom, "dist_p75_pt_am_30min")] = (344, "Zasięg 30 min: co czwarty mieszkaniec ma co najmniej")
+PANEL[("core", "dist_below_floor_pt_evening_30min")] = (345, "Poniżej minimalnego zasięgu 30 min, wieczór")
+PANEL[("core", "dist_below_floor_pt_saturday_30min")] = (346, "Poniżej minimalnego zasięgu 30 min, sobota")
 # from the centres (cells within 1 km of the centre, the hub and every extra centre): added in centre_panel(),
 # because the domains are read from metrics_access and the labels from config.yaml
 CENTRE_METRICS = ("tp_pt_am_30min", "tp_pt_am_45min")

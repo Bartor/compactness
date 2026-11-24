@@ -31,7 +31,7 @@ def test_spearman_constant_is_none():
 
 
 def test_classes():
-    d = density_class(np.array([0.0, 2499.9, 2500.0, 9999.0, 10000.0, 30000.0]))
+    d = density_class(np.array([0.0, 4999.9, 5000.0, 9999.0, 10000.0, 30000.0]))
     assert d.tolist() == [1, 1, 2, 2, 3, 3]
     assert class_code(np.array([1, 2, 3]), np.array([1, 2, 3])).tolist() == [0, 4, 8]
     # map classes: dense cells by service (0 poor, 1 medium, 2 good); sparse cells 3 (served) or 4 (not)
