@@ -2,6 +2,8 @@
 
 Stan na 2026-11-23. Raport zbiera wyniki fazy 0 i wskazuje decyzje, które muszą zapaść przed fazą 1. Nie zawiera żadnego wyniku gęstościowego ani transportowego: takie wyniki jeszcze nie istnieją. Wszystkie liczby poniżej są liczbami inwentaryzacyjnymi, przepisanymi z plików w `results/qa/phase0/`, `data/manifest.csv` i `config.yaml`; przy każdej podano plik źródłowy. Gdzie czegoś nie sprawdzono, stoi „nie zweryfikowano”; gdzie danych nie ma, „brak danych”.
 
+Do czego wyniki się nadają, a do czego nie: §16.
+
 Daty danych: ludność 2020 (GHSL) i 31.03.2021 (NSP), granice 2021, rozkłady jazdy 2026 (pobrane 2026-11-23), OSM stan na 2026-11-22. Każdy późniejszy wynik będzie podawał ludność i rozkład z osobnymi datami.
 
 ## 1. Stan prac
@@ -685,7 +687,9 @@ Niski wynik Krakowa (6,3 %) sprawdzono: Kraków Główny ma 19,5 odjazdu/h, ale 
 
 ### 15.3 Podaż i prędkość tramwajów (§4.7)
 
-**Rozkładowa prędkość eksploatacyjna tramwajów (z postojami na przystankach)**, środa 2026-11-25, km/h. To prędkość z rozkładu, nie rzeczywista i nie prędkość jazdy między przystankami.
+**Rozkładowa prędkość komunikacyjna tramwajów (z postojami na przystankach)**, środa 2026-11-25, km/h. To prędkość z rozkładu, nie rzeczywista i nie prędkość jazdy między przystankami.
+
+Uwaga o nazwie: brief (§4.7) nazywa tę miarę prędkością eksploatacyjną. Liczona tu wielkość (długość kursu przez czas od pierwszego odjazdu do ostatniego przyjazdu, bez postojów na pętlach) to w polskiej praktyce prędkość komunikacyjna; prędkość eksploatacyjna obejmuje także postoje na pętlach i jest niższa. Od 2026-11-24 używamy nazwy „komunikacyjna”; definicja i liczby się nie zmieniły.
 
 | Miasto | Mediana po kursach | Mediana ważona wozokilometrami | Kwartyle | Zakres median linii |
 |---|---|---|---|---|
@@ -723,3 +727,46 @@ Liczona jest tylko część kursu wewnątrz obszaru (odcinki przecinające grani
 - Pokrycia dla wariantu „feedy oficjalne” w tabelach podaży tam, gdzie lista feedów różni się od wariantu „wszystkie” (Warszawa, Kraków, Wrocław, Łódź): pole puste z oznaczeniem.
 - Dlaczego sobotni feed GZM nie ma duplikatów; dwóch przystanków w Katowicach z 3–4 % podejrzanych odjazdów; rozbieżności liczby kursów `warsaw_otwock` między kontrolą z fazy 0 (197) a feedem (138).
 - Parametry dobrane w tej fazie (promień par 300 m, limity przypinania do sieci, reguły maski) są stałymi w kodzie; propozycje kluczy do `config.yaml` są w `frequent.md` §7 i `supply.md`.
+
+## 16. Zakres stosowania i ograniczenia (2026-11-24)
+
+Ta sekcja mówi, do czego wyniki się nadają, a do czego nie. Dotyczy wszystkich faz. Szczegółowe zastrzeżenia poszczególnych kroków są w ich sekcjach (§6.5, §14.6, §15.4) i w notach QA.
+
+### 16.1 Co jest zgodne z przyjętą praktyką
+
+- **Dostępność.** Czasy od drzwi do drzwi z rozkładów jazdy i sieci ulic, liczone silnikiem R5 (Conveyal), którego używa większość prac akademickich tego typu; mediana z odjazdów co minutę w dwugodzinnym oknie zamiast jednej wybranej godziny.
+- **Transport performance.** Stosunek ludności osiągalnej do ludności w pobliżu to konwencja DG REGIO (WP 01/2020) i ITF/OECD do porównań miast.
+- **Forma miasta.** Gęstość ważona populacją i indeks Bertauda są miarami standardowymi; jednostką jest funkcjonalny obszar miejski Eurostatu, ludność pochodzi z NSP 2021.
+- **Ludność przy częstej komunikacji.** Miara pokrewna wskaźnikom ITDP (PNFT) i ONZ (SDG 11.2.1), ale liczona we własnym wariancie, więc nie nazywamy jej wskaźnikiem ITDP (§9.1).
+- **Kontrole.** Porównanie z wyszukiwarką połączeń w 30 parach start–cel we wszystkich siedmiu miastach ([`qa/access/access.md`](qa/access/access.md) §9), porównanie z DG REGIO (§16.4), brak danych pokazany jako brak, a nie zero, wyniki powtarzalne co do bajta.
+
+### 16.2 Ograniczenia
+
+1. **Rozkład jazdy, nie rzeczywistość.** Opóźnienia, korki i niezawodność nie są uwzględnione. To zwykłe założenie w badaniach tego typu, ale zawyża wynik sieci opartych na autobusach jadących w ruchu ogólnym.
+2. **Porównywalność między miastami.** Transport performance zależy od tego, gdzie przebiega granica obszaru: granice administracyjne miast obejmują bardzo różną ilość przedmieść, a GZM i Trójmiasto są sumami kilku miast. Różnica kilku punktów między miastami nie jest rankingiem. Porównanie z DG REGIO pokazało, że sama zmiana obszaru przesuwa wynik 45-minutowy o kilkanaście punktów (§16.4).
+3. **Niepełne dane o rozkładach.** 28 z 42 feedów to feedy nieoficjalne, których dokładności nie sprawdzono; prywatni przewoźnicy (busy) są w większości nieobecni; poza pokryciem danych leży od 5 % (GZM) do 21 % (Kraków) ludności FUA. Wyniki dla stref podmiejskich są słabsze niż dla rdzeni.
+4. **Cele podróży są przybliżeniem.** „Osiągalna ludność” zastępuje miejsca pracy i usługi. Wariant z miejscami pracy korzysta ze zbioru modelowanego (§7), który obejmuje tylko miasta w granicach administracyjnych i nie obejmuje GZM, Gdyni ani Sopotu.
+5. **Tylko czas.** Bez taryf, zatłoczenia i uciążliwości przesiadek. Wariant „sieć wspólnego biletu” jest odłożony do potwierdzenia tabeli taryf (§8).
+6. **Jeden dzień.** Środa 2026-11-25 i sobota 2026-11-28; bez sezonowości i bez wakacyjnych rozkładów.
+7. **Brak przedziałów niepewności.** Są warianty wrażliwości (feedy oficjalne i wszystkie, dwie siatki ludności, cztery okna czasu, limit przesiadek), ale nie ma błędów oszacowania.
+8. **Założenia własne.** Pieszo 5 km/h, dojście do przystanku do 1 km, rower 15 km/h, poziom stresu rowerowego (LTS) odczytany z tagów OpenStreetMap, próg zabudowy 20 % w indeksie Bertauda, progi warstwy „gęstość × częstotliwość” (2 500 os./km², kursy co 10 i co 20 min).
+9. **Różnica dat.** Ludność z lat 2020–2021, rozkłady z 2026 r.; nowe osiedla mogą być widoczne jako obszary bez ludności.
+10. **Brak recenzji.** Metody nie czytał badacz transportu. Kod i obliczenia wykonał asystent AI, z kontrolami opisanymi w notach QA. Jedna kontrola spójności nie przechodzi w niewielkiej liczbie komórek: sieć ze wszystkimi feedami powinna dawać wynik nie gorszy niż sieć z samymi oficjalnymi, a w Warszawie w 730 z 88 926 komórek daje gorszy przy którymś z progów czasu (przyczyny nie ustalono; wynik główny rdzenia Warszawy różni się między tymi sieciami o 0,03 pkt).
+
+### 16.3 Do czego wyników nie używać
+
+- do rankingu miast o zbliżonych wynikach;
+- do oceny konkretnej inwestycji albo zmiany przebiegu linii;
+- do wniosków o grupach społecznych (w danych nie ma cech społeczno-ekonomicznych);
+- do wniosków o rzeczywistym czasie podróży i punktualności.
+
+Nadają się do porównywania ogólnych wzorców między miastami i wewnątrz miast oraz do wskazywania miejsc, w których gęsta zabudowa nie ma częstej komunikacji.
+
+### 16.4 Porównanie z DG REGIO: co ustalono
+
+Pełny opis: [`qa/access/dgregio/dgregio.md`](qa/access/dgregio/dgregio.md); kod: `pipeline/access_dgregio.py`. Wartości DG REGIO pochodzą z aneksu danych do pracy (dokładne liczby), nie z odczytu wykresów.
+
+- **Braków w naszych feedach, które tłumaczyłyby różnicę, nie znaleziono.** Listy linii przewoźników, roczna praca przewozowa MPK Poznań i przystanki OSM w granicach urban centre zgadzają się z feedami (szczegóły i to, czego nie sprawdzono, w nocie).
+- **Główna przyczyna to inny obszar.** DG REGIO liczy starty, cele i mianownik wyłącznie w „urban centre” z 2011 r. (Poznań i Łódź po 117 km², Warszawa 309 km²). Po odtworzeniu tego obszaru i metody różnica przy 45 min (DG REGIO minus my) maleje z +20,1 do +4,5 pkt w Poznaniu i z +23,5 do +11,0 pkt w Łodzi; w Warszawie jesteśmy 4,3 pkt powyżej. Przy 30 min jesteśmy powyżej DG REGIO we wszystkich trzech miastach (o 6,2–9,8 pkt), czyli odwrotnie, niż gdyby brakowało nam kursów.
+- **Reszta jest niewyjaśniona.** Aneks DG REGIO podaje dla 2018 r. podaż autobusową w urban centre ok. 1,7 razy większą niż w naszych feedach z 2026 r. (Poznań, Łódź). Raporty roczne MPK Poznań pokazują zmianę pracy autobusowej o −6,7 % między 2017 a 2024 r., więc realna zmiana oferty tego nie tłumaczy; bardziej prawdopodobne jest zawyżenie albo inna klasyfikacja w danych wejściowych DG REGIO. Tego nie da się sprawdzić: praca nie podaje, jakich feedów użyto, a kompletnego feedu Poznania z 2018 r. nie udało się zdobyć. Dla Łodzi, gdzie reszta jest największa, podobnego sprawdzenia nie było.
+- **Wniosek praktyczny.** Z DG REGIO porównujemy tylko wynik liczony w granicach urban centre; wynik główny (rdzeń miasta, cele w FUA + 15 km) zostaje bez zmian.
