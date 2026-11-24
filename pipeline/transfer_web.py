@@ -28,7 +28,9 @@ WEB = RESULTS / "web"
 SRC = RESULTS / "layers" / "transfer_nodes.parquet"
 OUT = WEB / "transfer_nodes.geojson"
 QA = RESULTS / "qa" / "transfer_web"
-MAX_BYTES = 4_000_000      # lazy-loaded and about 0.45 MB compressed
+MAX_BYTES = 4_600_000      # lazy-loaded and about 0.5 MB compressed
+NODE_USE = RESULTS / "layers" / "node_use.parquet"   # pipeline.trips_sample: transfers of sampled fastest routes
+USE_MIN_TRIPS = 10         # below this the share is shown as too uncertain (use_ok is absent)
 
 # property name in the file -> column in the parquet
 COLUMNS = {
@@ -83,7 +85,17 @@ def num(v, nd: int = 2):
     return int(r) if r == int(r) else r
 
 
-def feature(row, short_flag: bool, detail_ids: frozenset = frozenset()) -> dict:
+def node_use() -> dict:
+    """node_id -> (share of sampled public-transport trips that change there as a fraction, trips); {} if not computed."""
+    if not NODE_USE.exists():
+        return {}
+    import pandas as pd
+    d = pd.read_parquet(NODE_USE, columns=["node_id", "share_trips_changing", "trips_changing"])
+    d = d[d["trips_changing"] > 0]
+    return {r.node_id: (float(r.share_trips_changing) / 100, int(r.trips_changing)) for r in d.itertuples()}
+
+
+def feature(row, short_flag: bool, detail_ids: frozenset = frozenset(), use: dict | None = None) -> dict:
     nodata = not bool(row["in_mask"])
     p: dict = {"id": row["node_id"], "agg": row["agglomeration"], "name": row["name"], "modes": row["modes"]}
     for prop, col in COLUMNS.items():
@@ -113,6 +125,12 @@ def feature(row, short_flag: bool, detail_ids: frozenset = frozenset()) -> dict:
         p["nodata"] = True
     if row["node_id"] in detail_ids:
         p["detail"] = True       # a record in results/web/transfer_detail/<agg>.json
+    u = (use or {}).get(row["node_id"])
+    if u and not nodata:           # absent (never 0) when no sampled trip changes here
+        p["use"] = num(u[0], 4)
+        p["use_n"] = u[1]
+        if u[1] >= USE_MIN_TRIPS:
+            p["use_ok"] = True
     pt = row.geometry
     return {"type": "Feature", "properties": p,
             "geometry": {"type": "Point", "coordinates": [round(pt.x, 6), round(pt.y, 6)]}}
@@ -125,8 +143,8 @@ def detail_ids() -> frozenset:
 
 
 def dump(rows, short_flag: bool) -> str:
-    ids = detail_ids()
-    fc = {"type": "FeatureCollection", "features": [feature(r, short_flag, ids) for _, r in rows.iterrows()]}
+    ids, use = detail_ids(), node_use()
+    fc = {"type": "FeatureCollection", "features": [feature(r, short_flag, ids, use) for _, r in rows.iterrows()]}
     return json.dumps(fc, ensure_ascii=False, separators=(",", ":")) + "\n"
 
 

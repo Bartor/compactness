@@ -394,12 +394,13 @@ rule speed_web:
     # scheduled-speed overlay for the map: results/web/speed/{trams,rail,bus_<agg>}.geojson, lines.json
     input:
         "pipeline/speed_web.py",
+        "pipeline/speed_catalog.py",
         stamp("tram_stretches"),
         stamp("speed_tables"),
     output:
         touch(stamp("speed_web")),
     shell:
-        '"{PY}" -m pipeline.speed_web'
+        '"{PY}" -m pipeline.speed_web && "{PY}" -m pipeline.speed_catalog'
 
 
 rule whatif_tram:
