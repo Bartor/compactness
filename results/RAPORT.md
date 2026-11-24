@@ -1286,16 +1286,16 @@ Stosunek średnich; w nawiasie zmiana w punktach. Pozostałe miasta na obecnych 
 
 ## 24. Podróże z routingu: udział przesiadek, użycie węzłów, pary z kontroli NIK (2026-11-24)
 
-> Na losowej próbie 15 000 podróży na aglomerację (start ważony ludnością, cel ważony ludnością wśród miejsc
-> osiągalnych w 60 min, szczelina 5 min w środę 7–9; plus 5 000 podróży do miejsc pracy tam, gdzie jest siatka
-> miejsc pracy) R5 wyznaczył najszybszą trasę z liniami, przystankami i miejscem każdej przesiadki
-> (`qa/trips/trips.md`, `layers/node_use.parquet`). Bez przesiadki jedzie 25–40 % takich tras (Warszawa 24,7 %,
-> Wrocław 40,2 %), średnio 0,73–1,05 przesiadki; połowa czasu to jazda, ok. 30 % chodzenie, 16–20 % czekanie. To
-> wyraźnie mniej tras bez przesiadki niż w Warszawskim Badaniu Ruchu 2015 (57,2 %) i w danych Jakdojade 2025
-> (58–71 %), bo próba nie ma zaniku z odległością (podróże dłuższe niż w ankietach) i bierze trasę najszybszą: dla
-> celów do 45 min z karą 5 min za przesiadkę odsetek wynosi 58–74 % (Warszawa 58,1 %). Poziom zależy więc od
-> definicji; kolejność miast jest pewniejsza. Użycie węzłów jest tylko umiarkowanie zgodne z liczbą odjazdów
-> (korelacja rang 0,55–0,68, 9–12 wspólnych zespołów w obu „top 20”): mocno używane są węzły kolej–autobus na skraju
-> miast (Pruszków, Rumia, Junikowo, Łódź Widzew, Bytom Dworzec), a mało – przystanki w centrum na wspólnych ciągach
-> wielu linii. Trasy z gmin z kontroli NIK P/25/019 dają w najlepszej minucie czasy zbliżone do NIK w Warszawie
-> (mediana różnicy +1 min), dłuższe o ok. 8 min w Krakowie i o 10–22 min w Poznaniu (przyczyna niesprawdzona).
+Na losowej próbie 15 000 podróży na aglomerację (start ważony ludnością, cel ważony ludnością wśród miejsc
+osiągalnych w 60 min, szczelina 5 min w środę 7–9; plus 5 000 podróży do miejsc pracy tam, gdzie jest siatka
+miejsc pracy) R5 wyznaczył najszybszą trasę z liniami, przystankami i miejscem każdej przesiadki
+(`qa/trips/trips.md`, `layers/node_use.parquet`). Bez przesiadki jedzie 25–40 % takich tras (Warszawa 24,7 %,
+Wrocław 40,2 %), średnio 0,73–1,05 przesiadki; połowa czasu to jazda, ok. 30 % chodzenie, 16–20 % czekanie. To
+wyraźnie mniej tras bez przesiadki niż w Warszawskim Badaniu Ruchu 2015 (57,2 %) i w danych Jakdojade 2025
+(58–71 %), bo próba nie ma zaniku z odległością (podróże dłuższe niż w ankietach) i bierze trasę najszybszą: dla
+celów do 45 min z karą 5 min za przesiadkę odsetek wynosi 58–74 % (Warszawa 58,1 %). Poziom zależy więc od
+definicji; kolejność miast jest pewniejsza. Użycie węzłów jest tylko umiarkowanie zgodne z liczbą odjazdów
+(korelacja rang 0,55–0,68, 9–12 wspólnych zespołów w obu „top 20”): mocno używane są węzły kolej–autobus na skraju
+miast (Pruszków, Rumia, Junikowo, Łódź Widzew, Bytom Dworzec), a mało – przystanki w centrum na wspólnych ciągach
+wielu linii. Trasy z gmin z kontroli NIK P/25/019 dają w najlepszej minucie czasy zbliżone do NIK w Warszawie
+(mediana różnicy +1 min), dłuższe o ok. 8 min w Krakowie i o 10–22 min w Poznaniu (przyczyna niesprawdzona).
