@@ -16,8 +16,8 @@ Last updated 2026-11-24.
   time above free running (data only, not on the site yet).
 - Site redesign after the KBR viewer: dark theme, radio cards for value layers, switches for overlays,
   comparison and city tables with "how to read it" explanations, colours for the dark basemap.
-- ui-kit 0.3.3: `DataTable` (sticky heads, sorting by column or by row, one-line row headers, resizable columns,
-  compact density). The site uses a vendored tarball until the version is on the npm registry.
+- ui-kit 0.3.3 from the npm registry: `DataTable` (sticky heads, sorting by column or by row, one-line row headers,
+  resizable columns, compact density, several actions per row).
 - Layout rework: tables in a bottom dock (folded, half, whole screen with a small live map), legend in a map corner
   with the share of residents per class, class charts linked to hover and pin, the area outside the selected city
   dimmed.
@@ -46,8 +46,8 @@ Site
 4. Node detail view: stops, walking paths, crossings, top line-to-line movements; nodes sized by actual use.
 5. Network view: select a line, see its stretches and its connections with waits.
 6. Isochrones from a clicked point; survey context (KBR mode shares) in the city view.
-7. Switch the site to ui-kit `^0.3.3` from the registry and delete `web/vendor`; move the remaining local
-   pieces (dock, legend with shares, mini-map) into the kit once the design settles.
+7. Move the remaining local pieces (dock, tabs, legend with shares, stacked bars, SVG to PNG export) into the kit
+   once the design settles.
 8. Checks never done: Firefox, Safari, keyboard order, phone layout after each change; re-measure the transfer
    estimate per first visit. On a phone the city sheet covers most of the fitted city.
 
