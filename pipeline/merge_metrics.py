@@ -6,6 +6,7 @@ Inputs  (one pair per step, all in results/metrics/)
 * metrics_frequent.csv/json  phase 2 (extra columns feed_variant, population_grid)
 * metrics_density_service.csv/json  density x service frequency (feed_variant, population_grid)
 * metrics_access.csv/json    phase 3 (feed_variant empty for walk / bike, which do not depend on the feeds)
+* metrics_access_uc.csv/json phase 3 on the urban-centre domain (domain "urban_centre"; same conventions)
 
 Outputs
 * results/metrics/metrics.csv + metrics.json   union of all steps, columns COLUMNS, deterministic sort;
@@ -27,7 +28,8 @@ from pipeline.common import RESULTS, write_json, write_meta
 
 METRICS = RESULTS / "metrics"
 WEB = RESULTS / "web"
-STEPS = ["density", "supply", "frequent", "density_service", "access"]
+STEPS = ["density", "supply", "frequent", "density_service", "access", "access_uc"]
+ACCESS_STEPS = ("access", "access_uc")
 
 COLUMNS = ["agglomeration", "domain", "metric", "label", "value", "unit", "grid", "source", "population_date",
            "timetable_date", "coverage_share", "flag", "tier", "feed_variant", "population_grid", "step"]
@@ -74,6 +76,14 @@ for _dom in ("fua", "core"):
     PANEL[(_dom, "tp_walk_30min")] = (310, "Transport performance pieszo, 30 min")
     PANEL[(_dom, "tp_bike_lts3_30min")] = (311, "Transport performance rowerem, 30 min (LTS ≤ 3)")
     PANEL[(_dom, "tp_bike_lts4_30min")] = (312, "Transport performance rowerem, 30 min (LTS ≤ 4)")
+# the same five measures on the urban-centre domain (pipeline.access_uc): origins, destinations and denominator
+# restricted to the Eurostat 2021 urban centre(s) in the FUA
+_UC = "centrum miejskie (urban centre, Eurostat 2021)"
+PANEL[("urban_centre", "tp_pt_am_30min")] = (400, f"Transport performance komunikacją + pieszo, 30 min (7–9), {_UC}")
+PANEL[("urban_centre", "tp_pt_am_45min")] = (401, f"Transport performance komunikacją + pieszo, 45 min (7–9), {_UC}")
+PANEL[("urban_centre", "tp_walk_30min")] = (410, f"Transport performance pieszo, 30 min, {_UC}")
+PANEL[("urban_centre", "tp_bike_lts3_30min")] = (411, f"Transport performance rowerem, 30 min (LTS ≤ 3), {_UC}")
+PANEL[("urban_centre", "tp_bike_lts4_30min")] = (412, f"Transport performance rowerem, 30 min (LTS ≤ 4), {_UC}")
 
 
 def sha256(path) -> str:
@@ -127,10 +137,10 @@ def panel_subset(rows: list[dict]) -> list[dict]:
         spec = PANEL.get((r["domain"], r["metric"]))
         if spec is None or r["tier"] == "qa":
             continue
-        street_only = r["step"] == "access" and r["feed_variant"] is None    # walk / bike: no feed variant
+        street_only = r["step"] in ACCESS_STEPS and r["feed_variant"] is None    # walk / bike: no feed variant
         if r["step"] != "density" and r["feed_variant"] != PANEL_FEED_VARIANT and not street_only:
             continue
-        if r["step"] in ("frequent", "density_service", "access") and r["population_grid"] != PANEL_POP_GRID:
+        if r["step"] in ("frequent", "density_service", *ACCESS_STEPS) and r["population_grid"] != PANEL_POP_GRID:
             continue
         out.append((spec[0], {**r, "label": spec[1]}))
     out.sort(key=lambda t: (t[1]["agglomeration"], t[1]["domain"], t[0]))

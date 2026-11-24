@@ -6,9 +6,10 @@ export const DOMAIN_TITLES = {
   fua: 'Cały obszar FUA',
   core: 'Rdzeń miasta',
   covered: 'Obszar pokryty danymi GTFS',
+  urban_centre: 'Centrum miejskie (urban centre, Eurostat 2021)',
   city_tram_network: 'Sieć tramwajowa miasta',
 }
-const DOMAIN_ORDER = ['fua', 'core', 'covered', 'city_tram_network']
+const DOMAIN_ORDER = ['fua', 'core', 'covered', 'urban_centre', 'city_tram_network']
 
 export const FEED_VARIANTS = { all: 'wszystkie feedy, w tym nieoficjalne', official: 'feedy oficjalne' }
 export const POPULATION_GRIDS = {
@@ -47,7 +48,7 @@ export function metricNotes(m) {
   return parts.join(' · ')
 }
 
-/** Rows of one agglomeration grouped by domain: FUA, core, covered area, tram network, then any other.
+/** Rows of one agglomeration grouped by domain: FUA, core, covered area, urban centre, tram network, then any other.
  *  The file is already a curated subset in display order, so rows keep their file order within a domain;
  *  a row with tier "qa" never gets shown even if one slips in. */
 export function groupMetrics(metrics, agglomeration) {

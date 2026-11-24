@@ -9,6 +9,8 @@
 #   snakemake -c1 density_service  # density x service frequency: metrics_density_service.*
 #   snakemake -c1 access_run     # phase 3: R5 routing, ~12 h for all 7 agglomerations (explicit target only)
 #   snakemake -c1 access         # phase 3: aggregate whatever access_run has finished
+#   snakemake -c1 access_uc_run  # phase 3, urban-centre domain: R5 routing, ~1 h on 6 threads (explicit target only)
+#   snakemake -c1 access_uc      # phase 3, urban-centre domain: metrics_access_uc.* + results/qa/access_uc
 #   snakemake -c1 merge_metrics  # metrics_<step> -> metrics.csv/json + results/web/metrics.json
 #   snakemake -c1 tiles          # phase 4: PMTiles in tiles/, layer entries in results/web/catalog.json
 #   snakemake -c1 all
@@ -317,6 +319,40 @@ rule access:
         '"{PY}" -m pipeline.access aggregate'
 
 
+rule access_uc_run:
+    # Urban-centre variant (pipeline.access_uc): transit and bike routing on the Eurostat 2021 urban centres of each
+    # agglomeration, on copies of the production networks.  Explicit target like access_run; resumable per
+    # (agglomeration, scenario) through signature files in data/interim/access_uc/.
+    input:
+        "pipeline/access_uc.py",
+        "pipeline/access_dgregio.py",
+        "pipeline/access_inputs.py",
+        "pipeline/r5_env.py",
+        stamp("r5_inputs"),
+        stamp("popgrid"),
+    output:
+        touch(stamp("access_uc_run")),
+    shell:
+        '"{PY}" -m pipeline.access_uc route'
+
+
+rule access_uc:
+    # aggregate the urban-centre variant -> metrics_access_uc.*, results/qa/access_uc/access_uc.md; walk times come
+    # from the production walk cache, unfinished routing is listed as pending (no rows).  Like `access`, it does
+    # not depend on access_uc_run: re-run it (snakemake -c1 -R access_uc) after the routing progressed.
+    input:
+        "pipeline/access_uc.py",
+        "pipeline/access_uc_aggregate.py",
+        "pipeline/access_aggregate.py",
+        "pipeline/access_inputs.py",
+        stamp("frequent"),
+        stamp("popgrid"),
+    output:
+        touch(stamp("access_uc")),
+    shell:
+        '"{PY}" -m pipeline.access_uc aggregate'
+
+
 rule merge_metrics:
     # metrics_<step>.* -> metrics.csv / metrics.json and the map panel subset results/web/metrics.json
     input:
@@ -326,6 +362,7 @@ rule merge_metrics:
         stamp("frequent"),
         stamp("density_service"),
         stamp("access"),
+        stamp("access_uc"),
     output:
         touch(stamp("merge_metrics")),
     shell:

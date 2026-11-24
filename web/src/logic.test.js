@@ -99,6 +99,17 @@ describe('metrics', () => {
     expect(g[2].rows.map((x) => x.label)).toEqual(['c1', 'c2'])
     expect(g[2].rows[1].value).toBeNull()
   })
+  it('places the urban centre after the covered area, before the tram network, with a Polish heading', () => {
+    const r = [
+      { agglomeration: 'a', domain: 'city_tram_network', label: 't', value: 1 },
+      { agglomeration: 'a', domain: 'urban_centre', label: 'u', value: 2, tier: 'main' },
+      { agglomeration: 'a', domain: 'covered', label: 'c', value: 3 },
+      { agglomeration: 'a', domain: 'core', label: 'k', value: 4 },
+    ]
+    const g = groupMetrics(r, 'a')
+    expect(g.map((x) => x.domain)).toEqual(['core', 'covered', 'urban_centre', 'city_tram_network'])
+    expect(g[2].title).toBe('Centrum miejskie (urban centre, Eurostat 2021)')
+  })
   it('formats percentages with one decimal and a comma', () => {
     expect(flat(formatValue({ value: 80.38, unit: '%' }).text)).toBe('80,4 %')
     expect(flat(formatValue({ value: 5, unit: '%' }).text)).toBe('5,0 %')
