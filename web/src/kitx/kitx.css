@@ -72,3 +72,5 @@
 .kitx-stack-pick:focus-visible { outline: 2px solid var(--kit-focus); outline-offset: 2px; border-radius: 2px; }
 .kitx-stack .kit-sharebar { grid-template-columns: 7.5rem 1fr 3.2rem; }
 .kitx-stack .kit-sharebar > span { grid-column: auto; margin-bottom: 0; }
+.kitx-stack.noted .kit-sharebar { grid-template-columns: 7.5rem 1fr 3.2rem 7.5rem; }
+.kitx-stack .kit-sharebar > em { font-style: normal; font-size: .7rem; color: var(--kit-dim); white-space: nowrap; }

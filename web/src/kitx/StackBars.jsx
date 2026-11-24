@@ -6,7 +6,8 @@ import { inkOn } from '@bartor-net/ui-kit'
  * app imports.
  *
  * Props
- *   rows    [{key, label: string, onPick?, parts: [{key, label, color, share}]}]; share is 0..1
+ *   rows    [{key, label: string, onPick?, note?, parts: [{key, label, color, share}]}]; share is 0..1; `note` is
+ *           small print at the end of the row (for what the bar leaves out, e.g. "bez danych: 17 %")
  *   pick    {active: Set of part keys lit now, on(key) -> handlers}: what usePick() returns (or a bridge to one)
  *   label   accessible name of the whole
  *   hot, onHot, pinned   optional: the key of a row lit from outside, a callback with a row's key (or null) when the
@@ -21,8 +22,9 @@ export default function StackBars({ rows, pick = none, label, hot = null, onHot,
   const kept = new Set(pinned || [])
   const anyLit = hot != null || kept.size > 0
   const dim = (key) => pick.active.size > 0 && !pick.active.has(key)
+  const noted = rows.some((r) => r.note)
   return (
-    <div className="kit-sharebars kitx-stack" role="table" aria-label={label}>
+    <div className={`kit-sharebars kitx-stack${noted ? ' noted' : ''}`} role="table" aria-label={label}>
       {rows.map((r) => {
         const sum = r.parts.filter((p) => pick.active.has(p.key)).reduce((a, p) => a + p.share, 0)
         return (
@@ -47,6 +49,7 @@ export default function StackBars({ rows, pick = none, label, hot = null, onHot,
               ))}
             </div>
             <b>{pick.active.size > 0 ? `${Math.round(sum * 100)} %` : ''}</b>
+            {noted && <em role="cell">{r.note || ''}</em>}
           </div>
         )
       })}

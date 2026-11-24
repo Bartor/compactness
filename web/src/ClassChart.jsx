@@ -94,9 +94,12 @@ export function CitiesClassBars({ layer, doc, cities, names, area, onArea, focus
     const scope = scopeData(doc, layer.id, agg, area)
     const fr = shareFractions(scope)
     if (!fr) return null
-    const ps = parts.map((p, i) => ({ ...p, share: fr.pop[i] }))
-    if (fr.nodataPop != null) ps.push({ key: 'nodata', label: layer.nodata_label || 'brak danych GTFS', color: NODATA_COLOR, share: fr.nodataPop })
-    return { key: agg, label: names[agg] || agg, onPick: () => onPickCity(agg), parts: ps }
+    // the bar is the residents the layer has a value for (100 %), so that cities compare class by class; the share
+    // of residents without data is written at the end of the row instead of taking a segment of a different length
+    const known = 1 - (fr.nodataPop || 0)
+    const ps = parts.map((p, i) => ({ ...p, share: known > 0 ? fr.pop[i] / known : 0 }))
+    const note = fr.nodataPop > 0 ? `bez danych: ${shareText([fr.nodataPop], 0)}` : null
+    return { key: agg, label: names[agg] || agg, onPick: () => onPickCity(agg), parts: ps, note }
   }).filter(Boolean)
   if (!rows.length) return <Hint>Dla tej warstwy nie ma jeszcze liczb mieszkańców w klasach.</Hint>
   const own = focusOf(focus.focuses, layer.id)
@@ -107,12 +110,16 @@ export function CitiesClassBars({ layer, doc, cities, names, area, onArea, focus
       <StackBars rows={rows} pick={pick} hot={hot} onHot={onHot} pinned={pinned} label={`Mieszkańcy według klas: ${layer.title}`} />
       <p className="class-sum" aria-live="polite">
         {own.layerId === layer.id && own.pinned.length
-          ? 'Wybrane klasy są pokazane na mapie; liczba na końcu paska to ich udział w mieszkańcach miasta.'
+          ? 'Wybrane klasy są pokazane na mapie; liczba na końcu paska to ich udział w mieszkańcach objętych danymi.'
           : 'Wskaż klasę na pasku albo w legendzie, aby zobaczyć jej udział w każdym mieście; kliknij, aby zostawić ją na mapie.'}
       </p>
-      <Legend parts={rows.some((r) => r.parts.some((p) => p.key === 'nodata'))
-        ? [...parts, { key: 'nodata', label: layer.nodata_label || 'brak danych GTFS', color: NODATA_COLOR }]
-        : parts} />
+      <Legend parts={parts} />
+      {rows.some((r) => r.note) && (
+        <Hint>
+          Każdy pasek to 100 % mieszkańców, dla których warstwa ma wartość, więc miasta można porównywać klasa po
+          klasie. Udział mieszkańców bez danych ({layer.nodata_label || 'brak danych GTFS'}) jest podany na końcu paska.
+        </Hint>
+      )}
     </div>
   )
 }

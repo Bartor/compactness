@@ -249,7 +249,12 @@ describe('legend, chart and dock render', () => {
     const s = html(h(CitiesClassBars, { layer, doc, cities: ['b', 'a'], names: { a: 'Aaa', b: 'Bbb' }, area: 'fua', focus, onPickCity: noop }))
     expect(s.indexOf('Bbb')).toBeLessThan(s.indexOf('Aaa'))
     expect((s.match(/kitx-stack-pick/g) || []).length).toBe(2)
-    expect(s).toContain('50 %')
+    // bars are shares of the residents with data (b: 50 and 10 of 60 known), the rest is a note at the row's end
+    expect(s).toContain('83 %')
+    expect(s).toContain('75 %')
+    expect(s).toContain('bez danych: 40 %')
+    expect(s).toContain('bez danych: 60 %')
+    expect(s).not.toContain('50 %')
   })
   it('the dock is a labelled landmark with size buttons; folded, its content is not drawn', () => {
     const base = { map: h('div', { id: 'map' }), onState: noop, label: 'Tabele', title: h('h2', null, 'Tytuł') }
