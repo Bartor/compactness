@@ -402,6 +402,23 @@ rule speed_web:
         '"{PY}" -m pipeline.speed_web'
 
 
+rule whatif_tram:
+    # Wrocław tram what-if (pipeline.whatif_tram): rewritten tram timetables under data/interim/whatif/, own R5
+    # networks, routing with the production settings, then metrics_whatif.*, the cell layer and results/qa/whatif/.
+    # About 45 minutes of routing for six scenarios; resumable.
+    input:
+        "pipeline/whatif_tram.py",
+        "pipeline/whatif_tram_out.py",
+        "pipeline/whatif_tram_md.py",
+        "pipeline/whatif_tram_text.py",
+        stamp("tram_stretches"),
+        stamp("access"),
+    output:
+        touch(stamp("whatif_tram")),
+    shell:
+        '"{PY}" -m pipeline.whatif_tram build && "{PY}" -m pipeline.whatif_tram route && "{PY}" -m pipeline.whatif_tram aggregate'
+
+
 rule r5_inputs:
     # clipped OSM + cleaned GTFS zips per agglomeration and feed variant (data/interim/r5)
     input:

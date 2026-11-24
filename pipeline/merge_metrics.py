@@ -10,6 +10,7 @@ Inputs  (one pair per step, all in results/metrics/)
 * metrics_transfer.csv/json  ease of transfer in stop areas (no population grid; feed_variant "all")
 * metrics_distribution.csv/json  distribution of cell values: share below the access floor, FGT, percentiles
 * metrics_speed.csv/json     scheduled speeds by time band, slow tram stretches (feed_variant all / official)
+* metrics_whatif.csv/json    Wrocław tram what-if scenarios (pipeline.whatif_tram); not in the panel
 * metrics_form.csv/json      urban form: Angel's indices, polycentricity, Eurostat 2021 urban-centre shares,
                              residents by 250 m density class (no feed variant)
 
@@ -35,7 +36,7 @@ from pipeline.common import RESULTS, load_config, write_json, write_meta
 
 METRICS = RESULTS / "metrics"
 WEB = RESULTS / "web"
-STEPS = ["density", "supply", "frequent", "density_service", "access", "access_uc", "transfer", "distribution", "form", "speed"]
+STEPS = ["density", "supply", "frequent", "density_service", "access", "access_uc", "transfer", "distribution", "form", "speed", "whatif"]
 ACCESS_STEPS = ("access", "access_uc")
 
 COLUMNS = ["agglomeration", "domain", "metric", "label", "value", "unit", "grid", "source", "population_date",

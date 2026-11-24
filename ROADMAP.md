@@ -59,7 +59,7 @@ Method and data
 13. New open data: NSP 2021 age grid, commuting matrix, BDOT10k buildings, schools (RSPO) and hospitals as destinations.
 14. Validation: about 100 random journey-planner pairs at several departure minutes; the 15 suburban pairs from
     the NIK audit; transfer shares from routed trips against Warsaw's 43 % (WBR 2015) and Jakdojade.
-15. Wrocław tram what-if built on the slow stretches (target speed, re-run accessibility).
+15. Wrocław tram what-if, remaining: a map layer of the gain and a block in the city view; other cities; Saturday and evening windows.
 16. Form, remaining: Eurostat's official medium-density clusters (level 2 classes) were not downloaded; town halls
     not checked against official registers.
 
