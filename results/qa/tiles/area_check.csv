@@ -187,6 +187,54 @@ gtfs_nodata,poznan,brak danych GTFS,584.375,584.186,-0.032
 gtfs_nodata,trojmiasto,brak danych GTFS,820.188,820.011,-0.022
 gtfs_nodata,warszawa,brak danych GTFS,2476.812,2476.165,-0.026
 gtfs_nodata,wroclaw,brak danych GTFS,910.312,910.046,-0.029
+transport_performance_30,gzm,brak danych GTFS,196.188,196.11,-0.04
+transport_performance_30,gzm,< 10,770.375,770.059,-0.041
+transport_performance_30,gzm,10–20,309.125,309.09,-0.011
+transport_performance_30,gzm,20–30,130.25,130.246,-0.003
+transport_performance_30,gzm,30–40,46.375,46.37,-0.01
+transport_performance_30,gzm,40–50,12.812,12.815,0.022
+transport_performance_30,gzm,50–60,5.562,5.562,-0.01
+transport_performance_30,gzm,≥ 60,11.312,11.312,-0.005
+transport_performance_30,krakow,brak danych GTFS,874.625,874.384,-0.028
+transport_performance_30,krakow,< 10,1218.625,1218.206,-0.034
+transport_performance_30,krakow,10–20,134.812,134.791,-0.016
+transport_performance_30,krakow,20–30,53.812,53.813,0.001
+transport_performance_30,krakow,30–40,32.438,32.44,0.007
+transport_performance_30,krakow,40–50,22.938,22.936,-0.008
+transport_performance_30,krakow,50–60,6.438,6.438,0.008
+transport_performance_30,krakow,≥ 60,0.25,0.249,-0.209
+transport_performance_30,lodz,brak danych GTFS,295.938,295.845,-0.031
+transport_performance_30,lodz,< 10,1069.062,1068.612,-0.042
+transport_performance_30,lodz,10–20,119.0,118.985,-0.013
+transport_performance_30,lodz,20–30,71.125,71.117,-0.012
+transport_performance_30,lodz,30–40,41.0,41.0,-0.0
+transport_performance_30,lodz,40–50,14.312,14.315,0.015
+transport_performance_30,lodz,50–60,4.188,4.187,-0.014
+transport_performance_30,lodz,≥ 60,5.938,5.937,-0.004
+transport_performance_30,poznan,brak danych GTFS,326.75,326.611,-0.042
+transport_performance_30,poznan,< 10,569.75,569.497,-0.044
+transport_performance_30,poznan,10–20,132.375,132.347,-0.021
+transport_performance_30,poznan,20–30,56.125,56.112,-0.022
+transport_performance_30,poznan,30–40,35.312,35.316,0.01
+transport_performance_30,poznan,40–50,17.125,17.128,0.015
+transport_performance_30,poznan,50–60,4.5,4.497,-0.06
+transport_performance_30,poznan,≥ 60,0.938,0.938,0.102
+transport_performance_30,trojmiasto,brak danych GTFS,513.438,513.254,-0.036
+transport_performance_30,trojmiasto,< 10,302.812,302.68,-0.044
+transport_performance_30,trojmiasto,10–20,96.875,96.85,-0.026
+transport_performance_30,trojmiasto,20–30,63.125,63.12,-0.007
+transport_performance_30,trojmiasto,30–40,39.438,39.439,0.004
+transport_performance_30,trojmiasto,40–50,26.875,26.874,-0.002
+transport_performance_30,trojmiasto,50–60,12.562,12.561,-0.009
+transport_performance_30,trojmiasto,≥ 60,6.812,6.813,0.014
+transport_performance_30,warszawa,brak danych GTFS,1700.062,1699.477,-0.034
+transport_performance_30,warszawa,< 10,2973.312,2971.972,-0.045
+transport_performance_30,warszawa,10–20,390.062,389.983,-0.021
+transport_performance_30,warszawa,20–30,197.312,197.308,-0.002
+transport_performance_30,warszawa,30–40,117.688,117.673,-0.012
+transport_performance_30,warszawa,40–50,59.188,59.193,0.009
+transport_performance_30,warszawa,50–60,21.5,21.498,-0.007
+transport_performance_30,warszawa,≥ 60,12.75,12.749,-0.004
 transport_performance_30,wroclaw,brak danych GTFS,453.0,452.795,-0.045
 transport_performance_30,wroclaw,< 10,504.125,503.831,-0.058
 transport_performance_30,wroclaw,10–20,104.938,104.91,-0.026

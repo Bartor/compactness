@@ -1,5 +1,5 @@
 {
- "duration_s": 35.2,
+ "duration_s": 252.4,
  "files": {
   "density250_nsp2021.pmtiles": {
    "bytes": 2998723,
@@ -18,11 +18,11 @@
    "sha256": "e53bddf056d0ef45199f1a38ae727a4f7ba93a02c5d90b7907877a534cf2dc35"
   },
   "performance30_2026-11-25.pmtiles": {
-   "bytes": 155448,
-   "sha256": "7bd61f762f138910381086621d1d845d9a2a5e9bf643807adf1f97753a2148d4"
+   "bytes": 1516875,
+   "sha256": "5e113088443b87b2977464babd4fc2b9593124a8071bc4938892227dfd303df3"
   }
  },
- "git_sha": "f1110a83d8957eac1e4bca475b183c3db6681564",
+ "git_sha": "c1fc1e4dc0d662506b0f9cb30478d42220d3282e",
  "inputs": {
   "ghs_built_s_2020_R3_C20": {
    "data_date": "2020",
@@ -281,10 +281,14 @@
   }
  },
  "layers_built_in_this_run": [
+  "density_250m",
+  "frequent_transport",
+  "transport_performance_30",
+  "gtfs_nodata",
   "density_service"
  ],
  "missing_inputs": [],
- "run_at": "2026-11-24T08:17:15+01:00",
+ "run_at": "2026-11-24T11:55:30+01:00",
  "sources": [
   "results/layers/frequent_cells.parquet",
   "results/layers/access_cells.parquet",

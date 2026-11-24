@@ -304,7 +304,7 @@
    "has_nodata": true,
    "id": "transport_performance_30",
    "kind": "choropleth",
-   "note": "Odsetek ludności z okolicy (promień odpowiadający 15 km/h, 7,5 km), który można osiągnąć w 30 min komunikacją i pieszo; środa 7:00–9:00, mediana z odjazdów co minutę; wartości w %. Komórki poza pokryciem danych GTFS są kreskowane jako brak danych. Wszystkie feedy, w tym nieoficjalne. Rysowane są komórki z ludnością. Policzono: Wrocław. W trakcie obliczeń: GZM, Kraków, Łódź, Poznań, Trójmiasto, Warszawa.",
+   "note": "Odsetek ludności z okolicy (promień odpowiadający 15 km/h, 7,5 km), który można osiągnąć w 30 min komunikacją i pieszo; środa 7:00–9:00, mediana z odjazdów co minutę; wartości w %. Komórki poza pokryciem danych GTFS są kreskowane jako brak danych. Wszystkie feedy, w tym nieoficjalne. Rysowane są komórki z ludnością.",
    "population_date": "2021-03-31 (NSP 2021, wzór GHSL 2020)",
    "property": "v",
    "ramp": {
