@@ -16,6 +16,6 @@ export function dataDates(layer) {
  */
 export function legendRows(layer) {
   if (!['choropleth', 'points'].includes(layer.kind) || !layer.ramp) return { rows: [], noData: null }
-  const base = { rows: rampLegend(layer.ramp), noData: layer.has_nodata ? (layer.nodata_label || 'brak danych GTFS') : null }
+  const base = { rows: rampLegend(layer.ramp), noData: layer.has_nodata ? (layer.nodata_label || 'brak danych o rozkładach') : null }
   return layer.kind === 'points' ? { ...base, noValue: layer.novalue_label || null } : base
 }

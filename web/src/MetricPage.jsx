@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { Chips, DataTable, Hint } from '@bartor-net/ui-kit'
+import { DataTable, Hint } from '@bartor-net/ui-kit'
 import {
   AtLeastCurve, Dumbbell, RankBars, ReachCurve, TimeOfDay, atLeastSeries, dumbbellRows, floorOf,
   headwaySeries, reachSeries, timeOfDayRows,
@@ -21,7 +21,7 @@ const areaName = (a) => DOMAIN_INFO[a]?.short || a
 
 /** The large page of one metric: all cities, one area at a time, how to read it, related charts and sources. */
 export default function MetricPage({
-  id, area, setArea, from = null, index, cities, everyCity, names, charts, form, densityColors, layers, link,
+  id, area, asked = area, from = null, index, cities, everyCity, names, charts, form, densityColors, layers, link,
   onClose, onNavigate, onPickCity, onShowLayer, info = METRIC_INFO,
 }) {
   useEffect(() => {
@@ -173,10 +173,12 @@ export default function MetricPage({
       {text.lead && <p className="metric-lead">{text.lead}</p>}
 
       <section className="metric-section" aria-label="Wszystkie miasta">
-        {areas.length > 1 && (
-          <Chips items={areas.map((a) => ({ key: a, label: areaName(a), on: a === area }))} onPick={setArea} />
+        {area && (
+          <p className="metric-note">
+            Obszar: <b>{areaName(area)}</b> (przełącznik u góry strony). {DOMAIN_INFO[area]?.read}
+            {asked && asked !== area ? ` Ta miara nie ma wartości w obszarze „${areaName(asked)}”, więc pokazujemy najbliższy.` : ''}
+          </p>
         )}
-        {area && DOMAIN_INFO[area] && <p className="metric-note">{DOMAIN_INFO[area].read}</p>}
         {have.length > 0
           ? (
             <RankBars

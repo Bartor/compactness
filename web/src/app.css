@@ -199,7 +199,9 @@ button, input, select, textarea { font-family: inherit; }
 .compare-bar + .compare-area { margin: .4rem 0 .5rem; }
 .dock-table { --kit-data-height: max(10rem, calc(var(--kitx-dock-h, 40dvh) - 11rem)); }
 .dock-table .kit-data-table th, .dock-table .kit-data-table td { padding-inline: .5rem; }
-.dock-table .kit-data-table th.kit-data-label { min-width: 14rem; max-width: 26rem; }
+.dock-table .kit-data-table th.kit-data-label { min-width: 19rem; max-width: 26rem; }
+/* the comparison rows carry two links, the "?" and the sort control beside the name: room for all on one line */
+.compare-table.dock-table .kit-data-table th.kit-data-label { min-width: 24rem; max-width: 30rem; }
 .city-columns { display: grid; grid-template-columns: minmax(0, 2.1fr) minmax(19rem, 1fr); gap: 1.4rem; height: 100%; }
 .city-columns > .city-metrics, .city-columns > .city-blocks { min-height: 0; overflow-y: auto; }
 .city-columns .dock-table { --kit-data-height: max(8rem, calc(var(--kitx-dock-h, 40dvh) - 7rem)); }

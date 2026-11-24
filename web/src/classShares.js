@@ -9,6 +9,12 @@ export const SHARE_AREAS = [
 ]
 export const DEFAULT_SHARE_AREA = 'fua'
 
+/** The area the shares are given for when the page's area is `area`: the city for "Miasto", the whole area otherwise (the file has no more). */
+export const shareAreaOf = (area) => (area === 'core' ? 'core' : 'fua')
+
+/** Plain text saying that the shares are for the whole area although another one is chosen; '' when they match. */
+export const shareAreaNote = (area) => (area === 'core' || area === 'fua' ? '' : 'Dla tego obszaru nie liczymy osobno, więc pokazujemy cały obszar.')
+
 const num = (v) => (typeof v === 'number' && Number.isFinite(v) ? v : null)
 const sum = (a) => a.reduce((x, y) => x + y, 0)
 

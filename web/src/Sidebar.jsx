@@ -1,34 +1,38 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import {
-  Chips, HelpButton, Hint, InfoButton, LinkButton, Panel, RadioCards, Select, Sidebar as Shell, Toggle,
+  Chips, HelpButton, Hint, LinkButton, Panel, RadioCards, Select, Sidebar as Shell, Toggle,
 } from '@bartor-net/ui-kit'
 import { dataDates } from './layerInfo'
 import { layerColor, rampMid } from './data'
 import { chipLabel, overlayGroups, valueLayers, variantOf } from './layerControl'
+import { firstSentence } from './helpText'
 
-const TITLE = 'Zwartość miast'
-const SUBTITLE = 'Gęstość, forma i transport zbiorowy w polskich aglomeracjach'
-const NO_VALUE = ''   // the radio value of "Tylko granice"
+const NO_VALUE = ''   // the radio value of "Bez warstwy"
+const NONE_PICKED = '\u0000'   // matches no data layer: the data-layer group when none is chosen
 const CHIPS_MAX = 4   // more layers in a group than this are chosen from a list
 
-/** What stands behind a layer's "?": its note, then the dates and the source in small print. */
-function LayerHelp({ layer }) {
+/**
+ * The short help of a layer, one pattern with the tables' "?": one sentence, the dates and the source in small print,
+ * and a link to the fuller text ("O danych").
+ */
+function LayerHelp({ layer, onMore }) {
   const dates = dataDates(layer)
   return (
     <>
-      {layer.note && <p>{layer.note}</p>}
+      {layer.note && <p>{firstSentence(layer.note)}</p>}
       {(dates || layer.attribution) && (
         <p className="layer-meta">
           {dates && <span>{dates}</span>}
           {layer.attribution && <span>{layer.attribution}</span>}
         </p>
       )}
+      {onMore && <p><button type="button" className="more-link" onClick={onMore}>więcej w „O danych”</button></p>}
     </>
   )
 }
 
 /** One overlay group: a switch with a "?", and when on: which layer (if the group has several) and its variants. */
-function OverlayGroup({ group, state, onOn, onLayer, onVariant }) {
+function OverlayGroup({ group, state, onOn, onLayer, onVariant, onMore }) {
   const o = state.overlays[group.kind]
   const chosen = group.layers.find((l) => l.id === o.layer) || group.layers[0]
   const variants = chosen.variants || []
@@ -36,7 +40,7 @@ function OverlayGroup({ group, state, onOn, onLayer, onVariant }) {
   return (
     <Toggle
       label={group.label} checked={o.on} onChange={(v) => onOn(group.kind, v)}
-      help={chosen.note || chosen.attribution ? <LayerHelp layer={chosen} /> : undefined}
+      help={chosen.note || chosen.attribution ? <LayerHelp layer={chosen} onMore={onMore} /> : undefined}
     >
       {o.on && (chooser || variants.length > 1) && (
         <div className="overlay-body">
@@ -66,101 +70,112 @@ function OverlayGroup({ group, state, onOn, onLayer, onVariant }) {
   )
 }
 
-/** The controls only: city, what to colour the map with, overlays. Legends live on the map, tables in the dock. */
+/**
+ * What the map shows: the list of value layers (one at a time) and, under "Więcej na mapie", the overlays. Global state
+ * (city, area, about) is in the header. In the wide dock state the small live map sits at the bottom of this column
+ * (`inset`: the box it is drawn in; the list scrolls above it); on a low window the list shrinks to the active layer.
+ */
 export default function Sidebar({
-  catalog, metrics, selectedId, onPick, view, active, onValue, onOverlayOn, onOverlayLayer, onVariant,
-  sheetOpen, setSheetOpen, onAbout, onCompare,
+  catalog, view, onValue, onOverlayOn, onOverlayLayer, onVariant, sheetOpen, setSheetOpen, onAbout, flash, selectedName,
+  collapsed = false,
 }) {
   const [helpFor, setHelpFor] = useState(null)   // the value layer whose "?" is open
-  const sel = catalog.agglomerations.find((a) => a.id === selectedId)
-  const options = [
-    { value: '', label: 'Cała Polska' },
-    ...catalog.agglomerations.map((a) => ({ value: a.id, label: a.name })),
-  ]
+  const cards = useRef(null)
   const values = valueLayers(catalog.layers)
   const planned = catalog.layers.filter((l) => l.status !== 'ready' && l.kind === 'choropleth')
   const groups = overlayGroups(catalog.layers)
   const chosenValue = values.find((l) => l.id === view.value) || null
   const helpLayer = values.find((l) => l.id === helpFor) || null
-  const layerCredits = [...new Set(catalog.layers
-    .filter((l) => l.status === 'ready' && active.has(l.id) && l.attribution)
-    .map((l) => l.attribution))]
-  const cards = [
-    { value: NO_VALUE, label: 'Tylko granice', sub: 'bez kolorowania obszaru' },
-    ...values.map((l) => ({
-      value: l.id,
-      label: (
-        <>
-          {l.title}
-          {(l.note || l.attribution) && (
-            <HelpButton open={helpFor === l.id} onClick={() => setHelpFor(helpFor === l.id ? null : l.id)} />
-          )}
-        </>
-      ),
-      sub: l.sub || l.unit,
-      color: rampMid(l.ramp) || layerColor(l),
-    })),
-  ]
+
+  // a link elsewhere changed the layer: the card flashes once, so that the change in this column is seen
+  useEffect(() => {
+    if (!flash || !cards.current) return undefined
+    const i = values.findIndex((l) => l.id === flash.id)
+    const el = cards.current.querySelectorAll('.kit-card')[i]
+    if (!el) return undefined
+    el.classList.remove('flash')
+    void el.offsetWidth
+    el.classList.add('flash')
+    el.scrollIntoView?.({ block: 'nearest' })
+    const t = setTimeout(() => el.classList.remove('flash'), 1600)
+    return () => clearTimeout(t)
+  }, [flash])   // eslint-disable-line react-hooks/exhaustive-deps
+
+  const dataCards = values.map((l) => ({
+    value: l.id,
+    label: (
+      <>
+        {l.title}
+        {(l.note || l.attribution) && (
+          <HelpButton open={helpFor === l.id} onClick={() => setHelpFor(helpFor === l.id ? null : l.id)} />
+        )}
+      </>
+    ),
+    sub: l.sub || l.unit,
+    color: rampMid(l.ramp) || layerColor(l),
+  }))
 
   return (
     <Shell
-      title={TITLE} subtitle={SUBTITLE} peek={sel ? sel.name : 'aglomeracja i warstwy'}
+      title="Warstwy na mapie" peek={selectedName ? `${selectedName}: co pokazać` : 'co pokazać na mapie'}
       open={sheetOpen} setOpen={setSheetOpen}
-      action={<InfoButton label="O danych" title="Źródła i daty danych" onClick={() => onAbout()} />}
-      footer={(
-        <>
-          {metrics.metrics.length
-            ? `Miary przeliczono: ${metrics.generated || 'brak daty'}.`
-            : 'Miary pojawią się po przeliczeniu.'}
-          {catalog.generated ? ` Katalog warstw: ${catalog.generated}.` : ''}
-          <br />
-          Podkład: <a href="https://openfreemap.org" target="_blank" rel="noopener">OpenFreeMap</a>,
-          {' '}© <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">współtwórcy OpenStreetMap</a>.
-          {layerCredits.map((a) => <span key={a}><br />{a}</span>)}
-        </>
-      )}
     >
-      <Panel title="Aglomeracja">
-        <Select label="Aglomeracja" value={selectedId || ''} options={options}
-          onChange={(v) => onPick(v || null)} />
-        <LinkButton block onClick={onCompare}>Porównanie miast</LinkButton>
-      </Panel>
+      {collapsed
+        ? (
+          <Panel title="Warstwa na mapie">
+            <p className="layer-collapsed">{chosenValue ? chosenValue.title : 'Bez warstwy (tylko granice)'}</p>
+          </Panel>
+        )
+        : (
+          <>
+            <Panel
+              title="Warstwa na mapie"
+              help={<p>Naraz widać jedną warstwę, bo jej kolory zasłaniałyby się nawzajem. Legenda jest w rogu mapy.</p>}
+            >
+              {values.length === 0
+                ? <Hint>Warstwy pojawią się po przeliczeniu.</Hint>
+                : (
+                  <>
+                    <div className="layer-none">
+                      <RadioCards
+                        name="value-layer" label="Bez warstwy"
+                        value={chosenValue ? NONE_PICKED : NO_VALUE}
+                        onChange={() => onValue(null)}
+                        options={[{ value: NO_VALUE, label: 'Bez warstwy (tylko granice)', sub: 'sama mapa z obrysami miast' }]}
+                      />
+                    </div>
+                    <div ref={cards} className="layer-data">
+                      <RadioCards
+                        name="value-layer" label="Warstwa wartości"
+                        value={chosenValue ? chosenValue.id : NONE_PICKED}
+                        onChange={(v) => onValue(v)}
+                        options={dataCards}
+                      />
+                    </div>
+                  </>
+                )}
+              {helpLayer && <div className="kit-info"><LayerHelp layer={helpLayer} onMore={onAbout} /></div>}
+              {planned.length > 0 && (
+                <Hint>W przygotowaniu: {planned.map((l) => l.title).join('; ')}.</Hint>
+              )}
+            </Panel>
 
-      <Panel
-        title="Co pokazać"
-        help={<p>Naraz widać jedną warstwę wartości, bo jej kolory zasłaniałyby się nawzajem. Nakładki poniżej można dodać do każdej z nich. Legenda jest w rogu mapy.</p>}
-      >
-        {values.length === 0
-          ? <Hint>Warstwy pojawią się po przeliczeniu.</Hint>
-          : (
-            <RadioCards
-              name="value-layer" label="Warstwa wartości"
-              value={chosenValue ? chosenValue.id : NO_VALUE}
-              onChange={(v) => onValue(v === NO_VALUE ? null : v)}
-              options={cards}
-            />
-          )}
-        {helpLayer && <div className="kit-info"><LayerHelp layer={helpLayer} /></div>}
-        {planned.length > 0 && (
-          <Hint>W przygotowaniu: {planned.map((l) => l.title).join('; ')}.</Hint>
+            {groups.length > 0 && (
+              <details className="more-map">
+                <summary>Więcej na mapie</summary>
+                <div className="more-map-body">
+                  {groups.map((g) => (
+                    <OverlayGroup
+                      key={g.kind} group={g} state={view} onMore={onAbout}
+                      onOn={onOverlayOn} onLayer={onOverlayLayer} onVariant={onVariant}
+                    />
+                  ))}
+                </div>
+              </details>
+            )}
+          </>
         )}
-      </Panel>
-
-      <Panel
-        title="Nakładki"
-        help={<p>Nakładki można łączyć z każdą warstwą wartości i ze sobą.</p>}
-      >
-        {groups.length === 0 && <Hint>Nakładki pojawią się po przeliczeniu.</Hint>}
-        {groups.map((g) => (
-          <OverlayGroup
-            key={g.kind} group={g} state={view}
-            onOn={onOverlayOn} onLayer={onOverlayLayer} onVariant={onVariant}
-          />
-        ))}
-      </Panel>
-      <p className="kit-footnote sidebar-link">
-        <LinkButton onClick={() => onAbout()}>Źródła, różnice dat i ograniczenia</LinkButton>
-      </p>
+      <p className="sidebar-phone-link"><LinkButton onClick={onAbout}>O danych</LinkButton></p>
     </Shell>
   )
 }

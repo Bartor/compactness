@@ -8,7 +8,7 @@ import {
 import { indexMetrics } from './metricTable'
 import { readHash, resolveHash, hashOf } from './urlState'
 import { rowActions, pageAction, cityGroups, compareGroups } from './tableModel'
-import MetricHelp from './MetricHelp'
+import { ShortHelp } from './MetricHelp'
 import MetricPage from './MetricPage'
 
 const row = (agglomeration, metric, domain, value, extra = {}) => ({
@@ -139,16 +139,16 @@ describe('text and sources', () => {
 })
 
 describe('the address of a metric page', () => {
-  it('writes m= and ma= (not for the core), reads them back, and leaves old addresses alone', () => {
+  it('writes m= (the area is the global ar=, not written for the core), reads old ma= as the area, leaves old addresses alone', () => {
     expect(hashOf({ agg: null, layers: [], metric: 'area' }, { layers: [] })).toBe('#m=area')
-    expect(hashOf({ agg: null, layers: [], metric: 'area', metricArea: 'fua' }, { layers: [] })).toBe('#m=area&ma=fua')
-    expect(hashOf({ agg: null, layers: [], metric: 'area', metricArea: 'core' }, { layers: [] })).toBe('#m=area')
-    expect(hashOf({ agg: null, layers: [], metricArea: 'fua' }, { layers: [] })).toBe('')
+    expect(hashOf({ agg: null, layers: [], metric: 'area', area: 'fua' }, { layers: [] })).toBe('#m=area&ar=fua')
+    expect(hashOf({ agg: null, layers: [], metric: 'area', area: 'core' }, { layers: [] })).toBe('#m=area')
     const r = readHash('#a=lodz&m=area&ma=fua')
-    expect(r).toMatchObject({ agg: 'lodz', metric: 'area', metricArea: 'fua' })
+    expect(r).toMatchObject({ agg: 'lodz', metric: 'area', metricArea: 'fua', area: 'fua' })
     const cat = { agglomerations: [{ id: 'lodz' }], layers: [] }
-    expect(resolveHash(r, cat)).toMatchObject({ metric: 'area', metricArea: 'fua' })
-    expect(resolveHash(readHash('#a=lodz'), cat)).toMatchObject({ metric: null, metricArea: null })
+    expect(resolveHash(r, cat)).toMatchObject({ metric: 'area', area: 'fua' })
+    expect(resolveHash(readHash('#a=lodz'), cat)).toMatchObject({ metric: null, area: 'core' })
+    expect(resolveHash(readHash('#ar=covered&ma=fua'), cat).area).toBe('covered')   // the global area wins over the old one
     expect(pageFromHash('area', 'fua', index)).toEqual({ id: 'area', area: 'core' })
     expect(pageFromHash('zzz', null, index)).toBeNull()
   })
@@ -160,25 +160,31 @@ describe('opening the page from the tables', () => {
   it('gives a row the map and page actions (map first, then the page) in `actions` only', () => {
     expect(pageAction('area', null)).toBeNull()
     const a = rowActions({ area: {} }, 'area', layers, noop, noop)
-    expect(a.actions.map((x) => x.label)).toEqual(['strona miary'])
+    expect(a.actions.map((x) => x.label)).toEqual(['więcej'])
     expect(a.action).toBeUndefined()
     const b = rowActions({ area: { layer: 'density_250m' } }, 'area', layers, noop, noop)
-    expect(b.actions.map((x) => x.label)).toEqual(['na mapie', 'strona miary'])
+    expect(b.actions.map((x) => x.label)).toEqual(['na mapie', 'więcej'])
     const none = rowActions({}, 'area', layers, noop, null)
     expect(none.actions).toBeUndefined()
   })
   it('the comparison rows carry the actions, the city table label is a button, and the "?" ends with the link', () => {
     const groups = compareGroups({ index, cities: ['a', 'b'], area: 'core', names: {}, layers, onShowLayer: noop, onOpenMetric: noop })
     const r = groups.flatMap((g) => g.rows).find((x) => x.id === 'area')
-    expect(r.actions.map((x) => x.label)).toContain('strona miary')
-    const cg = cityGroups({ index, cities: ['a', 'b'], agg: 'a', layers, onShowLayer: noop, onOpenMetric: noop })
+    expect(r.actions.map((x) => x.label)).toContain('więcej')
+    expect(typeof r.label).toBe('string')   // the label is the kit's sort control in this table: plain text; the page opens from the action and the "?"
+    const cg = cityGroups({ index, pool: ['a', 'b'], agg: 'a', area: 'core', layers, onShowLayer: noop, onOpenMetric: noop })
     const cr = cg.flatMap((g) => g.rows).find((x) => x.id === 'area')
     expect(renderToStaticMarkup(h('div', null, cr.label))).toContain('metric-link')
     expect(cr.name).toBe('Powierzchnia')
-    const plain = cityGroups({ index, cities: ['a', 'b'], agg: 'a', layers, onShowLayer: noop })
+    const plain = cityGroups({ index, pool: ['a', 'b'], agg: 'a', area: 'core', layers, onShowLayer: noop })
     expect(typeof plain.flatMap((g) => g.rows).find((x) => x.id === 'area').label).toBe('string')
-    expect(renderToStaticMarkup(h(MetricHelp, { id: 'area', entries: [], nameOf: (x) => x, onOpen: noop }))).toContain('Otwórz stronę miary')
-    expect(renderToStaticMarkup(h(MetricHelp, { id: 'area', entries: [], nameOf: (x) => x }))).not.toContain('Otwórz stronę miary')
+    // the one help pattern: a sentence, the direction, a link to the page; no link without a page to open
+    const help = renderToStaticMarkup(r.help)
+    expect(help).toContain('więcej na stronie miary')
+    expect(help.length).toBeLessThan(900)
+    expect(renderToStaticMarkup(h(ShortHelp, { id: 'pwdens_census_1km' }))).toContain('wyżej = lepiej')
+    expect(renderToStaticMarkup(h(ShortHelp, { id: 'pwdens_census_1km' }))).not.toContain('więcej')
+    expect(renderToStaticMarkup(h(ShortHelp, { id: 'no_such_metric', onOpen: noop }))).toContain('nie ma jeszcze opisu')
   })
 })
 
@@ -186,7 +192,7 @@ describe('the metric page renders', () => {
   const noop = () => {}
   const link = { hot: null, setHot: noop, pinned: [], onPin: noop }
   const base = {
-    area: 'core', setArea: noop, from: 'a', index, cities: ['a', 'b', 'c'], everyCity: ['a', 'b', 'c', 'd'], names: { a: 'Aaa', b: 'Bbb', c: 'Ccc', d: 'Ddd' },
+    area: 'core', from: 'a', index, cities: ['a', 'b', 'c'], everyCity: ['a', 'b', 'c', 'd'], names: { a: 'Aaa', b: 'Bbb', c: 'Ccc', d: 'Ddd' },
     charts: null, form: null, densityColors: [], layers: [{ id: 'density_250m', status: 'ready' }], link, onClose: noop, onNavigate: noop,
     onPickCity: noop, onShowLayer: noop,
   }

@@ -20,7 +20,7 @@ describe('layer control state', () => {
   })
   it('groups overlays by catalog kind, skipping value layers, planned layers and kinds it does not know', () => {
     expect(overlayGroups(layers).map((g) => [g.kind, g.layers.map((l) => l.id)])).toEqual([
-      ['boundary', ['fua']], ['mask', ['m']], ['points', ['p', 'q']],
+      ['boundary', ['fua']], ['points', ['p', 'q']],   // the mask (hatch) is not a switch any more: the layers draw their own hatch
     ])
     expect(valueLayers(layers).map((l) => l.id)).toEqual(['a', 'b'])
   })
@@ -94,11 +94,11 @@ describe('address <-> layer state', () => {
   it('round-trips value layer, overlays, chosen points layer and city', () => {
     let s = setValue(initialState(layers), 'b', layers)
     s = chooseOverlay(setOverlayOn(s, 'points', true), 'points', 'q', layers)
-    s = setOverlayOn(s, 'mask', true)
+    s = setOverlayOn(s, 'mask', true)   // no such group: nothing happens
     const { h, r } = round(s, 'lodz')
-    expect(h).toBe('#a=lodz&l=b,fua,m,q')
+    expect(h).toBe('#a=lodz&l=b,fua,q')
     expect(r.agg).toBe('lodz')
-    expect(ids(activeIds(r.state, layers))).toEqual(['b', 'fua', 'm', 'q'])
+    expect(ids(activeIds(r.state, layers))).toEqual(['b', 'fua', 'q'])
     expect(r.state.value).toBe('b')
     expect(r.state.overlays.points).toMatchObject({ on: true, layer: 'q' })
   })
@@ -118,8 +118,8 @@ describe('address <-> layer state', () => {
     expect(hashOf({ agg: null, layers: ['fua'] }, { layers: ['fua'] })).toBe('')
   })
   it('old addresses with several value layers or several points layers keep the first of each', () => {
-    const s = stateFromIds(['b', 'fua', 'a', 'q', 'p', 'm'], layers)
-    expect(ids(activeIds(s, layers))).toEqual(['b', 'fua', 'm', 'q'])
+    const s = stateFromIds(['b', 'fua', 'a', 'q', 'p', 'm'], layers)   // an old address naming the mask layer: ignored
+    expect(ids(activeIds(s, layers))).toEqual(['b', 'fua', 'q'])
     expect(resolveHash({ layers: ['p', 'q', 'a', 'b'] }, catalog).state.value).toBe('a')
   })
   it('unknown, planned and unlisted-kind ids are dropped; no l= means the default', () => {

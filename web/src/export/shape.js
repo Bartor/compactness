@@ -20,7 +20,7 @@ export function metaFromRows(rows) {
   const first = (get) => rows.map(get).find((v) => v != null && v !== '')
   const grid = first((r) => (r.population_grid ? POPULATION_GRIDS[r.population_grid] || r.population_grid : null))
   return {
-    source: 'wydawcy GTFS, OpenStreetMap, GUS (NSP 2021), JRC GHSL',
+    source: 'wydawcy rozkładów jazdy, OpenStreetMap, GUS (NSP 2021), JRC GHSL',
     populationGrid: grid || '',
     populationDate: first((r) => r.population_date) || '',
     timetableDate: first((r) => r.timetable_date) || '',

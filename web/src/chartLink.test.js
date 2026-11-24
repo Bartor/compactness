@@ -66,12 +66,12 @@ describe.skipIf(!fs.existsSync(file))('charts in the dock (real charts.json)', (
     expect(s).toContain('Zasięg w zależności od czasu podróży')
     expect(s).toContain('Mieszkańcy poniżej minimalnego zasięgu')
   })
-  it('the dock tab "Rozkład" exists only when the charts are there', () => {
+  it('the charts tab of the comparison holds the distribution charts and shows none when they are not there', () => {
     const base = {
       index: {}, cities: ['a'], everyCity: ['a'], names: {}, area: 'core', setArea: noop, layers: [], onShowLayer: noop,
       onPickCity: noop, hot: null, setHot: noop, onOpenLimits: noop, layout: 'tabs', tab: 'metrics', setTab: noop,
     }
-    expect(renderToStaticMarkup(h(Compare, { ...base, spread: h('i') }))).toContain('Rozkład')
-    expect(renderToStaticMarkup(h(Compare, base))).not.toContain('Rozkład')
+    expect(renderToStaticMarkup(h(Compare, { ...base, tab: 'wykresy', spread: h('i', { className: 'sp' }) }))).toContain('class="sp"')
+    expect(renderToStaticMarkup(h(Compare, { ...base, tab: 'wykresy' }))).not.toContain('class="sp"')
   })
 })

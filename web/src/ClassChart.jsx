@@ -1,9 +1,9 @@
-import { Chips, Donut, HAS_HOVER, Hint, SplitBody, SplitTable } from '@bartor-net/ui-kit'
+import { Donut, HAS_HOVER, Hint, SplitBody, SplitTable } from '@bartor-net/ui-kit'
 import { rampLegend } from './ramp'
 import { focusOf } from './classFocus'
 import { focusPick, pinnedOf } from './classPick'
 import {
-  SHARE_AREAS, layerAggs, pickedSum, scopeData, scopeLabel, shareFractions, shareText,
+  layerAggs, pickedSum, scopeData, scopeLabel, shareAreaNote, shareAreaOf, shareFractions, shareText,
 } from './classShares'
 import StackBars from './kitx/StackBars'
 import ExportButtons from './export/ExportButtons'
@@ -14,17 +14,13 @@ export const NODATA_COLOR = '#8A909C'
 
 const nf = new Intl.NumberFormat('pl-PL', { maximumFractionDigits: 0, useGrouping: 'always' })
 
-/** "mieszkańcy: Wrocław, cały obszar" and the switch between the whole area and the core city. */
-export function ScopeLine({ aggName, area, onArea }) {
+/** "mieszkańcy: Wrocław, cały obszar": whose numbers these are, in the area chosen in the header (plain text, no switch). */
+export function ScopeLine({ aggName, area }) {
+  const note = shareAreaNote(area)
   return (
     <div className="scope-line">
-      <span>mieszkańcy: {scopeLabel(aggName, area)}</span>
-      {onArea && (
-        <Chips
-          tight items={SHARE_AREAS.map((a) => ({ key: a.key, label: a.label, on: a.key === area }))}
-          onPick={onArea}
-        />
-      )}
+      <span>mieszkańcy: {scopeLabel(aggName, shareAreaOf(area))}</span>
+      {note && <span className="scope-note">{note}</span>}
     </div>
   )
 }
@@ -39,8 +35,9 @@ const NO_LAYER = 'Włącz warstwę wartości („Co pokazać”), aby zobaczyć,
  * adds up the pinned classes. Pointing at a slice or a row, or clicking it, is the same as doing it in the legend
  * (`focus` is the page's useFocuses value), so the map follows. `doc` is the class-shares file or null.
  */
-export function CityClassChart({ layer, doc, aggId, aggName, area, onArea, focus }) {
+export function CityClassChart({ layer, doc, aggId, aggName, area: pageArea, focus }) {
   const meta = useExportMeta()
+  const area = shareAreaOf(pageArea)
   if (!layer) return <Hint>{NO_LAYER}</Hint>
   const scope = scopeData(doc, layer.id, aggId, area)
   if (!scope) {
@@ -51,7 +48,7 @@ export function CityClassChart({ layer, doc, aggId, aggName, area, onArea, focus
   const own = focusOf(focus.focuses, layer.id)
   const pick = focusPick(own, layer.id, focus, HAS_HOVER)
   const sum = pickedSum(scope, pinnedOf(own, layer.id))
-  const noDataLabel = layer.nodata_label || 'brak danych GTFS'
+  const noDataLabel = layer.nodata_label || 'brak danych o rozkładach'
   const rows = parts.map((p, i) => ({
     ...p, value: scope.pop[i],
     cells: [nf.format(scope.pop[i]), shareText(fr.pop, i) || '0 %', nf.format(scope.cells[i]), shareText(fr.cells, i) || '0 %'],
@@ -64,7 +61,7 @@ export function CityClassChart({ layer, doc, aggId, aggName, area, onArea, focus
   }
   return (
     <div className="class-chart">
-      <ScopeLine aggName={aggName} area={area} onArea={onArea} />
+      <ScopeLine aggName={aggName} area={pageArea} />
       <ExportButtons
         table={() => classTable({
           layerTitle: layer.title, labels: parts.map((p) => p.label), scope, aggId, aggName, nodataLabel: noDataLabel,
@@ -95,8 +92,9 @@ export function CityClassChart({ layer, doc, aggId, aggName, area, onArea, focus
  * One 100 % bar per city: how the residents of each city split into the classes of the active value layer. Same
  * linking as above. `cities` is the order to try (ids), `names` {id: name}; clicking a city's name selects it.
  */
-export function CitiesClassBars({ layer, doc, cities, names, area, onArea, focus, onPickCity, hot, onHot, pinned }) {
+export function CitiesClassBars({ layer, doc, cities, names, area: pageArea, focus, onPickCity, hot, onHot, pinned }) {
   const meta = useExportMeta()
+  const area = shareAreaOf(pageArea)
   if (!layer) return <Hint>{NO_LAYER}</Hint>
   const present = layerAggs(doc, layer.id)
   const order = [...cities.filter((c) => present.includes(c)), ...present.filter((c) => !cities.includes(c))]
@@ -117,10 +115,10 @@ export function CitiesClassBars({ layer, doc, cities, names, area, onArea, focus
   const pick = focusPick(own, layer.id, focus, HAS_HOVER)
   return (
     <div className="class-chart cities">
-      <ScopeLine aggName={null} area={area} onArea={onArea} />
+      <ScopeLine aggName={null} area={pageArea} />
       <ExportButtons
         table={() => classCitiesTable({
-          layerTitle: layer.title, labels: parts.map((p) => p.label), area, nodataLabel: layer.nodata_label || 'brak danych GTFS',
+          layerTitle: layer.title, labels: parts.map((p) => p.label), area, nodataLabel: layer.nodata_label || 'brak danych o rozkładach',
           perCity: order.map((id) => ({ id, name: names[id] || id, scope: scopeData(doc, layer.id, id, area) })).filter((x) => x.scope),
         }, meta)}
         name={{ view: 'klasy', subject: layer.id, area }}
@@ -135,7 +133,7 @@ export function CitiesClassBars({ layer, doc, cities, names, area, onArea, focus
       {rows.some((r) => r.note) && (
         <Hint>
           Każdy pasek to 100 % mieszkańców, dla których warstwa ma wartość, więc miasta można porównywać klasa po
-          klasie. Udział mieszkańców bez danych ({layer.nodata_label || 'brak danych GTFS'}) jest podany na końcu paska.
+          klasie. Udział mieszkańców bez danych ({layer.nodata_label || 'brak danych o rozkładach'}) jest podany na końcu paska.
         </Hint>
       )}
     </div>

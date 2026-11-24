@@ -24,7 +24,7 @@ describe('legend body (sidebar and phone overlay)', () => {
     expect(s).toContain('dim')
   })
   it('draws the boundary and mask keys and a hatched row for grid layers', () => {
-    expect(html({ id: 'f', kind: 'boundary' })).toContain('rdzeń miasta')
+    expect(html({ id: 'f', kind: 'boundary' })).toContain('samo miasto')
     expect(html({ id: 'm', kind: 'mask', legend: 'maska' })).toContain('maska')
     const grid = { id: 'g', kind: 'choropleth', ramp: points.ramp, has_nodata: true }
     expect(html(grid)).toContain('hatch')

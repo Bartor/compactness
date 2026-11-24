@@ -1,3 +1,4 @@
+import { useEffect, useRef, useState } from 'react'
 import { legendRows } from './layerInfo'
 import { emphasised, focusOf, hovered } from './classFocus'
 import { sizeClasses } from './pointLayers'
@@ -7,33 +8,58 @@ import { ScopeLine } from './ClassChart'
 import MapLegendBox from './kitx/MapLegendBox'
 
 /**
- * The legend in the corner of the map (desktop and phone): the active value layer with its classes (hover and pin as
- * in the sidebar before: they drive the map and the charts) and the unit, then a compact key of each active overlay.
- * No dates and no sources here; they are behind the "?" of the layer in the sidebar. `open` / `onToggle` is the fold
- * state, kept by the page. `shares` is {scopeOf(layerId) -> scope | null (classShares.scopeData), aggName, area,
- * onArea}: with it every class of a value layer shows the share of residents of the scope, and a line says whose
- * numbers those are.
+ * The legend in the corner of the map (desktop and phone): the active value layer with its classes (hover and pin drive
+ * the map and the charts) and the unit, then a compact key of each active overlay, collapsed until asked for. No dates and
+ * no sources here; they are behind the "?" of the layer in the sidebar. `open` / `onOpen` is the fold state, kept by the
+ * page. `shares` is {scopeOf(layerId) -> scope | null (classShares.scopeData), aggName, area, noDataFor(layerId)}: with it
+ * every class of a value layer shows the share of residents of the scope, and a line says whose numbers those are, in the
+ * area chosen in the header. `noDataFor(layerId)` says that the selected city has nothing for the layer; `loading` that
+ * the tiles of the value layer are still coming.
  */
-export default function Legend({ layers, focuses, onHover, onToggle, onClear, open, onOpen, shares }) {
+export default function Legend({ layers, focuses, onHover, onToggle, onClear, open, onOpen, shares, loading = false }) {
+  const scroll = useRef(null)
+  const key = layers.map((l) => l.id).sort().join('|')
+  useEffect(() => { if (scroll.current) scroll.current.scrollTop = 0 }, [key, open])
   if (!layers.length) return null
   const ordered = [...layers].sort((a, b) => (KIND_ORDER[a.kind] ?? 9) - (KIND_ORDER[b.kind] ?? 9))
   return (
-    <MapLegendBox open={open} onToggle={onOpen}>
-      {ordered.map((l) => {
-        const scope = l.kind === 'choropleth' ? shares?.scopeOf(l.id) : null
-        const fr = shareFractions(scope)
-        return (
-          <div key={l.id} className="legend-block">
-            <b>{l.title}</b>
-            <LegendBody
-              layer={l} focus={focusOf(focuses || {}, l.id)} onHover={onHover} onToggle={onToggle} onClear={onClear}
-              shares={fr?.pop} noDataShare={fr?.nodataPop} compact
-            />
-            {scope && <ScopeLine aggName={shares.aggName} area={shares.area} onArea={shares.onArea} />}
-          </div>
-        )
-      })}
+    <MapLegendBox open={open} onToggle={onOpen} scrollRef={scroll}>
+      {ordered.map((l) => (
+        <LegendSection
+          key={l.id} layer={l} focuses={focuses} onHover={onHover} onToggle={onToggle} onClear={onClear} shares={shares}
+          loading={loading && l.kind === 'choropleth'} startOpen={l.kind === 'choropleth' || l.kind === 'boundary'}
+        />
+      ))}
     </MapLegendBox>
+  )
+}
+
+function LegendSection({ layer: l, focuses, onHover, onToggle, onClear, shares, loading, startOpen }) {
+  const [open, setOpen] = useState(startOpen)
+  const scope = l.kind === 'choropleth' ? shares?.scopeOf(l.id) : null
+  const fr = shareFractions(scope)
+  const none = l.kind === 'choropleth' && shares?.noDataFor?.(l.id)
+  return (
+    <div className="legend-block">
+      {startOpen
+        ? <b>{l.title}</b>
+        : (
+          <button type="button" className="legend-fold" aria-expanded={open} onClick={() => setOpen(!open)}>
+            <span aria-hidden="true">{open ? '▾' : '▸'}</span> {l.title}
+          </button>
+        )}
+      {loading && <small className="legend-loading" role="status">Wczytywanie warstwy…</small>}
+      {none && <p className="legend-none">Brak danych o rozkładach dla: {shares.aggName}</p>}
+      {open && !none && (
+        <>
+          <LegendBody
+            layer={l} focus={focusOf(focuses || {}, l.id)} onHover={onHover} onToggle={onToggle} onClear={onClear}
+            shares={fr?.pop} noDataShare={fr?.nodataPop} compact
+          />
+          {scope && <ScopeLine aggName={shares.aggName} area={shares.area} />}
+        </>
+      )}
+    </div>
   )
 }
 
@@ -55,8 +81,8 @@ export function LegendBody({ layer, focus, onHover, onToggle, onClear, shares, n
     <>
       {layer.kind === 'boundary' && (
         <>
-          <span><i className="line" />obszar funkcjonalny (FUA)</span>
-          <span><i className="line dashed" />rdzeń miasta</span>
+          <span><i className="line" />obszar aglomeracji</span>
+          <span><i className="line dashed" />samo miasto</span>
         </>
       )}
       {(layer.kind === 'choropleth' || points) && layer.ramp && (
@@ -103,7 +129,7 @@ export function LegendBody({ layer, focus, onHover, onToggle, onClear, shares, n
         </>
       )}
       {layer.kind === 'mask' && (
-        <span><i className="sq hatch" />{layer.legend || layer.caption || 'brak danych'}</span>
+        <span><i className="sq hatch" />{layer.legend || layer.caption || 'brak danych o rozkładach'}</span>
       )}
     </>
   )

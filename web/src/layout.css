@@ -1,0 +1,149 @@
+/* The structure of the page: the header bar, the sidebar of map controls, the stage with the panel, and the sizes of what can
+   be clicked. Overrides of the kit that should move into the kit are marked "kit:". */
+
+/* ---- header bar across the top ---- */
+.app-root { display: flex; flex-direction: column; height: 100vh; height: 100dvh; }
+.app-root > .kit-app { flex: 1; min-height: 0; height: auto; }
+.app-header {
+  flex: none; position: relative; z-index: 30; display: flex; align-items: center; gap: 1rem; padding: .45rem .9rem;
+  background: var(--kit-rail); border-bottom: 1px solid var(--kit-line);
+}
+.app-name {
+  background: none; border: 0; color: inherit; font: inherit; text-align: left; cursor: pointer; display: flex; flex-direction: column;
+  gap: .05rem; padding: .15rem .5rem; border-radius: 6px; min-height: 40px; justify-content: center;
+}
+.app-name b { font-family: var(--font-serif); font-size: 1.3rem; line-height: 1.1; font-weight: 600; color: var(--kit-text); }
+.app-name span { font-size: .86rem; color: var(--kit-dim); }
+.app-name:hover b { color: var(--kit-link-light); }
+.app-name:focus-visible, .app-about:focus-visible, .area-switch button:focus-visible, .app-menu-btn:focus-visible { outline: 2px solid var(--kit-focus); outline-offset: 2px; }
+.app-picker { flex: none; width: 15rem; }
+.app-picker .kit-select { min-height: 36px; font-size: .95rem; }
+.app-area { display: flex; align-items: center; gap: .6rem; margin-left: auto; }
+.app-area-label { font-size: .86rem; color: var(--kit-dim); }
+.area-switch { display: inline-flex; border: 1px solid var(--kit-line-strong); border-radius: 8px; overflow: hidden; }
+.area-switch button {
+  background: none; border: 0; color: var(--kit-soft); font: inherit; font-size: .9rem; padding: .4rem .85rem; min-height: 36px; cursor: pointer;
+}
+.area-switch button + button { border-left: 1px solid var(--kit-line-strong); }
+.area-switch button:hover { background: var(--kit-hover); color: var(--kit-text); }
+.area-switch button[aria-pressed="true"] { background: var(--kit-accent-fill); color: #fff; }
+.app-about, .app-menu-btn {
+  flex: none; background: var(--kit-control); border: 1px solid var(--kit-line-strong); color: var(--kit-text); font: inherit; font-size: .9rem;
+  padding: .4rem .9rem; min-height: 36px; border-radius: 8px; cursor: pointer;
+}
+.app-about:hover, .app-menu-btn:hover { background: var(--kit-hover); }
+.app-menu { position: relative; margin-left: auto; }
+.app-menu-pop {
+  position: absolute; right: 0; top: calc(100% + 6px); z-index: 40; width: min(22rem, 92vw); display: flex; flex-direction: column; gap: .6rem;
+  background: var(--kit-raised); border: 1px solid var(--kit-line-strong); border-radius: 10px; padding: .8rem; box-shadow: 0 8px 28px rgba(0, 0, 0, .55);
+}
+.app-menu-pop .area-switch { flex-wrap: wrap; }
+.app-menu-label { margin: 0; font-size: .86rem; color: var(--kit-dim); }
+
+/* ---- sidebar: what the map shows ---- */
+@media (min-width: 761px) {
+  .app-root .kit-sidebar > header { display: none; }      /* the title is in the header bar; kit: no invisible phone handle on a desktop */
+  .app-root .kit-sidebar { padding-top: 1rem; }
+  .sidebar-phone-link { display: none; }
+}
+.app-root.full .kit-sidebar { padding-bottom: 285px; }   /* the small live map sits under the list in the wide panel state */
+.layer-none { margin-bottom: .6rem; padding-bottom: .7rem; border-bottom: 1px dashed var(--kit-line-strong); }
+.layer-collapsed { margin: 0; font-weight: 600; color: var(--kit-text); }
+.kit-card.flash { animation: card-flash 1.5s ease-out; }
+@keyframes card-flash { 0% { box-shadow: 0 0 0 3px var(--kit-link-light); } 100% { box-shadow: 0 0 0 3px transparent; } }
+@media (prefers-reduced-motion: reduce) { .kit-card.flash { animation: none; outline: 2px solid var(--kit-link-light); } }
+.more-map { margin: .2rem 0 1rem; border: 1px solid var(--kit-line); border-radius: 10px; background: var(--kit-panel); }
+.more-map summary { cursor: pointer; padding: .6rem .85rem; font-weight: 600; min-height: 40px; display: flex; align-items: center; color: var(--kit-soft); }
+.more-map summary:focus-visible { outline: 2px solid var(--kit-focus); outline-offset: -2px; }
+.more-map-body { padding: .2rem .85rem .85rem; }
+.more-link, .metric-open { background: none; border: 0; padding: 0; font: inherit; color: var(--kit-link-light); cursor: pointer; text-decoration: underline; text-underline-offset: 3px; }
+.help-dir { color: var(--kit-soft); font-weight: 600; }
+
+/* ---- the panel: title, tabs, body ---- */
+.dock-sub { font-size: .9rem; color: var(--kit-dim); white-space: nowrap; }
+.dock-panel { min-height: 100%; }
+.city-two { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 1.6rem; align-items: start; }
+.city-col { display: flex; flex-direction: column; gap: 1.1rem; min-width: 0; }
+.city-col h4, .city-stops h4 { margin: 0 0 .4rem; font-size: .86rem; text-transform: uppercase; letter-spacing: .06em; color: var(--kit-dim); }
+.headline-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
+.headline-list li { display: grid; grid-template-columns: minmax(0, 1fr) auto auto; gap: .2rem .8rem; align-items: baseline; padding: .45rem 0; border-bottom: 1px solid var(--kit-line); font-size: 1rem; }
+.headline-list b { color: var(--kit-text); font-variant-numeric: tabular-nums; }
+.headline-list small { color: var(--kit-dim); font-size: .86rem; }
+.city-charts .charts-grid { grid-template-columns: repeat(auto-fit, minmax(26rem, 1fr)); }
+.city-stops { max-width: 46rem; }
+.city-sub { margin: 0 0 .5rem; color: var(--kit-dim); font-size: .95rem; }
+.city-back, .city-tabs { margin: 0 0 .6rem; }
+.compare-note { max-width: 80ch; margin: .6rem 0; color: var(--kit-dim); font-size: .9rem; line-height: 1.5; }
+.compare-h3 { margin: 1.2rem 0 .4rem; font-size: 1rem; color: var(--kit-text); }
+.compare-charts { display: flex; flex-direction: column; gap: 1.6rem; }
+.chart-area-note, .scope-note { margin: 0 0 .6rem; color: var(--kit-dim); font-size: .86rem; }
+
+/* the one table of all agglomerations: a small caption over the first column of each group and a thin gap between them */
+.col-group { position: relative; display: inline-block; padding-top: 1.1rem; }
+.col-cap { position: absolute; left: 0; top: 0; white-space: nowrap; font-size: .8rem; font-weight: 500; color: var(--kit-dim); text-transform: none; letter-spacing: 0; }
+.kit-data-table th.kit-data-col.narrow:empty { padding: 0; width: .9rem; min-width: .9rem; }
+.compare-table .kit-data-table td.kit-data-col.narrow:empty, .compare-table .kit-data-table th.kit-data-col.narrow:empty { border-left: 2px solid var(--kit-line-strong); background: transparent; }
+
+/* ---- legend states ---- */
+.legend-loading, .legend-none { margin: 0; font-size: .86rem; color: var(--kit-dim); }
+.legend-none { color: var(--kit-warn); }
+.legend-fold { background: none; border: 0; padding: .2rem 0; min-height: 28px; text-align: left; font: inherit; font-size: .9rem; font-weight: 600; color: var(--kit-text); cursor: pointer; }
+.legend-fold:focus-visible { outline: 2px solid var(--kit-focus); outline-offset: 2px; }
+.cell-tip .maplibregl-popup-content { background: var(--kit-raised); color: var(--kit-text); border: 1px solid var(--kit-line-strong); border-radius: 6px; padding: .4rem .6rem; font-size: .86rem; box-shadow: 0 2px 10px rgba(0, 0, 0, .5); pointer-events: none; }
+.cell-tip .maplibregl-popup-content small { display: block; color: var(--kit-dim); font-size: .8rem; }
+.cell-tip .maplibregl-popup-tip { display: none; }
+
+/* ---- sizes: every clickable target at least 28 px on a desktop, 40 on a phone; no text under 12 px ---- */
+.kit-help-btn { min-width: 28px; min-height: 28px; font-size: .9rem; }                              /* kit: was about 17 px */
+.kit-data-sort.icon { min-width: 28px; min-height: 28px; justify-content: center; }                 /* kit: was about 18 px */
+.kit-data-table thead th .kit-data-pick { display: inline-flex; align-items: center; min-height: 28px; padding: .2rem .15rem; }
+.kit-data-action, .metric-link, .metric-city { min-height: 24px; }
+.kit-legend-close { min-width: 28px; min-height: 28px; font-size: 1.3rem; }                         /* kit: was about 17 px */
+.kit-chip { min-height: 28px; }
+.kit-info-btn { min-height: 28px; }
+.maplibregl-ctrl-group button { width: 32px; height: 32px; }
+@media (max-width: 760px) {
+  /* kit 0.3.3: in a narrow label column the name is one grid column and the tools (link, "?", sort) are the other; on a phone
+     they go under the name instead, so the name is never squeezed to nothing */
+  .kit-data-name { grid-template-columns: minmax(0, 1fr); }
+  .kit-data-tools { justify-self: start; flex-wrap: wrap; white-space: normal; }
+  .kit-data-actions { max-width: none; justify-content: flex-start; flex: 1 0 100%; }
+  .kit-help-btn, .kit-data-sort.icon, .kit-legend-close, .kit-chip, .area-switch button, .exp-btn, .kitx-tab { min-width: 40px; min-height: 40px; }
+  .kit-data-table thead th .kit-data-pick { min-height: 40px; }
+  .app-header { gap: .5rem; padding: .4rem .6rem; }
+  .app-name b { font-size: 1.05rem; }
+  .app-picker { width: auto; flex: 1; min-width: 0; }
+}
+.legend-unit, .legend-block small, .legend-hint, .legend-share, .scope-line, .kit-data-unit, .layer-meta, .exp, .exp-status,
+.chx-note, .chx-readout, .kit-hint, .kit-footnote, .kit-info, .kit-card-text em { font-size: max(12px, 0.86rem); }
+
+.kit-data-table thead th:has(.col-group) { z-index: 4; overflow: visible; }   /* the group caption runs over the heads of its neighbours */
+.col-cap { pointer-events: none; }
+
+.city-metrics { max-width: 66rem; }
+
+/* phones: the collapsed city sheet is one bar above the layers sheet's peek */
+.city-peek {
+  position: fixed; left: 0; right: 0; bottom: 62px; z-index: 950; display: flex; justify-content: space-between; align-items: center;
+  min-height: 48px; padding: 0 1rem; background: var(--kit-panel); border: 0; border-top: 1px solid var(--kit-line-strong); color: var(--kit-text);
+  font: inherit; cursor: pointer;
+}
+.city-peek span { color: var(--kit-link-light); font-size: .9rem; }
+.city-peek:focus-visible { outline: 2px solid var(--kit-focus); outline-offset: -3px; }
+
+/* ---- measured pass: targets under 28 px and text under 12 px (kit: the kit's own sizes are smaller in these places) ---- */
+.legend-row { min-height: 28px; }
+.kitx-dock-step { height: 28px; }
+.dock-back { min-height: 28px; display: inline-flex; align-items: center; }
+.metric-link, .metric-city, .metric-open { min-height: 28px; display: inline-flex; align-items: center; }
+.exp-btn { min-height: 28px; }
+.chx-switch { min-height: 28px; padding: .15rem .6rem; }
+.chx-legend-item { min-height: 28px; }
+.kit-panel h2, .kit-chip, .kit-link, .kit-chevron, .kit-badge, .legend-row, .legend-block span, .dock-back, .exp-btn, .exp-label,
+.class-sum, .class-total, .chx-switch, .chx-legend-item, .kit-data-action, .kit-split-table, .kit-split-table td, .kit-split-table th,
+.maplibregl-ctrl-scale, .maplibregl-ctrl-attrib-inner, .maplibregl-ctrl-attrib a, .kit-hint, .kit-footnote { font-size: max(12px, .86rem); }
+.kit-data-table, .kit-data-table th, .kit-data-table td, .kit-data-text, .kit-data-head, .kit-data-corner, .kit-data-unit { font-size: max(12px, .86rem) !important; }
+.chx-tick, .chx-label, .chx-floor-label, .chx svg text { font-size: 12px; }
+.app-root .exp-btn, .app-root .exp-label, .app-root .chx-switch, .app-root .chx-legend-item, .app-root .chx-legend-item *,
+.app-root .legend-block b, .app-root .kit-notes li, .app-root .kit-callout p, .app-root .kit-callout li { font-size: max(12px, .86rem) !important; }
+.app-root .exp-btn { min-height: 28px; }

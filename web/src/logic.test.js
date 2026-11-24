@@ -19,8 +19,8 @@ describe('url state', () => {
     ],
   }
   it('reads agglomeration and layers', () => {
-    expect(readHash('#a=wroclaw&l=fua,x')).toEqual({ agg: 'wroclaw', layers: ['fua', 'x'], variants: {} })
-    expect(readHash('')).toEqual({ agg: undefined, layers: undefined, variants: {} })
+    expect(readHash('#a=wroclaw&l=fua,x')).toMatchObject({ agg: 'wroclaw', layers: ['fua', 'x'], variants: {}, pinned: [] })
+    expect(readHash('')).toMatchObject({ agg: undefined, layers: undefined, variants: {}, pinned: [] })
     expect(readHash('#l=').layers).toEqual([])
   })
   it('writes only what differs from the defaults', () => {
@@ -33,7 +33,7 @@ describe('url state', () => {
   it('round-trips', () => {
     const d = { layers: ['fua'] }
     const h = hashOf({ agg: 'wroclaw', layers: ['x'] }, d)
-    expect(readHash(h)).toEqual({ agg: 'wroclaw', layers: ['x'], variants: {} })
+    expect(readHash(h)).toMatchObject({ agg: 'wroclaw', layers: ['x'], variants: {} })
   })
   it('drops unknown agglomerations and not-ready layers', () => {
     const r = resolveHash({ agg: 'nope', layers: ['d', 'x', 'zzz'] }, catalog)
@@ -97,7 +97,7 @@ describe('metrics', () => {
     ]
     const g = groupMetrics(r, 'a')
     expect(g.map((x) => x.domain)).toEqual(['fua', 'core', 'covered'])
-    expect(g.map((x) => x.title)).toEqual(['Cały obszar FUA', 'Rdzeń miasta', 'Obszar pokryty danymi GTFS'])
+    expect(g.map((x) => x.title)).toEqual(['Cały obszar FUA', 'Rdzeń miasta', 'Obszar pokryty danymi o rozkładach'])
     expect(g[0].rows.map((x) => x.label)).toEqual(['f2', 'f1'])
     expect(g[1].rows.map((x) => x.label)).toEqual(['k2', 'k1'])
     expect(g[2].rows.map((x) => x.label)).toEqual(['c1', 'c2'])
@@ -183,7 +183,7 @@ describe('legend', () => {
   it('shows the hatched row only for layers that can have no-data cells', () => {
     const l = { kind: 'choropleth', ramp }
     expect(legendRows(l).noData).toBeNull()
-    expect(legendRows({ ...l, has_nodata: true }).noData).toBe('brak danych GTFS')
+    expect(legendRows({ ...l, has_nodata: true }).noData).toBe('brak danych o rozkładach')
     expect(legendRows({ ...l, has_nodata: true, nodata_label: 'x' }).noData).toBe('x')
     expect(legendRows({ kind: 'mask' })).toEqual({ rows: [], noData: null })
   })
@@ -193,20 +193,20 @@ describe('the sort of the comparison in the address', () => {
   const d = { layers: ['fua'] }
   const catalog = { agglomerations: [{ id: 'wroclaw' }], layers: [{ id: 'fua', kind: 'boundary', status: 'ready' }] }
   it('is written after the rest, only when there is one, and read back', () => {
-    const h = hashOf({ agg: 'lodz', layers: ['x', 'fua'], sort: { key: 'pwdens_census_1km', dir: 'desc' }, sortDensity: { key: 'area', dir: 'asc' } }, d)
-    expect(h).toBe('#a=lodz&l=fua,x&s=pwdens_census_1km:desc&sd=area:asc')
+    const h = hashOf({ agg: 'lodz', layers: ['x', 'fua'], sort: { key: 'pwdens_census_1km', dir: 'desc' } }, d)
+    expect(h).toBe('#a=lodz&l=fua,x&s=pwdens_census_1km:desc')
     const r = readHash(h)
     expect(r.sort).toEqual({ key: 'pwdens_census_1km', dir: 'desc' })
-    expect(r.sortDensity).toEqual({ key: 'area', dir: 'asc' })
     expect(r.agg).toBe('lodz')
-    expect(hashOf({ agg: null, layers: ['fua'], sort: null, sortDensity: null }, d)).toBe('')
+    expect(hashOf({ agg: null, layers: ['fua'], sort: null }, d)).toBe('')
     expect(hashOf({ agg: null, layers: ['fua'], sort: { key: 'area', dir: 'desc' } }, d)).toBe('#s=area:desc')
   })
   it('leaves old addresses as they were: no sort, and the same hash back', () => {
     const r = readHash('#a=wroclaw&l=fua,x&v=d:2')
     expect(r.sort).toBeUndefined()
-    expect(r.sortDensity).toBeUndefined()
     expect(resolveHash(r, catalog).sort).toBeNull()
+    // the second sort of the older two-table page is simply ignored
+    expect(readHash('#sd=area:asc').sort).toBeUndefined()
     expect(hashOf({ agg: 'wroclaw', layers: ['x', 'fua'], variants: r.variants }, d)).toBe('#a=wroclaw&l=fua,x&v=d:2')
   })
   it('drops what is not a sort: no way, a wrong way, no metric', () => {
@@ -219,7 +219,6 @@ describe('the sort of the comparison in the address', () => {
   it('resolves to null for no sort and to the sort for a sort, keeping the rest of the state', () => {
     const r = resolveHash(readHash('#a=nope&s=area:desc&sd=rho_t20:asc'), catalog)
     expect(r.sort).toEqual({ key: 'area', dir: 'desc' })
-    expect(r.sortDensity).toEqual({ key: 'rho_t20', dir: 'asc' })
     expect(r.agg).toBeNull()
   })
 })

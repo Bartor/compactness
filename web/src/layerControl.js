@@ -15,7 +15,8 @@
 
 export const OVERLAY_KINDS = {
   boundary: { label: 'Granice miast', order: 0, defaultOn: true },
-  mask: { label: 'Brak danych o rozkładach', order: 1 },
+  // the hatch of "brak danych o rozkładach" is drawn by every layer that can have such cells (it comes in their tiles), so
+  // it is not a switch of its own: the catalog's mask layer is left out of the controls (old addresses naming it are ignored)
   points: { label: 'Węzły przesiadkowe', order: 2 },
 }
 

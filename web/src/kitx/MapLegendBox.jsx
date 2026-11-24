@@ -7,9 +7,10 @@
  *   open, onToggle(open)   whether it is unfolded; the caller keeps the state, so it can start open or folded
  *   label                  text of the folded button (default "Legenda") and the card's accessible name
  *   foldLabel              accessible name of the close button
+ *   scrollRef              optional ref of the scrolling part (to reset its scroll)
  *   children               the key
  */
-export default function MapLegendBox({ open, onToggle, label = 'Legenda', foldLabel = 'Zwiń legendę', children }) {
+export default function MapLegendBox({ open, onToggle, label = 'Legenda', foldLabel = 'Zwiń legendę', scrollRef, children }) {
   if (!open) {
     return (
       <button type="button" className="kit-map-legend closed" aria-expanded="false" onClick={() => onToggle(true)}>
@@ -20,7 +21,7 @@ export default function MapLegendBox({ open, onToggle, label = 'Legenda', foldLa
   return (
     <div className="kit-map-legend kitx-legend" role="group" aria-label={label}>
       <button type="button" className="kit-legend-close" aria-expanded="true" aria-label={foldLabel} onClick={() => onToggle(false)}>×</button>
-      <div className="kitx-legend-scroll">{children}</div>
+      <div className="kitx-legend-scroll" ref={scrollRef}>{children}</div>
     </div>
   )
 }

@@ -8,6 +8,7 @@ import '@bartor-net/ui-kit/base.css'
 import '@bartor-net/ui-kit/styles.css'
 import './kitx/kitx.css'
 import './app.css'
+import './layout.css'
 import App from './App'
 
 createRoot(document.getElementById('root')).render(<StrictMode><App /></StrictMode>)

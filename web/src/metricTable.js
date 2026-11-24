@@ -13,8 +13,8 @@ export const DENSITY_GROUP_IDS = ['size', 'form', 'poly']
 
 /** Short column heads of the cities, in the order of the comparison. Cities not listed come after, by catalog order. */
 export const SHORT_CITY = {
-  warszawa: 'W-wa', krakow: 'Kraków', wroclaw: 'Wrocław', poznan: 'Poznań', lodz: 'Łódź', trojmiasto: '3miasto', gzm: 'GZM',
-  bialystok: 'Białystok', bydgoszcz_torun: 'Bydg.-Toruń', kielce: 'Kielce', lublin: 'Lublin', rzeszow: 'Rzeszów',
+  warszawa: 'Warszawa', krakow: 'Kraków', wroclaw: 'Wrocław', poznan: 'Poznań', lodz: 'Łódź', trojmiasto: 'Trójmiasto', gzm: 'GZM',
+  bialystok: 'Białystok', bydgoszcz_torun: 'Bydg.–Toruń', kielce: 'Kielce', lublin: 'Lublin', rzeszow: 'Rzeszów',
   szczecin: 'Szczecin',
 }
 const CITY_ORDER = Object.keys(SHORT_CITY)
@@ -168,10 +168,45 @@ export function rankOf(values, value, better) {
  * (then the tram network) that has one; null when no area has any.
  */
 export function metricArea(index, id, cities, prefer = AREAS[0]) {
-  for (const area of [prefer, ...AREAS, TRAM_DOMAIN]) {
+  for (const area of [...(AREA_NEAR[prefer] || [prefer, ...AREAS]), TRAM_DOMAIN]) {
     if (cities.some((c) => isNum(index[id]?.[c]?.[area]?.value))) return area
   }
   return null
+}
+
+/** For each area, the areas to try when it has no values: itself, then the nearest in meaning. */
+export const AREA_NEAR = {
+  core: ['core', 'urban_centre', 'covered', 'fua'],
+  urban_centre: ['urban_centre', 'core', 'covered', 'fua'],
+  covered: ['covered', 'fua', 'core', 'urban_centre'],
+  fua: ['fua', 'covered', 'core', 'urban_centre'],
+}
+
+/**
+ * The area to read a metric in when the page asks for `area`: that one when any of `cities` has a value there, else the
+ * nearest that has (`moved: true`, so the caller says so). A metric that exists only as a tram-network row (no area at all)
+ * stays on `area`: those rows stand in for every area.
+ */
+export function resolveRowArea(index, id, cities, area) {
+  for (const a of AREA_NEAR[area] || [area]) {
+    if (cities.some((c) => isNum(index[id]?.[c]?.[a]?.value))) return { area: a, moved: a !== area }
+  }
+  return { area, moved: false }
+}
+
+/**
+ * Rank of a city among the cities that have the metric, in the area the row is read in: {rank, n, area, moved} or null
+ * when the metric has no direction (a rank would mean nothing), the city has no value, or fewer than three cities have
+ * one. `pool` is the cities to rank among (all agglomerations): n is how many of them have the metric (7 or 13).
+ */
+export function rankAmong(index, id, pool, agg, area, better) {
+  if (better !== 'higher' && better !== 'lower') return null
+  const r = resolveRowArea(index, id, pool, area)
+  const vals = pool.map((c) => valueOf(areaRow(index, id, c, r.area)))
+  const mine = valueOf(areaRow(index, id, agg, r.area))
+  const n = vals.filter(isNum).length
+  if (mine == null || n < 3) return null
+  return { rank: rankOf(vals, mine, better), n, area: r.area, moved: r.moved }
 }
 
 /**
@@ -197,19 +232,22 @@ const COUNT_WORD = { 3: 'trzech', 4: 'czterech', 5: 'pięciu', 6: 'sześciu', 7:
  * first or last among `cities`, in the order of the groups, e.g.
  * "Najwyższa wśród siedmiu miast: Zasięg komunikacją w 30 min (31,6 %)".
  */
-export function highlights(index, cities, agg, { max = 4, groups = METRIC_GROUPS, info = METRIC_INFO } = {}) {
+export function highlights(index, cities, agg, { max = 4, groups = METRIC_GROUPS, info = METRIC_INFO, area = AREAS[0], transport = null } = {}) {
   const out = []
   for (const g of buildGroups(index, { groups })) {
     for (const id of g.metrics) {
       const better = info[id]?.better
       if (better !== 'higher' && better !== 'lower') continue
-      const s = standing(index, id, cities, agg, better)
+      const s = standing(index, id, cities, agg, better, area)
       if (!s || !(s.first || s.last)) continue
       // the highest value is first for "higher", last for "lower"
       const highest = (s.first && better === 'higher') || (s.last && better === 'lower')
       const row = index[id][agg][s.area]
-      const count = COUNT_WORD[s.n] || String(s.n)
-      out.push(`${highest ? 'Najwyższa' : 'Najniższa'} wśród ${count} miast: ${metricName(index, id, info)} (${formatValue(row).text})`)
+      const word = COUNT_WORD[s.n] || String(s.n)
+      // the seven with timetables are named as such; the whole set as "aglomeracji"
+      const among = transport && s.n === transport.length && transport.every((c) => cities.includes(c))
+        ? `wśród ${word} miast z danymi o transporcie` : s.n === cities.length ? `wśród ${s.n} aglomeracji` : `wśród ${word} miast`
+      out.push(`${highest ? 'Najwyższa' : 'Najniższa'} ${among}: ${metricName(index, id, info)} (${formatValue(row).text})`)
       if (out.length >= max) return out
     }
   }
@@ -300,4 +338,28 @@ export function topNodes(features, agg, n = 8) {
       coordinates: f.geometry.coordinates,
       props: f.properties,
     }))
+}
+
+/** The measures a city's first tab leads with, in order of preference (the first six the city has are shown). */
+export const HEADLINE_IDS = [
+  'tp_pt_am_30min_ratio_of_means', 'freq_seg_net_le10min', 'dist_below_floor_pt_am_30min', 'vkm_per_cap_day_total',
+  'rail_ge4dph_net_1km', 'pwdens_census_1km', 'share_residents_ge5000', 'median_resident_density_250m', 'population_census', 'area',
+]
+
+/**
+ * Up to `max` headline numbers of a city in `area`: [{id, name, text, rank: {rank, n} | null, moved, area}], text being the
+ * value with its unit. Measures the city has no value for are skipped, so a city with density only gets density figures.
+ */
+export function headlineRows(index, pool, agg, area, { max = 6, info = METRIC_INFO } = {}) {
+  const out = []
+  for (const id of HEADLINE_IDS) {
+    if (!index[id]?.[agg]) continue
+    const at = resolveRowArea(index, id, [agg], area)
+    const row = areaRow(index, id, agg, at.area)
+    if (valueOf(row) == null) continue
+    const st = rankAmong(index, id, pool, agg, area, info[id]?.better)
+    out.push({ id, name: metricName(index, id, info), text: formatValue(row).text, rank: st ? { rank: st.rank, n: st.n } : null, moved: at.moved, area: at.area })
+    if (out.length >= max) break
+  }
+  return out
 }

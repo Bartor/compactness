@@ -1,7 +1,8 @@
 import { describe, expect, it } from 'vitest'
 import {
   AREAS, allCities, areaRow, buildGroups, centreRows, cityCell, highlights, indexMetrics, markExtremes, metricArea,
-  metricName, nodeSub, plainText, rankOf, sourceModel, standing, timeOfDay, topNodes, transportCities,
+  metricName, nodeSub, plainText, rankAmong, rankOf, resolveRowArea, sourceModel, standing, timeOfDay, topNodes, transportCities,
+  headlineRows,
 } from './metricTable'
 
 const row = (agglomeration, metric, domain, value, extra = {}) => ({
@@ -101,19 +102,27 @@ describe('standing and "co wyróżnia"', () => {
     expect(s).toMatchObject({ rank: 1, n: 7, first: true, last: false })
   })
   it('states what is first or last, respecting the direction, skipping metrics without one', () => {
-    const g = highlights(index, seven, 'gzm')
+    const g = highlights(index, seven, 'gzm', { transport: seven })
     // best in reach and tram speed, and the highest (worst) share of dense areas without service
     expect(g).toHaveLength(3)
     expect(g.map((s) => s.replace(/ \(.*$/, ''))).toEqual([
-      'Najwyższa wśród siedmiu miast: Prędkość komunikacyjna tramwajów',
-      'Najwyższa wśród siedmiu miast: Gęsta zabudowa bez kursów co 20 min',
-      'Najwyższa wśród siedmiu miast: Zasięg komunikacją w 30 min',
+      'Najwyższa wśród siedmiu miast z danymi o transporcie: Prędkość komunikacyjna tramwajów',
+      'Najwyższa wśród siedmiu miast z danymi o transporcie: Gęsta zabudowa bez kursów co 20 min',
+      'Najwyższa wśród siedmiu miast z danymi o transporcie: Zasięg komunikacją w 30 min',
     ])
-    const w = highlights(index, seven, 'warszawa').map(flat)
+    const w = highlights(index, seven, 'warszawa', { transport: seven }).map(flat)
     // the lowest share of dense areas without service is the best there; the lowest reach and tram speed the worst
-    expect(w).toContain('Najniższa wśród siedmiu miast: Gęsta zabudowa bez kursów co 20 min (10,0 %)')
-    expect(w.some((s) => s.startsWith('Najniższa wśród siedmiu miast: Zasięg'))).toBe(true)
+    expect(w).toContain('Najniższa wśród siedmiu miast z danymi o transporcie: Gęsta zabudowa bez kursów co 20 min (10,0 %)')
+    expect(w.some((s) => s.startsWith('Najniższa wśród siedmiu miast z danymi o transporcie: Zasięg'))).toBe(true)
     expect(w.every((s) => !s.includes('Powierzchnia'))).toBe(true)
+  })
+  it('names the whole set "aglomeracji" and gives a city outside the seven highlights only from measures it has', () => {
+    const all = [...seven, 'kielce', 'lublin']
+    const t = highlights(index, all, 'kielce', { transport: seven })
+    expect(t.every((x) => !x.includes('z danymi o transporcie'))).toBe(true)
+    expect(t.every((x) => x.includes('Powierzchnia') || x.includes('Gęstość') || x.length === 0)).toBe(true)
+    const w = highlights(index, all, 'warszawa', { transport: seven }).map(flat)
+    expect(w.some((x) => x.includes('wśród siedmiu miast z danymi o transporcie'))).toBe(true)
   })
   it('gives at most the asked number and nothing for a city in the middle', () => {
     expect(highlights(index, seven, 'poznan')).toEqual([])
@@ -183,5 +192,38 @@ describe('source note', () => {
   })
   it('is empty when no row exists', () => {
     expect(sourceModel([{ key: 'a', row: null }])).toEqual({ source: null, dates: [], feed: null, coverage: [], flags: [] })
+  })
+})
+
+describe('area fallback and ranks among the cities that have the measure', () => {
+  const rows2 = [
+    ...['a', 'b', 'c', 'd'].map((c, i) => row(c, 'm_core', 'core', 10 + i)),
+    ...['a', 'b', 'c'].map((c, i) => row(c, 'm_fua', 'fua', 5 + i)),
+    ...['a', 'b', 'c', 'd'].map((c, i) => row(c, 'dens', 'core', 100 - i, { unit: 'os./km²' })),
+  ]
+  const idx = indexMetrics(rows2)
+  it('reads a measure in the nearest area that has values and says it moved', () => {
+    expect(resolveRowArea(idx, 'm_core', ['a', 'b'], 'core')).toEqual({ area: 'core', moved: false })
+    expect(resolveRowArea(idx, 'm_fua', ['a', 'b'], 'core')).toEqual({ area: 'fua', moved: true })
+    expect(resolveRowArea(idx, 'm_fua', ['a'], 'urban_centre')).toEqual({ area: 'fua', moved: true })
+    expect(resolveRowArea(idx, 'nothing', ['a'], 'covered')).toEqual({ area: 'covered', moved: false })
+  })
+  it('ranks among the cities that have it (n is how many, never more), and not at all without a direction', () => {
+    expect(rankAmong(idx, 'm_core', ['a', 'b', 'c', 'd', 'e'], 'd', 'core', 'higher')).toEqual({ rank: 1, n: 4, area: 'core', moved: false })
+    expect(rankAmong(idx, 'm_core', ['a', 'b', 'c', 'd', 'e'], 'a', 'core', 'higher')).toMatchObject({ rank: 4, n: 4 })
+    expect(rankAmong(idx, 'm_core', ['a', 'b', 'c', 'd'], 'a', 'core', null)).toBeNull()
+    expect(rankAmong(idx, 'm_core', ['a', 'b', 'c', 'd', 'e'], 'e', 'core', 'higher')).toBeNull()   // e has no value: no rank
+    expect(rankAmong(idx, 'm_fua', ['a', 'b'], 'a', 'core', 'higher')).toBeNull()   // fewer than three cities
+    expect(rankAmong(idx, 'm_fua', ['a', 'b', 'c'], 'a', 'core', 'higher')).toMatchObject({ n: 3, area: 'fua', moved: true })
+  })
+  it('lists up to six headline numbers a city has, skipping the rest', () => {
+    const idx3 = indexMetrics([
+      row('a', 'pwdens_census_1km', 'core', 5000, { unit: 'os./km²' }), row('a', 'area', 'core', 100, { unit: 'km²' }),
+      row('b', 'pwdens_census_1km', 'core', 4000, { unit: 'os./km²' }), row('c', 'pwdens_census_1km', 'core', 3000, { unit: 'os./km²' }),
+    ])
+    const h = headlineRows(idx3, ['a', 'b', 'c'], 'a', 'core')
+    expect(h.map((x) => x.id)).toEqual(['pwdens_census_1km', 'area'])
+    expect(h[0].rank).toEqual({ rank: 1, n: 3 })
+    expect(h[1].rank).toBeNull()   // area has no direction
   })
 })

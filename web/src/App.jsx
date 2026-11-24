@@ -7,33 +7,49 @@ import { ExportContext } from './export/ExportContext'
 import { metaFromRows } from './export/shape'
 import MetricPage from './MetricPage'
 import { pageAreas, pickArea } from './metricPageData'
-import { metricName } from './metricTable'
+import { allCities, indexMetrics, metricName, transportCities } from './metricTable'
 import { CityCharts, ComparisonCharts } from './ChartsPanel'
 import { togglePin } from './chartLink'
 import {
   activeIds, chooseOverlay, revealLayer, setOverlayOn, setValue, setVariant,
 } from './layerControl'
 import { readHash, hashOfView, resolveHash } from './urlState'
-import { DEFAULT_SHARE_AREA, scopeData } from './classShares'
-import { allCities, indexMetrics, transportCities } from './metricTable'
+import { scopeData, shareAreaOf } from './classShares'
 import { outsideMask } from './outsideMask'
+import { cityAtPoint } from './geo'
 import { useFocuses } from './useFocuses'
 import { loadNodeFeatures, useCityNodes } from './useCityNodes'
 import { usePhone } from './usePhone'
 import { CitiesClassBars, CityClassChart } from './ClassChart'
+import Header from './Header'
 import MapView from './MapView'
 import Sidebar from './Sidebar'
 import CityPanel from './CityPanel'
-import CityView from './CityView'
-import Compare from './Compare'
+import CityView, { CITY_TABS } from './CityView'
+import Compare, { COMPARE_TABS } from './Compare'
 import About from './About'
 import DockStage from './kitx/DockStage'
+import Tabs, { panelId } from './kitx/Tabs'
 import { refitOnChange } from './kitx/dock'
-import { ACCENT } from './config'
 
 const URL0 = readHash()
 const FADED_KINDS = ['choropleth', 'mask', 'points']   // what is veiled outside the selected city
 const LEGEND_LEFT_PAD = 300                             // px kept free on the left of a fitted city while the legend is open
+const POLAND_BBOX = [14.0, 48.9, 24.3, 54.9]
+const SHEET_PEEK = 120   // phones: the map is fitted clear of the bottom sheet's peek
+const LOW_WINDOW = 700                                  // px: below this, in the wide dock state, the layer list shrinks to the active layer
+
+/** True while the window is lower than `px`. */
+function useLowWindow(px) {
+  const get = () => typeof window !== 'undefined' && window.innerHeight < px
+  const [low, setLow] = useState(get)
+  useEffect(() => {
+    const on = () => setLow(get())
+    window.addEventListener('resize', on)
+    return () => window.removeEventListener('resize', on)
+  })
+  return low
+}
 
 export default function App() {
   const [catalog, setCatalog] = useState(null)
@@ -69,36 +85,40 @@ function Loaded({ catalog, metrics, attributions }) {
   const active = useMemo(() => activeIds(view, layers), [view, layers])
   const focus = useFocuses(active)
   const phone = usePhone()
-  const [sheetOpen, setSheetOpen] = useState(false)   // phones: the settings sheet
-  // {bbox, animate, n}: a request to move the map; the address' own selection
-  // is shown without animation
+  const lowWindow = useLowWindow(LOW_WINDOW)
+  const [sheetOpen, setSheetOpen] = useState(false)   // phones: the layers sheet
+  // {bbox, animate, n}: a request to move the map; a selection or a position in the address is shown without animation
   const [fit, setFit] = useState(() => {
+    if (start.mapView) return null
     const a = catalog.agglomerations.find((x) => x.id === start.agg)
     return a?.bbox ? { bbox: a.bbox, animate: false, n: 0 } : null
   })
+  const [mapView, setMapView] = useState(start.mapView)   // where the user moved the map by hand (goes into the address)
 
+  // the one global area every number refers to (an old address with the area of a metric page sets it too)
+  const [area, setArea] = useState(start.area !== 'core' ? start.area : start.metricArea && start.metric ? start.metricArea : 'core')
   // the city lit on the map and in the tables: one state for both
   const [hot, setHot] = useState(null)
-  const [pinnedCities, setPinnedCities] = useState([])   // cities pinned in the charts (ids), kept lit in all of them
-  const [area, setArea] = useState('core')           // the area the comparison refers to
-  // how the cities are ordered in the two comparison tables: {key: metric id, dir} or null (the default order)
+  const [pinnedCities, setPinnedCities] = useState(start.pinned)   // cities pinned in the charts (ids), lit in all of them
+  // how the cities are ordered in the comparison table: {key: metric id, dir} or null (the default order)
   const [sort, setSort] = useState(start.sort)
-  const [sortDensity, setSortDensity] = useState(start.sortDensity)
   const [dock, setDock] = useState(start.dock)         // desktop: 'folded' | 'half' | 'full'
-  const [tab, setTab] = useState('metrics')            // the tab of the comparison in the dock
+  const [compareTab, setCompareTab] = useState(COMPARE_TABS.some((t) => t.key === start.tab) ? start.tab : 'miary')
+  const [cityTab, setCityTab] = useState(CITY_TABS.some((t) => t.key === start.tab) ? start.tab : 'najwazniejsze')
   const [compareSheet, setCompareSheet] = useState(false)   // phones: the comparison as a modal
-  const [shareArea, setShareArea] = useState(DEFAULT_SHARE_AREA)   // class shares: whole area or core city
+  const [citySheet, setCitySheet] = useState(true)         // phones: the city's sheet is open (false: collapsed to a bar; the city stays)
   const [legendOpen, setLegendOpen] = useState(() => !(typeof window !== 'undefined' && window.matchMedia('(max-width: 760px)').matches))
   const [about, setAbout] = useState(null)           // null, or {limits}: the "O danych" modal
   const [nodeRequest, setNodeRequest] = useState(null)   // {layer, props, coordinates, n}
+  const [flash, setFlash] = useState(null)           // {id, n}: a value layer changed by a link elsewhere (its card flashes)
   const [shareDoc, setShareDoc] = useState({})
   useEffect(() => { loadClassShares().then(setShareDoc) }, [])
   const [charts, setCharts] = useState(null)             // distribution charts (charts.json); null: no chart section
   useEffect(() => { loadCharts({ base: DATA_BASE_URL }).then(setCharts) }, [])
   const [form, setForm] = useState(null)               // residents by density class per city (form.json), for metric pages
   useEffect(() => { loadForm().then(setForm) }, [])
-  // the page of one metric: {id, area} or null; opened from a table row, linked by m= and ma= in the address
-  const [metricPage, setMetricPage] = useState(() => (start.metric ? { id: start.metric, area: start.metricArea } : null))
+  // the page of one metric: {id} or null; opened from a table row, linked by m= in the address
+  const [metricPage, setMetricPage] = useState(() => (start.metric ? { id: start.metric } : null))
   const dockBefore = useRef(null)    // the dock state to return to when the page closes
   const pushed = useRef(false)       // the page's address entry was pushed (so Back closes it)
   const wasPage = useRef(false)
@@ -108,13 +128,14 @@ function Loaded({ catalog, metrics, attributions }) {
   const exportMeta = useMemo(() => metaFromRows(metrics.metrics), [metrics])   // provenance written into every export
   const known = useMemo(() => catalog.agglomerations.map((a) => a.id), [catalog])
   const names = useMemo(() => Object.fromEntries(catalog.agglomerations.map((a) => [a.id, a.name])), [catalog])
-  const cities = useMemo(() => transportCities(index, known), [index, known])
-  const everyCity = useMemo(() => allCities(index, known), [index, known])
+  const cities = useMemo(() => transportCities(index, known), [index, known])     // the seven with timetables
+  const everyCity = useMemo(() => allCities(index, known), [index, known])         // all agglomerations, the seven first
 
   const selected = catalog.agglomerations.find((a) => a.id === selectedId) || null
   const valueLayer = layers.find((l) => l.id === view.value && l.status === 'ready') || null
+  const hasPoints = layers.some((l) => l.kind === 'points' && l.status === 'ready')
 
-  // the veil over everything outside the selected city's area, built from the boundary file the map already draws
+  // the boundary file the map draws: the veil outside the selected city and the "which city is here" lookup come from it
   const boundary = layers.find((l) => l.kind === 'boundary' && l.status === 'ready' && l.type === 'geojson' && l.url)
   const [boundaryFeatures, setBoundaryFeatures] = useState(null)
   useEffect(() => {
@@ -128,36 +149,53 @@ function Loaded({ catalog, metrics, attributions }) {
     () => (selectedId && fades && boundaryFeatures ? outsideMask(boundaryFeatures, selectedId) : null),
     [selectedId, fades, boundaryFeatures],
   )
+  const cityAt = useCallback((lng, lat) => cityAtPoint(boundaryFeatures, lng, lat), [boundaryFeatures])
 
-  // picked in the list: fly there; clicked on the map: the view stays, unless
-  // the click came from the whole-country view
+  // ---- moving between the views
+  const fitTo = useCallback((bbox, animate = true) => {
+    setMapView(null)
+    setFit((f) => ({ bbox, animate, n: (f?.n || 0) + 1 }))
+  }, [])
+  // picked in the list or on the map: fly there
   const pick = useCallback((id) => {
     setSelectedId(id)
     setHot(null)
     if (id) {
+      setCitySheet(true)
       setSheetOpen(false)   // two stacked sheets would leave no map to look at
       setCompareSheet(false)
       const a = catalog.agglomerations.find((x) => x.id === id)
-      if (a?.bbox) setFit((f) => ({ bbox: a.bbox, animate: true, n: (f?.n || 0) + 1 }))
+      if (a?.bbox) fitTo(a.bbox)
     }
-  }, [catalog])
+  }, [catalog, fitTo])
   const clickOnMap = useCallback((id, far) => {
     if (far) return pick(id)   // clicked from far out: go there
     setSelectedId(id)
     setSheetOpen(false)
   }, [pick])
-  const close = useCallback(() => { setSelectedId(null); setHot(null) }, [])
+  // the panel's "← Porównanie" and the name in the header: no city, the whole country in view, the layer kept
+  const closeNow = useCallback(() => {
+    setMetricPage(null)
+    if (dockBefore.current != null) { setDock(dockBefore.current); dockBefore.current = null }
+    pushed.current = false
+  }, [])
+  const toComparison = useCallback(() => {
+    setSelectedId(null)
+    setHot(null)
+    setCompareSheet(false)
+    fitTo(POLAND_BBOX)
+  }, [fitTo])
+  const home = useCallback(() => {
+    closeNow()
+    toComparison()
+    setCompareTab('miary')
+    setSheetOpen(false)
+  }, [closeNow, toComparison])
   const openCompare = useCallback(() => {
-    if (phone) {
-      setSheetOpen(false)
-      setCompareSheet(true)
-    } else {
-      setSelectedId(null)
-      setDock((d) => (d === 'folded' ? 'half' : d))
-    }
-  }, [phone])
+    if (phone) { setSheetOpen(false); setCompareSheet(true) } else toComparison()
+  }, [phone, toComparison])
 
-  // fit the selected city again when the dock changes size (the map box changed); in full the map is the small inset
+  // fit the selected city again when the dock changes size (the map box changed); in full the map is the small one
   const lastDock = useRef(dock)
   useEffect(() => {
     const prev = lastDock.current
@@ -165,17 +203,23 @@ function Loaded({ catalog, metrics, attributions }) {
     if (phone || !refitOnChange(prev, dock) || !selected?.bbox) return
     setFit((f) => ({ bbox: selected.bbox, animate: false, n: (f?.n || 0) + 1 }))
   }, [dock])   // eslint-disable-line react-hooks/exhaustive-deps
+  const settled = useCallback(() => { if (selected?.bbox) setFit((f) => ({ bbox: selected.bbox, animate: false, n: (f?.n || 0) + 1 })) }, [selected])
 
   // layer controls
-  const onValue = useCallback((id) => setView((v) => setValue(v, id, layers)), [layers])
+  // on a phone choosing a layer folds the layers sheet to its peek, so the result is seen at once
+  const onValue = useCallback((id) => { setView((v) => setValue(v, id, layers)); if (phone) setSheetOpen(false) }, [layers, phone])
   const onOverlayOn = useCallback((kind, on) => setView((v) => setOverlayOn(v, kind, on)), [])
   const onOverlayLayer = useCallback((kind, id) => setView((v) => chooseOverlay(v, kind, id, layers)), [layers])
   const onVariant = useCallback((layer, key) => setView((v) => setVariant(v, layer, key)), [])
-  // "na mapie" in a table: show that layer, whichever kind it is
-  const showLayer = useCallback((id) => {
+  // "pokaż na mapie" in a table: show that layer, whichever kind it is; a value layer's card flashes in the sidebar
+  const reveal = useCallback((id) => {
     setView((v) => revealLayer(v, layers, id))
+    if (layers.find((l) => l.id === id)?.kind === 'choropleth') setFlash((f) => ({ id, n: (f?.n || 0) + 1 }))
+  }, [layers])
+  const showLayer = useCallback((id) => {
+    reveal(id)
     if (phone) setCompareSheet(false)
-  }, [layers, phone])
+  }, [reveal, phone])
 
   // the busiest stop areas of the selected city: from the points layer chosen for the nodes overlay
   const pointsGroup = view.overlays.points
@@ -186,22 +230,15 @@ function Loaded({ catalog, metrics, attributions }) {
     setNodeRequest((r) => ({ layer, props: n.props, coordinates: n.coordinates, n: (r?.n || 0) + 1 }))
   }, [layers])
 
-  // the open page, when the file has that metric (an address with an unknown metric just opens no page)
-  const page = metricPage && index[metricPage.id] && pageAreas(index, metricPage.id).length
-    ? { id: metricPage.id, area: pickArea(index, metricPage.id, metricPage.area) } : null
-  const openMetric = useCallback((id, wanted) => {
-    setMetricPage({ id, area: wanted })
+  // ---- the page of one metric
+  const page = metricPage && index[metricPage.id] && pageAreas(index, metricPage.id).length ? { id: metricPage.id } : null
+  const openMetric = useCallback((id) => {
+    setMetricPage({ id })
     if (!phone) {
       if (!wasPage.current && dockBefore.current == null) dockBefore.current = dock
       setDock('full')
     }
   }, [phone, dock])
-  // closing without touching the history (a city was picked, the map was asked for)
-  const closeNow = useCallback(() => {
-    setMetricPage(null)
-    if (dockBefore.current != null) { setDock(dockBefore.current); dockBefore.current = null }
-    pushed.current = false
-  }, [])
   // the "wróć" button, Escape: step back in the history when the page pushed an entry, so that Back and "wróć" agree
   const closePage = useCallback(() => {
     if (pushed.current) window.history.back()
@@ -210,21 +247,37 @@ function Loaded({ catalog, metrics, attributions }) {
   useEffect(() => {
     const onPop = () => {
       const r = readHash()
-      if (r.metric) setMetricPage({ id: r.metric, area: r.metricArea })
+      if (r.metric) setMetricPage({ id: r.metric })
       else closeNow()
     }
     window.addEventListener('popstate', onPop)
     return () => window.removeEventListener('popstate', onPop)
   }, [closeNow])
   const showOnMap = useCallback((layerId) => {
-    setView((v) => revealLayer(v, layers, layerId))
+    reveal(layerId)
     dockBefore.current = 'half'
     closeNow()
-  }, [layers, closeNow])
+  }, [reveal, closeNow])
+  const pickFromPage = (c) => { closeNow(); pick(c) }
+
+  // Escape closes the nearest thing: a stop popup (MapView), an open "?" (here), the metric page (its own listener)
+  useEffect(() => {
+    const onKey = (e) => {
+      if (e.key !== 'Escape') return
+      const open = document.querySelector('.kit-help-btn[aria-expanded="true"]')
+      if (open) { e.stopPropagation(); open.click() }
+    }
+    document.addEventListener('keydown', onKey, true)
+    return () => document.removeEventListener('keydown', onKey, true)
+  }, [])
 
   // Keep the address in step: no history entry per click, except one when a metric page opens
+  const comparisonView = !selected && !page
+  const tab = page ? undefined : selected ? (cityTab !== 'najwazniejsze' ? cityTab : undefined) : (compareTab !== 'miary' ? compareTab : undefined)
   useEffect(() => {
-    const h = hashOfView(selectedId, view, layers, { sort, sortDensity, dock, metric: page?.id, metricArea: page?.area })
+    const h = hashOfView(selectedId, view, layers, {
+      sort: comparisonView ? sort : undefined, dock, metric: page?.id, area, tab, pinned: pinnedCities, mapView,
+    })
     const opening = !!page && !wasPage.current
     wasPage.current = !!page
     if (h !== window.location.hash && !(h === '' && !window.location.hash)) {
@@ -232,51 +285,55 @@ function Loaded({ catalog, metrics, attributions }) {
       if (opening && ran.current) { window.history.pushState(null, '', url); pushed.current = true } else window.history.replaceState(null, '', url)
     }
     ran.current = true
-  }, [selectedId, view, layers, sort, sortDensity, dock, page?.id, page?.area])   // eslint-disable-line react-hooks/exhaustive-deps
+  }, [selectedId, view, layers, sort, comparisonView, dock, page?.id, area, tab, pinnedCities, mapView])   // eslint-disable-line react-hooks/exhaustive-deps
 
-  // what the legend and the charts know about the residents of the scope (the selected city, else all cities)
+  // ---- what the legend and the charts know about the residents of the scope (the selected city, else all cities)
   const legendShares = useMemo(() => ({
-    scopeOf: (layerId) => scopeData(shareDoc, layerId, selectedId, shareArea),
-    aggName: selected?.name || null, area: shareArea, onArea: setShareArea,
-  }), [shareDoc, selectedId, selected, shareArea])
+    scopeOf: (layerId) => scopeData(shareDoc, layerId, selectedId, shareAreaOf(area)),
+    aggName: selected?.name || null, area,
+    noDataFor: (layerId) => !!(selectedId && shareDoc?.layers?.[layerId] && !shareDoc.layers[layerId][selectedId]),
+  }), [shareDoc, selectedId, selected, area])
 
-  const cityChart = (
-    <CityClassChart
-      layer={valueLayer} doc={shareDoc} aggId={selectedId} aggName={selected?.name} area={shareArea} onArea={setShareArea}
-      focus={focus}
-    />
-  )
+  const link = { hot, setHot, pinned: pinnedCities, onPin: (id) => id && setPinnedCities((p) => togglePin(p, id)) }
+  const cityChart = <CityClassChart layer={valueLayer} doc={shareDoc} aggId={selectedId} aggName={selected?.name} area={area} focus={focus} />
   const citiesChart = (
     <CitiesClassBars
-      layer={valueLayer} doc={shareDoc} cities={everyCity} names={names} area={shareArea} onArea={setShareArea}
+      layer={valueLayer} doc={shareDoc} cities={everyCity} names={names} area={area}
       focus={focus} onPickCity={pick} hot={hot} onHot={setHot} pinned={pinnedCities}
     />
   )
-  const link = { hot, setHot, pinned: pinnedCities, onPin: (id) => id && setPinnedCities((p) => togglePin(p, id)) }
-  const spreadCities = charts ? <ComparisonCharts charts={charts} layer={valueLayer} focus={focus} link={link} /> : null
-  const spreadCity = charts && selected ? <CityCharts charts={charts} layer={valueLayer} focus={focus} link={link} agg={selected.id} /> : null
+  const spreadCities = charts ? <ComparisonCharts charts={charts} layer={valueLayer} focus={focus} link={link} area={area} /> : null
+  const cityCharts = (parts) => (charts && selected
+    ? <CityCharts charts={charts} layer={valueLayer} focus={focus} link={link} agg={selected.id} area={area} parts={parts} />
+    : null)
   const compare = (layout) => (
     <Compare
       index={index} cities={cities} everyCity={everyCity} names={names}
-      area={area} setArea={setArea} layers={layers} onShowLayer={showLayer}
-      onPickCity={pick} hot={hot} setHot={setHot} onOpenMetric={(id) => openMetric(id, area)}
-      sort={sort} setSort={setSort} sortDensity={sortDensity} setSortDensity={setSortDensity}
-      layout={layout} tab={tab} setTab={setTab} chart={citiesChart} spread={spreadCities}
+      area={area} layers={layers} onShowLayer={showLayer}
+      onPickCity={pick} hot={hot} setHot={setHot} onOpenMetric={openMetric}
+      sort={sort} setSort={setSort}
+      layout={layout} tab={compareTab} chart={citiesChart} spread={spreadCities}
       onOpenLimits={() => setAbout({ limits: true })}
     />
   )
-  const cityProps = {
-    agglomeration: selected, index, cities, layers, onShowLayer: showLayer, nodes, onPickNode: showNode, chart: cityChart, spread: spreadCity,
-    onOpenMetric: (id) => openMetric(id, 'core'),
+  const hasTimetable = selected ? cities.includes(selected.id) : false
+  const cityTabs = CITY_TABS.filter((t) => (t.key !== 'przesiadki' || hasPoints) && (t.key !== 'wykresy' || (charts && hasTimetable)))
+  const activeCityTab = cityTabs.some((t) => t.key === cityTab) ? cityTab : 'najwazniejsze'
+  const cityProps = selected && {
+    agglomeration: selected, index, pool: everyCity, transport: cities, layers, area, onShowLayer: showLayer, nodes, onPickNode: showNode,
+    chart: cityChart, timeChart: hasTimetable ? cityCharts(['timeofday']) : null,
+    spread: hasTimetable ? cityCharts(['atleast', 'reach', 'dotstrip']) : null,
+    onOpenMetric: openMetric, hasPoints, tab: activeCityTab,
   }
-  const pickFromPage = (c) => { closeNow(); pick(c) }
+  const citySubtitle = selected ? (hasTimetable ? 'z danymi o transporcie' : 'tylko gęstość i forma (bez rozkładów jazdy)') : ''
   const densityColors = layers.find((l) => l.id === 'density_250m')?.ramp?.colors
+  const pageArea = page ? pickArea(index, page.id, area) : null
   const metricPageEl = page && (
     <MetricPage
-      id={page.id} area={page.area} setArea={(a) => setMetricPage((p) => ({ ...p, area: a }))} from={selectedId}
+      id={page.id} area={pageArea} asked={area} from={selectedId}
       index={index} cities={cities} everyCity={everyCity} names={names} charts={charts} form={form} densityColors={densityColors}
       layers={layers} link={link} onClose={closePage} onPickCity={pickFromPage} onShowLayer={showOnMap}
-      onNavigate={(mid) => setMetricPage((p) => ({ id: mid, area: pickArea(index, mid, p?.area) }))}
+      onNavigate={(mid) => setMetricPage({ id: mid })}
     />
   )
 
@@ -286,70 +343,95 @@ function Loaded({ catalog, metrics, attributions }) {
       hot={hot} onHot={setHot} fit={fit} focus={focus} nodeRequest={nodeRequest} outside={outside}
       fitPad={dock === 'full' && !phone
         ? { top: 12, left: 12, right: 12, bottom: 12 }
-        : { top: 40, left: legendOpen && !phone ? LEGEND_LEFT_PAD : 40, right: 40, bottom: 40 }}
+        : { top: 40, left: legendOpen && !phone ? LEGEND_LEFT_PAD : 40, right: 40, bottom: phone ? (selected && citySheet ? Math.round(window.innerHeight * 0.7) : SHEET_PEEK) : 40 }}
       legendOpen={legendOpen} onLegendOpen={setLegendOpen} legendShares={legendShares}
+      cityAt={cityAt} onMoved={setMapView} initialView={start.mapView}
+    />
+  )
+  const full = dock === 'full' && !phone
+  const sidebar = (
+    <Sidebar
+      catalog={catalog} view={view} onValue={onValue} onOverlayOn={onOverlayOn}
+      onOverlayLayer={onOverlayLayer} onVariant={onVariant} flash={flash}
+      sheetOpen={sheetOpen} setSheetOpen={setSheetOpen} onAbout={() => setAbout({ limits: false })}
+      selectedName={selected?.name} collapsed={full && lowWindow}
     />
   )
 
+  const dockTitle = page
+    ? <h2>Miara: {metricName(index, page.id)}</h2>
+    : selected
+      ? (
+        <>
+          <button type="button" className="dock-back" onClick={toComparison}>← Porównanie</button>
+          <h2>{selected.name}</h2>
+          <span className="dock-sub">{citySubtitle}</span>
+        </>
+      )
+      : <h2>Porównanie aglomeracji</h2>
+  const dockTabs = page
+    ? null
+    : selected
+      ? <Tabs tabs={cityTabs} value={activeCityTab} onChange={setCityTab} label="Widoki aglomeracji" prefix="dock" />
+      : <Tabs tabs={COMPARE_TABS} value={compareTab} onChange={setCompareTab} label="Widoki porównania" prefix="dock" />
+
   return (
     <ExportContext.Provider value={exportMeta}>
-    <AppShell>
-      <Sidebar
-        catalog={catalog} metrics={metrics} selectedId={selectedId} onPick={pick}
-        view={view} active={active} onValue={onValue} onOverlayOn={onOverlayOn}
-        onOverlayLayer={onOverlayLayer} onVariant={onVariant}
-        sheetOpen={sheetOpen} setSheetOpen={setSheetOpen}
-        onAbout={() => setAbout({ limits: false })} onCompare={openCompare}
-      />
-      {phone
-        ? (
-          <>
-            {map}
-            {selected && (
-              <ErrorBoundary resetKey={selected.id} onClose={close}>
-                <CityPanel {...cityProps} onClose={close} />
-              </ErrorBoundary>
-            )}
-            {compareSheet && (
-              <Modal title="Porównanie miast" onClose={() => setCompareSheet(false)}>{compare('stack')}</Modal>
-            )}
-            {page && <Modal title={metricName(index, page.id)} onClose={closePage}>{metricPageEl}</Modal>}
-          </>
-        )
-        : (
-          <DockStage
-            map={map} state={dock} onState={setDock}
-            label={page ? `Miara: ${metricName(index, page.id)}` : selected ? `Miary: ${selected.name}` : 'Porównanie miast'}
-            title={page
-              ? (
-                <h2>Miara: {metricName(index, page.id)}</h2>
-              )
-              : selected
-              ? (
-                <>
-                  <button type="button" className="dock-back" onClick={close}>← Porównanie miast</button>
-                  <h2>{selected.name}</h2>
-                  {selected.phase != null && <span className="dock-pill" style={{ background: ACCENT }}>Etap {selected.phase}</span>}
-                </>
-              )
-              : <h2>Porównanie miast</h2>}
-          >
-            <ErrorBoundary resetKey={selected ? selected.id : 'compare'} onClose={close}>
-              {page
-                ? metricPageEl
-                : selected
-                  ? <CityView {...cityProps} layout="columns" />
-                  : compare('tabs')}
-            </ErrorBoundary>
-          </DockStage>
-        )}
-      {about && (
-        <About
-          catalog={catalog} metrics={metrics} attributions={attributions}
-          toLimits={about.limits} onClose={() => setAbout(null)}
+      <div className={`app-root${full ? ' full' : ''}`}>
+        <Header
+          catalog={catalog} selectedId={selectedId} onPick={(id) => { closeNow(); if (id) pick(id); else toComparison() }} onHome={home}
+          area={area} onArea={setArea} onAbout={() => setAbout({ limits: false })} onCompare={openCompare} phone={phone}
         />
-      )}
-    </AppShell>
+        <AppShell>
+          {sidebar}
+          {phone
+            ? (
+              <>
+                {map}
+                {selected && !citySheet && (
+                  <button type="button" className="city-peek" onClick={() => setCitySheet(true)} aria-label={`Pokaż panel: ${selected.name}`}>
+                    <b>{selected.name}</b><span>pokaż liczby ▴</span>
+                  </button>
+                )}
+                {selected && citySheet && (
+                  <ErrorBoundary resetKey={selected.id} onClose={toComparison}>
+                    <CityPanel
+                      {...cityProps} subtitle={citySubtitle} tabs={cityTabs} setTab={setCityTab} onClose={() => setCitySheet(false)} onBack={() => { toComparison(); setCompareSheet(true) }}
+                      layout="stack"
+                    />
+                  </ErrorBoundary>
+                )}
+                {compareSheet && (
+                  <Modal title="Porównanie aglomeracji" onClose={() => setCompareSheet(false)}>{compare('stack')}</Modal>
+                )}
+                {page && <Modal title={metricName(index, page.id)} onClose={closePage}>{metricPageEl}</Modal>}
+              </>
+            )
+            : (
+              <DockStage
+                map={map} state={dock} onState={setDock} onSettle={settled}
+                label={page ? `Miara: ${metricName(index, page.id)}` : selected ? `Aglomeracja: ${selected.name}` : 'Porównanie aglomeracji'}
+                title={dockTitle} tabs={dockTabs}
+              >
+                <ErrorBoundary resetKey={`${selected ? selected.id : 'compare'}${page ? page.id : ''}`} onClose={toComparison}>
+                  <div role={page ? undefined : 'tabpanel'} id={page ? undefined : panelId('dock')} className="dock-panel">
+                    {page
+                      ? metricPageEl
+                      : selected
+                        ? <CityView {...cityProps} layout="columns" />
+                        : compare('tabs')}
+                  </div>
+                </ErrorBoundary>
+              </DockStage>
+            )}
+        </AppShell>
+        {about && (
+          <About
+            catalog={catalog} metrics={metrics} attributions={attributions}
+            toLimits={about.limits} onClose={() => setAbout(null)}
+          />
+        )}
+      </div>
     </ExportContext.Provider>
   )
 }

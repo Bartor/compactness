@@ -15,49 +15,61 @@
 .kitx-stage.dragging { user-select: none; }
 
 .kitx-dock-grip {
-  flex: none; height: 10px; display: grid; place-items: center; cursor: ns-resize; touch-action: none;
+  flex: none; height: 30px; display: flex; align-items: center; justify-content: center; gap: .6rem; cursor: ns-resize; touch-action: none;
 }
-.kitx-dock-grip span { width: 38px; height: 3px; border-radius: 2px; background: var(--kit-line-hover); }
-.kitx-dock-grip:hover span, .kitx-dock-grip:focus-visible span { background: var(--kit-link-light); }
+.kitx-dock-pill { width: 56px; height: 4px; border-radius: 2px; background: var(--kit-line-hover); }
+.kitx-dock-grip:hover .kitx-dock-pill, .kitx-dock-grip:focus-visible .kitx-dock-pill { background: var(--kit-link-light); }
 .kitx-dock-grip:focus-visible { outline: 2px solid var(--kit-focus); outline-offset: -2px; }
+.kitx-dock-step {
+  width: 32px; height: 26px; display: grid; place-items: center; cursor: pointer; font-size: .95rem; line-height: 1;
+  background: var(--kit-control); border: 1px solid var(--kit-line-strong); color: var(--kit-text); border-radius: 6px;
+}
+.kitx-dock-step:hover:not(:disabled) { background: var(--kit-hover); border-color: var(--kit-line-hover); }
+.kitx-dock-step:disabled { opacity: .35; cursor: default; }
+.kitx-dock-step:focus-visible { outline: 2px solid var(--kit-focus); outline-offset: 2px; }
 
 .kitx-dock-head {
-  flex: none; height: 34px; padding: 0 .9rem; display: flex; align-items: center; justify-content: space-between; gap: .8rem;
+  flex: none; min-height: 40px; padding: 0 .9rem; display: flex; align-items: flex-end; justify-content: space-between; gap: 1.2rem;
+  border-bottom: 1px solid var(--kit-line);
 }
-.kitx-dock-title { display: flex; align-items: center; gap: .7rem; min-width: 0; }
+.kitx-dock-title { display: flex; align-items: center; gap: .7rem; min-width: 0; align-self: center; padding-bottom: .2rem; }
 .kitx-dock-title h2 {
-  margin: 0; font-size: 1.1rem; font-weight: 600; color: var(--kit-text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  margin: 0; font-size: 1.15rem; font-weight: 600; color: var(--kit-text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
 }
-.kitx-dock-actions { display: flex; align-items: center; gap: .6rem; flex: none; }
-.kitx-dock-sizes { display: inline-flex; border: 1px solid var(--kit-line-strong); border-radius: 6px; overflow: hidden; }
-.kitx-dock-sizes button {
-  background: none; border: 0; color: var(--kit-soft); font: inherit; font-size: .76rem; padding: .22rem .6rem; cursor: pointer;
-}
-.kitx-dock-sizes button + button { border-left: 1px solid var(--kit-line-strong); }
-.kitx-dock-sizes button:hover { background: var(--kit-hover); color: var(--kit-text); }
-.kitx-dock-sizes button[aria-pressed="true"] { background: var(--kit-accent-fill); color: #fff; }
-.kitx-dock-sizes button:focus-visible { outline: 2px solid var(--kit-focus); outline-offset: -2px; }
+.kitx-dock-tabs { align-self: flex-end; margin-left: auto; }
+.kitx-dock-actions { display: flex; align-items: center; gap: .6rem; flex: none; align-self: center; }
 
-.kitx-dock-body { flex: 1 1 auto; min-height: 0; overflow-y: auto; padding: .4rem .9rem 1rem; }
+.kitx-dock-body { flex: 1 1 auto; min-height: 0; overflow-y: auto; padding: .7rem .9rem 1rem; }
 
-/* full: the map is a small live inset in the corner of the dock */
+/* full: the map leaves the stage and becomes a small live map at the bottom of the sidebar column (the page keeps the
+   sidebar's list above it), with a button back to the large map */
 .kitx-stage.full .kitx-stage-map {
-  position: absolute; right: .8rem; bottom: .8rem; width: 280px; height: 200px; flex: none; z-index: 7;
-  border: 1px solid var(--kit-line-strong); border-radius: 8px; overflow: hidden; box-shadow: 0 4px 18px rgba(0, 0, 0, .6);
+  position: fixed; left: 0; bottom: 0; width: 400px; height: 267px; flex: none; z-index: 20;
+  border-top: 1px solid var(--kit-line-strong); border-right: 1px solid var(--kit-line);
 }
 .kitx-stage.full .kit-map-legend,
 .kitx-stage.full .maplibregl-ctrl-top-left,
-.kitx-stage.full .maplibregl-ctrl-bottom-left,
-.kitx-stage.full .maplibregl-ctrl-bottom-right { display: none; }   /* the page's footer carries the attribution */
-.kitx-stage.full .kitx-dock-body { padding-bottom: 14rem; }   /* room to scroll the last rows out from under the inset */
-.kitx-stage.full .kitx-dock-body:has(.city-columns) { padding-bottom: .5rem; }
+.kitx-stage.full .maplibregl-ctrl-bottom-left { display: none; }
+/* the small map keeps the attribution as its folded "i" only: the open box would cover it */
+.kitx-stage.full .maplibregl-ctrl-attrib .maplibregl-ctrl-attrib-inner { display: none; }
+.kitx-stage.full .maplibregl-ctrl-attrib.maplibregl-compact { min-height: 24px; padding: 0; background: transparent; }
 .kitx-inset-back {
-  position: absolute; right: calc(.8rem + 6px); bottom: calc(.8rem + 200px - 34px); z-index: 8; width: 28px; height: 28px;
-  display: grid; place-items: center; border-radius: 6px; cursor: pointer; font-size: 1rem; line-height: 1;
-  background: rgba(28, 31, 38, .9); color: var(--kit-text); border: 1px solid var(--kit-line-strong);
+  position: fixed; left: 8px; bottom: calc(267px - 40px); z-index: 21; min-width: 34px; height: 30px; padding: 0 .6rem;
+  display: inline-flex; align-items: center; gap: .4rem; border-radius: 6px; cursor: pointer; font-size: .8rem; line-height: 1;
+  background: rgba(28, 31, 38, .92); color: var(--kit-text); border: 1px solid var(--kit-line-strong);
 }
 .kitx-inset-back:hover { background: var(--kit-hover); }
 .kitx-inset-back:focus-visible { outline: 2px solid var(--kit-focus); outline-offset: 2px; }
+
+/* ---- Tabs: real tabs on a header line (underlined), not filter chips ---- */
+.kitx-tabs { display: flex; gap: .2rem; }
+.kitx-tab {
+  background: none; border: 0; border-bottom: 3px solid transparent; color: var(--kit-dim); font: inherit; font-size: .92rem; font-weight: 600;
+  padding: .45rem .9rem .5rem; min-height: 36px; cursor: pointer; margin-bottom: -1px;
+}
+.kitx-tab:hover { color: var(--kit-text); background: var(--kit-hover); }
+.kitx-tab.on { color: var(--kit-text); border-bottom-color: var(--kit-link-light); }
+.kitx-tab:focus-visible { outline: 2px solid var(--kit-focus); outline-offset: -2px; }
 
 /* ---- MapLegendBox: never more than about half of the map's height; scrolls inside ---- */
 .kit-map-legend.kitx-legend { max-height: 52%; overflow: hidden; display: flex; flex-direction: column; padding: .45rem .3rem .45rem .65rem; }

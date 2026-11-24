@@ -33,6 +33,10 @@ Last updated 2026-11-24.
 - Routed-trip sample (135 000 trips): transfer shares against Warsaw's survey and Jakdojade (the level depends on
   the destination draw and a transfer penalty, the order of cities holds), use of stop areas for transfers, and the
   15 suburban pairs of the NIK audit.
+- Site restructure after the UX review: a header bar for global state (home, city, one area switch, "O danych"),
+  a sidebar with only what the map shows, a comparison view (one table of 13 agglomerations, charts) and a city
+  view (highlights, all measures, charts, transfers) with real tabs, a page per metric, a short "?" everywhere,
+  click a city on the map, cell tooltips, the small map beside the panel in full mode, phone fixes.
 - Urban form additions: residents by 250 m density class, official Eurostat 2021 urban-centre shares, polycentricity
   (eta and density hotspots) in the tables; Angel's proximity index in the tables only (not robust among
   single-centre cities).
@@ -82,8 +86,11 @@ Method and data
 - Street-running detection for tram track misreads some streets (lower bound); kinematic parameters are assumptions.
 - No Sunday reference day (several feeds end on 2026-11-28).
 - No expert review of the method.
-- Independent first-use UX review: `reports/UX review 2026-11-24.md` (55 findings); the restructuring that follows
-  it is in progress.
+- Independent first-use UX review: `reports/UX review 2026-11-24.md` (55 findings). Left open after the
+  restructure: stop-area popups can still stick out below the map (35), sorting moves columns (24), the first
+  fit lands off-centre (19), chart table layout (31), the About text still uses jargon (40); dragging the
+  divider, Escape in every state, links with pinned cities or a map position, and the phone metric page were
+  not checked.
 
 ## Decided against, or shelved
 

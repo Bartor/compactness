@@ -5,7 +5,7 @@ export const NO_DATA = 'brak danych'
 export const DOMAIN_TITLES = {
   fua: 'Cały obszar FUA',
   core: 'Rdzeń miasta',
-  covered: 'Obszar pokryty danymi GTFS',
+  covered: 'Obszar pokryty danymi o rozkładach',
   urban_centre: 'Centrum miejskie (urban centre, Eurostat 2021)',
   city_tram_network: 'Sieć tramwajowa miasta',
 }

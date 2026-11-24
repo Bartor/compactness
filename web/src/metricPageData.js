@@ -3,7 +3,7 @@
 // distinct sources of its rows and the density-class bars from form.json. No React.
 import { METRIC_INFO } from './metricInfo'
 import { FEED_VARIANTS, POPULATION_GRIDS } from './metrics'
-import { AREAS, TRAM_DOMAIN, buildGroups, isNum, valueOf } from './metricTable'
+import { AREAS, AREA_NEAR, TRAM_DOMAIN, buildGroups, isNum, valueOf } from './metricTable'
 
 /** Every area a number can refer to, in the order of the chips. */
 export const PAGE_AREAS = [...AREAS, TRAM_DOMAIN]
@@ -13,11 +13,11 @@ export function pageAreas(index, id) {
   return PAGE_AREAS.filter((a) => Object.values(index[id] || {}).some((byDomain) => isNum(byDomain[a]?.value)))
 }
 
-/** The area to show: the one asked for when the metric has it, else the core city, else the first it has; null for none. */
+/** The area to show: the one asked for when the metric has it, else the nearest in meaning (AREA_NEAR), else the first it has; null for none. */
 export function pickArea(index, id, wanted) {
   const have = pageAreas(index, id)
-  if (have.includes(wanted)) return wanted
-  return have.includes('core') ? 'core' : have[0] ?? null
+  for (const a of AREA_NEAR[wanted] || ['core']) if (have.includes(a)) return a
+  return have[0] ?? null
 }
 
 /** Cities the page lists: all agglomerations when any city beyond those with transport data has the metric, else the transport ones. */
