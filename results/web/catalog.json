@@ -219,7 +219,7 @@
    "population_date": null,
    "status": "ready",
    "timetable_date": null,
-   "title": "Granice FUA i rdzeni",
+   "title": "Granice miast",
    "type": "geojson",
    "url": "data/fua.geojson"
   },
@@ -259,7 +259,7 @@
    "url": "tiles/density250_nsp2021.pmtiles"
   },
   {
-   "attribution": "wydawcy GTFS (lista w „O danych”), © współtwórcy OpenStreetMap, GUS, JRC GHSL",
+   "attribution": "wydawcy rozkładów jazdy (lista w „O danych”), © współtwórcy OpenStreetMap, GUS, JRC GHSL",
    "has_nodata": true,
    "id": "frequent_transport",
    "kind": "choropleth",
@@ -300,7 +300,7 @@
    "url": "tiles/frequent_2026-11-25.pmtiles"
   },
   {
-   "attribution": "wydawcy GTFS (lista w „O danych”), © współtwórcy OpenStreetMap, GUS, JRC GHSL",
+   "attribution": "wydawcy rozkładów jazdy (lista w „O danych”), © współtwórcy OpenStreetMap, GUS, JRC GHSL",
    "has_nodata": true,
    "id": "transport_performance_30",
    "kind": "choropleth",
@@ -329,27 +329,27 @@
    "source_layer": "performance30",
    "status": "ready",
    "timetable_date": "2026-11-25",
-   "title": "Transport performance 30 min",
+   "title": "Zasięg w 30 minut (komunikacja i pieszo)",
    "type": "pmtiles",
    "unit": "% ludności osiągalnej w 30 min; jaśniej = więcej",
    "url": "tiles/performance30_2026-11-25.pmtiles"
   },
   {
-   "attribution": "wydawcy GTFS (lista w „O danych”), © współtwórcy OpenStreetMap, GUS, JRC GHSL",
+   "attribution": "wydawcy rozkładów jazdy (lista w „O danych”), © współtwórcy OpenStreetMap, GUS, JRC GHSL",
    "id": "gtfs_nodata",
    "kind": "mask",
-   "legend": "obszar bez danych o rozkładach (GTFS)",
+   "legend": "obszar bez danych o rozkładach jazdy",
    "note": "Obszar FUA, w którym nie da się ocenić komunikacji: w promieniu 1 km od środka komórki mniej niż 85 % przystanków z OpenStreetMap ma odpowiednik w rozkładach GTFS (brak feedu albo luki w nim), więc brak kursów na mapie nie oznacza ich braku w rzeczywistości. Komórki bez żadnego przystanku w promieniu 1 km mają dane i nie są kreskowane. Wszystkie feedy, w tym nieoficjalne.",
    "population_date": null,
    "source_layer": "gtfs_nodata",
    "status": "ready",
    "timetable_date": "2026-11-25",
-   "title": "Brak danych GTFS",
+   "title": "Brak danych o rozkładach",
    "type": "pmtiles",
    "url": "tiles/gtfs_nodata_2026-11-25.pmtiles"
   },
   {
-   "attribution": "wydawcy GTFS (lista w „O danych”), © współtwórcy OpenStreetMap, GUS, JRC GHSL",
+   "attribution": "wydawcy rozkładów jazdy (lista w „O danych”), © współtwórcy OpenStreetMap, GUS, JRC GHSL",
    "has_nodata": true,
    "id": "density_service",
    "kind": "choropleth",
@@ -388,12 +388,12 @@
    "url": "tiles/density_service_2026-11-25.pmtiles"
   },
   {
-   "attribution": "wydawcy GTFS (lista w „O danych”), © współtwórcy OpenStreetMap",
+   "attribution": "wydawcy rozkładów jazdy (lista w „O danych”), © współtwórcy OpenStreetMap",
    "chip": "razem",
    "has_nodata": true,
    "id": "transfer_total",
    "kind": "points",
-   "nodata_label": "brak danych (poza pokryciem GTFS)",
+   "nodata_label": "brak danych (poza obszarem z rozkładami)",
    "note": "Punkt to zespół przystanków, czyli przystanki tramwaju, autobusu, kolei i metra leżące tak blisko siebie, że można między nimi przesiąść się pieszo; kolor pokazuje typową przesiadkę w godzinach 7–9: dojście do drugiej linii plus czekanie na nią, jako średnią ważoną liczbą kursów (obie części sumują się do całości), a wielkość punktu to liczba odjazdów na godzinę. Dojście liczono po sieci pieszej OSM, 5 km/h, osobno dla każdego kierunku jazdy, a czekanie z rozkładu jazdy, w pełnych minutach. To miara własna, której składowe są pokazane osobno i nie są łączone w jedną ocenę; nie jest to metoda AMPTI. Informacja o drodze bez schodów zależy od kompletności OpenStreetMap, a zespoły poza pokryciem GTFS nie mają wartości.",
    "novalue_label": "bez wartości (brak przesiadek między różnymi kierunkami)",
    "population_date": null,
@@ -436,12 +436,12 @@
    "url": "data/transfer_nodes.geojson"
   },
   {
-   "attribution": "wydawcy GTFS (lista w „O danych”), © współtwórcy OpenStreetMap",
+   "attribution": "wydawcy rozkładów jazdy (lista w „O danych”), © współtwórcy OpenStreetMap",
    "chip": "dojście",
    "has_nodata": true,
    "id": "transfer_walk",
    "kind": "points",
-   "nodata_label": "brak danych (poza pokryciem GTFS)",
+   "nodata_label": "brak danych (poza obszarem z rozkładami)",
    "note": "Punkt to zespół przystanków, czyli przystanki tramwaju, autobusu, kolei i metra leżące tak blisko siebie, że można między nimi przesiąść się pieszo; kolor pokazuje medianę dojścia między liniami, a wielkość punktu to liczba odjazdów na godzinę. Dojście liczono po sieci pieszej OSM, 5 km/h, osobno dla każdego kierunku jazdy, a czekanie z rozkładu jazdy, w pełnych minutach. To miara własna, której składowe są pokazane osobno i nie są łączone w jedną ocenę; nie jest to metoda AMPTI. Informacja o drodze bez schodów zależy od kompletności OpenStreetMap, a zespoły poza pokryciem GTFS nie mają wartości.",
    "novalue_label": "bez wartości (brak ruchów przesiadkowych z kierunkami)",
    "population_date": null,
@@ -484,12 +484,12 @@
    "url": "data/transfer_nodes.geojson"
   },
   {
-   "attribution": "wydawcy GTFS (lista w „O danych”), © współtwórcy OpenStreetMap",
+   "attribution": "wydawcy rozkładów jazdy (lista w „O danych”), © współtwórcy OpenStreetMap",
    "chip": "czekanie",
    "has_nodata": true,
    "id": "transfer_wait",
    "kind": "points",
-   "nodata_label": "brak danych (poza pokryciem GTFS)",
+   "nodata_label": "brak danych (poza obszarem z rozkładami)",
    "note": "Punkt to zespół przystanków, czyli przystanki tramwaju, autobusu, kolei i metra leżące tak blisko siebie, że można między nimi przesiąść się pieszo; kolor pokazuje oczekiwane czekanie na linię docelową w godzinach 7–9, a wielkość punktu to liczba odjazdów na godzinę. Dojście liczono po sieci pieszej OSM, 5 km/h, osobno dla każdego kierunku jazdy, a czekanie z rozkładu jazdy, w pełnych minutach. To miara własna, której składowe są pokazane osobno i nie są łączone w jedną ocenę; nie jest to metoda AMPTI. Informacja o drodze bez schodów zależy od kompletności OpenStreetMap, a zespoły poza pokryciem GTFS nie mają wartości.",
    "population_date": null,
    "property": "wait_am",
@@ -531,7 +531,7 @@
    "url": "data/transfer_nodes.geojson"
   },
   {
-   "attribution": "wydawcy GTFS (lista w „O danych”), © współtwórcy OpenStreetMap, GUS, JRC GHSL",
+   "attribution": "wydawcy rozkładów jazdy (lista w „O danych”), © współtwórcy OpenStreetMap, GUS, JRC GHSL",
    "has_nodata": true,
    "id": "transfer_dependence_30",
    "kind": "choropleth",

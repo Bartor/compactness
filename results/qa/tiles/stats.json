@@ -782,7 +782,7 @@
   "classes": [
    {
     "code": 1,
-    "label": "brak danych GTFS",
+    "label": "brak danych o rozkładach",
     "v": null
    },
    {
@@ -1205,7 +1205,7 @@
   "classes": [
    {
     "code": 1,
-    "label": "brak danych GTFS",
+    "label": "brak danych o rozkładach",
     "v": null
    },
    {
@@ -1682,7 +1682,7 @@
   "classes": [
    {
     "code": 1,
-    "label": "brak danych GTFS",
+    "label": "brak danych o rozkładach",
     "v": null
    }
   ],
@@ -2329,7 +2329,7 @@
   "classes": [
    {
     "code": 1,
-    "label": "brak danych GTFS",
+    "label": "brak danych o rozkładach",
     "v": null
    },
    {
@@ -2382,7 +2382,7 @@
   "file": "performance30_2026-11-25.pmtiles",
   "sha256": "5e113088443b87b2977464babd4fc2b9593124a8071bc4938892227dfd303df3",
   "source_layer": "performance30",
-  "title": "Transport performance 30 min",
+  "title": "Zasięg w 30 minut (komunikacja i pieszo)",
   "verify": {
    "area": [
     {
