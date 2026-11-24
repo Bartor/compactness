@@ -11,6 +11,8 @@ Inputs  (one pair per step, all in results/metrics/)
 * metrics_distribution.csv/json  distribution of cell values: share below the access floor, FGT, percentiles
 * metrics_speed.csv/json     scheduled speeds by time band, slow tram stretches (feed_variant all / official)
 * metrics_whatif.csv/json    Wrocław tram what-if scenarios (pipeline.whatif_tram); not in the panel
+* metrics_access_gridstudy.csv/json  comparison-only variant by the rules of the DG REGIO grid study (domain
+                             "urban_centre"), with DG REGIO's own values for four centres
 * metrics_form.csv/json      urban form: Angel's indices, polycentricity, Eurostat 2021 urban-centre shares,
                              residents by 250 m density class (no feed variant)
 
@@ -36,8 +38,8 @@ from pipeline.common import RESULTS, load_config, write_json, write_meta
 
 METRICS = RESULTS / "metrics"
 WEB = RESULTS / "web"
-STEPS = ["density", "supply", "frequent", "density_service", "access", "access_uc", "transfer", "distribution", "form", "speed", "whatif"]
-ACCESS_STEPS = ("access", "access_uc")
+STEPS = ["density", "supply", "frequent", "density_service", "access", "access_uc", "transfer", "distribution", "form", "speed", "whatif", "access_gridstudy"]
+ACCESS_STEPS = ("access", "access_uc", "access_gridstudy")
 
 COLUMNS = ["agglomeration", "domain", "metric", "label", "value", "unit", "grid", "source", "population_date",
            "timetable_date", "coverage_share", "flag", "tier", "feed_variant", "population_grid", "step"]
@@ -136,6 +138,11 @@ for _dom in ("fua", "core"):
 PANEL[("fua", "poly_eta_mask_t20")] = (113, "Rozproszenie skupisk gęstości η")
 PANEL[("fua", "hotspots_n")] = (114, "Skupiska gęstości ≥ 10 000 os./km²")
 PANEL[("fua", "hotspots_largest_share")] = (115, "Udział największego skupiska gęstości")
+# comparison with the DG REGIO grid study (pipeline.access_gridstudy): comparison only, not a headline
+PANEL[("urban_centre", "tp_gridstudy_pt_30min")] = (420, "Zasięg 30 min wg reguł badania UE (DG REGIO 2023)")
+PANEL[("urban_centre", "tp_gridstudy_dgregio_30min")] = (421, "wartość z badania UE dla tego centrum (rozkłady 2019–2021)")
+PANEL[("urban_centre", "tp_gridstudy_pt_45min")] = (422, "Zasięg 45 min wg reguł badania UE (DG REGIO 2023)")
+PANEL[("urban_centre", "tp_gridstudy_dgregio_45min")] = (423, "wartość z badania UE dla tego centrum (rozkłady 2019–2021)")
 # from the centres (cells within 1 km of the centre, the hub and every extra centre): added in centre_panel(),
 # because the domains are read from metrics_access and the labels from config.yaml
 CENTRE_METRICS = ("tp_pt_am_30min", "tp_pt_am_45min")
@@ -220,9 +227,11 @@ def panel_subset(rows: list[dict]) -> list[dict]:
         if spec is None or r["tier"] == "qa":
             continue
         street_only = r["step"] in ACCESS_STEPS and r["feed_variant"] is None    # walk / bike: no feed variant
+        external = r["metric"].startswith("tp_gridstudy_dgregio_")   # DG REGIO's own values: no feed, no grid of ours
         if r["step"] not in ("density", "form") and r["feed_variant"] != PANEL_FEED_VARIANT and not street_only:
             continue
-        if r["step"] in ("frequent", "density_service", *ACCESS_STEPS) and r["population_grid"] != PANEL_POP_GRID:
+        if (r["step"] in ("frequent", "density_service", *ACCESS_STEPS) and r["population_grid"] != PANEL_POP_GRID
+                and not external):
             continue
         # density: the 100 m measures exist on two population grids; only the census-scaled one is shown
         if r["step"] in ("density", "form") and r["population_grid"] not in (None, PANEL_POP_GRID):

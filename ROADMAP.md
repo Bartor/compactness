@@ -24,6 +24,8 @@ Last updated 2026-11-24.
 - Distribution outputs and charts: share of residents below an explicit access floor (FGT, no Gini), "at least X"
   curves, the 5-60 minute reach curve with quartile band, dot strips, dumbbells and the time-of-day profile, in the
   dock and linked with the tables, legend and map.
+- Comparison by the rules of the DG REGIO grid study: under like-for-like rules the Polish cities sit near the
+  EU means for their size (GZM below at 45 minutes); DG REGIO's own values for four centres read from its map.
 - Urban form additions: residents by 250 m density class, official Eurostat 2021 urban-centre shares, polycentricity
   (eta and density hotspots) in the tables; Angel's proximity index in the tables only (not robust among
   single-centre cities).
@@ -54,7 +56,8 @@ Method and data
    crossing score on the AMPTI W6 scale, wait after the actual connecting arrival, share of frequent x frequent pairs,
    coordination test only for lines every 15 min or less often.
 10. Speed: show time above free running in s/km with a range; fixed colour breaks; a Puls Gdańska-style check.
-11. Variant comparable with the DG REGIO grid study (fastest peak trip, 1.2 km walk, 8/12 km radii).
+11. DG REGIO grid-study variant, remaining: the cause of Warszawa's 8-point gap to DG REGIO's own value; the
+    total-walk limit (R5 limits each leg, not the trip); register `data/raw/dgregio_gridstudy/` in the manifest.
 12. Distribution, remaining: the same outputs on the raw GHSL grid as a sensitivity variant.
 13. New open data: NSP 2021 age grid, commuting matrix, BDOT10k buildings, schools (RSPO) and hospitals as destinations.
 14. Validation: about 100 random journey-planner pairs at several departure minutes; the 15 suburban pairs from

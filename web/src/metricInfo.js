@@ -27,6 +27,11 @@ export const METRIC_GROUPS = [
       'tp_bike_lts4_30min_ratio_of_means', 'tp_bike_lts4_30min'],
   },
   {
+    // comparison only: the rules of the DG REGIO grid study, urban-centre area
+    id: 'eu', title: 'Porównanie z miastami UE',
+    metrics: ['tp_gridstudy_pt_30min', 'tp_gridstudy_dgregio_30min', 'tp_gridstudy_pt_45min', 'tp_gridstudy_dgregio_45min'],
+  },
+  {
     id: 'distribution', title: 'Kto ma słaby dostęp',
     metrics: ['dist_below_floor_pt_am_30min', 'dist_fgt1_pt_am_30min', 'dist_below_floor_pt_am_45min',
       'dist_p25_pt_am_30min', 'dist_p75_pt_am_30min', 'dist_below_floor_pt_evening_30min',
@@ -302,6 +307,53 @@ export const METRIC_INFO = {
       + 'do ograniczenia zapisanego w OpenStreetMap, postój 20 s na przystanku. Przedział: postój 10–30 s i limit '
       + '40–70 km/h. Odcinki, na których rozkład jest szybszy od modelu, nie dostają wartości.',
     ],
+  },
+   tp_gridstudy_pt_30min: {
+     short: 'Zasięg 30 min wg reguł badania UE',
+     better: 'higher',
+     read: [
+       'Ta sama miara co zasięg 30 minut, ale policzona tak jak w badaniu Komisji Europejskiej (DG REGIO) dla 197 '
+       + 'miast UE, żeby dało się porównać polskie miasta z innymi. Średnia w badaniu: 36 dla wszystkich miast, '
+       + 'ok. 36–42 dla miast wielkości polskich.',
+       'Wartości są wyższe niż w zwykłej mierze, bo liczy się najszybszy odjazd w szczycie, a nie typowy. '
+       + 'Służy tylko do porównań z UE; różnica kilku punktów nie jest rankingiem.',
+     ],
+     method: [
+       'Starty w centrum miejskim Eurostatu 2021; osiągalni i mieszkający w promieniu 8 km (także poza centrum); '
+       + 'najkrótszy z 6 odjazdów co 5 min w 30-minutowym szczycie; łączne dojście pieszo do 15 min, sam spacer '
+       + 'do 1,2 km; średnia wyników komórek ważona ludnością. Rozkłady z 2026 r., badanie UE z lat 2019–2021.',
+     ],
+   },
+   tp_gridstudy_pt_45min: {
+     short: 'Zasięg 45 min wg reguł badania UE',
+     better: 'higher',
+     read: [
+       'Jak wyżej, dla 45 minut i promienia 12 km. Średnia w badaniu UE: 54 dla wszystkich miast, ok. 60–63 dla '
+       + 'miast wielkości polskich.',
+       'Służy tylko do porównań z UE; różnica kilku punktów nie jest rankingiem.',
+     ],
+     method: ['Jak dla 30 minut, z promieniem 12 km.'],
+   },
+   tp_gridstudy_dgregio_30min: {
+     short: 'Wartość z badania UE',
+     better: 'higher',
+     read: [
+       'Wynik tego miasta w badaniu Komisji Europejskiej (DG REGIO), odczytany z ich mapy komórek. Inne lata '
+       + 'rozkładów (2019–2021), inne dane o ludności i inna granica centrum (2011), więc różnica do wiersza wyżej '
+       + 'pokazuje także różnice danych, nie tylko zmianę komunikacji.',
+     ],
+     method: ['Średnia wyników komórek 200 m z przeglądarki DG REGIO, ważona ludnością 2018.'],
+   },
+ 
+  tp_gridstudy_dgregio_45min: {
+    short: 'Wartość z badania UE (45 min)',
+    better: 'higher',
+    read: [
+      'Wynik tego miasta w badaniu Komisji Europejskiej (DG REGIO) dla 45 minut, odczytany z ich mapy komórek. Inne '
+      + 'lata rozkładów (2019–2021), inne dane o ludności i inna granica centrum (2011), więc różnica do wiersza wyżej '
+      + 'pokazuje także różnice danych, nie tylko zmianę komunikacji.',
+    ],
+    method: ['Średnia wyników komórek 200 m z przeglądarki DG REGIO, ważona ludnością 2018.'],
   },
   freq_seg_net_le5min: freq(5),
   freq_seg_net_le10min: freq(10),

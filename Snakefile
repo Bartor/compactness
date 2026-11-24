@@ -536,6 +536,22 @@ rule form:
         '"{PY}" -m pipeline.form_extra && "{PY}" -m pipeline.form_md'
 
 
+rule access_gridstudy:
+    # comparison-only variant by the rules of the DG REGIO grid study (pipeline.access_gridstudy): own network
+    # copies, three routing runs per city on the urban-centre origins (about 1 h 15 min), DG REGIO's own cell values
+    # for four centres read once from their public map service into data/raw/dgregio_gridstudy/ (about 1 h).
+    input:
+        "pipeline/access_gridstudy.py",
+        "pipeline/access_gridstudy_report.py",
+        "pipeline/access_gridstudy_eu.py",
+        stamp("access_uc"),
+    output:
+        touch(stamp("access_gridstudy")),
+    shell:
+        '"{PY}" -m pipeline.access_gridstudy peak && "{PY}" -m pipeline.access_gridstudy route && '
+        '"{PY}" -m pipeline.access_gridstudy_eu fetch && "{PY}" -m pipeline.access_gridstudy report'
+
+
 rule merge_metrics:
     # metrics_<step>.* -> metrics.csv / metrics.json and the map panel subset results/web/metrics.json
     input:
