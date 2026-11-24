@@ -9,6 +9,7 @@
 #   snakemake -c1 density_service  # density x service frequency: metrics_density_service.*
 #   snakemake -c1 transfer_ease  # ease of transfer at stop areas: metrics_transfer.*, layers/transfer_nodes.parquet
 #   snakemake -c1 transfer_web   # stop areas as map points: results/web/transfer_nodes.geojson, catalog entries
+#   snakemake -c1 speed_report   # scheduled speed: lines x bands, 1 km blocks, tram stretches; metrics_speed.*
 #   snakemake -c1 access_run     # phase 3: R5 routing, ~12 h for all 7 agglomerations (explicit target only)
 #   snakemake -c1 access         # phase 3: aggregate whatever access_run has finished
 #   snakemake -c1 access_uc_run  # phase 3, urban-centre domain: R5 routing, ~1 h on 6 threads (explicit target only)
@@ -303,6 +304,90 @@ rule transfer_web:
         touch(stamp("transfer_web")),
     shell:
         '"{PY}" -m pipeline.transfer_web'
+
+
+rule speed_hops:
+    # scheduled speed, shared foundation: one row per hop (stop -> next stop) with length along the GTFS shape,
+    # 7 agglomerations x {reference Wednesday, Saturday}; cached in data/interim/speed (no results/ files)
+    input:
+        "config.yaml",
+        "pipeline/speed_core.py",
+        stamp("gtfs_service"),
+    output:
+        touch(stamp("speed_hops")),
+    shell:
+        '"{PY}" -m pipeline.speed_core'
+
+
+rule speed_osm:
+    # tram track, roads near it, crossings and signals from the Poland PBF (one pass with locations) -> data/interim/speed
+    input:
+        "pipeline/speed_osm.py",
+        stamp("fetch_osm"),
+        stamp("fetch_boundaries"),
+    output:
+        touch(stamp("speed_osm")),
+    shell:
+        '"{PY}" -m pipeline.speed_osm'
+
+
+rule speed_tables:
+    # scheduled speed per line x day type x time band, all modes: results/tables/speed_lines.*, results/qa/speed/tables
+    input:
+        "config.yaml",
+        "pipeline/speed_tables.py",
+        "pipeline/tram_speed.py",
+        stamp("speed_hops"),
+    output:
+        touch(stamp("speed_tables")),
+    shell:
+        '"{PY}" -m pipeline.speed_tables'
+
+
+rule tram_stretches:
+    # tram stretches with OSM attributes and implied slack: results/tables/tram_stretch*.csv,
+    # results/layers/tram_stretches.parquet, results/qa/speed/stretches; the same stretch rule for buses and
+    # trolleybuses (results/layers/bus_stretches.parquet, tables/bus_stretches.csv) and one geometry per metro / rail
+    # line (results/layers/rail_metro_lines.parquet, reads tables/speed_lines.csv)
+    input:
+        "config.yaml",
+        "pipeline/tram_stretches.py",
+        "pipeline/tram_stretches_out.py",
+        stamp("speed_hops"),
+        stamp("speed_osm"),
+        stamp("speed_tables"),
+    output:
+        touch(stamp("tram_stretches")),
+    shell:
+        '"{PY}" -m pipeline.tram_stretches'
+
+
+rule speed_areas:
+    # scheduled speed of tram and bus service through 1 km blocks: results/layers/speed_areas.parquet, results/qa/speed/areas
+    input:
+        "config.yaml",
+        "pipeline/speed_areas.py",
+        "pipeline/speed_areas_out.py",
+        stamp("speed_hops"),
+        stamp("popgrid"),
+    output:
+        touch(stamp("speed_areas")),
+    shell:
+        '"{PY}" -m pipeline.speed_areas'
+
+
+rule speed_report:
+    # metrics_speed.csv/json and results/qa/speed/speed.md from the three speed steps.  Not yet an input of merge_metrics.
+    input:
+        "pipeline/speed_report.py",
+        "pipeline/speed_text.py",
+        stamp("speed_tables"),
+        stamp("tram_stretches"),
+        stamp("speed_areas"),
+    output:
+        touch(stamp("speed_report")),
+    shell:
+        '"{PY}" -m pipeline.speed_report'
 
 
 rule r5_inputs:

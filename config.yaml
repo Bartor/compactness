@@ -57,6 +57,26 @@ time_windows:               # §4.6
   saturday:  {day: saturday, start: "10:00", end: "14:00"}
 frequency_window: {start: "06:00", end: "20:00"}    # §4.5, as DG REGIO
 headway_thresholds_min: [5, 10, 15, 20, 30]
+
+# Time bands for scheduled speed (prędkość komunikacyjna), added 2026-11-24 (pipeline/speed_*.py, tram_stretches.py).
+# Half-open [start, end); "end" before "start" wraps past midnight; times past 24:00 in GTFS are taken modulo 24 h.
+# A trip belongs to the band of its first departure; a hop (stop to next stop) to the band of its departure.
+# am_peak and evening match time_windows.am_peak and time_windows.evening (07-09, 20-22 inside 20-23).
+# Weekend bands are used for the reference Saturday; there is no Sunday reference day (feed gzm ends 2026-11-28).
+speed_time_bands:
+  weekday:
+    - {id: night,     label: "noc",                 start: "23:00", end: "05:00"}
+    - {id: early,     label: "wczesny ranek",       start: "05:00", end: "07:00"}
+    - {id: am_peak,   label: "szczyt poranny",      start: "07:00", end: "09:00"}
+    - {id: midday,    label: "międzyszczyt",        start: "09:00", end: "15:00"}
+    - {id: pm_peak,   label: "szczyt popołudniowy", start: "15:00", end: "18:00"}
+    - {id: early_eve, label: "wczesny wieczór",     start: "18:00", end: "20:00"}
+    - {id: evening,   label: "wieczór",             start: "20:00", end: "23:00"}
+  weekend:
+    - {id: night,     label: "noc",                 start: "23:00", end: "05:00"}
+    - {id: morning,   label: "rano",                start: "05:00", end: "09:00"}
+    - {id: day,       label: "dzień",               start: "09:00", end: "18:00"}
+    - {id: evening,   label: "wieczór",             start: "18:00", end: "23:00"}
 walk_to_stop_m: 500
 rail_station_radius_m: 1000
 stop_cluster_radius_m: 100
