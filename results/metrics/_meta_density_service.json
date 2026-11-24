@@ -3,8 +3,8 @@
   2500.0,
   10000.0
  ],
- "duration_s": 0.5,
- "git_sha": "f1110a83d8957eac1e4bca475b183c3db6681564",
+ "duration_s": 0.6,
+ "git_sha": "0a69e9c0d8aa286277b0cb5d0461f9bbddef1dca",
  "inputs": {
   "ghs_built_s_2020_R3_C20": {
    "data_date": "2020",
@@ -52,8 +52,8 @@
   "metrics_density_service.csv",
   "metrics_density_service.json"
  ],
- "rows": 168,
- "run_at": "2026-11-24T08:09:42+01:00",
+ "rows": 448,
+ "run_at": "2026-11-24T14:33:37+01:00",
  "service_of_headway": {
   "10": 3,
   "15": 2,
@@ -64,5 +64,12 @@
  },
  "source": "results/layers/frequent_cells.parquet",
  "step": "density_service",
+ "sweep_stops_per_km2": [
+  1500.0,
+  2500.0,
+  5000.0,
+  7500.0,
+  10000.0
+ ],
  "timetable_date": "2026-11-25"
 }

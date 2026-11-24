@@ -179,7 +179,7 @@
   "core": "rdzeń (miasta URAU 2021)",
   "fua": "FUA (Eurostat URAU 2021)"
  },
- "generated": "2026-11-23",
+ "generated": "2026-11-24",
  "grid": "siatka spisowa 1 km (EU LAEA)",
  "method": "PWD (gęstość ważona populacją: Σ p·d / Σ p) po komórkach 1 km, których środek leży w obszarze; d = ludność komórki / jej pole (1 km², mniej dla komórek przyciętych granicą państwa). Gęstość brutto = ludność / pole obszaru.",
  "population_date": "2021-03-31",

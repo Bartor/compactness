@@ -1,9 +1,20 @@
 {
+ "bertaud_threshold": 0.1,
  "circle_km": 10,
- "duration_s": 57.5,
+ "degurba": {
+  "urban_centre": [
+   1500,
+   50000
+  ],
+  "urban_cluster": [
+   300,
+   5000
+  ]
+ },
+ "duration_s": 104.2,
  "eta_sample": 4000,
  "gap_cells": 3,
- "git_sha": "8cf4e384d18721538870005637014f36b73c37dc",
+ "git_sha": "f182aca420893b8fea20a6f77201584badaf73c3",
  "inputs": {
   "ghs_built_s_2020_R3_C20": {
    "data_date": "2020",
@@ -35,6 +46,11 @@
    "downloaded_at": "2026-11-23T18:16:58+01:00",
    "sha256": "815deb0fb369df11de0ff150dd14ce87fd875acf3d542da8d2db1dafc0791680"
   },
+  "osm_poland_pbf": {
+   "data_date": "2026-11-22T21:20:48Z",
+   "downloaded_at": "2026-11-23T18:50:02+01:00",
+   "sha256": "8c6264a60df1a1a66b4ca3d68dd3f07c3be26237c86b97bff1aa5d3bb566dc1f"
+  },
   "urau_2021_100k_all": {
    "data_date": "2021",
    "downloaded_at": "2026-11-23T18:15:32+01:00",
@@ -45,9 +61,15 @@
  "missing_inputs": [],
  "population_dates": {
   "census": "2021-03-31",
+  "census_scaled": "2021-03-31 (NSP 2021, wzór GHSL 2020)",
   "ghsl": "2020"
  },
- "run_at": "2026-11-23T22:00:30+01:00",
+ "population_grids": {
+  "main": "ghsl_census_scaled",
+  "note": "100 m measures on the census-scaled GHSL grid (pipeline.popgrid.scale_100m at 100 m); raw GHS-POP kept as tier-qa rows with population_grid=ghsl_raw",
+  "variant": "ghsl_raw"
+ },
+ "run_at": "2026-11-24T14:49:21+01:00",
  "seed_radius_m": 1000,
  "step": "density",
  "thresholds": [
@@ -56,5 +78,6 @@
   0.3,
   0.5
  ],
+ "townhalls": "data/interim/density/townhalls_osm.csv (OSM 2026-11-22, amenity=townhall)",
  "working_threshold": 0.2
 }
