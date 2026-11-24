@@ -24,6 +24,23 @@ def _pct(x, d=0):
     return "brak danych" if x is None or pd.isna(x) else PL(float(x) * 100, d)
 
 
+def trio(walk, wait) -> list[str]:
+    """Walk, wait and total as printed in the note: parts rounded to 0.1 min, total = sum of the printed parts."""
+    if walk is None or wait is None or pd.isna(walk) or pd.isna(wait):
+        return ["brak danych"] * 3
+    a, b = round(float(walk), 1), round(float(wait), 1)
+    return [PL(a, 1), PL(b, 1), PL(round(a + b, 1), 1)]
+
+
+ADD_NOTE = (
+    "Pierwsze trzy kolumny wartości są addytywne: liczone na jednym zbiorze ruchów przesiadkowych z kierunkami "
+    "(kierunek przyjazdu A × kierunek odjazdu B), które mają zarówno dojście, jak i czekanie na B w tym kierunku w "
+    "oknie 7–9; każdy ruch ma wagę liczby kursów (przyjazdy A w tym kierunku × odjazdy B w tym kierunku, 6–20). "
+    "Dojście i czekanie to średnie ważone, suma to średnia ważona sum, więc dojście + czekanie = suma. Pozostałe "
+    "kolumny to mediany (po parach linii, potem po zespołach), a mediana sumy nie jest sumą median, dlatego tamte "
+    "kolumny się nie sumują.")
+
+
 def table(header: list[str], rows: list[list[str]]) -> list[str]:
     out = ["| " + " | ".join(header) + " |", "|" + "|".join(["---"] * len(header)) + "|"]
     out += ["| " + " | ".join(str(c) for c in r) + " |" for r in rows]
@@ -94,48 +111,68 @@ def write_md(ctx: dict) -> None:
     L += ["## 3. Wyniki dla miast (reguła główna)", "",
           f"„Łatwe” = mediana dojścia między liniami ≤ {TR.WALK_EASY_MIN:.0f} min; udział liczony po odjazdach 6–20 "
           f"wszystkich zespołów przesiadkowych w obszarze. „Top {TR.TOPN}” = {TR.TOPN} zespołów z największą liczbą "
-          "odjazdów w obszarze; wartość = mediana median węzłów. Obszar pokryty = zespoły w FUA i w masce GTFS.", ""]
+          "odjazdów w obszarze. Obszar pokryty = zespoły w FUA i w masce GTFS. Wartości addytywne miasta to zwykła "
+          f"średnia wartości {TR.TOPN} zespołów, więc też się sumują; pozostałe kolumny „Top” to mediana median zespołów.",
+          "", ADD_NOTE, ""]
     rows = []
     for agg in T.AGGS:
         for dom in ("core", "covered"):
             v = cs[(cs.rule == "main") & (cs.agglomeration == agg) & (cs.domain == dom)].iloc[0]
-            rows.append([N[agg] if dom == "core" else "", "rdzeń" if dom == "core" else "pokryty", int(v.nodes_n),
-                         _v(v.dep_share_walkdir_le2), _v(v.dep_share_walkdir_gt5), _v(v.top_walk_dir),
+            rows.append([N[agg] if dom == "core" else "", "rdzeń" if dom == "core" else "pokryty"]
+                        + trio(v.top_add_walk_am, v.top_add_wait_am) + trio(v.top_add_walk_day, v.top_add_wait_day)
+                        + [int(v.nodes_n), _v(v.dep_share_walkdir_le2), _v(v.dep_share_walkdir_gt5), _v(v.top_walk_dir),
                          _v(v.top_cross_dir), _v(v.top_wait_am), _v(v.top_ww_dir_am), _v(v.top_ww_am_w),
                          _v(v.top_stepfree_share, 0), _v(v.dep_share_walk_le2), _v(v.top_walk),
                          _v(v.same_stop_share, 0), _v(v.coverage * 100 if v.coverage is not None else None, 1)])
-    L += table(["Aglomeracja", "Obszar", "Zespoły", "Odjazdy w zespołach „łatwych”, %",
-                "Odjazdy w zespołach z dojściem > 5 min, %", f"Top {TR.TOPN}: dojście, min", f"Top {TR.TOPN}: przejścia",
-                f"Top {TR.TOPN}: czekanie 7–9, min", f"Top {TR.TOPN}: dojście + czekanie 7–9, min",
+    L += table(["Aglomeracja", "Obszar", f"Top {TR.TOPN}, 7–9, średnia ważona kursami: dojście, min",
+                "+ czekanie, min", "= przesiadka, min", "To samo 6–20: dojście, min", "+ czekanie, min",
+                "= przesiadka, min", "Zespoły", "Odjazdy w zespołach „łatwych”, %",
+                "Odjazdy w zespołach z dojściem > 5 min, %", f"Top {TR.TOPN}: dojście, mediana, min",
+                f"Top {TR.TOPN}: przejścia, mediana", f"Top {TR.TOPN}: czekanie 7–9, mediana, min",
+                f"Top {TR.TOPN}: dojście + czekanie 7–9, mediana, min",
                 f"Top {TR.TOPN}: to samo, najlepsza para, ważone kursami, min", f"Top {TR.TOPN}: pary bez schodów, %",
                 "Najlepsza para słupków: odjazdy w zespołach „łatwych”, %", f"Najlepsza para: top {TR.TOPN} dojście, min",
                 "Pary na tym samym słupku, %", "Odjazdy zespołów w masce, %"], rows)
     L += CRITICAL["cities"] + [""]
+    ac = ctx["additive_check"]
+    L += ["**Kontrola addytywności (wbudowana; krok kończy się błędem, gdy nie przechodzi).** Dla każdego zespołu "
+          "(reguła główna, oba okna) i każdego wiersza miejskiego (wszystkie reguły i obszary) sprawdzono, że "
+          "dojście + czekanie = suma przed zaokrągleniem (tolerancja 1e-9 min): "
+          f"{ac['nodes']['checked']} trójek zespołów i {ac['city']['checked']} trójek miejskich, błędów 0. "
+          "Zaokrąglenie: w plikach (warstwa, CSV, metryki) składowe mają 4 cyfry znaczące, a suma jest publikowana "
+          "jako suma zaokrąglonych składowych (wybrano to zamiast osobnego zaokrąglenia sumy), więc dodaje się "
+          "dokładnie; może mieć jedną cyfrę więcej niż 4 znaczące (np. 2,621 + 9,793 = 12,414) i różni się od sumy "
+          "niezaokrąglonej najwyżej o sumę błędów zaokrąglenia składowych (pół jednostki ostatniej cyfry każdej; "
+          f"największe odchylenie: {PL(ac['nodes']['max_dev_share'] * 100, 0)} % tej granicy w zespołach, "
+          f"{PL(ac['city']['max_dev_share'] * 100, 0)} % w miastach). W tej nocie składowe są zaokrąglone do 0,1 min, a "
+          "suma to suma wydrukowanych składowych.", ""]
     # ---- known interchanges
     L += ["## 4. Znane węzły: kontrola", "",
           "Dla każdego węzła wybrano zespół o największej liczbie odjazdów, którego nazwy pasują do wzorca i którego "
           f"środek leży ≤ {TR.KNOWN_RADIUS_M:.0f} m od punktu orientacyjnego (`transfer_report.KNOWN`). Wszystkie kolumny: "
-          "`known_interchanges.csv`; pary linii: `pairs_known_interchanges.csv`.", ""]
+          "`known_interchanges.csv`; pary linii: `pairs_known_interchanges.csv`.", "", ADD_NOTE, ""]
     k = kn[kn.rule == "main"]
     rows, rows2 = [], []
     for _, x in k.iterrows():
         if pd.isna(x.get("node_id")):
-            rows.append([N[x.agglomeration], x.interchange, "nie znaleziono"] + [""] * 9)
+            rows.append([N[x.agglomeration], x.interchange, "nie znaleziono"] + [""] * 12)
             rows2.append([x.interchange, "nie znaleziono"] + [""] * 9)
             continue
-        rows.append([N[x.agglomeration], x.interchange, str(x["name"]), int(x.n_stops), _v(x.diameter_m, 0),
+        rows.append([N[x.agglomeration], x.interchange] + trio(x.walk_w_am_min, x.wait_w_am_min)
+                    + [str(x["name"]), int(x.n_stops), _v(x.diameter_m, 0),
                      x.modes.replace(",", ", "), int(x.n_lines), int(x.n_pairs), _v(x.dep_per_h_day, 0),
                      _v(x.walk_min_median), _v(x.walk_dir_min_median), _v(x.walk_dir_min_p90)])
         rows2.append([x.interchange, _v(x.crossings_dir_median, 1), _pct(x.crossings_signal_share), _pct(x.steps_dir_share),
                       _pct(x.stepfree_dir_share), _pct(x.tunnel_pair_share), _v(x.wait_am_median),
                       _v(x.walkwait_dir_am_median), _v(x.walkwait_am_median_w), _v(x.stops_mean_walk_m, 0),
                       f"{int(x.timed_pairs)} / {int(x.timed_pairs_checked)}"])
-    L += table(["Miasto", "Węzeł", "Zespół (nazwa wiodąca)", "Słupki", "Rozpiętość, m", "Środki", "Linie", "Pary",
+    L += table(["Miasto", "Węzeł", "7–9, średnia ważona kursami: dojście, min", "+ czekanie, min",
+                "= przesiadka, min", "Zespół (nazwa wiodąca)", "Słupki", "Rozpiętość, m", "Środki", "Linie", "Pary",
                 "Odjazdy/h 6–20", "Dojście, najlepsza para: mediana, min", "Dojście z kierunkami: mediana, min",
                 "Dojście z kierunkami: P90, min"], rows)
     L += table(["Węzeł", "Przejścia (z kierunkami): mediana", "Przejścia z sygnalizacją, %", "Ruchy ze schodami, %",
                 "Ruchy z dojściem bez schodów w OSM, %", "Pary z tunelem, %", "Czekanie 7–9: mediana, min",
-                "Dojście z kierunkami + czekanie 7–9, min", "Najlepsza para + czekanie, ważone kursami, min",
+                "Dojście z kierunkami + czekanie 7–9: mediana, min", "Najlepsza para + czekanie, ważone kursami, min",
                 "Średnia odległość między słupkami po sieci, m", "Możliwe skomunikowania / pary sprawdzone"], rows2)
     L += CHECKS + [""]
     # ---- AMPTI

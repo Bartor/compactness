@@ -72,8 +72,11 @@ for _dom in ("core", "covered"):
     # ease of transfer (pipeline.transfer_ease): walking between lines by direction, and walk + wait at the
     # 20 busiest stop areas
     PANEL[(_dom, "transfer_dep_share_walkdir_le2min")] = (230, "Odjazdy w węzłach z dojściem między liniami ≤ 2 min")
-    PANEL[(_dom, "transfer_top20_walkwait_dir_am_median_min")] = (
-        231, "Przesiadka w 20 największych węzłach: dojście + czekanie, 7–9")
+    # additive trio: walk + wait = total (trip-weighted means over one set of movements, 20 busiest stop areas)
+    PANEL[(_dom, "transfer_top20_walkwait_w_am_mean_min")] = (
+        231, "Typowa przesiadka w 20 największych węzłach, 7–9: dojście + czekanie")
+    PANEL[(_dom, "transfer_top20_walk_w_am_mean_min")] = (232, "w tym dojście między liniami")
+    PANEL[(_dom, "transfer_top20_wait_w_am_mean_min")] = (233, "w tym czekanie na drugą linię")
 # accessibility (phase 3): transport performance, Wednesday 07-09, all feeds, census-scaled grid
 for _dom in ("covered", "core"):
     PANEL[(_dom, "tp_pt_am_30min")] = (300, "Transport performance komunikacją + pieszo, 30 min (7–9)")

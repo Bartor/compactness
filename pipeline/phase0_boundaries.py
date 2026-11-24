@@ -416,7 +416,7 @@ def write_web() -> None:
         layers.append({"id": lid, "title": title, "type": "pmtiles", "url": None, "kind": kind, "status": "planned",
                        "attribution": "", "population_date": None, "timetable_date": None, "note": ""})
     # point layers written by pipeline.transfer_web: kept when present, no placeholder otherwise
-    for lid in ("transfer_walk", "transfer_wait"):
+    for lid in ("transfer_total", "transfer_walk", "transfer_wait"):
         if lid in kept:
             layers.append(kept[lid])
     write_json(WEB / "catalog.json", {"generated": dt.date.today().isoformat(), "agglomerations": aggs, "layers": layers})

@@ -16,7 +16,11 @@ export const METRIC_GROUPS = [
     id: 'reach', title: 'Co można osiągnąć',
     metrics: ['tp_pt_am_30min', 'tp_pt_am_45min', 'tp_walk_30min', 'tp_bike_lts3_30min', 'tp_bike_lts4_30min'],
   },
-  { id: 'transfer', title: 'Przesiadki', metrics: ['transfer_dep_share_walkdir_le2min'] },
+  {
+    id: 'transfer', title: 'Przesiadki',
+    metrics: ['transfer_top20_walkwait_w_am_mean_min', 'transfer_top20_walk_w_am_mean_min',
+      'transfer_top20_wait_w_am_mean_min', 'transfer_dep_share_walkdir_le2min'],
+  },
 ]
 
 const freq = (n) => ({
@@ -224,6 +228,42 @@ export const METRIC_INFO = {
   },
   tp_bike_lts3_30min: bike(3, 'tylko po spokojnych ulicach i drogach rowerowych'),
   tp_bike_lts4_30min: bike(4, 'także po ruchliwych ulicach'),
+  transfer_top20_walkwait_w_am_mean_min: {
+    short: 'Typowa przesiadka: dojście + czekanie',
+    better: 'lower',
+    layer: 'transfer_total',
+    read: [
+      'Ile trwa typowa przesiadka w 20 największych węzłach w porannym szczycie: przejście do drugiej linii plus '
+      + 'czekanie na nią. Niżej znaczy lepiej.',
+      'Dwa wiersze poniżej to części tej liczby i sumują się do niej. Czekanie zwykle stanowi 70–90 % całości, więc '
+      + 'o wyniku decyduje głównie częstotliwość kursów, nie układ przystanków.',
+    ],
+    method: [
+      'Dla każdej przesiadki, po której druga linia jedzie gdzie indziej niż pierwsza: dojście po sieci pieszej '
+      + '(5 km/h) i oczekiwane czekanie z rozkładu przy przyjściu w losowej chwili. Średnia ważona liczbą kursów obu '
+      + 'linii, potem średnia po 20 węzłach z największą liczbą odjazdów. Czas z rozkładu, w pełnych minutach.',
+    ],
+  },
+  transfer_top20_walk_w_am_mean_min: {
+    short: 'w tym dojście między liniami',
+    better: 'lower',
+    layer: 'transfer_walk',
+    read: [
+      'Część typowej przesiadki, którą się idzie. W największych węzłach to zwykle 1,5–3 minuty; więcej oznacza '
+      + 'rozległy węzeł albo przystanki po dwóch stronach dużego skrzyżowania.',
+    ],
+    method: ['Jak wyżej; sama część piesza. Bez czasu na światłach, schodach i w tłumie.'],
+  },
+  transfer_top20_wait_w_am_mean_min: {
+    short: 'w tym czekanie na drugą linię',
+    better: 'lower',
+    layer: 'transfer_wait',
+    read: [
+      'Część typowej przesiadki, którą się czeka. Przy kursach co 10 minut to około 5 minut; długie czekanie oznacza '
+      + 'rzadkie linie w węźle.',
+    ],
+    method: ['Jak wyżej; samo czekanie. Liczone tak, jakby pasażer przychodził w losowej chwili, bez skomunikowań.'],
+  },
   transfer_dep_share_walkdir_le2min: {
     short: 'Odjazdy w zwartych węzłach',
     better: 'higher',

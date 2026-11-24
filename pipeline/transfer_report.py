@@ -62,11 +62,82 @@ LAYER_COLS = [
     "crossings_median", "crossings_max", "crossings_signal_share", "crossings_value_share", "track_crossing_pair_share",
     "steps_pair_share", "tunnel_pair_share", "bridge_pair_share", "stepfree_pair_share", "stepfree_extra_min_median",
     "road_share_median", "wait_am_median", "wait_day_median", "walkwait_am_median", "walkwait_am_p90",
-    "walkwait_day_median", "walkwait_am_median_w", "stops_mean_walk_m", "stops_mean_straight_m",
+    "walkwait_day_median", "walkwait_am_median_w",
+    "walk_w_am_min", "wait_w_am_min", "walkwait_w_am_min", "n_movements_am",
+    "walk_w_day_min", "wait_w_day_min", "walkwait_w_day_min", "n_movements_day", "stops_mean_walk_m", "stops_mean_straight_m",
     "timed_pairs_checked", "timed_pairs", "rail_pair_share",
     "in_fua", "in_core", "in_mask", "flag",
 ]
 COMPONENTS = [c for c in LAYER_COLS[LAYER_COLS.index("walk_min_median"):LAYER_COLS.index("in_fua")]]
+# additive trios (walk, wait, total): node columns and city-summary keys
+TRIOS = [("walk_w_am_min", "wait_w_am_min", "walkwait_w_am_min"),
+         ("walk_w_day_min", "wait_w_day_min", "walkwait_w_day_min"),
+         ("top_add_walk_am", "top_add_wait_am", "top_add_total_am"),
+         ("top_add_walk_day", "top_add_wait_day", "top_add_total_day")]
+
+
+def _dec(x) -> int:
+    """Decimals that common.sig keeps for x at 4 significant digits (>= 0)."""
+    if x is None or x == 0:
+        return 0
+    return max(0, 3 - int(np.floor(np.log10(abs(x)))))
+
+
+def _missing(x) -> bool:
+    return x is None or (isinstance(x, (float, np.floating)) and np.isnan(x))
+
+
+def add_rounded(a, b):
+    """Published total of an additive trio: the sum of the two parts rounded to 4 significant digits, so that
+    part + part = total exactly in the published numbers.  None when a part is missing."""
+    if _missing(a) or _missing(b):
+        return None
+    a, b = sig(float(a)), sig(float(b))
+    return round(a + b, max(_dec(a), _dec(b)))
+
+
+def fix_trios(df: pd.DataFrame) -> pd.DataFrame:
+    """After 4-digit rounding: replace each trio total by the sum of its rounded parts."""
+    for w, t, tot in TRIOS:
+        if w in df.columns and t in df.columns and tot in df.columns:
+            df[tot] = [add_rounded(a, b) for a, b in zip(df[w], df[t])]
+    return df
+
+
+def check_additive(nodes: pd.DataFrame, city: pd.DataFrame) -> dict:
+    """Internal check (the step fails when it breaks): walk + wait = total for every node and every city row,
+    (a) unrounded within 1e-9 min; (b) the published total equals the sum of the two published (4-digit) parts, and
+    it differs from the unrounded total by no more than the sum of the parts' rounding errors (half a unit of each
+    part's last digit).  ``max_dev_share`` = largest deviation as a share of that bound."""
+    res = {}
+    for name, df in (("nodes", nodes), ("city", city)):
+        n = bad = bad_pub = 0
+        maxdev = 0.0
+        for w, t, tot in TRIOS:
+            if w not in df.columns:
+                continue
+            for a, b, c in zip(df[w], df[t], df[tot]):
+                if _missing(a) or _missing(b) or _missing(c):
+                    if not (_missing(a) and _missing(b) and _missing(c)):
+                        bad += 1
+                    continue
+                n += 1
+                a, b, c = float(a), float(b), float(c)
+                if abs(a + b - c) > 1e-9:
+                    bad += 1
+                pub = add_rounded(a, b)
+                # rounding error of the published total = sum of the two parts' rounding errors (<= half a unit
+                # of each part's last digit)
+                bound = 0.5 * 10.0 ** (-_dec(sig(a))) + 0.5 * 10.0 ** (-_dec(sig(b)))
+                dev = abs(pub - c)
+                maxdev = max(maxdev, dev / bound)
+                if abs(pub - (sig(a) + sig(b))) > 1e-9 or dev > bound * (1 + 1e-9):
+                    bad_pub += 1
+        res[name] = {"checked": n, "failed_unrounded": bad, "failed_published": bad_pub,
+                     "max_dev_share": round(maxdev, 3)}
+    if any(v["failed_unrounded"] or v["failed_published"] for v in res.values()):
+        raise SystemExit(f"transfer_ease: additive check failed: {res}")
+    return res
 
 
 def _pl(x, d=1):
@@ -141,6 +212,12 @@ def city_values(nt: pd.DataFrame, pairs_by_agg: dict, agg: str, dom: str) -> dic
                  ("top_ww_am_w", "walkwait_am_median_w")):
         x = pd.to_numeric(top[c], errors="coerce").dropna()
         v[k] = float(x.median()) if len(x) else None
+    for win in ("am", "day"):
+        cols = [f"walk_w_{win}_min", f"wait_w_{win}_min", f"walkwait_w_{win}_min"]
+        tt = top[cols].apply(pd.to_numeric, errors="coerce").dropna()
+        for k, c in zip(("walk", "wait", "total"), cols):
+            v[f"top_add_{k}_{win}"] = float(tt[c].mean()) if len(tt) else None
+        v[f"top_add_n_{win}"] = int(len(tt))
     P = pairs_by_agg[agg]
     P = P[~P.parallel & P.walk_m.notna()] if len(P) else P
     pt = P[P.area.isin(set(top.area))]
@@ -161,27 +238,48 @@ METRIC_SPEC = [
     ("transfer_dep_share_walkdir_le2min", "dep_share_walkdir_le2", "%", "main",
      "Odjazdy w zespołach przesiadkowych, w których mediana dojścia między liniami (z uwzględnieniem kierunków jazdy) "
      "wynosi ≤ 2 min; udział odjazdów 6–20 we wszystkich zespołach przesiadkowych obszaru"),
-    ("transfer_top20_walkwait_dir_am_median_min", "top_ww_dir_am", "min", "main",
+    ("transfer_top20_walkwait_w_am_mean_min", "top_add_total_am", "min", "main",
+     "20 zespołów z największą liczbą odjazdów: typowa przesiadka 7–9, dojście + czekanie (średnia ważona liczbą "
+     "kursów w zespole, potem średnia po zespołach); równa sumie składowych transfer_top20_walk_w_am_mean_min "
+     "i transfer_top20_wait_w_am_mean_min"),
+    ("transfer_top20_walk_w_am_mean_min", "top_add_walk_am", "min", "table",
+     "20 zespołów z największą liczbą odjazdów: dojście między liniami z kierunkami, 7–9 (średnia ważona liczbą "
+     "kursów, potem średnia po zespołach); składowa, która z czekaniem sumuje się do transfer_top20_walkwait_w_am_mean_min"),
+    ("transfer_top20_wait_w_am_mean_min", "top_add_wait_am", "min", "table",
+     "20 zespołów z największą liczbą odjazdów: oczekiwane czekanie na linię docelową w jej kierunku, 7–9 (średnia "
+     "ważona liczbą kursów, potem średnia po zespołach); składowa, która z dojściem sumuje się do "
+     "transfer_top20_walkwait_w_am_mean_min"),
+    ("transfer_top20_walkwait_w_day_mean_min", "top_add_total_day", "min", "table",
+     "20 zespołów z największą liczbą odjazdów: typowa przesiadka 6–20, dojście + czekanie (średnia ważona liczbą "
+     "kursów, potem średnia po zespołach); równa sumie składowych transfer_top20_walk_w_day_mean_min "
+     "i transfer_top20_wait_w_day_mean_min"),
+    ("transfer_top20_walk_w_day_mean_min", "top_add_walk_day", "min", "table",
+     "20 zespołów z największą liczbą odjazdów: dojście z kierunkami, ruchy z czekaniem 6–20 (średnia ważona liczbą "
+     "kursów, potem średnia po zespołach); składowa sumy 6–20"),
+    ("transfer_top20_wait_w_day_mean_min", "top_add_wait_day", "min", "table",
+     "20 zespołów z największą liczbą odjazdów: oczekiwane czekanie na linię docelową w jej kierunku, 6–20 (średnia "
+     "ważona liczbą kursów, potem średnia po zespołach); składowa sumy 6–20"),
+    ("transfer_top20_walkwait_dir_am_median_min", "top_ww_dir_am", "min", "table",
      "20 zespołów z największą liczbą odjazdów: mediana (po zespołach) mediany dojścia (z kierunkami) + oczekiwanego "
-     "czekania na linię docelową, 7–9"),
+     "czekania, 7–9 (mediana; nie równa się sumie median dojścia i czekania)"),
     ("transfer_top20_walk_dir_median_min", "top_walk_dir", "min", "table",
      "20 zespołów z największą liczbą odjazdów: mediana dojścia między liniami z uwzględnieniem kierunków jazdy "
-     "(sieć piesza OSM, 5 km/h)"),
+     "(sieć piesza OSM, 5 km/h) (mediana; mediany składowych nie sumują się)"),
     ("transfer_top20_crossings_dir_median", "top_cross_dir", "przejść", "table",
      "20 zespołów z największą liczbą odjazdów: mediana liczby przejść przez jezdnię lub torowisko na dojściu "
-     "(z kierunkami)"),
+     "(z kierunkami) (mediana; mediany składowych nie sumują się)"),
     ("transfer_top20_wait_am_median_min", "top_wait_am", "min", "table",
-     "20 zespołów z największą liczbą odjazdów: mediana oczekiwanego czekania na linię docelową, 7–9"),
+     "20 zespołów z największą liczbą odjazdów: mediana oczekiwanego czekania na linię docelową, 7–9 (mediana; mediany składowych nie sumują się)"),
     ("transfer_top20_walkwait_am_median_w_min", "top_ww_am_w", "min", "table",
      "20 zespołów z największą liczbą odjazdów: dojście (najlepsza para słupków) + czekanie 7–9, mediana ważona "
-     "liczbą kursów pary linii"),
+     "liczbą kursów pary linii (mediana; mediany składowych nie sumują się)"),
     ("transfer_dep_share_walk_le2min", "dep_share_walk_le2", "%", "table",
      "Odjazdy w zespołach, w których mediana dojścia między liniami przy najlepszej parze słupków (bez kierunków) "
      "wynosi ≤ 2 min; udział odjazdów 6–20"),
     ("transfer_top20_walk_median_min", "top_walk", "min", "table",
-     "20 zespołów z największą liczbą odjazdów: mediana dojścia przy najlepszej parze słupków (bez kierunków)"),
+     "20 zespołów z największą liczbą odjazdów: mediana dojścia przy najlepszej parze słupków (bez kierunków) (mediana; mediany składowych nie sumują się)"),
     ("transfer_top20_walkwait_am_median_min", "top_ww_am", "min", "table",
-     "20 zespołów z największą liczbą odjazdów: dojście (najlepsza para słupków) + oczekiwane czekanie 7–9, mediana"),
+     "20 zespołów z największą liczbą odjazdów: dojście (najlepsza para słupków) + oczekiwane czekanie 7–9, mediana (mediana; mediany składowych nie sumują się)"),
     ("transfer_top20_stepfree_pair_share", "top_stepfree_share", "%", "table",
      "20 zespołów z największą liczbą odjazdów: odsetek par linii z dojściem bez schodów znalezionym w sieci OSM"),
     ("transfer_dep_share_walkdir_gt5min", "dep_share_walkdir_gt5", "%", "table",
@@ -213,10 +311,19 @@ def metric_rows(nodes: pd.DataFrame, pairs_by_agg: dict) -> list[dict]:
                     flag.append("tylko zespoły w masce pokrycia GTFS; coverage_share = udział odjazdów zespołów FUA w masce")
                 if key.startswith("top") and v["top_n"] < TOPN:
                     flag.append(f"tylko {v['top_n']} zespołów w obszarze")
+                if key.startswith("top_add_"):
+                    na = v[f"top_add_n_{key.rsplit('_', 1)[1]}"]
+                    if na < v["top_n"]:
+                        flag.append(f"średnia z {na} zespołów; pozostałe nie mają ruchu z dojściem i czekaniem w oknie")
                 flag.append("miara własna, nie AMPTI; składowe podawane osobno")
                 val = v[key]
+                if key.startswith("top_add_total_"):
+                    win = key.rsplit("_", 1)[1]
+                    pub = add_rounded(v[f"top_add_walk_{win}"], v[f"top_add_wait_{win}"])
+                else:
+                    pub = sig(val) if val is not None else None
                 rows.append({"agglomeration": agg, "domain": dom, "metric": mid, "label": label,
-                             "value": sig(val) if val is not None else None, "unit": unit, "grid": None,
+                             "value": pub, "unit": unit, "grid": None,
                              "source": src, "population_date": None, "timetable_date": T.DAY,
                              "coverage_share": sig(cov) if cov is not None else None, "flag": "; ".join(flag),
                              "tier": tier, "feed_variant": T.VARIANT, "population_grid": None})
@@ -243,7 +350,7 @@ def _round_df(df: pd.DataFrame) -> pd.DataFrame:
     for c in df.columns:
         if df[c].dtype.kind == "f" or df[c].dtype == object:
             df[c] = [sig(x) if isinstance(x, (float, np.floating)) else x for x in df[c]]
-    return df
+    return fix_trios(df)
 
 
 def write_csv(df: pd.DataFrame, path: Path) -> None:
@@ -346,12 +453,14 @@ def write_all(results: list[dict], t0: float) -> None:
     write_csv(top[["agglomeration", "node_id", "name", "n_stops", "diameter_m", "modes", "n_lines", "n_pairs",
                    "dep_per_h_day"] + COMPONENTS[:-1] + ["flag"]], T.QA / "top_nodes.csv")
     secs = {R["agg"]: round(R["seconds"], 1) for R in results}
-    ctx = {"tabs": tabs, "known": kn, "pairs_known": pk, "city": cs, "osm": ot, "timed": tm, "top": top,
+    add_check = check_additive(main, cs)
+    ctx = {"additive_check": add_check, "tabs": tabs, "known": kn, "pairs_known": pk, "city": cs, "osm": ot, "timed": tm, "top": top,
            "rows": rows, "n_layer": n_layer, "seconds": secs, "results": results}
     write_md(ctx)
     # _meta files
     inputs = ["osm_poland_pbf"] + sorted({f"gtfs_{f}" for a in T.AGGS for f in T.gs.feeds_for(a, T.VARIANT)})
     extra = {"code_version": T.CODE_VERSION, "timetable_date": T.DAY, "feed_variant": T.VARIANT,
+             "additive_check": add_check,
              "osm_date": "2026-11-22", "rules": T.RULES, "params": params(), "seconds_per_agglomeration": secs}
     write_meta(T.QA, "transfer_ease", inputs=inputs, started=t0,
                extra={**extra, "outputs": sorted(p.name for p in T.QA.iterdir() if p.name != "_meta.json")})

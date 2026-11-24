@@ -77,6 +77,13 @@ CRITICAL = {
     "cities": [
         "**Czytanie krytyczne.**",
         "",
+        "- **Typowa przesiadka 7–9 (wartości addytywne, pierwsze trzy kolumny).** W 20 największych zespołach: dojście "
+        "1,5–2,9 min + czekanie 5,6–15,6 min = 8,1 min (Warszawa) do 17,4 min (GZM). Czekanie stanowi 69–90 % sumy. W Poznaniu i GZM średnia jest z 19 zespołów: jeden z 20 największych nie ma ruchu z dojściem i czekaniem w oknie. "
+        "Średnie ważone wychodzą wyżej niż mediany w miastach z wieloma rzadkimi liniami (Łódź: czekanie 10,9 min wobec "
+        "mediany 7,6): rozkład czekania jest prawoskośny, a waga „przyjazdy A × odjazdy B” nie usuwa rzadkich linii "
+        "docelowych, bo częsta linia A daje dużą wagę także przesiadce na rzadką B (sprawdzono na Rondzie Rataje: "
+        "mediana czekania w ruchach 14,9 min, średnia 16,8, średnia ważona 11,0). To zamierzone: suma ma się sumować, "
+        "a mediana tego nie zapewnia.",
         "- **Najlepsza para słupków nie różnicuje miast.** W wariancie zgodnym z zadaniem (najlepsza para słupków dla "
         "każdej pary linii, bez kierunków) 91–98 % odjazdów przypada na zespoły z medianą dojścia ≤ 2 min, a mediana "
         "dla 20 największych węzłów to 0,0–1,4 min. Powód sprawdzono w danych: 44–73 % par linii ma najlepszą parę na "

@@ -52,7 +52,7 @@ CFG = load_config()
 AGGS = ["warszawa", "krakow", "wroclaw", "poznan", "lodz", "trojmiasto", "gzm"]
 DAY = CFG["reference_day"]
 VARIANT = "all"
-CODE_VERSION = "transfer-2026-11-24.1"
+CODE_VERSION = "transfer-2026-11-24.2"
 
 WALK_KMH = 5.0
 M_PER_MIN = WALK_KMH * 1000 / 60
@@ -186,14 +186,18 @@ def line_waits(v: pd.DataFrame) -> pd.DataFrame:
             continue
         cnt = dd.groupby("next_area").size()
         main = cnt.index[cnt >= MAIN_DIR_SHARE * cnt.sum()]
-        w = {}
+        w, per_dir = {}, {}
         for nm, win in (("am", WIN_AM), ("day", WIN_DAY)):
-            vals = [expected_wait(g.loc[g.next_area == k, "dep"].to_numpy(), win) for k in main]
-            vals = [x for x in vals if x is not None]
+            vals = []
+            for k in main:
+                x = expected_wait(g.loc[g.next_area == k, "dep"].to_numpy(), win)
+                per_dir.setdefault(int(k), {})[nm] = x
+                if x is not None:
+                    vals.append(x)
             w[nm] = float(np.mean(vals)) if vals else None
         rows.append({"area": area, "line": line, "n_dep_day": len(dd), "n_dirs": len(main),
                      "n_dep_am": int(((g.dep >= WIN_AM[0]) & (g.dep < WIN_AM[1])).sum()),
-                     "wait_am": w["am"], "wait_day": w["day"]})
+                     "wait_am": w["am"], "wait_day": w["day"], "dir_waits": per_dir})
     return pd.DataFrame(rows)
 
 
@@ -245,6 +249,9 @@ def run_rule(P: dict, rule_name: str, G) -> dict:
     alight_st = rows.groupby([rows.suid.map(area_of), rows.line]).suid.apply(lambda x: sorted(set(x)))
     waits = line_waits(v).set_index(["area", "line"])
     arr_dirs, dep_dirs = direction_groups(va, vd)
+    dir_waits = {(r.area, r.line): r.dir_waits for r in waits.reset_index().itertuples()}
+    waits = waits.drop(columns="dir_waits")
+    mov_rows = []
     sxy = s.set_index("suid")[["x", "y"]]
     srail = s.set_index("suid").rail
     snap_max = np.where(s.rail.to_numpy(), STOP_MAX_SNAP_M["rail"], STOP_MAX_SNAP_M["default"])
@@ -324,7 +331,11 @@ def run_rule(P: dict, rule_name: str, G) -> dict:
                         rec.update({"crossings": 0, "crossings_signal": 0, "crossings_tagged": 0,
                                     "crossings_value": 0, "crossings_track": 0, "steps": False, "tunnel": False,
                                     "bridge": False, "road_m": 0.0, "len_m": 0.0})
-                rec.update(directional(arr_dirs.get((area, a), []), dep_dirs.get((area, b), []), idx, paths, srail, sxy))
+                mv = []
+                rec.update(directional(arr_dirs.get((area, a), []), dep_dirs.get((area, b), []), idx, paths, srail, sxy,
+                                       dir_waits.get((area, b)), mv))
+                for walk_m_, wa_, wd_, wt_ in mv:
+                    mov_rows.append((area, walk_m_, wa_, wd_, wt_))
                 wb = waits.loc[(area, b)] if (area, b) in waits.index else None
                 rec["wait_am"] = None if wb is None else wb["wait_am"]
                 rec["wait_day"] = None if wb is None else wb["wait_day"]
@@ -335,6 +346,7 @@ def run_rule(P: dict, rule_name: str, G) -> dict:
     return {"agg": agg, "rule": rule_name, "stops": s[["suid", "cl", "area", "x", "y", "stop_name", "rail"]],
             "visits_dep": vd[["area", "line", "dep"]], "visits_dep_am": None, "al": al, "pairs": pairs,
             "timed": timed, "waits": waits.reset_index(), "node_all": node_all,
+            "movements": pd.DataFrame(mov_rows, columns=["area", "walk_m", "wait_am", "wait_day", "weight"]),
             "snap_unsnapped": int(np.isinf(sd).sum()), "n_stops": int(len(s))}
 
 
@@ -349,7 +361,8 @@ def _obs_wait(ta: np.ndarray, db: np.ndarray, walk_s: float) -> np.ndarray:
 def direction_groups(va: pd.DataFrame, vd: pd.DataFrame) -> tuple[dict, dict]:
     """Main arrival directions (by previous stop area) and departure directions (by next stop area) per (area, line).
 
-    arr: list of (prev_area, continuing next_area or -1, stops); dep: list of (next_area, stops)."""
+    arr: list of (prev_area, continuing next_area or -1, stops, arrivals 06-20);
+    dep: list of (next_area, stops, departures 06-20)."""
     arr, dep = {}, {}
     for (area, line), g in va.groupby(["area", "line"], sort=True):
         cnt = g.groupby("prev_area").size()
@@ -358,22 +371,24 @@ def direction_groups(va: pd.DataFrame, vd: pd.DataFrame) -> tuple[dict, dict]:
             h = g[g.prev_area == k]
             nxt = h.next_area.value_counts()
             nxt = int(nxt.sort_index().idxmax()) if len(nxt) else -1
-            out.append((int(k), nxt, sorted(set(h.s_in) | set(h.s_out))))
+            out.append((int(k), nxt, sorted(set(h.s_in) | set(h.s_out)), int(cnt[k])))
         arr[(area, line)] = out
     for (area, line), g in vd.groupby(["area", "line"], sort=True):
         cnt = g.groupby("next_area").size()
-        dep[(area, line)] = [(int(k), sorted(set(g.loc[g.next_area == k, "s_in"]) | set(g.loc[g.next_area == k, "s_out"])))
-                             for k in sorted(cnt.index[cnt >= MAIN_DIR_SHARE * cnt.sum()])]
+        dep[(area, line)] = [(int(k), sorted(set(g.loc[g.next_area == k, "s_in"]) | set(g.loc[g.next_area == k, "s_out"])),
+                              int(cnt[k])) for k in sorted(cnt.index[cnt >= MAIN_DIR_SHARE * cnt.sum()])]
     return arr, dep
 
 
-def directional(adirs: list, bdirs: list, idx: dict, paths: dict, srail, sxy) -> dict:
+def directional(adirs: list, bdirs: list, idx: dict, paths: dict, srail, sxy, bwait: dict | None = None,
+                movements: list | None = None) -> dict:
     """Direction-aware walk of an ordered pair: mean over the valid movements (A's main arrival direction x B's main
     departure direction), a movement being valid unless B leaves towards the stop area A continues to (no reason to
     change) or back towards where A came from.  Per movement the shortest pair of stops; rail-rail at one point = unknown."""
     walks, cross, steps, free, unknown = [], [], [], [], 0
-    for prev_a, next_a, sa in adirs:
-        for next_b, sb in bdirs:
+    bwait = bwait or {}
+    for prev_a, next_a, sa, n_a in adirs:
+        for next_b, sb, n_b in bdirs:
             if (next_a >= 0 and next_b == next_a) or (prev_a >= 0 and next_b == prev_a):
                 continue
             best = None
@@ -401,6 +416,9 @@ def directional(adirs: list, bdirs: list, idx: dict, paths: dict, srail, sxy) ->
                 unknown += int(rail_point)
                 continue
             walks.append(best[0]); cross.append(best[1]); steps.append(best[2]); free.append(np.isfinite(sf))
+            if movements is not None:
+                wd = bwait.get(next_b, {})
+                movements.append((best[0], wd.get("am"), wd.get("day"), float(n_a * n_b)))
     if not walks:
         return {"walk_dir_m": None, "crossings_dir": None, "steps_dir": None, "stepfree_dir": None,
                 "n_movements": 0, "n_movements_unknown": unknown}
@@ -485,6 +503,35 @@ def _wq(x: pd.Series, w: pd.Series, q: float = 0.5):
     return float(xs[np.searchsorted(c, q - 1e-12)])
 
 
+ADDITIVE = {"am": ("walk_w_am_min", "wait_w_am_min", "walkwait_w_am_min", "n_movements_am"),
+            "day": ("walk_w_day_min", "wait_w_day_min", "walkwait_w_day_min", "n_movements_day")}
+
+
+def additive(mv: pd.DataFrame | None) -> dict:
+    """Additive decomposition of a node on ONE set of rows: the direction-based movements (A's main arrival direction x
+    B's main departure direction, valid as in ``directional``) that have both a walk and an expected wait of B in that
+    departure direction in the window.  Weight of a movement = A's arrivals in that direction x B's departures in
+    that direction (06-20).  walk, wait = weighted means; total = weighted mean of walk + wait per movement, so
+    total = walk + wait up to floating point."""
+    out = {}
+    for win, (cw, ct, cs, cn) in ADDITIVE.items():
+        col = f"wait_{win}"
+        if mv is None or not len(mv):
+            out.update({cw: None, ct: None, cs: None, cn: 0})
+            continue
+        m = mv[pd.to_numeric(mv[col], errors="coerce").notna() & mv.walk_m.notna() & (mv.weight > 0)]
+        if m.empty:
+            out.update({cw: None, ct: None, cs: None, cn: 0})
+            continue
+        w = m.weight.to_numpy(float)
+        walk = m.walk_m.to_numpy(float) / M_PER_MIN
+        wait = m[col].to_numpy(float)
+        W = w.sum()
+        out.update({cw: float((w * walk).sum() / W), ct: float((w * wait).sum() / W),
+                    cs: float((w * (walk + wait)).sum() / W), cn: int(len(m))})
+    return out
+
+
 def node_table(R: dict, rule_name: str, geo: dict, mask) -> pd.DataFrame:
     agg = R["agg"]
     rr = R["rules"][rule_name]
@@ -508,6 +555,8 @@ def node_table(R: dict, rule_name: str, geo: dict, mask) -> pd.DataFrame:
     cids = tmp.groupby("area").cid.agg(lambda x: ";".join(sorted(x)))
     ncl = tmp.groupby("area").size()
     tp = pairs[~pairs.parallel] if len(pairs) else pairs
+    mv = rr.get("movements")
+    mvs = {a: g_ for a, g_ in mv.groupby("area", sort=True)} if mv is not None and len(mv) else {}
     counted = R["rules"][rule_name]["al"]
     rows = []
     for area, g in tp.groupby("area", sort=True):
@@ -558,6 +607,7 @@ def node_table(R: dict, rule_name: str, geo: dict, mask) -> pd.DataFrame:
             "walkwait_dir_am_median": _q(g.walk_dir_m / M_PER_MIN + pd.to_numeric(g.wait_am, errors="coerce"), .5)
             if "walk_dir_m" in g else None,
             "n_pairs_dir": int(g.walk_dir_m.notna().sum()) if "walk_dir_m" in g else 0,
+            **additive(mvs.get(area)),
             "stops_mean_walk_m": rr["node_all"].get(area, {}).get("mean_net_m"),
             "stops_mean_straight_m": rr["node_all"].get(area, {}).get("mean_straight_m"),
             "timed_pairs_checked": int(len(tm)), "timed_pairs": int(tm.timed.sum()) if len(tm) else 0,

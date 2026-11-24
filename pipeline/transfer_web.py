@@ -5,7 +5,9 @@
 One point per stop area inside an agglomeration's FUA (`in_fua`), with the components of the ease-of-transfer
 step side by side (they are never blended into a score).  Outside the GTFS coverage mask (`in_mask` false) a
 node is kept with `nodata: true` and without any component value, never with zeros.  Share fields are
-FRACTIONS 0..1 (as in the parquet), rounded to 2 decimals; times are minutes, rounded to 2 decimals.
+FRACTIONS 0..1 (as in the parquet), rounded to 2 decimals; times are minutes, rounded to 1 decimal.
+`walk_w`, `wait_w`, `walkwait_w`: the additive 07-09 trio (trip-weighted means); `walkwait_w` is written as the sum
+of the two rounded parts, so walk_w + wait_w = walkwait_w exactly in the file.
 Also upserts the two catalog entries `transfer_walk` and `transfer_wait` in results/web/catalog.json.
 If the file grows beyond MAX_BYTES, nodes with a single line and no transfer pair are dropped first, then
 the flag text is shortened.
@@ -25,7 +27,7 @@ WEB = RESULTS / "web"
 SRC = RESULTS / "layers" / "transfer_nodes.parquet"
 OUT = WEB / "transfer_nodes.geojson"
 QA = RESULTS / "qa" / "transfer_web"
-MAX_BYTES = 3_000_000
+MAX_BYTES = 4_000_000      # lazy-loaded and about 0.45 MB compressed
 
 # property name in the file -> column in the parquet
 COLUMNS = {
@@ -36,6 +38,8 @@ COLUMNS = {
     "steps": "steps_dir_share", "stepfree": "stepfree_dir_share",
     "wait_am": "wait_am_median", "wait_day": "wait_day_median",
     "walkwait_am": "walkwait_dir_am_median", "walkwait_am_w": "walkwait_am_median_w",
+    # additive trio, 07-09, trip-weighted means on one set of movements (walkwait_w = walk_w + wait_w)
+    "walk_w": "walk_w_am_min", "wait_w": "wait_w_am_min", "walkwait_w": "walkwait_w_am_min",
 }
 # kept for a node outside the mask: what the map needs to place and size it (not an ease-of-transfer component)
 NODATA_KEEP = ("lines", "dep_h", "dep_h_am")
@@ -48,8 +52,12 @@ FLAG_SHORT = {
     "kolej/metro: perony nierozróżnione w GTFS, przejście między pociągami nieznane": "perony kolejowe nierozróżnione",
 }
 
-RAMP_BLUE = ["#B9CEF3", "#8AACEB", "#5A86E0", "#1D4ED8", "#13308A"]
-RAMP_ORANGE = ["#F8D9A8", "#F0A35E", "#D9722B", "#A94A12", "#6B2C0A"]
+# Ramps for the dark basemap: the longest times are the brightest colour, so the nodes that cost most stand out.
+RAMP_TOTAL = ["#4B3B8F", "#8A3F9E", "#C8508C", "#F0845C", "#FCD76B"]
+RAMP_BLUE = ["#2F4B8F", "#3B6FB8", "#4C97D6", "#74BFE8", "#C4EBFA"]
+RAMP_ORANGE = ["#6B3A1E", "#A0522D", "#D4762C", "#F0A63C", "#FBE08A"]
+COUNTS = ("lines", "pairs", "pairs_excl")
+SHARES = ("cross_signal", "steps", "stepfree")
 
 
 def num(v, nd: int = 2):
@@ -69,9 +77,14 @@ def feature(row, short_flag: bool) -> dict:
     for prop, col in COLUMNS.items():
         if nodata and prop not in NODATA_KEEP:
             continue
-        v = num(row[col], 0 if prop in ("lines", "pairs", "pairs_excl") else 2)
+        v = num(row[col], 0 if prop in COUNTS else 2 if prop in SHARES else 1)
         if v is not None:
             p[prop] = v
+    # the total of the additive trio is the sum of the two rounded parts, so the file adds up exactly
+    if "walk_w" in p and "wait_w" in p:
+        p["walkwait_w"] = num(p["walk_w"] + p["wait_w"], 1)
+    else:
+        p.pop("walkwait_w", None)
     flag = row["flag"] or ""
     if flag:
         parts = [x.strip() for x in flag.split(";") if x.strip()]
@@ -109,8 +122,17 @@ def catalog_entries(cfg: dict) -> dict[str, dict]:
         "Informacja o drodze bez schodów zależy od kompletności OpenStreetMap, a zespoły poza pokryciem GTFS nie mają wartości."
     )
     return {
+        "transfer_total": {
+            **common, "title": "Przesiadki: typowa przesiadka (dojście + czekanie, 7–9)", "chip": "razem",
+            "property": "walkwait_w", "unit": "dojście + czekanie, min (średnia ważona liczbą kursów)",
+            "novalue_label": "bez wartości (brak przesiadek między różnymi kierunkami)",
+            "ramp": {"stops": [6, 9, 12, 16], "colors": RAMP_TOTAL,
+                     "labels": ["do 6 min", "6–9 min", "9–12 min", "12–16 min", "ponad 16 min"]},
+            "note": note.format(what="kolor pokazuje typową przesiadkę w godzinach 7–9: dojście do drugiej linii plus "
+                                     "czekanie na nią, jako średnią ważoną liczbą kursów (obie części sumują się do całości)"),
+        },
         "transfer_walk": {
-            **common, "title": "Przesiadki: dojście między liniami", "property": "walk_dir",
+            **common, "title": "Przesiadki: dojście między liniami", "chip": "dojście", "property": "walk_dir",
             "unit": "mediana dojścia między liniami, min",
             "novalue_label": "bez wartości (brak ruchów przesiadkowych z kierunkami)",
             "ramp": {"stops": [1, 2, 3, 5], "colors": RAMP_BLUE,
@@ -118,7 +140,7 @@ def catalog_entries(cfg: dict) -> dict[str, dict]:
             "note": note.format(what="kolor pokazuje medianę dojścia między liniami"),
         },
         "transfer_wait": {
-            **common, "title": "Przesiadki: czekanie na linię docelową (7–9)", "property": "wait_am",
+            **common, "title": "Przesiadki: czekanie na linię docelową (7–9)", "chip": "czekanie", "property": "wait_am",
             "unit": "oczekiwane czekanie, min",
             "ramp": {"stops": [3, 5, 10, 15], "colors": RAMP_ORANGE,
                      "labels": ["do 3 min", "3–5 min", "5–10 min", "10–15 min", "ponad 15 min"]},
@@ -130,17 +152,12 @@ def catalog_entries(cfg: dict) -> dict[str, dict]:
 def update_catalog(entries: dict[str, dict]) -> None:
     path = WEB / "catalog.json"
     cat = json.loads(path.read_text(encoding="utf-8"))
-    done, layers = set(), []
-    for l in cat["layers"]:
-        if l["id"] in entries:
-            layers.append({"id": l["id"], **entries[l["id"]]})
-            done.add(l["id"])
-        else:
-            layers.append(l)
-    for lid, e in entries.items():
-        if lid not in done:
-            layers.append({"id": lid, **e})
-    cat["layers"] = layers
+    # our entries go in as one block, in the order of `entries`, where the first of them was (or at the end)
+    first = next((i for i, l in enumerate(cat["layers"]) if l["id"] in entries), None)
+    others = [l for l in cat["layers"] if l["id"] not in entries]
+    at = len(others) if first is None else sum(1 for l in cat["layers"][:first] if l["id"] not in entries)
+    block = [{"id": lid, **e} for lid, e in entries.items()]
+    cat["layers"] = others[:at] + block + others[at:]
     write_json(path, cat)
 
 
