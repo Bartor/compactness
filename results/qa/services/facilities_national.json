@@ -1,0 +1,37 @@
+{
+ "schools_by_category": {
+  "Dorośli": 1134,
+  "Dzieci lub młodzież": 6936
+ },
+ "schools_by_type_main": {
+  "branżowa szkoła I stopnia": 1232,
+  "liceum ogólnokształcące": 2417,
+  "technikum": 1772
+ },
+ "schools_closed_institution": 29,
+ "schools_listed": 8070,
+ "schools_main": 5421,
+ "schools_special": 619,
+ "schools_with_xy": 7993,
+ "schools_zero_students": 1387,
+ "sor_active": 251,
+ "sor_geocoded": 247,
+ "sor_geocoded_fallback": [
+  "Szczecin, Alfreda Sokołowskiego 11",
+  "Brzozów 18",
+  "Trzebnica, Prusicka 53-55",
+  "Wejherowo 10",
+  "Ostrołęka, Aleja Jana Pawła II 120A",
+  "Poddębice, Mickiewicza 16",
+  "Warszawa, Żwirki i Wigury 63A",
+  "Kraków, Macieja Jakubowskiego 2"
+ ],
+ "sor_geocoded_gt_300m_from_osm_hospital": 7,
+ "sor_not_geocoded": [
+  "Olsztyn 37",
+  "Lubin 5-6",
+  "Nowy Targ, Szpitalna 14",
+  "Brzeg, Sergiusza Mossora 1"
+ ],
+ "sor_paediatric": 13
+}

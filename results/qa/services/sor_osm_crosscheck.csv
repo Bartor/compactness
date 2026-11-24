@@ -1,0 +1,37 @@
+agglomeration,osm,name,lon,lat,dist_to_register_sor_m,no_register_sor_within_500m
+warszawa,w1322338958,Centrum Medyczne im. Bitwy Warszawskiej 1920 roku,21.190095633333335,52.41470051388889,7918,True
+warszawa,w1388310338,Szpital Powiatowy w Mińsku Mazowieckim,21.577067496721316,52.1735746262295,63,False
+warszawa,w139777818,Szpital Powiatowy w Otwocku,21.263240723076926,52.09783055,13030,True
+warszawa,w1472493283,Samodzielny Publiczny Kliniczny Szpital Okulistyczny w Warszawie,21.029482842857142,52.25131334285714,44,False
+warszawa,w195829457,Szpital im. Zenona Tokarskiego,20.440767366101696,52.059682059322036,12670,True
+warszawa,w28797295,Uniwersyteckie Centrum Kliniczne WUM,20.983001743750002,52.209048637500004,0,False
+warszawa,w334924030,Mazowiecki Szpital Bródnowski,21.045128038888883,52.290795661111105,0,False
+warszawa,w402794261,Szpital Czerniakowski,21.037007696875,52.205476571874996,38,False
+krakow,w233092320,Krakowski Szpital Reumatologii i Rehabilitacji,19.913950424137926,50.057388974137936,2641,True
+krakow,w234723781,5. Wojskowy Szpital Kliniczny z Polikliniką SP ZOZ w Krakowie,19.934736329268294,50.07701716178861,0,False
+krakow,w24377001,Szpital Miejski Specjalistyczny imienia Gabriela Narutowicza,19.939293157894742,50.083022305263164,85,False
+krakow,w276803150,Szpital specjalistyczny imienia Stefana Żeromskiego,20.046952180392157,50.06576467058824,56,False
+krakow,w316891627,Uniwersytecki Szpital Dziecięcy,20.000683064102567,50.01177022307693,124,False
+krakow,w515275326,Samodzielny Publiczny Zakład Opieki Zdrowotnej MSW,19.912870658620694,50.071959193103446,1662,True
+krakow,w65368983,Szpital Specjalistyczny im. Ludwika Rydygiera w Krakowie,20.01865277931034,50.093172981034485,0,False
+wroclaw,w291860294,Dolnośląski Szpital Specjalistyczny im. T. Marciniaka,16.908484899999998,51.14329703235294,110,False
+wroclaw,w497170249,Powiatowy Zespół Szpitali im. Józefa Dietla,17.39075287586207,51.20852915172415,25068,True
+poznan,n13891635466,SOR,16.885199,52.4036213,33,False
+poznan,w1022897273,Centralny Zintegrowany Szpital Kliniczny – centrum medycyny interwencyjnej,16.884725033333332,52.403309876190484,20,False
+poznan,w418398956,Szpital Kliniczny im. Karola Jonschera,16.878822140000004,52.41212937,1042,True
+poznan,w423985988,Ginekologiczno-Położniczy Szpital Kliniczny,16.895998771200002,52.40956492640001,1020,True
+poznan,w830682092,Wielospecjalistyczny Szpital Miejski im. Józefa Strusia,16.996452681159422,52.390024949275364,73,False
+poznan,w996672890,Szpital Miejski im. Franciszka Raszei,16.91345277169811,52.41328277924528,2235,True
+lodz,n14268087334,Centralny Szpital Kliniczny Uniwersytetu Medycznego w Łodzi,19.5053247,51.7744831,0,False
+lodz,w180565116,Wojewódzki Szpital Specjalistyczny im. Marii Skłodowskiej – Curie,19.39013656428571,51.862296076190475,87,False
+lodz,w364725240,Wojewódzki Specjalistyczny Szpital im. dr. Władysława Biegańskiego,19.438419084415585,51.80070245844156,3228,True
+lodz,w440208426,Uniwersytecki Szpital Kliniczny nr 2 Uniwersytetu Medycznego w Łodzi,19.446642880555554,51.75977088055556,0,False
+trojmiasto,w131307128,Uniwersyteckie Centrum Kliniczne,18.62234970909091,54.36599324454545,172,False
+trojmiasto,w256959059,Szpital Dziecięcy Polanki,18.562636773584906,54.39531157169812,3374,True
+trojmiasto,w465744168,Szpital Św. Wojciecha,18.613356455999998,54.401946499999994,0,False
+trojmiasto,w660277657,Szpital im. Mikołaja Kopernika,18.63572206470588,54.35185674117647,234,False
+trojmiasto,w681983970,7 Szpital Marynarki Wojennej,18.566292248571433,54.393036975714274,3211,True
+gzm,w151875216,Szpital w Knurowie,18.667898982051284,50.22165865897436,16084,True
+gzm,w179950828,Górnośląskie Centrum Zdrowia Dziecka im. Jana Pawła II,18.95054480625,50.22350550625,0,False
+gzm,w197700278,Wojewódzki Szpital Specjalistyczny Megrez,19.007348066666665,50.113428683333346,10813,True
+gzm,w771716979,Wojewódzki Szpital Specjalistyczny nr 5,19.12288105263158,50.30305412105263,0,False

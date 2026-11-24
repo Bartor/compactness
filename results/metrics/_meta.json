@@ -1,6 +1,6 @@
 {
- "duration_s": 1.3,
- "git_sha": "4122a684bf49d7310bfe7a61d2edd631ccceb50a",
+ "duration_s": 1.2,
+ "git_sha": "850aa72a91aa6962a00b9955ff7015abee19e185",
  "inputs": {},
  "missing_inputs": [],
  "outputs": [
@@ -17,14 +17,15 @@
   "distribution": 504,
   "form": 671,
   "frequent": 4508,
+  "services": 616,
   "speed": 92,
   "supply": 760,
   "transfer": 462,
   "whatif": 288
  },
- "rows_panel": 1038,
- "rows_total": 15928,
- "run_at": "2026-11-24T22:04:42+01:00",
+ "rows_panel": 1136,
+ "rows_total": 16544,
+ "run_at": "2026-11-24T23:05:15+01:00",
  "step": "merge_metrics",
  "step_files": {
   "metrics_access.csv": "ece1118aa1432164b440a108597bddb0b1601ace3a6aa3393027b5eb9bc6d9e5",
@@ -43,6 +44,8 @@
   "metrics_form.json": "e3b536ca064b30e9cad4870d99625626a7efea4aef3504a6bbf3d683954200b5",
   "metrics_frequent.csv": "7740baefe80031518f2913c953d5b10a2510b790f5ebc9a06c4c1d16fcfef176",
   "metrics_frequent.json": "bae46bc5a1c1a3ec044483a98c0b04cc59391dc9b640ed2ef71269680221e828",
+  "metrics_services.csv": "2b99c363b3c14d25c8a6556e2cf0f7af66464f20b49d4770d265ae8a056acc38",
+  "metrics_services.json": "9b0f1583c68941c0eadce44430e72d39337bd291b79b530091087b9d088eedcb",
   "metrics_speed.csv": "5142d7b70d4a656b1eaf27cd7a1b90a02d3d79340110cdad3ffca2dfd5c5a36a",
   "metrics_speed.json": "4da06bc91f5e9b929de17db6cb63cf5f3a60d033b84f6b030fe3cafd04071b3a",
   "metrics_supply.csv": "3a4bed06d6dfcfe03e086832a85aeb9315c46699dfb19a4ac3b66d9c6f0dc7f9",

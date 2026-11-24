@@ -1,0 +1,46 @@
+{
+ "duration_s": 95.9,
+ "git_sha": "850aa72a91aa6962a00b9955ff7015abee19e185",
+ "inputs": {
+  "ghs_pop_2020_R3_C20": {
+   "data_date": "2020",
+   "downloaded_at": "2026-11-23T18:17:03+01:00",
+   "sha256": "1d9fb8c2e9576bec25fb18fab847901dc2f3b416377493b7920f83f0801c52c9"
+  },
+  "ghs_pop_2020_R4_C20": {
+   "data_date": "2020",
+   "downloaded_at": "2026-11-23T18:17:06+01:00",
+   "sha256": "200057fa8efc334e633a94971192c97b2318996b35a84cfe8fe652cdb170ba7a"
+  },
+  "nsp2021_grid_1km_shp": {
+   "data_date": "2021-03-31",
+   "downloaded_at": "2026-11-23T18:16:58+01:00",
+   "sha256": "815deb0fb369df11de0ff150dd14ce87fd875acf3d542da8d2db1dafc0791680"
+  },
+  "osm_poland_pbf": {
+   "data_date": "2026-11-22T21:20:48Z",
+   "downloaded_at": "2026-11-23T18:50:02+01:00",
+   "sha256": "8c6264a60df1a1a66b4ca3d68dd3f07c3be26237c86b97bff1aa5d3bb566dc1f"
+  }
+ },
+ "missing_agglomerations": [],
+ "missing_inputs": [],
+ "note": "travel time to nearest facility per covered origin cell (R5, min over facility points); age groups from NSP 2021 1 km grid disaggregated to 250 m (pipeline.agegrid)",
+ "outputs": [
+  "age_part1.csv",
+  "facility_counts.csv",
+  "services.md",
+  "services_age_check.csv",
+  "summary.json",
+  "tables.md"
+ ],
+ "reference_day": "2026-11-25",
+ "run_at": "2026-11-24T23:00:54+01:00",
+ "sources": {
+  "census_age": "nsp2021_grid_1km_shp",
+  "osm": "osm_poland_pbf",
+  "rprm": "data/raw/rprm_sor/SOURCE.json",
+  "rspo": "data/raw/rspo_secondary/SOURCE.json"
+ },
+ "step": "services"
+}

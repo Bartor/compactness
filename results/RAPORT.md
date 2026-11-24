@@ -1299,3 +1299,43 @@ definicji; kolejność miast jest pewniejsza. Użycie węzłów jest tylko umiar
 miast (Pruszków, Rumia, Junikowo, Łódź Widzew, Bytom Dworzec), a mało – przystanki w centrum na wspólnych ciągach
 wielu linii. Trasy z gmin z kontroli NIK P/25/019 dają w najlepszej minucie czasy zbliżone do NIK w Warszawie
 (mediana różnicy +1 min), dłuższe o ok. 8 min w Krakowie i o 10–22 min w Poznaniu (przyczyna niesprawdzona).
+
+## 25. Kto i do czego: grupy wieku, szkoły i SOR (2026-11-24)
+
+Pełny opis, wszystkie tabele i kontrole: [`qa/services/services.md`](qa/services/services.md). Liczby: `metrics/metrics_services.csv`; warstwa: `layers/services_cells.parquet`. Kod: `pipeline/agegrid.py`, `services.py`, `access_services.py`, `access_services_aggregate.py`. Daty: NSP 2021 (31.03.2021), rejestry RSPO i RPRM ze stanu 2026-11-24, rozkłady środa 2026-11-25, OSM 2026-11-22.
+
+**Dane.** Grupy wieku pochodzą z tej samej siatki spisowej 1 km co ludność (0–14, 15–64, 65+; drobniejszego podziału nie ma), rozdzielonej na komórki 250 m proporcjonalnie do ludności. Szkoły: 5 421 liceów, techników i szkół branżowych I st. dla młodzieży z rejestru RSPO (bez szkół specjalnych, bez szkół w zakładach poprawczych). SOR: 238 aktywnych oddziałów dla dorosłych z rejestru RPRM (234 z ustalonym położeniem, brakujące 4 leżą poza siedmioma obszarami); rejestr nie podaje współrzędnych, adresy dopasowano do OpenStreetMap. Czas: R5, środa 7:00–9:00 (dla SOR także 20:00–22:00), mediana z odjazdów co minutę, do najbliższej placówki, nie gorzej niż pieszo; starty w masce pokrycia GTFS.
+
+**Grupy wieku** (rdzeń; % osób z danej grupy przy częstej komunikacji i transport performance liczony od startów z tej grupy; obszar pokryty w nocie QA):
+
+| Aglomeracja | Kursy ≤ 10 min: wszyscy / 0–14 / 65+ | KZ 30, stosunek średnich: wszyscy / 0–14 / 65+ |
+|---|---|---|
+| Warszawa | 80,4 / 76,5 / 84,5 | 35,7 / 33,8 / 37,5 |
+| Kraków | 66,1 / 61,2 / 70,2 | 33,0 / 31,2 / 35,0 |
+| Wrocław | 75,8 / 70,4 / 79,0 | 29,4 / 26,5 / 30,9 |
+| Poznań | 66,0 / 62,6 / 69,0 | 31,7 / 30,2 / 32,0* |
+| Łódź | 69,6 / 66,1 / 71,6 | 28,3 / 27,5* / 28,0* |
+| Trójmiasto | 59,2 / 54,8 / 63,8 | 32,0 / 30,0 / 34,0 |
+| GZM | 45,6 / 43,8 / 47,6 | 22,3 / 21,8* / 22,7* |
+
+\* różnica < 1 pkt albo niepewna: nie interpretować.
+
+We wszystkich miastach osoby 65+ częściej niż ogół mieszkają przy częstej komunikacji (+2 do +5 pkt w rdzeniach, do +9 w obszarach pokrytych), a dzieci 0–14 rzadziej (−2 do −5 w rdzeniach, do −9 w obszarach pokrytych). Starsi mieszkają w starszych, gęstych osiedlach, rodziny z dziećmi częściej na obrzeżach. Ograniczenie: wewnątrz kwadratu 1 km udział grupy jest wszędzie taki sam, więc te różnice pochodzą tylko z różnic między kwadratami.
+
+**Szkoła i SOR** (rdzeń, % mieszkańców; w nawiasie obszar pokryty):
+
+| Aglomeracja | Szkoła ≤ 20 min | Szkoła ≤ 30 min | SOR ≤ 30 min | SOR ≤ 45 min | Bez SOR w 60 min |
+|---|---|---|---|---|---|
+| Warszawa | 90,8 (74,6) | 98,2 (85,1) | 74,8 (52,4) | 96,8 (73,7) | 0,8 (16,7) |
+| Kraków | 80,0 (59,4) | 95,1 (73,4) | 64,8 (44,9) | 88,0 (63,4) | 3,1 (27,0) |
+| Wrocław | 81,2 (67,8) | 96,0 (81,8) | 51,1 (41,9) | 90,6 (74,5) | 1,3 (16,5) |
+| Poznań | 87,7 (65,6) | 97,2 (78,9) | 74,8 (47,1) | 94,6 (66,6) | 1,1 (20,2) |
+| Łódź | 89,4 (74,7) | 96,6 (83,7) | 64,4 (53,7) | 93,9 (76,7) | 1,7 (15,7) |
+| Trójmiasto | 79,0 (74,8) | 94,4 (91,1) | 57,9 (49,3) | 92,7 (83,0) | 2,2 (5,8) |
+| GZM | 81,2 (74,6) | 94,3 (88,5) | 16,2 (13,4) | 44,8 (38,6) | 18,0 (27,9) |
+
+- Szkoła ponadpodstawowa jest blisko prawie wszędzie w rdzeniach (mediana 8–11 min); przy 15 min komunikacja dodaje do spaceru tylko 1–5 pkt. Najbliższa szkoła nie jest szkołą wybraną przez ucznia (brak rejonów, wybór profilu).
+- **Wynik SOR dla GZM nie nadaje się do porównań**: w FUA GZM rejestr RPRM ma 4 SOR dla dorosłych, w całym woj. śląskim 13; porównanie z OSM wskazuje szpitale, które mogą mieć SOR poza rejestrem (np. Megrez w Tychach). Do sprawdzenia przed publikacją.
+- Osoby 65+ mają SOR bliżej niż ogół (w obszarach pokrytych +5 pkt w medianie porównań), dzieci 0–14 szkołę dalej (−5 pkt). Część tych różnic utrzymuje się przy każdym rozmieszczeniu grupy wewnątrz kwadratów 1 km (Wrocław, Poznań, Kraków).
+
+**Nie zweryfikowano:** kompletności RPRM (zwłaszcza woj. śląskie), sposobu geokodowania RSPO, położenia wejść na SOR, licencji danych pobranych z interfejsów rspo.gov.pl i rprm.ezdrowie.gov.pl (strony jej nie podają; wpisy tych rejestrów w dane.gov.pl mają CC BY 4.0), czasów w wyszukiwarce połączeń.

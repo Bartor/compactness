@@ -1,0 +1,15 @@
+agglomeration,kind,main_region,main_fua,main_core,excluded_region,points_routed,fua_liceum ogólnokształcące,fua_technikum,fua_branżowa szkoła I stopnia,students_fua
+warszawa,school,610,442,260,251,443,299.0,92.0,51.0,152559.0
+warszawa,sor,26,15,10,2,26,,,,
+krakow,school,267,168,119,140,193,94.0,46.0,28.0,60714.0
+krakow,sor,14,7,5,1,14,,,,
+wroclaw,school,188,115,97,74,125,62.0,34.0,19.0,44215.0
+wroclaw,sor,7,5,4,0,7,,,,
+poznan,school,202,128,104,96,142,80.0,29.0,19.0,49237.0
+poznan,sor,11,5,4,1,11,,,,
+lodz,school,212,137,94,92,158,76.0,40.0,21.0,40487.0
+lodz,sor,12,8,5,2,12,,,,
+trojmiasto,school,181,140,108,55,127,75.0,39.0,26.0,50111.0
+trojmiasto,sor,6,5,4,0,6,,,,
+gzm,school,481,283,250,178,333,125.0,95.0,63.0,79835.0
+gzm,sor,13,4,4,3,13,,,,
