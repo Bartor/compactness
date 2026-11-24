@@ -1,8 +1,8 @@
-agglomeration,elevator_nodes,elevator_nodes_dead_end,footway_road_nodes,footway_road_nodes_tagged,footway_road_nodes_with_value,highway_crossing_nodes,highway_crossing_nodes_with_crossing_value,share_footway_road_nodes_tagged,share_footway_road_nodes_with_value,share_highway_crossing_with_value,paths_crossing_value_share,paths_crossing_signal_share,paths_road_centerline_share,share_elevator_dead_end
-warszawa,478,100,41979,34215,29528,55309,44960,81.51,70.34,81.29,94.28,58.66,21.01,20.92
-krakow,157,13,12193,9632,8346,14865,11604,79.0,68.45,78.06,89.46,52.64,9.874,8.28
-wroclaw,53,19,11998,8034,6598,13815,9506,66.96,54.99,68.81,87.69,54.75,9.557,35.85
-poznan,34,5,12753,10772,9761,20563,17747,84.47,76.54,86.31,93.49,41.21,15.69,14.71
-lodz,80,24,12159,8802,7472,15836,11592,72.39,61.45,73.2,91.6,54.07,17.81,30.0
-trojmiasto,125,30,13731,9842,8386,15116,12168,71.68,61.07,80.5,90.94,48.94,9.187,24.0
-gzm,85,28,23388,18229,15773,32223,22941,77.94,67.44,71.19,89.05,34.89,21.79,32.94
+agglomeration,elevator_nodes,elevator_nodes_dead_end,footway_road_nodes,footway_road_nodes_tagged,footway_road_nodes_with_value,footway_road_nodes_w6_class,highway_crossing_nodes,highway_crossing_nodes_with_crossing_value,share_footway_road_nodes_tagged,share_footway_road_nodes_with_value,share_highway_crossing_with_value,paths_crossing_value_share,paths_crossing_signal_share,paths_road_centerline_share,share_elevator_dead_end,share_footway_road_nodes_w6_class,paths_w6_scored_share,paths_crossings_n,paths_x_grade_share,paths_x_signal_share,paths_x_zebra_share,paths_x_unmarked_share,paths_x_unknown_share
+warszawa,478,100,41979,34215,29528,31747,55309,44960,81.51,70.34,81.29,94.28,58.66,21.01,20.92,75.63,97.14,105183,22.41,41.76,30.43,2.539,2.862
+krakow,157,13,12193,9632,8346,9122,14865,11604,79.0,68.45,78.06,89.46,52.64,9.874,8.28,74.81,94.95,50103,11.64,51.5,27.78,4.03,5.046
+wroclaw,53,19,11998,8034,6598,7034,13815,9506,66.96,54.99,68.81,87.69,54.75,9.557,35.85,58.63,92.67,40440,17.6,45.39,27.95,1.721,7.332
+poznan,34,5,12753,10772,9761,10057,20563,17747,84.47,76.54,86.31,93.49,41.21,15.69,14.71,78.86,94.82,19222,15.89,38.33,36.02,4.588,5.176
+lodz,80,24,12159,8802,7472,7814,15836,11592,72.39,61.45,73.2,91.6,54.07,17.81,30.0,64.27,91.68,32175,10.08,51.92,27.72,1.967,8.32
+trojmiasto,125,30,13731,9842,8386,9055,15116,12168,71.68,61.07,80.5,90.94,48.94,9.187,24.0,65.95,97.3,52032,25.8,38.01,28.35,5.145,2.7
+gzm,85,28,23388,18229,15773,16303,32223,22941,77.94,67.44,71.19,89.05,34.89,21.79,32.94,69.71,92.6,95670,17.71,22.72,47.77,4.399,7.403

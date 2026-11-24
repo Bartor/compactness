@@ -13,10 +13,10 @@
    "max_dev_share": 0.999
   }
  },
- "code_version": "transfer-2026-11-24.2",
- "duration_s": 917.4,
+ "code_version": "transfer-2026-11-24.3",
+ "duration_s": 1208.0,
  "feed_variant": "all",
- "git_sha": "0a69e9c0d8aa286277b0cb5d0461f9bbddef1dca",
+ "git_sha": "a3a290d31c62c58ce2f01b26de321c11b0b0ed68",
  "inputs": {
   "gtfs_gdansk": {
    "data_date": "20261123/20261207",
@@ -242,17 +242,52 @@
   "known_interchanges_rules.csv",
   "osm_tag_completeness.csv",
   "pairs_known_interchanges.csv",
+  "pulse_nodes.csv",
+  "timed_both15_mode_pairs.csv",
+  "timed_both15_nodes.csv",
   "timed_connections_possible.csv",
+  "timed_night_control.csv",
   "top_nodes.csv",
   "transfer.md"
  ],
  "params": {
   "crossing_group_gap_m": 40.0,
+  "detail_min_dep_h": 20.0,
   "dijkstra_limit_m": 2500.0,
+  "freq_headways_min": [
+   10.0,
+   15.0
+  ],
+  "gtt_band": {
+   "central": {
+    "penalty_min": 13.0,
+    "wait_weight": 1.47,
+    "walk_weight": 1.66
+   },
+   "high": {
+    "penalty_min": 18.0,
+    "wait_weight": 1.47,
+    "walk_weight": 1.66
+   },
+   "low": {
+    "penalty_min": 5.0,
+    "wait_weight": 1.47,
+    "walk_weight": 1.2
+   }
+  },
   "local_margin_m": 600.0,
   "main_dir_share": 0.2,
   "min_line_events": 7,
+  "night_max_headway_min": 60.0,
+  "night_window": "23:00-04:30",
   "parallel_share": 0.8,
+  "pulse": {
+   "bin_min": 3,
+   "cycle_min": 30,
+   "min_departures": 20,
+   "quantile": 0.99,
+   "rotations": 1000
+  },
   "stop_max_snap_m": {
    "default": 150.0,
    "rail": 300.0
@@ -263,6 +298,20 @@
    "ratio": 0.5
   },
   "top_n": 20,
+  "w6": {
+   "hi": {
+    "grade": 100.0,
+    "signal": 70.0,
+    "unmarked": 0.0,
+    "zebra": 30.0
+   },
+   "lo": {
+    "grade": 100.0,
+    "signal": 50.0,
+    "unmarked": 0.0,
+    "zebra": 30.0
+   }
+  },
   "wait_cap_min": 60.0,
   "walk_easy_min": 2.0,
   "walk_hard_min": 5.0,
@@ -290,15 +339,15 @@
    "link_rail_m": 350.0
   }
  },
- "run_at": "2026-11-24T14:36:32+01:00",
+ "run_at": "2026-11-24T19:04:30+01:00",
  "seconds_per_agglomeration": {
-  "gzm": 542.4,
-  "krakow": 285.7,
-  "lodz": 208.1,
-  "poznan": 175.0,
-  "trojmiasto": 195.5,
-  "warszawa": 523.4,
-  "wroclaw": 190.9
+  "gzm": 733.9,
+  "krakow": 387.8,
+  "lodz": 291.0,
+  "poznan": 243.2,
+  "trojmiasto": 271.5,
+  "warszawa": 707.0,
+  "wroclaw": 279.1
  },
  "step": "transfer_ease",
  "timetable_date": "2026-11-25"

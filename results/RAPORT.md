@@ -1140,6 +1140,66 @@ Dla trzech węzłów ocenionych metodą AMPTI w 2015 r. (Czekała i Bryniarska, 
 - Czas dojścia to 5 km/h po sieci OSM, bez czekania na światłach, schodów i tłumu; czekanie jest rozkładowe, w pełnych minutach.
 - Próba tras z fazy 3 nie zawiera miejsca przesiadki, więc znaczenie węzła opisują tylko linie i odjazdy.
 
+### 20.5 Rewizja po przeglądzie literatury (2026-11-24)
+
+Uzupełnienia według §21 (pozycja 8 tabeli priorytetów); wcześniejsze liczby i identyfikatory się nie zmieniły. Opis w nocie [`qa/transfer/transfer.md`](qa/transfer/transfer.md), sekcje 13–18; szczegóły 1 757 węzłów: `web/transfer_detail/`; nowy kod: `pipeline/transfer_detail.py`. Z metody AMPTI pochodzi tylko skala W6 dla przejść; pasmo uogólnionego czasu przesiadki to przeliczenie składowych według opublikowanych wag, nie ranking.
+
+Czekanie stanowi 69–90 % typowej przesiadki, więc o wyniku decyduje częstotliwość kursów, nie układ przystanków.
+Rewizje po przeglądzie potwierdzają to z trzech stron:
+
+| Aglomeracja | Czekanie przy losowym przyjściu, min | Czekanie po przyjeździe linii dowożącej, min | 90. percentyl, min | Uogólniony czas przesiadki, min równoważne jeździe | Przejścia W6, % | Przesiadki między liniami co ≤ 10 / ≤ 15 min, % |
+|---|---|---|---|---|---|---|
+| Warszawa | 5,6 | 5,6 | 10,6 | 16,3–30,5 | 70 | 10,4 / 32,8 |
+| Kraków | 8,2 | 8,2 | 14,3 | 19,6–33,5 | 59 | 1,2 / 24,5 |
+| Wrocław | 8,4 | 8,3 | 13,4 | 19,1–32,8 | 64 | 0,1 / 28,3 |
+| Poznań | 7,1 | 7,1 | 12,7 | 17,5–31,2 | 61 | 6,7 / 22,3 |
+| Łódź | 10,9 | 10,9 | 17,5 | 23,4–37,4 | 62 | 0,0 / 17,2 |
+| Trójmiasto | 10,5 | 10,4 | 21,7 | 24,0–38,3 | 66 | 0,7 / 6,7 |
+| GZM | 15,6 | 15,6 | 28,8 | 30,1–44,0 | 54 | 0,1 / 1,2 |
+
+Kolumny czekania, P90 i pasma dotyczą 20 największych zespołów w godzinach 7–9; W6 i udziały — wszystkich ruchów
+w obszarze pokrytym. W6 przy sygnalizacji liczonej jako 70 % (przy 50 % wynik jest o 6–14 punktów niższy).
+
+- **Czekanie po rzeczywistym przyjeździe równa się czekaniu przy losowym przyjściu** (różnica od −0,07 do +0,01 min).
+  Przyjazdy linii dowożących trafiają w losowe miejsce odstępu linii odjazdowej: rozkłady nie są ani skomunikowane,
+  ani rozjechane. P90 pokazuje koszt pechowej przesiadki: od 10,6 min w Warszawie do 28,8 min w GZM.
+- **Pasmo uogólnionego czasu** (dojście × 1,2–1,66 + czekanie × 1,47 + kara 5 / 13 / 18 min; Wardman 1998, Ortelli
+  i in. 2026, Jara-Díaz i in. 2022): stała kara jest tego samego rzędu co ważone czekanie, ważone dojście dodaje 2–5
+  min, a różnica między miastami (do 14 min) to prawie w całości różnica czekania.
+- **Przesiadek między częstymi liniami jest mało.** Obie linie co ≤ 10 min w szczycie: 10 % ruchów w Warszawie, 7 % w
+  Poznaniu, poniżej 1,5 % w pozostałych miastach; co ≤ 15 min: 17–33 %, ale tylko 7 % w Trójmieście i 1 % w GZM.
+- **Przejścia.** Tagi OSM pozwalają ocenić w skali W6 92–97 % przejść na dojściach. Najniższy wynik ma GZM (54 %;
+  23 % przejść z sygnalizacją, 48 % zebr), najwyższy Warszawa (70 %; dużo przejść podziemnych).
+- **Koordynacja rozkładów: w dzień nic nie wykryto.** Test ograniczono do par linii kursujących co ≥ 15 min (tam
+  skomunikowanie ma sens): 11–13 % par wypada w najlepszych 10 % przesunięć rozkładu, czyli 1–3 punkty ponad
+  przypadek, a zysk czekania to 0,2–1,1 min. Test pulsu w węźle (czy odjazdy rzadkich linii skupiają się w tych
+  samych minutach) wskazuje w dzień 0,4–1,0 % zespołów, tyle co przypadek. Kontrola dodatnia działa: w nocy ten sam
+  test znajduje spotkania linii nocnych na Dworcu Centralnym w Warszawie (61 % odjazdów w 3 minutach cyklu, o :15 i
+  :45), na Dworcu Głównym we Wrocławiu, przy Kościuszki-6 Sierpnia w Łodzi i na Moście Teatralnym w Poznaniu.
+
+**Na mapie** jest jedna warstwa punktowa zespołów przystanków, kolorowana typową przesiadką (dojście + czekanie, 7–9);
+samo dojście i samo czekanie to alternatywne widoki tej samej warstwy. Wielkość punktu to liczba odjazdów na godzinę.
+Dla 1 757 zespołów z co najmniej 20 odjazdami na godzinę przygotowano szczegóły: przystanki, drogi piesze z
+przejściami w klasach W6 i schodami, macierz przesiadek między liniami i kierunkami, dziesięć najczęstszych
+przesiadek (widok węzła na stronie: do podłączenia).
+
+**Znane węzły.** We wszystkich znanych węzłach czekanie po przyjeździe równa się losowemu z dokładnością do 0,5 min. P90 przekracza
+30 min na Krakowie Głównym, Borku Fałęckim, Gdańsku Głównym, Wrzeszczu i Sosnowcu Głównym. W6 jest wysoki tam, gdzie
+przechodzi się przejściami podziemnymi (Warszawa Centrum 93 %, Sosnowiec Główny 100 %), niski tam, gdzie po zebrach
+(Rondo Mogilskie 34 %, Dworzec Główny Zachód w Krakowie 30 %).
+
+**Ograniczenia dodane w rewizji.**
+
+- Zdanie o skomunikowaniach z §20.4 zastępuje: „W dzień koordynacji rozkładów nie wykryto (test par
+  linii rzadkich i test pulsu w węźle); w nocy oba testy ją wykrywają. Rozkład koduje spotkanie linii jako przyjazd =
+  odjazd w tej samej minucie, bez czasu postoju, więc test par z dojściem jest na nie mniej czuły niż test pulsu.”
+- Skala W6 z OSM: sygnalizacja jako 70 % albo 50 % (OSM nie mówi o kolizjach ze skrętami); 3–8 % przejść bez klasy;
+  kładki nad torami nie są wykrywane; przejścia podziemne stacji liczą się jako bezkolizyjne. Zgodności z terenem
+  nie sprawdzano.
+- Pasmo uogólnionego czasu używa wag z badań brytyjskich, szwajcarskich i chilijskich; polskich wag nie znaleziono.
+- Czekanie po przyjeździe liczone z czasu przyjazdu na pierwszy słupek linii w zespole i odjazdu z ostatniego (różnica
+  do 1–2 min przy liniach z dwoma słupkami w zespole).
+
 ## 21. Przegląd literatury i wynikające z niego zmiany (2026-11-24)
 
 Pełny przegląd: [`../reports/Urban transit metrics research review.md`](../reports/Urban%20transit%20metrics%20research%20review.md).

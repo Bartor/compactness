@@ -6,6 +6,8 @@ Punkt odniesienia z literatury, nie specyfikacja: prace o „karze za przesiadk�
 
 Wszystkie czasy dojścia są z sieci pieszej OSM przy 5 km/h, bez czasu na światłach, schodach i w tłumie; czekanie jest rozkładowe, w pełnych minutach. Wynik nie mówi nic o punktualności, zatłoczeniu ani informacji dla pasażerów.
 
+**Rewizje po przeglądzie literatury (2026-11-24):** czekanie na przesiadkę po rzeczywistym przyjeździe, pasmo uogólnionego czasu przesiadki z opublikowanych wag, przejścia w skali AMPTI W6, udział ruchów „częste × częste” i test skomunikowań ograniczony do linii rzadkich z kontrolą dodatnią; reguły 10–15, sekcje 13–18 i dodatkowa tabela w sekcji 4. Wcześniejsze kolumny i miary nie zmieniły definicji.
+
 ## 1. Dane i daty
 
 - Rozkłady: środa 2026-11-25, wszystkie feedy (wariant „all”), kursy po regułach `pipeline/gtfs_service.py` (deduplikacja, przycięcie kolei).
@@ -27,6 +29,12 @@ Wszystkie czasy dojścia są z sieci pieszej OSM przy 5 km/h, bez czasu na świa
 7. **Znaczenie węzła.** Linie, pary, odjazdy na godzinę (wszystkie linie, 6–20 i 7–9).
 8. **Kolej i metro.** Stacje kolei mają w feedzie ogólnopolskim jeden punkt na wszystkie stanowiska (np. Wrocław Główny: 10 `stop_id` w jednym punkcie), więc położenie peronów nie jest znane. Przesiadka kolej–kolej na takiej stacji ma dojście „brak danych” (kolumna `n_pairs_platform_unknown`), czekanie jest liczone. Przesiadka kolej–tramwaj lub kolej–autobus to dojście do punktu stacji (zwykle budynek lub środek peronów; przypięcie do sieci do 300 m), nie do konkretnego peronu: dla dużych stacji to dolna granica rzeczywistego dojścia o nieznanej wielkości. Metro warszawskie ma osobne punkty peronów, ale ich wejścia i poziomy są w OSM tak dokładne, jak je zmapowano.
 9. **Możliwe skomunikowania (przybliżone).** Dla linii docelowej kursującej średnio co ≥ 15 min (6–20, na wybranym słupku) porównano rzeczywiste czekanie pasażerów linii A (po dojściu) z tym samym czekaniem przy rozkładzie A przesuniętym o 1, 2, …, h−1 min. Para jest kandydatem, gdy rzeczywisty rozkład daje czekanie krótsze niż co najmniej 90 % przesunięć i najwyżej połowę czekania przy losowym przyjściu. Bez koordynacji ok. 10 % par mieści się w najlepszych 10 % przesunięć przypadkiem, więc pojedynczy kandydat nie dowodzi skomunikowania; liczy się nadwyżka ponad 10 % w skali miasta. Nie rozpoznaje się kursów przechodzących (ten sam pojazd zmienia numer linii), które wyglądają jak idealne skomunikowanie.
+10. **Czekanie na przesiadkę (dodane po przeglądzie literatury).** Dla każdego ruchu (kierunek przyjazdu A × kierunek odjazdu B) i każdego rozkładowego przyjazdu A w oknie: czas od przyjazdu A plus dojścia do najbliższego odjazdu B w tym kierunku (obcięty do 60 min). Na ruch: średnia, mediana i 90. percentyl; na zespół: mediana i 90. percentyl ważone (każdy przyjazd A z wagą liczby odjazdów B w tym kierunku 6–20, więc ruch waży przyjazdy A × odjazdy B jak w sumie addytywnej) oraz średnia ważona kursami na tym samym zbiorze ruchów co suma addytywna. Czas przyjazdu A to przyjazd na pierwszy słupek linii w zespole, czas odjazdu B to odjazd z ostatniego; przy pełnych minutach w GTFS odjazd B w tej samej minucie co przyjazd A (po dojściu 0) liczy się jako złapany. Oczekiwane czekanie przy losowym przyjściu (reguła 6) zostaje bez zmian obok.
+11. **Uogólniony czas przesiadki (pasmo).** Dojście × a + czekanie × b + stała kara P, w minutach równoważnych jeździe, z typowej przesiadki 7–9 (składowe addytywne). Wariant niski: a = 1,20, b = 1,47, P = 5 min; środkowy: a = 1,66, b = 1,47, P = 13 min; wysoki: a = 1,66, b = 1,47, P = 18 min. Źródła wag: Wardman 1998 (ITS Leeds WP 525: dojście 1,66, czekanie 1,47 minuty jazdy), Ortelli i in. 2026 (STRC: dojście 1,21, kara resztowa 5–9 min), Jara-Díaz i in. 2022 (zakres kary do planowania 13–18 min). To przeliczenie składowych według opublikowanych wag, nie nowy wskaźnik: pasmo stoi obok składowych i nie służy do układania węzłów w ranking.
+12. **Przejścia w skali AMPTI W6.** Każde przejście na dojściu dostaje klasę W6 (Czekała i Bryniarska, TMiR 6/2017: bezkolizyjne 100 %, z sygnalizacją bez kolizji ze skrętami 70 %, z kolizjami 50 %, zebra bez sygnalizacji 30 %, niewyznakowane 0 %) według tagów OSM (tabela w sekcji 15). Ruch: średnia z ocenionych przejść; zespół: średnia ważona kursami po ruchach z co najmniej jednym ocenionym przejściem. OSM nie mówi, czy sygnalizacja ma kolizje ze skrętami, więc są dwie wartości: z sygnalizacją jako 70 % i jako 50 %. Ruch bez żadnego przejścia nie ma oceny W6 (jest w zwykłej liczbie przejść jako 0).
+13. **Ruchy „częste × częste”.** Ruch, w którym linia A w swoim kierunku przyjazdu i linia B w swoim kierunku odjazdu kursują w godzinach 7–9 średnio co 10 min lub częściej (co najmniej 12 kursów w 2 h); drugi próg 15 min (co najmniej 8 kursów). Udział liczony po ruchach, bez wag.
+14. **Test skomunikowań, wersja po przeglądzie.** (a) Test par z reguły 9 ograniczony do par, w których obie linie kursują średnio co ≥ 15 min (6–20): A na słupku wysiadania, B na słupku wsiadania; wynik po miastach, rodzajach środków i węzłach z jednostronnym testem dwumianowym wobec 10 % z przypadku. (b) Test pulsu w węźle: odjazdy linii kursujących co ≥ 15 min złożone na cykl 30 min (pełne minuty); statystyka = udział odjazdów w najgęstszych 3 kolejnych minutach; rozkład odniesienia = te same rozkłady linii przesunięte każdy o losową liczbę minut (1000 losowań), więc jedna regularna linia ani kilka niezależnych nie daje pulsu; puls, gdy wynik przekracza kwantyl 0,99 odniesienia. Test nie wymaga dojścia ani czasu przyjazdu. (c) Kontrola dodatnia: oba testy w oknie nocnym 23:00–04:30 dla linii kursujących tam co 15–60 min.
+15. **Szczegóły węzła na mapę.** Zespoły z co najmniej 20 odjazdami na godzinę (6–20), w FUA i w masce GTFS: słupki, drogi piesze najlepszej pary słupków każdego ruchu (geometria z sieci OSM z przejściami w klasach W6 i schodami), macierz ruchów i dziesięć najcięższych ruchów (`pipeline/transfer_detail.py`).
 
 ## 3. Wyniki dla miast (reguła główna)
 
@@ -134,6 +142,38 @@ Pierwsze trzy kolumny wartości są addytywne: liczone na jednym zbiorze ruchów
 - **Piotrkowska Centrum: tylko tramwaj.** W zespole nie ma przystanków autobusowych (nie sprawdzano, gdzie zatrzymują się najbliższe autobusy); 13 linii tramwajowych, 79 % par na wspólnym słupku.
 - **Warszawa Centrum: 50 % ruchów z drogą bez schodów,** choć stacja metra ma windy. 20 węzłów windy w promieniu 400 m, z czego 6 to ślepe końce; nie rozstrzygnięto, czy brakuje windy, czy połączenia w OSM.
 - **Katowice Rynek: 36 linii, czekanie 15,0 min.** Sprawdzono: większość z 36 linii to autobusy kursujące w szczycie co ok. 30 min (czekanie 15 min), tramwaje mają 5,8–7,5 min; ważona kursami 9,4 min.
+
+**Znane węzły po rewizjach** (7–9; czekanie losowe i na przesiadkę jako średnie ważone kursami na tym samym zbiorze ruchów, mediana i P90 czekania na przesiadkę ważone, pasmo uogólnionego czasu w minutach równoważnych jeździe, W6 przy sygnalizacji 70 % i 50 %):
+
+| Węzeł | Czekanie przy losowym przyjściu, min | Czekanie na przesiadkę, średnia, min | Czekanie na przesiadkę, mediana, min | Czekanie na przesiadkę, P90, min | Uogólniony czas: niski, min | środkowy, min | wysoki, min | Przejścia na ruch, średnia | W6, % (sygn. 70) | W6, % (sygn. 50) | Ruchy częste × częste (≤ 10 min), % |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| Centrum | 5,5 | 5,5 | 3,3 | 12,2 | 16,9 | 26,3 | 31,3 | 0,3 | 93 | 91 | 20 |
+| Dworzec Centralny | 7,3 | 7,3 | 3,9 | 12,9 | 19,4 | 28,8 | 33,8 | 1,1 | 81 | 74 | 14 |
+| Dworzec Wileński | 4,7 | 4,7 | 3,9 | 9,9 | 14,6 | 23,6 | 28,6 | 0,4 | 87 | 79 | 33 |
+| Dworzec Gdański | 5,2 | 5,2 | 2,7 | 9,5 | 16,6 | 26,1 | 31,1 | 0,7 | 81 | 80 | 26 |
+| Rondo Mogilskie | 6,1 | 6,0 | 4,9 | 12,5 | 16,8 | 25,8 | 30,8 | 1,1 | 34 | 34 | 6 |
+| Dworzec Główny Zachód (Basztowa, Pawia) | 3,8 | 4,0 | 4,3 | 7,6 | 12,1 | 20,7 | 25,7 | 0,8 | 30 | 30 | 29 |
+| Kraków Główny (kolej) | 13,3 | 13,8 | 7,9 | 40,7 | 28,4 | 37,9 | 42,9 | 0,5 | 77 | 77 | 0 |
+| Rondo Grunwaldzkie | 10,2 | 10,2 | 6,9 | 20,0 | 22,0 | 30,8 | 35,8 | 1,4 | 70 | 50 | 1 |
+| Podgórze SKA | 9,2 | 9,1 | 6,2 | 16,0 | 20,4 | 29,2 | 34,2 | 1,2 | 65 | 47 | 1 |
+| Borek Fałęcki | 14,7 | 14,9 | 8,9 | 39,9 | 29,4 | 38,5 | 43,5 | 0,7 | 72 | 59 | 0 |
+| Galeria Dominikańska | 7,3 | 7,1 | 6,0 | 11,5 | 18,1 | 27,1 | 32,1 | 0,9 | 82 | 72 | 1 |
+| pl. Grunwaldzki | 7,2 | 7,1 | 6,4 | 12,4 | 17,2 | 25,8 | 30,8 | 0,6 | 82 | 70 | 0 |
+| Dworzec Główny | 10,8 | 10,7 | 6,9 | 21,5 | 24,7 | 34,2 | 39,2 | 1,2 | 64 | 55 | 0 |
+| Rondo Kaponiera | 6,1 | 6,0 | 5,6 | 11,3 | 16,6 | 25,7 | 30,7 | 1,1 | 68 | 63 | 30 |
+| Poznań Główny / Dworzec Zachodni | 9,8 | 9,7 | 6,0 | 18,6 | 22,5 | 31,7 | 36,7 | 1,0 | 80 | 69 | 11 |
+| Rondo Rataje | 11,0 | 11,0 | 6,5 | 25,9 | 22,4 | 30,9 | 35,9 | 0,9 | 66 | 48 | 4 |
+| Piotrkowska Centrum | 7,7 | 7,9 | 7,8 | 13,8 | 18,1 | 26,8 | 31,8 | 0,9 | 62 | 46 | 0 |
+| Łódź Fabryczna | 11,6 | 11,7 | 8,5 | 25,9 | 24,9 | 33,9 | 38,9 | 1,3 | 59 | 45 | 0 |
+| Łódź Kaliska | 11,0 | 10,9 | 8,1 | 19,9 | 23,8 | 32,8 | 37,8 | 1,1 | 73 | 56 | 0 |
+| Gdańsk Główny | 12,2 | 12,3 | 6,6 | 32,7 | 26,2 | 35,4 | 40,4 | 0,7 | 82 | 75 | 1 |
+| Gdańsk Wrzeszcz | 12,7 | 12,7 | 6,9 | 33,8 | 27,3 | 36,6 | 41,6 | 1,9 | 50 | 47 | 1 |
+| Gdynia Główna | 11,5 | 11,4 | 7,8 | 23,8 | 27,1 | 37,1 | 42,1 | 1,4 | 70 | 64 | 0 |
+| Katowice Rynek | 9,8 | 9,5 | 8,1 | 20,1 | 22,3 | 31,5 | 36,5 | 1,7 | 65 | 48 | 1 |
+| Katowice Dworzec | 14,7 | 14,7 | 11,7 | 28,1 | 29,5 | 38,6 | 43,6 | 0,6 | 74 | 71 | 0 |
+| Sosnowiec Główny | 16,8 | 16,6 | 12,6 | 39,0 | 30,9 | 39,3 | 44,3 | 0,0 | 100 | 100 | 0 |
+
+**Czytanie.** We wszystkich znanych węzłach czekanie na przesiadkę równa się czekaniu przy losowym przyjściu z dokładnością do 0,5 min, także na dworcach z liniami podmiejskimi (Kraków Główny 13,8 wobec 13,3 min, Katowice Dworzec 14,7 wobec 14,7). P90 przekracza 30 min na Krakowie Głównym, Borku Fałęckim, Gdańsku Głównym, Wrzeszczu i Sosnowcu Głównym: tam co dziesiąta przesiadka to czekanie na rzadką linię. Pasmo uogólnionego czasu wynosi od 12,1–25,7 min (Dworzec Główny Zachód w Krakowie) do 30,9–44,3 min (Sosnowiec Główny). Wysoki W6 w węzłach z przejściami podziemnymi (Centrum 93 %, Dworzec Wileński 87 %, Sosnowiec 100 %) i niski tam, gdzie przechodzi się po zebrach (Rondo Mogilskie 34 %, Dworzec Główny Zachód 30 %). Ruchów częste × częste (≤ 10 min) jest najwięcej w Warszawie (do 33 % na Dworcu Wileńskim) i na Rondzie Kaponiera (30 %).
 
 ## 5. Porównanie z oceną AMPTI dla Krakowa
 
@@ -282,4 +322,269 @@ Plik `results/qa/access/transfers_sample_<agg>.csv` zawiera dla każdej z 200 pa
 - Tabele w tym katalogu: `known_interchanges.csv`, `known_interchanges_rules.csv`, `pairs_known_interchanges.csv`, `city_summary_rules.csv`, `osm_tag_completeness.csv`, `top_nodes.csv`, `timed_connections_possible.csv`.
 - Kod: `pipeline/transfer_ease.py`, `transfer_osm.py`, `transfer_walk.py`, `transfer_report.py`, `transfer_md.py`, `transfer_text.py`; reguła `transfer_ease` w `Snakefile`.
 - Czas obliczeń: w `_meta.json` tego katalogu (`seconds_per_agglomeration`, `duration_s`); nie w tej nocie, żeby była identyczna przy każdym przebiegu.
+- Po rewizjach: `timed_both15_mode_pairs.csv`, `timed_both15_nodes.csv`, `timed_night_control.csv`, `pulse_nodes.csv`; szczegóły węzłów `results/web/transfer_detail/`; kod `pipeline/transfer_detail.py`, `transfer_md_rev.py`.
+
+## 13. Czekanie na przesiadkę po rzeczywistym przyjeździe (rewizja 1)
+
+Reguła 10. Obszar pokryty, 20 zespołów z największą liczbą odjazdów, okno 7–9. Czekanie przy losowym przyjściu i na przesiadkę to średnie ważone kursami w zespole, potem średnia po zespołach; mediana i P90 to ważone wartości zespołu, potem mediana po zespołach.
+
+| Aglomeracja | Dojście, min | Czekanie przy losowym przyjściu, min | Czekanie na przesiadkę, min | Różnica (przesiadka − losowe), min | Czekanie na przesiadkę: mediana, min | Czekanie na przesiadkę: P90, min |
+|---|---|---|---|---|---|---|
+| Warszawa | 2,5 | 5,6 | 5,6 | -0,01 | 4,0 | 10,6 |
+| Kraków | 2,1 | 8,2 | 8,2 | -0,01 | 6,3 | 14,3 |
+| Wrocław | 1,5 | 8,4 | 8,3 | -0,07 | 6,9 | 13,4 |
+| Poznań | 1,6 | 7,1 | 7,1 | -0,05 | 6,0 | 12,7 |
+| Łódź | 2,1 | 10,9 | 10,9 | 0,01 | 8,0 | 17,5 |
+| Trójmiasto | 2,9 | 10,5 | 10,4 | -0,07 | 7,7 | 21,7 |
+| GZM | 1,8 | 15,6 | 15,6 | -0,04 | 11,7 | 28,8 |
+
+**Czytanie.** Czekanie po rzeczywistym przyjeździe linii dowożącej jest średnio takie samo jak czekanie przy losowym przyjściu: różnica w 20 największych węzłach wynosi od −0,07 do +0,01 min w każdym mieście. Rozkłady nie są więc ani skomunikowane, ani „rozjechane”: przyjazd linii dowożącej trafia w losowe miejsce odstępu linii odjazdowej. Sprawdzono, że to nie artefakt definicji: na tym samym zbiorze ruchów mediana czekania na przesiadkę jest wyraźnie niższa od średniej (Warszawa 4,0 wobec 5,6 min, GZM 11,7 wobec 15,6 min), a 90. percentyl prawie dwa razy wyższy (10,6–28,9 min), czyli rozkład jest prawoskośny tak, jak przy przyjściu losowym. Wniosek z sekcji 3 się nie zmienia: o długości przesiadki decyduje częstotliwość linii docelowej.
+- P90 pokazuje to, czego średnia nie pokazuje: w Trójmieście i GZM co dziesiąta przesiadka w największych węzłach kosztuje ponad 21 i 28 min czekania, w Warszawie 10,6 min.
+- Ograniczenie: czasy z rozkładu w pełnych minutach, bez opóźnień; przyjazd linii A to przyjazd na pierwszy słupek jej przejazdu przez zespół, odjazd B to odjazd z ostatniego, więc dla linii z dwoma słupkami w zespole czas może być przesunięty o 1–2 min.
+
+## 14. Uogólniony czas przesiadki: pasmo z opublikowanych wag (rewizja 2)
+
+Reguła 11. Z typowej przesiadki 7–9 w 20 największych zespołach (te same składowe co w sekcji 3, przed zaokrągleniem). Kolumny „× waga” pokazują, ile każda składowa wnosi w wariancie środkowym. Wartości nie są używane do układania węzłów ani miast w ranking.
+
+| Aglomeracja | Dojście, min | Czekanie, min | Dojście × 1,66 | Czekanie × 1,47 | Kara P (środkowa), min | Pasmo: niski, min równoważnych | środkowy | wysoki |
+|---|---|---|---|---|---|---|---|---|
+| Warszawa | 2,5 | 5,6 | 4,2 | 8,3 | 13 | 16,3 | 25,5 | 30,5 |
+| Kraków | 2,1 | 8,2 | 3,5 | 12,1 | 13 | 19,6 | 28,5 | 33,5 |
+| Wrocław | 1,5 | 8,4 | 2,5 | 12,3 | 13 | 19,1 | 27,8 | 32,8 |
+| Poznań | 1,6 | 7,1 | 2,7 | 10,5 | 13 | 17,5 | 26,2 | 31,2 |
+| Łódź | 2,1 | 10,9 | 3,4 | 16,0 | 13 | 23,4 | 32,4 | 37,4 |
+| Trójmiasto | 2,9 | 10,5 | 4,9 | 15,4 | 13 | 24,0 | 33,3 | 38,3 |
+| GZM | 1,8 | 15,6 | 3,0 | 23,0 | 13 | 30,1 | 39,0 | 44,0 |
+
+**Czytanie.** W 20 największych węzłach uogólniony czas przesiadki wynosi od 16,3–30,5 min (Warszawa) do 30,2–44,0 min równoważnych jeździe (GZM). Stała kara (5–18 min) jest tego samego rzędu co ważone czekanie (8–23 min), a ważone dojście dodaje tylko 2–5 min. Szerokość pasma (14 min w każdym mieście) wynika prawie w całości z niepewności kary, nie z danych o węzłach; różnica między miastami (do 14 min) to prawie w całości różnica czekania. Pasmo potwierdza wniosek przeglądu: czekanie, nie dojście, rozstrzyga porównanie miast.
+- Kara jest jedna dla wszystkich ruchów (bez rozróżnienia autobus–tramwaj–kolej): Ortelli i in. 2026 pokazują, że kary zależne od środka mierzą głównie preferencję środka, a nie samą przesiadkę.
+- Pasmo nie jest wskaźnikiem jakości węzła i nie służy do rankingu; dla dwóch węzłów o tym samym dojściu i czekaniu jest identyczne, bo kara nie zależy od węzła.
+
+## 15. Przejścia w skali AMPTI W6 (rewizja 3)
+
+Przypisanie tagów OSM do klas W6 (reguła 12; `pipeline/transfer_walk.py`). Klasa przejścia wynika z tagów węzłów przejścia i przylegającej drogi `footway=crossing` razem, w tej kolejności:
+
+| Klasa | W6, % | Tagi OSM |
+|---|---|---|
+| bezkolizyjne (przejście podziemne, kładka) | 100 | ciąg krawędzi pieszych z `tunnel=*` (bez `building_passage`) na drodze; ciąg krawędzi z `bridge=*`, który w rzucie przecina jezdnię z grafu (chodnik na moście drogowym i kładka nad rzeką się nie liczą) |
+| z sygnalizacją | 70 lub 50 | `crossing=traffic_signals` / `pelican` / `toucan` / `pegasus`, `crossing:signals=yes`, `crossing_ref=pelican` / `toucan` / `puffin`, `highway=traffic_signals` |
+| zebra bez sygnalizacji | 30 | `crossing=marked` / `zebra` / `uncontrolled`, `crossing_ref=zebra`, `crossing:markings=*` inne niż `no` |
+| niewyznakowane | 0 | `crossing=unmarked` / `informal`, `crossing:markings=no` |
+| nieznane (bez oceny) | — | przejście przez jezdnię lub torowisko bez żadnej z tych wartości (węzeł bez tagu, `highway=crossing` bez wartości, przejazd kolejowy bez wartości) |
+
+Pokrycie: (a) w całym grafie pieszym: odsetek węzłów, w których osobno zmapowany chodnik przecina jezdnię, z tagiem węzła pozwalającym nadać klasę (bez tagów dróg `footway=crossing`, więc to dolna granica); (b) na dojściach (reguła główna, obszar pokryty, wszystkie ruchy): rozkład klas przejść.
+
+| Aglomeracja | Graf: węzły chodnik × jezdnia z klasą, % | Dojścia: przejść (z bezkolizyjnymi) | bezkolizyjne, % | z sygnalizacją, % | zebra, % | niewyznakowane, % | nieznane, % | z klasą W6, % |
+|---|---|---|---|---|---|---|---|---|
+| Warszawa | 75,6 | 105 183 | 22,4 | 41,8 | 30,4 | 2,5 | 2,9 | 97,1 |
+| Kraków | 74,8 | 50 103 | 11,6 | 51,5 | 27,8 | 4,0 | 5,0 | 95,0 |
+| Wrocław | 58,6 | 40 440 | 17,6 | 45,4 | 28,0 | 1,7 | 7,3 | 92,7 |
+| Poznań | 78,9 | 19 222 | 15,9 | 38,3 | 36,0 | 4,6 | 5,2 | 94,8 |
+| Łódź | 64,3 | 32 175 | 10,1 | 51,9 | 27,7 | 2,0 | 8,3 | 91,7 |
+| Trójmiasto | 65,9 | 52 032 | 25,8 | 38,0 | 28,3 | 5,1 | 2,7 | 97,3 |
+| GZM | 69,7 | 95 670 | 17,7 | 22,7 | 47,8 | 4,4 | 7,4 | 92,6 |
+
+Wynik W6 (średnia po ruchach z ocenionym przejściem, ważona kursami; obszar pokryty i 20 największych zespołów, średnia wartości zespołów) obok zwykłej mediany liczby przejść:
+
+| Aglomeracja | W6, %, sygnalizacja 70 | W6, %, sygnalizacja 50 | Top 20: W6, % (70) | Top 20: W6, % (50) | Top 20: przejścia na ruch, mediana |
+|---|---|---|---|---|---|
+| Warszawa | 70 | 57 | 73 | 61 | 1,0 |
+| Kraków | 59 | 47 | 67 | 55 | 1,0 |
+| Wrocław | 64 | 51 | 68 | 52 | 1,0 |
+| Poznań | 61 | 50 | 61 | 49 | 1,0 |
+| Łódź | 62 | 49 | 65 | 51 | 1,0 |
+| Trójmiasto | 66 | 56 | 61 | 52 | 1,0 |
+| GZM | 54 | 47 | 59 | 54 | 0,5 |
+
+**Czytanie.** Tagi OSM pozwalają nadać klasę W6 92–97 % przejść na policzonych dojściach; w całym grafie pieszym 59–79 % węzłów, w których chodnik przecina jezdnię, ma tag klasy na samym węźle (Wrocław najniżej). Niewyznakowanych przejść na dojściach jest 2–5 %, nieznanych 3–8 %. Średni wynik W6 na dojściach to 54–70 % przy sygnalizacji liczonej jako 70 % i 47–57 % przy 50 %; najniżej w GZM, gdzie tylko 23 % przejść na dojściach ma sygnalizację (Kraków i Łódź 52 %), a 48 % to zebry.
+- Udział przejść bezkolizyjnych (10–26 %) obejmuje przejścia podziemne i tunele stacji metra i kolei, którymi prowadzi najkrótsza droga; dlatego Warszawa Centrum ma W6 93 %, a Sosnowiec Główny 100 % (dojście tunelem pod torami, zero przejść w poziomie jezdni). Kładki nad torami nie są wykrywane (tory nie należą do grafu).
+- Sprawdzono Rondo Mogilskie (W6 34 %): w drogach macierzy jest 14 przejść, wszystkie to zebry bez sygnalizacji przez torowisko i jezdnie na poziomie tramwajów; Rondo Grunwaldzkie (70 / 50 %): 18 przejść z sygnalizacją i 1 bez klasy. Zgodności z terenem nie sprawdzano.
+- Ruch bez przejścia nie ma oceny W6, więc węzeł, w którym wszystkie przesiadki są na wspólnym słupku, ma W6 „brak danych” i 0 przejść: obie liczby trzeba czytać razem.
+
+## 16. Ruchy „częste × częste” (rewizja 4)
+
+Reguła 13. Udział ruchów przesiadkowych (bez wag), w których obie linie kursują w swoich kierunkach w godzinach 7–9 średnio co 10 (15) min lub częściej; obszar pokryty i 20 największych zespołów.
+
+| Aglomeracja | Ruchy | Obie linie co ≤ 10 min, % | Obie co ≤ 15 min, % | Top 20: ≤ 10 min, % | Top 20: ≤ 15 min, % |
+|---|---|---|---|---|---|
+| Warszawa | 82 934 | 10,4 | 32,8 | 17,1 | 43,2 |
+| Kraków | 43 242 | 1,2 | 24,5 | 2,5 | 35,4 |
+| Wrocław | 30 441 | 0,1 | 28,3 | 0,2 | 38,5 |
+| Poznań | 18 241 | 6,7 | 22,3 | 17,0 | 47,7 |
+| Łódź | 27 090 | 0,0 | 17,2 | 0,0 | 24,4 |
+| Trójmiasto | 36 946 | 0,7 | 6,7 | 1,1 | 8,4 |
+| GZM | 105 180 | 0,1 | 1,2 | 0,2 | 2,2 |
+
+**Czytanie.** Ruchów, w których obie linie kursują w szczycie co 10 min lub częściej, jest mało poza Warszawą (10,4 % ruchów, 17 % w 20 największych węzłach) i Poznaniem (6,7 %, 17 %); w Krakowie 1,2 %, we Wrocławiu, Łodzi, Trójmieście i GZM poniżej 1 %. Przy progu 15 min udział rośnie do 17–33 % w pięciu miastach, ale w Trójmieście (6,7 %) i GZM (1,2 %) zostaje mały. To jest ten zbiór przesiadek, który literatura (Walker, Mees, SNAMUTS) uważa za „tanie” i na którym opiera się sieć z przesiadkami.
+- Próg 10 min jest ostry: linia co 10 min ma w oknie 7–9 dokładnie 12 kursów, więc jeden kurs mniej (np. co 10–11 min) wyklucza ruch. Wrocław (tramwaje zwykle co 12 min) i Łódź (co 12–15 min) mają przez to prawie zero; próg 15 min jest odporniejszy.
+- Udział liczony po ruchach bez wag: rzadkie linie podmiejskie zwiększają mianownik, zwłaszcza w GZM (105 tys. ruchów).
+
+## 17. Test skomunikowań po przeglądzie (rewizja 5)
+
+Reguła 14. (a) Pary, w których obie linie kursują co ≥ 15 min (6–20), obszar pokryty; „w najlepszych 10 %” = rzeczywisty rozkład daje krótsze czekanie niż co najmniej 90 % przesunięć; bez koordynacji ok. 10 %. p = jednostronny test dwumianowy (czy udział jest większy niż 10 %).
+
+| Aglomeracja | Pary (obie linie co ≥ 15 min) | W najlepszych 10 % przesunięć, % | p | Kandydaci (reguła 9) | Czekanie rzeczywiste, średnia, min | Czekanie przy losowym przyjściu, min |
+|---|---|---|---|---|---|---|
+| Warszawa | 25324 | 12,1 | < 0,001 | 479 | 25,2 | 26,1 |
+| Kraków | 26713 | 11,2 | < 0,001 | 388 | 23,6 | 23,8 |
+| Wrocław | 8903 | 12,8 | < 0,001 | 124 | 23,7 | 24,8 |
+| Poznań | 10192 | 12,5 | < 0,001 | 84 | 26,0 | 26,6 |
+| Łódź | 15471 | 12,7 | < 0,001 | 243 | 22,9 | 23,2 |
+| Trójmiasto | 18424 | 12,5 | < 0,001 | 188 | 22,2 | 22,8 |
+| GZM | 82287 | 11,5 | < 0,001 | 2122 | 25,8 | 26,6 |
+
+Po rodzajach środków (tylko układy z co najmniej 200 parami; wszystkie w `timed_both15_mode_pairs.csv`):
+
+| Aglomeracja | Przesiadka | Pary | W najlepszych 10 %, % | p |
+|---|---|---|---|---|
+| Warszawa | autobus → autobus | 20795 | 11,3 | < 0,001 |
+| Warszawa | autobus → kolej | 1350 | 15,3 | < 0,001 |
+| Warszawa | autobus → tramwaj | 433 | 22,4 | < 0,001 |
+| Warszawa | kolej → autobus | 1055 | 13,5 | < 0,001 |
+| Warszawa | kolej → kolej | 952 | 8,7 | 0,917 |
+| Warszawa | tramwaj → autobus | 349 | 13,2 | 0,033 |
+| Warszawa | tramwaj → tramwaj | 256 | 39,8 | < 0,001 |
+| Kraków | autobus → autobus | 20943 | 11,0 | < 0,001 |
+| Kraków | autobus → kolej | 467 | 12,2 | 0,068 |
+| Kraków | autobus → tramwaj | 1891 | 13,3 | < 0,001 |
+| Kraków | kolej → autobus | 354 | 16,4 | < 0,001 |
+| Kraków | tramwaj → autobus | 1893 | 12,8 | < 0,001 |
+| Kraków | tramwaj → tramwaj | 991 | 6,3 | 1,000 |
+| Wrocław | autobus → autobus | 7869 | 12,7 | < 0,001 |
+| Wrocław | autobus → kolej | 403 | 12,7 | 0,049 |
+| Wrocław | kolej → autobus | 261 | 13,4 | 0,046 |
+| Poznań | autobus → autobus | 9514 | 12,0 | < 0,001 |
+| Poznań | autobus → kolej | 252 | 18,7 | < 0,001 |
+| Łódź | autobus → autobus | 8674 | 14,1 | < 0,001 |
+| Łódź | autobus → kolej | 451 | 15,1 | < 0,001 |
+| Łódź | autobus → tramwaj | 1949 | 11,7 | 0,008 |
+| Łódź | kolej → autobus | 321 | 14,3 | 0,009 |
+| Łódź | tramwaj → autobus | 2011 | 14,6 | < 0,001 |
+| Łódź | tramwaj → tramwaj | 1738 | 4,3 | 1,000 |
+| Trójmiasto | autobus → autobus | 10342 | 12,8 | < 0,001 |
+| Trójmiasto | autobus → kolej | 735 | 10,6 | 0,307 |
+| Trójmiasto | autobus → tramwaj | 336 | 17,6 | < 0,001 |
+| Trójmiasto | autobus → trolejbus | 2101 | 10,0 | 0,485 |
+| Trójmiasto | kolej → autobus | 604 | 14,2 | < 0,001 |
+| Trójmiasto | tramwaj → autobus | 335 | 19,7 | < 0,001 |
+| Trójmiasto | trolejbus → autobus | 2143 | 15,1 | < 0,001 |
+| Trójmiasto | trolejbus → trolejbus | 1337 | 5,6 | 1,000 |
+| GZM | autobus → autobus | 69160 | 11,4 | < 0,001 |
+| GZM | autobus → kolej | 1408 | 11,2 | 0,083 |
+| GZM | autobus → tramwaj | 3252 | 12,4 | < 0,001 |
+| GZM | autobus → trolejbus | 1443 | 11,9 | 0,010 |
+| GZM | kolej → autobus | 1093 | 13,2 | < 0,001 |
+| GZM | tramwaj → autobus | 3222 | 13,1 | < 0,001 |
+| GZM | tramwaj → tramwaj | 510 | 5,7 | 1,000 |
+| GZM | trolejbus → autobus | 1463 | 11,0 | 0,109 |
+| GZM | trolejbus → trolejbus | 416 | 15,9 | < 0,001 |
+
+Węzły z co najmniej 20 parami takich linii: 1876; z udziałem istotnie większym niż 10 % (p < 0,001; przy 1876 testach przypadkiem ok. 1,9): 40.
+
+| Aglomeracja | Węzeł | Pary | W najlepszych 10 %, % | p |
+|---|---|---|---|---|
+| Warszawa | Dw. Wschodni (Kijowska) | 749 | 19,8 | < 0,001 |
+| Trójmiasto | Dworzec Główny 01 | 798 | 17,0 | < 0,001 |
+| Warszawa | Radzymin, PKP Radzymin | 40 | 45,0 | < 0,001 |
+| GZM | Będzin Kościuszki | 689 | 16,5 | < 0,001 |
+| Warszawa | Dw. Zachodni | 389 | 18,3 | < 0,001 |
+| Trójmiasto | Obłuże Centrum 01 | 271 | 19,2 | < 0,001 |
+| Warszawa | Królikarnia | 37 | 37,8 | < 0,001 |
+| Wrocław | Broniewskiego | 191 | 20,4 | < 0,001 |
+| Trójmiasto | Plac Solidarności 01 | 328 | 17,4 | < 0,001 |
+| Wrocław | Bałtycka | 87 | 25,3 | < 0,001 |
+| Poznań | Dworzec Zachodni | 114 | 22,8 | < 0,001 |
+| GZM | Bytom Strzelców Bytomskich | 500 | 15,6 | < 0,001 |
+| Trójmiasto | Gdynia Dworzec Gł. PKP - Hala 04 | 1267 | 13,3 | < 0,001 |
+| Łódź | Narutowicza-pl. Dąbrowskiego | 586 | 15,0 | < 0,001 |
+| GZM | Będzin Dworzec | 922 | 13,9 | < 0,001 |
+
+(b) Test pulsu w węźle (zespoły z co najmniej 20 odjazdami linii co ≥ 15 min i co najmniej dwiema takimi liniami; przy braku pulsu ok. 1 % zespołów przekracza próg przypadkiem):
+
+| Aglomeracja | 6–20: zespoły | z pulsem | % | 23–04:30: zespoły | z pulsem | % |
+|---|---|---|---|---|---|---|
+| Warszawa | 1946 | 13 | 0,7 | 421 | 24 | 5,7 |
+| Kraków | 1011 | 9 | 0,9 | 39 | 1 | 2,6 |
+| Wrocław | 514 | 5 | 1,0 | 143 | 11 | 7,7 |
+| Poznań | 870 | 6 | 0,7 | 89 | 5 | 5,6 |
+| Łódź | 728 | 3 | 0,4 | 153 | 6 | 3,9 |
+| Trójmiasto | 699 | 5 | 0,7 | 54 | 2 | 3,7 |
+| GZM | 2398 | 14 | 0,6 | 12 | 0 | 0,0 |
+
+Noc, zespoły z pulsem o największej liczbie odjazdów:
+
+| Aglomeracja | Zespół | Odjazdy 23–04:30 | Linie | Minuta pulsu (cykl 30 min) | Udział w 3 min, % | Próg (kwantyl 0,99), % |
+|---|---|---|---|---|---|---|
+| Warszawa | Dw. Centralny | 319 | 35 | :15 | 61,1 | 27,0 |
+| Warszawa | Centrum | 248 | 22 | :18 | 35,1 | 27,4 |
+| Warszawa | Metro Świętokrzyska | 208 | 17 | :18 | 38,9 | 28,4 |
+| Wrocław | DWORZEC GŁÓWNY | 205 | 16 | :03 | 41,0 | 27,3 |
+| Wrocław | DWORZEC AUTOBUSOWY | 193 | 14 | :19 | 31,1 | 25,4 |
+| Łódź | Kościuszki-6 Sierpnia | 165 | 12 | :00 | 100,0 | 53,3 |
+| Poznań | Most Teatralny | 152 | 11 | :00 | 50,0 | 36,2 |
+| Warszawa | Pl. Zawiszy | 144 | 13 | :20 | 34,0 | 29,9 |
+| Warszawa | Metro Ratusz Arsenał | 140 | 13 | :21 | 47,1 | 32,9 |
+| Wrocław | Sanocka | 132 | 13 | :00 | 75,8 | 37,9 |
+
+Dzień, zespoły z pulsem o największej liczbie odjazdów:
+
+| Aglomeracja | Zespół | Odjazdy 6–20 (linie co ≥ 15 min) | Linie | Minuta pulsu | Udział w 3 min, % | Próg, % |
+|---|---|---|---|---|---|---|
+| Warszawa | Mińsk Mazowiecki /Dw. PKP/ | 327 | 25 | :28 | 28,4 | 26,0 |
+| Kraków | Krowodrza Górka P+R | 302 | 11 | :00 | 31,5 | 30,1 |
+| GZM | Józefowiec Liceum | 272 | 7 | :24 | 40,8 | 38,6 |
+| GZM | Michałkowice Urząd Miasta | 267 | 6 | :24 | 35,6 | 32,2 |
+| GZM | Mydlice Wolska | 245 | 8 | :10 | 24,5 | 24,1 |
+| Łódź | Kopcińskiego-Narutowicza | 235 | 20 | :17 | 23,0 | 22,6 |
+| Poznań | Karolin PKM | 214 | 8 | :13 | 17,8 | 17,3 |
+| Trójmiasto | Nowolipie 01 | 209 | 5 | :17 | 25,4 | 24,4 |
+| Warszawa | Bogatki | 189 | 6 | :17 | 26,5 | 24,9 |
+| Warszawa | 11 Listopada | 184 | 7 | :04 | 29,9 | 29,3 |
+
+(c) Kontrola dodatnia, test par w nocy (pary linii nocnych co 15–60 min, okno 23:00–04:30):
+
+| Aglomeracja | Pary | W najlepszych 10 %, % | p | Czekanie rzeczywiste, min | Czekanie przy losowym przyjściu, min |
+|---|---|---|---|---|---|
+| Warszawa | 8171 | 31,9 | < 0,001 | 35,2 | 38,8 |
+| Kraków | 351 | 54,1 | < 0,001 | 31,2 | 37,1 |
+| Wrocław | 2512 | 36,8 | < 0,001 | 36,6 | 38,9 |
+| Poznań | 660 | 31,5 | < 0,001 | 28,7 | 31,5 |
+| Łódź | 1048 | 41,4 | < 0,001 | 27,4 | 37,3 |
+| Trójmiasto | 340 | 20,0 | < 0,001 | 31,2 | 34,3 |
+| GZM | 145 | 22,8 | < 0,001 | 27,9 | 48,0 |
+
+| Aglomeracja | Zespół (noc) | Pary | W najlepszych 10 %, % | p | Czekanie rzeczywiste, min | Czekanie przy losowym przyjściu, min |
+|---|---|---|---|---|---|---|
+| Warszawa | Dw. Centralny | 1119 | 19,8 | < 0,001 | 29,5 | 31,7 |
+| Warszawa | Centrum | 488 | 24,8 | < 0,001 | 32,1 | 36,2 |
+| Warszawa | Metro Świętokrzyska | 339 | 37,8 | < 0,001 | 34,2 | 37,5 |
+| Wrocław | DWORZEC GŁÓWNY | 228 | 51,3 | < 0,001 | 45,6 | 44,6 |
+| Warszawa | Metro Młociny | 212 | 50,0 | < 0,001 | 41,3 | 49,5 |
+| Warszawa | Emilii Plater | 209 | 29,7 | < 0,001 | 20,7 | 25,7 |
+| Wrocław | DWORZEC AUTOBUSOWY | 199 | 20,6 | < 0,001 | 31,1 | 32,9 |
+| Warszawa | Kijowska | 198 | 41,4 | < 0,001 | 33,6 | 49,5 |
+| Warszawa | Metro Ratusz Arsenał | 168 | 45,2 | < 0,001 | 39,6 | 40,4 |
+| Warszawa | Dw. Wileński | 139 | 33,1 | < 0,001 | 35,4 | 36,5 |
+
+**Czytanie. Czy coś wykryto?** W dzień nie. (a) W parach linii kursujących co ≥ 15 min udział w najlepszych 10 % przesunięć wynosi 11,2–12,8 %, czyli 1–3 pkt proc. ponad przypadek. Przy dziesiątkach tysięcy par jest to „istotne” w teście dwumianowym, ale pary nie są niezależne (te same linie w wielu zespołach), a zysk praktycznie zerowy: średnie czekanie rzeczywiste jest o 0,2–1,1 min krótsze od czekania przy losowym przyjściu. Wysokie udziały tramwaj → tramwaj w Warszawie (40 %) i Poznaniu (50 %) dotyczą rzadkich kursów tramwajowych (czekanie losowe ok. 51–52 min: zjazdy do zajezdni, kursy wieczorne), a nie linii w ruchu; nie sprawdzono, ile to kursy przechodzące. (b) Test pulsu w dzień: 0,4–1,0 % zespołów, czyli tyle, ile daje przypadek przy progu 0,99; żadne z miast nie ma w dzień węzła z pulsem linii rzadkich.
+- **Kontrola dodatnia działa.** W nocy test pulsu wskazuje węzły, w których linie nocne spotykają się o stałej minucie: Warszawa Dw. Centralny (61 % odjazdów w 3 minutach cyklu 30 min, o :15 i :45, wobec progu 27 %), Centrum i Metro Świętokrzyska; Wrocław Dworzec Główny i Dworzec Autobusowy; Łódź Kościuszki-6 Sierpnia; Poznań Most Teatralny i Rondo Kaponiera (o pełnej i pół godzinie). Test par w nocy też daje wyraźną nadwyżkę (20–54 % par w najlepszych 10 %, czekanie rzeczywiste 2–20 min krótsze od losowego). Detektor widzi więc puls, gdy puls istnieje; brak wyniku w dzień to brak koordynacji, nie słabość testu.
+- **Dlaczego test par jest w nocy słabszy od testu pulsu.** Na Dworcu Centralnym rozkład koduje spotkanie jako przyjazd = odjazd w tej samej minucie (:15) na różnych słupkach, bez postoju; po dodaniu dojścia przyjeżdżający „spóźnia się” na odjazd, więc w teście par tylko 20 % par na Centralnym trafia do najlepszych 10 %. Test pulsu nie używa dojścia ani czasu przyjazdu, dlatego tę koordynację wykrywa. To ograniczenie danych GTFS (brak czasu postoju), nie sieci.
+- Puls przenosi się wzdłuż tras: zespoły o stałym czasie jazdy od węzła pulsu też „pulsują” (np. Pl. Zawiszy, Metro Ratusz Arsenał w nocy). Lista: `pulse_nodes.csv`; nocne pary: `timed_night_control.csv`.
+
+## 18. Szczegóły węzłów na mapę
+
+Zespoły z co najmniej 20 odjazdami na godzinę 6–20 w FUA i w masce GTFS, z co najmniej jednym ruchem między liniami; plik na aglomerację `results/web/transfer_detail/<agg>.json` i indeks `index.json` (format w docstringu `pipeline/transfer_detail.py`).
+
+| Aglomeracja | Zespoły | Drogi piesze | Ruchy w macierzach | Rozmiar, MB |
+|---|---|---|---|---|
+| Warszawa | 533 | 3892 | 13519 | 2,12 |
+| Kraków | 218 | 1732 | 5637 | 0,86 |
+| Wrocław | 225 | 1076 | 4977 | 0,66 |
+| Poznań | 118 | 578 | 3035 | 0,39 |
+| Łódź | 181 | 1179 | 4472 | 0,67 |
+| Trójmiasto | 172 | 1266 | 4410 | 0,74 |
+| GZM | 310 | 1848 | 9362 | 1,23 |
+| Razem | 1757 | 11571 | 45412 | 6,66 |
+
+Rozmiar plików mieści się w limicie 3 MB (największy: Warszawa). Drogi są zapisane tylko dla par słupków, które są najlepszą parą któregoś ruchu z macierzy (do 8 kierunków przyjazdu × 8 kierunków odjazdu, plus 10 najcięższych ruchów); geometria uproszczona z tolerancją 1,5 m. Na mapie nie sprawdzano wyglądu (brak podłączenia w `web/`, patrz `web/src/features/nodes/README.md`).
 
