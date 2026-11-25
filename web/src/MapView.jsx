@@ -12,6 +12,8 @@ import { applyFocus, pointLayerIds } from './pointLayers'
 import { nodePopupModel, panToFit, placePopup, renderNodePopup } from './nodePopup'
 import { applyLines, hitBox, hitTest, lineLayerIds } from './features/speed/lineLayers'
 import { renderStretchPopup, stretchPopupModel } from './features/speed/stretchPopup'
+import { tipModel } from './features/segments/segText'
+import { ensureVisible, renderLineTip } from './features/segments/segMap'
 import Legend from './Legend'
 // MapLibre 6 looks for its worker next to its own module; once bundled, that
 // file is not there. Emitting it as an asset and naming it keeps dev and the
@@ -59,6 +61,7 @@ export default function MapView({
   legendOpen, onLegendOpen, legendShares, cityAt, onMoved, initialView = null,
   isoOn = false, isoLayers = null, onIsoPick, legendExtra = null, onNode, detailNode = null, hotPath = null,
   lineHot = null, linePin = null, onLineHover,
+  lineSel = null, onLinePick, inset = false, onInset, side = null, selBounds = null, selN = 0,
 }) {
   const { focuses, setFocuses } = focus
   const box = useRef(null)
@@ -74,9 +77,10 @@ export default function MapView({
   const showPopup = useRef(null)   // opens the popup of a node: {layer, feature}
 
   // what the long-lived map handlers need to see
-  latest.current = { catalog, onSelect, active, onHot, cityAt, onMoved, isoOn, selectedId, onIsoPick, onNode, onLineHover }
+  latest.current = { catalog, onSelect, active, onHot, cityAt, onMoved, isoOn, selectedId, onIsoPick, onNode, onLineHover, onLinePick, inset, onInset }
   const [loading, setLoading] = useState(false)   // tiles of a layer are still coming
   const tip = useRef(null)
+  const ltip = useRef(null)
 
   useEffect(() => {
     registerPmtiles()
@@ -232,6 +236,8 @@ export default function MapView({
     const onEscape = (e) => { if (e.key === 'Escape' && popup.current) { e.stopPropagation(); closePopup() } }
     document.addEventListener('keydown', onEscape, true)
     m.on('click', (e) => {
+      // the small map beside a full panel: no popup and no selection there (they would not fit), the click brings the large map back
+      if (latest.current.inset) { closePopup(); latest.current.onInset?.(); return }
       // a click on a node opens its popup and leaves the selected agglomeration alone
       const node = nodeHit(e.point)
       if (node) {
@@ -248,6 +254,8 @@ export default function MapView({
       // a stretch of a line (unless the isochrone mode wants the click for its origin)
       if (!latest.current.isoOn) {
         const ln = lineHit(e.point)
+        // a speed feature is selected (the panel on the right shows the selection); without a handler, the old popup
+        if (ln && latest.current.onLinePick) { closePopup(); latest.current.onLinePick({ layer: ln.layer, id: ln.hit.id, properties: ln.hit.properties }); return }
         if (ln) { openStretch(ln, e.lngLat); return }
       }
       const hits = boundaryHits(e.point).filter((f) => known(f.properties?.id)).map((f) => f.properties.id)
@@ -300,6 +308,14 @@ export default function MapView({
       }
       tip.current.setLngLat(e.lngLat).setDOMContent(root).addTo(m)
     }
+    // the one tooltip of a speed feature (name, speed with its +-1 min interval, trips an hour); the cell tooltip yields to it
+    const hideLineTip = () => { if (ltip.current) { ltip.current.remove(); ltip.current = null } }
+    const showLineTip = (e, line) => {
+      if (!window.matchMedia('(hover: hover)').matches) return hideLineTip()
+      hideTip()
+      if (!ltip.current) ltip.current = new maplibregl.Popup({ closeButton: false, closeOnClick: false, className: 'seg-tip-pop', offset: 14, maxWidth: '280px', focusAfterOpen: false })
+      ltip.current.setLngLat(e.lngLat).setDOMContent(renderLineTip(tipModel(line.hit.properties || {}, line.layer.band))).addTo(m)
+    }
     m.on('mousemove', (e) => {
       const { hits, node, line } = classHits(e.point)
       const cityId = boundaryHits(e.point).find((f) => known(f.properties?.id))?.properties?.id ?? latest.current.cityAt?.(e.lngLat.lng, e.lngLat.lat)
@@ -307,12 +323,14 @@ export default function MapView({
       m.getCanvas().style.cursor = node || line ? 'pointer' : isoHere ? 'crosshair' : cityId ? 'pointer' : ''
       latest.current.onHot?.(node || line ? null : cityId ?? null)
       latest.current.onLineHover?.(line ? { id: line.hit.id, keys: line.hit.keys } : null)
-      showTip(e, hits)
+      if (line && !latest.current.inset) showLineTip(e, line)
+      else { hideLineTip(); showTip(e, hits) }
       const ids = latest.current.catalog.layers.filter((l) => l.ramp && latest.current.active.has(l.id)).map((l) => l.id)
       setFocuses((f) => hoverOnMap(f, ids, hits))
     })
     m.on('mouseout', () => {
       hideTip()
+      hideLineTip()
       setFocuses((f) => leaveMap(f))
       latest.current.onHot?.(null)
       latest.current.onLineHover?.(null)
@@ -386,12 +404,22 @@ export default function MapView({
       const ls = catalog.layers.filter((l) => l.kind === 'lines' && active.has(l.id))
       const lead = ls[0]
       for (const l of ls) {
-        applyLines(ready, l, l.band, { classes: emphasised(focusOf(focuses, lead.id), lead.id), match: linePin, hot: lineHot })
+        applyLines(ready, l, l.band, { classes: emphasised(focusOf(focuses, lead.id), lead.id), match: linePin, hot: lineHot, sel: lineSel?.[l.id] || null })
       }
     } catch (e) {
       console.warn('map lines:', e)
     }
-  }, [ready, catalog, active, selectedId, focuses, lineHot, linePin, loading])
+  }, [ready, catalog, active, selectedId, focuses, lineHot, linePin, lineSel, loading])
+
+  // a new selection of speed features stays in view: clear of the panel on the right (or the sheet at the bottom)
+  useEffect(() => {
+    if (!ready || !selBounds || inset) return undefined
+    const t = setTimeout(() => {
+      try { ensureVisible(ready, selBounds, document.querySelector('.seg-panel .kit-details')) } catch (e) { console.warn('map selection:', e) }
+    }, 60)
+    return () => clearTimeout(t)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [ready, selN, inset])
 
   // the stop area whose card is open: its stops, walking paths and crossings on the map, the map flies to it
   useEffect(() => {
@@ -442,6 +470,7 @@ export default function MapView({
     <div className="kit-map-wrap">
       <div ref={box} className="kit-map" />
       {mapError && <div className="map-error">Nie udało się uruchomić mapy: {mapError}</div>}
+      {!inset && side}
       <Legend
         layers={shown} focuses={focuses} open={legendOpen} onOpen={onLegendOpen} shares={legendShares} loading={loading} extra={legendExtra}
         onHover={focus.onHover} onToggle={focus.onToggle} onClear={focus.onClear}

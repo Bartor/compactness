@@ -57,6 +57,8 @@ export function offsetExpression(band = DEFAULT_BAND, group = 'tram') {
 
 export const lineId = (layer, tier, dashed) => `${layer.id}:${tier}:${dashed ? 'dash' : 'solid'}`
 export const hotLineId = (layer) => `${layer.id}:hot`
+export const selLineId = (layer) => `${layer.id}:sel`
+export const SEL_COLOR = '#FFFFFF'
 export const TIERS = ['busy', 'quiet']
 
 /** Filter of one tier x style for the band. */
@@ -130,6 +132,15 @@ export function lineSpecs(layer, band = DEFAULT_BAND, hot = null) {
       })
     }
   }
+  // the selected features (features/segments): a white casing, wider than the hover, from any zoom
+  specs.push({
+    id: selLineId(layer), type: 'line', ...sl, filter: NONE,
+    layout: { 'line-cap': 'round', 'line-join': 'round' },
+    paint: {
+      'line-color': SEL_COLOR, 'line-gap-width': widthExpression(band), 'line-width': 2.6,
+      'line-offset': offsetExpression(band, group), 'line-opacity': 1,
+    },
+  })
   specs.push({
     id: hotLineId(layer), type: 'line', ...sl, minzoom: z, filter: hot || NONE,
     layout: { 'line-cap': 'round', 'line-join': 'round' },
@@ -145,7 +156,12 @@ export function lineSpecs(layer, band = DEFAULT_BAND, hot = null) {
 export const lineLayerIds = (layer) => TIERS.flatMap((t) => [lineId(layer, t, false), lineId(layer, t, true)])
 
 /** Applies a band, a focus and a highlight to the layers that exist on the map; cheap, no restacking. */
-export function applyLines(map, layer, band, { classes = null, match = null, hot = null } = {}) {
+export function applyLines(map, layer, band, { classes = null, match = null, hot = null, sel = null } = {}) {
+  if (map.getLayer(selLineId(layer))) {
+    map.setFilter(selLineId(layer), sel || NONE)
+    map.setPaintProperty(selLineId(layer), 'line-gap-width', widthExpression(band))
+    map.setPaintProperty(selLineId(layer), 'line-offset', offsetExpression(band, groupOf(layer)))
+  }
   const op = opacityExpression(band, { classes, match })
   for (const tier of TIERS) {
     for (const dashed of [false, true]) {

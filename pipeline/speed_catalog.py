@@ -2,7 +2,8 @@
 
     python -m pipeline.speed_catalog
 
-The map files themselves are written by pipeline.speed_web (results/web/speed/). Colour is the property "v_<variant>"
+The map files themselves are written by pipeline.speed_web (results/web/speed/; trams: pipeline.speed_segments_web,
+results/web/speed/segments/, with a per-city detail file for the selection panel). Colour is the property "v_<variant>"
 (km/h in the fixed classes of speed_core.CLASS_BREAKS), width "t_<variant>" (trips per hour); the variant keys are the
 time bands of config.yaml's speed_time_bands. Buses are one file per agglomeration (url_template), loaded for the
 selected city only. Speeds are scheduled, never measured.
@@ -21,11 +22,12 @@ ENTRIES = json.loads(r'''
 [
   {
     "id": "speed_tram",
-    "title": "Prędkość z rozkładu: tramwaje (odcinki)",
+    "title": "Prędkość z rozkładu: tramwaje (odcinki między przystankami)",
     "chip": "tramwaje",
     "kind": "lines",
     "type": "geojson",
-    "url": "data/speed/trams.geojson",
+    "url": "data/speed/segments/trams.geojson",
+    "unit_kind": "segments",
     "status": "ready",
     "mode_group": "tram",
     "property": "v",
@@ -119,7 +121,8 @@ ENTRIES = json.loads(r'''
     },
     "population_date": null,
     "attribution": "wydawcy rozkładów jazdy (lista w „O danych”), © współtwórcy OpenStreetMap",
-    "note": "Sieć tramwajowa podzielona na odcinki między ważnymi przystankami; kolor to prędkość z rozkładu jazdy (długość przez czas rozkładowy, z postojami na przystankach) w wybranym paśmie, grubość to liczba kursów na godzinę. Każdy kierunek jest narysowany po swojej prawej stronie. To rozkład, nie pomiar: rzeczywiste prędkości mogą być niższe. Rozkład podaje pełne minuty, więc prędkość odcinka ma przedział ±1 min (w okienku); odcinki krótsze niż 5 min są przerywane. W okienku także czas ponad jazdę swobodną w s/km: liczba z prostego modelu, nie pomiar strat na światłach."
+    "note": "Sieć tramwajowa podzielona na odcinki między kolejnymi przystankami; kolor to prędkość z rozkładu jazdy (długość przez czas rozkładowy, z postojem na przystanku) w wybranym paśmie, grubość to liczba kursów na godzinę. Każdy kierunek jest narysowany po swojej prawej stronie. To rozkład, nie pomiar: rzeczywiste prędkości mogą być niższe. Rozkład podaje pełne minuty, więc prędkość jednego krótkiego odcinka jest bardzo niepewna. Kliknij odcinki, żeby je zaznaczyć: panel z prawej liczy czas i prędkość całego zaznaczenia z przedziałem ±1 min, czas ponad jazdę swobodną (model, nie pomiar strat na światłach) i pozwala sprawdzić, co by było, gdyby ten czas skrócić.",
+    "detail_url_template": "data/speed/segments/{agg}.json"
   },
   {
     "id": "speed_bus",

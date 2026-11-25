@@ -11,12 +11,16 @@
 // s=  the sort of the comparison table (the metric whose row orders the cities, and desc / asc); written only in the
 //     comparison view. sd= of older addresses is ignored.
 // d=  the bottom panel on desktop: folded, half or full; absent (and after a drag to a custom height): half.
+// tb= tc= ta= tx=  the table of measures: the set (a preset id n | all | a group id, or a comma list of measure ids), the cities
+//     (tt | all | a comma list), the areas, tx=1 rows and columns swapped; written only when they differ from the default.
 // m=  the metric whose page is open.
 // iso=<originId> (and isc=evening)  the origin picked in "Dokąd dojadę stąd" and the time of day it shows.
+// sg=<mode>:<id>,<id>  the speed features selected on the map (features/segments; mode tram | bus | rail).
 // @lat,lon,zoom  the map position, written only after the map was moved by hand.
 
 import { activeIds, initialState, stateFromIds, variantsToWrite } from './layerControl'
 import { DEFAULT_DOCK, parseDock } from './kitx/dock'
+import { parseTableKeys, writeTableKeys } from './features/tables/spec'
 
 const LIST = ','
 const DIRS = ['asc', 'desc']
@@ -65,10 +69,12 @@ export function readHash(hash = typeof window !== 'undefined' ? window.location.
     metricArea: q.get('ma') || undefined,
     area: AREA_KEYS.includes(area) ? area : undefined,
     tab: q.get('t') || undefined,
+    table: parseTableKeys(q) || undefined,
     pinned: (q.get('p') || '').split(LIST).filter(Boolean),
     mapView: at ? parseView(at.slice(1)) : undefined,
     iso: q.get('iso') || undefined,
     isoScenario: q.get('isc') === 'evening' ? 'evening' : undefined,
+    sel: q.get('sg') || undefined,
   }
 }
 
@@ -76,7 +82,7 @@ const sameSet = (a, b) => a.length === b.length && a.every((x) => b.includes(x))
 
 /** The hash (with '#', or '' when plain) for a state, given the defaults. `variants` is {layerId: key}. */
 export function hashOf({
-  agg, layers, variants = {}, sort, dock, metric, area, tab, pinned = [], mapView, iso, isoScenario,
+  agg, layers, variants = {}, sort, table, dock, metric, area, tab, pinned = [], mapView, iso, isoScenario, sel,
 }, defaults) {
   const q = new URLSearchParams()
   if (agg) q.set('a', agg)
@@ -85,6 +91,7 @@ export function hashOf({
   const v = Object.entries(variants).map(([id, k]) => `${id}:${k}`).sort()
   if (v.length) q.set('v', v.join(LIST))
   if (sortText(sort)) q.set('s', sortText(sort))
+  if (table) writeTableKeys(q, table)
   if (dock && dock !== DEFAULT_DOCK && parseDock(dock)) q.set('d', dock)
   if (metric) q.set('m', metric)
   if (area && area !== 'core' && AREA_KEYS.includes(area)) q.set('ar', area)
@@ -94,6 +101,7 @@ export function hashOf({
     q.set('iso', iso)
     if (isoScenario === 'evening') q.set('isc', 'evening')
   }
+  if (sel) q.set('sg', sel)
   // ',' and ':' are fine in a fragment; left unescaped the link stays readable
   let s = q.toString().replace(/%2C/g, ',').replace(/%3A/g, ':')
   if (mapView) s += `${s ? '&' : ''}@${viewText(mapView)}`
@@ -127,9 +135,11 @@ export function resolveHash(parsed, { agglomerations, layers }) {
     metricArea: parsed.metricArea ?? null,
     area: parsed.area ?? 'core',
     tab: parsed.tab ?? null,
+    table: parsed.table ?? null,
     pinned: (parsed.pinned || []).filter((id) => agglomerations.some((a) => a.id === id)),
     mapView: parsed.mapView ?? null,
     iso: parsed.iso ?? null,
     isoScenario: parsed.isoScenario ?? null,
+    sel: parsed.sel ?? null,
   }
 }

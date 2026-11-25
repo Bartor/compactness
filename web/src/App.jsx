@@ -10,6 +10,7 @@ import { loadSpeedLines, resolvedLayer } from './features/speed/loader'
 import { idsFilter, linesFilter } from './features/speed/lineLayers'
 import { normaliseFilters, setFilter as setSpeedFilter, togglePin as togglePinnedLine } from './features/speed/lineTable'
 import { bandOf } from './features/speed/speedModel'
+import { useSegmentSelection } from './features/segments/useSegmentSelection'
 import { loadAttributions, loadCatalog, loadClassShares, loadForm, loadMetrics } from './data'
 import { DATA_BASE_URL, resolveUrl } from './config'
 import { loadCharts } from './features/charts'
@@ -37,6 +38,7 @@ import Sidebar from './Sidebar'
 import CityPanel from './CityPanel'
 import CityView, { CITY_TABS } from './CityView'
 import Compare, { COMPARE_TABS } from './Compare'
+import { tableFromKeys } from './features/tables/spec'
 import About from './About'
 import DockStage from './kitx/DockStage'
 import Tabs, { panelId } from './kitx/Tabs'
@@ -112,6 +114,14 @@ function Loaded({ catalog, metrics, attributions }) {
   const [pinnedCities, setPinnedCities] = useState(start.pinned)   // cities pinned in the charts (ids), lit in all of them
   // how the cities are ordered in the comparison table: {key: metric id, dir} or null (the default order)
   const [sort, setSort] = useState(start.sort)
+  // the configurable table of measures (features/tables): which measures, cities and areas; the cities and areas are those of one view
+  const [table, setTable] = useState(() => tableFromKeys(start.table))
+  const tableCity = useRef(selectedId)
+  useEffect(() => {
+    if (tableCity.current === selectedId) return
+    tableCity.current = selectedId
+    setTable((t) => (t.cities || t.areas || t.swap ? { ...t, cities: null, areas: null, swap: false } : t))
+  }, [selectedId])
   const [dock, setDock] = useState(start.dock)         // desktop: 'folded' | 'half' | 'full'
   const [compareTab, setCompareTab] = useState(COMPARE_TABS.some((t) => t.key === start.tab) ? start.tab : 'miary')
   const [cityTab, setCityTab] = useState(CITY_TABS.some((t) => t.key === start.tab) ? start.tab : 'najwazniejsze')
@@ -322,6 +332,13 @@ function Loaded({ catalog, metrics, attributions }) {
     if (f.mode !== speedMode) { setSpeedMode(f.mode); if (f.mode !== 'all') showSpeedMode(f.mode) }
     if (f.band !== speedBand) setView((v) => setGroupVariant(v, 'lines', f.band, layers))
   }, [speedMode, speedBand, layers, showSpeedMode])
+  // the speed features selected on the map and their panel on the right (features/segments)
+  const segs = useSegmentSelection({
+    layers: mapCatalog.layers, active, selectedId, band: speedBand, onBand: (k) => onBand(null, k), initial: start.sel,
+    resolve: resolveUrl, cityName: (id) => names[id],
+  })
+  // phones: a selection's sheet replaces the city's sheet (folded to its bar), so the map between them stays visible
+  useEffect(() => { if (phone && segs.text) setCitySheet(false) }, [phone, segs.text])
 
   // ---- the page of one metric
   const page = metricPage && index[metricPage.id] && pageAreas(index, metricPage.id).length ? { id: metricPage.id } : null
@@ -369,8 +386,8 @@ function Loaded({ catalog, metrics, attributions }) {
   const tab = page ? undefined : selected ? (cityTab !== 'najwazniejsze' ? cityTab : undefined) : (compareTab !== 'miary' ? compareTab : undefined)
   useEffect(() => {
     const h = hashOfView(selectedId, view, layers, {
-      sort: comparisonView ? sort : undefined, dock, metric: page?.id, area, tab, pinned: pinnedCities, mapView,
-      iso: isoActive ? iso.origin?.id : undefined, isoScenario: iso.scenario,
+      sort: comparisonView ? sort : undefined, table, dock, metric: page?.id, area, tab, pinned: pinnedCities, mapView,
+      iso: isoActive ? iso.origin?.id : undefined, isoScenario: iso.scenario, sel: segs.text || undefined,
     })
     const opening = !!page && !wasPage.current
     wasPage.current = !!page
@@ -379,7 +396,7 @@ function Loaded({ catalog, metrics, attributions }) {
       if (opening && ran.current) { window.history.pushState(null, '', url); pushed.current = true } else window.history.replaceState(null, '', url)
     }
     ran.current = true
-  }, [selectedId, view, layers, sort, comparisonView, dock, page?.id, area, tab, pinnedCities, mapView, isoActive, iso.origin?.id, iso.scenario])   // eslint-disable-line react-hooks/exhaustive-deps
+  }, [selectedId, view, layers, sort, table, comparisonView, dock, page?.id, area, tab, pinnedCities, mapView, isoActive, iso.origin?.id, iso.scenario, segs.text])   // eslint-disable-line react-hooks/exhaustive-deps
 
   // ---- what the legend and the charts know about the residents of the scope (the selected city, else all cities)
   const legendShares = useMemo(() => ({
@@ -405,7 +422,7 @@ function Loaded({ catalog, metrics, attributions }) {
       index={index} cities={cities} everyCity={everyCity} names={names}
       area={area} layers={layers} onShowLayer={showLayer}
       onPickCity={pick} hot={hot} setHot={setHot} onOpenMetric={openMetric}
-      sort={sort} setSort={setSort}
+      sort={sort} setSort={setSort} table={table} onTable={setTable}
       layout={layout} tab={compareTab} chart={citiesChart} spread={spreadCities}
       onOpenLimits={() => setAbout({ limits: true })}
     />
@@ -435,6 +452,7 @@ function Loaded({ catalog, metrics, attributions }) {
     onOpenMetric: openMetric, hasPoints, tab: activeCityTab, survey, speed: speedTable, speedStatus: speedData.status, onSpeedRetry: loadSpeed,
     nodePick: pickedNode, detail, nodeHot, onNodeHot: (move, path) => setNodeHot({ move, path }), onNodeClose: closeNode,
     nodeOrder, onNodeOrder: setNodeOrder, timetableDate: pointsLayer?.timetable_date,
+    names, table, onTable: setTable, onPickCity: pick, onOpenLimits: () => setAbout({ limits: true }),
   }
   const citySubtitle = selected ? (hasTimetable ? 'z danymi o transporcie' : 'tylko gęstość i forma (bez rozkładów jazdy)') : ''
   const densityColors = layers.find((l) => l.id === 'density_250m')?.ramp?.colors
@@ -464,6 +482,8 @@ function Loaded({ catalog, metrics, attributions }) {
         ? <IsochroneCard file={iso.file} status={iso.status} origin={iso.origin} distanceM={iso.distanceM} scenario={iso.scenario} onScenario={iso.setScenario} onClose={() => setIsoOn(false)} />
         : null}
       cityAt={cityAt} onMoved={setMapView} initialView={start.mapView}
+      lineSel={segs.lineSel} onLinePick={segs.onLinePick} side={segs.panel} selBounds={segs.bounds} selN={segs.n}
+      inset={dock === 'full' && !phone} onInset={() => setDock('half')}
     />
   )
   const full = dock === 'full' && !phone

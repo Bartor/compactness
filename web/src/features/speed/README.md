@@ -2,6 +2,9 @@
 
 Self-contained: nothing here imports app files. Data come from `pipeline/speed_web.py`
 (`results/web/speed/`): `trams.geojson`, `bus_<agg>.geojson` (one per agglomeration), `rail.geojson`, `lines.json`.
+Since the stop-to-stop work the tram layer draws `segments/trams.geojson` (`pipeline/speed_segments_web.py`, one
+feature per segment between consecutive stops); clicks select features and open the right panel of
+`features/segments` (README there); `stretchPopup.js` is kept for a page that does not wire the selection.
 Every speed is scheduled ("rozkład, nie pomiar"): rozkładowa prędkość komunikacyjna, stops included.
 
 ## Files

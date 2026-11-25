@@ -50,9 +50,12 @@ export default function SpeedLegend({ layer, band, focus, onHover, onToggle, onC
           ))}
         </div>
       </div>
-      <span><i className="line-key dashed" />linia przerywana: odcinek krótszy niż 5 min, geometria w linii prostej albo feed nieoficjalny</span>
+      <span><i className="line-key dashed" />{layer?.unit_kind === 'segments'
+        ? 'linia przerywana: geometria w linii prostej między przystankami'
+        : 'linia przerywana: odcinek krótszy niż 5 min, geometria w linii prostej albo feed nieoficjalny'}</span>
       <small className="legend-hint">
-        Każdy kierunek jest narysowany po swojej prawej stronie. Odcinki bez kursów w paśmie nie są rysowane.
+        Każdy kierunek jest narysowany po swojej prawej stronie. Odcinki bez kursów w paśmie nie są rysowane. Kliknij
+        odcinek, by go zaznaczyć; kolejne kliknięcia dodają lub odejmują odcinki.
         {pinned.length > 0 && (
           <> <button type="button" className="legend-clear" onClick={() => onClear?.(layer.id)}>Pokaż wszystkie klasy</button></>
         )}

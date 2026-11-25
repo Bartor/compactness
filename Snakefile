@@ -403,6 +403,20 @@ rule speed_web:
         '"{PY}" -m pipeline.speed_web && "{PY}" -m pipeline.speed_catalog'
 
 
+rule speed_segments_web:
+    # stop-to-stop tram segments for the map and the selection panel: results/web/speed/segments/{trams.geojson,<agg>.json}
+    # (hop cache of speed_core, places of tram_stretches, OSM track of speed_osm; no R5); about 2 minutes
+    input:
+        "pipeline/speed_segments_web.py",
+        "pipeline/speed_catalog.py",
+        stamp("tram_stretches"),
+        stamp("speed_web"),
+    output:
+        touch(stamp("speed_segments_web")),
+    shell:
+        '"{PY}" -m pipeline.speed_segments_web && "{PY}" -m pipeline.speed_catalog'
+
+
 rule whatif_tram:
     # Wrocław tram what-if (pipeline.whatif_tram): rewritten tram timetables under data/interim/whatif/, own R5
     # networks, routing with the production settings, then metrics_whatif.*, the cell layer and results/qa/whatif/.
