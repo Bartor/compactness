@@ -46,11 +46,17 @@ Last updated 2026-11-24.
 - Urban form additions: residents by 250 m density class, official Eurostat 2021 urban-centre shares, polycentricity
   (eta and density hotspots) in the tables; Angel's proximity index in the tables only (not robust among
   single-centre cities).
+- One table the reader builds (2026-11-25): which measures (a short default set, presets per group, a picker),
+  which cities and which areas, in place of the full tables of the comparison and of a city; the selection is in the
+  link.
+- Tram speeds between stops (2026-11-25): the tram layer is drawn stop to stop, segments are selected on the map and
+  read in a panel on the right with the +-1 minute interval of the selection; the panel's what-if recomputes times
+  with a target speed or a share of the time above free running removed (timetable arithmetic in the browser, with
+  minutes saved per line, vehicle-hours and vehicles freed in the peak). Buses and rail keep stretches.
 
 ## In progress
 
-- To-do items 2–4, 6, 9–11 and 13–15 below are being worked on (data and self-contained site pieces first, wiring
-  into the site after each is checked).
+- Nothing is running.
 
 ## To do
 
@@ -99,6 +105,12 @@ Method and data
   small map of the full panel and popups of speed lines; a popup as tall as the map still overlaps the legend; the
   phone city panel cuts the chart buttons at the right edge; the panel height set by dragging is not kept in the link.
 - Column widths set by the reader are kept in the browser (ui-kit 0.3.4, `widthsKey`).
+- Table builder: the bar is two rows of chips; on a phone the rows are tall (controls under the measure name);
+  keyboard-only use not checked.
+- Segments: checked in the browser for Wrocław only; the panel covers only the map's height (about 400 px at half
+  panel); the what-if says nothing about reach (routing needed: only the Wrocław scenario of report section 23);
+  stop-to-stop bus files would be 1.4-6 MB a city, so buses stay in stretches; one Łódź depot run distorts the sum
+  of segments on its stretch (17.9 min, known).
 
 ## Decided against, or shelved
 
