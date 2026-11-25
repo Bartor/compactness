@@ -85,7 +85,18 @@
 .compare-table .kit-data-table td.kit-data-col.narrow:empty, .compare-table .kit-data-table th.kit-data-col.narrow:empty { border-left: 2px solid var(--kit-line-strong); background: transparent; }
 
 /* ---- legend states ---- */
-.legend-loading, .legend-none { margin: 0; font-size: .86rem; color: var(--kit-dim); }
+.legend-none { margin: 0; font-size: .86rem; color: var(--kit-dim); }
+/* loading: a bar along the top edge of the legend's section, which takes no room */
+.legend-block { position: relative; }
+.legend-block.busy::before {
+  content: ''; position: absolute; left: 0; right: 0; top: -4px; height: 2px; border-radius: 1px;
+  background: linear-gradient(90deg, transparent, var(--kit-link-light), transparent); background-size: 50% 100%; background-repeat: no-repeat;
+  animation: legend-busy 1.1s linear infinite;
+}
+@keyframes legend-busy { from { background-position: -50% 0; } to { background-position: 150% 0; } }
+@media (prefers-reduced-motion: reduce) { .legend-block.busy::before { animation: none; background-size: 100% 100%; opacity: .6; } }
+.legend-block .legend-hint { display: flex; align-items: center; min-height: 1.6rem; }
+.sr-only, .legend-block span.sr-only { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
 .legend-none { color: var(--kit-warn); }
 .legend-fold { background: none; border: 0; padding: .2rem 0; min-height: 28px; text-align: left; font: inherit; font-size: .9rem; font-weight: 600; color: var(--kit-text); cursor: pointer; }
 .legend-fold:focus-visible { outline: 2px solid var(--kit-focus); outline-offset: 2px; }
@@ -96,6 +107,20 @@
 /* ---- sizes: every clickable target at least 28 px on a desktop, 40 on a phone; no text under 12 px ---- */
 .kit-help-btn { min-width: 28px; min-height: 28px; font-size: .9rem; }                              /* kit: was about 17 px */
 .kit-data-sort.icon { min-width: 28px; min-height: 28px; justify-content: center; }                 /* kit: was about 18 px */
+/* In a table the "?" and the sort control are drawn at the size of the text beside them (a 28 px disc next to a 12 px
+   label reads as the main thing in the cell); the target stays 28 px through an invisible margin around the control. */
+@media (min-width: 761px) {
+  .kit-data-table .kit-help-btn, .kit-data-table .kit-data-sort.icon {
+    position: relative; min-width: 0; min-height: 0; width: 18px; height: 18px; font-size: .68rem;
+  }
+  .kit-data-table .kit-help-btn::before, .kit-data-table .kit-data-sort.icon::before { content: ''; position: absolute; inset: -5px; }
+  .kit-data-table .kit-data-tools { gap: .5rem; }
+}
+/* kit: the hidden status line of a table sat under the table and added one pixel of scroll (a scrollbar on a table
+   that is entirely in view) */
+.kit-data-scroll > .kit-data-sr { top: 0; left: 0; }
+/* kit: the "default widths" link comes after the toolbar, so the export buttons do not move when it appears */
+.kit-data-bar > .kit-data-widths-reset { order: 2; }
 .kit-data-table thead th .kit-data-pick { display: inline-flex; align-items: center; min-height: 28px; padding: .2rem .15rem; }
 .kit-data-action, .metric-link, .metric-city { min-height: 24px; }
 .kit-legend-close { min-width: 28px; min-height: 28px; font-size: 1.3rem; }                         /* kit: was about 17 px */

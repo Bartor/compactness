@@ -45,8 +45,10 @@ function LegendSection({ layer: l, focuses, onHover, onToggle, onClear, shares, 
   const scope = l.kind === 'choropleth' ? shares?.scopeOf(l.id) : null
   const fr = shareFractions(scope)
   const none = l.kind === 'choropleth' && shares?.noDataFor?.(l.id)
+  // the loading sign is a bar along the top edge: a line of text that comes and goes with every pan would move the
+  // whole legend (it is anchored at the bottom) up and down
   return (
-    <div className="legend-block">
+    <div className={loading ? 'legend-block busy' : 'legend-block'}>
       {startOpen
         ? <b>{l.title}</b>
         : (
@@ -54,7 +56,7 @@ function LegendSection({ layer: l, focuses, onHover, onToggle, onClear, shares, 
             <span aria-hidden="true">{open ? '▾' : '▸'}</span> {l.title}
           </button>
         )}
-      {loading && <small className="legend-loading" role="status">Wczytywanie warstwy…</small>}
+      <span className="sr-only" role="status">{loading ? 'Wczytywanie warstwy' : ''}</span>
       {none && <p className="legend-none">Brak danych o rozkładach dla: {shares.aggName}</p>}
       {open && !none && (
         <>
@@ -128,13 +130,13 @@ export function LegendBody({ layer, focus, onHover, onToggle, onClear, shares, n
             </span>
           )}
           {noValue && <span><i className="dot ring" />{noValue}</span>}
-          {(pinned.length > 0 || !compact) && (
-            <small className="legend-hint">
-              {pinned.length
-                ? <button type="button" className="legend-clear" onClick={() => onClear?.(layer.id)}>Pokaż wszystkie klasy</button>
-                : 'Wskaż klasę, aby wyróżnić ją na mapie; kliknij, aby zostawić wyróżnienie.'}
-            </small>
-          )}
+          {/* always one line of the same height: a line that appeared on the first pin would push the classes away
+              from under the pointer */}
+          <small className="legend-hint">
+            {pinned.length
+              ? <button type="button" className="legend-clear" onClick={() => onClear?.(layer.id)}>Pokaż wszystkie klasy</button>
+              : compact ? 'Kliknij klasę, aby ją wyróżnić.' : 'Wskaż klasę, aby wyróżnić ją na mapie; kliknij, aby zostawić wyróżnienie.'}
+          </small>
         </>
       )}
       {layer.kind === 'mask' && (

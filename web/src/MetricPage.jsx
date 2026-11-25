@@ -193,7 +193,8 @@ export default function MetricPage({
         {missing.length > 0 && <p className="metric-missing">brak danych: {missing.map(nameOf).join(', ')}</p>}
       </section>
 
-      {tableRows.length > 0 && (
+      {/* with one area the table would repeat the chart above (its "Tabela" switch gives the same numbers) */}
+      {areas.length > 1 && tableRows.length > 0 && (
         <section className="metric-section">
           <h2>Obszary obok siebie</h2>
           <DataTable
