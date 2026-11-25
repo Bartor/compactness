@@ -98,8 +98,7 @@ Method and data
   hand: a real browser other than headless Chrome, Firefox and Safari, keyboard use, touch gestures; popups in the
   small map of the full panel and popups of speed lines; a popup as tall as the map still overlaps the legend; the
   phone city panel cuts the chart buttons at the right edge; the panel height set by dragging is not kept in the link.
-- Column widths set by the reader are kept in the browser (ui-kit 0.3.4, `widthsKey`); needs the kit published and
-  the dependency raised to `^0.3.4`.
+- Column widths set by the reader are kept in the browser (ui-kit 0.3.4, `widthsKey`).
 
 ## Decided against, or shelved
 
