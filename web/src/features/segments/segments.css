@@ -1,11 +1,24 @@
 /* Selection panel of speed segments (SegmentPanel.jsx) and the map tooltip; colours are the kit's custom properties. */
 
-/* desktop: a column over the right edge of the map; it overlays, it never pushes anything */
+/* desktop: a column down the right side of the stage (the map and the panel under it); it overlays, it never pushes
+   anything. Rendered inside the map's box (no stage found) it keeps clear of the attribution strip instead. */
 @media (min-width: 761px) {
   .seg-panel {
     position: absolute; top: 10px; right: 10px; bottom: 34px; width: min(380px, calc(100% - 80px)); z-index: 5;
     display: flex; pointer-events: none;
   }
+  .kitx-stage > .seg-panel { bottom: 10px; z-index: 30; }
+  /* the bottom panel at full size is for reading tables: the selection stays, its panel waits */
+  .kitx-stage.full > .seg-panel { display: none; }
+  /* the tabs of the bottom panel sit at its right end, under this panel: they step aside so they stay in reach
+     (what is below them is covered while a selection is open, by the owner's choice) */
+  .kitx-dock-head { transition: padding-right .18s ease; }
+  .kitx-stage:has(> .seg-panel):not(.full) .kitx-dock-head { padding-right: min(400px, calc(100% - 70px)); }
+  /* with less room the tabs draw closer and the note after the city's name goes, so the name itself stays readable */
+  .kitx-stage:has(> .seg-panel):not(.full) .kitx-dock-head { gap: .5rem; }
+  .kitx-stage:has(> .seg-panel):not(.full) .kitx-tab { padding-inline: .5rem; }
+  .kitx-stage:has(> .seg-panel):not(.full) .dock-sub { display: none; }
+  @media (prefers-reduced-motion: reduce) { .kitx-dock-head { transition: none; } }
   .seg-panel .kit-details {
     position: relative; inset: auto; z-index: auto; width: 100%; flex: 1 1 auto; min-height: 0; pointer-events: auto;
     border: 1px solid var(--kit-line-strong); border-radius: 10px; overflow: hidden;

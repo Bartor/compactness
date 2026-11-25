@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useLayoutEffect, useMemo, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { DetailsPanel, Fact, Facts, Hint, Notes, Slider } from '@bartor-net/ui-kit'
 import { MODE_PL, bandOf, bandText } from '../speed/speedModel'
@@ -9,6 +9,11 @@ import { NO_DATA, duration, mmss, nf, num, plural, speedText, tphText } from './
 import './segments.css'
 
 const ACCENT = '#4A6EA9'
+// The element the desktop panel is placed in: the page's stage (the map with the panel under it), so that the panel
+// runs the full height on the right, over the bottom panel too. Without it, and in a window too narrow for the
+// bottom panel's tabs to step aside, the panel stays where it is rendered (over the map only).
+const STAGE = '.kitx-stage'
+const WIDE = '(min-width: 1280px)'
 const short = (key) => {
   const b = bandOf(key)
   const m = b.label.match(/\d\d–\d\d/)
@@ -19,14 +24,18 @@ const TAF_NOTE = 'Model, nie pomiar: czas z rozkładu minus czas prostego modelu
   + 'Przedział: postój 10–30 s i limit 40–70 km/h tam, gdzie OSM nie podaje limitu.'
 
 /**
- * The panel of a selection of speed features, on the right of the map (a bottom sheet on a phone): what is selected,
+ * The panel of a selection of speed features, down the right side of the page (a bottom sheet on a phone): what is selected,
  * its scheduled time and speed with the rounding interval, trips, lines, time above free running and the what-if
  * (trams). Props: sel {mode, ids}; band; tram {status, data: segModel.parseDetail}; feats {status, data: {byId}} for
  * bus and rail; lastId (the segment clicked last); cityName; dates; onIds(ids); onClear(); onBand(key).
  */
 export default function SegmentPanel({ sel, band, tram, feats, lastId, cityName, dates, onIds, onClear, onBand }) {
   const isTram = sel.mode === 'tram'
-  const phone = usePhoneWidth()
+  const phone = useMedia(PHONE)
+  const wide = useMedia(WIDE)
+  // where the panel goes: found before the first paint, so the panel is never seen in the wrong place
+  const [host, setHost] = useState(null)
+  useLayoutEffect(() => { setHost(phone ? document.body : wide ? document.querySelector(STAGE) : null) }, [phone, wide])
   const src = isTram ? tram : feats
   const ready = src?.status === 'ready' && src.data
   let body
@@ -55,16 +64,17 @@ export default function SegmentPanel({ sel, band, tram, feats, lastId, cityName,
       </DetailsPanel>
     </div>
   )
-  // a phone: the sheet goes to the end of the page, above the city's sheet (the map's box would trap it underneath)
-  return phone && typeof document !== 'undefined' ? createPortal(panel, document.body) : panel
+  // a phone: the sheet goes to the end of the page, above the city's sheet (the map's box would trap it underneath);
+  // a wide desktop: into the stage, for the full height
+  return host ? createPortal(panel, host) : panel
 }
 
 const PHONE = '(max-width: 760px)'
-function usePhoneWidth() {
-  const get = () => typeof window !== 'undefined' && window.matchMedia(PHONE).matches
+function useMedia(query) {
+  const get = () => typeof window !== 'undefined' && window.matchMedia(query).matches
   const [on, setOn] = useState(get)
   useEffect(() => {
-    const mq = window.matchMedia(PHONE)
+    const mq = window.matchMedia(query)
     const f = () => setOn(mq.matches)
     mq.addEventListener('change', f)
     return () => mq.removeEventListener('change', f)

@@ -61,6 +61,14 @@
 
 /* ---- the panel: title, tabs, body ---- */
 .dock-sub { font-size: .9rem; color: var(--kit-dim); white-space: nowrap; }
+/* The head of the bottom panel when room is short (a narrow window, or the tabs stepping aside for a side panel): the
+   tabs keep their size, the note after the city's name gives way first, then the name is cut with an ellipsis; nothing
+   runs over anything else. */
+.kitx-dock-title { flex: 1 1 auto; overflow: hidden; }
+.kitx-dock-title h2 { flex: 0 1 auto; min-width: 4ch; }
+.kitx-dock-title .dock-sub { flex: 0 1000 auto; min-width: 0; overflow: hidden; text-overflow: ellipsis; }
+.kitx-dock-title .dock-back { flex: none; white-space: nowrap; }
+.kitx-dock-tabs { flex: none; }
 .dock-panel { min-height: 100%; }
 .city-two { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 1.6rem; align-items: start; }
 .city-col { display: flex; flex-direction: column; gap: 1.1rem; min-width: 0; }
