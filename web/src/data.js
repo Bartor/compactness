@@ -17,11 +17,15 @@ export async function loadCatalog() {
 export async function loadMetrics() {
   try {
     const m = await getJson(DATA_BASE_URL + DATA_FILES.metrics)
-    return { generated: m.generated, metrics: Array.isArray(m.metrics) ? m.metrics : [] }
+    return { generated: m.generated, metrics: Array.isArray(m.metrics) ? m.metrics.map(plainUnit) : [] }
   } catch {
     return { generated: null, metrics: [] }
   }
 }
+
+// Units as the pipeline writes them, in the words a resident uses (the files keep the trade terms).
+const UNIT_TEXT = { 'wozkm/mieszk./dobę': 'km/mieszk./dobę', 'min równoważnych': 'min jazdy' }
+export const plainUnit = (row) => (row && UNIT_TEXT[row.unit] ? { ...row, unit: UNIT_TEXT[row.unit] } : row)
 
 /** The list of GTFS publishers; optional, the page works without it. */
 export async function loadAttributions() {

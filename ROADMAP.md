@@ -91,11 +91,15 @@ Method and data
 - Street-running detection for tram track misreads some streets (lower bound); kinematic parameters are assumptions.
 - No Sunday reference day (several feeds end on 2026-11-28).
 - No expert review of the method.
-- Independent first-use UX review: `reports/UX review 2026-11-24.md` (55 findings). Left open after the
-  restructure: stop-area popups can still stick out below the map (35), sorting moves columns (24), the first
-  fit lands off-centre (19), chart table layout (31), the About text still uses jargon (40); dragging the
-  divider, Escape in every state, links with pinned cities or a map position, and the phone metric page were
-  not checked.
+- Independent first-use UX review: `reports/UX review 2026-11-24.md` (55 findings). The five left open after the
+  restructure were closed on 2026-11-25: popups are placed inside the visible map (35), columns slide to their new
+  places on a sort (24, ui-kit 0.3.4), one fit per city and the same fit for the first view and "home" (19), chart
+  tables wrap instead of scrolling (31), plain measure names and a glossary in "O danych" (40). Still not checked by
+  hand: a real browser other than headless Chrome, Firefox and Safari, keyboard use, touch gestures; popups in the
+  small map of the full panel and popups of speed lines; a popup as tall as the map still overlaps the legend; the
+  phone city panel cuts the chart buttons at the right edge; the panel height set by dragging is not kept in the link.
+- Column widths set by the reader are kept in the browser (ui-kit 0.3.4, `widthsKey`); needs the kit published and
+  the dependency raised to `^0.3.4`.
 
 ## Decided against, or shelved
 
