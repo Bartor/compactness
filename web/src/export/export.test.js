@@ -2,8 +2,10 @@ import { describe, expect, it } from 'vitest'
 import { BOM, buildCsv, csvCell, csvNumber } from './csv'
 import { exportFilename, isoDate, slug } from './filename'
 import {
-  chartTable, cityTable, comparisonTable, metaFromRows, metricTable, orderCities, provenanceCells, tableGroups,
+  chartTable, metaFromRows, metricTable, provenanceCells, tableExport, tableGroups,
 } from './shape'
+import { buildTable, orderedRecords } from '../features/tables/buildTable'
+import { selectionOf, shapeOf } from '../features/tables/spec'
 import { indexMetrics } from '../metricTable'
 import { atLeastTable, pairTable, reachTable, timeTable, valuesTable } from '../features/charts/exportRows'
 
@@ -54,9 +56,15 @@ describe('table shapes', () => {
     row('a', 'area', 'core', 100, { unit: 'km²', source: 'GISCO' }),
   ])
   const groups = tableGroups(index)
+  expect(groups.length).toBeGreaterThan(0)
   const names = { a: 'Aaa', b: 'Bbb', c: 'Ccc' }
+  const build = (cities, areas, swap = false) => buildTable({
+    index, selection: selectionOf({ set: 'all' }, index), cities, areas, shape: shapeOf(cities, areas, swap), names, layers: [],
+    onShowLayer: () => {}, transport: ['a', 'b', 'c'], everyCity: ['a', 'b', 'c'],
+  })
   it('exports a comparison in the order shown, with ids, labels, raw values and provenance', () => {
-    const t = comparisonTable({ index, cities: ['a', 'b', 'c'], area: 'core', names, groups, sort: { key: id, dir: 'asc' } })
+    const model = build(['a', 'b', 'c'], ['core'])
+    const t = tableExport({ records: orderedRecords(model, { key: id, dir: 'asc' }), names, index })
     const head = t[0]
     expect(head.slice(0, 4)).toEqual(['miara_id', 'miara', 'grupa', 'miasto_id'])
     expect(head.slice(-5)).toEqual(['źródło', 'siatka ludności', 'data ludności', 'data rozkładów', 'uwagi'])
@@ -67,18 +75,24 @@ describe('table shapes', () => {
     expect(reach[0][10]).toBe(1)
     expect(reach[0][9]).toBe('wyżej = lepiej')
     expect(reach[0].slice(-5)).toEqual(['R5', 'GHSL 250 m przeskalowany do spisu 1 km', '2021-03-31', '2026-11-25', ''])
-    expect(t.filter((r) => r[0] === 'area').length).toBe(3)
+    expect(t.filter((r) => r[0] === 'area').length).toBe(3)   // a cell without a figure is a row with an empty value, as before
     expect(t.every((r) => r.length === head.length)).toBe(true)
   })
-  it('orders cities by a sort, missing last, ties by the original order, and leaves them without one', () => {
-    expect(orderCities(['a', 'b', 'c'], index, 'core', { key: id, dir: 'desc' })).toEqual(['a', 'b', 'c'])
-    expect(orderCities(['c', 'a', 'b'], index, 'core', { key: id, dir: 'asc' })).toEqual(['b', 'a', 'c'])
-    expect(orderCities(['c', 'a', 'b'], index, 'core', null)).toEqual(['c', 'a', 'b'])
+  it('orders the columns by a sort, missing last, ties by the original order, and leaves them without one', () => {
+    const model = build(['a', 'b', 'c'], ['core'])
+    const cols = (sort) => orderedRecords(model, sort).filter((r) => r.id === id).map((r) => r.col)
+    expect(cols({ key: id, dir: 'desc' })).toEqual(['a', 'b', 'c'])
+    expect(cols({ key: id, dir: 'asc' })).toEqual(['b', 'a', 'c'])
+    expect(cols(null)).toEqual(['a', 'b', 'c'])
+    expect(cols({ key: 'no_such_row', dir: 'asc' })).toEqual(['a', 'b', 'c'])
   })
-  it('exports a city across areas and a metric across cities and areas', () => {
-    const c = cityTable({ index, agg: 'a', name: 'Aaa', groups })
-    const reach = c.filter((r) => r[0] === id)
-    expect(reach.map((r) => [r[5], r[7]])).toEqual([['core', 30.123456789], ['fua', 25]])
+  it('exports one city across areas, and several cities across areas with a row per area', () => {
+    const c = tableExport({ records: orderedRecords(build(['a'], ['core', 'fua']), null), names, index })
+    expect(c.filter((r) => r[0] === id).map((r) => [r[5], r[7]])).toEqual([['core', 30.123456789], ['fua', 25]])
+    const sub = orderedRecords(build(['a', 'b'], ['core', 'fua']), null).filter((r) => r.id === id)
+    expect(sub.map((r) => [r.rowKey, r.col])).toEqual([[id + '~core', 'a'], [id + '~core', 'b'], [id + '~fua', 'a'], [id + '~fua', 'b']])
+    const swapped = orderedRecords(build(['a', 'b'], ['core', 'fua'], true), null).filter((r) => r.id === id)
+    expect(swapped.map((r) => [r.rowKey, r.col])).toEqual([[id + '~a', 'core'], [id + '~a', 'fua'], [id + '~b', 'core'], [id + '~b', 'fua']])
     const m = metricTable({ index, id, cityIds: ['a', 'b', 'c'], names, areas: ['core', 'fua'], area: 'core' })
     expect(m[0][9]).toBe('miejsce w obszarze Miasto')
     expect(m.filter((r) => r[4] === 'core').map((r) => [r[2], r[9]])).toEqual([['a', 1], ['b', 2], ['c', '']])

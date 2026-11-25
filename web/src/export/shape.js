@@ -3,7 +3,7 @@
 // end the provenance that every number of the project carries: source, population grid, dates, remarks. Pure.
 import { METRIC_INFO, DOMAIN_INFO } from '../metricInfo'
 import { POPULATION_GRIDS } from '../metrics'
-import { AREAS, TRAM_DOMAIN, areaRow, buildGroups, cityCell, metricName, valueOf } from '../metricTable'
+import { TRAM_DOMAIN, buildGroups, metricName, valueOf } from '../metricTable'
 
 export const PROVENANCE_HEAD = ['źródło', 'siatka ludności', 'data ludności', 'data rozkładów', 'uwagi']
 const DIRECTION = { higher: 'wyżej = lepiej', lower: 'niżej = lepiej' }
@@ -32,57 +32,24 @@ export const metaCells = (meta) => [meta?.source ?? '', meta?.populationGrid ?? 
 
 export const areaLabel = (a) => DOMAIN_INFO[a]?.short || a
 
-/** The cities in the order a comparison table shows them: sorted by the row of `sort.key` (missing last), else as given. */
-export function orderCities(cities, index, area, sort) {
-  if (!sort?.key) return [...cities]
-  const sgn = sort.dir === 'asc' ? 1 : -1
-  const val = (c) => valueOf(areaRow(index, sort.key, c, area))
-  return cities.map((c, i) => [c, i, val(c)]).sort((a, b) => {
-    if (a[2] == null || b[2] == null) return (a[2] == null) - (b[2] == null) || a[1] - b[1]
-    return sgn * (a[2] - b[2]) || a[1] - b[1]
-  }).map((x) => x[0])
-}
-
 const HEAD_ROWS = [
   'miara_id', 'miara', 'grupa', 'miasto_id', 'miasto', 'obszar_id', 'obszar', 'wartość', 'jednostka', 'lepiej',
   'miejsce w tabeli',
 ]
 
 /**
- * The comparison of cities in one area: a row per measure and city, measures in the table's order, cities in the
- * order shown (a sorted table exports sorted). `groups` is buildGroups' output as the table used it.
+ * What the configurable table shows, as rows: one per shown figure (measure, city, area; a missing figure is an empty
+ * value), in the order of the table. "records" is features/tables/buildTable.jsx orderedRecords: the measures in the table's
+ * order, the columns in the sorted order when the table is sorted, "place" the column's position among cities.
  */
-export function comparisonTable({ index, cities, area, names, groups, sort, info = METRIC_INFO }) {
-  const shown = orderCities(cities, index, area, sort)
+export function tableExport({ records, names, index = {}, info = METRIC_INFO }) {
   const rows = [[...HEAD_ROWS, ...PROVENANCE_HEAD]]
-  for (const g of groups) {
-    for (const id of g.metrics) {
-      shown.forEach((c, i) => {
-        const r = areaRow(index, id, c, area)
-        rows.push([
-          id, metricName(index, id, info), g.title, c, names[c] || c, r?.domain ?? area, areaLabel(r?.domain ?? area),
-          valueOf(r), r?.unit ?? '', DIRECTION[info[id]?.better] ?? '', i + 1, ...provenanceCells(r),
-        ])
-      })
-    }
-  }
-  return rows
-}
-
-/** One city: a row per measure and area. */
-export function cityTable({ index, agg, name, groups, info = METRIC_INFO }) {
-  const rows = [['miara_id', 'miara', 'grupa', 'miasto_id', 'miasto', 'obszar_id', 'obszar', 'wartość', 'jednostka', 'lepiej', ...PROVENANCE_HEAD]]
-  for (const g of groups) {
-    for (const id of g.metrics) {
-      for (const a of AREAS) {
-        const r = cityCell(index, id, agg, a)
-        if (!r) continue
-        rows.push([
-          id, metricName(index, id, info), g.title, agg, name, r.domain, areaLabel(r.domain), valueOf(r), r.unit ?? '',
-          DIRECTION[info[id]?.better] ?? '', ...provenanceCells(r),
-        ])
-      }
-    }
+  for (const r of records) {
+    const dom = r.row?.domain ?? r.area
+    rows.push([
+      r.id, metricName(index, r.id, info), r.group, r.city, names[r.city] || r.city, dom, areaLabel(dom),
+      valueOf(r.row), r.row?.unit ?? '', DIRECTION[info[r.id]?.better] ?? '', r.place ?? '', ...provenanceCells(r.row),
+    ])
   }
   return rows
 }

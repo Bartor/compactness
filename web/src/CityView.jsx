@@ -2,13 +2,13 @@ import { Callout, DataTable, Hint, Notes, RankList, Warn } from '@bartor-net/ui-
 import { DOMAIN_INFO } from './metricInfo'
 import { NO_DATA } from './metrics'
 import { centreRows, headlineRows, highlights, timeOfDay } from './metricTable'
-import { cityGroups, reachGroups, valueColumns } from './tableModel'
+import { reachGroups } from './tableModel'
 import { titleCase } from './names'
 import { shareText } from './nodePopup'
 import NodeDetail from './features/nodes/NodeDetail'
-import ExportButtons from './export/ExportButtons'
 import SurveyContext from './features/context/SurveyContext'
-import { cityTable } from './export/shape'
+import TableBuilder from './features/tables/TableBuilder'
+import { DEFAULT_TABLE } from './features/tables/spec'
 
 const dep = new Intl.NumberFormat('pl-PL', { maximumFractionDigits: 1 })
 
@@ -20,12 +20,15 @@ export const CITY_TABS = [
   { key: 'predkosci', label: 'Prędkości' },
 ]
 
+const hasRows = (index, agg) => Object.values(index).some((m) => m[agg])
+
 /** What the page says about a selected agglomeration, as the content of one tab of its panel (the tabs are on the dock's header line). */
 export default function CityView({
   agglomeration, index, pool, transport, layers, area, tab = 'najwazniejsze', onShowLayer, nodes, onPickNode, chart = null,
   timeChart = null, spread = null, onOpenMetric, hasPoints = true, layout = 'columns', survey = null,
   nodePick = null, detail = null, nodeHot = null, onNodeHot, onNodeClose, nodeOrder = 'dep', onNodeOrder, timetableDate,
   speed = null, speedStatus = 'idle', onSpeedRetry,
+  names = {}, table = DEFAULT_TABLE, onTable = () => {}, onPickCity, onOpenLimits,
 }) {
   const agg = agglomeration.id
   const areaName = DOMAIN_INFO[area]?.short || area
@@ -33,7 +36,6 @@ export default function CityView({
   const heads = headlineRows(index, pool, agg, area)
   const day = timeChart ? null : timeOfDay(index, agg)
   const centres = centreRows(index, agg)
-  const groups = cityGroups({ index, pool, agg, area, layers, onShowLayer, onOpenMetric })
   const wide = layout === 'columns'
 
   const best = (
@@ -91,30 +93,14 @@ export default function CityView({
   if (tab === 'miary') {
     return (
       <section className="city-metrics" aria-label={`Miary: ${agglomeration.name}`}>
-        {groups.length === 0
+        {Object.keys(index).length === 0 || !hasRows(index, agg)
           ? <Hint>{Object.keys(index).length === 0 ? 'Miary pojawią się po przeliczeniu.' : 'Dla tej aglomeracji nie ma jeszcze przeliczonych miar.'}</Hint>
           : (
-            <>
-              <DataTable
-                caption={`Miary: ${agglomeration.name}, ${areaName}`} labelHead="Miara" className={wide ? 'city-table dock-table' : 'city-table'}
-                columns={valueColumns(area)} groups={groups}
-                resizable={wide ? 'all' : false} widthsKey="compactness-city" density={wide ? 'compact' : 'regular'}
-                labelWidth={wide ? { min: '19rem', max: '26rem' } : undefined}
-                toolbar={(
-                  <ExportButtons
-                    table={() => cityTable({
-                      index, agg, name: agglomeration.name,
-                      groups: groups.map((g) => ({ id: g.id, title: g.title, metrics: g.rows.map((r) => r.id) })),
-                    })}
-                    name={{ view: 'miasto', subject: agglomeration.name }}
-                  />
-                )}
-              />
-              <p className="compare-note">
-                Liczby dotyczą obszaru „{areaName}” (przełącznik u góry strony); inne obszary są na stronie miary. „–” oznacza brak
-                danych, a nie zero. Kolumna „Poz.” to miejsce wśród aglomeracji, które mają tę miarę.
-              </p>
-            </>
+            <TableBuilder
+              index={index} everyCity={pool} transport={transport} names={names} globalArea={area} agg={agg}
+              table={table} onTable={onTable} layers={layers} onShowLayer={onShowLayer} onOpenMetric={onOpenMetric}
+              onPickCity={onPickCity} wide={wide} onOpenLimits={onOpenLimits}
+            />
           )}
       </section>
     )

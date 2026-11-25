@@ -7,7 +7,9 @@ import {
 } from './metricPageData'
 import { indexMetrics } from './metricTable'
 import { readHash, resolveHash, hashOf } from './urlState'
-import { rowActions, pageAction, cityGroups, compareGroups } from './tableModel'
+import { rowActions, pageAction } from './tableModel'
+import { buildTable } from './features/tables/buildTable'
+import { selectionOf, shapeOf } from './features/tables/spec'
 import { ShortHelp } from './MetricHelp'
 import MetricPage from './MetricPage'
 
@@ -168,16 +170,26 @@ describe('opening the page from the tables', () => {
     expect(none.actions).toBeUndefined()
   })
   it('the comparison rows carry the actions, the city table label is a button, and the "?" ends with the link', () => {
-    const groups = compareGroups({ index, cities: ['a', 'b'], area: 'core', names: {}, layers, onShowLayer: noop, onOpenMetric: noop })
+    const build = (shape, onOpenMetric = noop) => buildTable({
+      index, selection: selectionOf({ set: 'all' }, index), cities: ['a', 'b'], areas: ['core'], shape, names: {}, layers, onShowLayer: noop,
+      onOpenMetric, transport: ['a', 'b'], everyCity: ['a', 'b'],
+    })
+    const groups = build(shapeOf(['a', 'b'], ['core'])).groups
     const r = groups.flatMap((g) => g.rows).find((x) => x.id === 'area')
     expect(r.actions.map((x) => x.label)).toContain('więcej')
     expect(typeof r.label).toBe('string')   // the label is the kit's sort control in this table: plain text; the page opens from the action and the "?"
-    const cg = cityGroups({ index, pool: ['a', 'b'], agg: 'a', area: 'core', layers, onShowLayer: noop, onOpenMetric: noop })
-    const cr = cg.flatMap((g) => g.rows).find((x) => x.id === 'area')
+    const one = buildTable({
+      index, selection: selectionOf({ set: 'all' }, index), cities: ['a'], areas: ['core'], shape: shapeOf(['a'], ['core']), names: {}, layers,
+      onShowLayer: noop, onOpenMetric: noop, transport: ['a', 'b'], everyCity: ['a', 'b'],
+    })
+    const cr = one.groups.flatMap((g) => g.rows).find((x) => x.id === 'area')
     expect(renderToStaticMarkup(h('div', null, cr.label))).toContain('metric-link')
     expect(cr.name).toBe('Powierzchnia')
-    const plain = cityGroups({ index, pool: ['a', 'b'], agg: 'a', area: 'core', layers, onShowLayer: noop })
-    expect(typeof plain.flatMap((g) => g.rows).find((x) => x.id === 'area').label).toBe('string')
+    const plainOne = buildTable({
+      index, selection: selectionOf({ set: 'all' }, index), cities: ['a'], areas: ['core'], shape: shapeOf(['a'], ['core']), names: {}, layers,
+      onShowLayer: noop, transport: ['a', 'b'], everyCity: ['a', 'b'],
+    })
+    expect(typeof plainOne.groups.flatMap((g) => g.rows).find((x) => x.id === 'area').label).toBe('string')
     // the one help pattern: a sentence, the direction, a link to the page; no link without a page to open
     const help = renderToStaticMarkup(r.help)
     expect(help).toContain('więcej na stronie miary')

@@ -4,7 +4,8 @@ import { describe, expect, it } from 'vitest'
 import { DataTable } from '@bartor-net/ui-kit'
 import Compare from './Compare'
 import CityPanel from './CityPanel'
-import { cityGroups } from './tableModel'
+import { buildTable } from './features/tables/buildTable'
+import { selectionOf, shapeOf } from './features/tables/spec'
 import Sidebar from './Sidebar'
 import { indexMetrics, topNodes } from './metricTable'
 import { initialState, setOverlayOn, setValue } from './layerControl'
@@ -51,7 +52,7 @@ const cities = ['warszawa', 'krakow', 'lodz']
 const metrics = [
   ...cities.map((c, i) => row(c, 'tp_pt_am_30min', 'core', 20 + i, { source: 'R5', flag: c === 'lodz' ? 'uwaga' : null })),
   ...cities.map((c, i) => row(c, 'pwdens_census_1km', 'core', 5000 + i, { unit: 'os./km²' })),
-  row('lodz', 'unknown_metric', 'core', null, { label: 'Nowa miara' }),
+  row('lodz', 'unknown_metric', 'core', 7, { label: 'Nowa miara' }),
 ]
 const index = indexMetrics(metrics)
 
@@ -59,9 +60,18 @@ describe('panels render without a browser', () => {
   const all = [...cities, 'kielce']
   const cmp = (extra = {}) => ({
     index, cities, everyCity: all, names: { lodz: 'Łódź', kielce: 'Kielce' }, area: 'core', layers: catalog.layers,
-    onShowLayer: noop, onPickCity: noop, hot: 'lodz', setHot: noop, onOpenLimits: noop, layout: 'tabs', ...extra,
+    onShowLayer: noop, onPickCity: noop, hot: 'lodz', setHot: noop, onOpenLimits: noop, layout: 'tabs', table: { set: 'all' }, ...extra,
   })
-  it('the comparison is one table of all agglomerations: group captions, a dash for the city without timetables, no area chips', () => {
+  it('by default the comparison shows the story measures of the cities with timetables, in the area of the header', () => {
+    const s = html(h(Compare, { ...cmp(), table: undefined }))
+    expect(s).toContain('Gęstość ważona populacją')   // a story measure
+    expect(s).not.toContain('Nowa miara')               // not one
+    expect(s).not.toContain('Kielce')                   // the city without timetables is not a column
+    expect(s).toContain('Najważniejsze')
+    expect(s).toContain('jak u góry')                   // the table follows the header's area, and says so
+    expect(s).toContain('Wybierz miary')
+  })
+  it('the comparison with every measure is one table of all agglomerations: group captions, a dash for the city without timetables, no area chips', () => {
     const s = html(h(Compare, cmp()))
     expect(s).toContain('Zasięg komunikacją w 30 min')
     expect(s).toContain('Nowa miara')
@@ -102,7 +112,7 @@ describe('panels render without a browser', () => {
     it('keeps the default order of the cities without a sort', () => {
       const s = html(h(Compare, base))
       expect(heads(s)).toEqual(['Warszawa', 'Kraków', 'Łódź'])
-      expect(s).not.toContain('Domyślna kolejność')
+      expect(s).toContain('Kolejność: domyślna')
       expect(s).not.toContain('aria-sort')
     })
     it('puts the best first: high first where higher is better, low first where lower is', () => {
@@ -110,7 +120,8 @@ describe('panels render without a browser', () => {
       const lower = html(h(Compare, { ...base, sort: { key: 'rho_t20', dir: 'asc' } }))
       expect(heads(lower)).toEqual(['Kraków', 'Łódź', 'Warszawa'])
       expect(lower).toContain('najlepsze pierwsze')
-      expect(lower).toContain('Domyślna kolejność')
+      expect(lower).toContain('Wg: <b>')
+      expect(lower).toContain('>domyślna<')
       expect(lower).toContain('aria-sort="ascending"')
     })
     it('puts a city without a number last, whichever way, and does not call a metric without a direction best', () => {
@@ -124,7 +135,7 @@ describe('panels render without a browser', () => {
     it('ignores a sort of a metric the table does not have, as an old link might carry', () => {
       const s = html(h(Compare, { ...base, sort: { key: 'nie_ma_takiej', dir: 'desc' } }))
       expect(heads(s)).toEqual(['Warszawa', 'Kraków', 'Łódź'])
-      expect(s).not.toContain('Domyślna kolejność')
+      expect(s).toContain('Kolejność: domyślna')
     })
     it('drops the group captions while the cities are sorted (a mixed order cannot keep them)', () => {
       const mixed = cmp({ index: more, everyCity: [...cities, 'kielce'] })
@@ -153,11 +164,13 @@ describe('panels render without a browser', () => {
       expect(s).toContain('aria-selected="true"')
       expect(s).not.toContain('Etap')
     })
-    it('"Wszystkie miary" has one value column for the area and the rank; "Przesiadki" has the stop areas in title case', () => {
-      const s = html(h(CityPanel, { ...base, tab: 'miary' }))
-      expect(s).toContain('Miasto')
-      expect(s).not.toContain('Centrum miejskie')       // one column: the other areas are on the metric page
-      expect(s).toContain('1/3')
+    it('"Wszystkie miary" has the value and the rank in the area of the header, or the chosen areas as columns; "Przesiadki" has the stop areas in title case', () => {
+      const one = html(h(CityPanel, { ...base, tab: 'miary', table: { set: 'all' } }))
+      expect(one).toContain('Miasto')
+      expect(one).toContain('1/3')
+      expect(one).toContain('kit-data-table')
+      const s = html(h(CityPanel, { ...base, tab: 'miary', table: { set: 'all', areas: ['core', 'fua'] } }))
+      expect(s).not.toContain('1/3')                     // no rank beside several columns
       const stops = html(h(CityPanel, { ...base, tab: 'przesiadki' }))
       expect(stops).toContain('Najruchliwsze zespoły przystanków')
       expect(stops).toContain('Dworzec Główny')
@@ -173,8 +186,12 @@ describe('panels render without a browser', () => {
         ...['a', 'b', 'c', 'd'].map((c, i) => row(c, 'area', 'core', 100 + i, { unit: 'km²' })),
         ...['a', 'b', 'c'].map((c, i) => row(c, 'pwdens_census_1km', 'core', 5000 + i, { unit: 'os./km²' })),
       ])
-      const groups = cityGroups({ index: idx, pool: ['a', 'b', 'c', 'd', 'e'], agg: 'a', area: 'core', layers: [], onShowLayer: noop })
-      const cellOf = (id) => groups.flatMap((g) => g.rows).find((r) => r.id === id).cells[1]
+      const pool = ['a', 'b', 'c', 'd', 'e']
+      const model = buildTable({
+        index: idx, selection: selectionOf({ set: 'all' }, idx), cities: ['a'], areas: ['core'], shape: shapeOf(['a'], ['core']), names: {},
+        layers: [], onShowLayer: noop, transport: pool, everyCity: pool,
+      })
+      const cellOf = (id) => model.groups.flatMap((g) => g.rows).find((r) => r.id === id).cells[1]
       expect(cellOf('area').content).toBe('')
       expect(cellOf('pwdens_census_1km').content).toBe('3/3')
     })
