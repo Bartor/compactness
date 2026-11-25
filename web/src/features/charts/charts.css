@@ -40,12 +40,19 @@
 .chx-bar { stroke: var(--kit-line-hover, #4a5263); stroke-width: 3; stroke-linecap: round; }
 .chx-readout { min-height: 1.3em; margin: .25rem 0 0; color: var(--kit-soft, #c3c9d4); font-size: .82rem; }
 .chx-note { margin: .2rem 0 0; color: var(--kit-dim, #9aa1b1); font-size: .76rem; line-height: 1.4; }
-.chx-tablewrap { overflow-x: auto; }
+.chx-tablewrap { overflow-x: auto; max-width: 100%; }
 .chx-table { border-collapse: collapse; width: 100%; font-size: .8rem; font-variant-numeric: tabular-nums; }
 .chx-table caption { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
-.chx-table th, .chx-table td { padding: .2rem .45rem; border-bottom: 1px solid var(--kit-line, #2b2f3a); text-align: right; white-space: nowrap; }
-.chx-table th[scope="row"], .chx-table thead th:first-child { text-align: left; font-weight: 500; color: var(--kit-soft, #c3c9d4); }
-.chx-table thead th { color: var(--kit-dim, #9aa1b1); font-weight: 500; position: sticky; top: 0; background: var(--kit-panel, #1c1f26); }
+/* values never break; the headers and the first column (city, time of day) wrap instead of being cut off */
+.chx-table th, .chx-table td { padding: .2rem .4rem; border-bottom: 1px solid var(--kit-line, #2b2f3a); text-align: right; }
+.chx-table td { white-space: nowrap; }
+.chx-table thead th { white-space: normal; overflow-wrap: break-word; hyphens: auto; vertical-align: bottom; line-height: 1.2; min-width: 3.2rem; }
+.chx-table th[scope="row"], .chx-table thead th:first-child { text-align: left; font-weight: 500; color: var(--kit-soft, #c3c9d4); min-width: 5rem; }
+.chx-table th[scope="row"] { white-space: normal; overflow-wrap: break-word; line-height: 1.25; }
+.chx-table thead th { color: var(--kit-dim, #9aa1b1); font-weight: 500; background: var(--kit-panel, #1c1f26); }
+/* when a table is still wider than its box (many columns) the first column stays while the rest scrolls */
+.chx-table th:first-child { position: sticky; left: 0; z-index: 1; background: var(--kit-panel, #1c1f26); }
+.chx-table th[scope="row"] { box-shadow: 1px 0 0 var(--kit-line, #2b2f3a); }
 @media (forced-colors: active) {
   .chx-svg path, .chx-svg circle, .chx-svg rect { forced-color-adjust: none; }
 }
