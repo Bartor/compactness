@@ -37,7 +37,7 @@ export const SUM_LABEL = 'Typowa przesiadka 7–9 (średnia ważona liczbą kurs
  * Properties are those of results/web/transfer_nodes.geojson (shares are fractions).
  */
 export function nodePopupModel(p, timetableDate) {
-  const excl = isNum(p.pairs_excl) && p.pairs_excl > 0 ? ` (pominięto równoległych: ${nf(p.pairs_excl, 0)})` : ''
+  const excl = isNum(p.pairs_excl) && p.pairs_excl > 0 ? ` (bez ${nf(p.pairs_excl, 0)} par linii jadących tą samą trasą)` : ''
   const pairs = isNum(p.pairs) ? `${nf(p.pairs, 0)}${excl}` : NO_DATA
   const sections = [
     {
@@ -57,7 +57,7 @@ export function nodePopupModel(p, timetableDate) {
       title: 'Dojście (mediany)',
       rows: [
         ['Z kierunkami, mediana', num(p.walk_dir, 'min')],
-        ['Z kierunkami, 90. percentyl', num(p.walk_dir_p90, 'min')],
+        ['Z kierunkami, co dziesiąte dłuższe niż', num(p.walk_dir_p90, 'min')],
         ['Najlepsza para, mediana', num(p.walk_best, 'min')],
       ],
     },
@@ -99,7 +99,7 @@ export function nodePopupModel(p, timetableDate) {
   }
   if (has('gtt_lo', 'gtt_hi')) {
     sections.splice(2, 0, {
-      title: 'Uogólniony czas przesiadki (wagi z literatury, nie ranking)',
+      title: 'Odczuwalny czas przesiadki (wagi z literatury, nie ranking)',
       rows: [['Pasmo, w minutach równoważnych jeździe', isNum(p.gtt_lo) && isNum(p.gtt_hi) ? `${nf(p.gtt_lo, 1)}–${nf(p.gtt_hi, 1)} min` : NO_DATA]],
     })
   }
@@ -113,7 +113,7 @@ export function nodePopupModel(p, timetableDate) {
   }
   const notes = []
   if (p.use_ok && isNum(p.use)) notes.push(`Przesiada się tu ok. ${shareText(p.use)} podróży z próby tras (${nf(p.use_n, 0)} podróży).`)
-  if (p.nodata) notes.push('Zespół leży poza pokryciem rozkładów GTFS: składowych nie policzono.')
+  if (p.nodata) notes.push('Dla tego zespołu nie mamy rozkładów jazdy: składowych nie policzono.')
   if (p.flag) notes.push(p.flag)
   const date = timetableDate ? `Rozkład ${timetableDate}, ` : ''
   return {
@@ -121,7 +121,7 @@ export function nodePopupModel(p, timetableDate) {
     modes: modesText(p.modes),
     sections,
     notes,
-    footer: `${date}OSM 2026-11-22; miara własna, składowe osobno`,
+    footer: `${date}OSM 2026-11-22; własna miara projektu, każda składowa osobno`,
   }
 }
 
@@ -152,4 +152,62 @@ export function renderNodePopup(model, doc = document) {
   for (const n of model.notes) root.appendChild(el('p', 'np-note', n))
   root.appendChild(el('p', 'np-foot', model.footer))
   return root
+}
+
+// ---- placement of a map popup (pure; MapView measures the DOM and calls this)
+// Rects are {left, top, right, bottom} in the map container's pixels; `point` is the anchor point in the same pixels.
+
+const TIP = 10   // MapLibre's popup tip: its size is part of the popup element on the anchor's side
+
+const overlaps = (a, b) => a.left < b.right && a.right > b.left && a.top < b.bottom && a.bottom > b.top
+const inside = (r, area) => r.left >= area.left - 0.5 && r.right <= area.right + 0.5 && r.top >= area.top - 0.5 && r.bottom <= area.bottom + 0.5
+
+/** The rect a popup of `size` {w, h} (the element with its tip, measured with an anchor on top or bottom) takes for each MapLibre anchor. */
+export function anchorRects(point, size, offset = 8) {
+  const c = Math.round(offset / Math.SQRT2)
+  const { x, y } = point
+  const side = { w: size.w + TIP, h: size.h - TIP }   // the tip moves from the top/bottom edge to the side edge
+  const box = (left, top, w, h) => ({ left, top, right: left + w, bottom: top + h })
+  return {
+    top: box(x - size.w / 2, y + offset, size.w, size.h),
+    bottom: box(x - size.w / 2, y - offset - size.h, size.w, size.h),
+    'top-left': box(x + c, y + c, size.w, size.h),
+    'top-right': box(x - c - size.w, y + c, size.w, size.h),
+    'bottom-left': box(x + c, y - c - size.h, size.w, size.h),
+    'bottom-right': box(x - c - size.w, y - c - size.h, size.w, size.h),
+    left: box(x + offset, y - side.h / 2, side.w, side.h),
+    right: box(x - offset - side.w, y - side.h / 2, side.w, side.h),
+  }
+}
+
+/** The pan [dx, dy] (px, as map.panBy takes it) that brings `r` into `area`: 0 where it already fits; a rect larger than the area is aligned to its top left. */
+export function panToFit(r, area) {
+  const shift = (lo, hi, aLo, aHi) => (hi - lo > aHi - aLo ? lo - aLo : lo < aLo ? lo - aLo : hi > aHi ? hi - aHi : 0)
+  return [shift(r.left, r.right, area.left, area.right), shift(r.top, r.bottom, area.top, area.bottom)]
+}
+
+const ORDER = ['top', 'bottom', 'top-left', 'top-right', 'bottom-left', 'bottom-right', 'left', 'right']
+
+/**
+ * Where to open a popup: {anchor, rect, pan: [dx, dy]}. The first anchor (below the point, above it, then the corners and the
+ * sides) whose popup lies wholly in `area` and clear of the `avoid` rects (the legend, the zoom buttons) is taken; failing
+ * that, the first one that merely lies in `area`; failing that, the one that needs the smallest pan of the map to fit (`pan`
+ * is that shift in px, [0, 0] otherwise; a popup larger than the area is aligned to its top left corner).
+ */
+export function placePopup({ point, size, area, avoid = [], offset = 8 }) {
+  const rects = anchorRects(point, size, offset)
+  for (const strict of [true, false]) {
+    for (const a of ORDER) {
+      const r = rects[a]
+      if (inside(r, area) && (!strict || !avoid.some((o) => overlaps(r, o)))) return { anchor: a, rect: r, pan: [0, 0] }
+    }
+  }
+  let best = null
+  for (const a of ORDER) {
+    const r = rects[a]
+    const pan = panToFit(r, area)
+    const cost = Math.abs(pan[0]) + Math.abs(pan[1])
+    if (!best || cost < best.cost) best = { anchor: a, rect: r, pan, cost }
+  }
+  return { anchor: best.anchor, rect: best.rect, pan: best.pan }
 }

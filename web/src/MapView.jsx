@@ -9,7 +9,7 @@ import { clearNodeDetail, detailBounds, setHotPath, showNodeDetail } from './fea
 import { ANCHOR_LABELS } from './mapStyle'
 import { emphasised, focusOf, hoverOnMap, leaveMap } from './classFocus'
 import { applyFocus, pointLayerIds } from './pointLayers'
-import { nodePopupModel, renderNodePopup } from './nodePopup'
+import { nodePopupModel, panToFit, placePopup, renderNodePopup } from './nodePopup'
 import { applyLines, hitBox, hitTest, lineLayerIds } from './features/speed/lineLayers'
 import { renderStretchPopup, stretchPopupModel } from './features/speed/stretchPopup'
 import Legend from './Legend'
@@ -29,12 +29,28 @@ function registerPmtiles() {
 }
 
 const HIT_PAD = 4
-const POLAND = { center: [19.4, 52.1], zoom: 5.6 }
+// every agglomeration of the comparison in view: the first sight and "home" are the same fit (App's POLAND_BBOX)
+const POLAND_BOUNDS = [[14.0, 48.9], [24.3, 54.9]]
 const isPhone = () => window.matchMedia('(max-width: 760px)').matches
 
 // Desktop padding for fitBounds: the page passes it (`fitPad`), clear of the legend in the corner. The dock is not
 // in it: it sits under the map and the map box already ends above it.
 const DEFAULT_PAD = { top: 40, left: 40, right: 40, bottom: 40 }
+const PHONE_PAD = { top: 24, left: 20, right: 20, bottom: 120 }
+
+/**
+ * The padding of a fit, as the map stands now. The left side clears the legend only when the legend is tall enough to
+ * get in the way (the classes of a data layer): a short one (the boundaries alone) sits in the corner under the
+ * outline, and leaving a third of the map empty for it puts the city visibly off-centre.
+ */
+function padNow(cont, fitPad) {
+  const cb = cont.getBoundingClientRect()
+  // a phone: the sheet covers the bottom of the map (the page says how much), but some map always stays
+  if (isPhone()) return { ...PHONE_PAD, bottom: Math.max(PHONE_PAD.bottom, Math.min((fitPad.bottom || 0) + 40, cb.height - 150)) }
+  const r = cont.parentElement?.querySelector('.kit-map-legend')?.getBoundingClientRect()
+  const tall = !!r && r.height > 0 && r.height >= cb.height * 0.4
+  return { ...fitPad, left: tall ? Math.round(r.right - cb.left) + 16 : Math.min(fitPad.left, 40) }
+}
 
 // The kit's .kit-map-wrap supplies the sizing: a flex child that fills what
 // the sidebar leaves, and the whole screen behind the sheets on phones.
@@ -69,8 +85,9 @@ export default function MapView({
       m = new maplibregl.Map({
         container: box.current,
         style: buildStyle(),
-        center: initialView ? [initialView.lon, initialView.lat] : POLAND.center,
-        zoom: initialView ? initialView.zoom : POLAND.zoom,
+        ...(initialView
+          ? { center: [initialView.lon, initialView.lat], zoom: initialView.zoom }
+          : { bounds: POLAND_BOUNDS, fitBoundsOptions: { padding: padNow(box.current, fitPad) } }),
         minZoom: 3,
         maxZoom: 17,
         attributionControl: false,
@@ -153,36 +170,42 @@ export default function MapView({
       if (popup.current) popup.current.remove()
       popup.current = null
     }
-    // a popup is placed so that it fits the map: it opens below the point, above it, or to the side, whichever has room, and
-    // the map pans by what still sticks out (when the popup is taller than the map it scrolls inside)
+    // A popup is placed so that it lies wholly in the visible map: below the point, above it, or beside it, whichever has room
+    // (nodePopup.js placePopup), clear of the legend and the zoom buttons where that is possible and always clear of the
+    // attribution strip. Its content scrolls inside when it is taller than the room; when no anchor fits, the map pans once
+    // by the least that makes it fit.
     const openContent = (content, lngLat, layerId) => {
       closePopup()
       const cont = m.getContainer()
       const M = 12
       const OFF = 8
-      // 44 px less: the attribution strip along the bottom of the map would cover the popup's last lines
-      content.style.maxHeight = `${Math.max(160, Math.min(420, cont.clientHeight - 2 * M - OFF - 44))}px`
-      const build = (anchor) => new maplibregl.Popup({ maxWidth: 'none', className: 'node-popup-wrap', focusAfterOpen: false, offset: OFF, ...(anchor ? { anchor } : {}) })
+      const cb = cont.getBoundingClientRect()
+      const rel = (r) => ({ left: r.left - cb.left, top: r.top - cb.top, right: r.right - cb.left, bottom: r.bottom - cb.top })
+      const shown = (sel, root) => [...root.querySelectorAll(sel)].map((e) => e.getBoundingClientRect()).filter((r) => r.width > 0 && r.height > 0).map(rel)
+      // the strip along the bottom (attribution, scale) is not available to the popup
+      const strip = Math.min(cb.height - M, ...shown('.maplibregl-ctrl-attrib, .maplibregl-ctrl-scale', cont).map((r) => r.top - 4))
+      const area = { left: M, top: M, right: cb.width - M, bottom: strip }
+      const avoid = [...shown('.maplibregl-ctrl-top-left .maplibregl-ctrl-group', cont), ...shown('.kit-map-legend', cont.parentElement)]
+      const build = (anchor) => new maplibregl.Popup({ maxWidth: 'none', className: 'node-popup-wrap', focusAfterOpen: false, offset: OFF, anchor })
         .setLngLat(lngLat).setDOMContent(content).addTo(m)
-      let p = build()
-      const r0 = p.getElement().getBoundingClientRect()
-      const pt = m.project(lngLat)
-      const ch = cont.clientHeight
-      const cw = cont.clientWidth
-      const H = r0.height + OFF
-      const W = r0.width
-      const v = H <= ch - pt.y - M ? 'top' : H <= pt.y - M ? 'bottom' : (ch - pt.y >= pt.y ? 'top' : 'bottom')
-      const h = pt.x < W / 2 + M ? 'left' : cw - pt.x < W / 2 + M ? 'right' : ''
+      content.style.maxHeight = '420px'
+      let p = build('top')
+      let r0 = p.getElement().getBoundingClientRect()
+      // the popup, tip and padding included, must fit the room that is left: shorten the scrolling content by the excess
+      const room = area.bottom - area.top - OFF
+      if (r0.height > room) {
+        content.style.maxHeight = `${Math.max(80, content.offsetHeight - (r0.height - room))}px`
+        r0 = p.getElement().getBoundingClientRect()
+      }
+      const place = placePopup({ point: m.project(lngLat), size: { w: r0.width, h: r0.height }, area, avoid, offset: OFF })
       p.remove()
-      p = build(h ? `${v}-${h}` : v)
+      p = build(place.anchor)
       p.layerId = layerId
       p.on('close', () => { if (popup.current === p) popup.current = null })
       popup.current = p
-      const r = p.getElement().getBoundingClientRect()
-      const b = cont.getBoundingClientRect()
-      const dx = r.left < b.left + M ? r.left - b.left - M : r.right > b.right - M ? r.right - b.right + M : 0
-      const dy = r.top < b.top + M ? r.top - b.top - M : r.bottom > b.bottom - M ? r.bottom - b.bottom + M : 0
-      if (dx || dy) m.panBy([dx, dy], { duration: 250 })
+      // what the measured popup still lacks (a tip that is a pixel or two off, a stretch of room that is not there): pan once
+      const [dx, dy] = panToFit(rel(p.getElement().getBoundingClientRect()), area)
+      if (Math.abs(dx) >= 1 || Math.abs(dy) >= 1) m.panBy([Math.round(dx), Math.round(dy)], { duration: 250 })
     }
     const openPopup = ({ layer, feature }) => {
       openContent(renderNodePopup(nodePopupModel(feature.properties || {}, layer.timetable_date)), feature.geometry.coordinates.slice(), layer.id)
@@ -402,12 +425,11 @@ export default function MapView({
   // fly to an agglomeration when asked: {bbox, animate, n}
   useEffect(() => {
     if (!ready || !fit) return
-    const phone = isPhone()
     ready.resize()   // the box may have just changed size (the dock moved): fit to what is there now
     ready.fitBounds(
       [[fit.bbox[0], fit.bbox[1]], [fit.bbox[2], fit.bbox[3]]],
       {
-        padding: phone ? { top: 40, left: 20, right: 20, bottom: 120 } : fitPad,
+        padding: padNow(ready.getContainer(), fitPad),
         duration: fit.animate ? 1200 : 0,
         maxZoom: 12,
       },

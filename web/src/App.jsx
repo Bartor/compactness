@@ -221,13 +221,18 @@ function Loaded({ catalog, metrics, attributions }) {
   }, [phone, toComparison])
 
   // fit the selected city again when the dock changes size (the map box changed); in full the map is the small one
+  // A move that arrives together with the dock change (a city picked from the full metric page closes the page and flies
+  // there) was already fitted to the final box by the map: a second, instant fit would cut that flight short.
   const lastDock = useRef(dock)
+  const lastFit = useRef(fit)
   useEffect(() => {
     const prev = lastDock.current
+    const fitMoved = lastFit.current !== fit
     lastDock.current = dock
-    if (phone || !refitOnChange(prev, dock) || !selected?.bbox) return
+    lastFit.current = fit
+    if (phone || fitMoved || !refitOnChange(prev, dock) || !selected?.bbox) return
     setFit((f) => ({ bbox: selected.bbox, animate: false, n: (f?.n || 0) + 1 }))
-  }, [dock])   // eslint-disable-line react-hooks/exhaustive-deps
+  }, [dock, fit])   // eslint-disable-line react-hooks/exhaustive-deps
   const settled = useCallback(() => { if (selected?.bbox) setFit((f) => ({ bbox: selected.bbox, animate: false, n: (f?.n || 0) + 1 })) }, [selected])
 
   // layer controls
