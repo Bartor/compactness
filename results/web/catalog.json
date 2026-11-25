@@ -574,10 +574,11 @@
   {
    "attribution": "wydawcy rozkładów jazdy (lista w „O danych”), © współtwórcy OpenStreetMap",
    "chip": "tramwaje",
+   "detail_url_template": "data/speed/segments/{agg}.json",
    "id": "speed_tram",
    "kind": "lines",
    "mode_group": "tram",
-   "note": "Sieć tramwajowa podzielona na odcinki między ważnymi przystankami; kolor to prędkość z rozkładu jazdy (długość przez czas rozkładowy, z postojami na przystankach) w wybranym paśmie, grubość to liczba kursów na godzinę. Każdy kierunek jest narysowany po swojej prawej stronie. To rozkład, nie pomiar: rzeczywiste prędkości mogą być niższe. Rozkład podaje pełne minuty, więc prędkość odcinka ma przedział ±1 min (w okienku); odcinki krótsze niż 5 min są przerywane. W okienku także czas ponad jazdę swobodną w s/km: liczba z prostego modelu, nie pomiar strat na światłach.",
+   "note": "Sieć tramwajowa podzielona na odcinki między kolejnymi przystankami; kolor to prędkość z rozkładu jazdy (długość przez czas rozkładowy, z postojem na przystanku) w wybranym paśmie, grubość to liczba kursów na godzinę. Każdy kierunek jest narysowany po swojej prawej stronie. To rozkład, nie pomiar: rzeczywiste prędkości mogą być niższe. Rozkład podaje pełne minuty, więc prędkość jednego krótkiego odcinka jest bardzo niepewna. Kliknij odcinki, żeby je zaznaczyć: panel z prawej liczy czas i prędkość całego zaznaczenia z przedziałem ±1 min, czas ponad jazdę swobodną (model, nie pomiar strat na światłach) i pozwala sprawdzić, co by było, gdyby ten czas skrócić.",
    "population_date": null,
    "property": "v",
    "ramp": {
@@ -619,10 +620,11 @@
     "saturday": "2026-11-28",
     "weekday": "2026-11-25"
    },
-   "title": "Prędkość z rozkładu: tramwaje (odcinki)",
+   "title": "Prędkość z rozkładu: tramwaje (odcinki między przystankami)",
    "type": "geojson",
    "unit": "km/h, z rozkładu (rozkładowa prędkość komunikacyjna)",
-   "url": "data/speed/trams.geojson",
+   "unit_kind": "segments",
+   "url": "data/speed/segments/trams.geojson",
    "variants": [
     {
      "key": "w_am",

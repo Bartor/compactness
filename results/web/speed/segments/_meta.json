@@ -1,0 +1,95 @@
+{
+ "checks": {
+  "city_speed_max_abs_diff_all_hops_kmh": 0.004926,
+  "city_speed_max_abs_diff_on_stretches_kmh": 0.004926,
+  "stretch_sum_abs_diff_min_max": 17.87,
+  "stretch_sum_abs_diff_min_p50": 0.034,
+  "stretch_sum_abs_diff_min_p95": 0.9131,
+  "stretch_sum_abs_diff_taf_p50": 0.9628,
+  "stretch_sum_abs_diff_taf_p95": 25.09,
+  "stretch_sum_complete_rows": 7440,
+  "stretch_sum_rows": 9525
+ },
+ "duration_s": 201.3,
+ "features": {
+  "gzm.json": 756,
+  "krakow.json": 359,
+  "lodz.json": 524,
+  "poznan.json": 333,
+  "trams.geojson": 3329,
+  "trojmiasto.json": 252,
+  "warszawa.json": 612,
+  "wroclaw.json": 493
+ },
+ "files": {
+  "<agg>.json": "detail per city for the selection panel and the what-if",
+  "trams.geojson": "map: one feature per segment and direction, v_B km/h, t_B trips/h, z_B (0 min in the timetable), c (class per band), straight"
+ },
+ "git_sha": "c233c243cea3a1f40aa6088d64a7473922e5be77",
+ "inputs": {},
+ "label": "rozkładowa prędkość komunikacyjna (z rozkładu, nie pomiar), odcinki między przystankami",
+ "max_mb": 5.0,
+ "missing_inputs": [],
+ "model_central": {
+  "a_acc": 1.0,
+  "b_brk": 1.0,
+  "dwell_s": 20.0,
+  "osm_maxspeed": true,
+  "v_cap_kmh": 50.0
+ },
+ "osm_date": "2026-11-22",
+ "over_max": [],
+ "range": {
+  "cap_kmh": [
+   40.0,
+   50.0,
+   70.0
+  ],
+  "dwell_s": [
+   10.0,
+   20.0,
+   30.0
+  ]
+ },
+ "rules": "* Segment = ordered pair (place a, place b) of consecutive stop places of a tram trip, a != b; terminal shuffles\n  (speed_core.terminal_shuffle) are left out as in the stretches.  Id = <city code>-<sha1(\"a>b\"), 5 hex> (longer only\n  on a collision within the city): stable as long as the stop places do not change.\n* Length = median hop length along the GTFS shape (Wednesday; Saturday when the segment runs only then).\n* Scheduled time of a segment in a band = mean of the scheduled hop times (arrival at b - departure from a, whole\n  minutes in the source) over the hops departing in the band; trips per hour = hops / band hours.  A selection's time\n  is the sum of its segments' times and its speed = length / time (computed on the site).\n* Free running (the site recomputes it with the reader's parameters): tram_stretches.free_time per segment with the cap\n  cap(v0) = 1 / (f / msh + (1 - f) / v0), f = share of the sample points (every 10 m) on OSM track with a maxspeed\n  (30-100 km/h), msh = their harmonic mean; identical to tram_stretches.cap_kmh on the segment's points.\n* OSM attributes per segment (tram_stretches.osm_attrs on the segment geometry): street-running share, road crossings,\n  signalised ones, pedestrian crossings away from junctions, switches.  A crossing within 1 m of a segment end, i.e. at\n  the stop, is not counted on either segment (the same rule cuts stretch ends).\n* Line directions (line x GTFS direction_id): trips, mean trip length and mean trip time per band of the trip's first\n  departure (hops without terminal shuffles); traversals of each segment per band and line direction.\n* Patterns: the stop-place sequence of each Wednesday / Saturday trip pattern as segment indices (for \"this line in this\n  direction\" on the site), with the number of trips.",
+ "run_at": "2026-11-25T11:53:49+01:00",
+ "sizes_mb": {
+  "gzm.json": 0.367,
+  "krakow.json": 0.179,
+  "lodz.json": 0.293,
+  "poznan.json": 0.227,
+  "trams.geojson": 2.031,
+  "trojmiasto.json": 0.113,
+  "warszawa.json": 0.339,
+  "wroclaw.json": 0.288
+ },
+ "sources": [
+  "data/interim/speed/hops_<agg>_<day>.parquet (pipeline.speed_core)",
+  "pipeline.tram_stretches.city_run (stop places, stretch mapping)",
+  "data/interim/speed/osm_*.parquet (pipeline.speed_osm, OSM 2026-11-22)"
+ ],
+ "step": "speed_segments_web",
+ "timetable_dates": {
+  "saturday": "2026-11-28",
+  "weekday": "2026-11-25"
+ },
+ "why_stretches": {
+  "chain_5min_length_m": 1789.0,
+  "hop_time_median_min": 1.0,
+  "hop_traversals_weekday": 716900.0,
+  "interval_5min_chain_kmh": [
+   17.89,
+   26.83
+  ],
+  "interval_single_segment_kmh": [
+   11.93,
+   107.3
+  ],
+  "segment_length_median_m": 447.2,
+  "segment_mean_time_median_min_w_md": 1.25,
+  "segment_speed_at_medians_kmh": 21.47,
+  "share_hops_0min": 0.006045,
+  "share_hops_le_1min": 0.5159,
+  "share_hops_lt_2min": 0.5159
+ }
+}

@@ -6,10 +6,10 @@
  ],
  "catalog_updated": true,
  "duration_s": 0.1,
- "git_sha": "4163f93c2553500df1dc152cc2d949d1d1f55bc8",
+ "git_sha": "5064b5476deddd1b604e8152369a4baece1c5077",
  "inputs": {},
  "missing_files": [],
  "missing_inputs": [],
- "run_at": "2026-11-24T22:15:09+01:00",
+ "run_at": "2026-11-25T11:33:03+01:00",
  "step": "speed_catalog"
 }
