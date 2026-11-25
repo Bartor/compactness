@@ -58,7 +58,7 @@
   "file": "density250_nsp2021.pmtiles",
   "sha256": "6f644d001f21740ad77dd0859ff042ab4c3fc3cf89d50d19fc5d66bcd582d9f2",
   "source_layer": "density250",
-  "title": "Gęstość zaludnienia 250 m (NSP 2021)",
+  "title": "Gęstość zaludnienia (spis 2021)",
   "verify": {
    "area": [
     {

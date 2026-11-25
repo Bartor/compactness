@@ -253,7 +253,7 @@
    "source_layer": "density250",
    "status": "ready",
    "timetable_date": null,
-   "title": "Gęstość zaludnienia 250 m (NSP 2021)",
+   "title": "Gęstość zaludnienia (spis 2021)",
    "type": "pmtiles",
    "unit": "os./km²; jaśniej = gęściej",
    "url": "tiles/density250_nsp2021.pmtiles"
