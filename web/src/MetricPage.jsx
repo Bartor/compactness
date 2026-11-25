@@ -198,7 +198,7 @@ export default function MetricPage({
           <h2>Obszary obok siebie</h2>
           <DataTable
             caption={`${name}: miasta i obszary`} labelHead="Miasto" className="metric-areas" columns={areaCols} rows={tableRows}
-            sortBy="column" density="compact" resizable="all" maxHeight="none"
+            sortBy="column" density="compact" resizable="all" widthsKey="compactness-metric" maxHeight="none"
             toolbar={(
               <ExportButtons
                 table={() => metricTable({ index, id, cityIds, names, areas, area, info })}

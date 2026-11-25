@@ -98,7 +98,7 @@ export default function CityView({
               <DataTable
                 caption={`Miary: ${agglomeration.name}, ${areaName}`} labelHead="Miara" className={wide ? 'city-table dock-table' : 'city-table'}
                 columns={valueColumns(area)} groups={groups}
-                resizable={wide ? 'all' : false} density={wide ? 'compact' : 'regular'}
+                resizable={wide ? 'all' : false} widthsKey="compactness-city" density={wide ? 'compact' : 'regular'}
                 labelWidth={wide ? { min: '19rem', max: '26rem' } : undefined}
                 toolbar={(
                   <ExportButtons

@@ -62,7 +62,7 @@ export default function Compare({
         columns={columns} groups={groups}
         sortBy="row" sort={sort} onSortChange={setSort}
         hot={hot} onHot={setHot}
-        resizable={tabs ? 'all' : false} density={tabs ? 'compact' : 'regular'}
+        resizable={tabs ? 'all' : false} widthsKey="compactness-compare" density={tabs ? 'compact' : 'regular'}
         labelWidth={tabs ? { min: '19rem', max: '26rem' } : { min: '11.5rem', max: '12rem' }}
         toolbar={(
           <ExportButtons
