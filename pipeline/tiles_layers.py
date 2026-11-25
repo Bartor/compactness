@@ -277,7 +277,7 @@ def describe_density(cfg, built: Built, names: dict, url: str) -> dict:
             "Komórki bez ludności nie są rysowane: to rzeczywiste zero, a nie brak danych. "
             "Kolor oznacza przedział gęstości, nie wartość komórki; przy większości komórek gęstość jest "
             f"poniżej {DENSITY_STOPS[0]} os./km².")
-    return _base(cfg, "Gęstość zaludnienia 250 m (NSP 2021)", ATTR_DENSITY, note, kind="choropleth", type="pmtiles",
+    return _base(cfg, "Gęstość zaludnienia (spis 2021)", ATTR_DENSITY, note, kind="choropleth", type="pmtiles",
                  url=url, source_layer="density250", property="v", unit="os./km²; jaśniej = gęściej", has_nodata=False,
                  population_date=POP_DATE,
                  ramp={"stops": DENSITY_STOPS, "colors": DENSITY_COLORS})

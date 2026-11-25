@@ -150,7 +150,7 @@ describe('the card', () => {
     expect(html({ file: FILE, status: 'ready', origin: null })).toContain('Kliknij na mapie')
   })
   it('says when a city has no file', () => {
-    expect(html({ file: null, status: 'missing' })).toContain('nie ma wyliczonych izochron')
+    expect(html({ file: null, status: 'missing' })).toContain('nie ma wyliczonych zasięgów')
   })
   it('shows the origin, the distance, the residents and the limits', () => {
     const s = html({ file: FILE, status: 'ready', origin: FILE.origins[0], distanceM: 640, scenario: 'evening' })

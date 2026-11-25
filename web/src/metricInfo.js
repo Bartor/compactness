@@ -242,7 +242,7 @@ export const METRIC_INFO = {
     ],
   },
   rho_t20: {
-    short: 'Indeks Bertauda ρ',
+    short: 'Rozproszenie wokół centrum (indeks Bertauda)',
     better: 'lower',
     read: [
       'Jak daleko od centrum mieszkają ludzie w porównaniu z miastem, w którym ludność jest rozłożona równomiernie '
@@ -256,10 +256,10 @@ export const METRIC_INFO = {
     ],
   },
   rho_nearest_t20: {
-    short: 'Indeks Bertauda ρ do najbliższego centrum',
+    short: 'Rozproszenie wokół najbliższego z centrów',
     better: 'lower',
     read: [
-      'Ten sam indeks, ale odległość liczona do najbliższego z kilku centrów. Ma sens dla obszarów z kilkoma '
+      'Ten sam indeks Bertauda, ale odległość liczona do najbliższego z kilku centrów. Ma sens dla obszarów z kilkoma '
       + 'ośrodkami: GZM, Trójmiasta, Bydgoszczy i Torunia.',
     ],
     method: ['Jak indeks Bertauda, z listą centrów z konfiguracji projektu zamiast jednego punktu.'],
@@ -275,10 +275,11 @@ export const METRIC_INFO = {
     method: ['Z profilu skumulowanej ludności według odległości od centrum; ludność ze spisu 2021 rozłożona na komórki 100 m.'],
   },
   vkm_per_cap_day_total: {
-    short: 'Wozokilometry na mieszkańca na dobę',
+    short: 'Kilometry kursów na mieszkańca na dobę',
     better: 'higher',
     read: [
-      'Ile kilometrów przejeżdżają w ciągu doby wszystkie pojazdy komunikacji w przeliczeniu na mieszkańca.',
+      'Ile kilometrów przejeżdżają w ciągu doby wszystkie pojazdy komunikacji w przeliczeniu na mieszkańca '
+      + '(w branży: wozokilometry).',
       'Więcej oznacza większą ofertę, ale nie mówi, czy kursy są tam, gdzie mieszkają ludzie, ani ile miejsc mają '
       + 'pojazdy.',
     ],
@@ -423,10 +424,11 @@ export const METRIC_INFO = {
     method: ['90. percentyl czekania po rzeczywistym przyjeździe w węźle (ważony kursami), mediana po 20 węzłach.'],
   },
   transfer_top20_gtt_low_am_min: {
-    short: 'Uogólniony czas przesiadki, od',
+    short: 'Odczuwalny czas przesiadki, od',
     better: null,
     read: [
-      'Ile „kosztuje” typowa przesiadka w minutach jazdy pojazdem, według wag z badań pasażerów: minuta dojścia i '
+      'Ile „kosztuje” typowa przesiadka w minutach jazdy pojazdem (w literaturze: czas uogólniony), według wag z '
+      + 'badań pasażerów: minuta dojścia i '
       + 'czekania liczy się bardziej niż minuta jazdy, a sama przesiadka dodaje stałą karę. Wiersz poniżej to górna '
       + 'granica pasma.',
       'Pasmo jest szerokie, bo badania różnią się co do kary (5–18 min). Różnice między miastami wynikają prawie tylko z '
@@ -440,14 +442,15 @@ export const METRIC_INFO = {
   transfer_top20_gtt_high_am_min: {
     short: 'do',
     better: null,
-    read: ['Górna granica pasma uogólnionego czasu przesiadki (wyjaśnienie wiersz wyżej).'],
+    read: ['Górna granica pasma odczuwalnego czasu przesiadki (wyjaśnienie wiersz wyżej).'],
     method: ['Dojście × 1,66 + czekanie × 1,47 + 18 min.'],
   },
   transfer_crossing_w6_hi_mean_pct: {
-    short: 'Bezpieczeństwo przejść (AMPTI W6)',
+    short: 'Bezpieczeństwo przejść na dojściach',
     better: 'higher',
     read: [
-      'Jak bezpieczne są przejścia przez jezdnię na drogach przesiadkowych, w skali używanej w polskich ocenach węzłów: '
+      'Jak bezpieczne są przejścia przez jezdnię na drogach przesiadkowych, w skali używanej w polskich ocenach węzłów '
+      + '(kryterium W6 metody AMPTI): '
       + 'przejście podziemne lub kładka 100, sygnalizacja 70, zebra 30, przejście niewyznakowane 0. Wyżej znaczy '
       + 'bezpieczniej.',
       'Rodzaj przejścia pochodzi z OpenStreetMap; około 3–8 % przejść nie ma tam opisu i nie jest liczonych.',
@@ -533,7 +536,7 @@ export const METRIC_INFO = {
     ],
   },
   dxs_rank_correlation: {
-    short: 'Zgodność gęstości i częstotliwości',
+    short: 'Częstsze kursy tam, gdzie gęściej',
     better: 'higher',
     layer: 'density_service',
     read: [
@@ -678,7 +681,7 @@ export const METRIC_INFO = {
     ],
   },
   poly_eta_mask_t20: {
-    short: 'Rozproszenie skupisk gęstości η',
+    short: 'Rozrzut najgęstszych miejsc',
     better: null,
     read: [
       'Czy najgęściej zaludnione miejsca leżą w jednym rejonie (blisko 0), czy są rozrzucone po całym obszarze jak '
@@ -687,7 +690,7 @@ export const METRIC_INFO = {
       + 'siebie. Samo nie odróżnia kilku miast od jednego miasta z rozrzuconymi osiedlami.',
     ],
     method: [
-      'Miara Volpatiego i Barthelemy’ego (2018): średnia odległość między najgęstszymi kwadratami 100 m (powyżej '
+      'Miara η Volpatiego i Barthelemy’ego (2018): średnia odległość między najgęstszymi kwadratami 100 m (powyżej '
       + 'progu LouBar) podzielona przez średnią odległość między wszystkimi kwadratami zabudowy (≥ 20 % powierzchni '
       + 'pod budynkami).',
     ],
@@ -793,12 +796,13 @@ export const DOMAIN_INFO = {
   covered: {
     short: 'Obszar z danymi',
     title: 'Obszar pokryty danymi o rozkładach',
-    read: 'Ta część obszaru funkcjonalnego, dla której mamy rozkłady jazdy. Poza nią nie wiemy, jaka jest komunikacja.',
+    read: 'Ta część całego obszaru, dla której mamy rozkłady jazdy. Poza nią nie wiemy, jaka jest komunikacja.',
   },
   fua: {
     short: 'Cały obszar',
-    title: 'Cały obszar funkcjonalny (FUA)',
-    read: 'Miasto razem ze strefą dojazdów według Eurostatu.',
+    title: 'Cały obszar: miasto ze strefą dojazdów',
+    read: 'Miasto razem z gminami, z których wielu mieszkańców dojeżdża do niego do pracy. Granice wyznacza '
+      + 'Eurostat (obszar funkcjonalny, FUA).',
   },
   city_tram_network: {
     short: 'Sieć tramwajowa',

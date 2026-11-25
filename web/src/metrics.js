@@ -3,10 +3,10 @@
 export const NO_DATA = 'brak danych'
 
 export const DOMAIN_TITLES = {
-  fua: 'Cały obszar FUA',
-  core: 'Rdzeń miasta',
+  fua: 'Cały obszar (miasto ze strefą dojazdów)',
+  core: 'Miasto',
   covered: 'Obszar pokryty danymi o rozkładach',
-  urban_centre: 'Centrum miejskie (urban centre, Eurostat 2021)',
+  urban_centre: 'Centrum miejskie (Eurostat 2021)',
   city_tram_network: 'Sieć tramwajowa miasta',
 }
 const DOMAIN_ORDER = ['fua', 'core', 'covered', 'urban_centre', 'city_tram_network']

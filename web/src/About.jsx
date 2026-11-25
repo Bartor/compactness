@@ -20,10 +20,34 @@ export default function About({ catalog, metrics, attributions, onClose, toLimit
     <Modal title="O danych" onClose={onClose}>
       <h3>Co pokazuje ta strona</h3>
       <p>
-        Gęstość zaludnienia, zwartość zabudowy i dostępność transportu zbiorowego w polskich
-        aglomeracjach (funkcjonalnych obszarach miejskich, FUA). Wszystkie liczby da się
-        odtworzyć z publicznych danych; metoda i kontrole są opisane w raporcie w repozytorium.
+        Jak gęsto i jak zwarcie mieszkają ludzie w polskich aglomeracjach i co da się w nich osiągnąć komunikacją
+        zbiorową: tramwajem, autobusem, koleją i metrem. Aglomeracja to miasto razem z gminami, z których wielu
+        mieszkańców dojeżdża do niego do pracy. Wszystkie liczby da się odtworzyć z publicznych danych; metoda
+        i kontrole są opisane w raporcie w repozytorium.
       </p>
+
+      <h3>Słowa użyte na stronie</h3>
+      <dl className="about-terms">
+        <dt>Cały obszar</dt>
+        <dd>Miasto ze strefą dojazdów do pracy. Granice wyznacza Eurostat (obszar funkcjonalny, w skrócie FUA).</dd>
+        <dt>Miasto</dt>
+        <dd>Miasto centralne w granicach administracyjnych; w GZM i Trójmieście kilka miast razem.</dd>
+        <dt>Centrum miejskie</dt>
+        <dd>Zwarty obszar gęstej zabudowy, wyznaczony jedną regułą dla wszystkich miast Europy. Najlepszy do porównań.</dd>
+        <dt>Obszar z danymi</dt>
+        <dd>Ta część całego obszaru, dla której mamy rozkłady jazdy. Reszta jest na mapie kreskowana.</dd>
+        <dt>Zasięg w 30 minut</dt>
+        <dd>
+          Ilu mieszkańców da się osiągnąć w 30 minut komunikacją i pieszo, jako procent wszystkich mieszkających
+          w promieniu 7,5 km. 100 % oznaczałoby, że do każdego z nich da się dotrzeć w pół godziny.
+        </dd>
+        <dt>Częsta komunikacja</dt>
+        <dd>Przystanek, z którego w dzień roboczy coś odjeżdża co kilka lub kilkanaście minut; próg jest podany przy każdej liczbie.</dd>
+        <dt>Mediana</dt>
+        <dd>Wartość środkowa: połowa przypadków ma mniej, połowa więcej. Mniej wrażliwa na skrajności niż średnia.</dd>
+        <dt>Rozkład jazdy</dt>
+        <dd>Plik w formacie GTFS, w którym organizator komunikacji publikuje kursy w postaci czytelnej dla programów.</dd>
+      </dl>
 
       <h3 id="about-limits">Czego te liczby nie mówią</h3>
       <ul className="about-limits">
@@ -54,7 +78,7 @@ export default function About({ catalog, metrics, attributions, onClose, toLimit
         ? <TextTable head={['Warstwa', 'Źródło', 'Daty danych']} rows={rows} />
         : <Hint>Lista warstw pojawi się po przeliczeniu.</Hint>}
 
-      <h3>Wydawcy rozkładów jazdy (GTFS)</h3>
+      <h3>Kto publikuje rozkłady jazdy</h3>
       {feeds.length
         ? (
           <TextTable

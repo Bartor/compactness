@@ -16,8 +16,8 @@ import './isochrones.css'
  */
 export default function IsochroneCard({ file, status, origin, distanceM, scenario = 'am', onScenario, onClose }) {
   let body
-  if (status === 'loading') body = <p className="iso-hint">Wczytywanie izochron…</p>
-  else if (status === 'missing' || !file) body = <p className="iso-hint">Dla tego miasta nie ma wyliczonych izochron.</p>
+  if (status === 'loading') body = <p className="iso-hint">Wczytywanie zasięgów…</p>
+  else if (status === 'missing' || !file) body = <p className="iso-hint">Dla tego miasta nie ma wyliczonych zasięgów.</p>
   else if (!origin) body = <p className="iso-hint">Kliknij na mapie w obrębie miasta: pokażemy, dokąd dojedziesz z najbliższego wyliczonego punktu.</p>
   else {
     const rows = cardRows(file, origin.id)
@@ -55,8 +55,8 @@ export default function IsochroneCard({ file, status, origin, distanceM, scenari
           </tbody>
         </table>
         <p className="iso-note">
-          Komunikacja z dojściem pieszym, mediana z odjazdów co minutę w środę {file.day}. Czasy z rozkładu jazdy, nie
-          rzeczywiste. Linia przerywana: zasięg pieszo. Pokazany jest najbliższy wyliczony punkt, a nie miejsce
+          Komunikacja z dojściem pieszym; typowy czas (mediana) przy wyjściu w dowolnej minucie, środa {file.day}.
+          Czasy z rozkładu jazdy, nie rzeczywiste. Linia przerywana: zasięg pieszo. Pokazany jest najbliższy wyliczony punkt, a nie miejsce
           kliknięcia.
         </p>
       </>
@@ -66,7 +66,7 @@ export default function IsochroneCard({ file, status, origin, distanceM, scenari
     <section className="iso-card" aria-label="Dokąd dojadę stąd">
       <header>
         <h3>Dokąd dojadę stąd</h3>
-        {onClose && <button type="button" className="iso-close" onClick={onClose} aria-label="Zamknij tryb izochron">×</button>}
+        {onClose && <button type="button" className="iso-close" onClick={onClose} aria-label="Zamknij „Dokąd dojadę stąd”">×</button>}
       </header>
       {body}
     </section>

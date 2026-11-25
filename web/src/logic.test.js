@@ -97,7 +97,7 @@ describe('metrics', () => {
     ]
     const g = groupMetrics(r, 'a')
     expect(g.map((x) => x.domain)).toEqual(['fua', 'core', 'covered'])
-    expect(g.map((x) => x.title)).toEqual(['Cały obszar FUA', 'Rdzeń miasta', 'Obszar pokryty danymi o rozkładach'])
+    expect(g.map((x) => x.title)).toEqual(['Cały obszar (miasto ze strefą dojazdów)', 'Miasto', 'Obszar pokryty danymi o rozkładach'])
     expect(g[0].rows.map((x) => x.label)).toEqual(['f2', 'f1'])
     expect(g[1].rows.map((x) => x.label)).toEqual(['k2', 'k1'])
     expect(g[2].rows.map((x) => x.label)).toEqual(['c1', 'c2'])
@@ -112,7 +112,7 @@ describe('metrics', () => {
     ]
     const g = groupMetrics(r, 'a')
     expect(g.map((x) => x.domain)).toEqual(['core', 'covered', 'urban_centre', 'city_tram_network'])
-    expect(g[2].title).toBe('Centrum miejskie (urban centre, Eurostat 2021)')
+    expect(g[2].title).toBe('Centrum miejskie (Eurostat 2021)')
   })
   it('formats percentages with one decimal and a comma', () => {
     expect(flat(formatValue({ value: 80.38, unit: '%' }).text)).toBe('80,4 %')

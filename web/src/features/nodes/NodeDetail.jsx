@@ -25,7 +25,7 @@ export default function NodeDetail({ node, status, name, hot = null, onHot = () 
       <div className="nd">
         <p className="nd-muted">
           {name ? `${name}: ` : ''}szczegóły są tylko dla zespołów z co najmniej 20 odjazdami na godzinę (6–20) w zasięgu
-          rozkładów GTFS i z co najmniej jedną przesiadką między liniami.
+          rozkładów jazdy i z co najmniej jedną przesiadką między liniami.
         </p>
       </div>
     )

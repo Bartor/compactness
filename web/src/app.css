@@ -105,6 +105,10 @@ button, input, select, textarea { font-family: inherit; }
 .layer-legend .legend-size-row { display: flex; flex-wrap: wrap; align-items: center; gap: .3rem .7rem; }
 .layer-legend .legend-size-row span { gap: .25rem; }
 
+.about-terms { display: grid; grid-template-columns: minmax(8rem, max-content) 1fr; gap: .35rem .9rem; margin: 0 0 .6rem; }
+.about-terms dt { font-weight: 600; color: var(--kit-text); }
+.about-terms dd { margin: 0; color: var(--kit-soft); }
+@media (max-width: 640px) { .about-terms { grid-template-columns: 1fr; gap: .1rem; } .about-terms dd { margin-bottom: .5rem; } }
 .about-limits { margin: 0 0 .6rem; padding-left: 1.1rem; display: flex; flex-direction: column; gap: .3rem; }
 
 /* the panels on the right */
